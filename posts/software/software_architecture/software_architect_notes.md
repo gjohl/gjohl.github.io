@@ -113,7 +113,8 @@ Considerations:
 Covers web app, web API, console, service.
 
 Options: .NET, Java, node.js, PHP, Python
-![Backend Tech](backend_tech.png){.lightbox #fig-backend-tech}
+
+![Backend Tech](backend_tech.png){.lightbox #fig-backend_tech}
 
 ### 6.2. Frontend technology
 Covers:
@@ -532,7 +533,11 @@ Problems with monolithic services:
 With microservices, each service is independent of others so can be updated separately, use a different platform, and be optimised separately.
 
 An example of splitting a monolithic architecture into microservices:
+
 ![Monolith Example](monolith_example.png){.lightbox #fig-monolith_example}
+
+
+As a microservice architecture, this becomes:
 
 ![Microservice Example](microservice_example.png){.lightbox #fig-microservice_example}
 

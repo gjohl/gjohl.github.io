@@ -1,3 +1,11 @@
+---
+title: "System Design Notes"
+description: "Notes on System Design"
+date: "2023-08-14"
+image: design_todo_app.png
+categories: [Engineering, Software]
+---
+
 # System Design
 
 Steps:
@@ -323,7 +331,8 @@ These are synchronous.
 Polling is an example of a pull API.
 We periodically query the server to see if there are any updates. If not, the server responds immediately saying there is no new data.
 This may result in delayed updates and can overwhelm the server with too many requests.
-![polling.png](../_images/system_design/polling.png)
+
+![Polling](polling.png){.lightbox #fig-polling}
 
 #### Push approach
 These are asynchronous.
@@ -333,20 +342,23 @@ The client connects to the server and makes a request.
 Instead of replying immediately, the server waits until there is an update and then sends the response.
 If there is no update for a long time, the connection times out and the client must reconnect.
 Server resources are tied up until the connection is closed, even if there is no update.
-![long_polling.png](../_images/system_design/long_polling.png)
+
+![LongPolling](long_polling.png){.lightbox #fig-long_polling}
 
 Websockets.
 The client establishes a connection using an HTTP request and response. 
 This establishes a TCP/IP connection for 2-way communication.
 This allows for real-time applications without long-polling.
-![websockets.png](../_images/system_design/websockets.png)
+
+![Web Sockets](websockets.png){.lightbox #fig-websockets}
 
 Server sent events.
 Event-based approach.
 EventSource API supported by all browsers.
 The connection is 1-directional; the client can only pass data to the server at the point of connection. After that, only the server can send data to the client.
 The server doesn't know if the client loses connection.
-![sse.png](../_images/system_design/sse.png)
+
+![SSE](sse.png){.lightbox #fig-sse}
 
 ### 7.5. Message broker
 A system component that implements asynchronous communication between services, decoupling them.
@@ -368,12 +380,16 @@ A one-to-one relationship between sender and receiver. Each message is consumed 
 The message broker serves as an abstraction layer.
 The producer only sends to the broker. The receiver only receives from the broker. The services do not need to know about one another.
 The broker also guarantees delivery, so the message does not get lost if the consumer is unavailable, it will retry. 
-![point_to_point.png](../_images/system_design/point_to_point.png)
+
+![Point-to-Point](point_to_point.png){.lightbox #fig-point_to_point}
+
 
 #### Pub/sub messaging
 A one-to-many relationship between sender and receiver.
 The publisher publishes to a certain topic. Any consumer who is interested can then subscribe to receive that message.
-![pub_sub.png](../_images/system_design/pub_sub.png)
+
+![Pub-Sub](pub_sub.png){.lightbox #fig-pub_sub}
+
 
 ### 7.6. File storage
 #### File-based
@@ -424,7 +440,8 @@ Issues:
   - How can we process and store a range of versions/resolutions?
 
 Processing pipeline:
-![video_processing_pipeline.png](../_images/system_design/video_processing_pipeline.png)
+
+![Video Processing Pipeline](video_processing_pipeline.png){.lightbox #fig-video_processing_pipeline}
 
 1. File chunker
    - Same principle as the file-sharing problem.
@@ -445,7 +462,7 @@ Architecture considerations:
 - The processing pipeline handles fixed-size chunks, so the hardware requirements are known ahead of time.
   A chunk can be processed as soon as a hardware unit becomes available.
 
-![video_upload_architecture.png](../_images/system_design/video_upload_architecture.png)
+![Video Upload Architecture](video_upload_architecture.png){.lightbox #fig-video_upload_architecture}
 
 ### 7.8. Video streaming
 The challenges are similar to that of file-sharing, as this is essentially large files being transferred. 
@@ -542,7 +559,8 @@ Don't cache dynamic or time-sensitive data.
 Invalidating the cache.
 You can manually update the CDN, but there may be additional caches at the ISP- and browser-level which would still serve 
 stale data.
-![CDN_invalidation.png](../_images/system_design/CDN_invalidation.png)
+
+![CDN Invalidation](CDN_invalidation.png){.lightbox #fig-CDN_invalidation}
 
 Approaches to invalidating cache:
 - Caching headers - set a time when an object should be cleared, e.g. max-age=86400 caches for a day.
@@ -561,7 +579,9 @@ The database is structures as a hashmap where the inverted index points at docum
 - Ranking algorithm - Produces a list of possibly relevant documents. Additional factors may impact this, like a user's previous search history.
 
 The database is a dictionary of {search_term_id: [document_ids, ...]}
-![inverted_index.png](../_images/system_design/inverted_index.png)
+
+![Inverted Index](inverted_index.png){.lightbox #fig-inverted_index}
+
 
 Popular implementations: Lucene, Elastic search, Apache solr, Atas search (MongoDB), Redis search.
 
@@ -587,7 +607,7 @@ An app that lets a user add and delete items from a todo list.
   - There are two databases, one per service, which is an example of functional partitioning. 
     This means todo service I/O does not interfere with user service I/O and vice versa.
 
-![img.png](../_images/system_design/design_todo_app.png)
+![To-do App System Design](design_todo_app.png){.lightbox #fig-design_todo_app}
 
 ### 8.2. URL shorteners
 Take an input URL and return a unique, shortened URL that redirects to the original.
@@ -661,7 +681,7 @@ Relationships:
 Data stores:
 - Users
   - User data is typically relational and we rarely want it all returned at once. 
-  - Consistency is important as we want the user to have the same experience regardless of which server handles their log in, and don't wat userIds to clash.
+  - Consistency is important as we want the user to have the same experience regardless of which server handles their log in, and don't want userIds to clash.
   - Relational database.
 - Links
   - Non-functional requirements of low latency and high availability.
@@ -685,7 +705,8 @@ Endpoints:
 
 **System design:-**
 User flows for each of the required functional requirements.
-![url_shortener_system.png](../_images/system_design/url_shortener_system.png)
+
+![URL Shortener System Design](url_shortener_system.png){.lightbox #fig-url_shortener_system}
 
 ### 8.3. Dropbox file sharing
 **Requirements engineering**
@@ -749,7 +770,8 @@ Endpoints:
   - response code 200, {chunks: [Chunk,...]}
 
 **System Design**
-![dropbox_design.png](../_images/system_design/dropbox_design.png)
+
+![Dropbox System Design](dropbox_design.png){.lightbox #fig-dropbox_design}
 
 **Design Discussion**
 - What can we do to achieve a scalable design?
