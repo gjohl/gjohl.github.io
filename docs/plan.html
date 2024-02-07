@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Gurpreet Johl - Posts</title>
+<title>Gurpreet Johl</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -68,73 +66,15 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-reading-time','listing-description','listing-categories','listing-image',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+  <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
@@ -149,7 +89,7 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./blog.html" aria-current="page"> 
+    <a class="nav-link" href="./blog.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
 </ul>
@@ -177,353 +117,78 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page-left">
-      <h1 class="title">Posts</h1>
-                      </div>
-  </div>
-    
-  
-  <div class="quarto-title-meta column-page-left">
-
-      
-    
-      
-    </div>
-    
-  
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(9)</span></div><div class="category" data-category="AI">AI <span class="quarto-category-count">(3)</span></div><div class="category" data-category="Business">Business <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Engineering">Engineering <span class="quarto-category-count">(5)</span></div><div class="category" data-category="Software">Software <span class="quarto-category-count">(2)</span></div></div></div>
+    
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 
 
 
+<section id="current" class="level2">
+<h2 class="anchored" data-anchor-id="current">Current</h2>
+<ul>
+<li>Fast AI</li>
+<li>Sales</li>
+<li>AWS</li>
+<li>Kalman filter</li>
+</ul>
+</section>
+<section id="done" class="level2">
+<h2 class="anchored" data-anchor-id="done">Done</h2>
+<ul>
+<li>SQL</li>
+<li>Deep learning (Tensorflow)</li>
+<li>Software architecture</li>
+<li>Marketing</li>
+<li>Public speaking</li>
+<li>Pitching</li>
+<li>SaaS</li>
+<li>Consulting</li>
+<li>System design</li>
+</ul>
+</section>
+<section id="skills" class="level2">
+<h2 class="anchored" data-anchor-id="skills">Skills</h2>
+<section id="soft-skills" class="level3">
+<h3 class="anchored" data-anchor-id="soft-skills">Soft skills</h3>
+<p>Done: - Marketing - 1 page marketing plan; 22 immutable laws of marketing? - Public speaking - TED talk book. Steal the show by Michael Port? - Pitching - Pitch Anything by Oren Klaff - SaaS: Start small stay small; SaaS playbook - Consulting business book</p>
+<p>In Progress: - Sales - Spin selling by Neil Rackham</p>
+<p>To Do: - Strategy - startup bible book - Negotiating - never split the difference book and masterclass; influence the psychology of persuasion by Robert Cialdini - Sales - Founder Sales</p>
+<p>Backlog: - Operations - the goal by Eliyahu Goldratt - Leadership - teams of teams by Stanley mchrystal; Start with Why: How Great Leaders Inspire Everyone to Take Action by Simon Sinek - Networking - how to be a power connector by Judy Robinett - Fundraising - crack the funding code by Judy Robinett; venture deals by Brad Feld; the art of startup fundraising by Alejandro Cremades; the startup checklist by David Rose</p>
+</section>
+<section id="software" class="level3">
+<h3 class="anchored" data-anchor-id="software">Software</h3>
+<p>Done: - SQL - Udemy course - Software architecture - Udemy course - System design - Udemy course</p>
+<p>In progress: - AWS solutions architect Udemy course</p>
+<p>To Do: - Docker - Udemy course</p>
+<p>Backlog: - Game development - Unity udemy course - Cracking the coding interview - Data structures and algorithms https://allendowney.github.io/DSIRP/ - Devops - Continuous deployment book</p>
+</section>
+<section id="engineeringmaths" class="level3">
+<h3 class="anchored" data-anchor-id="engineeringmaths">Engineering/maths</h3>
+<p>Done: - Deep learning (Tensorflow) - Udemy course</p>
+<p>In progress: - Fast AI course - Kalman filter book</p>
+<p>Backlog: - Computational linear algebra https://www.fast.ai/posts/2017-07-17-num-lin-alg.html - Timeseries forecasting: https://www.kaggle.com/learn/time-series?rvi=1 - RNNs? - https://greenteapress.com/wp/think-complexity-2e/</p>
+</section>
+<section id="stats" class="level3">
+<h3 class="anchored" data-anchor-id="stats">Stats</h3>
+<p>Backlog: - Intro to probability book - Classical stats: t-stat, ANOVA https://www.udacity.com/course/intro-to-inferential-statistics–ud201 - Filters https://www.udacity.com/course/artificial-intelligence-for-robotics–cs373</p>
+</section>
+<section id="big-data" class="level3">
+<h3 class="anchored" data-anchor-id="big-data">Big data</h3>
+<p>Backlog: - https://www.tutorialspoint.com/pyspark/index.htm - https://www.udemy.com/course/best-hands-on-big-data-practices-and-use-cases-using-pyspark/ - https://www.udacity.com/course/learn-spark-at-udacity–ud2002</p>
+</section>
+<section id="interview-prep" class="level3">
+<h3 class="anchored" data-anchor-id="interview-prep">Interview prep</h3>
+<p>Backlog: - https://www.udacity.com/course/refresh-your-resume–ud243 - https://www.udacity.com/course/data-science-interview-prep–ud944 - https://www.udacity.com/course/machine-learning-interview-prep–ud1001</p>
 
 
+</section>
+</section>
 
-
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="listing-actions-group">
-   <div class="input-group input-group-sm quarto-listing-sort">
-     <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
-     <select id="listing-listing-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-listing'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
-       <option value="" disabled="" selected="" hidden="">Order By</option>
-       <option value="index" data-direction="asc">Default</option>
-         <option value="listing-title" data-direction="asc">
-          Title
-        </option>
-         <option value="listing-date-sort" data-direction="asc">
-          Date - Oldest
-        </option>
-         <option value="listing-date-sort" data-direction="desc">
-          Date - Newest
-        </option>
-     </select>
-  </div>
-    <div class="input-group input-group-sm quarto-listing-filter">
-      <span class="input-group-text"><i class="bi bi-search"></i></span>
-      <input type="text" class="search form-control" placeholder="Filter">
-    </div>
-</div>
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-file-modified-sort="1707344321294" data-listing-reading-time-sort="8" data-listing-word-count-sort="1553">
-<div class="thumbnail">
-<p><a href="./posts/business/public_speaking/public_speaking.html" class="no-external"></a></p><a href="./posts/business/public_speaking/public_speaking.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./posts/business/public_speaking/public_speaking.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/business/public_speaking/public_speaking.html" class="no-external">Public Speaking</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/business/public_speaking/public_speaking.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/business/public_speaking/public_speaking.html" class="no-external">Notes from reading “Ted Talks: The offical TED guide to public speaking” by Chris Anderson.</a>
-</div>
-</div>
-<div class="metadata">
-<p><a href="./posts/business/public_speaking/public_speaking.html" class="no-external"></a></p><a href="./posts/business/public_speaking/public_speaking.html" class="no-external">
-<div class="listing-reading-time">
-8 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-listing-file-modified-sort="1707344321294" data-listing-reading-time-sort="9" data-listing-word-count-sort="1697">
-<div class="thumbnail">
-<p><a href="./posts/business/pitching/pitching.html" class="no-external"></a></p><a href="./posts/business/pitching/pitching.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./posts/business/pitching/pitching.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/business/pitching/pitching.html" class="no-external">Pitching</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/business/pitching/pitching.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/business/pitching/pitching.html" class="no-external">Notes from “Pitch Anything” by Oren Klaff.</a>
-</div>
-</div>
-<div class="metadata">
-<p><a href="./posts/business/pitching/pitching.html" class="no-external"></a></p><a href="./posts/business/pitching/pitching.html" class="no-external">
-<div class="listing-reading-time">
-9 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-listing-file-modified-sort="1707344321295">
-<div class="thumbnail">
-<p><a href="./posts/business/startup/startup.html" class="no-external"></a></p><a href="./posts/business/startup/startup.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./posts/business/startup/startup.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/business/startup/startup.html" class="no-external"></a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/business/startup/startup.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/business/startup/startup.html" class="no-external"></a>
-</div>
-</div>
-<div class="metadata">
-<p><a href="./posts/business/startup/startup.html" class="no-external"></a></p><a href="./posts/business/startup/startup.html" class="no-external">
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-categories="AI,Engineering" data-listing-date-sort="1693350000000" data-listing-file-modified-sort="1707344176309" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="20" data-listing-word-count-sort="3997">
-<div class="thumbnail">
-<p><a href="./posts/ml/fastai/index.html" class="no-external"></a></p><a href="./posts/ml/fastai/index.html" class="no-external">
-<p><img src="./posts/ml/fastai/image.jpg" class="thumbnail-image"></p>
-</a><p><a href="./posts/ml/fastai/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ml/fastai/index.html" class="no-external">Fast AI Notes</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ml/fastai/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/ml/fastai/index.html" class="no-external">Notes from Fast AI Practical Deep Learning for Coders Part 1</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ml/fastai/index.html" class="no-external">
-<div class="listing-date">
-Aug 30, 2023
-</div>
-<div class="listing-reading-time">
-20 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="4" data-categories="Engineering,Software" data-listing-date-sort="1691967600000" data-listing-file-modified-sort="1707346948598" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="24" data-listing-word-count-sort="4783">
-<div class="thumbnail">
-<p><a href="./posts/software/system_design/system_design_notes.html" class="no-external"></a></p><a href="./posts/software/system_design/system_design_notes.html" class="no-external">
-<p><img src="./posts/software/system_design/design_todo_app.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/software/system_design/system_design_notes.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/software/system_design/system_design_notes.html" class="no-external">System Design Notes</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/software/system_design/system_design_notes.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Software'); return false;">
-Software
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/software/system_design/system_design_notes.html" class="no-external">Notes on System Design</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/software/system_design/system_design_notes.html" class="no-external">
-<div class="listing-date">
-Aug 14, 2023
-</div>
-<div class="listing-reading-time">
-24 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="5" data-categories="AI,Engineering" data-listing-date-sort="1690066800000" data-listing-file-modified-sort="1707345495597" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1815">
-<div class="thumbnail">
-<p><a href="./posts/ml/kalman_filter/kalman_filter.html" class="no-external"></a></p><a href="./posts/ml/kalman_filter/kalman_filter.html" class="no-external">
-<p class="card-img-top"><img src="posts/ml/kalman_filter/gh_filter.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/ml/kalman_filter/kalman_filter.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ml/kalman_filter/kalman_filter.html" class="no-external">Kalman Filter Notes</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ml/kalman_filter/kalman_filter.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/ml/kalman_filter/kalman_filter.html" class="no-external">Notes on Kalman filters</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ml/kalman_filter/kalman_filter.html" class="no-external">
-<div class="listing-date">
-Jul 23, 2023
-</div>
-<div class="listing-reading-time">
-10 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="6" data-categories="Business" data-listing-date-sort="1689634800000" data-listing-file-modified-sort="1707347387701" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="18" data-listing-word-count-sort="3479">
-<div class="thumbnail">
-<p><a href="./posts/business/marketing/marketing.html" class="no-external"></a></p><a href="./posts/business/marketing/marketing.html" class="no-external">
-<p><img src="./posts/business/marketing/onepagemarketingplan.jpeg" class="thumbnail-image"></p>
-</a><p><a href="./posts/business/marketing/marketing.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/business/marketing/marketing.html" class="no-external">Marketing Notes</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/business/marketing/marketing.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Business'); return false;">
-Business
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/business/marketing/marketing.html" class="no-external">Notes on Marketing</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/business/marketing/marketing.html" class="no-external">
-<div class="listing-date">
-Jul 18, 2023
-</div>
-<div class="listing-reading-time">
-18 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="7" data-categories="Engineering,Software" data-listing-date-sort="1687474800000" data-listing-file-modified-sort="1707347086060" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="22" data-listing-word-count-sort="4222">
-<div class="thumbnail">
-<p><a href="./posts/software/software_architecture/software_architect_notes.html" class="no-external"></a></p><a href="./posts/software/software_architecture/software_architect_notes.html" class="no-external">
-<p><img src="./posts/software/software_architecture/stateless.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/software/software_architecture/software_architect_notes.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/software/software_architecture/software_architect_notes.html" class="no-external">Software Architecture Notes</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/software/software_architecture/software_architect_notes.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Software'); return false;">
-Software
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/software/software_architecture/software_architect_notes.html" class="no-external">Notes on Software Architecture</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/software/software_architecture/software_architect_notes.html" class="no-external">
-<div class="listing-date">
-Jun 23, 2023
-</div>
-<div class="listing-reading-time">
-22 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="8" data-categories="AI,Engineering" data-listing-date-sort="1677110400000" data-listing-file-modified-sort="1707345507522" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="21" data-listing-word-count-sort="4064">
-<div class="thumbnail">
-<p><a href="./posts/ml/tensorflow/tensorflow.html" class="no-external"></a></p><a href="./posts/ml/tensorflow/tensorflow.html" class="no-external">
-<p class="card-img-top"><img src="posts/ml/tensorflow/NLP_layers.png" alt="NLP Layers"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/ml/tensorflow/tensorflow.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ml/tensorflow/tensorflow.html" class="no-external">Tensorflow Notes</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ml/tensorflow/tensorflow.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/ml/tensorflow/tensorflow.html" class="no-external">Notes on Tensorflow</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ml/tensorflow/tensorflow.html" class="no-external">
-<div class="listing-date">
-Feb 23, 2023
-</div>
-<div class="listing-reading-time">
-21 min
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

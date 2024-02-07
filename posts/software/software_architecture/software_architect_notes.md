@@ -2,6 +2,7 @@
 title: "Software Architecture Notes"
 description: "Notes on Software Architecture"
 date: "2023-06-23"
+image: stateless.png
 categories: [Engineering, Software]
 ---
 

@@ -1,3 +1,11 @@
+---
+title: "Marketing Notes"
+description: "Notes on Marketing"
+date: "2023-07-18"
+image: onepagemarketingplan.jpeg
+categories: [Business]
+---
+
 # Marketing
 Notes from "The 1-Page Marketing Plan" by Allan Dib.
 
