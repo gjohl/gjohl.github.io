@@ -1,0 +1,23 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Gurpreet Johl"
+  description: "This is Gurpreet Johl's personal website."
+  navbar:
+    right:
+    - text: Blog
+      href: blog.qmd
+    # - text: Projects
+    #   href: projects.qmd
+    - icon: github
+      href: https://github.com/gjohl
+    - icon: linkedin
+      href: https://www.linkedin.com/in/gurpreetjohl
+    - icon: twitter
+      href: https://twitter.com/gurpreetjohl
+format:
+  html:
+    theme: journal
+    css: styles.css
