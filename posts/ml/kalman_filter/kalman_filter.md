@@ -1,3 +1,11 @@
+---
+title: "Kalman Filter Notes"
+description: "Notes on Kalman filters"
+date: "2023-07-23"
+image: "gh_filter.png"
+categories: [AI, Engineering]
+---
+
 # Kalman filter
 Notes from https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python
 
@@ -29,7 +37,8 @@ estimate = measurement + g * residual
 - `g=1 => estimate=prediction`
 - for other values of `g`, the estimate will be somewhere between the measurement and prediction
  
-![gh_filter.png](../_images/kalman_filter/gh_filter.png)
+![g-h filter diagram](gh_filter.png){.lightbox #fig-gh-filter}
+<!-- ![gh_filter.png](../_images/kalman_filter/gh_filter.png) -->
 
 ### g-h filter
 We can go one step further and use our noisy estimates of weight to refine our the daily weight gain w used in our prediction

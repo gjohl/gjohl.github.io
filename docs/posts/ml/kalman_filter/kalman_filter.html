@@ -7,8 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Gurpreet Johl">
+<meta name="dcterms.date" content="2023-07-23">
+<meta name="description" content="Notes on Kalman filters">
 
-<title>Gurpreet Johl</title>
+<title>Gurpreet Johl - Kalman Filter Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -40,6 +42,9 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -121,8 +126,17 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      
-                      </div>
+      <h1 class="title">Kalman Filter Notes</h1>
+                  <div>
+        <div class="description">
+          Notes on Kalman filters
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">AI</div>
+                <div class="quarto-category">Engineering</div>
+              </div>
+                  </div>
   </div>
     
   
@@ -135,6 +149,12 @@ ul.task-list li input[type="checkbox"] {
             </div>
     </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">July 23, 2023</p>
+      </div>
+    </div>
     
       
     </div>
@@ -208,12 +228,7 @@ estimate = measurement + g * residual</code></pre>
 <li><code>g=1 =&gt; estimate=prediction</code></li>
 <li>for other values of <code>g</code>, the estimate will be somewhere between the measurement and prediction</li>
 </ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../_images/kalman_filter/gh_filter.png" class="img-fluid figure-img"></p>
-<figcaption>gh_filter.png</figcaption>
-</figure>
-</div>
+<p><a href="gh_filter.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="g-h filter diagram"><img src="gh_filter.png" id="fig-gh-filter" class="img-fluid" alt="g-h filter diagram"></a> <!-- ![gh_filter.png](../_images/kalman_filter/gh_filter.png) --></p>
 </section>
 <section id="g-h-filter" class="level3">
 <h3 class="anchored" data-anchor-id="g-h-filter">g-h filter</h3>
@@ -729,6 +744,31 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","selector":".lightbox","closeEffect":"zoom","loop":false,"descPosition":"bottom"});
+window.onload = () => {
+  lightboxQuarto.on('slide_before_load', (data) => {
+    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+    const href = trigger.getAttribute('href');
+    if (href !== null) {
+      const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+      if (imgEl !== null) {
+        const srcAttr = imgEl.getAttribute("src");
+        if (srcAttr && srcAttr.startsWith("data:")) {
+          slideConfig.href = srcAttr;
+        }
+      }
+    } 
+  });
+
+  lightboxQuarto.on('slide_after_load', (data) => {
+    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+    if (window.Quarto?.typesetMath) {
+      window.Quarto.typesetMath(slideNode);
+    }
+  });
+
+};
+          </script>
 
 
 
