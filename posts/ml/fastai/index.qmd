@@ -3,7 +3,7 @@ title: "Fast AI Notes"
 description: "Notes from Fast AI Practical Deep Learning for Coders Part 1"
 date: "2023-08-30"
 image: "image.jpg"
-categories: [AI, ]
+categories: [AI, Engineering]
 ---
 
 # Fast AI Part I

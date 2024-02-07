@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.549">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Gurpreet Johl</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Gurpreet Johl</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/gjohl"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/gurpreetjohl"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/gurpreetjohl"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+
+
+<section id="system-design" class="level1">
+<h1>System Design</h1>
+<p>Steps: 1. Requirements engineering 2. Capacity estimation 3. Data modeling 4. API design 5. System design 6. Design discussion</p>
+<section id="requirements-engineering" class="level2">
+<h2 class="anchored" data-anchor-id="requirements-engineering">1. Requirements engineering</h2>
+<p>Functional and non-functional requirements. Scale of the system.</p>
+<section id="functional-requirements" class="level3">
+<h3 class="anchored" data-anchor-id="functional-requirements">1.1. Functional requirements</h3>
+<p>What the system should do. - Which problem does the system solve - Which features are essential to solve these problems</p>
+<p>Core features: bare minimum required to solve the user’s problem. Support features: features that help the user solve their problem more conveniently.</p>
+</section>
+<section id="non-functional-requirements" class="level3">
+<h3 class="anchored" data-anchor-id="non-functional-requirements">1.2. Non-functional requirements</h3>
+<p>What the system should handle.</p>
+<blockquote class="blockquote">
+<p><strong>Interview tips</strong> - Identify the non-functional requirements the interviewer cares most about - Show awareness of system attributes, trade-offs and user experience</p>
+</blockquote>
+<p>System analysis: - Read or write heavy? - Impacts requirements for database scaling, redundancy of services, effectiveness of caching. - System priorities - is it worse if the system fails to read or to write? - Monolithic or distributed architecture? - Scale is the key consideration. Large scale applications must be distributed, smaller scale can be single server. - Data availability vs consistency - CAP trilemma - A system can have only two of: Consistency, Availability, Partition tolerance - Choice determines the impact of a network failure</p>
+<p>Non-functional requirements: - Availability - How long is the system up and running per year? - Availability of a system is the <strong>product</strong> of its components’ availability - Reliability, redundancy, fault tolerance - Consistency - Data appears the same on all nodes regardless of the user and location. - Linearizability - Scalability - Ability of a system to handle fast-growing user base and temporary load spikes - Vertical scaling - single server that we add more CPU/RAM to - Pros: fast inter-process communication, data consistency - Cons: single point of failure, hardware limits on maximum scale - Horizontal scaling - cluster of servers in parallel - Pros: redundancy improves availability, linear cost of scaling - Cons: complex architecture, data inconsistency - Latency - Amount of time taken for a single message to be delivered - Experienced latency = network latency + system latency - Database and data model choices affect latency - Caching can be effective - Compatibility - Ability of a system to operate seamlessly with other software, hardware and systems - Security - Basic security measures: TLS encrypted network traffic, API keys for rate limiting</p>
+<p>Non-functional requirements depend heavily on expected scale. The following help quantify expected scale, and relate to capacity estimation in the next step. - Daily active users (DAU) - Peak active users - Interactions per user - including read/write ratio - Request size - Replication factor - determines the storage requirement (typically 3x)</p>
+</section>
+</section>
+<section id="capacity-estimation" class="level2">
+<h2 class="anchored" data-anchor-id="capacity-estimation">2. Capacity Estimation</h2>
+<blockquote class="blockquote">
+<p><strong>Interview tips</strong> - Simplify wherever you can - simple assumptions and round heavily - Convert all numbers to scientific notation - Know powers of 2</p>
+</blockquote>
+<section id="throughput" class="level3">
+<h3 class="anchored" data-anchor-id="throughput">2.1. Throughput</h3>
+<p>Requests per second (RPS) is the key measure.</p>
+<pre><code>Requests per day = Daily active users * Activities per user
+Requests per second = RPD / 10^5
+Peak load = RPS * Peak load factor</code></pre>
+<p>Read/write ratio is important to get the total requests. Usually, information on either reads or writes is missing and must be inferred using the other.</p>
+<pre><code>Total RPS = Read RPS + Write RPS</code></pre>
+</section>
+<section id="bandwidth" class="level3">
+<h3 class="anchored" data-anchor-id="bandwidth">2.2. Bandwidth</h3>
+<p>The amount of data that can be transmitted between two nodes in a fixed period of time. Bits per second.</p>
+<p>Throughput, bandwidth and latency are all related and can be thought of with the motorway analogy. - Throughput is the total number of vehicles that must pass through that road per day. - Bandwidth is the number of lanes. - Latency is the time taken to get from one end of the road to another.</p>
+<p>The bandwidth must be large enough to support the required throughput.</p>
+<pre><code>Bandwidth = Total RPS * Request size</code></pre>
+<p>Even high bandwidth can result in low latency if there is an unexpectedly high peak throughput. Rush hour traffic jam.</p>
+<p>Request size can be varied according to bandwidth, e.g.&nbsp;YouTube lowers the resolution if the connection is slow.</p>
+</section>
+<section id="storage" class="level3">
+<h3 class="anchored" data-anchor-id="storage">2.3. Storage</h3>
+<p>Measured in bits per second using the Write RPS. Long term storage (assuming the same user base) is also helpful.</p>
+<pre><code>Storage capacity per second = Write RPS * Request size * Replication factor
+Storage capacity in 5 years = Storage capacity per second * 2*10^8 </code></pre>
+</section>
+</section>
+<section id="data-modeling" class="level2">
+<h2 class="anchored" data-anchor-id="data-modeling">3. Data modeling</h2>
+<p>Key concepts are: entities, attributes, relations.</p>
+<p>Optimisation discussions are anchored by the data model. Relational databases: denormalization, SQL tuning, sharding, federation Non-relational databases: indexing, caching</p>
+<p>The data model is not a full-blown data schema (which only applies to relational databases) but a more informal, high-level version.</p>
+<p>Must haves: 1. Derive entities and attributes. 2. Draw connections between entities. Then: 3. Select a database based on the requirements 4. Extend data model to a proper data schema 5. Identify bottlenecks and apply quick fixes Later: 6. Defer any detailed discussions to the design discussion section.</p>
+<section id="entities-and-attributes" class="level3">
+<h3 class="anchored" data-anchor-id="entities-and-attributes">3.1. Entities and attributes</h3>
+<p>Entities are “things” with a distinct and independent existence, e.g.&nbsp;users, files, tweets, posts, channels. Create a unique table for each entity.</p>
+<p>Attributes describe properties of an entity, e.g.&nbsp;a user’s name, date of birth. These are the fields in the table of that entity.</p>
+<blockquote class="blockquote">
+<p><strong>Interview tips</strong> - Do not focus on irrelevant details - Do not miss any critical functionality - Double check all tables after you extract all info from requirements</p>
+</blockquote>
+</section>
+<section id="relations" class="level3">
+<h3 class="anchored" data-anchor-id="relations">3.2. Relations</h3>
+<p>Extract connections between entities from the requirements. Relationships can be one-to-one, one-to-many or many-to-many.</p>
+</section>
+</section>
+<section id="api-design" class="level2">
+<h2 class="anchored" data-anchor-id="api-design">4. API design</h2>
+<p>Specify the API endpoints with: - Function signature - Parameters - Response and status codes</p>
+<p>This specifies a binding contract between the client and the application server. There can be APIs between every system component, but just focus on the client/server interface.</p>
+<p>Process: 1. Revisit the functional requirements 2. Derive the goal of each endpoint 3. Derive the signature from the goal and the inputs from the data model 4. Define the response outputs</p>
+<p>Naming conventions. Use HTTP request types in the call signature where appropriate: GET, POST, PUT, PATCH, DELETE</p>
+<blockquote class="blockquote">
+<p><strong>Interview tips</strong> - Avoid vague inputs - Don’t add extra parameters that are out of scope - Avoid redundant parameters - Don’t miss any parameters - Confirm the output repsonse satisfies the requirements - Identify inefficiencies of the data structure</p>
+</blockquote>
+</section>
+<section id="system-design-1" class="level2">
+<h2 class="anchored" data-anchor-id="system-design-1">5. System design</h2>
+<p>System components: - Representation layer - Web app - Mobile app - Console - Service (and load balancer) - Data store - Relational database - Pros: linked tables reduce duplicate data; flexible queries - Key-value store - Useful for lots of small continuous reads and writes - Pros: Fast access, lightweight, highly scalable - Cons: Cannot query by value, no standard query language so data access in written in the application layer no data normalisation</p>
+<p>Scaling: - Scale services by having multiple instances of the service with a load balancer in front - Scale database with federation (functional partitioning) - split up data by function</p>
+<p>System diagrams: arrows point in direction of user flow (not data flow)</p>
+</section>
+<section id="design-discussion" class="level2">
+<h2 class="anchored" data-anchor-id="design-discussion">6. Design discussion</h2>
+<p>Types of questions: - NFR questions - How to achieve scalability - Identify each bottleneck and remedy it - How to improve resiliency - Justification question - Choice of components, e.g.&nbsp;what would change if you changed block storage for object storage or relational database - Additional components, e.g.&nbsp;is there a use case for a message queue and where - Extension questions - Additional functional requirements not in the original scope</p>
+</section>
+<section id="system-components-deep-dive" class="level2">
+<h2 class="anchored" data-anchor-id="system-components-deep-dive">7. System components deep-dive</h2>
+<section id="encoding" class="level3">
+<h3 class="anchored" data-anchor-id="encoding">7.1. Encoding</h3>
+<p>There are two parameters we can vary: 1. Length of the key - should be limited so the URL is short enough 2. Range of allowed characters - should be URL-safe</p>
+<p>Using Base-64 encoding as the character range, then a 6-digit key length gives enough unique URLs; 64^6 = 68 billion</p>
+<p>Encoding options: 1. MD5 hash: not collision resistant and too long 2. Encoded counter, each URL is just an index int, and its value is the base-64 encoding of that int: length is not fixed and increases over time 3. Key range, generate all unique keys beforehand: no collisions, but storage intensive 4. Key range modified, generate 5-digit keys beforehand, then add the 6th digit on the fly.</p>
+</section>
+<section id="databases" class="level3">
+<h3 class="anchored" data-anchor-id="databases">7.2. Databases</h3>
+<section id="relational-databases" class="level4">
+<h4 class="anchored" data-anchor-id="relational-databases">Relational databases</h4>
+<p>4 main operations (CRUD): Create, Read, Update, Delete.</p>
+<p>Transactions - group several operations together - Either the entire transaction succeeds or it fails and rolls back to the initial state. Commit or abort on error. - Without transactions, if an individual operation fails, it can be complex to unwind the related transactions to return to the initial state. - Error handling is simpler as manual rollback of operations is not required. - Transactions provide guarantees so we can reason about the database state before and after the transaction.</p>
+<p>Transactions enforce “ACID” guarantees: - Atomicity - Transactions cannot be broken down into smaller parts. - Consistency - All data points within the database must align to be properly read and accepted. Raise a consistency error if this is not the case. Database consistency is different from system consistency which states the data should be the same across all nodes. - Isolation - Concurrently executing transactions are isolated from each other. Avoids race conditions if multiple clients are accessing the same database record. - Durability - Once a transaction is committed to the database, it is permanently preserved. Backups and transaction logs can restore committed transactions in the case of a failure.</p>
+<p>Relational databases are a good fit when: - Data is well-structured - Use case requires complex querying - Data consistency is important</p>
+<p>Limitations - Horizontal scaling is complex - Distributed databases are more complex to keep transaction guarantees - Two phase commit protocol (2PC): 1. Prepare - Ask each node if it;s able to promise to carry out the transaction 2. Commit - Block the nodes and do the commit - Blocking causes problems on distributed systems where it may cause unexpected consequences if the database is unavailable for this short time.</p>
+</section>
+<section id="non-relational-databases" class="level4">
+<h4 class="anchored" data-anchor-id="non-relational-databases">Non-relational databases</h4>
+<p>Examples of non-relational databases: - Key-value store - Document store - Wide-column store - Graph store</p>
+<p>These vary a lot, and in general NoSQL simply means “no ACID guarantees”.</p>
+<p>Transactions were seen as the enemy of scalability, so needed to be abandoned completely for performance and scalability. ACID enforces consistency for relational databases; for non-relational databases there is eventual consistency.</p>
+<p>BASE: - Basically Available - Always possible to read and write data even though it may not be consistent. E.g. reads may not reflect latest changes, writes may not be persisted. - Soft state - Lack of consistency guarantees mean data state may change without any interactions with the application as the database reaches eventual consistency. - Eventual consistency - Data will eventually become consistent once inputs stops.</p>
+<p>Benefits: - Without atomicity constraint, overheads like 2PC are not required - Without consistency constraint, horizontal scaling is trivial - Without isolation constraint, no blocking is required which improves availability.</p>
+<p>Non-relational databases are a good fit when: - Large data volume that isn’t tabular - High availability requirement - Lack of consistency across nodes is acceptable</p>
+<p>Limitations: - Consistency is necessary for some use cases - Lack of standardisation</p>
+</section>
+</section>
+<section id="file-synchronisation" class="level3">
+<h3 class="anchored" data-anchor-id="file-synchronisation">7.3. File synchronisation</h3>
+<p>Problem: if we have large files with small changes, we don’t want to have to re-upload and re-download the whole file every time something changes.</p>
+<p>Solution: identify the changes and only push/pull these. Similar to git.</p>
+<p>The rsync algorithm makes it easier to compare changes by: 1. Split the file into blocks 2. Calculate a checksum for each block (using MD5 hashing algorithm) 3. To compare files between the client and the server, we only need to send the hashes back and forth 4. For the mismatching hashes, transfer the corresponding blocks</p>
+</section>
+<section id="notifications" class="level3">
+<h3 class="anchored" data-anchor-id="notifications">7.4. Notifications</h3>
+<p>One-way communication that broadcasts file updates one-to-many.</p>
+<section id="pull-approach" class="level4">
+<h4 class="anchored" data-anchor-id="pull-approach">Pull approach</h4>
+<p>These are synchronous.</p>
+<p>Polling is an example of a pull API. We periodically query the server to see if there are any updates. If not, the server responds immediately saying there is no new data. This may result in delayed updates and can overwhelm the server with too many requests. <img src="../_images/system_design/polling.png" class="img-fluid" alt="polling.png"></p>
+</section>
+<section id="push-approach" class="level4">
+<h4 class="anchored" data-anchor-id="push-approach">Push approach</h4>
+<p>These are asynchronous.</p>
+<p>Long-polling. The client connects to the server and makes a request. Instead of replying immediately, the server waits until there is an update and then sends the response. If there is no update for a long time, the connection times out and the client must reconnect. Server resources are tied up until the connection is closed, even if there is no update. <img src="../_images/system_design/long_polling.png" class="img-fluid" alt="long_polling.png"></p>
+<p>Websockets. The client establishes a connection using an HTTP request and response. This establishes a TCP/IP connection for 2-way communication. This allows for real-time applications without long-polling. <img src="../_images/system_design/websockets.png" class="img-fluid" alt="websockets.png"></p>
+<p>Server sent events. Event-based approach. EventSource API supported by all browsers. The connection is 1-directional; the client can only pass data to the server at the point of connection. After that, only the server can send data to the client. The server doesn’t know if the client loses connection. <img src="../_images/system_design/sse.png" class="img-fluid" alt="sse.png"></p>
+</section>
+</section>
+<section id="message-broker" class="level3">
+<h3 class="anchored" data-anchor-id="message-broker">7.5. Message broker</h3>
+<p>A system component that implements asynchronous communication between services, decoupling them. An independent server which producers and consumers connect to. AKA message queues.</p>
+<p>Message brokers persist the messages until there are consumers ready to receive them.</p>
+<p>Message brokers are similar in principle to databases since they persist data. The differences are they: automatically delete messages after delivery, do not support queries, typically have a small working set, and notify clients about changes.</p>
+<p>RabbitMQ, Kafka and Redis are open source message brokers. Amazon, GCP and Azure have managed service implementations.</p>
+<section id="point-to-point-messaging" class="level4">
+<h4 class="anchored" data-anchor-id="point-to-point-messaging">Point-to-point messaging</h4>
+<p>A one-to-one relationship between sender and receiver. Each message is consumed by exactly one receiver.</p>
+<p>The message broker serves as an abstraction layer. The producer only sends to the broker. The receiver only receives from the broker. The services do not need to know about one another. The broker also guarantees delivery, so the message does not get lost if the consumer is unavailable, it will retry. <img src="../_images/system_design/point_to_point.png" class="img-fluid" alt="point_to_point.png"></p>
+</section>
+<section id="pubsub-messaging" class="level4">
+<h4 class="anchored" data-anchor-id="pubsub-messaging">Pub/sub messaging</h4>
+<p>A one-to-many relationship between sender and receiver. The publisher publishes to a certain topic. Any consumer who is interested can then subscribe to receive that message. <img src="../_images/system_design/pub_sub.png" class="img-fluid" alt="pub_sub.png"></p>
+</section>
+</section>
+<section id="file-storage" class="level3">
+<h3 class="anchored" data-anchor-id="file-storage">7.6. File storage</h3>
+<section id="file-based" class="level4">
+<h4 class="anchored" data-anchor-id="file-based">File-based</h4>
+<p>Files are stored in folders, with metadata about creation time and modification time.</p>
+<p>Benefits: - Simplicity - simple and well-known pattern - Compatibility - works with most applications and OSes</p>
+<ul>
+<li>Limitations:</li>
+<li>Performance degradation - as size increases, the resource demands increase.</li>
+<li>Expensive - although cheap in principle, they can get expensive when trying to work around the performance issues.</li>
+</ul>
+<p>Use cases: data protection, local archiving, data retrieval done by users.</p>
+</section>
+<section id="object-based" class="level4">
+<h4 class="anchored" data-anchor-id="object-based">Object-based</h4>
+<p>A system component that manages data as objects in a flat structure. An object contains the file and its metadata.</p>
+<p>Benefits: - Horizontal scalability</p>
+<p>Limitations: - Objects must be edited as a unit - degrades performance if only a small part of the file needs to be updated.</p>
+<p>Use cases: large amounts of unstructured data.</p>
+</section>
+<section id="block-based" class="level4">
+<h4 class="anchored" data-anchor-id="block-based">Block-based</h4>
+<p>A system component that breaks up and then stores data as fixed-size blocks, each with a unique identifier.</p>
+<p>Benefits: - Highly structured - easy to index, search and retrieve blocks - Low data transfer overheads - Supports frequent data writes without performance degradation - Low latency</p>
+<p>Limitations: - No metadata, so metadata must be handled manually - Expensive</p>
+</section>
+<section id="document-based" class="level4">
+<h4 class="anchored" data-anchor-id="document-based">Document-based</h4>
+<p>A subclass of key-value stores, which hold computer-readable documents, like XML or JSON objects.</p>
+</section>
+</section>
+<section id="video-uploading" class="level3">
+<h3 class="anchored" data-anchor-id="video-uploading">7.7. Video uploading</h3>
+<p>Issues: - Massive files: 4TB for 4 hours of 4K video - How can we reliably upload very large files? - Lots of different end-user clients/devices/connection speeds - How can we process and store a range of versions/resolutions?</p>
+<p>Processing pipeline: <img src="../_images/system_design/video_processing_pipeline.png" class="img-fluid" alt="video_processing_pipeline.png"></p>
+<ol type="1">
+<li>File chunker
+<ul>
+<li>Same principle as the file-sharing problem.</li>
+<li>Split the file into chunks, then use checksums to determine that files are present and correct.</li>
+<li>If there is a network outage, we only need to send the remaining chunks.</li>
+</ul></li>
+<li>Content filter
+<ul>
+<li>Check if the video complies with the platform’s content policy wrt copyright, piracy, NSFW</li>
+</ul></li>
+<li>Transcoder
+<ul>
+<li>Data is decoded to an uncompressed format</li>
+<li>This will fan out in the next step to create multiple optimised versions of the file</li>
+</ul></li>
+<li>Quality conversion
+<ul>
+<li>Convert the uncompressed file into multiple different resolution options.</li>
+</ul></li>
+</ol>
+<p>Architecture considerations: - Wait for the full file to upload before processing? Or process each chunk as it is uploaded? - An upload service persists chunks to a database. Object store is a good choice as in the file-sharing example. - Once a chunk is ready to be processed, it can be read and placed in the message queue for the processing pipeline. - The processing pipeline handles fixed-size chunks, so the hardware requirements are known ahead of time. A chunk can be processed as soon as a hardware unit becomes available.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../_images/system_design/video_upload_architecture.png" class="img-fluid figure-img"></p>
+<figcaption>video_upload_architecture.png</figcaption>
+</figure>
+</div>
+</section>
+<section id="video-streaming" class="level3">
+<h3 class="anchored" data-anchor-id="video-streaming">7.8. Video streaming</h3>
+<p>The challenges are similar to that of file-sharing, as this is essentially large files being transferred. Latency and processing power of the end-user device.</p>
+<p>Two main transfer protocols: - UDP - TCP</p>
+<section id="udp" class="level4">
+<h4 class="anchored" data-anchor-id="udp">UDP</h4>
+<p>A connection-less protocol. Nodes do NOT establish a stable end-to-end connection before sending data. Instead, each packet has its destination address attached so the network can route it to the correct place.</p>
+<p>Advantages: - Fast - Packets are routed independently so if some are lost the others can still reach their destination</p>
+<p>Disadvantages: - No guarantee that data will arrive intact.</p>
+<p>Use cases: - Low-latency applications like video conferencing or gaming. - Not suitable for movie or audio streaming, as missing bits cannot be tolerated.</p>
+</section>
+<section id="tcp" class="level4">
+<h4 class="anchored" data-anchor-id="tcp">TCP</h4>
+<p>A connection is established between 2 nodes. The nodes agree on certain parameters before any data is transferred. Parameters: IP addresses of source and destination, port numbers of source and destination.</p>
+<p>Three-way handshake establishes the connection: 1. Sender transfers their sequence number to the Receiver. 2. Receiver acknowledges and sends its own sequence number. 3. Sender acknowledges.</p>
+<p>Advantages: - Reliability; guarantees delivery and receives acknowledgements before further packets are sent. - Receiver acknowledgements ensure the receiver is able to process/buffer the data in time before more packets are sent.</p>
+<p>Disadvantages: - Slower due to error checking and resending lost packets. - Requires three-way handshake to establish connection which is slower.</p>
+<p>Use cases: - Media streaming (HTTP live-streaming or MPEG-DASH)</p>
+<p>Adaptive bitrate streaming - TCP adjusts transmission speed in response to network conditions - When packet loss is detected, smaller chunks are sent at a lower transmission speed. The lower resolution file can be sent in this case.</p>
+</section>
+</section>
+<section id="cache-and-cdn" class="level3">
+<h3 class="anchored" data-anchor-id="cache-and-cdn">7.9. Cache and CDN</h3>
+<p>Perceived latency = Network latency + System latency</p>
+<section id="cache" class="level4">
+<h4 class="anchored" data-anchor-id="cache">Cache</h4>
+<p>Caching is the process of storing copies of frequently accessed data in a temporary storage location.</p>
+<p>Caches utilise the difference in read performance between memory and storage. Times to fetch 1MB from: - HDD: 3 ms - SSD: 0.2 ms - RAM: 0.01 ms</p>
+<p>When a user requests data it first requests from the cache - Cache HIT: If the data is in the cache, return it - Cache MISS: If the data is not in the cache, pass the request to the database, update the cache and return the data</p>
+<p>A cache can grow stale over time. There are 2 common approaches to mitigate this: 1. Set up a time-to-live (TTL) policy within the cache - Trade off between short TTL (fresh data but worse performance) vs long TTL (data can be stale) 2. Implement active cache invalidation mechanism - Complicated to implement. Requires an “invalidation service” component to monitor and read from the database, then update the cache when necessary.</p>
+<p>Application-level caching: Insert caching logic into the application’s source code to temporarily store data in memory.</p>
+<p>Two approaches to application-level caching: 1. Query-based implementation - Hash the query as a key and store the value against the key in a key-value store. - Limitations: hard to delete cached result with a complex query; if a cell changes then all cached query which might include it need updating. 2. Object-based implementation - The result of a query is stored as an object - Benefits: only one serialisation/deserialisation overhead when reading/writing; complexity of object doesn’t matter, serialized objects in cache can be used by multiple applications.</p>
+<p>Popular implementations: Redis, Memcache, Hazlecast</p>
+</section>
+<section id="content-delivery-network-cdn" class="level4">
+<h4 class="anchored" data-anchor-id="content-delivery-network-cdn">Content Delivery Network (CDN)</h4>
+<p>A network of caching layer in different locations (Points of Presence, PoPs). Full data is stored on SSD and most frequently accessed data is stored in RAM.</p>
+<p>Don’t cache dynamic or time-sensitive data.</p>
+<p>Invalidating the cache. You can manually update the CDN, but there may be additional caches at the ISP- and browser-level which would still serve stale data. <img src="../_images/system_design/CDN_invalidation.png" class="img-fluid" alt="CDN_invalidation.png"></p>
+<p>Approaches to invalidating cache: - Caching headers - set a time when an object should be cleared, e.g.&nbsp;max-age=86400 caches for a day. - Cache busting - change the link to all files and assets, so the CDN treats them like new files.</p>
+</section>
+</section>
+<section id="search-engine-database" class="level3">
+<h3 class="anchored" data-anchor-id="search-engine-database">7.10 Search engine database</h3>
+<p>These are specialised NoSQL databases with the following benefits: - Can match even with typos or non-exact matches - Full-text search means you can suggest autocomplete results and related queries as the user types - Indexing allows faster search performance on big data.</p>
+<p>The database is structures as a hashmap where the inverted index points at documents. - Document - Represents a specific entity, like a row in a relational database - Inverted index - Maps from content to the documents that include it. The inverted index splits each document into individual search terms and makes each point to the document itself. - Ranking algorithm - Produces a list of possibly relevant documents. Additional factors may impact this, like a user’s previous search history.</p>
+<p>The database is a dictionary of {search_term_id: [document_ids, …]} <img src="../_images/system_design/inverted_index.png" class="img-fluid" alt="inverted_index.png"></p>
+<p>Popular implementations: Lucene, Elastic search, Apache solr, Atas search (MongoDB), Redis search.</p>
+<p>Benefits of search engine databases: - Scalable - NoSQL so scale horizontally - Schemaless - Works out of the box - just need ot decide upfront what attributes should be searchable.</p>
+<p>Limitations: - No ACID guarantees. - Not efficient at reading/writing data, so requires another database to manage state. - Maintaining consistency between the main database and the search engine database can be tricky. - Some SQL databases have full-text search so may not require a dedicated search engine database.</p>
+</section>
+</section>
+<section id="system-design-examples-and-discussion" class="level2">
+<h2 class="anchored" data-anchor-id="system-design-examples-and-discussion">8. System design examples and discussion</h2>
+<section id="todo-app" class="level3">
+<h3 class="anchored" data-anchor-id="todo-app">8.1. Todo App</h3>
+<p>An app that lets a user add and delete items from a todo list. - Representation layer is a web app - Microservices handle the todo CRUD operations and the user details separately - Each service is scaled horizontally, so a load balancer is placed in front of it - Relational database stores data - There are two databases, one per service, which is an example of functional partitioning. This means todo service I/O does not interfere with user service I/O and vice versa.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../_images/system_design/design_todo_app.png" class="img-fluid figure-img"></p>
+<figcaption>img.png</figcaption>
+</figure>
+</div>
+</section>
+<section id="url-shorteners" class="level3">
+<h3 class="anchored" data-anchor-id="url-shorteners">8.2. URL shorteners</h3>
+<p>Take an input URL and return a unique, shortened URL that redirects to the original.</p>
+<p>Planned system architecture: - Pre-generate all 5 digit keys (1 billion entries rather than 64 billion for 6 digits) - System retrieves 5-difit keys from database - System appends 1 out of 64 characters - The system is extendable because if we run out of keys we can append 2 more characters rather than 1</p>
+<section id="mock-interview" class="level4">
+<h4 class="anchored" data-anchor-id="mock-interview">Mock interview</h4>
+<p>System analysis: - System is read heavy - Once a short URL is created it will be read multiple times - Distributed system as this has to scale - Availability &gt; Consistency - not so much of a concern if a link isn’t available to all users at the same time, but they must be unique and lead to their destination.</p>
+<p><strong>Requirements engineering:-</strong> Core feature: - A user can input a URL of arbitrary length and receive a unique short URL of fixed size. - A user can navigate to a short link and be redirected to the original URL.</p>
+<p>Support features: - A user can see their link history of all created short URLs. - Lifecycle policy - links should expire after a default time span.</p>
+<p>Non-functional requirements: - Availability - the system should be available 99% of the time. - Scalability - the system should support billions of short URLs, and thousands of concurrent users. - Latency - the system should return redirect from a short URL to the original in under 1 second.</p>
+<p>Questions to capture scale: - Daily active users, and how often do users interact per day - 100 million, 1 interaction per day - Peak active users - are there events that lead to traffic spikes? - No spikes - Read/write ratio - 10 to 1 - Request size - how long are the originals URLs typically - 200 characters =&gt; 200 Bytes - Replication factor - 1x - ignore replication</p>
+<p><strong>Capacity estimation:-</strong> - Requests per second - Reads per second = DAU * interactions per day / seconds in day = 10^8 * 1 / 10^5 = 1000 reads/s - Writes per second = Reads per second / read write ratio = 1000 / 10 = 100 writes/s - Requests per second = Reads per second + Writes per second = 1000 + 100 = 1100 requests/s - No peak loads to consider - Bandwidth - Bandwidth = Requests per second * Message size - Read bandwidth = 1000 * 200 Bytes = 200kB/s - Write bandwidth = 100 * 200 Bytes = 20 kB/s - Storage - Storage per year = Write bandwidth * seconds per year * Replication factor = 20000 Bytes * (3600<em>24</em>365) * 1 = 630 GB</p>
+<p><strong>Data model:-</strong> Identify entities, attributes and relationships.</p>
+<p>Entities and attributes: - Links: Key (used to create short URL, Original URL, Expiry date - Users: UserID, Links - Key ranges: Key range, In use (bool)</p>
+<p>Relationships: - Users own Links - Links belong to Key ranges</p>
+<p>Data stores: - Users - User data is typically relational and we rarely want it all returned at once. - Consistency is important as we want the user to have the same experience regardless of which server handles their log in, and don’t wat userIds to clash. - Relational database. - Links - Non-functional requirements of low latency and high availability. - Data and relationships are not complex. - Key-value store. - Key ranges - Favour data consistency as we don’t want to accidentally reuse the same key range. - Filtering keys by status would help to find available key ranges. - Relational database.</p>
+<p><strong>API design:-</strong> Endpoints: - createUrl(originalUrl: str) -&gt; shortUrl - response code 200, {shortURL: str} - getLinkHistory(userId: str, sorting: {‘asc’, ‘desc’}) - response code 200, {links: [str], order: ‘asc’} - redirectURL(shortUrl: str) -&gt; originalUrl - response code 200, {originalUrl: str}</p>
+<p><strong>System design:-</strong> User flows for each of the required functional requirements. <img src="../_images/system_design/url_shortener_system.png" class="img-fluid" alt="url_shortener_system.png"></p>
+</section>
+</section>
+<section id="dropbox-file-sharing" class="level3">
+<h3 class="anchored" data-anchor-id="dropbox-file-sharing">8.3. Dropbox file sharing</h3>
+<p><strong>Requirements engineering</strong> Requirements gathering: - Read-heavy - Distributed - Data consistency is more important than availability - files should be consistent for all users</p>
+<p>Core functional requirements: 1. A user can upload a file to the server 2. A user can download their files from the server</p>
+<p>Secondary functional requirements: 1. A user can see a history of files uploaded and downloaded 2. A user can see who has downloaded a specific file and when</p>
+<p>Non-functional requirements: 1. Consistency - data should be consistent across users and devices 2. Resilience - customer data should never be lost 3. Minimal latency 4. Compatibility across different devices 5. Security - multi-tenancy; customer data should be separate of one another</p>
+<p>Questions to determine scale: 1. Daily active users 2. Peak active users - what events lead to a spike? 3. Interactions per user - how many file syncs, how many files does a user store 4. Request size - how large are files? 5. Read/write ratio 6. Replication factor</p>
+<p><strong>Capacity estimation</strong> Throughput - Peak write RPS = 2 peak load ratio * 10^8 users * 2 files/day / 10^5 seconds = 4000 RPS - Peak read RPS = 10 read/write ration * 4000 write RPS = 40000 RPS - Peak total RPS = 44000 RPS</p>
+<p>Bandwidth - Write bandwidth = 4000 Write RPS * 100 kB Request size = 400 MB/s - Read bandwidth = 40000 Read RPS * 100 kB request size = 4 GB/s - Total bandwidth = Write bandwidth + Read bandwidth = 4.4 GB/s</p>
+<p>Storage - Storage capacity = 5<em>10^8 Total users </em> 100 files per user * 1MB File Size * 3 Replication factor = 15*10^10 MB = 15000 TB</p>
+<p><strong>Data model</strong> Users: Store Ids for the files that belong to them</p>
+<p>Files: Metadata on the owner, file edit history, filename, size, chunks that comprise the file, version history</p>
+<p><strong>API Design</strong> Endpoints: - compareHashes(fileId: str, chunkHashes: list) - Takes a file ID and a list of chunk hashes and returns a list of the hashes that need resyncing . - response code 200, {syncChunks: [Hash,…]} - uploadChange(fileId: str, chunks: list) - Upload the chunks to resync the file - response code 200, {message: “Chunks uploaded successfully”} - requestUpdate(fileId: str, chunkHashes: list) - Update the local version of the file to match that on the server. - response code 200, {chunks: [Chunk,…]}</p>
+<p><strong>System Design</strong> <img src="../_images/system_design/dropbox_design.png" class="img-fluid" alt="dropbox_design.png"></p>
+<p><strong>Design Discussion</strong> - What can we do to achieve a scalable design? - Identify bottlenecks and remedy each. - What can we do to achieve resiliency?</p>
+</section>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li>Udemy course https://www.udemy.com/course/the-bigtech-system-design-interview-bootcamp</li>
+<li>Excalidraw session https://excalidraw.com/#json=QM7dLZcHbESVnuTPiu06v,pdjPoskF0KknQ6YORHxeHw</li>
+<li>Capacity estimation cheat sheet in _resources folder</li>
+<li>Database book - “Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems” by Martin Kleppmann</li>
+<li>Rsync algorithm https://openresearch-repository.anu.edu.au/bitstream/1885/40765/3/TR-CS-96-05.pdf</li>
+<li>Search Engines Information Retrieval in Practice book https://ciir.cs.umass.edu/irbook/</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
