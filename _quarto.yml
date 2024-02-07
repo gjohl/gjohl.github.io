@@ -5,12 +5,25 @@ project:
 website:
   title: "Gurpreet Johl"
   description: "This is Gurpreet Johl's personal website."
+  back-to-top-navigation: true
+  # TODO: maybe add a sidebar later if I have enough content to require it.
+  # sidebar:
+  #   style: "docked"
+  #   search: true
+  #   contents:
+  #     - section: "Basics"
+  #       contents:
+  #         - index.qmd
+  #         - basics-knitr.qmd
+  #         - basics-jupyter.qmd
   navbar:
-    right:
+    search: true
+    left:
     - text: Blog
       href: blog.qmd
     # - text: Projects
     #   href: projects.qmd
+    right:
     - icon: github
       href: https://github.com/gjohl
     - icon: linkedin
