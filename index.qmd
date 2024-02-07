@@ -1,6 +1,6 @@
 ---
 title: "About"
-image: assets/GJProfilePic.jpeg
+image: assets/images/GJProfilePic.jpeg
 about:
   template: jolla
   links:

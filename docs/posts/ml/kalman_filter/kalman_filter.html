@@ -228,7 +228,16 @@ estimate = measurement + g * residual</code></pre>
 <li><code>g=1 =&gt; estimate=prediction</code></li>
 <li>for other values of <code>g</code>, the estimate will be somewhere between the measurement and prediction</li>
 </ul>
-<p><a href="gh_filter.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="g-h filter diagram"><img src="gh_filter.png" id="fig-gh-filter" class="img-fluid" alt="g-h filter diagram"></a> <!-- ![gh_filter.png](../_images/kalman_filter/gh_filter.png) --></p>
+<div id="fig-gh-filter" class="lightbox quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gh-filter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="gh_filter.png" class="lightbox" data-glightbox="description: .lightbox-desc-1" data-gallery="quarto-lightbox-gallery-1"><img src="gh_filter.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gh-filter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: g-h filter diagram
+</figcaption>
+</figure>
+</div>
 </section>
 <section id="g-h-filter" class="level3">
 <h3 class="anchored" data-anchor-id="g-h-filter">g-h filter</h3>
@@ -352,6 +361,9 @@ e^-x^2</code></pre>
 </ul>
 
 
+<div class="hidden" aria-hidden="true">
+<span class="glightbox-desc lightbox-desc-1">Figure&nbsp;1: g-h filter diagram</span>
+</div>
 </section>
 </section>
 
@@ -744,7 +756,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","selector":".lightbox","closeEffect":"zoom","loop":false,"descPosition":"bottom"});
+<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","selector":".lightbox","loop":false,"openEffect":"zoom","closeEffect":"zoom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
