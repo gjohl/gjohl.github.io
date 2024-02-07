@@ -1,3 +1,11 @@
+---
+title: "Software Architecture Notes"
+description: "Notes on Software Architecture"
+date: "2023-06-23"
+categories: [Engineering, Software]
+---
+
+
 # Software Architecture Notes
 
 Notes from udemy course https://www.udemy.com/course/the-complete-guide-to-becoming-a-software-architect/
@@ -104,8 +112,8 @@ Considerations:
 ### 6.1. Backend technology
 Covers web app, web API, console, service.
 
-Options: .NET, JAva, node.js, PHP, Python
-![backend_tech.png](../_images/software_architect/backend_tech.png)
+Options: .NET, Java, node.js, PHP, Python
+![Backend Tech](backend_tech.png){.lightbox #fig-backend-tech}
 
 ### 6.2. Frontend technology
 Covers:
@@ -249,14 +257,15 @@ This means that service A does not hardcode any information about service D.
 If D's URLs change, then only the yellow pages need to be updated.
 Services only need to know the yellow pages directory's URL.
 
-![yellow_pages.png](../_images/software_architect/yellow_pages.png)
+![Yellow Pages](yellow_pages.png){.lightbox #fig-yellow_pages}
 
 The gateway acts as a middleman. It holds a mapping table of all URLs 
 Service A queries the gateway, which in turn queries service E.
 Service A doesn't need to know about E or any other services.
 Services only need to know the gateway's URL.
 
-![gateway.png](../_images/software_architect/gateway.png)
+![Gateway](gateway.png){.lightbox #fig-gateway}
+
 
 ### 10.2. Stateless
 The application's state is stored in only 2 places:
@@ -276,12 +285,12 @@ Disadvantages of stateful:
 - Lack of scalability
 - Lack of redundancy
 
-![stateful.png](../_images/software_architect/stateful.png)
+![Stateful](stateful.png){.lightbox #fig-stateful}
 
 In a stateless architecture, no data is stored in the service itself.
 This means the behaviour will be the same regardless of which server a request was routed to.
 
-![img.png](../_images/software_architect/stateless.png)
+![Stateless](stateless.png){.lightbox #fig-stateless}
 
 ### 10.3. Caching
 Caches store data locally to avoid retrieving the same data from the database multiple times.
@@ -328,7 +337,8 @@ Universal standard for HTTP-based systems.
 
 Useful for traditional web apps.
 
-![rest_api.png](../_images/software_architect/rest_api.png)
+![REST API](rest_api.png){.lightbox #fig-rest_api}
+
 
 | Criteria | Evaluation                                              |
 | --- |---------------------------------------------------------|
@@ -347,7 +357,8 @@ rather than a traditional request/response model.
 
 Useful for chat or monitoring.
 
-![http_push.png](../_images/software_architect/http_push.png)
+![HTTP Push](http_push.png){.lightbox #fig-http_push}
+
 
 | Criteria | Evaluation                           |
 | --- |--------------------------------------|
@@ -366,7 +377,7 @@ This ensures messages will be handled **exactly** once and in the order received
 
 Useful for complex systems with lots of data, when order and reliability are important.
 
-![queue.png](../_images/software_architect/queue.png)
+![Queue](queue.png){.lightbox #fig-queue}
 
 | Criteria | Evaluation                                                                                                             |
 | --- |------------------------------------------------------------------------------------------------------------------------|
@@ -386,7 +397,7 @@ If multiple services are polling the same file folder, then when a new file is a
 
 Similar use case to queues, but queues are generally preferred.
 
-![file_based_messaging.png](../_images/software_architect/file_based_messaging.png)
+![File-based Messaging](file_based_messaging.png){.lightbox #fig-file_based_messaging}
 
 | Criteria | Evaluation                                                        |
 | --- |-------------------------------------------------------------------|
@@ -404,7 +415,7 @@ For example, some might be in files, SQL database, NoSQL database, etc.
 
 Implementation can be via an API or polling folders that each of the services write to.
 
-![central_logging_service.png](../_images/software_architect/central_logging_service.png)
+![Central Logging Service](central_logging_service.png){.lightbox #fig-central_logging_service}
 
 #### Correlation ID
 Correlation ID is an identifier attached to the beginning of a user flow and is attached to any action taken by that user,
@@ -521,10 +532,9 @@ Problems with monolithic services:
 With microservices, each service is independent of others so can be updated separately, use a different platform, and be optimised separately.
 
 An example of splitting a monolithic architecture into microservices:
-![monolith_example.png](../_images/software_architect/monolith_example.png)
+![Monolith Example](monolith_example.png){.lightbox #fig-monolith_example}
 
-![microservice_example.png](../_images/software_architect/microservice_example.png)
-
+![Microservice Example](microservice_example.png){.lightbox #fig-microservice_example}
 
 Problems with microservices:
 - Complex monitoring of all services and their interactions
@@ -538,7 +548,8 @@ The events can then be "rebuilt" from the start to give a view of the state at a
 
 Use when history matters.
 
-![event_sourcing.png](../_images/software_architect/event_sourcing.png)
+![Event Sourcing](event_sourcing.png){.lightbox #fig-event_sourcing}
+
 
 Pros:
 - Tracing history
@@ -558,7 +569,7 @@ Data storage and data retrieval are two separate databases, with a sync service 
 This integrates nicely with event sourcing, where events (deltas) are stored in one database and the 
 current state is periodically built and stored in the retrieval database.
 
-![cqrs.png](../_images/software_architect/cqrs.png)
+![CQRS](cqrs.png){.lightbox #fig-cqrs}
 
 Pros:
 - Useful with high-frequency updates that require near real-time querying
