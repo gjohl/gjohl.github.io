@@ -5,6 +5,7 @@ project:
 website:
   title: "Gurpreet Johl"
   description: "This is Gurpreet Johl's personal website."
+  back-to-top-navigation: true
   # TODO: maybe add a sidebar later if I have enough content to require it.
   # sidebar:
   #   style: "docked"

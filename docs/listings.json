@@ -2,12 +2,11 @@
   {
     "listing": "/blog.html",
     "items": [
-      "/posts/business/public_speaking/public_speaking.html",
-      "/posts/business/startup/startup.html",
       "/posts/ml/fastai/index.html",
       "/posts/software/system_design/system_design_notes.html",
       "/posts/business/pitching/pitching.html",
       "/posts/ml/kalman_filter/kalman_filter.html",
+      "/posts/business/public_speaking/public_speaking.html",
       "/posts/business/marketing/marketing.html",
       "/posts/software/software_architecture/software_architect_notes.html",
       "/posts/ml/tensorflow/tensorflow.html"
