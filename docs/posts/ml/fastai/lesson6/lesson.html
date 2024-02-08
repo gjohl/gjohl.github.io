@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Gurpreet Johl">
+<meta name="dcterms.date" content="2023-10-09">
+<meta name="description" content="Practical Deep Learning for Coders: Lesson 6">
 
-<title>Gurpreet Johl - Series: FastAI course</title>
+<title>Gurpreet Johl - FastAI Lesson 6: Random Forests</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,27 +23,59 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../">
+<script src="../../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -68,67 +103,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
 
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-reading-time','listing-description','listing-categories','listing-image',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../../../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -138,7 +115,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../../../index.html">
     <span class="navbar-title">Gurpreet Johl</span>
     </a>
   </div>
@@ -149,7 +126,7 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./blog.html"> 
+    <a class="nav-link" href="../../../../blog.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
 </ul>
@@ -179,276 +156,191 @@ window.Quarto = {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page">
-      <h1 class="title">Series: FastAI course</h1>
-                      </div>
+    <div class="quarto-title column-body">
+      <h1 class="title">FastAI Lesson 6: Random Forests</h1>
+                  <div>
+        <div class="description">
+          Practical Deep Learning for Coders: Lesson 6
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">AI</div>
+                <div class="quarto-category">Engineering</div>
+                <div class="quarto-category">FastAI</div>
+              </div>
+                  </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page">
+  <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Gurpreet Johl </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">October 9, 2023</p>
+      </div>
+    </div>
     
       
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#random-forests" id="toc-random-forests" class="nav-link active" data-scroll-target="#random-forests">Random Forests</a>
+  <ul class="collapse">
+  <li><a href="#background-on-random-forests" id="toc-background-on-random-forests" class="nav-link" data-scroll-target="#background-on-random-forests">1. Background on Random Forests</a>
+  <ul class="collapse">
+  <li><a href="#binary-split" id="toc-binary-split" class="nav-link" data-scroll-target="#binary-split">1.1. Binary Split</a></li>
+  <li><a href="#decision-tree" id="toc-decision-tree" class="nav-link" data-scroll-target="#decision-tree">1.2. Decision Tree</a></li>
+  <li><a href="#random-forest" id="toc-random-forest" class="nav-link" data-scroll-target="#random-forest">1.3. Random Forest</a></li>
+  </ul></li>
+  <li><a href="#attributes-of-random-forests" id="toc-attributes-of-random-forests" class="nav-link" data-scroll-target="#attributes-of-random-forests">2. Attributes of Random Forests</a>
+  <ul class="collapse">
+  <li><a href="#feature-importance" id="toc-feature-importance" class="nav-link" data-scroll-target="#feature-importance">2.1 Feature Importance</a></li>
+  <li><a href="#explainability" id="toc-explainability" class="nav-link" data-scroll-target="#explainability">2.2. Explainability</a></li>
+  <li><a href="#out-of-bag-error" id="toc-out-of-bag-error" class="nav-link" data-scroll-target="#out-of-bag-error">2.3. Out-of-bag Error</a></li>
+  <li><a href="#partial-dependence-plots" id="toc-partial-dependence-plots" class="nav-link" data-scroll-target="#partial-dependence-plots">2.4. Partial Dependence Plots</a></li>
+  </ul></li>
+  <li><a href="#gradient-boosting-forests" id="toc-gradient-boosting-forests" class="nav-link" data-scroll-target="#gradient-boosting-forests">3. Gradient-Boosting Forests</a></li>
+  <li><a href="#kaggle-iterations" id="toc-kaggle-iterations" class="nav-link" data-scroll-target="#kaggle-iterations">4. Kaggle Iterations</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block column-page" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
+<section id="random-forests" class="level1">
+<h1>Random Forests</h1>
+<p>These are notes from lesson 6 of Fast AI Practical Deep Learning for Coders.</p>
+<section id="background-on-random-forests" class="level2">
+<h2 class="anchored" data-anchor-id="background-on-random-forests">1. Background on Random Forests</h2>
+<p>It’s worth starting with a random forest as a baseline model because “it’s very hard to screw up”. Decision trees only consider the <em>ordering</em> of data, so are not sensitive to outliers, skewed distributions, dummy variables etc.</p>
+<p>A random forest is an ensemble of trees. A tree is an ensemble of binary splits.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>binary split <span class="op">-&gt;</span> tree <span class="op">-&gt;</span> forest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="binary-split" class="level3">
+<h3 class="anchored" data-anchor-id="binary-split">1.1. Binary Split</h3>
+<p>Pick a column of the data set and split the rows into two groups. Predict the outcome based just on that.</p>
+<p>For example, in the titanic dataset, pick the Sex column. This splits into male vs female. If we predict that all female passengers survived and all male passengers died, that’s a reasonably accurate prediction.</p>
+<p>A model which iterates through the variables and finds the best binary split is called a “OneR” or one rule model.</p>
+<p>This was actually the state-of-the-art in the 90s and performs reasonably well across a lot of problems.</p>
+</section>
+<section id="decision-tree" class="level3">
+<h3 class="anchored" data-anchor-id="decision-tree">1.2. Decision Tree</h3>
+<p>This extends the “OneR” idea to two or more splits.</p>
+<p>For example, if we first split by sex, then find the next best variable to split on to create a two layer tree.</p>
+<p>Leaf nodes are the number of terminating nodes in the tree. OneR creates 2 leaf nodes. If we split one side again, we’ll have 3 leaf nodes. If we split the other side, to create a balanced two layer tree, we’ll have 4 leaf nodes.</p>
+</section>
+<section id="random-forest" class="level3">
+<h3 class="anchored" data-anchor-id="random-forest">1.3. Random Forest</h3>
+<p>The idea behind bagging is that if we have many unbiased, uncorrelated models, we can average their predictions to get an aggregate model that is better than any of them.</p>
+<p>Each individual model will overfit, so either be too high or too low for a given point, a positive or negative error term respectively. By combining multiple uncorrelated models, the error will average to 0.</p>
+<p>An easy way to get many uncorrelated models is to only use a random subset of the data each time. Then build a decision tree for each subset.</p>
+<p>This is the idea behind random forests.</p>
+<p>The error decreases with the number of trees, with diminishing returns.</p>
+<blockquote class="blockquote">
+<p>Jeremy’s rule of thumb: improvements level off after about 30 trees and he doesn’t often use &gt;100.</p>
+</blockquote>
+</section>
+</section>
+<section id="attributes-of-random-forests" class="level2">
+<h2 class="anchored" data-anchor-id="attributes-of-random-forests">2. Attributes of Random Forests</h2>
+<section id="feature-importance" class="level3">
+<h3 class="anchored" data-anchor-id="feature-importance">2.1 Feature Importance</h3>
+<p>A nice side effect of using decision trees is that we get feature importance plots for free.</p>
+<p><strong>Gini</strong> is a measure of inequality, similar to the score used in the notebook to quantify how good a split was.</p>
+<p>Intuitively, this measures the likelihood that if you picked two samples from a group, how likely is it they’d be the same every time. If the group is all the same, the probability is 1. If every item is different, the probability is 0.</p>
+<p>The idea is for each split of a decision tree, we can track the column used to split and the amount that the gini decreased by. If we loop through the tree and accumulate the “gini reduction” for each column, we have a metric of how important that column was in splitting the dataset.</p>
+<p>This makes <em>random forests a useful first model</em> when tackling a new big dataset, as it can give an insight into how useful each column is.</p>
+</section>
+<section id="explainability" class="level3">
+<h3 class="anchored" data-anchor-id="explainability">2.2. Explainability</h3>
+<p>A comment on explainability, regarding feature importance compared to SHAP, LIME etc. These explain the <em>model</em>, so to be useful the model needs to be accurate.</p>
+<p>If you use feature importance from a bad model then the columns it claims are important might not actually be. So the usefulness of explainability techniques boils down to what models can they explain and how accurate are those models.</p>
+</section>
+<section id="out-of-bag-error" class="level3">
+<h3 class="anchored" data-anchor-id="out-of-bag-error">2.3. Out-of-bag Error</h3>
+<p>For each tree, we trained on a subset of the rows. We can then see how each one performed on the held out data; this is the out-of-bag (OOB) error per tree.</p>
+<p>We can average this over all of the trees to get an overall OOB error for the forest.</p>
+</section>
+<section id="partial-dependence-plots" class="level3">
+<h3 class="anchored" data-anchor-id="partial-dependence-plots">2.4. Partial Dependence Plots</h3>
+<p>These are not specific to random forests and can be applied to any ML model including deep neural networks.</p>
+<p>If we want to know how an independent variable affects the dependent variable, a naive approach would be to just plot them.</p>
+<p>But this could include a confounding variable. For example, the price of bulldozers increases over time, but driven by the presence of air conditioning which also increased over time.</p>
+<p>A partial dependence plot takes each row in turn and sets the column(s) of interest to the first value, say, year=1950. Then we predict the target variable using our model. Then repeat this for year=1951, 1952, etc.</p>
+<p>We can then average the target variable per year to get a view of how it depends on the independent variable, all else being equal.</p>
+</section>
+</section>
+<section id="gradient-boosting-forests" class="level2">
+<h2 class="anchored" data-anchor-id="gradient-boosting-forests">3. Gradient-Boosting Forests</h2>
+<p>We make multiple trees, but instead of fitting all to different data subsets, we fit to <strong>residuals</strong>.</p>
+<p>So we fit a very small tree (OneR even) to the data to get a first prediction. Then we calculate the error term. Then we fit another tree to predict the error term. Then calculate the second order error term. Then fit a tree to this, etc.</p>
+<p>Then our prediction is the <strong>sum</strong> of these trees, rather than the average like with a random forest.</p>
+<p>This is “boosting”; calculating an error term then fitting another model to it.</p>
+<p>Contrast this with “bagging” which was when we calculate multiple models to different subsets of data and average them.</p>
+</section>
+<section id="kaggle-iterations" class="level2">
+<h2 class="anchored" data-anchor-id="kaggle-iterations">4. Kaggle Iterations</h2>
+<p>The focus should be:</p>
+<ol type="1">
+<li>Create an effective validation set</li>
+<li>Iterate quickly to find changes which improve the validation set</li>
+</ol>
+<p>Train a simple model straight away, get a result and submit it. You can iterate and improve later.</p>
+<p>Data augmentation, in particular <strong>test-time augmentation (TTA)</strong>, can improve results.</p>
+<p>Rules of thumb on model selection by problem type:</p>
+<ul>
+<li>For <strong>computer vision</strong> use CNNs, fine-tune a pre-trained model. See comparison of pre-trained models <a href="https://www.kaggle.com/code/jhoward/the-best-vision-models-for-fine-tuning">here</a>
+<ul>
+<li>If unsure which model to choose, start with (small) convnext.</li>
+<li>Different models can have big differences in accuracy so try a few small models from different families.</li>
+<li>Once you are happy with the model, try a size up in that family.</li>
+<li>Resizing images to a square is a good, easy compromise to accomodate many different image sizes, orientations and aspect ratios. A more involved approach that may improve results is to batch images together and resize them to the median rectangle size.</li>
+</ul></li>
+<li>For <strong>tabular data</strong>, random forests will give a reasonably good results.
+<ul>
+<li>GBMs will give a better result eventually, but with more effort required to get a good model.</li>
+<li>Worth running a hyperparameter grid search for GBM because it’s fiddly.</li>
+</ul></li>
+</ul>
+<p>Rules of thumb on hardware:</p>
+<ul>
+<li>You generally want ~8 physical CPUs per GPU</li>
+<li>If model training is CPU bound, it can help to resize images to be smaller. The file I/O on the CPU may be taking too long.</li>
+<li>If model training is CPU bound and GPU usage is low, you might as well go up to a “better” (i.e.&nbsp;bigger) model with no increase of overall execution time.</li>
+</ul>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li><a href="https://www.kaggle.com/code/jhoward/the-best-vision-models-for-fine-tuning">https://www.kaggle.com/code/jhoward/the-best-vision-models-for-fine-tuning</a></li>
+</ul>
 
 
+</section>
+</section>
 
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="AI,Engineering,FastAI" data-listing-date-sort="1696806000000" data-listing-file-modified-sort="1707408616919" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1154">
-<div class="thumbnail">
-<p><a href="./posts/ml/fastai/lesson6/lesson.html" class="no-external"></a></p><a href="./posts/ml/fastai/lesson6/lesson.html" class="no-external">
-<p><img src="./posts/ml/fastai/lesson6/fastai.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/ml/fastai/lesson6/lesson.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ml/fastai/lesson6/lesson.html" class="no-external">FastAI Lesson 6: Random Forests</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ml/fastai/lesson6/lesson.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('FastAI'); return false;">
-FastAI
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/ml/fastai/lesson6/lesson.html" class="no-external">Practical Deep Learning for Coders: Lesson 6</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ml/fastai/lesson6/lesson.html" class="no-external">
-<div class="listing-date">
-Oct 9, 2023
-</div>
-<div class="listing-reading-time">
-6 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="AI,Engineering,FastAI" data-listing-date-sort="1695423600000" data-listing-file-modified-sort="1707407421485" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="580">
-<div class="thumbnail">
-<p><a href="./posts/ml/fastai/lesson5/lesson.html" class="no-external"></a></p><a href="./posts/ml/fastai/lesson5/lesson.html" class="no-external">
-<p><img src="./posts/ml/fastai/lesson5/fastai.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/ml/fastai/lesson5/lesson.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ml/fastai/lesson5/lesson.html" class="no-external">FastAI Lesson 5: Natural Language Processing</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ml/fastai/lesson5/lesson.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('FastAI'); return false;">
-FastAI
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/ml/fastai/lesson5/lesson.html" class="no-external">Practical Deep Learning for Coders: Lesson 5</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ml/fastai/lesson5/lesson.html" class="no-external">
-<div class="listing-date">
-Sep 23, 2023
-</div>
-<div class="listing-reading-time">
-3 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="AI,Engineering,FastAI" data-listing-date-sort="1694041200000" data-listing-file-modified-sort="1707406309833" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="857">
-<div class="thumbnail">
-<p><a href="./posts/ml/fastai/lesson4/lesson.html" class="no-external"></a></p><a href="./posts/ml/fastai/lesson4/lesson.html" class="no-external">
-<p><img src="./posts/ml/fastai/lesson4/fastai.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/ml/fastai/lesson4/lesson.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ml/fastai/lesson4/lesson.html" class="no-external">FastAI Lesson 4: Natural Language Processing</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ml/fastai/lesson4/lesson.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('FastAI'); return false;">
-FastAI
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/ml/fastai/lesson4/lesson.html" class="no-external">Practical Deep Learning for Coders: Lesson 4</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ml/fastai/lesson4/lesson.html" class="no-external">
-<div class="listing-date">
-Sep 7, 2023
-</div>
-<div class="listing-reading-time">
-5 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-categories="AI,Engineering,FastAI" data-listing-date-sort="1693522800000" data-listing-file-modified-sort="1707405582583" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="689">
-<div class="thumbnail">
-<p><a href="./posts/ml/fastai/lesson3/lesson.html" class="no-external"></a></p><a href="./posts/ml/fastai/lesson3/lesson.html" class="no-external">
-<p><img src="./posts/ml/fastai/lesson3/fastai.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/ml/fastai/lesson3/lesson.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ml/fastai/lesson3/lesson.html" class="no-external">FastAI Lesson 3: How Does a Neural Network Learn?</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ml/fastai/lesson3/lesson.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('FastAI'); return false;">
-FastAI
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/ml/fastai/lesson3/lesson.html" class="no-external">Practical Deep Learning for Coders: Lesson 3</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ml/fastai/lesson3/lesson.html" class="no-external">
-<div class="listing-date">
-Sep 1, 2023
-</div>
-<div class="listing-reading-time">
-4 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="4" data-categories="AI,Engineering,FastAI" data-listing-date-sort="1693350000000" data-listing-file-modified-sort="1707401673388" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="487">
-<div class="thumbnail">
-<p><a href="./posts/ml/fastai/lesson2/lesson.html" class="no-external"></a></p><a href="./posts/ml/fastai/lesson2/lesson.html" class="no-external">
-<p><img src="./posts/ml/fastai/lesson2/fastai.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/ml/fastai/lesson2/lesson.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ml/fastai/lesson2/lesson.html" class="no-external">FastAI Lesson 2: Deployment</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ml/fastai/lesson2/lesson.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('FastAI'); return false;">
-FastAI
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/ml/fastai/lesson2/lesson.html" class="no-external">Practical Deep Learning for Coders: Lesson 2</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ml/fastai/lesson2/lesson.html" class="no-external">
-<div class="listing-date">
-Aug 30, 2023
-</div>
-<div class="listing-reading-time">
-3 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="5" data-categories="AI,Engineering,FastAI" data-listing-date-sort="1692745200000" data-listing-file-modified-sort="1707401709940" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="514">
-<div class="thumbnail">
-<p><a href="./posts/ml/fastai/lesson1/lesson.html" class="no-external"></a></p><a href="./posts/ml/fastai/lesson1/lesson.html" class="no-external">
-<p><img src="./posts/ml/fastai/lesson1/deep_learning_model.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/ml/fastai/lesson1/lesson.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ml/fastai/lesson1/lesson.html" class="no-external">FastAI Lesson 1: Image Classification Models</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ml/fastai/lesson1/lesson.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('FastAI'); return false;">
-FastAI
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/ml/fastai/lesson1/lesson.html" class="no-external">Practical Deep Learning for Coders: Lesson 1</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ml/fastai/lesson1/lesson.html" class="no-external">
-<div class="listing-date">
-Aug 23, 2023
-</div>
-<div class="listing-reading-time">
-3 min
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div><a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
