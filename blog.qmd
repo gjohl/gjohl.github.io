@@ -12,3 +12,7 @@ listing:
 page-layout: full
 title-block-banner: true
 ---
+
+# Series
+##### [fastai-series](fastai-series.html)
+This series contains notes from following the fastai "Practial Deep Learning for Coders" course.
