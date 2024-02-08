@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/ml/fastai/lesson5/lesson.html",
       "/posts/ml/fastai/lesson4/lesson.html",
       "/posts/ml/fastai/lesson3/lesson.html",
       "/posts/ml/fastai/lesson2/lesson.html",
@@ -18,6 +19,7 @@
   {
     "listing": "/fastai-series.html",
     "items": [
+      "/posts/ml/fastai/lesson5/lesson.html",
       "/posts/ml/fastai/lesson4/lesson.html",
       "/posts/ml/fastai/lesson3/lesson.html",
       "/posts/ml/fastai/lesson2/lesson.html",

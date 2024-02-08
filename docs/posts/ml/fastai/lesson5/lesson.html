@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Gurpreet Johl">
+<meta name="dcterms.date" content="2023-09-23">
+<meta name="description" content="Practical Deep Learning for Coders: Lesson 5">
 
-<title>Gurpreet Johl - Series: FastAI course</title>
+<title>Gurpreet Johl - FastAI Lesson 5: Natural Language Processing</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,24 +26,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../">
+<script src="../../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -68,35 +69,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-reading-time','listing-description','listing-categories','listing-image',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -128,7 +100,7 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../../../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -138,7 +110,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../../../index.html">
     <span class="navbar-title">Gurpreet Johl</span>
     </a>
   </div>
@@ -149,7 +121,7 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./blog.html"> 
+    <a class="nav-link" href="../../../../blog.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
 </ul>
@@ -179,237 +151,171 @@ window.Quarto = {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page">
-      <h1 class="title">Series: FastAI course</h1>
-                      </div>
+    <div class="quarto-title column-body">
+      <h1 class="title">FastAI Lesson 5: Natural Language Processing</h1>
+                  <div>
+        <div class="description">
+          Practical Deep Learning for Coders: Lesson 5
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">AI</div>
+                <div class="quarto-category">Engineering</div>
+                <div class="quarto-category">FastAI</div>
+              </div>
+                  </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page">
+  <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Gurpreet Johl </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">September 23, 2023</p>
+      </div>
+    </div>
     
       
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#a-neural-network-from-scratch" id="toc-a-neural-network-from-scratch" class="nav-link active" data-scroll-target="#a-neural-network-from-scratch">A Neural Network From Scratch</a>
+  <ul class="collapse">
+  <li><a href="#training-a-model-from-scratch" id="toc-training-a-model-from-scratch" class="nav-link" data-scroll-target="#training-a-model-from-scratch">1. Training a model from scratch</a>
+  <ul class="collapse">
+  <li><a href="#imputing-missing-values" id="toc-imputing-missing-values" class="nav-link" data-scroll-target="#imputing-missing-values">1.1 Imputing Missing Values</a></li>
+  <li><a href="#scaling-values" id="toc-scaling-values" class="nav-link" data-scroll-target="#scaling-values">1.2. Scaling Values</a></li>
+  <li><a href="#categorical-variables" id="toc-categorical-variables" class="nav-link" data-scroll-target="#categorical-variables">1.3. Categorical Variables</a></li>
+  <li><a href="#broadcasting" id="toc-broadcasting" class="nav-link" data-scroll-target="#broadcasting">1.4. Broadcasting</a></li>
+  <li><a href="#sigmoid-final-layer" id="toc-sigmoid-final-layer" class="nav-link" data-scroll-target="#sigmoid-final-layer">1.5. Sigmoid Final Layer</a></li>
+  <li><a href="#focus-on-input-and-output-layers" id="toc-focus-on-input-and-output-layers" class="nav-link" data-scroll-target="#focus-on-input-and-output-layers">1.6. Focus on Input and Output Layers</a></li>
+  </ul></li>
+  <li><a href="#using-a-framework" id="toc-using-a-framework" class="nav-link" data-scroll-target="#using-a-framework">2. Using a Framework</a></li>
+  <li><a href="#ensembles" id="toc-ensembles" class="nav-link" data-scroll-target="#ensembles">3. Ensembles</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block column-page" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
+<section id="a-neural-network-from-scratch" class="level1">
+<h1>A Neural Network From Scratch</h1>
+<p>These are notes from lesson 5 of Fast AI Practical Deep Learning for Coders.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Homework Task">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Homework Task
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Recreate the Jupyter notebook to train a linear model and a neural network from scratch - see <a href="https://github.com/gjohl/ml-practice/blob/master/ml-practice/notebooks/fastai/5_model_using_framework.ipynb">from scratch notebook</a></li>
+<li>Then repeat the exercise using the fastai framework (it’s much easier!) - see <a href="https://github.com/gjohl/ml-practice/blob/master/ml-practice/notebooks/fastai/5_models_from_scratch.ipynb">framework notebook</a></li>
+<li>Read <a href="https://numpy.org/doc/stable/user/basics.broadcasting.html">numpy broadcasting rules</a></li>
+</ul>
+</div>
+</div>
+<section id="training-a-model-from-scratch" class="level2">
+<h2 class="anchored" data-anchor-id="training-a-model-from-scratch">1. Training a model from scratch</h2>
+<p>Train a linear model from scratch in Python using on the Titanic dataset. Then train a neural network from scratch in a similar way. This is an extension of the spreadsheet approach to make a neural network from scratch in lesson 3.</p>
+<section id="imputing-missing-values" class="level3">
+<h3 class="anchored" data-anchor-id="imputing-missing-values">1.1 Imputing Missing Values</h3>
+<p>Never throw away data.</p>
+<p>An easy way of imputing missing values is to fill them with the mode. This is good enough for a first pass at creating a model.</p>
+</section>
+<section id="scaling-values" class="level3">
+<h3 class="anchored" data-anchor-id="scaling-values">1.2. Scaling Values</h3>
+<p>Numeric values that can grow exponentially like prices or population sizes often have long-tailed distributions.</p>
+<p>An easy way to scale is to take <code>log(x+1)</code>. The <code>+1</code> term is just to avoid taking log of 0.</p>
+</section>
+<section id="categorical-variables" class="level3">
+<h3 class="anchored" data-anchor-id="categorical-variables">1.3. Categorical Variables</h3>
+<p>One-hot encode any categorical variables.</p>
+<p>We should include an “other” category for each in case the validation or test set contains a category we didn’t encounter in the training set.</p>
+<p>If there are categories with ony a small number of observations we can group them into an “other” category too.</p>
+</section>
+<section id="broadcasting" class="level3">
+<h3 class="anchored" data-anchor-id="broadcasting">1.4. Broadcasting</h3>
+<p>Broadcasting arrays together avoids boilerplate code to make dimensions match.</p>
+<p>For reference, see <a href="https://numpy.org/doc/stable/user/basics.broadcasting.html">numpy’s broadcasting rules</a> and <a href="https://tryapl.org/">try APL</a></p>
+</section>
+<section id="sigmoid-final-layer" class="level3">
+<h3 class="anchored" data-anchor-id="sigmoid-final-layer">1.5. Sigmoid Final Layer</h3>
+<p>For a binary classification model, the outputs should be between 0 and 1. If you train a linear model, it might result in negative values or values &gt;1.</p>
+<p>This means we can improve the loss by just clipping to ensure they stay between 0 and 1.</p>
+<p>This is the idea behind the sigmoid function for output layers: smaller values will tend to 0 and larger values will tend to 1. In general, for any binary classification model, we should always have a sigmoid as the final layer. If the model isn’t training well, it’s worth checking that the final activation function is a sigmoid.</p>
+<p>The sigmoid function is defined as: <span class="math display">\[ y = \frac{1}{1+e^{-x}} \]</span></p>
+</section>
+<section id="focus-on-input-and-output-layers" class="level3">
+<h3 class="anchored" data-anchor-id="focus-on-input-and-output-layers">1.6. Focus on Input and Output Layers</h3>
+<p>In general, the middle layers of a neural network are similar between different problems.</p>
+<p>The input layer will depend on the data for our specific problem. The output will depend on the target for our specific problem.</p>
+<p>So we spend most of our time thinking about the correct input and output layers, and the hidden layers are less important.</p>
+</section>
+</section>
+<section id="using-a-framework" class="level2">
+<h2 class="anchored" data-anchor-id="using-a-framework">2. Using a Framework</h2>
+<p>When creating the models from scratch, there was a lot of boilerplate code to:</p>
+<ul>
+<li>Impute missing values using the “obvious” method (fill with mode)</li>
+<li>Normalise continuous variables to be between 0 and 1</li>
+<li>One-hot encode categorical variables</li>
+<li>Repeat all of these steps in the same order for the test set</li>
+</ul>
+<p>The benefits of using a framework like fastai:</p>
+<ul>
+<li>Less boilerplate, so the obvious things are done automatically unless you say otherwise</li>
+<li>Repeating all of the feature engineering steps on the output is trivial with DataLoaders</li>
+</ul>
+</section>
+<section id="ensembles" class="level2">
+<h2 class="anchored" data-anchor-id="ensembles">3. Ensembles</h2>
+<p>Creating independent models and taking the mean of their predictions improves the accuracy. There are a few different approaches to ensembling a categorical variable:</p>
+<ol type="1">
+<li>Take the mean of the predictions (binary 0 or 1)</li>
+<li>Take the mean of the probabilities (continuous between 0 and 1) then threshold the result</li>
+<li>Take the mode of the predictions (binary 0 or 1)</li>
+</ol>
+<p>In general the mean approaches work better but there’s no rule as to why, so try all of them.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li><a href="https://course.fast.ai/Lessons/lesson5.html">https://course.fast.ai/Lessons/lesson5.html</a></li>
+<li><a href="https://numpy.org/doc/stable/user/basics.broadcasting.html">https://numpy.org/doc/stable/user/basics.broadcasting.html</a></li>
+<li><a href="https://tryapl.org/">https://tryapl.org/)</a></li>
+</ul>
 
 
+</section>
+</section>
 
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="AI,Engineering,FastAI" data-listing-date-sort="1695423600000" data-listing-file-modified-sort="1707407421485" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="580">
-<div class="thumbnail">
-<p><a href="./posts/ml/fastai/lesson5/lesson.html" class="no-external"></a></p><a href="./posts/ml/fastai/lesson5/lesson.html" class="no-external">
-<p><img src="./posts/ml/fastai/lesson5/fastai.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/ml/fastai/lesson5/lesson.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ml/fastai/lesson5/lesson.html" class="no-external">FastAI Lesson 5: Natural Language Processing</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ml/fastai/lesson5/lesson.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('FastAI'); return false;">
-FastAI
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/ml/fastai/lesson5/lesson.html" class="no-external">Practical Deep Learning for Coders: Lesson 5</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ml/fastai/lesson5/lesson.html" class="no-external">
-<div class="listing-date">
-Sep 23, 2023
-</div>
-<div class="listing-reading-time">
-3 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="AI,Engineering,FastAI" data-listing-date-sort="1694041200000" data-listing-file-modified-sort="1707406309833" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="857">
-<div class="thumbnail">
-<p><a href="./posts/ml/fastai/lesson4/lesson.html" class="no-external"></a></p><a href="./posts/ml/fastai/lesson4/lesson.html" class="no-external">
-<p><img src="./posts/ml/fastai/lesson4/fastai.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/ml/fastai/lesson4/lesson.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ml/fastai/lesson4/lesson.html" class="no-external">FastAI Lesson 4: Natural Language Processing</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ml/fastai/lesson4/lesson.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('FastAI'); return false;">
-FastAI
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/ml/fastai/lesson4/lesson.html" class="no-external">Practical Deep Learning for Coders: Lesson 4</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ml/fastai/lesson4/lesson.html" class="no-external">
-<div class="listing-date">
-Sep 7, 2023
-</div>
-<div class="listing-reading-time">
-5 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="AI,Engineering,FastAI" data-listing-date-sort="1693522800000" data-listing-file-modified-sort="1707405582583" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="689">
-<div class="thumbnail">
-<p><a href="./posts/ml/fastai/lesson3/lesson.html" class="no-external"></a></p><a href="./posts/ml/fastai/lesson3/lesson.html" class="no-external">
-<p><img src="./posts/ml/fastai/lesson3/fastai.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/ml/fastai/lesson3/lesson.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ml/fastai/lesson3/lesson.html" class="no-external">FastAI Lesson 3: How Does a Neural Network Learn?</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ml/fastai/lesson3/lesson.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('FastAI'); return false;">
-FastAI
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/ml/fastai/lesson3/lesson.html" class="no-external">Practical Deep Learning for Coders: Lesson 3</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ml/fastai/lesson3/lesson.html" class="no-external">
-<div class="listing-date">
-Sep 1, 2023
-</div>
-<div class="listing-reading-time">
-4 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-categories="AI,Engineering,FastAI" data-listing-date-sort="1693350000000" data-listing-file-modified-sort="1707401673388" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="487">
-<div class="thumbnail">
-<p><a href="./posts/ml/fastai/lesson2/lesson.html" class="no-external"></a></p><a href="./posts/ml/fastai/lesson2/lesson.html" class="no-external">
-<p><img src="./posts/ml/fastai/lesson2/fastai.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/ml/fastai/lesson2/lesson.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ml/fastai/lesson2/lesson.html" class="no-external">FastAI Lesson 2: Deployment</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ml/fastai/lesson2/lesson.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('FastAI'); return false;">
-FastAI
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/ml/fastai/lesson2/lesson.html" class="no-external">Practical Deep Learning for Coders: Lesson 2</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ml/fastai/lesson2/lesson.html" class="no-external">
-<div class="listing-date">
-Aug 30, 2023
-</div>
-<div class="listing-reading-time">
-3 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="4" data-categories="AI,Engineering,FastAI" data-listing-date-sort="1692745200000" data-listing-file-modified-sort="1707401709940" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="514">
-<div class="thumbnail">
-<p><a href="./posts/ml/fastai/lesson1/lesson.html" class="no-external"></a></p><a href="./posts/ml/fastai/lesson1/lesson.html" class="no-external">
-<p><img src="./posts/ml/fastai/lesson1/deep_learning_model.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/ml/fastai/lesson1/lesson.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ml/fastai/lesson1/lesson.html" class="no-external">FastAI Lesson 1: Image Classification Models</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ml/fastai/lesson1/lesson.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('FastAI'); return false;">
-FastAI
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/ml/fastai/lesson1/lesson.html" class="no-external">Practical Deep Learning for Coders: Lesson 1</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ml/fastai/lesson1/lesson.html" class="no-external">
-<div class="listing-date">
-Aug 23, 2023
-</div>
-<div class="listing-reading-time">
-3 min
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div><a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
