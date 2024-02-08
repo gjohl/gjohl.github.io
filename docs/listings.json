@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/ml/fastai/lesson3/lesson.html",
       "/posts/ml/fastai/lesson2/lesson.html",
       "/posts/ml/fastai/lesson1/lesson.html",
       "/posts/software/system_design/system_design_notes.html",
@@ -16,6 +17,7 @@
   {
     "listing": "/fastai-series.html",
     "items": [
+      "/posts/ml/fastai/lesson3/lesson.html",
       "/posts/ml/fastai/lesson2/lesson.html",
       "/posts/ml/fastai/lesson1/lesson.html"
     ]

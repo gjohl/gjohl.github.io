@@ -83,5 +83,5 @@ Keep an eye on the validation error to check overfitting.
 
 ## References
 
-- https://course.fast.ai/Lessons/lesson2.html
-- https://huggingface.co/spaces
+- [https://course.fast.ai/Lessons/lesson2.html](https://course.fast.ai/Lessons/lesson2.html)
+- [https://huggingface.co/spaces](https://huggingface.co/spaces)

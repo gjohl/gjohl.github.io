@@ -1,7 +1,7 @@
 ---
 title: "FastAI Lesson 1: Image Classification Models"
 description: "Practical Deep Learning for Coders: Lesson 1"
-date: "2023-08-30"
+date: "2023-08-23"
 image: "deep_learning_model.png"
 categories: [AI, Engineering, FastAI]
 ---
@@ -79,6 +79,6 @@ Deep learning models are:
 
 ## References
 
-- https://course.fast.ai/Lessons/lesson1.html
-- https://arxiv.org/abs/1311.2901
-- https://timm.fast.ai/
+- [https://course.fast.ai/Lessons/lesson1.html](https://course.fast.ai/Lessons/lesson1.html)
+- [https://arxiv.org/abs/1311.2901](https://arxiv.org/abs/1311.2901)
+- [https://timm.fast.ai/](https://timm.fast.ai/)

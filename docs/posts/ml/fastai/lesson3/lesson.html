@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Gurpreet Johl">
-<meta name="dcterms.date" content="2023-08-30">
-<meta name="description" content="Practical Deep Learning for Coders: Lesson 2">
+<meta name="dcterms.date" content="2023-08-31">
+<meta name="description" content="Practical Deep Learning for Coders: Lesson 3">
 
-<title>Gurpreet Johl - FastAI Lesson 2: Deployment</title>
+<title>Gurpreet Johl - FastAI Lesson 3: How Does a Neural Network Learn?</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -157,10 +157,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">FastAI Lesson 2: Deployment</h1>
+      <h1 class="title">FastAI Lesson 3: How Does a Neural Network Learn?</h1>
                   <div>
         <div class="description">
-          Practical Deep Learning for Coders: Lesson 2
+          Practical Deep Learning for Coders: Lesson 3
         </div>
       </div>
                           <div class="quarto-categories">
@@ -184,7 +184,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">August 30, 2023</p>
+        <p class="date">August 31, 2023</p>
       </div>
     </div>
     
@@ -200,13 +200,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#ml-deployment" id="toc-ml-deployment" class="nav-link active" data-scroll-target="#ml-deployment">ML Deployment</a>
+  <li><a href="#how-does-a-neural-network-learn" id="toc-how-does-a-neural-network-learn" class="nav-link active" data-scroll-target="#how-does-a-neural-network-learn">How Does a Neural Network Learn?</a>
   <ul class="collapse">
-  <li><a href="#data-pre-processing" id="toc-data-pre-processing" class="nav-link" data-scroll-target="#data-pre-processing">1. Data Pre-processing</a></li>
-  <li><a href="#saving-a-model" id="toc-saving-a-model" class="nav-link" data-scroll-target="#saving-a-model">2. Saving a model</a></li>
-  <li><a href="#hosting-a-model" id="toc-hosting-a-model" class="nav-link" data-scroll-target="#hosting-a-model">3. Hosting a model</a></li>
-  <li><a href="#using-nbdev" id="toc-using-nbdev" class="nav-link" data-scroll-target="#using-nbdev">4. Using nbdev</a></li>
-  <li><a href="#training-the-model-and-when-to-stop" id="toc-training-the-model-and-when-to-stop" class="nav-link" data-scroll-target="#training-the-model-and-when-to-stop">5. Training the Model (and when to stop)</a></li>
+  <li><a href="#model-selection" id="toc-model-selection" class="nav-link" data-scroll-target="#model-selection">1. Model Selection</a></li>
+  <li><a href="#fitting-a-quadratic-function" id="toc-fitting-a-quadratic-function" class="nav-link" data-scroll-target="#fitting-a-quadratic-function">2. Fitting a Quadratic Function</a></li>
+  <li><a href="#fit-a-deep-learning-model" id="toc-fit-a-deep-learning-model" class="nav-link" data-scroll-target="#fit-a-deep-learning-model">3. Fit a Deep Learning Model</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul></li>
   </ul>
@@ -219,9 +217,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="ml-deployment" class="level1">
-<h1>ML Deployment</h1>
-<p>These are notes from lesson 2 of Fast AI Practical Deep Learning for Coders.</p>
+<section id="how-does-a-neural-network-learn" class="level1">
+<h1>How Does a Neural Network Learn?</h1>
+<p>These are notes from lesson 3 of Fast AI Practical Deep Learning for Coders.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Homework Task">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -232,73 +230,76 @@ Homework Task
 </div>
 </div>
 <div class="callout-body-container callout-body">
+<p>Recreate the spreadsheet to train a linear model and a neural network from scratch: see <a href="https://docs.google.com/spreadsheets/d/1hma4bTEFuiS483djqE5dPoLlbsSQOTioqMzsesZGUGI/edit?usp=sharing">spreadsheet</a></p>
+</div>
+</div>
+<section id="model-selection" class="level2">
+<h2 class="anchored" data-anchor-id="model-selection">1. Model Selection</h2>
+<p>Some options for cloud environments: Kaggle, Colab, Paperspace.</p>
+<p>A comparison of performance vs training time for different image models useful for model selection is provided <a href="https://www.kaggle.com/code/jhoward/which-image-models-are-best/">here</a>. Resnet and convnext are generally good to start with.</p>
+<p>The best practice is to start with a “good enough” model with a quick training time, so you can iterate quickly. Then as you get further on with your research and need a better model, you can move to a slower, more accurate model.</p>
+<p>The criteria we generally care about are:</p>
+<ol type="1">
+<li>How fast are they</li>
+<li>How much memory do they use</li>
+<li>How accurate are they</li>
+</ol>
+<p>A learner object contains the pre-processing steps and the model itself.</p>
+</section>
+<section id="fitting-a-quadratic-function" class="level2">
+<h2 class="anchored" data-anchor-id="fitting-a-quadratic-function">2. Fitting a Quadratic Function</h2>
+<p>How do we fit a function to data? An ML model is just a function fitted to data. Deep learning is just fitting an infinitely flexible model to data.</p>
+<p>In <a href="https://www.kaggle.com/code/gurpreetjohl/how-does-a-neural-net-really-work">this notebook</a> there is an interactive cell to fit a quadratic function to some noisy data: <code>y = ax^2 +bx + c</code></p>
+<p>We can vary <code>a</code>, <code>b</code> and <code>c</code> to get a better fit by eye. We can make this more rigorous by defining a loss function to quantify how good the fit is.</p>
+<p>In this case, use the mean absolute error: <code>mae = mean(abs(actual - preds))</code> We can then use stochastic gradient descent to autome the tweaking of a, b and c to minimise the loss.</p>
+<p>We can store the parameters as a tensor, then pytorch will calculate gradients of the loss function based on that tensor.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>abc <span class="op">=</span> torch.tensor([<span class="fl">1.1</span>,<span class="fl">1.1</span>,<span class="fl">1.1</span>]) </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>abc.requires_grad_()  <span class="co"># Modifies abc in place so that it will include gradient calculations on anything which uses abc downstream</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> quad_mae(abc)  <span class="co"># `loss` uses abc so pytorch will give the gradient of loss too</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>loss.backward()  <span class="co"># Back-propagate the gradients</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>abc.grad  <span class="co"># Returns a tensor of the loss gradients</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can then take a “small step” in the direction that will decrease the gradient. The size of the step should be proportional to the size of the gradient. We define a <strong>learning rate</strong> hyperparameter to determine how much to scale the gradients by.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>learning_rate <span class="op">=</span> <span class="fl">0.01</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>abc <span class="op">-=</span> abc.grad <span class="op">*</span> learning_rate</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> quad_mae(abc)  <span class="co"># The loss should now be smaller</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can repeat this process to take multiple steps to minimise the gradient.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> step <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> quad_mae(abc)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    loss.backward()</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        abc <span class="op">-=</span> abc.grad <span class="op">*</span> learning_rate</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'step=</span><span class="sc">{</span>step<span class="sc">}</span><span class="ss">; loss=</span><span class="sc">{</span>loss<span class="sc">:.2f}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The learning rate should decrease as we get closer to the minimum to ensure we don’t overshoot the minimum and increase the loss. A learning rate <em>schedule</em> can be specified to do this.</p>
+</section>
+<section id="fit-a-deep-learning-model" class="level2">
+<h2 class="anchored" data-anchor-id="fit-a-deep-learning-model">3. Fit a Deep Learning Model</h2>
+<p>For deep learning, the premise is the same but instead of quadratic functions, we fit ReLUs and other non-linear functions.</p>
+<p><a href="https://en.wikipedia.org/wiki/Universal_approximation_theorem">Universal approximation theorem</a> states that this is infinitely expressive if enough ReLUs (or other non-linear units) are combined. This means we can learn any computable function.</p>
+<p>A ReLU is essentially a linear function with the negative values clipped to 0.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> relu(m,c,x):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> m <span class="op">*</span> x <span class="op">+</span> c</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.clip(y, <span class="fl">0.</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This is all that deep learning is! All we need is:</p>
+<ol type="1">
+<li>A model - a bunch of ReLUs combined will be flexible</li>
+<li>A loss function - mean absolute error between the actual data values and the values predicted by the model</li>
+<li>An optimiser - stochastic gradient descent can start from random weights to incrementally improve the loss until we get a “good enough” fit</li>
+</ol>
+<p>We just need enough time and data. There are a few hacks to decrease the time and data required:</p>
 <ul>
-<li>Deploy a model to Huggingface Spaces: see <a href="https://huggingface.co/spaces/GurpreetJohl/binary_image_classifier_vw_rr">car classifier model</a></li>
-<li>Deploy a model to a Github Pages website: see <a href="https://github.com/gjohl/vw_classifier">car classifier website</a></li>
+<li>Data augmentation</li>
+<li>Running on GPUs to parallelise matrix multiplications</li>
+<li>Convolutions to skip over values to reduce the number of matrix multiplications required</li>
+<li>Transfer learning - initialise with parameters from another pre-trained model instead of random weights.</li>
 </ul>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A website for quizzes based on the book: <a href="www.aiquizzes.com">AI quizzes</a></p>
-</div>
-</div>
-<section id="data-pre-processing" class="level2">
-<h2 class="anchored" data-anchor-id="data-pre-processing">1. Data Pre-processing</h2>
-<p>It can be useful to train a model on the data <strong>BEFORE</strong> you clean it</p>
-<ul>
-<li>Counterintuitive!</li>
-<li>The confusion matrix output of the learner gives you a good intuition about which classifications are hard</li>
-<li><code>plot_top_losses</code> shows which examples were hardest for the model to classify. This can find (1) when the model is correct but not confident, and (2) when the model was confident but incorrect</li>
-<li><code>ImageClassifierCleaner</code> shows the examples in the training and validation set ordered by loss, so we can choose to keep, reclassify or remove them</li>
-</ul>
-<p>For image resizing, <em>random resize crop</em> can often be more effective.</p>
-<ul>
-<li>Squishing can result in weird, unrealistic images.</li>
-<li>Padding or mirroring can add false information that the model will erroneously learn.</li>
-<li>Random crops give different sections of the image which acts as a form of data augmentation.</li>
-<li><code>aug_transforms</code> can be use for more sophisticated data augmentation like warping and recoloring images.</li>
-</ul>
-</section>
-<section id="saving-a-model" class="level2">
-<h2 class="anchored" data-anchor-id="saving-a-model">2. Saving a model</h2>
-<p>Once you are happy with the model you’ve trained, you can pickle the learner object and save it.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>learn.export(<span class="st">'model.pkl'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Then you can add the saved model to the hugging face space. To use the model to make predictions, any external functions you used to create the model will need to be instantiated too.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> load_learner(<span class="st">'model.pkl'</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>learn.predict(image)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="hosting-a-model" class="level2">
-<h2 class="anchored" data-anchor-id="hosting-a-model">3. Hosting a model</h2>
-<p><a href="https://huggingface.co/spaces">Hugging face spaces</a> hosts models with a choice of pre-canned interfaces to quickly deploy a model to the public. Gradio is used in the example in the lecture. Streamlit is an alternative to Gradio that is more flexible.</p>
-<p>Gradio requires a dict of classes as keys and probabilities (as floats not tensors) as the values. To go from the Gradio prototype to a production app, you can view the Gradio API from the huggingface space which will show you the API. The API exposes an endpoint which you can then hit from your own frontend app.</p>
-<p>Github pages is a free and simple way to host a public website. See <a href="https://github.com/fastai/tinypets">this fastai repo</a> as an example of a minimal example html website which issues GET requests to the Gradio API</p>
-</section>
-<section id="using-nbdev" class="level2">
-<h2 class="anchored" data-anchor-id="using-nbdev">4. Using nbdev</h2>
-<p>To convert a notebook to a python script, you can add <code>#|export</code> to the top of any cells to include in the script, then use:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nbdev.export <span class="im">import</span> notebook2script</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>notebook2script(<span class="st">'name_of_output_file.py'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Use <code>#|default_exp app</code> in the first cell of the notebook to set the default name of the exported python file.</p>
-</section>
-<section id="training-the-model-and-when-to-stop" class="level2">
-<h2 class="anchored" data-anchor-id="training-the-model-and-when-to-stop">5. Training the Model (and when to stop)</h2>
-<p>How do we choose the number of epochs to train for? Whenever it is “good enough” for your use case.</p>
-<p>If you need to train for longer, you may need to use data augmentation to prevent overfitting. Keep an eye on the validation error to check overfitting.</p>
+<p><a href="https://docs.google.com/spreadsheets/d/1hma4bTEFuiS483djqE5dPoLlbsSQOTioqMzsesZGUGI/edit?usp=sharing">This spreadsheet</a> from the homework task is a worked example of manually training a multivariate linear model, then extending that to a neural network summing two ReLUs.</p>
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
 <ul>
-<li><a href="https://course.fast.ai/Lessons/lesson2.html">https://course.fast.ai/Lessons/lesson2.html</a></li>
-<li><a href="https://huggingface.co/spaces">https://huggingface.co/spaces</a></li>
+<li><a href="https://course.fast.ai/Lessons/lesson3.html">https://course.fast.ai/Lessons/lesson3.html</a></li>
+<li><a href="https://www.kaggle.com/code/jhoward/which-image-models-are-best/">https://www.kaggle.com/code/jhoward/which-image-models-are-best/</a></li>
+<li><a href="https://www.kaggle.com/code/gurpreetjohl/how-does-a-neural-net-really-work">https://www.kaggle.com/code/gurpreetjohl/how-does-a-neural-net-really-wor</a></li>
 </ul>
 
 
