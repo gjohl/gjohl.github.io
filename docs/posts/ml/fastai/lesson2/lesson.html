@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Gurpreet Johl">
+<meta name="dcterms.date" content="2023-08-30">
+<meta name="description" content="Practical Deep Learning for Coders: Lesson 2">
 
-<title>Gurpreet Johl - About</title>
+<title>Gurpreet Johl - FastAI Lesson 2: Deployment</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,24 +23,59 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../">
+<script src="../../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -67,17 +105,17 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../../../index.html">
     <span class="navbar-title">Gurpreet Johl</span>
     </a>
   </div>
@@ -88,7 +126,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./blog.html"> 
+    <a class="nav-link" href="../../../../blog.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
 </ul>
@@ -116,42 +154,158 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">FastAI Lesson 2: Deployment</h1>
+                  <div>
+        <div class="description">
+          Practical Deep Learning for Coders: Lesson 2
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">AI</div>
+                <div class="quarto-category">Engineering</div>
+                <div class="quarto-category">FastAI</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Gurpreet Johl </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">August 30, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#ml-deployment" id="toc-ml-deployment" class="nav-link active" data-scroll-target="#ml-deployment">ML Deployment</a>
+  <ul class="collapse">
+  <li><a href="#data-pre-processing" id="toc-data-pre-processing" class="nav-link" data-scroll-target="#data-pre-processing">1. Data Pre-processing</a></li>
+  <li><a href="#saving-a-model" id="toc-saving-a-model" class="nav-link" data-scroll-target="#saving-a-model">2. Saving a model</a></li>
+  <li><a href="#hosting-a-model" id="toc-hosting-a-model" class="nav-link" data-scroll-target="#hosting-a-model">3. Hosting a model</a></li>
+  <li><a href="#using-nbdev" id="toc-using-nbdev" class="nav-link" data-scroll-target="#using-nbdev">4. Using nbdev</a></li>
+  <li><a href="#training-the-model-and-when-to-stop" id="toc-training-the-model-and-when-to-stop" class="nav-link" data-scroll-target="#training-the-model-and-when-to-stop">5. Training the Model (and when to stop)</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<div class="quarto-about-jolla content">
-  <img src="assets/images/GJProfilePic.jpeg" class="about-image
-  round " style="height: 15em; width: 15em;">
- <header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">About</h1>
-</div>
-<div class="quarto-title-meta">
-  </div>
-</header><main class="content" id="quarto-document-content">
-<p>This site contains (or will contain very soon) my personal software and AI projects…</p>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> 
-  <hr class="about-sep">
-   <div class="about-links">
-  <a href="https://github.com/gjohl" class="about-link" rel="" target="">
-    <i class="bi bi-github"></i>
-     <span class="about-link-text">Github</span>
-  </a>
-  <a href="https://www.linkedin.com/in/gurpreetjohl" class="about-link" rel="" target="">
-    <i class="bi bi-linkedin"></i>
-     <span class="about-link-text">LinkedIn</span>
-  </a>
-  <a href="https://twitter.com/gurpreetjohl" class="about-link" rel="" target="">
-    <i class="bi bi-twitter"></i>
-     <span class="about-link-text">Twitter</span>
-  </a>
+
+
+
+<section id="ml-deployment" class="level1">
+<h1>ML Deployment</h1>
+<p>These are notes from lesson 2 of Fast AI Practical Deep Learning for Coders.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Homework Task">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Homework Task
 </div>
 </div>
- <!-- /main -->
+<div class="callout-body-container callout-body">
+<ul>
+<li>Deploy a model to Huggingface Spaces: see <a href="https://huggingface.co/spaces/GurpreetJohl/binary_image_classifier_vw_rr">car classifier model</a></li>
+<li>Deploy a model to a Github Pages website: see <a href="https://github.com/gjohl/vw_classifier">car classifier website</a></li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A website for quizzes based on the book: <a href="www.aiquizzes.com">AI quizzes</a></p>
+</div>
+</div>
+<section id="data-pre-processing" class="level2">
+<h2 class="anchored" data-anchor-id="data-pre-processing">1. Data Pre-processing</h2>
+<p>It can be useful to train a model on the data <strong>BEFORE</strong> you clean it</p>
+<ul>
+<li>Counterintuitive!</li>
+<li>The confusion matrix output of the learner gives you a good intuition about which classifications are hard</li>
+<li><code>plot_top_losses</code> shows which examples were hardest for the model to classify. This can find (1) when the model is correct but not confident, and (2) when the model was confident but incorrect</li>
+<li><code>ImageClassifierCleaner</code> shows the examples in the training and validation set ordered by loss, so we can choose to keep, reclassify or remove them</li>
+</ul>
+<p>For image resizing, <em>random resize crop</em> can often be more effective.</p>
+<ul>
+<li>Squishing can result in weird, unrealistic images.</li>
+<li>Padding or mirroring can add false information that the model will erroneously learn.</li>
+<li>Random crops give different sections of the image which acts as a form of data augmentation.</li>
+<li><code>aug_transforms</code> can be use for more sophisticated data augmentation like warping and recoloring images.</li>
+</ul>
+</section>
+<section id="saving-a-model" class="level2">
+<h2 class="anchored" data-anchor-id="saving-a-model">2. Saving a model</h2>
+<p>Once you are happy with the model you’ve trained, you can pickle the learner object and save it.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>learn.export(<span class="st">'model.pkl'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then you can add the saved model to the hugging face space. To use the model to make predictions, any external functions you used to create the model will need to be instantiated too.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> load_learner(<span class="st">'model.pkl'</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>learn.predict(image)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="hosting-a-model" class="level2">
+<h2 class="anchored" data-anchor-id="hosting-a-model">3. Hosting a model</h2>
+<p><a href="https://huggingface.co/spaces">Hugging face spaces</a> hosts models with a choice of pre-canned interfaces to quickly deploy a model to the public. Gradio is used in the example in the lecture. Streamlit is an alternative to Gradio that is more flexible.</p>
+<p>Gradio requires a dict of classes as keys and probabilities (as floats not tensors) as the values. To go from the Gradio prototype to a production app, you can view the Gradio API from the huggingface space which will show you the API. The API exposes an endpoint which you can then hit from your own frontend app.</p>
+<p>Github pages is a free and simple way to host a public website. See <a href="https://github.com/fastai/tinypets">this fastai repo</a> as an example of a minimal example html website which issues GET requests to the Gradio API</p>
+</section>
+<section id="using-nbdev" class="level2">
+<h2 class="anchored" data-anchor-id="using-nbdev">4. Using nbdev</h2>
+<p>To convert a notebook to a python script, you can add <code>#|export</code> to the top of any cells to include in the script, then use:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nbdev.export <span class="im">import</span> notebook2script</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>notebook2script(<span class="st">'name_of_output_file.py'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Use <code>#|default_exp app</code> in the first cell of the notebook to set the default name of the exported python file.</p>
+</section>
+<section id="training-the-model-and-when-to-stop" class="level2">
+<h2 class="anchored" data-anchor-id="training-the-model-and-when-to-stop">5. Training the Model (and when to stop)</h2>
+<p>How do we choose the number of epochs to train for? Whenever it is “good enough” for your use case.</p>
+<p>If you need to train for longer, you may need to use data augmentation to prevent overfitting. Keep an eye on the validation error to check overfitting.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li><a href="https://course.fast.ai/Lessons/lesson2.html">Course lesson page</a></li>
+<li><a href="https://huggingface.co/spaces">HuggingFace Spaces</a></li>
+</ul>
+
+
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -172,6 +326,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
   const isCodeAnnotation = (el) => {
     for (const clz of el.classList) {
       if (clz.startsWith('code-annotation-')) {                     

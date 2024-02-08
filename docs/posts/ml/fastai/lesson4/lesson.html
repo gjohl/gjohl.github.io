@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Gurpreet Johl">
+<meta name="dcterms.date" content="2023-09-07">
+<meta name="description" content="Practical Deep Learning for Coders: Lesson 4">
 
-<title>Gurpreet Johl - About</title>
+<title>Gurpreet Johl - FastAI Lesson 4: Natural Language Processing</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,24 +23,59 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../">
+<script src="../../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -67,17 +105,17 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../../../index.html">
     <span class="navbar-title">Gurpreet Johl</span>
     </a>
   </div>
@@ -88,7 +126,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./blog.html"> 
+    <a class="nav-link" href="../../../../blog.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
 </ul>
@@ -116,42 +154,176 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">FastAI Lesson 4: Natural Language Processing</h1>
+                  <div>
+        <div class="description">
+          Practical Deep Learning for Coders: Lesson 4
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">AI</div>
+                <div class="quarto-category">Engineering</div>
+                <div class="quarto-category">FastAI</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Gurpreet Johl </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">September 7, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#natural-language-processing" id="toc-natural-language-processing" class="nav-link active" data-scroll-target="#natural-language-processing">Natural language processing</a>
+  <ul class="collapse">
+  <li><a href="#nlp-background-and-transformers" id="toc-nlp-background-and-transformers" class="nav-link" data-scroll-target="#nlp-background-and-transformers">1. NLP Background and Transformers</a></li>
+  <li><a href="#kaggle-competition-walkthrough" id="toc-kaggle-competition-walkthrough" class="nav-link" data-scroll-target="#kaggle-competition-walkthrough">2. Kaggle Competition Walkthrough</a>
+  <ul class="collapse">
+  <li><a href="#tokenization" id="toc-tokenization" class="nav-link" data-scroll-target="#tokenization">2.1 Tokenization</a></li>
+  <li><a href="#numericalization" id="toc-numericalization" class="nav-link" data-scroll-target="#numericalization">2.2 Numericalization</a></li>
+  <li><a href="#models" id="toc-models" class="nav-link" data-scroll-target="#models">2.3. Models</a></li>
+  <li><a href="#overfitting" id="toc-overfitting" class="nav-link" data-scroll-target="#overfitting">2.4. Overfitting</a></li>
+  <li><a href="#metrics-vs-loss-functions" id="toc-metrics-vs-loss-functions" class="nav-link" data-scroll-target="#metrics-vs-loss-functions">2.5. Metrics vs Loss Functions</a></li>
+  <li><a href="#correlations" id="toc-correlations" class="nav-link" data-scroll-target="#correlations">2.6. Correlations</a></li>
+  <li><a href="#choosing-a-learning-rate" id="toc-choosing-a-learning-rate" class="nav-link" data-scroll-target="#choosing-a-learning-rate">2.7 Choosing a learning rate</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<div class="quarto-about-jolla content">
-  <img src="assets/images/GJProfilePic.jpeg" class="about-image
-  round " style="height: 15em; width: 15em;">
- <header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">About</h1>
-</div>
-<div class="quarto-title-meta">
-  </div>
-</header><main class="content" id="quarto-document-content">
-<p>This site contains (or will contain very soon) my personal software and AI projects…</p>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> 
-  <hr class="about-sep">
-   <div class="about-links">
-  <a href="https://github.com/gjohl" class="about-link" rel="" target="">
-    <i class="bi bi-github"></i>
-     <span class="about-link-text">Github</span>
-  </a>
-  <a href="https://www.linkedin.com/in/gurpreetjohl" class="about-link" rel="" target="">
-    <i class="bi bi-linkedin"></i>
-     <span class="about-link-text">LinkedIn</span>
-  </a>
-  <a href="https://twitter.com/gurpreetjohl" class="about-link" rel="" target="">
-    <i class="bi bi-twitter"></i>
-     <span class="about-link-text">Twitter</span>
-  </a>
+
+
+
+<section id="natural-language-processing" class="level1">
+<h1>Natural language processing</h1>
+<p>These are notes from lesson 4 of Fast AI Practical Deep Learning for Coders.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Homework Task">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Homework Task
 </div>
 </div>
- <!-- /main -->
+<div class="callout-body-container callout-body">
+<p>Kaggle NLP pattern similarity notebook: see <a href="https://www.kaggle.com/code/gurpreetjohl/getting-started-with-nlp-for-absolute-beginners">notebook</a></p>
+</div>
+</div>
+<section id="nlp-background-and-transformers" class="level2">
+<h2 class="anchored" data-anchor-id="nlp-background-and-transformers">1. NLP Background and Transformers</h2>
+<p>NLP applications: categorising documents, translation, text generation.</p>
+<p>We are using the <a href="https://huggingface.co/docs/transformers/index">Huggingface transformers</a> library for this lesson. It is now incorporated into the fastai library.</p>
+<p>ULMFit is an algorithm which uses fine-tuning, in this example to train a positve/negative sentiment classifier in 3 steps: 1. Train an RNN on wikipedia to predict the next word. No labels required. 2. Fine-tune this for IMDb reviews to predict the next word of a movie review. Still no labels required. 3. Fine-tune this to classify the sentiment.</p>
+<p>Transformers have overtaken ULMFit as the state-of-the-art.</p>
+<p>Looking “inside” a CNN, the first layer contains elementary detectors like edge detectors, blob detectors, gradient detectors etc. These get combined in non-linear ways to make increasingly complex detectors. Layer 2 might combine vertical and horizontal edge detectors into a corner detector. By the later layers, it is detecting rich features like lizard eyes, dog faces etc. See <a href="https://arxiv.org/abs/1311.2901">Zeiler and Fegus</a>.</p>
+<p>For the fine-tuning process, the earlier layers are unlikely to need changing because they are more general. So we only need to fine-tune (i.e.&nbsp;re-train) the later layers.</p>
+</section>
+<section id="kaggle-competition-walkthrough" class="level2">
+<h2 class="anchored" data-anchor-id="kaggle-competition-walkthrough">2. Kaggle Competition Walkthrough</h2>
+<p>As an example of NLP in practice, we walk through <a href="https://www.kaggle.com/code/gurpreetjohl/getting-started-with-nlp-for-absolute-beginners/edit">this notebook for U.S. Patent Phrase to Phrase Matching</a>.</p>
+<p>Reshape the input to fit a standard NLP task</p>
+<ul>
+<li>We want to learn the similarity between two fields and are provided with similarity scores.</li>
+<li>We concat the fields of interest (with identifiers in between). The identifiers themselves are not important, they just need to be consistent.</li>
+<li>The NLP model is then a supervised regression task to predict the score given the concatendated string.</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'input'</span>] <span class="op">=</span> <span class="st">'TEXT1: '</span> <span class="op">+</span> df.context <span class="op">+</span> <span class="st">'; TEXT2: '</span> <span class="op">+</span> df.target <span class="op">+</span> <span class="st">'; ANC1: '</span> <span class="op">+</span> df.anchor</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="tokenization" class="level3">
+<h3 class="anchored" data-anchor-id="tokenization">2.1 Tokenization</h3>
+<p>Split the text into tokens (words). Tokens are, broadly speaking, words.</p>
+<p>There are some caveats to that, as some languages like Chinese don’t fit nicely into that model. We don’t want the vocabulary to be too big. Alternative approaches use character tokenization rather than word tokenization.</p>
+<p>In practice, we tokenize into subwords.</p>
+</section>
+<section id="numericalization" class="level3">
+<h3 class="anchored" data-anchor-id="numericalization">2.2 Numericalization</h3>
+<p>Map each unique token to a number. One-hot encoding.</p>
+<p>The choice of tokenization and numericalization depends on the model you use. Whoever trained the model chose a convention for tokenizing. We need to be consistent with that if we want the model to work correctly.</p>
+</section>
+<section id="models" class="level3">
+<h3 class="anchored" data-anchor-id="models">2.3. Models</h3>
+<p>The <a href="https://huggingface.co/models">Huggingface model hub</a> contains thousands of pretrained models.</p>
+<p>For NLP tasks, it is useful to choose a model that was trained on a similar corpus, so you can search the model hub. In this case, we search for “patent”.</p>
+<p>Some models are general purpose, e.g.&nbsp;deberta-v3 used in the lesson.</p>
+<p>ULMFit handles large documents better as it can split up the document. Transformer approaches require loading the whole document into GPU memory, so struggle for larger documents.</p>
+</section>
+<section id="overfitting" class="level3">
+<h3 class="anchored" data-anchor-id="overfitting">2.4. Overfitting</h3>
+<p>If a model is too simple (i.e.&nbsp;not flexible enough) then it cannot fit the data and be biased, leading to underfitting.</p>
+<p>If the model fits the data points too closely, it is overfitting.</p>
+<p>A good validation set, and monitoring validation error rather than training error as a metric, is key to avoiding overfitting. See <a href="https://www.fast.ai/posts/2017-11-13-validation-sets.html">this article</a> for an in-depth discussion on the importance of choosing a good validation set.</p>
+<p>Often people will default to using a random train/test split. This is what scikit-learn uses. This is a BAD idea very often.</p>
+<p>For time-series data, it’s easier to infer gaps than it is to predict a block in the future. The latter is the more common task but a random split simulates the former, giving unrealistically good performance.</p>
+<p>For image data, there may be people, boats, etc that are in the training set but not the test set. By failing to have new people in the validation set, the model can learn things about specific people/boats that it can’t rely on in practice.</p>
+</section>
+<section id="metrics-vs-loss-functions" class="level3">
+<h3 class="anchored" data-anchor-id="metrics-vs-loss-functions">2.5. Metrics vs Loss Functions</h3>
+<p>Metrics are things that are human-understandable.</p>
+<p>Loss functions should be smooth and differentiable to aid in training.</p>
+<p>These can sometimes be the same thing, but not in general. For example, accuracy is a <em>good metric</em> in image classification. We could tweak the weights in such a way that it improves the model slightly, but not so much that it now correctly classifies a previously incorrect image. This means the metric function is bumpy, therefore a <em>bad loss function</em>.</p>
+<p><a href="https://www.fast.ai/posts/2019-09-24-metrics.html">This article</a> goes into more detail on the choice of metrics.</p>
+<p>AI can be particularly dangerous at confirming systematic biases, because it is so good at optimising metrics, so it will conform to any biases present in the training data. Making decisions based on the model then reinforces those biases.</p>
+<blockquote class="blockquote">
+<p>Goodhart’s law applies: If a metric becomes a target it’s no longer a good metric</p>
+</blockquote>
+</section>
+<section id="correlations" class="level3">
+<h3 class="anchored" data-anchor-id="correlations">2.6. Correlations</h3>
+<p>The best way to understand a metric is not to look at the mathematical formula, but to plot some data for which the metric is high, medium and low, then see what that tells you.</p>
+<p>After that, look at the equation to see if your intuition matches the logic.</p>
+</section>
+<section id="choosing-a-learning-rate" class="level3">
+<h3 class="anchored" data-anchor-id="choosing-a-learning-rate">2.7 Choosing a learning rate</h3>
+<p>Fast AI has a function to find a good starting point. Otherwise, pick a small value and keep doubling it until it falls apart.</p>
+</section>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li><a href="https://course.fast.ai/Lessons/lesson4.html">Course lesson page</a></li>
+<li><a href="https://huggingface.co/docs/transformers/index">HuggingFace Transformers</a></li>
+<li><a href="https://arxiv.org/abs/1311.2901">Visualizing and Understanding Convolutional Networks</a></li>
+<li><a href="https://huggingface.co/models">HuggingFace models</a></li>
+<li><a href="https://www.fast.ai/posts/2017-11-13-validation-sets.html">Validation sets</a></li>
+<li><a href="https://www.fast.ai/posts/2019-09-24-metrics.html">Model metrics</a></li>
+</ul>
+
+
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -172,6 +344,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
   const isCodeAnnotation = (el) => {
     for (const clz of el.classList) {
       if (clz.startsWith('code-annotation-')) {                     

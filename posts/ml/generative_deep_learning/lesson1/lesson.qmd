@@ -1,0 +1,14 @@
+---
+title: "Generative AI: Chapter 1"
+description: "Notes from Generative Deep Learning book"
+date: "2024-02-08"
+# image: "deep_learning_model.png"
+categories: [AI, Engineering, GenerativeAI]
+---
+
+# Introduction to Generative Deep Learning
+These are notes from chapter 1 of Generative Deep Learning by David Foster.
+
+::: {.callout-tip}
+In progress...
+:::
