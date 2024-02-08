@@ -15,4 +15,4 @@ about:
       href: https://twitter.com/gurpreetjohl
 ---
 
-Data science, AI and software projects.
+This site contains (or will contain very soon) my personal software and AI projects...
