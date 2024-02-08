@@ -18,5 +18,8 @@ title-block-banner: true
 This series contains notes from following the fastai "Practical Deep Learning for Coders" course.
 See the [course page](https://course.fast.ai/) and [book](https://github.com/fastai/fastbook/tree/master).
 
+#### [generative-ai-series](gen-deep-learning-series.qmd)
+This series contains notes from the book "Generative Deep Learning" by David Foster.
+
 
 # All Posts

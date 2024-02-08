@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/ml/generative_deep_learning/lesson1/lesson.html",
       "/posts/ml/fastai/lesson6/lesson.html",
       "/posts/ml/fastai/lesson5/lesson.html",
       "/posts/ml/fastai/lesson4/lesson.html",
@@ -26,6 +27,12 @@
       "/posts/ml/fastai/lesson3/lesson.html",
       "/posts/ml/fastai/lesson2/lesson.html",
       "/posts/ml/fastai/lesson1/lesson.html"
+    ]
+  },
+  {
+    "listing": "/gen-deep-learning-series.html",
+    "items": [
+      "/posts/ml/generative_deep_learning/lesson1/lesson.html"
     ]
   }
 ]
