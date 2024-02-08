@@ -79,6 +79,8 @@ Deep learning models are:
 
 ## References
 
-- [https://course.fast.ai/Lessons/lesson1.html](https://course.fast.ai/Lessons/lesson1.html)
-- [https://arxiv.org/abs/1311.2901](https://arxiv.org/abs/1311.2901)
-- [https://timm.fast.ai/](https://timm.fast.ai/)
+- [Course lesson page](https://course.fast.ai/Lessons/lesson1.html)
+- [Visualizing and Understanding Convolutional Networks](https://arxiv.org/abs/1311.2901)
+- [TIMM library](https://timm.fast.ai/)
+- [Statistical Modeling: The Two Cultures](https://www.semanticscholar.org/paper/Statistical-Modeling%3A-The-Two-Cultures-\(with-and-a-Breiman/e5df6bc6da5653ad98e754b08f63326c2e52b372
+)

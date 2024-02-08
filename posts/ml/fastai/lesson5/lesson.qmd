@@ -101,6 +101,6 @@ In general the mean approaches work better but there's no rule as to why, so try
 
 ## References
 
-- [https://course.fast.ai/Lessons/lesson5.html](https://course.fast.ai/Lessons/lesson5.html)
-- [https://numpy.org/doc/stable/user/basics.broadcasting.html](https://numpy.org/doc/stable/user/basics.broadcasting.html)
-- [https://tryapl.org/)](https://tryapl.org/)
+- [Course lesson page](https://course.fast.ai/Lessons/lesson5.html)
+- [Numpy broadcasting rules](https://numpy.org/doc/stable/user/basics.broadcasting.html)
+- [APL](https://tryapl.org/)

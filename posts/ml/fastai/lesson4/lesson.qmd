@@ -118,9 +118,9 @@ Otherwise, pick a small value and keep doubling it until it falls apart.
 
 ## References
 
-- [https://course.fast.ai/Lessons/lesson4.html](https://course.fast.ai/Lessons/lesson4.html)
-- [https://huggingface.co/docs/transformers/index](https://huggingface.co/docs/transformers/index)
-- [https://arxiv.org/abs/1311.2901](https://arxiv.org/abs/1311.2901)
-- [https://huggingface.co/models](https://huggingface.co/models)
-- [https://www.fast.ai/posts/2017-11-13-validation-sets.html](https://www.fast.ai/posts/2017-11-13-validation-sets.html)
-- [https://www.fast.ai/posts/2019-09-24-metrics.html](https://www.fast.ai/posts/2019-09-24-metrics.html)
+- [Course lesson page](https://course.fast.ai/Lessons/lesson4.html)
+- [HuggingFace Transformers](https://huggingface.co/docs/transformers/index)
+- [Visualizing and Understanding Convolutional Networks](https://arxiv.org/abs/1311.2901)
+- [HuggingFace models](https://huggingface.co/models)
+- [Validation sets](https://www.fast.ai/posts/2017-11-13-validation-sets.html)
+- [Model metrics](https://www.fast.ai/posts/2019-09-24-metrics.html)
