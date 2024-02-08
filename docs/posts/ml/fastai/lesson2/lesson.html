@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Gurpreet Johl">
+<meta name="dcterms.date" content="2023-08-30">
+<meta name="description" content="Practical Deep Learning for Coders: Lesson 2">
 
-<title>Gurpreet Johl - Series: FastAI course</title>
+<title>Gurpreet Johl - FastAI Lesson 2: Deployment</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,24 +26,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../">
+<script src="../../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -68,67 +69,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
 
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-reading-time','listing-description','listing-categories','listing-image',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../../../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -138,7 +81,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../../../index.html">
     <span class="navbar-title">Gurpreet Johl</span>
     </a>
   </div>
@@ -149,7 +92,7 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./blog.html"> 
+    <a class="nav-link" href="../../../../blog.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
 </ul>
@@ -179,120 +122,97 @@ window.Quarto = {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page">
-      <h1 class="title">Series: FastAI course</h1>
-                      </div>
+    <div class="quarto-title column-body">
+      <h1 class="title">FastAI Lesson 2: Deployment</h1>
+                  <div>
+        <div class="description">
+          Practical Deep Learning for Coders: Lesson 2
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">AI</div>
+                <div class="quarto-category">Engineering</div>
+                <div class="quarto-category">FastAI</div>
+              </div>
+                  </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page">
+  <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Gurpreet Johl </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">August 30, 2023</p>
+      </div>
+    </div>
     
       
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#fast-ai-part-i" id="toc-fast-ai-part-i" class="nav-link active" data-scroll-target="#fast-ai-part-i">Fast AI Part I</a>
+  <ul class="collapse">
+  <li><a href="#deployment" id="toc-deployment" class="nav-link" data-scroll-target="#deployment">2. Deployment</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block column-page" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
+<section id="fast-ai-part-i" class="level1">
+<h1>Fast AI Part I</h1>
+<p>Notes from Fast AI Practical Deep Learning for Coders Part 1.</p>
+<p>https://course.fast.ai/ https://github.com/fastai/fastbook/tree/master</p>
+<section id="deployment" class="level2">
+<h2 class="anchored" data-anchor-id="deployment">2. Deployment</h2>
+<blockquote class="blockquote">
+<p>Homework task:</p>
+<p>Deploy a model to Huggingface Spaces https://huggingface.co/spaces/GurpreetJohl/binary_image_classifier_vw_rr</p>
+<p>Deploy a model to a Github Pages website https://github.com/gjohl/vw_classifier</p>
+</blockquote>
+<p>It can be useful to train a model on the data BEFORE you clean it - Counterintuitive! - The confusion matrix output of the learner gives you a good intuition about which classifications are hard - <code>plot_top_losses</code> shows which examples were hardest for the model to classify. This can find (1) when the model is correct but not confident, and (2) when the model was confident but incorrect - <code>ImageClassifierCleaner</code> shows the examples in the training and validation set ordered by loss, so we can choose to keep, reclassify or remove them</p>
+<p>For image resizing, random resize crop can often be more effective. - Squishing can result in weird, unrealistic images - Padding or mirroing can add false information that the model will erroneously learn - Random crops give different sections of the image which acts as a form of data augmentation. - <code>aug_transforms</code> can be use for more sophisticated data augmentation like warping and recoloring images.</p>
+<p>A website for quizzes based on the book: www.aiquizzes.com</p>
+<p>Hugging face spaces hosts models with a choice of pre-canned interfaces (Gradio in the example in the lecture) to quickly deploy a model to the public. Streamlit is an alternative to Gradio that is more flexible. https://huggingface.co/spaces</p>
+<p><strong>Saving a model</strong> Once you are happy with the model you’ve trained, you can pickle the learner object and save it.</p>
+<pre><code>learn.export('model.pkl')</code></pre>
+<p>Then you can add the saved model to the hugging face space. To use the model to make predictions Any external functions you used to create the model will need to be instantiated too.</p>
+<pre><code>learn = load_learner('model.pkl')
+learn.predict(image)</code></pre>
+<p>Gradio requires a dict of classes as keys and probabilities (as floats not tensors) as the values. To go from the Gradio prototype to a production app, you can view the Gradio API from the huggingface space which will show you the API. The API exposes an endpoint which you can then hit from your own frontend app.</p>
+<p>Github pages is a free and simple way to host a public website. See this repo as an example of a minimal example html website which issues GET requests to the Gradio API https://github.com/fastai/tinypets</p>
+<p>To convert a notebook to a python script, you can add <code>#|export</code> to the top of any cells to include in the script, then use:</p>
+<pre><code>from nbdev.export import notebook2script
+notebook2script('name_of_output_file.py')</code></pre>
+<p>Use <code>#|default_exp app</code> in the first cell of the notebook to set the default name of the exported python file.</p>
+<p>How to choose the number of epochs to train for? Whenever it is “good enough” for your use case. If you need to train for longer, you may need to use data augmentation to prevent overfitting. Keep an eye on the validation error to check overfitting.</p>
 
 
+</section>
+</section>
 
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="AI,Engineering,FastAI" data-listing-date-sort="1693350000000" data-listing-file-modified-sort="1707390355269" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="451">
-<div class="thumbnail">
-<p><a href="./posts/ml/fastai/lesson2/lesson.html" class="no-external"></a></p><a href="./posts/ml/fastai/lesson2/lesson.html" class="no-external">
-<p><img src="./posts/ml/fastai/lesson2/fastai.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/ml/fastai/lesson2/lesson.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ml/fastai/lesson2/lesson.html" class="no-external">FastAI Lesson 2: Deployment</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ml/fastai/lesson2/lesson.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('FastAI'); return false;">
-FastAI
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/ml/fastai/lesson2/lesson.html" class="no-external">Practical Deep Learning for Coders: Lesson 2</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ml/fastai/lesson2/lesson.html" class="no-external">
-<div class="listing-date">
-Aug 30, 2023
-</div>
-<div class="listing-reading-time">
-3 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="AI,Engineering,FastAI" data-listing-date-sort="1693350000000" data-listing-file-modified-sort="1707392566938" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="514">
-<div class="thumbnail">
-<p><a href="./posts/ml/fastai/lesson1/lesson.html" class="no-external"></a></p><a href="./posts/ml/fastai/lesson1/lesson.html" class="no-external">
-<p><img src="./posts/ml/fastai/lesson1/deep_learning_model.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/ml/fastai/lesson1/lesson.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ml/fastai/lesson1/lesson.html" class="no-external">FastAI Lesson 1: Image Classification Models</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ml/fastai/lesson1/lesson.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('FastAI'); return false;">
-FastAI
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/ml/fastai/lesson1/lesson.html" class="no-external">Practical Deep Learning for Coders: Lesson 1</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ml/fastai/lesson1/lesson.html" class="no-external">
-<div class="listing-date">
-Aug 30, 2023
-</div>
-<div class="listing-reading-time">
-3 min
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div><a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

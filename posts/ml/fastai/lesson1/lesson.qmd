@@ -1,0 +1,84 @@
+---
+title: "FastAI Lesson 1: Image Classification Models"
+description: "Practical Deep Learning for Coders: Lesson 1"
+date: "2023-08-30"
+image: "deep_learning_model.png"
+categories: [AI, Engineering, FastAI]
+---
+
+# Introduction to image classification models
+These are notes from lesson 1 of Fast AI Practical Deep Learning for Coders.
+
+::: {.callout-tip title="Homework Task"}
+Train an image classifier: see [car classification notebook](https://github.com/gjohl/ml-practice/blob/master/ml-practice/notebooks/fastai/1_image_classifier.ipynb)
+:::
+
+## 1. Notes on Learning
+There is a companion course focusing on AI ethics [here](https://ethics.fast.ai/)
+
+Thoughts on education: play the whole game first to get an idea of the big picture. Don't become afflicted with "elementitis" getting too bogged down in details too early.
+
+- Coloured cups  - green, amber, red - for each student to indicate how well they are following
+- Meta Learning by Radek Osmulski - a book based on the author's experience of learning about deep learning (via the fastai course)
+- Mathematician's Lament by Paul Lockhart - a book about the state of mathematics education
+- Making Learning Whole by David Perkins - a book about apporaches to holistic learning
+
+[RISE](https://rise.readthedocs.io/en/latest/) is a jupyter notebook extension to turn notebooks into slides.
+Jeremy uses notebooks for: source code, book, blogging, CI/CD.
+
+## 2. Background on Deep Learning and Image Classification
+Before deep learning, the approach to machine learning was to enlist many domain experts to *handcraft* features
+and feed this into a constrained linear model (e.g. ridge regression).
+This is time-consuming, expensive and requires many domain experts.
+
+Neural networks *learn* these features. 
+Looking inside a CNN, for example, shows that these learned features match interpretable features that an expert might handcraft. An illustration of the features learned is given in [this paper by Zeiler and Fergus](https://arxiv.org/abs/1311.2901).
+
+For image classifiers, you don't need particularly large images as inputs.
+GPUs are so quick now that if you use large images, most of the time is spent on *opening the file* rather than computations.
+So often we resize images down to 400x400 pixels or smaller.
+
+For most use cases, there are pre-trained models and sensible default values that we can use.
+In practice, most of the time is spent on the input layer and output layer. For most models the middle layers are identical.
+
+
+## 3. Overview of the fastai learner
+Data blocks structure the input to learners.
+An overview of the `DataBlock` class:
+
+- `blocks` determines the input and output type as a tuple. For multi-target classification this tuple can be arbitrary length.
+- `get_items` is a function that returns a list of all the inputs.
+- `splitter` defines how to split the training/validation set.
+- `get_y` is a function that returns the label of a given input image.
+- `item_tfms` defines what transforms to apply to the inputs before training, e.g. resize.
+- `dataloaders` is a method that parallelises loading the data.
+
+A learner combines the model (e.g. resnet or something from [timm library](https://timm.fast.ai/)) and the data to run that model on (the dataloaders from the DataBlock).
+
+The `fine_tune` method starts with a pretrained model weights rather than randomised weights, and only needs to learn the differences between your data and the original model.
+
+Other image problems that can utilise deep learning:
+
+- Image classification
+- Image segmentation
+
+Other problem types use the same process, just with different DataBlock `blocks` types and the rest is the same.
+For example, tabular data, collaborative filtering.
+
+
+## 4. Deep Learning vs Traditional Computer Programs
+<!-- Flowcharts from https://miro.com/app/board/uXjVNv5WRsc=/ -->
+Traditional computer programs are essentially:
+
+![Traditional computer programs](traditional_program.png){.lightbox #fig-traditional_program}
+
+Deep learning models are:
+
+![Deep learning model](deep_learning_model.png){.lightbox #fig-deep_learning_model}
+
+
+## References
+
+- https://course.fast.ai/Lessons/lesson1.html
+- https://arxiv.org/abs/1311.2901
+- https://timm.fast.ai/

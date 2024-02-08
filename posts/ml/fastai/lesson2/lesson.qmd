@@ -1,9 +1,9 @@
 ---
-title: "Fast AI Notes"
-description: "Notes from Fast AI Practical Deep Learning for Coders Part 1"
+title: "FastAI Lesson 2: Deployment"
+description: "Practical Deep Learning for Coders: Lesson 2"
 date: "2023-08-30"
 image: "fastai.png"
-categories: [AI, Engineering]
+categories: [AI, Engineering, FastAI]
 ---
 
 # Fast AI Part I

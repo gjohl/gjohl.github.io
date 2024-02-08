@@ -14,5 +14,9 @@ title-block-banner: true
 ---
 
 # Series
-##### [fastai-series](fastai-series.html)
-This series contains notes from following the fastai "Practial Deep Learning for Coders" course.
+#### [fastai-series](fastai-series.qmd)
+This series contains notes from following the fastai "Practical Deep Learning for Coders" course.
+See the [course page](https://course.fast.ai/) and [book](https://github.com/fastai/fastbook/tree/master).
+
+
+# All Posts

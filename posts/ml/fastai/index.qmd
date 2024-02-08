@@ -4,6 +4,7 @@ description: "Notes from Fast AI Practical Deep Learning for Coders Part 1"
 date: "2023-08-30"
 image: "fastai.png"
 categories: [AI, Engineering]
+draft: true
 ---
 
 # Fast AI Part I
