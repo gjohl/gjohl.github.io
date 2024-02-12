@@ -7,9 +7,10 @@ categories: [AI, Engineering]
 
 
 # Machine Learning Notes
-These are assorted notes on topics from various courses and projects.
+These are notes taken primarily from the [Complete Tensorflow and Keras Udemy course](https://www.udemy.com/course/complete-tensorflow-2-and-keras-deep-learning-bootcamp)
 
 ## 1. End-end-process
+
 1. Data sourcing  - train_test_split
 2. Exploratory data analysis - plot distributions, correlations
 3. Data cleaning - drop redundant columns, handle missing data (drop or impute)
@@ -19,28 +20,30 @@ These are assorted notes on topics from various courses and projects.
 7. Predictions
 
 
-## 2. Models
-
-### 2.1. Machine learning categories
+## 2. Machine learning categories
 
 - Supervised learning
+  - Linear regression
   - SVM
-  - ...
+  - Naive Bayes
+  - KNN 
+  - Random forests
 - Unsupervised learning
   - Dimensionality reduction
   - Clustering
 - Reinforcement Learning
 
-For supervised learning:
+Supervised learning tasks can be broadly broken into:
+
 - Regression
 - Classification
   - Single class
   - Multi class
 
 
-### 2.2. Machine learning models
+## 3. Deep learning models
 
-#### 2.2.1 ANN (Artificial Neural Network)
+### 3.1 ANN (Artificial Neural Network)
 General idea of a neural network that can then be extended to specific cases, e.g. CNNs and RNNs.
 
 - Perceptron: a weighted average of inputs passed through some activation gate function to arrive at an output decision
@@ -51,28 +54,32 @@ General idea of a neural network that can then be extended to specific cases, e.
 - Dropout: a technique to avoid overfitting by randomly dropping neurons in each epoch.
 
 General structure:
+
 1. Input layer
 2. Hidden layer(s)
 3. Output layer
 
 Input and output layers are determined by the problem:
+
 - Input size: number of features in the data
 - Output size number of targets to predict, i.e. one for single class classification or single target regression, or multiple for multiclass (one per class)
 - Output layer activation determined by problem. For single class classification `activation='sigmoid'`, for multiclass classification `activation='softmax'`
 - Loss function determined by problem. For single class classification `loss='binary_crossentropy'`, for multiclass classification `loss='categorical_crossentropy'`
 
-Hidden layers are less well-defined. Some heuristics here: https://stats.stackexchange.com/questions/181/how-to-choose-the-number-of-hidden-layers-and-nodes-in-a-feedforward-neural-netw
+Hidden layers are less well-defined. Some heuristics [here](https://stats.stackexchange.com/questions/181/how-to-choose-the-number-of-hidden-layers-and-nodes-in-a-feedforward-neural-netw).
 
 
 Vanishing gradients can be an issue for lower layers in particular, where the partial gradients of individual layers can be very small, so when multiplied together in chain rule the gradient is vanishingly small.
 Exploding gradients are a similar issue but where gradients get increasingly large when multiplied together.
 Some techniques to rectify vanishing/exploding gradients:
+
 - Use different activation functions with larger gradients close to 0 and 1, e.g. leaky ReLU or ELU (exponential linear unit)
 - Batch normalisation: scale each gradient by the mean and standard deviation of the batch
 - Different weight initialisation methods, e.g. Xavier initialisation
 
 
 Example model outline
+
 ```python
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout
@@ -107,7 +114,7 @@ model.predict(new_input)  # The new input needs to be shaped and scaled the sane
 ```
 
 
-#### 2.2.2. CNN (Convolutional Neural Network)
+### 3.2. CNN (Convolutional Neural Network)
 These are used for image classification problems where convolutional filters are useful for extracting features from input arrays.
 
 - Image kernels/filters
@@ -117,6 +124,7 @@ These are used for image classification problems where convolutional filters are
 - Pooling layers
 
 General structure:
+
 1. Input layer
 2. Convolutional layer
 3. Pooling layer
@@ -127,6 +135,7 @@ General structure:
 
 
 Example model outline
+
 ```python
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, MaxPool2D, Flatten
@@ -158,7 +167,7 @@ model.fit(x_train,y_cat_train,epochs=10,validation_data=(x_test,y_cat_test),call
 model.predict(new_input)  # The new input needs to be shaped and scaled the sane as the training data
 ```
 
-#### 2.2.3. RNN (Recurrent Neural Network)
+### 3.3. RNN (Recurrent Neural Network)
 These are used for modelling sequences with variable lengths of inputs and outputs.
 
 Recurrent neurons take as their input the current data AND the previous epoch's output. 
@@ -167,7 +176,7 @@ We could try to pass EVERY previous epoch's output as an input, but would run in
 LSTMs take this idea a step further by incorporating the previous epochs input AND some longer lookback of epoch where some old outputs are "forgotten".
 
 A basic RNN:
-```
+```tex
 
             --------------------------------
             |                              |
@@ -186,7 +195,7 @@ H_t = tanh(W[H_t-1, X_t] + b)
 ```
 
 An LSTM (Long Short Term Memory) unit:
-```
+```tex
 
             --------------------------------
             |                              |
@@ -228,33 +237,37 @@ O_t is an intermediate output gate weight
 
 
 There are several variants of RNNs.
-*RNNs with peepholes*
+**RNNs with peepholes**
+
 This leaks long-term memory into the forget, input and output gates.
 Note that the forget gate and input gate each get the OLD long-term memory, whereas the output gate gets the NEW long-term memory.
-```
+
+```tex
 F_t = sigmoid(W_F[C_t-1, H_t-1, X_t] + b_F)
 I_t = sigmoid(W_I[C_t-1, H_t-1, X_t] + b_I)
 O_t = sigmoid(W_O[C_t, H_t-1, X_t] + b_O)
 ```
 
-*Gated Recurrent Unit (GRU)*
+**Gated Recurrent Unit (GRU)**
+
 This combines the forget and input gates into a single gate. It also has some other changes.
 This is simpler than a typical LSTM model as it has fewer parameters. This makes it more computationally efficient, and in practice they can have similar performance.
-```
+
+```tex
 z_t = sigmoid(W_z[H_t-1, X_t])
 r_t = sigmoid(W_r[H_t-1, X_t])
 H_candidate_t = tanh(W_H_candidate[r_t*h_t-1, x_t])
 H_t = (1 - z_t) * H_t-1 + z_t * H_candidate_t
 ```
 
-
 The sequences modelled with RNNs can be:
+
 - One-to-many
 - Many-to-many
 - Many-to-one
 
-
 Considerations for choosing the input sequence length:
+
 - It should be long enough to capture any patterns or seasonality in the data
 - The validation set and test set each need to have a size at least (input_length + output_length), so the longer the input length, the more data is required to be set aside.
 
@@ -263,6 +276,7 @@ The validation loss for RNNs/LSTMs can be volatile, so allow a higher patience w
 
 
 Example model
+
 ```python
 from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.preprocessing.sequence import TimeseriesGenerator
@@ -295,7 +309,7 @@ for test_val in scaled_test:
 ```
 
 
-#### 2.2.4 NLP
+### 3.4 Natural Language Processing (NLP)
 Character-based generative NLP: 
 given an input string, e.g. ['h', 'e', 'l', 'l'],
 predict the sequence shifted by one character, e.g. ['e', 'l', 'l', 'o']
@@ -304,6 +318,7 @@ The embedding, GRU and dense layers work on the sequence in the following way:
 ![NLP Layers](NLP_layers.png){.lightbox #fig-nlp-layers}
 
 Steps:
+
 1. Read in text data
 2. Text processing and vectorisation - one-hot encoding
 3. Create batches
@@ -312,6 +327,7 @@ Steps:
 6. Generate new text
 
 **Step 1: Read in text data**
+
 - A corpus of >1 million characters is a good size
 - The more distinct the style of your corpus, the more obvious it will be if your model has worked.
 
@@ -321,6 +337,7 @@ vocab_list = sorted(set(input_text))
 ```
 
 **Step 2: Text processing**
+
 Vectorise the text - create a mapping between character and integer. 
 This is the encoding dictionary used to vectorise the corpus.
  
@@ -334,11 +351,13 @@ encoded_text = np.array([char_to_ind[char] for char in input_text])
 
 
 **Step 3: Create batches**
+
 The sequence length should be long enough to capture structure, e.g. for poetry with rhyming couplets it should be 
 the number of characters in 3 lines to capture the rhyme and non-rhyme. 
 Too long a sequence makes the model take longer to train and captures too much historical noise.
 
 Create a shuffled dataset where:
+
 - input sequence is the first n characters
 - output sequence is n characters lagged by one
 
@@ -368,9 +387,11 @@ dataset = dataset.shuffle(buffer_size).batch(batch_size, drop_remainder=True)
 
 
 **Step 4: Create the model**
+
 Set up the loss function and layers.
 
 This model uses 3 layers:
+
    1. Embedding
       - Embed positive integers, e.g. "a"<->1, as dense vectors of fixed size. This embedding size is a hyperparameter for the user to decide.
       - Number of layers should be smaller but a similar scale to the vocab size; typically use the power of 2 
@@ -385,12 +406,12 @@ This model uses 3 layers:
 
 
 Loss function: 
+
 - Sparse categorical cross-entropy 
 - Use *sparse* categorical cross-entropy because the classes are mutually exclusive. 
   Use regular categorical cross-entropy when one smaple can have multiple classes, or the labels are soft probabilities.
 - See link in NLP appendix for discussion.
 - Use logits=True because vocab input is one hot encoded.
-
 
 
 ```python
@@ -414,12 +435,14 @@ model.compile(optimizer='adam', loss=sparse_cat_loss)
 
 
 **Step 5: Train the model**
+
 ```python
 epochs = 30
 model.fit(dataset,epochs=epochs)
 ```
 
 **Step 6: Generate text**
+
 Allow the model to accept a batch size of 1 to allow us to give an input seed text from which to generate text from.
 
 We format the seed text so it can be fed into the network, 
@@ -452,12 +475,13 @@ def generate_text(model, input_seed_text, gen_size=100, temperature=1.0):
 ```
 
 
-#### 2.2.5 AutoEncoders
+### 3.5 AutoEncoders
 This is an unsupervised learning problem, therefore evaluation metrics are different.
 Sometimes called semi-supervised as labels may be used in training the model,
 but not available when it's used to predict new values.
 
 Applications:
+
 - Dimensionality reduction
 - Noise removal
 
@@ -473,6 +497,7 @@ Stacked autoencoders include multiple hidden layers.
 
 
 **Autoencoder for dimensionality reduction**
+
 Let's try to reduce an input dataset from 3 dimensions to 2.
 We want to train an autoencoder to go from 3 -> 2 -> 3.
 
@@ -508,6 +533,7 @@ encoded_2dim = encoder.predict(scaled_data)
 ```
 
 **Autoencoder for noise removal**
+
 Starting with clean images, we want to train an autoencoder to learn to remove noise.
 We create a noisy dataset by adding noise to our clean images. 
 We then try to reconstruct that input, and compare to the original clean images as the ground truth.
@@ -544,26 +570,28 @@ autoencoder.fit(X_train, X_train, epochs=5)
 ```
 
 
-#### 2.2.6 Generative Adversarial Networks (GANs)
+### 3.6 Generative Adversarial Networks (GANs)
 Use 2 networks competing against each other to generate data - counterfeiter (generator) vs detective (discriminator).
+
 - Generator: recieves random noise
 - Discriminator: receives data set containing real data and fake generated data, and attempts to calssify real vs fake (binary classificaiton).
 
-
 Two training phases, each only training one of the networks:
+
 1. Train discriminator - real images (labeled 1) and generated images (labeled 0) are fed to the discriminator network.
 2. Train generator - only feed generated images to discriminator, ALL labeled 1.
 
 The generator never sees real images, it creates images based only off of the gradients flowing back from the discriminator.
 
-
 Difficulties with GANs:
+
 1. Training resources - GPUs generally required
 2. Mode collapse - generator learns an image that fools the discriminator, then only produces this image. Deep convolutional GANs and mini-batch discrimination are two solution to this problem.
 3. Instability - True performance is hard to measure; just because the discriminator was fooled, it doesn't mean that the generated image was actually realistic.
 
 
 **Creating the model**
+
 We create the generator and discriminator as separate models, then join them into a GAN object. 
 This is analogous to how we joined an encoder and decoder into an autoencoder.
 
@@ -613,6 +641,7 @@ generator.add(Reshape([28,28]))
 The GAN combines the generator and discriminator.
 
 The discriminator is only trained in the first phase, not the second phase.
+
 ```python
 GAN = Sequential([generator, discriminator])
 discriminator.trainable = False
@@ -621,6 +650,7 @@ GAN.compile(loss="binary_crossentropy", optimizer="adam")
 
 
 **Training the model**
+
 We first create batches of images from our input data, similarly to previous models.
 
 ```python
@@ -659,11 +689,13 @@ for epoch in range(epochs):
 
 
 **Deep convolutional GANs**
+
 These are GANs which use convolutional layers inside the discriminator and generator models.
 
 The models are almost identical to the models above, just with additional Conv2D, Conv2DTranspose and BatchNormalization layers. 
 
 Changes compared to regular GANs:
+
 - Additional convolutional layers in model. 
 - Reshape the training set to match the images.
 - Rescale the training data to be between -1 and 1 so that tanh activation function works.
@@ -671,30 +703,29 @@ Changes compared to regular GANs:
 
 
 ## A. Appendix
-### A.1. Useful resources
-Neural networks:
-- Intuition behind neural networks http://neuralnetworksanddeeplearning.com/
-- The deep learning bible (with lectures) https://www.deeplearningbook.org/
-- Udemy course: https://www.udemy.com/course/complete-tensorflow-2-and-keras-deep-learning-bootcamp
-- Heuristics for choosing hidden layers https://stats.stackexchange.com/questions/181/how-to-choose-the-number-of-hidden-layers-and-nodes-in-a-feedforward-neural-netw
-- Alternatives to the deprecated model predict for different classification problems https://stackoverflow.com/questions/68776790/model-predict-classes-is-deprecated-what-to-use-instead
-- MIT course https://openlearninglibrary.mit.edu/courses/course-v1:MITx+6.036+1T2019/course/
+### A.1. Neural networks
+- [Complete Tensorflow and Keras Udemy course](https://www.udemy.com/course/complete-tensorflow-2-and-keras-deep-learning-bootcamp)
+- [Intuition behind neural networks](http://neuralnetworksanddeeplearning.com/)
+- [The deep learning bible (with lectures)](https://www.deeplearningbook.org/)
+- [Heuristics for choosing hidden layers](https://stats.stackexchange.com/questions/181/how-to-choose-the-number-of-hidden-layers-and-nodes-in-a-feedforward-neural-netw)
+- [Alternatives to the deprecated model predict for different classification problems](https://stackoverflow.com/questions/68776790/model-predict-classes-is-deprecated-what-to-use-instead)
+- [MIT course](https://openlearninglibrary.mit.edu/courses/course-v1:MITx+6.036+1T2019/course/)
 
-CNNs:
-- Image kernels explained https://setosa.io/ev/image-kernels/
-- Choosing CNN layers https://stats.stackexchange.com/questions/148139/rules-for-selecting-convolutional-neural-network-hyperparameters
+### A.2. CNNs
+- [Image kernels explained](https://setosa.io/ev/image-kernels/)
+- [Choosing CNN layers](https://stats.stackexchange.com/questions/148139/rules-for-selecting-convolutional-neural-network-hyperparameters)
 
-RNNs:
-- Overview of RNNs http://karpathy.github.io/2015/05/21/rnn-effectiveness/
-- Wikipedia page contains the equations of LSTMs and peepholes https://en.wikipedia.org/wiki/Long_short-term_memory
-- LSTMs vs GRUs https://datascience.stackexchange.com/questions/14581/when-to-use-gru-over-lstm 
-- Worked example of LSTM http://blog.echen.me/2017/05/30/exploring-lstms/
-- RNN cheatsheet https://stanford.edu/~shervine/teaching/cs-230/cheatsheet-recurrent-neural-networks
+### A.3. RNNs
+- [Overview of RNNs](http://karpathy.github.io/2015/05/21/rnn-effectiveness/)
+- [Wikipedia page contains the equations of LSTMs and peepholes](https://en.wikipedia.org/wiki/Long_short-term_memory)
+- [LSTMs vs GRUs](https://datascience.stackexchange.com/questions/14581/when-to-use-gru-over-lstm)
+- [Worked example of LSTM](http://blog.echen.me/2017/05/30/exploring-lstms/)
+- [RNN cheatsheet](https://stanford.edu/~shervine/teaching/cs-230/cheatsheet-recurrent-neural-networks)
 
-NLP:
-- The unreasonable effectiveness of RNNs, essay on RNNs applied to NLP http://karpathy.github.io/2015/05/21/rnn-effectiveness/
-- Sparse vs dense categorical crossentropy loss function https://datascience.stackexchange.com/questions/41921/sparse-categorical-crossentropy-vs-categorical-crossentropy-keras-accuracy
+### A.4.NLP
+- [The unreasonable effectiveness of RNNs - essay on RNNs applied to NLP](http://karpathy.github.io/2015/05/21/rnn-effectiveness/)
+- [Sparse vs dense categorical crossentropy loss function](https://datascience.stackexchange.com/questions/41921/sparse-categorical-crossentropy-vs-categorical-crossentropy-keras-accuracy)
 
-GANs:
-- buffer_size argument in tensorflow prefetch and shuffle https://stackoverflow.com/questions/46444018/meaning-of-buffer-size-in-dataset-map-dataset-prefetch-and-dataset-shuffle
-- Mode collapse https://www.quora.com/What-does-it-mean-if-all-produced-images-of-a-GAN-look-the-same
+### A.5. GANs
+- [buffer_size argument in tensorflow prefetch and shuffle](https://stackoverflow.com/questions/46444018/meaning-of-buffer-size-in-dataset-map-dataset-prefetch-and-dataset-shuffle)
+- [Mode collapse](https://www.quora.com/What-does-it-mean-if-all-produced-images-of-a-GAN-look-the-same)
