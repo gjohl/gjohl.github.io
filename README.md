@@ -1,5 +1,7 @@
 # Source code for personal website
 
+To preview local changes, run `quarto preview` in the root directory of this project.
+
 To publish, run `quarto render` then push changes to master.
 
 See: 

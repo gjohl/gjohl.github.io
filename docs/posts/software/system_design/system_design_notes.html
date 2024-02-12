@@ -23,6 +23,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -222,69 +256,195 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="system-design" class="level1">
 <h1>System Design</h1>
-<p>Steps: 1. Requirements engineering 2. Capacity estimation 3. Data modeling 4. API design 5. System design 6. Design discussion</p>
+<p>Steps:</p>
+<ol type="1">
+<li>Requirements engineering</li>
+<li>Capacity estimation</li>
+<li>Data modeling</li>
+<li>API design</li>
+<li>System design</li>
+<li>Design discussion</li>
+</ol>
 <section id="requirements-engineering" class="level2">
 <h2 class="anchored" data-anchor-id="requirements-engineering">1. Requirements engineering</h2>
 <p>Functional and non-functional requirements. Scale of the system.</p>
 <section id="functional-requirements" class="level3">
 <h3 class="anchored" data-anchor-id="functional-requirements">1.1. Functional requirements</h3>
-<p>What the system should do. - Which problem does the system solve - Which features are essential to solve these problems</p>
+<p>What the system should <strong>do</strong>.</p>
+<ul>
+<li>Which problem does the system solve</li>
+<li>Which features are essential to solve these problems</li>
+</ul>
 <p>Core features: bare minimum required to solve the user’s problem. Support features: features that help the user solve their problem more conveniently.</p>
 </section>
 <section id="non-functional-requirements" class="level3">
 <h3 class="anchored" data-anchor-id="non-functional-requirements">1.2. Non-functional requirements</h3>
-<p>What the system should handle.</p>
-<blockquote class="blockquote">
-<p><strong>Interview tips</strong> - Identify the non-functional requirements the interviewer cares most about - Show awareness of system attributes, trade-offs and user experience</p>
-</blockquote>
-<p>System analysis: - Read or write heavy? - Impacts requirements for database scaling, redundancy of services, effectiveness of caching. - System priorities - is it worse if the system fails to read or to write? - Monolithic or distributed architecture? - Scale is the key consideration. Large scale applications must be distributed, smaller scale can be single server. - Data availability vs consistency - CAP trilemma - A system can have only two of: Consistency, Availability, Partition tolerance - Choice determines the impact of a network failure</p>
-<p>Non-functional requirements: - Availability - How long is the system up and running per year? - Availability of a system is the <strong>product</strong> of its components’ availability - Reliability, redundancy, fault tolerance - Consistency - Data appears the same on all nodes regardless of the user and location. - Linearizability - Scalability - Ability of a system to handle fast-growing user base and temporary load spikes - Vertical scaling - single server that we add more CPU/RAM to - Pros: fast inter-process communication, data consistency - Cons: single point of failure, hardware limits on maximum scale - Horizontal scaling - cluster of servers in parallel - Pros: redundancy improves availability, linear cost of scaling - Cons: complex architecture, data inconsistency - Latency - Amount of time taken for a single message to be delivered - Experienced latency = network latency + system latency - Database and data model choices affect latency - Caching can be effective - Compatibility - Ability of a system to operate seamlessly with other software, hardware and systems - Security - Basic security measures: TLS encrypted network traffic, API keys for rate limiting</p>
-<p>Non-functional requirements depend heavily on expected scale. The following help quantify expected scale, and relate to capacity estimation in the next step. - Daily active users (DAU) - Peak active users - Interactions per user - including read/write ratio - Request size - Replication factor - determines the storage requirement (typically 3x)</p>
+<p>What the system should <strong>handle</strong>.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interview Tips">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interview Tips
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Identify the non-functional requirements the interviewer cares most about</li>
+<li>Show awareness of system attributes, trade-offs and user experience</li>
+</ul>
+</div>
+</div>
+<p>System analysis:</p>
+<ul>
+<li>Read or write heavy?
+<ul>
+<li>Impacts requirements for database scaling, redundancy of services, effectiveness of caching.</li>
+<li>System priorities - is it worse if the system fails to read or to write?</li>
+</ul></li>
+<li>Monolithic or distributed architecture?
+<ul>
+<li>Scale is the key consideration. Large scale applications must be distributed, smaller scale can be single server.</li>
+</ul></li>
+<li>Data availability vs consistency
+<ul>
+<li>CAP trilemma - A system can have only two of: Consistency, Availability, Partition tolerance</li>
+<li>Choice determines the impact of a network failure</li>
+</ul></li>
+</ul>
+<p>Non-functional requirements:</p>
+<ul>
+<li>Availability - How long is the system up and running per year?
+<ul>
+<li>Availability of a system is the <strong>product</strong> of its components’ availability</li>
+<li>Reliability, redundancy, fault tolerance</li>
+</ul></li>
+<li>Consistency - Data appears the same on all nodes regardless of the user and location.
+<ul>
+<li>Linearizability</li>
+</ul></li>
+<li>Scalability - Ability of a system to handle fast-growing user base and temporary load spikes
+<ul>
+<li>Vertical scaling - single server that we add more CPU/RAM to
+<ul>
+<li>Pros: fast inter-process communication, data consistency</li>
+<li>Cons: single point of failure, hardware limits on maximum scale</li>
+</ul></li>
+<li>Horizontal scaling - cluster of servers in parallel
+<ul>
+<li>Pros: redundancy improves availability, linear cost of scaling</li>
+<li>Cons: complex architecture, data inconsistency</li>
+</ul></li>
+</ul></li>
+<li>Latency - Amount of time taken for a single message to be delivered
+<ul>
+<li>Experienced latency = network latency + system latency</li>
+<li>Database and data model choices affect latency</li>
+<li>Caching can be effective</li>
+</ul></li>
+<li>Compatibility - Ability of a system to operate seamlessly with other software, hardware and systems</li>
+<li>Security
+<ul>
+<li>Basic security measures: TLS encrypted network traffic, API keys for rate limiting</li>
+</ul></li>
+</ul>
+<p>Non-functional requirements depend heavily on expected scale. The following help quantify expected scale, and relate to capacity estimation in the next step.</p>
+<ul>
+<li>Daily active users (DAU)</li>
+<li>Peak active users</li>
+<li>Interactions per user - including read/write ratio</li>
+<li>Request size</li>
+<li>Replication factor - determines the storage requirement (typically 3x)</li>
+</ul>
 </section>
 </section>
 <section id="capacity-estimation" class="level2">
 <h2 class="anchored" data-anchor-id="capacity-estimation">2. Capacity Estimation</h2>
-<blockquote class="blockquote">
-<p><strong>Interview tips</strong> - Simplify wherever you can - simple assumptions and round heavily - Convert all numbers to scientific notation - Know powers of 2</p>
-</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interview Tips">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interview Tips
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Simplify wherever you can - simple assumptions and round heavily</li>
+<li>Convert all numbers to scientific notation</li>
+<li>Know powers of 2</li>
+</ul>
+</div>
+</div>
 <section id="throughput" class="level3">
 <h3 class="anchored" data-anchor-id="throughput">2.1. Throughput</h3>
 <p>Requests per second (RPS) is the key measure.</p>
-<pre><code>Requests per day = Daily active users * Activities per user
-Requests per second = RPD / 10^5
-Peak load = RPS * Peak load factor</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode tex code-with-copy"><code class="sourceCode latex"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Requests per day = Daily active users * Activities per user</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>Requests per second = RPD / 10^5</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>Peak load = RPS * Peak load factor</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Read/write ratio is important to get the total requests. Usually, information on either reads or writes is missing and must be inferred using the other.</p>
-<pre><code>Total RPS = Read RPS + Write RPS</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode tex code-with-copy"><code class="sourceCode latex"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Total RPS = Read RPS + Write RPS</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="bandwidth" class="level3">
 <h3 class="anchored" data-anchor-id="bandwidth">2.2. Bandwidth</h3>
 <p>The amount of data that can be transmitted between two nodes in a fixed period of time. Bits per second.</p>
-<p>Throughput, bandwidth and latency are all related and can be thought of with the motorway analogy. - Throughput is the total number of vehicles that must pass through that road per day. - Bandwidth is the number of lanes. - Latency is the time taken to get from one end of the road to another.</p>
+<p>Throughput, bandwidth and latency are all related and can be thought of with the motorway analogy.</p>
+<ul>
+<li>Throughput is the total number of vehicles that must pass through that road per day.</li>
+<li>Bandwidth is the number of lanes.</li>
+<li>Latency is the time taken to get from one end of the road to another.</li>
+</ul>
 <p>The bandwidth must be large enough to support the required throughput.</p>
-<pre><code>Bandwidth = Total RPS * Request size</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode tex code-with-copy"><code class="sourceCode latex"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Bandwidth = Total RPS * Request size</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Even high bandwidth can result in low latency if there is an unexpectedly high peak throughput. Rush hour traffic jam.</p>
 <p>Request size can be varied according to bandwidth, e.g.&nbsp;YouTube lowers the resolution if the connection is slow.</p>
 </section>
 <section id="storage" class="level3">
 <h3 class="anchored" data-anchor-id="storage">2.3. Storage</h3>
 <p>Measured in bits per second using the Write RPS. Long term storage (assuming the same user base) is also helpful.</p>
-<pre><code>Storage capacity per second = Write RPS * Request size * Replication factor
-Storage capacity in 5 years = Storage capacity per second * 2*10^8 </code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode tex code-with-copy"><code class="sourceCode latex"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Storage capacity per second = Write RPS * Request size * Replication factor</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Storage capacity in 5 years = Storage capacity per second * 2*10^8 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="data-modeling" class="level2">
 <h2 class="anchored" data-anchor-id="data-modeling">3. Data modeling</h2>
 <p>Key concepts are: entities, attributes, relations.</p>
-<p>Optimisation discussions are anchored by the data model. Relational databases: denormalization, SQL tuning, sharding, federation Non-relational databases: indexing, caching</p>
+<p>Optimisation discussions are anchored by the data model.</p>
+<p>Relational databases: denormalization, SQL tuning, sharding, federation</p>
+<p>Non-relational databases: indexing, caching</p>
 <p>The data model is not a full-blown data schema (which only applies to relational databases) but a more informal, high-level version.</p>
-<p>Must haves: 1. Derive entities and attributes. 2. Draw connections between entities. Then: 3. Select a database based on the requirements 4. Extend data model to a proper data schema 5. Identify bottlenecks and apply quick fixes Later: 6. Defer any detailed discussions to the design discussion section.</p>
+<p>Must haves:</p>
+<ol type="1">
+<li>Derive entities and attributes.</li>
+<li>Draw connections between entities. Then:</li>
+<li>Select a database based on the requirements</li>
+<li>Extend data model to a proper data schema</li>
+<li>Identify bottlenecks and apply quick fixes Later:</li>
+<li>Defer any detailed discussions to the design discussion section.</li>
+</ol>
 <section id="entities-and-attributes" class="level3">
 <h3 class="anchored" data-anchor-id="entities-and-attributes">3.1. Entities and attributes</h3>
 <p>Entities are “things” with a distinct and independent existence, e.g.&nbsp;users, files, tweets, posts, channels. Create a unique table for each entity.</p>
 <p>Attributes describe properties of an entity, e.g.&nbsp;a user’s name, date of birth. These are the fields in the table of that entity.</p>
-<blockquote class="blockquote">
-<p><strong>Interview tips</strong> - Do not focus on irrelevant details - Do not miss any critical functionality - Double check all tables after you extract all info from requirements</p>
-</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interview Tips">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interview Tips
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Do not focus on irrelevant details</li>
+<li>Do not miss any critical functionality</li>
+<li>Double check all tables after you extract all info from requirements</li>
+</ul>
+</div>
+</div>
 </section>
 <section id="relations" class="level3">
 <h3 class="anchored" data-anchor-id="relations">3.2. Relations</h3>
@@ -293,29 +453,106 @@ Storage capacity in 5 years = Storage capacity per second * 2*10^8 </code></pre>
 </section>
 <section id="api-design" class="level2">
 <h2 class="anchored" data-anchor-id="api-design">4. API design</h2>
-<p>Specify the API endpoints with: - Function signature - Parameters - Response and status codes</p>
+<p>Specify the API endpoints with:</p>
+<ul>
+<li>Function signature</li>
+<li>Parameters</li>
+<li>Response and status codes</li>
+</ul>
 <p>This specifies a binding contract between the client and the application server. There can be APIs between every system component, but just focus on the client/server interface.</p>
-<p>Process: 1. Revisit the functional requirements 2. Derive the goal of each endpoint 3. Derive the signature from the goal and the inputs from the data model 4. Define the response outputs</p>
+<p>Process:</p>
+<ol type="1">
+<li>Revisit the functional requirements</li>
+<li>Derive the goal of each endpoint</li>
+<li>Derive the signature from the goal and the inputs from the data model</li>
+<li>Define the response outputs</li>
+</ol>
 <p>Naming conventions. Use HTTP request types in the call signature where appropriate: GET, POST, PUT, PATCH, DELETE</p>
-<blockquote class="blockquote">
-<p><strong>Interview tips</strong> - Avoid vague inputs - Don’t add extra parameters that are out of scope - Avoid redundant parameters - Don’t miss any parameters - Confirm the output repsonse satisfies the requirements - Identify inefficiencies of the data structure</p>
-</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interview Tips">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interview Tips
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Avoid vague inputs</li>
+<li>Don’t add extra parameters that are out of scope</li>
+<li>Avoid redundant parameters</li>
+<li>Don’t miss any parameters</li>
+<li>Confirm the output repsonse satisfies the requirements</li>
+<li>Identify inefficiencies of the data structure</li>
+</ul>
+</div>
+</div>
 </section>
 <section id="system-design-1" class="level2">
 <h2 class="anchored" data-anchor-id="system-design-1">5. System design</h2>
-<p>System components: - Representation layer - Web app - Mobile app - Console - Service (and load balancer) - Data store - Relational database - Pros: linked tables reduce duplicate data; flexible queries - Key-value store - Useful for lots of small continuous reads and writes - Pros: Fast access, lightweight, highly scalable - Cons: Cannot query by value, no standard query language so data access in written in the application layer no data normalisation</p>
-<p>Scaling: - Scale services by having multiple instances of the service with a load balancer in front - Scale database with federation (functional partitioning) - split up data by function</p>
-<p>System diagrams: arrows point in direction of user flow (not data flow)</p>
+<p>System components:</p>
+<ul>
+<li>Representation layer
+<ul>
+<li>Web app</li>
+<li>Mobile app</li>
+<li>Console</li>
+</ul></li>
+<li>Service (and load balancer)</li>
+<li>Data store
+<ul>
+<li>Relational database
+<ul>
+<li>Pros: linked tables reduce duplicate data; flexible queries</li>
+</ul></li>
+<li>Key-value store
+<ul>
+<li>Useful for lots of small continuous reads and writes</li>
+<li>Pros: Fast access, lightweight, highly scalable</li>
+<li>Cons: Cannot query by value, no standard query language so data access in written in the application layer no data normalisation</li>
+</ul></li>
+</ul></li>
+</ul>
+<p>Scaling:</p>
+<ul>
+<li>Scale services by having multiple instances of the service with a load balancer in front</li>
+<li>Scale database with federation (functional partitioning) - split up data by function</li>
+</ul>
+<p>System diagrams: arrows point in direction of <strong>user flow</strong> (not data flow)</p>
 </section>
 <section id="design-discussion" class="level2">
 <h2 class="anchored" data-anchor-id="design-discussion">6. Design discussion</h2>
-<p>Types of questions: - NFR questions - How to achieve scalability - Identify each bottleneck and remedy it - How to improve resiliency - Justification question - Choice of components, e.g.&nbsp;what would change if you changed block storage for object storage or relational database - Additional components, e.g.&nbsp;is there a use case for a message queue and where - Extension questions - Additional functional requirements not in the original scope</p>
+<p>Types of questions:</p>
+<ul>
+<li>NFR questions
+<ul>
+<li>How to achieve scalability
+<ul>
+<li>Identify each bottleneck and remedy it</li>
+</ul></li>
+<li>How to improve resiliency</li>
+</ul></li>
+<li>Justification question
+<ul>
+<li>Choice of components, e.g.&nbsp;what would change if you changed block storage for object storage or relational database</li>
+<li>Additional components, e.g.&nbsp;is there a use case for a message queue and where</li>
+</ul></li>
+<li>Extension questions
+<ul>
+<li>Additional functional requirements not in the original scope</li>
+</ul></li>
+</ul>
 </section>
 <section id="system-components-deep-dive" class="level2">
 <h2 class="anchored" data-anchor-id="system-components-deep-dive">7. System components deep-dive</h2>
 <section id="encoding" class="level3">
 <h3 class="anchored" data-anchor-id="encoding">7.1. Encoding</h3>
-<p>There are two parameters we can vary: 1. Length of the key - should be limited so the URL is short enough 2. Range of allowed characters - should be URL-safe</p>
+<p>There are two parameters we can vary:</p>
+<ol type="1">
+<li>Length of the key - should be limited so the URL is short enough</li>
+<li>Range of allowed characters - should be URL-safe</li>
+</ol>
 <p>Using Base-64 encoding as the character range, then a 6-digit key length gives enough unique URLs; 64^6 = 68 billion</p>
 <p>Encoding options: 1. MD5 hash: not collision resistant and too long 2. Encoded counter, each URL is just an index int, and its value is the base-64 encoding of that int: length is not fixed and increases over time 3. Key range, generate all unique keys beforehand: no collisions, but storage intensive 4. Key range modified, generate 5-digit keys beforehand, then add the 6th digit on the fly.</p>
 </section>
@@ -324,27 +561,87 @@ Storage capacity in 5 years = Storage capacity per second * 2*10^8 </code></pre>
 <section id="relational-databases" class="level4">
 <h4 class="anchored" data-anchor-id="relational-databases">Relational databases</h4>
 <p>4 main operations (CRUD): Create, Read, Update, Delete.</p>
-<p>Transactions - group several operations together - Either the entire transaction succeeds or it fails and rolls back to the initial state. Commit or abort on error. - Without transactions, if an individual operation fails, it can be complex to unwind the related transactions to return to the initial state. - Error handling is simpler as manual rollback of operations is not required. - Transactions provide guarantees so we can reason about the database state before and after the transaction.</p>
-<p>Transactions enforce “ACID” guarantees: - Atomicity - Transactions cannot be broken down into smaller parts. - Consistency - All data points within the database must align to be properly read and accepted. Raise a consistency error if this is not the case. Database consistency is different from system consistency which states the data should be the same across all nodes. - Isolation - Concurrently executing transactions are isolated from each other. Avoids race conditions if multiple clients are accessing the same database record. - Durability - Once a transaction is committed to the database, it is permanently preserved. Backups and transaction logs can restore committed transactions in the case of a failure.</p>
-<p>Relational databases are a good fit when: - Data is well-structured - Use case requires complex querying - Data consistency is important</p>
-<p>Limitations - Horizontal scaling is complex - Distributed databases are more complex to keep transaction guarantees - Two phase commit protocol (2PC): 1. Prepare - Ask each node if it;s able to promise to carry out the transaction 2. Commit - Block the nodes and do the commit - Blocking causes problems on distributed systems where it may cause unexpected consequences if the database is unavailable for this short time.</p>
+<p>Transactions - group several operations together</p>
+<ul>
+<li>Either the entire transaction succeeds or it fails and rolls back to the initial state. Commit or abort on error.</li>
+<li>Without transactions, if an individual operation fails, it can be complex to unwind the related transactions to return to the initial state.</li>
+<li>Error handling is simpler as manual rollback of operations is not required.</li>
+<li>Transactions provide guarantees so we can reason about the database state before and after the transaction.</li>
+</ul>
+<p>Transactions enforce “ACID” guarantees:</p>
+<ul>
+<li>Atomicity - Transactions cannot be broken down into smaller parts.</li>
+<li>Consistency - All data points within the database must align to be properly read and accepted. Raise a consistency error if this is not the case. Database consistency is different from system consistency which states the data should be the same across all nodes.</li>
+<li>Isolation - Concurrently executing transactions are isolated from each other. Avoids race conditions if multiple clients are accessing the same database record.</li>
+<li>Durability - Once a transaction is committed to the database, it is permanently preserved. Backups and transaction logs can restore committed transactions in the case of a failure.</li>
+</ul>
+<p>Relational databases are a good fit when:</p>
+<ul>
+<li>Data is well-structured</li>
+<li>Use case requires complex querying</li>
+<li>Data consistency is important</li>
+</ul>
+<p>Limitations of relational databases:</p>
+<ul>
+<li>Horizontal scaling is complex</li>
+<li>Distributed databases are more complex to keep transaction guarantees
+<ul>
+<li>Two phase commit protocol (2PC):
+<ol type="1">
+<li>Prepare - Ask each node if it;s able to promise to carry out the transaction</li>
+<li>Commit - Block the nodes and do the commit</li>
+</ol></li>
+<li>Blocking causes problems on distributed systems where it may cause unexpected consequences if the database is unavailable for this short time.</li>
+</ul></li>
+</ul>
 </section>
 <section id="non-relational-databases" class="level4">
 <h4 class="anchored" data-anchor-id="non-relational-databases">Non-relational databases</h4>
-<p>Examples of non-relational databases: - Key-value store - Document store - Wide-column store - Graph store</p>
+<p>Examples of non-relational databases:</p>
+<ul>
+<li>Key-value store</li>
+<li>Document store</li>
+<li>Wide-column store</li>
+<li>Graph store</li>
+</ul>
 <p>These vary a lot, and in general NoSQL simply means “no ACID guarantees”.</p>
 <p>Transactions were seen as the enemy of scalability, so needed to be abandoned completely for performance and scalability. ACID enforces consistency for relational databases; for non-relational databases there is eventual consistency.</p>
-<p>BASE: - Basically Available - Always possible to read and write data even though it may not be consistent. E.g. reads may not reflect latest changes, writes may not be persisted. - Soft state - Lack of consistency guarantees mean data state may change without any interactions with the application as the database reaches eventual consistency. - Eventual consistency - Data will eventually become consistent once inputs stops.</p>
-<p>Benefits: - Without atomicity constraint, overheads like 2PC are not required - Without consistency constraint, horizontal scaling is trivial - Without isolation constraint, no blocking is required which improves availability.</p>
-<p>Non-relational databases are a good fit when: - Large data volume that isn’t tabular - High availability requirement - Lack of consistency across nodes is acceptable</p>
-<p>Limitations: - Consistency is necessary for some use cases - Lack of standardisation</p>
+<p>BASE:</p>
+<ul>
+<li>Basically Available - Always possible to read and write data even though it may not be consistent. E.g. reads may not reflect latest changes, writes may not be persisted.</li>
+<li>Soft state - Lack of consistency guarantees mean data state may change without any interactions with the application as the database reaches eventual consistency.</li>
+<li>Eventual consistency - Data will eventually become consistent once inputs stops.</li>
+</ul>
+<p>Benefits:</p>
+<ul>
+<li>Without atomicity constraint, overheads like 2PC are not required</li>
+<li>Without consistency constraint, horizontal scaling is trivial</li>
+<li>Without isolation constraint, no blocking is required which improves availability.</li>
+</ul>
+<p>Non-relational databases are a good fit when:</p>
+<ul>
+<li>Large data volume that isn’t tabular</li>
+<li>High availability requirement</li>
+<li>Lack of consistency across nodes is acceptable</li>
+</ul>
+<p>Limitations:</p>
+<ul>
+<li>Consistency is necessary for some use cases</li>
+<li>Lack of standardisation</li>
+</ul>
 </section>
 </section>
 <section id="file-synchronisation" class="level3">
 <h3 class="anchored" data-anchor-id="file-synchronisation">7.3. File synchronisation</h3>
 <p>Problem: if we have large files with small changes, we don’t want to have to re-upload and re-download the whole file every time something changes.</p>
 <p>Solution: identify the changes and only push/pull these. Similar to git.</p>
-<p>The rsync algorithm makes it easier to compare changes by: 1. Split the file into blocks 2. Calculate a checksum for each block (using MD5 hashing algorithm) 3. To compare files between the client and the server, we only need to send the hashes back and forth 4. For the mismatching hashes, transfer the corresponding blocks</p>
+<p>The rsync algorithm makes it easier to compare changes by:</p>
+<ol type="1">
+<li>Split the file into blocks</li>
+<li>Calculate a checksum for each block (using MD5 hashing algorithm)</li>
+<li>To compare files between the client and the server, we only need to send the hashes back and forth</li>
+<li>For the mismatching hashes, transfer the corresponding blocks</li>
+</ol>
 </section>
 <section id="notifications" class="level3">
 <h3 class="anchored" data-anchor-id="notifications">7.4. Notifications</h3>
@@ -352,11 +649,11 @@ Storage capacity in 5 years = Storage capacity per second * 2*10^8 </code></pre>
 <section id="pull-approach" class="level4">
 <h4 class="anchored" data-anchor-id="pull-approach">Pull approach</h4>
 <p>These are synchronous.</p>
-<p>Polling is an example of a pull API. We periodically query the server to see if there are any updates. If not, the server responds immediately saying there is no new data. This may result in delayed updates and can overwhelm the server with too many requests.</p>
+<p><strong>Polling</strong> is an example of a pull API. We periodically query the server to see if there are any updates. If not, the server responds immediately saying there is no new data. This may result in delayed updates and can overwhelm the server with too many requests.</p>
 <div id="fig-polling" class="lightbox quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-polling-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="polling.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" data-glightbox="description: .lightbox-desc-1"><img src="polling.png" class="img-fluid figure-img"></a>
+<a href="polling.png" class="lightbox" data-glightbox="description: .lightbox-desc-1" data-gallery="quarto-lightbox-gallery-1"><img src="polling.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-polling-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Polling
@@ -367,33 +664,33 @@ Figure&nbsp;1: Polling
 <section id="push-approach" class="level4">
 <h4 class="anchored" data-anchor-id="push-approach">Push approach</h4>
 <p>These are asynchronous.</p>
-<p>Long-polling. The client connects to the server and makes a request. Instead of replying immediately, the server waits until there is an update and then sends the response. If there is no update for a long time, the connection times out and the client must reconnect. Server resources are tied up until the connection is closed, even if there is no update.</p>
+<p><strong>Long-polling</strong>. The client connects to the server and makes a request. Instead of replying immediately, the server waits until there is an update and then sends the response. If there is no update for a long time, the connection times out and the client must reconnect. Server resources are tied up until the connection is closed, even if there is no update.</p>
 <div id="fig-long_polling" class="lightbox quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-long_polling-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="long_polling.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" data-glightbox="description: .lightbox-desc-2"><img src="long_polling.png" class="img-fluid figure-img"></a>
+<a href="long_polling.png" class="lightbox" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2"><img src="long_polling.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-long_polling-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: LongPolling
 </figcaption>
 </figure>
 </div>
-<p>Websockets. The client establishes a connection using an HTTP request and response. This establishes a TCP/IP connection for 2-way communication. This allows for real-time applications without long-polling.</p>
+<p><strong>Websockets</strong>. The client establishes a connection using an HTTP request and response. This establishes a TCP/IP connection for 2-way communication. This allows for real-time applications without long-polling.</p>
 <div id="fig-websockets" class="lightbox quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-websockets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="websockets.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" data-glightbox="description: .lightbox-desc-3"><img src="websockets.png" class="img-fluid figure-img"></a>
+<a href="websockets.png" class="lightbox" data-glightbox="description: .lightbox-desc-3" data-gallery="quarto-lightbox-gallery-3"><img src="websockets.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-websockets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3: Web Sockets
 </figcaption>
 </figure>
 </div>
-<p>Server sent events. Event-based approach. EventSource API supported by all browsers. The connection is 1-directional; the client can only pass data to the server at the point of connection. After that, only the server can send data to the client. The server doesn’t know if the client loses connection.</p>
+<p><strong>Server sent events</strong>. Event-based approach. EventSource API supported by all browsers. The connection is 1-directional; the client can only pass data to the server at the point of connection. After that, only the server can send data to the client. The server doesn’t know if the client loses connection.</p>
 <div id="fig-sse" class="lightbox quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="sse.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" data-glightbox="description: .lightbox-desc-4"><img src="sse.png" class="img-fluid figure-img"></a>
+<a href="sse.png" class="lightbox" data-glightbox="description: .lightbox-desc-4" data-gallery="quarto-lightbox-gallery-4"><img src="sse.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4: SSE
@@ -415,7 +712,7 @@ Figure&nbsp;4: SSE
 <div id="fig-point_to_point" class="lightbox quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-point_to_point-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="point_to_point.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" data-glightbox="description: .lightbox-desc-5"><img src="point_to_point.png" class="img-fluid figure-img"></a>
+<a href="point_to_point.png" class="lightbox" data-glightbox="description: .lightbox-desc-5" data-gallery="quarto-lightbox-gallery-5"><img src="point_to_point.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-point_to_point-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;5: Point-to-Point
@@ -429,7 +726,7 @@ Figure&nbsp;5: Point-to-Point
 <div id="fig-pub_sub" class="lightbox quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-pub_sub-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="pub_sub.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" data-glightbox="description: .lightbox-desc-6"><img src="pub_sub.png" class="img-fluid figure-img"></a>
+<a href="pub_sub.png" class="lightbox" data-glightbox="description: .lightbox-desc-6" data-gallery="quarto-lightbox-gallery-6"><img src="pub_sub.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pub_sub-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;6: Pub-Sub
@@ -443,26 +740,44 @@ Figure&nbsp;6: Pub-Sub
 <section id="file-based" class="level4">
 <h4 class="anchored" data-anchor-id="file-based">File-based</h4>
 <p>Files are stored in folders, with metadata about creation time and modification time.</p>
-<p>Benefits: - Simplicity - simple and well-known pattern - Compatibility - works with most applications and OSes</p>
+<p>Benefits:</p>
 <ul>
-<li>Limitations:</li>
-<li>Performance degradation - as size increases, the resource demands increase.</li>
-<li>Expensive - although cheap in principle, they can get expensive when trying to work around the performance issues.</li>
+<li><p>Simplicity - simple and well-known pattern</p></li>
+<li><p>Compatibility - works with most applications and OSes</p></li>
+<li><p>Limitations:</p></li>
+<li><p>Performance degradation - as size increases, the resource demands increase.</p></li>
+<li><p>Expensive - although cheap in principle, they can get expensive when trying to work around the performance issues.</p></li>
 </ul>
 <p>Use cases: data protection, local archiving, data retrieval done by users.</p>
 </section>
 <section id="object-based" class="level4">
 <h4 class="anchored" data-anchor-id="object-based">Object-based</h4>
 <p>A system component that manages data as objects in a flat structure. An object contains the file and its metadata.</p>
-<p>Benefits: - Horizontal scalability</p>
-<p>Limitations: - Objects must be edited as a unit - degrades performance if only a small part of the file needs to be updated.</p>
+<p>Benefits:</p>
+<ul>
+<li>Horizontal scalability</li>
+</ul>
+<p>Limitations:</p>
+<ul>
+<li>Objects must be edited as a unit - degrades performance if only a small part of the file needs to be updated.</li>
+</ul>
 <p>Use cases: large amounts of unstructured data.</p>
 </section>
 <section id="block-based" class="level4">
 <h4 class="anchored" data-anchor-id="block-based">Block-based</h4>
 <p>A system component that breaks up and then stores data as fixed-size blocks, each with a unique identifier.</p>
-<p>Benefits: - Highly structured - easy to index, search and retrieve blocks - Low data transfer overheads - Supports frequent data writes without performance degradation - Low latency</p>
-<p>Limitations: - No metadata, so metadata must be handled manually - Expensive</p>
+<p>Benefits:</p>
+<ul>
+<li>Highly structured - easy to index, search and retrieve blocks</li>
+<li>Low data transfer overheads</li>
+<li>Supports frequent data writes without performance degradation</li>
+<li>Low latency</li>
+</ul>
+<p>Limitations:</p>
+<ul>
+<li>No metadata, so metadata must be handled manually</li>
+<li>Expensive</li>
+</ul>
 </section>
 <section id="document-based" class="level4">
 <h4 class="anchored" data-anchor-id="document-based">Document-based</h4>
@@ -471,12 +786,22 @@ Figure&nbsp;6: Pub-Sub
 </section>
 <section id="video-uploading" class="level3">
 <h3 class="anchored" data-anchor-id="video-uploading">7.7. Video uploading</h3>
-<p>Issues: - Massive files: 4TB for 4 hours of 4K video - How can we reliably upload very large files? - Lots of different end-user clients/devices/connection speeds - How can we process and store a range of versions/resolutions?</p>
+<p>Issues:</p>
+<ul>
+<li>Massive files: 4TB for 4 hours of 4K video
+<ul>
+<li>How can we reliably upload very large files?</li>
+</ul></li>
+<li>Lots of different end-user clients/devices/connection speeds
+<ul>
+<li>How can we process and store a range of versions/resolutions?</li>
+</ul></li>
+</ul>
 <p>Processing pipeline:</p>
 <div id="fig-video_processing_pipeline" class="lightbox quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-video_processing_pipeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="video_processing_pipeline.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" data-glightbox="description: .lightbox-desc-7"><img src="video_processing_pipeline.png" class="img-fluid figure-img"></a>
+<a href="video_processing_pipeline.png" class="lightbox" data-glightbox="description: .lightbox-desc-7" data-gallery="quarto-lightbox-gallery-7"><img src="video_processing_pipeline.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-video_processing_pipeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;7: Video Processing Pipeline
@@ -504,11 +829,17 @@ Figure&nbsp;7: Video Processing Pipeline
 <li>Convert the uncompressed file into multiple different resolution options.</li>
 </ul></li>
 </ol>
-<p>Architecture considerations: - Wait for the full file to upload before processing? Or process each chunk as it is uploaded? - An upload service persists chunks to a database. Object store is a good choice as in the file-sharing example. - Once a chunk is ready to be processed, it can be read and placed in the message queue for the processing pipeline. - The processing pipeline handles fixed-size chunks, so the hardware requirements are known ahead of time. A chunk can be processed as soon as a hardware unit becomes available.</p>
+<p>Architecture considerations:</p>
+<ul>
+<li>Wait for the full file to upload before processing? Or process each chunk as it is uploaded?</li>
+<li>An upload service persists chunks to a database. Object store is a good choice as in the file-sharing example.</li>
+<li>Once a chunk is ready to be processed, it can be read and placed in the message queue for the processing pipeline.</li>
+<li>The processing pipeline handles fixed-size chunks, so the hardware requirements are known ahead of time. A chunk can be processed as soon as a hardware unit becomes available.</li>
+</ul>
 <div id="fig-video_upload_architecture" class="lightbox quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-video_upload_architecture-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="video_upload_architecture.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" data-glightbox="description: .lightbox-desc-8"><img src="video_upload_architecture.png" class="img-fluid figure-img"></a>
+<a href="video_upload_architecture.png" class="lightbox" data-glightbox="description: .lightbox-desc-8" data-gallery="quarto-lightbox-gallery-8"><img src="video_upload_architecture.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-video_upload_architecture-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;8: Video Upload Architecture
@@ -519,22 +850,57 @@ Figure&nbsp;8: Video Upload Architecture
 <section id="video-streaming" class="level3">
 <h3 class="anchored" data-anchor-id="video-streaming">7.8. Video streaming</h3>
 <p>The challenges are similar to that of file-sharing, as this is essentially large files being transferred. Latency and processing power of the end-user device.</p>
-<p>Two main transfer protocols: - UDP - TCP</p>
+<p>Two main transfer protocols:</p>
+<ul>
+<li>UDP</li>
+<li>TCP</li>
+</ul>
 <section id="udp" class="level4">
 <h4 class="anchored" data-anchor-id="udp">UDP</h4>
 <p>A connection-less protocol. Nodes do NOT establish a stable end-to-end connection before sending data. Instead, each packet has its destination address attached so the network can route it to the correct place.</p>
-<p>Advantages: - Fast - Packets are routed independently so if some are lost the others can still reach their destination</p>
-<p>Disadvantages: - No guarantee that data will arrive intact.</p>
-<p>Use cases: - Low-latency applications like video conferencing or gaming. - Not suitable for movie or audio streaming, as missing bits cannot be tolerated.</p>
+<p>Advantages:</p>
+<ul>
+<li>Fast</li>
+<li>Packets are routed independently so if some are lost the others can still reach their destination</li>
+</ul>
+<p>Disadvantages:</p>
+<ul>
+<li>No guarantee that data will arrive intact.</li>
+</ul>
+<p>Use cases:</p>
+<ul>
+<li>Low-latency applications like video conferencing or gaming.</li>
+<li>Not suitable for movie or audio streaming, as missing bits cannot be tolerated.</li>
+</ul>
 </section>
 <section id="tcp" class="level4">
 <h4 class="anchored" data-anchor-id="tcp">TCP</h4>
 <p>A connection is established between 2 nodes. The nodes agree on certain parameters before any data is transferred. Parameters: IP addresses of source and destination, port numbers of source and destination.</p>
-<p>Three-way handshake establishes the connection: 1. Sender transfers their sequence number to the Receiver. 2. Receiver acknowledges and sends its own sequence number. 3. Sender acknowledges.</p>
-<p>Advantages: - Reliability; guarantees delivery and receives acknowledgements before further packets are sent. - Receiver acknowledgements ensure the receiver is able to process/buffer the data in time before more packets are sent.</p>
-<p>Disadvantages: - Slower due to error checking and resending lost packets. - Requires three-way handshake to establish connection which is slower.</p>
-<p>Use cases: - Media streaming (HTTP live-streaming or MPEG-DASH)</p>
-<p>Adaptive bitrate streaming - TCP adjusts transmission speed in response to network conditions - When packet loss is detected, smaller chunks are sent at a lower transmission speed. The lower resolution file can be sent in this case.</p>
+<p>Three-way handshake establishes the connection:</p>
+<ol type="1">
+<li>Sender transfers their sequence number to the Receiver.</li>
+<li>Receiver acknowledges and sends its own sequence number.</li>
+<li>Sender acknowledges.</li>
+</ol>
+<p>Advantages:</p>
+<ul>
+<li>Reliability; guarantees delivery and receives acknowledgements before further packets are sent.</li>
+<li>Receiver acknowledgements ensure the receiver is able to process/buffer the data in time before more packets are sent.</li>
+</ul>
+<p>Disadvantages:</p>
+<ul>
+<li>Slower due to error checking and resending lost packets.</li>
+<li>Requires three-way handshake to establish connection which is slower.</li>
+</ul>
+<p>Use cases:</p>
+<ul>
+<li>Media streaming (HTTP live-streaming or MPEG-DASH)</li>
+</ul>
+<p>Adaptive bitrate streaming</p>
+<ul>
+<li>TCP adjusts transmission speed in response to network conditions</li>
+<li>When packet loss is detected, smaller chunks are sent at a lower transmission speed. The lower resolution file can be sent in this case.</li>
+</ul>
 </section>
 </section>
 <section id="cache-and-cdn" class="level3">
@@ -543,11 +909,44 @@ Figure&nbsp;8: Video Upload Architecture
 <section id="cache" class="level4">
 <h4 class="anchored" data-anchor-id="cache">Cache</h4>
 <p>Caching is the process of storing copies of frequently accessed data in a temporary storage location.</p>
-<p>Caches utilise the difference in read performance between memory and storage. Times to fetch 1MB from: - HDD: 3 ms - SSD: 0.2 ms - RAM: 0.01 ms</p>
-<p>When a user requests data it first requests from the cache - Cache HIT: If the data is in the cache, return it - Cache MISS: If the data is not in the cache, pass the request to the database, update the cache and return the data</p>
-<p>A cache can grow stale over time. There are 2 common approaches to mitigate this: 1. Set up a time-to-live (TTL) policy within the cache - Trade off between short TTL (fresh data but worse performance) vs long TTL (data can be stale) 2. Implement active cache invalidation mechanism - Complicated to implement. Requires an “invalidation service” component to monitor and read from the database, then update the cache when necessary.</p>
-<p>Application-level caching: Insert caching logic into the application’s source code to temporarily store data in memory.</p>
-<p>Two approaches to application-level caching: 1. Query-based implementation - Hash the query as a key and store the value against the key in a key-value store. - Limitations: hard to delete cached result with a complex query; if a cell changes then all cached query which might include it need updating. 2. Object-based implementation - The result of a query is stored as an object - Benefits: only one serialisation/deserialisation overhead when reading/writing; complexity of object doesn’t matter, serialized objects in cache can be used by multiple applications.</p>
+<p>Caches utilise the difference in read performance between memory and storage. Times to fetch 1MB from:</p>
+<ul>
+<li>HDD: 3 ms</li>
+<li>SSD: 0.2 ms</li>
+<li>RAM: 0.01 ms</li>
+</ul>
+<p>When a user requests data it first requests from the cache</p>
+<ul>
+<li>Cache HIT: If the data is in the cache, return it</li>
+<li>Cache MISS: If the data is not in the cache, pass the request to the database, update the cache and return the data</li>
+</ul>
+<p>A cache can grow stale over time. There are 2 common approaches to mitigate this:</p>
+<ol type="1">
+<li>Set up a time-to-live (TTL) policy within the cache</li>
+</ol>
+<ul>
+<li>Trade off between short TTL (fresh data but worse performance) vs long TTL (data can be stale)</li>
+</ul>
+<ol start="2" type="1">
+<li>Implement active cache invalidation mechanism</li>
+</ol>
+<ul>
+<li>Complicated to implement. Requires an “invalidation service” component to monitor and read from the database, then update the cache when necessary.</li>
+</ul>
+<p><strong>Application-level caching</strong>. Insert caching logic into the application’s source code to temporarily store data in memory.</p>
+<p>Two approaches to application-level caching:</p>
+<ol type="1">
+<li>Query-based implementation
+<ul>
+<li>Hash the query as a key and store the value against the key in a key-value store.</li>
+<li>Limitations: hard to delete cached result with a complex query; if a cell changes then all cached query which might include it need updating.</li>
+</ul></li>
+<li>Object-based implementation
+<ul>
+<li>The result of a query is stored as an object</li>
+<li>Benefits: only one serialisation/deserialisation overhead when reading/writing; complexity of object doesn’t matter, serialized objects in cache can be used by multiple applications.</li>
+</ul></li>
+</ol>
 <p>Popular implementations: Redis, Memcache, Hazlecast</p>
 </section>
 <section id="content-delivery-network-cdn" class="level4">
@@ -558,25 +957,39 @@ Figure&nbsp;8: Video Upload Architecture
 <div id="fig-CDN_invalidation" class="lightbox quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-CDN_invalidation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="CDN_invalidation.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" data-glightbox="description: .lightbox-desc-9"><img src="CDN_invalidation.png" class="img-fluid figure-img"></a>
+<a href="CDN_invalidation.png" class="lightbox" data-glightbox="description: .lightbox-desc-9" data-gallery="quarto-lightbox-gallery-9"><img src="CDN_invalidation.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-CDN_invalidation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;9: CDN Invalidation
 </figcaption>
 </figure>
 </div>
-<p>Approaches to invalidating cache: - Caching headers - set a time when an object should be cleared, e.g.&nbsp;max-age=86400 caches for a day. - Cache busting - change the link to all files and assets, so the CDN treats them like new files.</p>
+<p>Approaches to invalidating cache:</p>
+<ul>
+<li>Caching headers - set a time when an object should be cleared, e.g.&nbsp;max-age=86400 caches for a day.</li>
+<li>Cache busting - change the link to all files and assets, so the CDN treats them like new files.</li>
+</ul>
 </section>
 </section>
 <section id="search-engine-database" class="level3">
 <h3 class="anchored" data-anchor-id="search-engine-database">7.10 Search engine database</h3>
-<p>These are specialised NoSQL databases with the following benefits: - Can match even with typos or non-exact matches - Full-text search means you can suggest autocomplete results and related queries as the user types - Indexing allows faster search performance on big data.</p>
-<p>The database is structures as a hashmap where the inverted index points at documents. - Document - Represents a specific entity, like a row in a relational database - Inverted index - Maps from content to the documents that include it. The inverted index splits each document into individual search terms and makes each point to the document itself. - Ranking algorithm - Produces a list of possibly relevant documents. Additional factors may impact this, like a user’s previous search history.</p>
+<p>These are specialised NoSQL databases with the following benefits:</p>
+<ul>
+<li>Can match even with typos or non-exact matches</li>
+<li>Full-text search means you can suggest autocomplete results and related queries as the user types</li>
+<li>Indexing allows faster search performance on big data.</li>
+</ul>
+<p>The database is structures as a hashmap where the inverted index points at documents.</p>
+<ul>
+<li>Document - Represents a specific entity, like a row in a relational database</li>
+<li>Inverted index - Maps from content to the documents that include it. The inverted index splits each document into individual search terms and makes each point to the document itself.</li>
+<li>Ranking algorithm - Produces a list of possibly relevant documents. Additional factors may impact this, like a user’s previous search history.</li>
+</ul>
 <p>The database is a dictionary of {search_term_id: [document_ids, …]}</p>
 <div id="fig-inverted_index" class="lightbox quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-inverted_index-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="inverted_index.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" data-glightbox="description: .lightbox-desc-10"><img src="inverted_index.png" class="img-fluid figure-img"></a>
+<a href="inverted_index.png" class="lightbox" data-glightbox="description: .lightbox-desc-10" data-gallery="quarto-lightbox-gallery-10"><img src="inverted_index.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-inverted_index-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;10: Inverted Index
@@ -584,19 +997,43 @@ Figure&nbsp;10: Inverted Index
 </figure>
 </div>
 <p>Popular implementations: Lucene, Elastic search, Apache solr, Atas search (MongoDB), Redis search.</p>
-<p>Benefits of search engine databases: - Scalable - NoSQL so scale horizontally - Schemaless - Works out of the box - just need ot decide upfront what attributes should be searchable.</p>
-<p>Limitations: - No ACID guarantees. - Not efficient at reading/writing data, so requires another database to manage state. - Maintaining consistency between the main database and the search engine database can be tricky. - Some SQL databases have full-text search so may not require a dedicated search engine database.</p>
+<p>Benefits of search engine databases:</p>
+<ul>
+<li>Scalable - NoSQL so scale horizontally</li>
+<li>Schemaless</li>
+<li>Works out of the box - just need ot decide upfront what attributes should be searchable.</li>
+</ul>
+<p>Limitations:</p>
+<ul>
+<li>No ACID guarantees.</li>
+<li>Not efficient at reading/writing data, so requires another database to manage state.
+<ul>
+<li>Maintaining consistency between the main database and the search engine database can be tricky.</li>
+</ul></li>
+<li>Some SQL databases have full-text search so may not require a dedicated search engine database.</li>
+</ul>
 </section>
 </section>
 <section id="system-design-examples-and-discussion" class="level2">
 <h2 class="anchored" data-anchor-id="system-design-examples-and-discussion">8. System design examples and discussion</h2>
 <section id="todo-app" class="level3">
 <h3 class="anchored" data-anchor-id="todo-app">8.1. Todo App</h3>
-<p>An app that lets a user add and delete items from a todo list. - Representation layer is a web app - Microservices handle the todo CRUD operations and the user details separately - Each service is scaled horizontally, so a load balancer is placed in front of it - Relational database stores data - There are two databases, one per service, which is an example of functional partitioning. This means todo service I/O does not interfere with user service I/O and vice versa.</p>
+<p>An app that lets a user add and delete items from a todo list.</p>
+<ul>
+<li>Representation layer is a web app</li>
+<li>Microservices handle the todo CRUD operations and the user details separately
+<ul>
+<li>Each service is scaled horizontally, so a load balancer is placed in front of it</li>
+</ul></li>
+<li>Relational database stores data
+<ul>
+<li>There are two databases, one per service, which is an example of functional partitioning. This means todo service I/O does not interfere with user service I/O and vice versa.</li>
+</ul></li>
+</ul>
 <div id="fig-design_todo_app" class="lightbox quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-design_todo_app-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="design_todo_app.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11" data-glightbox="description: .lightbox-desc-11"><img src="design_todo_app.png" class="img-fluid figure-img"></a>
+<a href="design_todo_app.png" class="lightbox" data-glightbox="description: .lightbox-desc-11" data-gallery="quarto-lightbox-gallery-11"><img src="design_todo_app.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-design_todo_app-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;11: To-do App System Design
@@ -607,25 +1044,137 @@ Figure&nbsp;11: To-do App System Design
 <section id="url-shorteners" class="level3">
 <h3 class="anchored" data-anchor-id="url-shorteners">8.2. URL shorteners</h3>
 <p>Take an input URL and return a unique, shortened URL that redirects to the original.</p>
-<p>Planned system architecture: - Pre-generate all 5 digit keys (1 billion entries rather than 64 billion for 6 digits) - System retrieves 5-difit keys from database - System appends 1 out of 64 characters - The system is extendable because if we run out of keys we can append 2 more characters rather than 1</p>
+<p>Planned system architecture:</p>
+<ul>
+<li>Pre-generate all 5 digit keys (1 billion entries rather than 64 billion for 6 digits)</li>
+<li>System retrieves 5-difit keys from database</li>
+<li>System appends 1 out of 64 characters</li>
+<li>The system is extendable because if we run out of keys we can append 2 more characters rather than 1</li>
+</ul>
 <section id="mock-interview" class="level4">
 <h4 class="anchored" data-anchor-id="mock-interview">Mock interview</h4>
-<p>System analysis: - System is read heavy - Once a short URL is created it will be read multiple times - Distributed system as this has to scale - Availability &gt; Consistency - not so much of a concern if a link isn’t available to all users at the same time, but they must be unique and lead to their destination.</p>
-<p><strong>Requirements engineering:-</strong> Core feature: - A user can input a URL of arbitrary length and receive a unique short URL of fixed size. - A user can navigate to a short link and be redirected to the original URL.</p>
-<p>Support features: - A user can see their link history of all created short URLs. - Lifecycle policy - links should expire after a default time span.</p>
-<p>Non-functional requirements: - Availability - the system should be available 99% of the time. - Scalability - the system should support billions of short URLs, and thousands of concurrent users. - Latency - the system should return redirect from a short URL to the original in under 1 second.</p>
-<p>Questions to capture scale: - Daily active users, and how often do users interact per day - 100 million, 1 interaction per day - Peak active users - are there events that lead to traffic spikes? - No spikes - Read/write ratio - 10 to 1 - Request size - how long are the originals URLs typically - 200 characters =&gt; 200 Bytes - Replication factor - 1x - ignore replication</p>
-<p><strong>Capacity estimation:-</strong> - Requests per second - Reads per second = DAU * interactions per day / seconds in day = 10^8 * 1 / 10^5 = 1000 reads/s - Writes per second = Reads per second / read write ratio = 1000 / 10 = 100 writes/s - Requests per second = Reads per second + Writes per second = 1000 + 100 = 1100 requests/s - No peak loads to consider - Bandwidth - Bandwidth = Requests per second * Message size - Read bandwidth = 1000 * 200 Bytes = 200kB/s - Write bandwidth = 100 * 200 Bytes = 20 kB/s - Storage - Storage per year = Write bandwidth * seconds per year * Replication factor = 20000 Bytes * (3600<em>24</em>365) * 1 = 630 GB</p>
-<p><strong>Data model:-</strong> Identify entities, attributes and relationships.</p>
-<p>Entities and attributes: - Links: Key (used to create short URL, Original URL, Expiry date - Users: UserID, Links - Key ranges: Key range, In use (bool)</p>
-<p>Relationships: - Users own Links - Links belong to Key ranges</p>
-<p>Data stores: - Users - User data is typically relational and we rarely want it all returned at once. - Consistency is important as we want the user to have the same experience regardless of which server handles their log in, and don’t want userIds to clash. - Relational database. - Links - Non-functional requirements of low latency and high availability. - Data and relationships are not complex. - Key-value store. - Key ranges - Favour data consistency as we don’t want to accidentally reuse the same key range. - Filtering keys by status would help to find available key ranges. - Relational database.</p>
-<p><strong>API design:-</strong> Endpoints: - createUrl(originalUrl: str) -&gt; shortUrl - response code 200, {shortURL: str} - getLinkHistory(userId: str, sorting: {‘asc’, ‘desc’}) - response code 200, {links: [str], order: ‘asc’} - redirectURL(shortUrl: str) -&gt; originalUrl - response code 200, {originalUrl: str}</p>
-<p><strong>System design:-</strong> User flows for each of the required functional requirements.</p>
+<p>System analysis:</p>
+<ul>
+<li>System is read heavy - Once a short URL is created it will be read multiple times</li>
+<li>Distributed system as this has to scale</li>
+<li>Availability &gt; Consistency - not so much of a concern if a link isn’t available to all users at the same time, but they must be unique and lead to their destination.</li>
+</ul>
+<p><strong>Requirements engineering:-</strong></p>
+<p>Core feature:</p>
+<ul>
+<li>A user can input a URL of arbitrary length and receive a unique short URL of fixed size.</li>
+<li>A user can navigate to a short link and be redirected to the original URL.</li>
+</ul>
+<p>Support features:</p>
+<ul>
+<li>A user can see their link history of all created short URLs.</li>
+<li>Lifecycle policy - links should expire after a default time span.</li>
+</ul>
+<p>Non-functional requirements:</p>
+<ul>
+<li>Availability - the system should be available 99% of the time.</li>
+<li>Scalability - the system should support billions of short URLs, and thousands of concurrent users.</li>
+<li>Latency - the system should return redirect from a short URL to the original in under 1 second.</li>
+</ul>
+<p>Questions to capture scale:</p>
+<ul>
+<li>Daily active users, and how often do users interact per day
+<ul>
+<li>100 million, 1 interaction per day</li>
+</ul></li>
+<li>Peak active users - are there events that lead to traffic spikes?
+<ul>
+<li>No spikes</li>
+</ul></li>
+<li>Read/write ratio
+<ul>
+<li>10 to 1</li>
+</ul></li>
+<li>Request size - how long are the originals URLs typically
+<ul>
+<li>200 characters =&gt; 200 Bytes</li>
+</ul></li>
+<li>Replication factor
+<ul>
+<li>1x - ignore replication</li>
+</ul></li>
+</ul>
+<p><strong>Capacity estimation:-</strong></p>
+<ul>
+<li>Requests per second
+<ul>
+<li>Reads per second = DAU * interactions per day / seconds in day = 10^8 * 1 / 10^5 = 1000 reads/s</li>
+<li>Writes per second = Reads per second / read write ratio = 1000 / 10 = 100 writes/s</li>
+<li>Requests per second = Reads per second + Writes per second = 1000 + 100 = 1100 requests/s</li>
+<li>No peak loads to consider</li>
+</ul></li>
+<li>Bandwidth
+<ul>
+<li>Bandwidth = Requests per second * Message size</li>
+<li>Read bandwidth = 1000 * 200 Bytes = 200kB/s</li>
+<li>Write bandwidth = 100 * 200 Bytes = 20 kB/s</li>
+</ul></li>
+<li>Storage
+<ul>
+<li>Storage per year = Write bandwidth * seconds per year * Replication factor = 20000 Bytes * (3600<em>24</em>365) * 1 = 630 GB</li>
+</ul></li>
+</ul>
+<p><strong>Data model:-</strong></p>
+<p>Identify entities, attributes and relationships.</p>
+<p>Entities and attributes:</p>
+<ul>
+<li>Links: Key (used to create short URL), Original URL, Expiry date</li>
+<li>Users: UserID, Links</li>
+<li>Key ranges: Key range, In use (bool)</li>
+</ul>
+<p>Relationships:</p>
+<ul>
+<li>Users own Links</li>
+<li>Links belong to Key ranges</li>
+</ul>
+<p>Data stores:</p>
+<ul>
+<li>Users
+<ul>
+<li>User data is typically relational and we rarely want it all returned at once.</li>
+<li>Consistency is important as we want the user to have the same experience regardless of which server handles their log in, and don’t want userIds to clash.</li>
+<li>Relational database.</li>
+</ul></li>
+<li>Links
+<ul>
+<li>Non-functional requirements of low latency and high availability.</li>
+<li>Data and relationships are not complex.</li>
+<li>Key-value store.</li>
+</ul></li>
+<li>Key ranges
+<ul>
+<li>Favour data consistency as we don’t want to accidentally reuse the same key range.</li>
+<li>Filtering keys by status would help to find available key ranges.</li>
+<li>Relational database.</li>
+</ul></li>
+</ul>
+<p><strong>API design:-</strong></p>
+<p>Endpoints:</p>
+<ul>
+<li>createUrl(originalUrl: str) -&gt; shortUrl
+<ul>
+<li>response code 200, {shortURL: str}</li>
+</ul></li>
+<li>getLinkHistory(userId: str, sorting: {‘asc’, ‘desc’})
+<ul>
+<li>response code 200, {links: [str], order: ‘asc’}</li>
+</ul></li>
+<li>redirectURL(shortUrl: str) -&gt; originalUrl
+<ul>
+<li>response code 200, {originalUrl: str}</li>
+</ul></li>
+</ul>
+<p><strong>System design:-</strong></p>
+<p>User flows for each of the required functional requirements.</p>
 <div id="fig-url_shortener_system" class="lightbox quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-url_shortener_system-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="url_shortener_system.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12" data-glightbox="description: .lightbox-desc-12"><img src="url_shortener_system.png" class="img-fluid figure-img"></a>
+<a href="url_shortener_system.png" class="lightbox" data-glightbox="description: .lightbox-desc-12" data-gallery="quarto-lightbox-gallery-12"><img src="url_shortener_system.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-url_shortener_system-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;12: URL Shortener System Design
@@ -636,40 +1185,109 @@ Figure&nbsp;12: URL Shortener System Design
 </section>
 <section id="dropbox-file-sharing" class="level3">
 <h3 class="anchored" data-anchor-id="dropbox-file-sharing">8.3. Dropbox file sharing</h3>
-<p><strong>Requirements engineering</strong> Requirements gathering: - Read-heavy - Distributed - Data consistency is more important than availability - files should be consistent for all users</p>
-<p>Core functional requirements: 1. A user can upload a file to the server 2. A user can download their files from the server</p>
-<p>Secondary functional requirements: 1. A user can see a history of files uploaded and downloaded 2. A user can see who has downloaded a specific file and when</p>
-<p>Non-functional requirements: 1. Consistency - data should be consistent across users and devices 2. Resilience - customer data should never be lost 3. Minimal latency 4. Compatibility across different devices 5. Security - multi-tenancy; customer data should be separate of one another</p>
-<p>Questions to determine scale: 1. Daily active users 2. Peak active users - what events lead to a spike? 3. Interactions per user - how many file syncs, how many files does a user store 4. Request size - how large are files? 5. Read/write ratio 6. Replication factor</p>
-<p><strong>Capacity estimation</strong> Throughput - Peak write RPS = 2 peak load ratio * 10^8 users * 2 files/day / 10^5 seconds = 4000 RPS - Peak read RPS = 10 read/write ration * 4000 write RPS = 40000 RPS - Peak total RPS = 44000 RPS</p>
-<p>Bandwidth - Write bandwidth = 4000 Write RPS * 100 kB Request size = 400 MB/s - Read bandwidth = 40000 Read RPS * 100 kB request size = 4 GB/s - Total bandwidth = Write bandwidth + Read bandwidth = 4.4 GB/s</p>
-<p>Storage - Storage capacity = 5<em>10^8 Total users </em> 100 files per user * 1MB File Size * 3 Replication factor = 15*10^10 MB = 15000 TB</p>
-<p><strong>Data model</strong> Users: Store Ids for the files that belong to them</p>
+<p><strong>Requirements engineering</strong></p>
+<p>Requirements gathering:</p>
+<ul>
+<li>Read-heavy</li>
+<li>Distributed</li>
+<li>Data consistency is more important than availability - files should be consistent for all users</li>
+</ul>
+<p>Core functional requirements:</p>
+<ol type="1">
+<li>A user can upload a file to the server</li>
+<li>A user can download their files from the server</li>
+</ol>
+<p>Secondary functional requirements:</p>
+<ol type="1">
+<li>A user can see a history of files uploaded and downloaded</li>
+<li>A user can see who has downloaded a specific file and when</li>
+</ol>
+<p>Non-functional requirements:</p>
+<ol type="1">
+<li>Consistency - data should be consistent across users and devices</li>
+<li>Resilience - customer data should never be lost</li>
+<li>Minimal latency</li>
+<li>Compatibility across different devices</li>
+<li>Security - multi-tenancy; customer data should be separate of one another</li>
+</ol>
+<p>Questions to determine scale:</p>
+<ol type="1">
+<li>Daily active users</li>
+<li>Peak active users - what events lead to a spike?</li>
+<li>Interactions per user - how many file syncs, how many files does a user store</li>
+<li>Request size - how large are files?</li>
+<li>Read/write ratio</li>
+<li>Replication factor</li>
+</ol>
+<p><strong>Capacity estimation</strong></p>
+<p>Throughput</p>
+<ul>
+<li>Peak write RPS = 2 peak load ratio * 10^8 users * 2 files/day / 10^5 seconds = 4000 RPS</li>
+<li>Peak read RPS = 10 read/write ration * 4000 write RPS = 40000 RPS</li>
+<li>Peak total RPS = 44000 RPS</li>
+</ul>
+<p>Bandwidth</p>
+<ul>
+<li>Write bandwidth = 4000 Write RPS * 100 kB Request size = 400 MB/s</li>
+<li>Read bandwidth = 40000 Read RPS * 100 kB request size = 4 GB/s</li>
+<li>Total bandwidth = Write bandwidth + Read bandwidth = 4.4 GB/s</li>
+</ul>
+<p>Storage</p>
+<ul>
+<li>Storage capacity = 5 * 10^8 Total users * 100 files per user * 1MB File Size * 3 Replication factor = 15*10^10 MB = 15000 TB</li>
+</ul>
+<p><strong>Data model</strong></p>
+<p>Users: Store Ids for the files that belong to them</p>
 <p>Files: Metadata on the owner, file edit history, filename, size, chunks that comprise the file, version history</p>
-<p><strong>API Design</strong> Endpoints: - compareHashes(fileId: str, chunkHashes: list) - Takes a file ID and a list of chunk hashes and returns a list of the hashes that need resyncing . - response code 200, {syncChunks: [Hash,…]} - uploadChange(fileId: str, chunks: list) - Upload the chunks to resync the file - response code 200, {message: “Chunks uploaded successfully”} - requestUpdate(fileId: str, chunkHashes: list) - Update the local version of the file to match that on the server. - response code 200, {chunks: [Chunk,…]}</p>
+<p><strong>API Design</strong></p>
+<p>Endpoints:</p>
+<ul>
+<li>compareHashes(fileId: str, chunkHashes: list)
+<ul>
+<li>Takes a file ID and a list of chunk hashes and returns a list of the hashes that need resyncing .</li>
+<li>response code 200, {syncChunks: [Hash,…]}</li>
+</ul></li>
+<li>uploadChange(fileId: str, chunks: list)
+<ul>
+<li>Upload the chunks to resync the file</li>
+<li>response code 200, {message: “Chunks uploaded successfully”}</li>
+</ul></li>
+<li>requestUpdate(fileId: str, chunkHashes: list)
+<ul>
+<li>Update the local version of the file to match that on the server.</li>
+<li>response code 200, {chunks: [Chunk,…]}</li>
+</ul></li>
+</ul>
 <p><strong>System Design</strong></p>
 <div id="fig-dropbox_design" class="lightbox quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-dropbox_design-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="dropbox_design.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13" data-glightbox="description: .lightbox-desc-13"><img src="dropbox_design.png" class="img-fluid figure-img"></a>
+<a href="dropbox_design.png" class="lightbox" data-glightbox="description: .lightbox-desc-13" data-gallery="quarto-lightbox-gallery-13"><img src="dropbox_design.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dropbox_design-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;13: Dropbox System Design
 </figcaption>
 </figure>
 </div>
-<p><strong>Design Discussion</strong> - What can we do to achieve a scalable design? - Identify bottlenecks and remedy each. - What can we do to achieve resiliency?</p>
+<p><strong>Design Discussion</strong></p>
+<ul>
+<li>What can we do to achieve a scalable design?
+<ul>
+<li>Identify bottlenecks and remedy each.</li>
+</ul></li>
+<li>What can we do to achieve resiliency?</li>
+</ul>
 </section>
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
 <ul>
-<li>Udemy course https://www.udemy.com/course/the-bigtech-system-design-interview-bootcamp</li>
-<li>Excalidraw session https://excalidraw.com/#json=QM7dLZcHbESVnuTPiu06v,pdjPoskF0KknQ6YORHxeHw</li>
-<li>Capacity estimation cheat sheet in _resources folder</li>
-<li>Database book - “Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems” by Martin Kleppmann</li>
-<li>Rsync algorithm https://openresearch-repository.anu.edu.au/bitstream/1885/40765/3/TR-CS-96-05.pdf</li>
-<li>Search Engines Information Retrieval in Practice book https://ciir.cs.umass.edu/irbook/</li>
+<li><a href="https://www.udemy.com/course/the-bigtech-system-design-interview-bootcamp">Udemy course</a></li>
+<li><a href="https://excalidraw.com/#json=QM7dLZcHbESVnuTPiu06v,pdjPoskF0KknQ6YORHxeHw">Excalidraw session</a></li>
+<li><a href="CapacityEstimationCheatSheet.pdf">Capacity estimation cheat sheet</a></li>
+<li>“Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems” by Martin Kleppmann</li>
+<li><a href="https://openresearch-repository.anu.edu.au/bitstream/1885/40765/3/TR-CS-96-05.pdf">Rsync algorithm</a></li>
+<li><a href="https://ciir.cs.umass.edu/irbook/">Search Engines Information Retrieval in Practice book</a></li>
 </ul>
 
 
@@ -1080,7 +1698,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","closeEffect":"zoom","selector":".lightbox","descPosition":"bottom","loop":false});
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","openEffect":"zoom","closeEffect":"zoom","loop":false,"descPosition":"bottom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
