@@ -23,6 +23,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -204,25 +238,25 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="kalman-filter" class="level1">
 <h1>Kalman filter</h1>
-<p>Notes from https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python</p>
+<p>Notes from <a href="https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python">https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python</a></p>
 <section id="g-h-filters" class="level2">
 <h2 class="anchored" data-anchor-id="g-h-filters">1. g-h filters</h2>
 <section id="combining-predictions-and-measurements" class="level3">
 <h3 class="anchored" data-anchor-id="combining-predictions-and-measurements">Combining predictions and measurements</h3>
 <p>With measurements from 2 noisy sensors, we can combine them to get a much more accurate measurement. <strong>Never throw data away.</strong></p>
 <p>If we have a prediction model for how the world evolves (e.g.&nbsp;predicted daily weight gain) we can combine this with noisy measurements in the same way. Treat the prediction as a noisy sensor and combine as before, so that our estimate is some way between the prediction and the estimate. How close it is to one or the other depends on the relative accuracy of each, and this is a hyperparameter we can set.</p>
-<pre><code>prediction =  x_est + dx*dt 
-
-where:
-`x_est` is an initial constant that gets updated
-`dx` is a predicted daily weight gain rate
-`dt` is the time step</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode tex code-with-copy"><code class="sourceCode latex"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>prediction =  x_est + dx*dt </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>where:</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>`x_est` is an initial constant that gets updated</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>`dx` is a predicted daily weight gain rate</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>`dt` is the time step</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="g-filter" class="level3">
 <h3 class="anchored" data-anchor-id="g-filter">g filter</h3>
 <p>We can create a single parameter filter, where the parameter <code>g</code> corresponds to how strongly we trust the prediction over the measurement</p>
-<pre><code>residual = prediction - measurement
-estimate = measurement + g * residual</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode tex code-with-copy"><code class="sourceCode latex"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>residual = prediction - measurement</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>estimate = measurement + g * residual</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li><code>g=0 =&gt; estimate=measurement</code></li>
 <li><code>g=1 =&gt; estimate=prediction</code></li>
@@ -242,15 +276,33 @@ Figure&nbsp;1: g-h filter diagram
 <section id="g-h-filter" class="level3">
 <h3 class="anchored" data-anchor-id="g-h-filter">g-h filter</h3>
 <p>We can go one step further and use our noisy estimates of weight to refine our the daily weight gain w used in our prediction</p>
-<pre><code>dx_t+1 = dx_t + h * residual / dt</code></pre>
-<p>This gives us the g-h filter - a generic filter which allows us to set a parameter g for the weight measurement confidence and h for the weight change measurement confidence.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode tex code-with-copy"><code class="sourceCode latex"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dx_t+1 = dx_t + h * residual / dt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This gives us the g-h filter - a generic filter which allows us to set a parameter <code>g</code> for the weight measurement confidence and <code>h</code> for the weight change measurement confidence.</p>
 <p>We can then update the estimates for weight and weight change on every time step (or every measurement if time steps are irregular).</p>
 <p>This insight forms the basis for Kalman filters, where we will set g and h dynamically on each time step.</p>
 </section>
 <section id="conclusion" class="level3">
 <h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
-<p>Key takeaways: - Multiple data points are more accurate than one data point, so throw nothing away no matter how inaccurate it is. - Always choose a number part way between two data points to create a more accurate estimate. - Predict the next measurement and rate of change based on the current estimate and how much we think it will change. - The new estimate is then chosen as part way between the prediction and next measurement scaled by how accurate each is. - The filter is only as good as the mathematical model used to express the system. - Filters are designed, not selected ad hoc. No choice of g and h applies to all scenarios.</p>
-<p>Terminology: - System - the object we want to estimate - State, <code>x</code> - the current configuration of the system. Hidden. - Measurement, <code>z</code> - measured value of the state from a noisy sensor. Observable. - State estimate - our filter’s estimate of the state. - Process model - the model we use to predict the next state based on the current state. - System propagation - the predict step - Measurement update - the update step - Epoch - one iteration of system propagation and measurement update.</p>
+<p>Key takeaways:</p>
+<ul>
+<li>Multiple data points are more accurate than one data point, so throw nothing away no matter how inaccurate it is.</li>
+<li>Always choose a number part way between two data points to create a more accurate estimate.</li>
+<li>Predict the next measurement and rate of change based on the current estimate and how much we think it will change.</li>
+<li>The new estimate is then chosen as part way between the prediction and next measurement scaled by how accurate each is.</li>
+<li>The filter is only as good as the mathematical model used to express the system.</li>
+<li>Filters are designed, not selected ad hoc. No choice of g and h applies to all scenarios.</li>
+</ul>
+<p>Terminology:</p>
+<ul>
+<li>System - the object we want to estimate</li>
+<li>State, <code>x</code> - the current configuration of the system. Hidden.</li>
+<li>Measurement, <code>z</code> - measured value of the state from a noisy sensor. Observable.</li>
+<li>State estimate - our filter’s estimate of the state.</li>
+<li>Process model - the model we use to predict the next state based on the current state.</li>
+<li>System propagation - the predict step</li>
+<li>Measurement update - the update step</li>
+<li>Epoch - one iteration of system propagation and measurement update.</li>
+</ul>
 </section>
 </section>
 <section id="discrete-bayes-filter" class="level2">
@@ -266,44 +318,50 @@ Figure&nbsp;1: g-h filter diagram
 <li>Likelihood is the joint probability of the observed data - how likely is each position given the measurement. This is not a probability distribution as it does not sum to 1.</li>
 </ul>
 <p>The filter will use Bayes theorem:</p>
-<pre><code>posterior = likelihood * prior / normalization</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode tex code-with-copy"><code class="sourceCode latex"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>posterior = likelihood * prior / normalization</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>In even simpler filter terms:</p>
-<pre><code>udpated knowledge = || likelihood of new knowledge * prior knowledge ||</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode tex code-with-copy"><code class="sourceCode latex"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>updated knowledge = || likelihood of new knowledge * prior knowledge ||</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>If we have a prior distribution of positions and system model of the subsequent movement, we can convolve the two to calculate the posterior.</p>
 </section>
 <section id="discrete-bayes-filter-1" class="level3">
 <h3 class="anchored" data-anchor-id="discrete-bayes-filter-1">Discrete Bayes filter</h3>
 <p>The discrete Bayes filter is a form of g-h filter. It is useful for multimodal, discrete problems.</p>
 <p>The equations are:</p>
-<pre><code>Predict step:
-x_bar = x * f_x(.)
-where:
-- x is the current state
-- f_x(.) is the state propagation function for x, i.e. the system model.
-
-
-Update step:
-x = ||L . x_bar||
-where:
-- L is the likely function</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode tex code-with-copy"><code class="sourceCode latex"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Predict step:</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x_bar = x * f_x(.)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>where:</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>- x is the current state</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>- f_x(.) is the state propagation function for x, i.e. the system model.</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>Update step:</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>x = ||L . x_bar||</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>where:</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>- L is the likely function</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>In pseudocode this is:</p>
-<pre><code>Initialisation:
-1. Initialise our belief in the state.
-
-Predict:
-1. Predict state for the next time step using the system model.
-2. Adjust belief to account for uncertainty in prediction.
-
-Update:
-1. Get a measurement and belief about its accuracy (noise estimate).
-2. Compute likelihood of measurement matching each state.
-3. Update posterior state belief based on likelihood.</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode tex code-with-copy"><code class="sourceCode latex"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>Initialisation:</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>1. Initialise our belief in the state.</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>Predict:</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>1. Predict state for the next time step using the system model.</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>2. Adjust belief to account for uncertainty in prediction.</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>Update:</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>1. Get a measurement and belief about its accuracy (noise estimate).</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>2. Compute likelihood of measurement matching each state.</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>3. Update posterior state belief based on likelihood.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Algorithms of this form a called “predictor correctors”; we make a prediction then correct it. The predict step will always degrade our knowledge due to the uncertainty in the second step of the predict stage. But adding another measurement, even if noisy, improves our knowledge again. So we can converge on the most likely result.</p>
 </section>
 <section id="evaluation-of-discrete-bayes-filter" class="level3">
 <h3 class="anchored" data-anchor-id="evaluation-of-discrete-bayes-filter">Evaluation of discrete Bayes filter</h3>
 <p>The algorithm is trivial to implement, debug and understand.</p>
-<p>Limitations: - Scaling - Tracking i state variables results in O(n^i) runtime complexity. - Discrete - Most real-world examples are continuous. We can increase the granularity to get a discrete approximation of continuous measurements, but this increases the scale again. - Multimodal - Sometimes you require a single output value. - Needs a state change measurement.</p>
+<p>Limitations:</p>
+<ul>
+<li>Scaling - Tracking <code>i</code> state variables results in <code>O(n^i)</code> runtime complexity.</li>
+<li>Discrete - Most real-world examples are continuous. We can increase the granularity to get a discrete approximation of continuous measurements, but this increases the scale again.</li>
+<li>Multimodal - Sometimes you require a single output value.</li>
+<li>Needs a state change measurement.</li>
+</ul>
 <p>The Kalman filter is based on the same idea that we can use Bayesian reasoning to combine measurements and system models. The fundamental insight in this chapter is that we multiply (convolve) probabilities when we measure and shift probabilities when we update, which leads to a converging solution.</p>
 </section>
 </section>
@@ -325,17 +383,25 @@ Update:
 <section id="gaussians" class="level3">
 <h3 class="anchored" data-anchor-id="gaussians">Gaussians</h3>
 <p>Continuous, unimodal probability distributions.</p>
-<pre><code>f(x, mu, sigma) = (1 / sigma sqrt(2*pi)) * e^(-(x-mu)^2/2*sigma^2)
-
-which, removing constants, is proportional to
-e^-x^2</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode tex code-with-copy"><code class="sourceCode latex"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>f(x, mu, sigma) = (1 / sigma sqrt(2*pi)) * e^(-(x-mu)^2/2*sigma^2)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>which, removing constants, is proportional to e^-x^2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The probability of a single point is infinitesimally small. We can think of this in Bayesian terms or frequentist terms. As a Bayesian, if the thermometer reads exactly 22°C, then our belief is described by the Gaussian curve; our belief that the actual (system) temperature is near 22°C is very high, and our belief that the actual temperature is, say, near 18 is very low. As a frequentist we would say that if we took 1 billion temperature measurements of a system at exactly 22°C, then a histogram of the measurements would look like a Gaussian curve.</p>
-<p>Gaussians are nice to work with because the sum of independent Gaussian random variables is another Gaussian random variable. The product of Gaussian distributions will be a Gaussian function, i.e.&nbsp;it is Gaussian but may not sum to 1 so will need to be scaled. Sum of two Gaussians: - mu = mu_1 + mu_2 - var = var_1 + var_2 Product of two Gaussians: - mu = (var_1<em>mu_2 + var_2</em>mu_1) / (var_1 + var_2) - var = (var_1*var_2) / (var_1 + var_2)</p>
+<p>Gaussians are nice to work with because the sum of independent Gaussian random variables is another Gaussian random variable. The product of Gaussian distributions will be a Gaussian function, i.e.&nbsp;it is Gaussian but may not sum to 1 so will need to be scaled. Sum of two Gaussians:</p>
+<ul>
+<li>mu = mu_1 + mu_2</li>
+<li>var = var_1 + var_2</li>
+</ul>
+<p>Product of two Gaussians:</p>
+<ul>
+<li>mu = (var_1<em>mu_2 + var_2</em>mu_1) / (var_1 + var_2)</li>
+<li>var = (var_1*var_2) / (var_1 + var_2)</li>
+</ul>
 <p>They also mean we can summarise/approximate large datasets with only two numbers: mean and variance.</p>
 <p>Bayes theorem applies to probability distribution functions (p) just like it does to individual events (P). From the general form of Bayes theorem:</p>
-<pre><code>p(A|B) = p(B|A)p(A)/p(B)</code></pre>
-<p>Recasting this for the sensor problem, where A=x_i (the position) and B=z ())sensor reading):</p>
-<pre><code>p(x_i|z) = p(z|x_i)p(x_i)/p(z)</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode tex code-with-copy"><code class="sourceCode latex"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>p(A|B) = p(B|A)p(A)/p(B)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Recasting this for the sensor problem, where A=x_i (the position) and B=z (sensor reading):</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode tex code-with-copy"><code class="sourceCode latex"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>p(x_i|z) = p(z|x_i)p(x_i)/p(z)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li><code>p(z|x_i)</code> is the likelihood - the probability that we get the sensor measurement <code>z</code> at each position <code>x_i</code></li>
 <li><code>p(x_i)</code> is the prior - our belief before incorporating the measurement</li>
@@ -356,8 +422,9 @@ e^-x^2</code></pre>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
 <ul>
-<li>“Artificial Intelligence for Robotics”. https://www.udacity.com/course/cs373</li>
-<li>Think Stats ebook https://greenteapress.com/thinkstats/</li>
+<li><a href="https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python">Kalman filter repo</a></li>
+<li><a href="https://www.udacity.com/course/cs373">Artificial Intelligence for Robotics course</a></li>
+<li><a href="https://greenteapress.com/thinkstats/">Think Stats ebook</a></li>
 </ul>
 
 
@@ -756,7 +823,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"selector":".lightbox","loop":false,"openEffect":"zoom","closeEffect":"zoom","descPosition":"bottom"});
+<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","loop":false,"closeEffect":"zoom","descPosition":"bottom","selector":".lightbox"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;

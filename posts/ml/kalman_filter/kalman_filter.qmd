@@ -6,7 +6,7 @@ categories: [AI, Engineering]
 ---
 
 # Kalman filter
-Notes from https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python
+Notes from [https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python](https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python)
 
 ## 1. g-h filters 
 ### Combining predictions and measurements
@@ -16,7 +16,7 @@ If we have a prediction model for how the world evolves (e.g. predicted daily we
 Treat the prediction as a noisy sensor and combine as before, so that our estimate is some way between the prediction and the estimate.
 How close it is to one or the other depends on the relative accuracy of each, and this is a hyperparameter we can set. 
 
-```
+```tex
 prediction =  x_est + dx*dt 
 
 where:
@@ -28,10 +28,12 @@ where:
 ### g filter
 We can create a single parameter filter, where the parameter `g` corresponds to how strongly we 
 trust the prediction over the measurement
-```
+
+```tex
 residual = prediction - measurement
 estimate = measurement + g * residual
 ```
+
 - `g=0 => estimate=measurement`
 - `g=1 => estimate=prediction`
 - for other values of `g`, the estimate will be somewhere between the measurement and prediction
@@ -40,12 +42,13 @@ estimate = measurement + g * residual
 
 ### g-h filter
 We can go one step further and use our noisy estimates of weight to refine our the daily weight gain w used in our prediction
-```
+
+```tex
 dx_t+1 = dx_t + h * residual / dt
 ```
 
-This gives us the g-h filter - a generic filter which allows us to set a parameter g for the weight measurement confidence
-and h for the weight change measurement confidence.
+This gives us the g-h filter - a generic filter which allows us to set a parameter `g` for the weight measurement confidence
+and `h` for the weight change measurement confidence.
 
 We can then update the estimates for weight and weight change on every time step 
 (or every measurement if time steps are irregular). 
@@ -54,6 +57,7 @@ This insight forms the basis for Kalman filters, where we will set g and h dynam
 
 ### Conclusion
 Key takeaways:
+
 - Multiple data points are more accurate than one data point, so throw nothing away no matter how inaccurate it is.
 - Always choose a number part way between two data points to create a more accurate estimate.
 - Predict the next measurement and rate of change based on the current estimate and how much we think it will change.
@@ -62,6 +66,7 @@ Key takeaways:
 - Filters are designed, not selected ad hoc. No choice of g and h applies to all scenarios.
 
 Terminology:
+
 - System - the object we want to estimate
 - State, `x` - the current configuration of the system. Hidden.
 - Measurement, `z` - measured value of the state from a noisy sensor. Observable.
@@ -92,12 +97,15 @@ coin tosses were used to inform our prior.
 - Likelihood is the joint probability of the observed data - how likely is each position given the measurement. This is not a probability distribution as it does not sum to 1.
 
 The filter will use Bayes theorem:
-```
+
+```tex
 posterior = likelihood * prior / normalization
 ```
+
 In even simpler filter terms:
-```
-udpated knowledge = || likelihood of new knowledge * prior knowledge ||
+
+```tex
+updated knowledge = || likelihood of new knowledge * prior knowledge ||
 ```
 
 If we have a prior distribution of positions and system model of the subsequent movement, 
@@ -108,7 +116,7 @@ The discrete Bayes filter is a form of g-h filter.
 It is useful for multimodal, discrete problems.
 
 The equations are:
-```
+```tex
 Predict step:
 x_bar = x * f_x(.)
 where:
@@ -123,7 +131,7 @@ where:
 ```
 
 In pseudocode this is:
-```
+```tex
 Initialisation:
 1. Initialise our belief in the state.
 
@@ -146,7 +154,8 @@ So we can converge on the most likely result.
 The algorithm is trivial to implement, debug and understand. 
 
 Limitations:
-- Scaling - Tracking i state variables results in O(n^i) runtime complexity.
+
+- Scaling - Tracking `i` state variables results in `O(n^i)` runtime complexity.
 - Discrete - Most real-world examples are continuous. We can increase the granularity to get a discrete approximation of 
              continuous measurements, but this increases the scale again.
 - Multimodal - Sometimes you require a single output value.
@@ -161,6 +170,7 @@ and shift probabilities when we update, which leads to a converging solution.
 Gaussian distributions address some of the limitations of the discrete Bayes filter, as they are continuous and unimodal.
 
 ### Probability
+
 - Random variables - the possible values and associated probabilities of a particular event. Denoted with capital letter, e.g. `X`
 - Sample space - the range of values a random variable can take. This is not unique, e.g. for a dice roll could be {1,2,3,4,5,6}, or {even,odd} or {d}
 - Probability distribution -  the probability for the random variable to take any value in the sample space. 
@@ -178,11 +188,10 @@ Gaussian distributions address some of the limitations of the discrete Bayes fil
 ### Gaussians
 Continuous, unimodal probability distributions.
 
-```
+```tex
 f(x, mu, sigma) = (1 / sigma sqrt(2*pi)) * e^(-(x-mu)^2/2*sigma^2)
 
-which, removing constants, is proportional to
-e^-x^2
+which, removing constants, is proportional to e^-x^2
 ```
 
 The probability of a single point is infinitesimally small. 
@@ -196,9 +205,12 @@ then a histogram of the measurements would look like a Gaussian curve.
 Gaussians are nice to work with because the sum of independent Gaussian random variables is another Gaussian random variable.
 The product of Gaussian distributions will be a Gaussian function, i.e. it is Gaussian but may not sum to 1 so will need to be scaled.
 Sum of two Gaussians:
+
 - mu = mu_1 + mu_2
 - var = var_1 + var_2
+
 Product of two Gaussians:
+
 - mu = (var_1*mu_2 + var_2*mu_1) / (var_1 + var_2)
 - var = (var_1*var_2) / (var_1 + var_2)
 
@@ -206,13 +218,17 @@ They also mean we can summarise/approximate large datasets with only two numbers
 
 Bayes theorem applies to probability distribution functions (p) just like it does to individual events (P).
 From the general form of Bayes theorem:
-```
+
+```tex
 p(A|B) = p(B|A)p(A)/p(B)
 ```
-Recasting this for the sensor problem, where A=x_i (the position) and B=z ())sensor reading):
-```
+
+Recasting this for the sensor problem, where A=x_i (the position) and B=z (sensor reading):
+
+```tex
 p(x_i|z) = p(z|x_i)p(x_i)/p(z)
 ```
+
 - `p(z|x_i)` is the likelihood - the probability that we get the sensor measurement `z` at each position `x_i` 
 - `p(x_i)` is the prior - our belief before incorporating the measurement
 - `p(x_i)` is the evidence - in practice this is often an intractable integral which we can sidestep by treating this as a normalisation factor, as we know the posterior pdf must sum to 1.
@@ -236,5 +252,6 @@ A Kalman filter is essentially a Bayesian filter that uses Gaussians, so combine
 
 
 ## References
-- "Artificial Intelligence for Robotics". https://www.udacity.com/course/cs373
-- Think Stats ebook https://greenteapress.com/thinkstats/
+- [Kalman filter repo](https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python)
+- [Artificial Intelligence for Robotics course](https://www.udacity.com/course/cs373)
+- [Think Stats ebook](https://greenteapress.com/thinkstats/)
