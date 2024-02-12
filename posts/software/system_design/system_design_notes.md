@@ -9,6 +9,7 @@ categories: [Engineering, Software]
 # System Design
 
 Steps:
+
 1. Requirements engineering
 2. Capacity estimation
 3. Data modeling
@@ -22,7 +23,8 @@ Functional and non-functional requirements.
 Scale of the system.
 
 ### 1.1. Functional requirements
-What the system should do.
+What the system should **do**.
+
 - Which problem does the system solve
 - Which features are essential to solve these problems
 
@@ -30,13 +32,16 @@ Core features: bare minimum required to solve the user's problem.
 Support features: features that help the user solve their problem more conveniently.
 
 ### 1.2. Non-functional requirements
-What the system should handle.
+What the system should **handle**.
 
->**Interview tips**
-> - Identify the non-functional requirements the interviewer cares most about
-> - Show awareness of system attributes, trade-offs and user experience
+::: {.callout-tip title="Interview Tips"}
+- Identify the non-functional requirements the interviewer cares most about
+- Show awareness of system attributes, trade-offs and user experience
+:::
+
 
 System analysis:
+
 - Read or write heavy?
   - Impacts requirements for database scaling, redundancy of services, effectiveness of caching.
   - System priorities - is it worse if the system fails to read or to write?
@@ -47,6 +52,7 @@ System analysis:
   - Choice determines the impact of a network failure
 
 Non-functional requirements:
+
 - Availability - How long is the system up and running per year?
   - Availability of a system is the **product** of its components' availability
   - Reliability, redundancy, fault tolerance
@@ -69,6 +75,7 @@ Non-functional requirements:
 
 Non-functional requirements depend heavily on expected scale. 
 The following help quantify expected scale, and relate to capacity estimation in the next step.
+
 - Daily active users (DAU)
 - Peak active users
 - Interactions per user - including read/write ratio
@@ -77,15 +84,17 @@ The following help quantify expected scale, and relate to capacity estimation in
 
 
 ## 2. Capacity Estimation
->**Interview tips**
-> - Simplify wherever you can - simple assumptions and round heavily
-> - Convert all numbers to scientific notation
-> - Know powers of 2
+
+::: {.callout-tip title="Interview Tips"}
+- Simplify wherever you can - simple assumptions and round heavily
+- Convert all numbers to scientific notation
+- Know powers of 2
+:::
 
 ### 2.1. Throughput
 Requests per second (RPS) is the key measure.
 
-```
+```tex
 Requests per day = Daily active users * Activities per user
 Requests per second = RPD / 10^5
 Peak load = RPS * Peak load factor
@@ -94,7 +103,7 @@ Peak load = RPS * Peak load factor
 Read/write ratio is important to get the total requests.
 Usually, information on either reads or writes is missing and must be inferred using the other.
 
-```
+```tex
 Total RPS = Read RPS + Write RPS
 ```
 
@@ -103,13 +112,14 @@ The amount of data that can be transmitted between two nodes in a fixed period o
 Bits per second.
 
 Throughput, bandwidth and latency are all related and can be thought of with the motorway analogy.
+
 - Throughput is the total number of vehicles that must pass through that road per day.
 - Bandwidth is the number of lanes.
 - Latency is the time taken to get from one end of the road to another.
 
 The bandwidth must be large enough to support the required throughput.
 
-```
+```tex
 Bandwidth = Total RPS * Request size
 ```
 
@@ -124,7 +134,7 @@ e.g. YouTube lowers the resolution if the connection is slow.
 Measured in bits per second using the Write RPS.
 Long term storage (assuming the same user base) is also helpful.
 
-```
+```tex
 Storage capacity per second = Write RPS * Request size * Replication factor
 Storage capacity in 5 years = Storage capacity per second * 2*10^8 
 ```
@@ -134,12 +144,15 @@ Storage capacity in 5 years = Storage capacity per second * 2*10^8
 Key concepts are: entities, attributes, relations.
 
 Optimisation discussions are anchored by the data model.
+
 Relational databases: denormalization, SQL tuning, sharding, federation
+
 Non-relational databases: indexing, caching
 
 The data model is not a full-blown data schema (which only applies to relational databases) but a more informal, high-level version.
 
 Must haves:
+
 1. Derive entities and attributes.
 2. Draw connections between entities.
 Then:
@@ -156,10 +169,12 @@ Create a unique table for each entity.
 Attributes describe properties of an entity, e.g. a user's name, date of birth.
 These are the fields in the table of that entity.
 
->**Interview tips**
-> - Do not focus on irrelevant details
-> - Do not miss any critical functionality
-> - Double check all tables after you extract all info from requirements
+::: {.callout-tip title="Interview Tips"}
+- Do not focus on irrelevant details
+- Do not miss any critical functionality
+- Double check all tables after you extract all info from requirements
+:::
+
 
 ### 3.2. Relations
 Extract connections between entities from the requirements.
@@ -168,6 +183,7 @@ Relationships can be one-to-one, one-to-many or many-to-many.
 
 ## 4. API design
 Specify the API endpoints with:
+
 - Function signature
 - Parameters
 - Response and status codes
@@ -176,6 +192,7 @@ This specifies a binding contract between the client and the application server.
 There can be APIs between every system component, but just focus on the client/server interface.
 
 Process:
+
 1. Revisit the functional requirements
 2. Derive the goal of each endpoint
 3. Derive the signature from the goal and the inputs from the data model
@@ -184,17 +201,20 @@ Process:
 Naming conventions.
 Use HTTP request types in the call signature where appropriate: GET, POST, PUT, PATCH, DELETE
 
->**Interview tips**
-> - Avoid vague inputs
-> - Don't add extra parameters that are out of scope
-> - Avoid redundant parameters
-> - Don't miss any parameters
-> - Confirm the output repsonse satisfies the requirements
-> - Identify inefficiencies of the data structure
+
+::: {.callout-tip title="Interview Tips"}
+- Avoid vague inputs
+- Don't add extra parameters that are out of scope
+- Avoid redundant parameters
+- Don't miss any parameters
+- Confirm the output repsonse satisfies the requirements
+- Identify inefficiencies of the data structure
+:::
 
 
 ## 5. System design
 System components: 
+
 - Representation layer
   - Web app
   - Mobile app
@@ -210,14 +230,16 @@ System components:
             no data normalisation
 
 Scaling: 
+
 - Scale services by having multiple instances of the service with a load balancer in front
 - Scale database with federation (functional partitioning) - split up data by function
 
-System diagrams: arrows point in direction of user flow (not data flow)
+System diagrams: arrows point in direction of **user flow** (not data flow)
 
 
 ## 6. Design discussion
 Types of questions:
+
 - NFR questions
   - How to achieve scalability
     - Identify each bottleneck and remedy it
@@ -232,6 +254,7 @@ Types of questions:
 ## 7. System components deep-dive
 ### 7.1. Encoding
 There are two parameters we can vary:
+
 1. Length of the key - should be limited so the URL is short enough
 2. Range of allowed characters - should be URL-safe
 
@@ -250,12 +273,14 @@ Encoding options:
 4 main operations (CRUD): Create, Read, Update, Delete.
 
 Transactions - group several operations together
+
 - Either the entire transaction succeeds or it fails and rolls back to the initial state. Commit or abort on error.
 - Without transactions, if an individual operation fails, it can be complex to unwind the related transactions to return to the initial state.
 - Error handling is simpler as manual rollback of operations is not required.
 - Transactions provide guarantees so we can reason about the database state before and after the transaction.
 
 Transactions enforce "ACID" guarantees:
+
 - Atomicity -    Transactions cannot be broken down into smaller parts. 
 - Consistency -  All data points within the database must align to be properly read and accepted. Raise a consistency error if this is not the case.
                  Database consistency is different from system consistency which states the data should be the same across all nodes.
@@ -265,11 +290,13 @@ Transactions enforce "ACID" guarantees:
                  Backups and transaction logs can restore committed transactions in the case of a failure. 
 
 Relational databases are a good fit when:
+
 - Data is well-structured
 - Use case requires complex querying
 - Data consistency is important
 
-Limitations
+Limitations of relational databases:
+
 - Horizontal scaling is complex
 - Distributed databases are more complex to keep transaction guarantees
   - Two phase commit protocol (2PC):
@@ -279,6 +306,7 @@ Limitations
 
 #### Non-relational databases
 Examples of non-relational databases:
+
 - Key-value store
 - Document store
 - Wide-column store
@@ -290,6 +318,7 @@ Transactions were seen as the enemy of scalability, so needed to be abandoned co
 ACID enforces consistency for relational databases; for non-relational databases there is eventual consistency.
 
 BASE:
+
 - Basically Available -  Always possible to read and write data even though it may not be consistent.
                          E.g. reads may not reflect latest changes, writes may not be persisted.
 - Soft state -           Lack of consistency guarantees mean data state may change without any interactions with the application
@@ -297,16 +326,19 @@ BASE:
 - Eventual consistency - Data will eventually become consistent once inputs stops.
 
 Benefits:
+
 - Without atomicity constraint, overheads like 2PC are not required
 - Without consistency constraint, horizontal scaling is trivial
 - Without isolation constraint, no blocking is required which improves availability.
 
 Non-relational databases are a good fit when:
+
 - Large data volume that isn't tabular
 - High availability requirement
 - Lack of consistency across nodes is acceptable
 
 Limitations:
+
 - Consistency is necessary for some use cases
 - Lack of standardisation
 
@@ -317,6 +349,7 @@ every time something changes.
 Solution: identify the changes and only push/pull these. Similar to git.
 
 The rsync algorithm makes it easier to compare changes by:
+
 1. Split the file into blocks
 2. Calculate a checksum for each block (using MD5 hashing algorithm)
 3. To compare files between the client and the server, we only need to send the hashes back and forth
@@ -328,7 +361,7 @@ One-way communication that broadcasts file updates one-to-many.
 #### Pull approach
 These are synchronous.
 
-Polling is an example of a pull API.
+**Polling** is an example of a pull API.
 We periodically query the server to see if there are any updates. If not, the server responds immediately saying there is no new data.
 This may result in delayed updates and can overwhelm the server with too many requests.
 
@@ -337,7 +370,7 @@ This may result in delayed updates and can overwhelm the server with too many re
 #### Push approach
 These are asynchronous.
 
-Long-polling. 
+**Long-polling**.
 The client connects to the server and makes a request. 
 Instead of replying immediately, the server waits until there is an update and then sends the response.
 If there is no update for a long time, the connection times out and the client must reconnect.
@@ -345,14 +378,14 @@ Server resources are tied up until the connection is closed, even if there is no
 
 ![LongPolling](long_polling.png){.lightbox #fig-long_polling}
 
-Websockets.
+**Websockets**.
 The client establishes a connection using an HTTP request and response. 
 This establishes a TCP/IP connection for 2-way communication.
 This allows for real-time applications without long-polling.
 
 ![Web Sockets](websockets.png){.lightbox #fig-websockets}
 
-Server sent events.
+**Server sent events**.
 Event-based approach.
 EventSource API supported by all browsers.
 The connection is 1-directional; the client can only pass data to the server at the point of connection. After that, only the server can send data to the client.
@@ -396,10 +429,12 @@ The publisher publishes to a certain topic. Any consumer who is interested can t
 Files are stored in folders, with metadata about creation time and modification time.
 
 Benefits: 
+
 - Simplicity - simple and well-known pattern
 - Compatibility - works with most applications and OSes
 
 - Limitations:
+
 - Performance degradation - as size increases, the resource demands increase.
 - Expensive - although cheap in principle, they can get expensive when trying to work around the performance issues.
 
@@ -409,9 +444,11 @@ Use cases: data protection, local archiving, data retrieval done by users.
 A system component that manages data as objects in a flat structure. An object contains the file and its metadata.
 
 Benefits:
+
 - Horizontal scalability
 
 Limitations:
+
 - Objects must be edited as a unit - degrades performance if only a small part of the file needs to be updated.
 
 Use cases: large amounts of unstructured data.
@@ -420,12 +457,14 @@ Use cases: large amounts of unstructured data.
 A system component that breaks up and then stores data as fixed-size blocks, each with a unique identifier.
 
 Benefits:
+
 - Highly structured - easy to index, search and retrieve blocks
 - Low data transfer overheads
 - Supports frequent data writes without performance degradation
 - Low latency
 
 Limitations:
+
 - No metadata, so metadata must be handled manually
 - Expensive
 
@@ -434,6 +473,7 @@ A subclass of key-value stores, which hold computer-readable documents, like XML
 
 ### 7.7. Video uploading
 Issues:
+
 - Massive files: 4TB for 4 hours of 4K video
   - How can we reliably upload very large files?
 - Lots of different end-user clients/devices/connection speeds
@@ -456,6 +496,7 @@ Processing pipeline:
    - Convert the uncompressed file into multiple different resolution options.
 
 Architecture considerations:
+
 - Wait for the full file to upload before processing? Or process each chunk as it is uploaded?
 - An upload service persists chunks to a database. Object store is a good choice as in the file-sharing example.
 - Once a chunk is ready to be processed, it can be read and placed in the message queue for the processing pipeline.
@@ -469,6 +510,7 @@ The challenges are similar to that of file-sharing, as this is essentially large
 Latency and processing power of the end-user device. 
 
 Two main transfer protocols:
+
 - UDP
 - TCP
 
@@ -478,13 +520,16 @@ Nodes do NOT establish a stable end-to-end connection before sending data.
 Instead, each packet has its destination address attached so the network can route it to the correct place.
 
 Advantages:
+
 - Fast
 - Packets are routed independently so if some are lost the others can still reach their destination
 
 Disadvantages:
+
 - No guarantee that data will arrive intact.
 
 Use cases:
+
 - Low-latency applications like video conferencing or gaming.
 - Not suitable for movie or audio streaming, as missing bits cannot be tolerated.
 
@@ -494,22 +539,27 @@ The nodes agree on certain parameters before any data is transferred.
 Parameters: IP addresses of source and destination, port numbers of source and destination. 
 
 Three-way handshake establishes the connection:
+
 1. Sender transfers their sequence number to the Receiver.
 2. Receiver acknowledges and sends its own sequence number.
 3. Sender acknowledges.
 
 Advantages:
+
 - Reliability; guarantees delivery and receives acknowledgements before further packets are sent.
 - Receiver acknowledgements ensure the receiver is able to process/buffer the data in time before more packets are sent.
 
 Disadvantages:
+
 - Slower due to error checking and resending lost packets.
 - Requires three-way handshake to establish connection which is slower.
 
 Use cases:
+
 - Media streaming (HTTP live-streaming or MPEG-DASH)
 
 Adaptive bitrate streaming
+
 - TCP adjusts transmission speed in response to network conditions
 - When packet loss is detected, smaller chunks are sent at a lower transmission speed. The lower resolution file can be sent in this case.
 
@@ -522,25 +572,29 @@ Caching is the process of storing copies of frequently accessed data in a tempor
 
 Caches utilise the difference in read performance between memory and storage.
 Times to fetch 1MB from:
+
 - HDD: 3 ms
 - SSD: 0.2 ms
 - RAM: 0.01 ms
 
 When a user requests data it first requests from the cache
+
 - Cache HIT: If the data is in the cache, return it
 - Cache MISS: If the data is not in the cache, pass the request to the database, update the cache and return the data 
 
 A cache can grow stale over time.
 There are 2 common approaches to mitigate this:
+
 1. Set up a time-to-live (TTL) policy within the cache
   - Trade off between short TTL (fresh data but worse performance) vs long TTL (data can be stale)
 2. Implement active cache invalidation mechanism
   - Complicated to implement. Requires an "invalidation service" component to monitor and read from the database, then update the cache when necessary.
 
-Application-level caching:
+**Application-level caching**.
 Insert caching logic into the application's source code to temporarily store data in memory.
 
 Two approaches to application-level caching:
+
 1. Query-based implementation
    - Hash the query as a key and store the value against the key in a key-value store.
    - Limitations: hard to delete cached result with a complex query; if a cell changes then all cached query which might include it need updating.
@@ -563,17 +617,20 @@ stale data.
 ![CDN Invalidation](CDN_invalidation.png){.lightbox #fig-CDN_invalidation}
 
 Approaches to invalidating cache:
+
 - Caching headers - set a time when an object should be cleared, e.g. max-age=86400 caches for a day.
 - Cache busting - change the link to all files and assets, so the CDN treats them like new files.
 
 
 ### 7.10 Search engine database
 These are specialised NoSQL databases with the following benefits:
+
 - Can match even with typos or non-exact matches
 - Full-text search means you can suggest autocomplete results and related queries as the user types
 - Indexing allows faster search performance on big data.
 
 The database is structures as a hashmap where the inverted index points at documents.
+
 - Document - Represents a specific entity, like a row in a relational database
 - Inverted index - Maps from content to the documents that include it. The inverted index splits each document into individual search terms and makes each point to the document itself.
 - Ranking algorithm - Produces a list of possibly relevant documents. Additional factors may impact this, like a user's previous search history.
@@ -586,11 +643,13 @@ The database is a dictionary of {search_term_id: [document_ids, ...]}
 Popular implementations: Lucene, Elastic search, Apache solr, Atas search (MongoDB), Redis search.
 
 Benefits of search engine databases:
+
 - Scalable - NoSQL so scale horizontally
 - Schemaless
 - Works out of the box - just need ot decide upfront what attributes should be searchable.
 
 Limitations:
+
 - No ACID guarantees.
 - Not efficient at reading/writing data, so requires another database to manage state. 
   - Maintaining consistency between the main database and the search engine database can be tricky.
@@ -600,6 +659,7 @@ Limitations:
 ## 8. System design examples and discussion
 ### 8.1. Todo App
 An app that lets a user add and delete items from a todo list.
+
 - Representation layer is a web app
 - Microservices handle the todo CRUD operations and the user details separately
   - Each service is scaled horizontally, so a load balancer is placed in front of it
@@ -613,6 +673,7 @@ An app that lets a user add and delete items from a todo list.
 Take an input URL and return a unique, shortened URL that redirects to the original.
 
 Planned system architecture:
+
 - Pre-generate all 5 digit keys (1 billion entries rather than 64 billion for 6 digits)
 - System retrieves 5-difit keys from database
 - System appends 1 out of 64 characters
@@ -620,6 +681,7 @@ Planned system architecture:
 
 #### Mock interview
 System analysis:
+
 - System is read heavy - Once a short URL is created it will be read multiple times
 - Distributed system as this has to scale
 - Availability > Consistency - not so much of a concern if a link isn't available to all users at the same time, 
@@ -627,20 +689,25 @@ System analysis:
 
 
 **Requirements engineering:-**
+
 Core feature:
+
 - A user can input a URL of arbitrary length and receive a unique short URL of fixed size.
 - A user can navigate to a short link and be redirected to the original URL.
 
 Support features:
+
 - A user can see their link history of all created short URLs.
 - Lifecycle policy - links should expire after a default time span.
 
 Non-functional requirements:
+
 - Availability - the system should be available 99% of the time.
 - Scalability - the system should support billions of short URLs, and thousands of concurrent users.
 - Latency - the system should return redirect from a short URL to the original in under 1 second.
 
 Questions to capture scale:
+
 - Daily active users, and how often do users interact per day
   - 100 million, 1 interaction per day
 - Peak active users - are there events that lead to traffic spikes?
@@ -653,6 +720,7 @@ Questions to capture scale:
   - 1x - ignore replication
 
 **Capacity estimation:-**
+
 - Requests per second 
   - Reads per second = DAU * interactions per day / seconds in day = 10^8 * 1 / 10^5 = 1000 reads/s
   - Writes per second = Reads per second / read write ratio = 1000 / 10 = 100 writes/s
@@ -667,18 +735,22 @@ Questions to capture scale:
 
 
 **Data model:-**
+
 Identify entities, attributes and relationships.
 
 Entities and attributes: 
-- Links: Key (used to create short URL, Original URL, Expiry date
+
+- Links: Key (used to create short URL), Original URL, Expiry date
 - Users: UserID, Links
 - Key ranges: Key range, In use (bool)
 
 Relationships:
+
 - Users own Links
 - Links belong to Key ranges
 
 Data stores:
+
 - Users
   - User data is typically relational and we rarely want it all returned at once. 
   - Consistency is important as we want the user to have the same experience regardless of which server handles their log in, and don't want userIds to clash.
@@ -694,7 +766,9 @@ Data stores:
 
 
 **API design:-**
+
 Endpoints:
+
 - createUrl(originalUrl: str) -> shortUrl
   - response code 200, {shortURL: str}
 - getLinkHistory(userId: str, sorting: {'asc', 'desc'})
@@ -704,26 +778,32 @@ Endpoints:
 
 
 **System design:-**
+
 User flows for each of the required functional requirements.
 
 ![URL Shortener System Design](url_shortener_system.png){.lightbox #fig-url_shortener_system}
 
 ### 8.3. Dropbox file sharing
 **Requirements engineering**
+
 Requirements gathering:
+
 - Read-heavy
 - Distributed
 - Data consistency is more important than availability - files should be consistent for all users
 
 Core functional requirements:
+
 1. A user can upload a file to the server
 2. A user can download their files from the server
 
 Secondary functional requirements:
+
 1. A user can see a history of files uploaded and downloaded
 2. A user can see who has downloaded a specific file and when
 
 Non-functional requirements:
+
 1. Consistency - data should be consistent across users and devices
 2. Resilience - customer data should never be lost
 3. Minimal latency
@@ -731,6 +811,7 @@ Non-functional requirements:
 5. Security - multi-tenancy; customer data should be separate of one another
 
 Questions to determine scale:
+
 1. Daily active users
 2. Peak active users - what events lead to a spike?
 3. Interactions per user - how many file syncs, how many files does a user store
@@ -739,26 +820,33 @@ Questions to determine scale:
 6. Replication factor
 
 **Capacity estimation**
+
 Throughput
+
 - Peak write RPS = 2 peak load ratio * 10^8 users * 2 files/day / 10^5 seconds = 4000 RPS
 - Peak read RPS = 10 read/write ration * 4000 write RPS = 40000 RPS
 - Peak total RPS = 44000 RPS
 
 Bandwidth
+
 - Write bandwidth = 4000 Write RPS * 100 kB Request size = 400 MB/s
 - Read bandwidth = 40000 Read RPS * 100 kB request size = 4 GB/s
 - Total bandwidth = Write bandwidth + Read bandwidth = 4.4 GB/s
 
 Storage
-- Storage capacity = 5*10^8 Total users * 100 files per user * 1MB File Size * 3 Replication factor = 15*10^10 MB = 15000 TB
+
+- Storage capacity = 5 * 10^8 Total users * 100 files per user * 1MB File Size * 3 Replication factor = 15*10^10 MB = 15000 TB
 
 **Data model**
+
 Users: Store Ids for the files that belong to them
 
 Files: Metadata on the owner, file edit history, filename, size, chunks that comprise the file, version history
 
 **API Design**
+
 Endpoints:
+
 - compareHashes(fileId: str, chunkHashes: list)
   - Takes a file ID and a list of chunk hashes and returns a list of the hashes that need resyncing .
   - response code 200, {syncChunks: [Hash,...]}
@@ -774,15 +862,17 @@ Endpoints:
 ![Dropbox System Design](dropbox_design.png){.lightbox #fig-dropbox_design}
 
 **Design Discussion**
+
 - What can we do to achieve a scalable design?
   - Identify bottlenecks and remedy each.
 - What can we do to achieve resiliency?
 
 
 ## References
-- Udemy course https://www.udemy.com/course/the-bigtech-system-design-interview-bootcamp
-- Excalidraw session https://excalidraw.com/#json=QM7dLZcHbESVnuTPiu06v,pdjPoskF0KknQ6YORHxeHw
-- Capacity estimation cheat sheet in _resources folder
-- Database book - "Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems" by Martin Kleppmann
-- Rsync algorithm https://openresearch-repository.anu.edu.au/bitstream/1885/40765/3/TR-CS-96-05.pdf
-- Search Engines Information Retrieval in Practice book https://ciir.cs.umass.edu/irbook/
+
+- [Udemy course](https://www.udemy.com/course/the-bigtech-system-design-interview-bootcamp)
+- [Excalidraw session](https://excalidraw.com/#json=QM7dLZcHbESVnuTPiu06v,pdjPoskF0KknQ6YORHxeHw)
+- [Capacity estimation cheat sheet](CapacityEstimationCheatSheet.pdf)
+- "Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems" by Martin Kleppmann
+- [Rsync algorithm](https://openresearch-repository.anu.edu.au/bitstream/1885/40765/3/TR-CS-96-05.pdf)
+- [Search Engines Information Retrieval in Practice book](https://ciir.cs.umass.edu/irbook/)

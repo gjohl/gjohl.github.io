@@ -226,12 +226,23 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="software-architecture-notes" class="level1">
 <h1>Software Architecture Notes</h1>
-<p>Notes from udemy course https://www.udemy.com/course/the-complete-guide-to-becoming-a-software-architect/</p>
+<p>Notes from <a href="https://www.udemy.com/course/the-complete-guide-to-becoming-a-software-architect/">“The Complete Guide to Becoming a Software Architect” Udemy course</a></p>
 <section id="what-is-a-software-architect" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-a-software-architect">1. What is a software architect</h2>
 <p>A developer knows what can be done, an architect knows what should be done. How do we use technology to meet business requirements.</p>
-<p>General system requirements: - Fast - Secure - Reliable - Easy to maintain</p>
-<p>Architect’s need to know how to code for: - Architecture’s trustworthiness - Support developers - Respect of developers</p>
+<p>General system requirements:</p>
+<ul>
+<li>Fast</li>
+<li>Secure</li>
+<li>Reliable</li>
+<li>Easy to maintain</li>
+</ul>
+<p>Architect’s need to know how to code for:</p>
+<ul>
+<li>Architecture’s trustworthiness</li>
+<li>Support developers</li>
+<li>Respect of developers</li>
+</ul>
 </section>
 <section id="the-architects-mindset" class="level2">
 <h2 class="anchored" data-anchor-id="the-architects-mindset">2. The architect’s mindset</h2>
@@ -239,8 +250,9 @@ ul.task-list li input[type="checkbox"] {
 <li>Understand the business - Strengths, weaknesses, compettions, growth strategy.</li>
 <li>Define the system’s goals - Goals are not requirements. Goals describe the effect on the organisation, requirements describe what the system should do.</li>
 <li>Work for your client’s clients - Prioritise the end user.</li>
-<li>Talk to the right people with the right language - What is the thing that really matters to the person I’m talking to? Project managers care about how things affect deadlines, developers care about the technologies used, CEOs care about business continuity and bottom line.</li>
+<li>Talk to the right people with the right language - What is the thing that really matters to the person I’m talking to?</li>
 </ul>
+<p>Project managers care about how things affect deadlines, developers care about the technologies used, CEOs care about business continuity and bottom line.</p>
 </section>
 <section id="the-architecture-process" class="level2">
 <h2 class="anchored" data-anchor-id="the-architecture-process">3. The architecture process</h2>
@@ -253,7 +265,11 @@ ul.task-list li input[type="checkbox"] {
 <li>Write the architecture document</li>
 <li>Support the team</li>
 </ol>
-<p>Include developers in non-functional requirements and architecture design for two reasons: 1. Learn about unknown scenarios early 2. Create ambassadors</p>
+<p>Include developers in non-functional requirements and architecture design for two reasons:</p>
+<ol type="1">
+<li>Learn about unknown scenarios early</li>
+<li>Create ambassadors</li>
+</ol>
 </section>
 <section id="system-requirements" class="level2">
 <h2 class="anchored" data-anchor-id="system-requirements">4. System requirements</h2>
@@ -329,7 +345,12 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="select-technology-stack" class="level2">
 <h2 class="anchored" data-anchor-id="select-technology-stack">6. Select technology stack</h2>
-<p>Considerations: - Appropriate for the task - Community - e.g.&nbsp;stack overflow activity - Popularity - google trends over 2 years</p>
+<p>Considerations:</p>
+<ul>
+<li>Appropriate for the task</li>
+<li>Community - e.g.&nbsp;stack overflow activity</li>
+<li>Popularity - google trends over 2 years</li>
+</ul>
 <section id="backend-technology" class="level3">
 <h3 class="anchored" data-anchor-id="backend-technology">6.1. Backend technology</h3>
 <p>Covers web app, web API, console, service.</p>
@@ -347,12 +368,34 @@ Figure&nbsp;1: Backend Tech
 </section>
 <section id="frontend-technology" class="level3">
 <h3 class="anchored" data-anchor-id="frontend-technology">6.2. Frontend technology</h3>
-<p>Covers: - Web app - Angular, React - Mobile - Native (Swift, Java/Kotlin), Xamarin, React Native - Desktop - depends on target OS</p>
+<p>Covers:</p>
+<ul>
+<li>Web app - Angular, React</li>
+<li>Mobile - Native (Swift, Java/Kotlin), Xamarin, React Native</li>
+<li>Desktop - depends on target OS</li>
+</ul>
 </section>
 <section id="data-store-technology" class="level3">
 <h3 class="anchored" data-anchor-id="data-store-technology">6.3. Data store technology</h3>
-<p>SQL - small, structured data - Relational tables - Transactions - Atomicity - Consistency - Isolation - Durability - Querying language is universal</p>
-<p>NoSQL - huge, unstructured or semi-structured data - Emphasis on scale and performance. - Schema-less, with entities stored as JSON. - Eventual consistency - data can be temporarily inconsistent - No universal querying language</p>
+<p>SQL - small, structured data</p>
+<ul>
+<li>Relational tables</li>
+<li>Transactions
+<ul>
+<li>Atomicity</li>
+<li>Consistency</li>
+<li>Isolation</li>
+<li>Durability</li>
+</ul></li>
+<li>Querying language is universal</li>
+</ul>
+<p>NoSQL - huge, unstructured or semi-structured data</p>
+<ul>
+<li>Emphasis on scale and performance.</li>
+<li>Schema-less, with entities stored as JSON.</li>
+<li>Eventual consistency - data can be temporarily inconsistent</li>
+<li>No universal querying language</li>
+</ul>
 </section>
 </section>
 <section id="the--ilities" class="level2">
@@ -372,7 +415,12 @@ Figure&nbsp;1: Backend Tech
 <p>Component architecture relates to the lower level details, whereas system architecture is the higher level view of how the components fit together to achieve the non-functional requirements.</p>
 <section id="layers" class="level3">
 <h3 class="anchored" data-anchor-id="layers">8.1. Layers</h3>
-<p>Layers represent horizontal functionality: 1. UI/SI - user interface or service interface (i.e.&nbsp;an API), authentication 2. Business logic - validation, enrichment, computation 3. Data access layer - connection handling, transaction handling, querying/saving data</p>
+<p>Layers represent horizontal functionality:</p>
+<ol type="1">
+<li>UI/SI - user interface or service interface (i.e.&nbsp;an API), authentication</li>
+<li>Business logic - validation, enrichment, computation</li>
+<li>Data access layer - connection handling, transaction handling, querying/saving data</li>
+</ol>
 <p>Code can flow downwards by one layer only. It can never skip a layer and can never go up a layer. This enforces modularity.</p>
 <p>A service might sit across layers, for example logging sits across the 3 layers described above. In this case, the logging service is called a “sross-cutting concern”.</p>
 <p>Each layer should be independent of the implementation of other layers. Layers should handle exceptions from those below them, log the error and then throw a more generic exception, so that there is no reference to other layers’ implementation.</p>
@@ -402,8 +450,18 @@ Figure&nbsp;1: Backend Tech
 </section>
 <section id="exception-handling" class="level3">
 <h3 class="anchored" data-anchor-id="exception-handling">8.5. Exception handling</h3>
-<p>Some best practices: 1. Only catch exceptions if you are going to do something with it 2. Catch specific exceptions 3. Use try-catch on the smallest code fragments possible 4. Layers should handle exceptions raised by layers below them, without exposing the specific implementation of the other layer. Catch, log, re-raise a more generic error.</p>
-<p>Purposes of logging: 1. Track errors 2. Gather data</p>
+<p>Some best practices:</p>
+<ol type="1">
+<li>Only catch exceptions if you are going to do something with it</li>
+<li>Catch specific exceptions</li>
+<li>Use try-catch on the smallest code fragments possible</li>
+<li>Layers should handle exceptions raised by layers below them, without exposing the specific implementation of the other layer. Catch, log, re-raise a more generic error.</li>
+</ol>
+<p>Purposes of logging:</p>
+<ol type="1">
+<li>Track errors</li>
+<li>Gather data</li>
+</ol>
 </section>
 </section>
 <section id="design-patterns" class="level2">
@@ -418,14 +476,28 @@ Figure&nbsp;1: Backend Tech
 </section>
 <section id="system-architecture" class="level2">
 <h2 class="anchored" data-anchor-id="system-architecture">10. System architecture</h2>
-<p>The architecture design is the big picture that should answer the following: - How will the system work under heavy load? - What will happen if the system crashes at a critical moment? - How complicated is it to update?</p>
-<p>The architecture should: 1. Define components 2. Define how components communicate 3. Define the system’s quality attributes</p>
+<p>The architecture design is the big picture that should answer the following:</p>
+<ul>
+<li>How will the system work under heavy load?</li>
+<li>What will happen if the system crashes at a critical moment?</li>
+<li>How complicated is it to update?</li>
+</ul>
+<p>The architecture should:</p>
+<ol type="1">
+<li>Define components</li>
+<li>Define how components communicate</li>
+<li>Define the system’s quality attributes</li>
+</ol>
 <p>Make the correct choice as early as possible</p>
 <section id="loose-coupling" class="level3">
 <h3 class="anchored" data-anchor-id="loose-coupling">10.1. Loose coupling</h3>
 <p>Ensuring the services are not strongly tied to other services. Avoid the “spiderweb” - when the graph of connections between services is densely connected.</p>
 <p>Prevents coupling of platforms and URLs.</p>
-<p>To avoid URL coupling between services, two options are: - “Yellow pages” directory - Gateway</p>
+<p>To avoid URL coupling between services, two options are:</p>
+<ul>
+<li>“Yellow pages” directory</li>
+<li>Gateway</li>
+</ul>
 <p>The “yellow pages” contains a directory of all service URLs. If service A wants to query service D, A queries the yellow pages for D’s URL, then uses that URL to query D. This means that service A does not hardcode any information about service D. If D’s URLs change, then only the yellow pages need to be updated. Services only need to know the yellow pages directory’s URL.</p>
 <div id="fig-yellow_pages" class="lightbox quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -451,11 +523,19 @@ Figure&nbsp;3: Gateway
 </section>
 <section id="stateless" class="level3">
 <h3 class="anchored" data-anchor-id="stateless">10.2. Stateless</h3>
-<p>The application’s state is stored in only 2 places: 1. The data store 2. The user interface</p>
+<p>The application’s state is stored in only 2 places:</p>
+<ol type="1">
+<li>The data store</li>
+<li>The user interface</li>
+</ol>
 <p>Stateless architecture is preferred in virtually all circumstances.</p>
 <p>In a stateful architecture, when a user logs in, the login service retrieves the user details from the database and stored them for future use. Data is stored in code.</p>
 <p>If the login request was routed to server A, the user’s details are stored there. If the user later tried to add itemsto the cart and their cart service request is routed to server B, then their user details will not exist as those are stored on server A.</p>
-<p>Disadvantages of stateful: - Lack of scalability - Lack of redundancy</p>
+<p>Disadvantages of stateful:</p>
+<ul>
+<li>Lack of scalability</li>
+<li>Lack of redundancy</li>
+</ul>
 <div id="fig-stateful" class="lightbox quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-stateful-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -482,12 +562,56 @@ Figure&nbsp;5: Stateless
 <h3 class="anchored" data-anchor-id="caching">10.3. Caching</h3>
 <p>Caches store data locally to avoid retrieving the same data from the database multiple times. It trades reliability of data (it is stored in volatile memory) for improved performance.</p>
 <p>A cache should store data that is frequently accessed and rarely modified.</p>
-<p>Two types of cache: - In-memory cache - Cache stored in memory on a single service - Pros: - Best performance - Can store any objects - Easy to use - Cons: - Size is limited by the process’s memory - Can grow stale/inconsistent if the service is scaled out to multiple servers - Distributed cache - Cache is independent of the services and can be accessed by all servers - Pros: - Supports scaled out servers - Failover capabilities - Storage is unlimited - Cons: - Setup is more complex - Often only support primitive data types - Worse performance than in-memory cache</p>
+<p>Two types of cache:</p>
+<ul>
+<li>In-memory cache - Cache stored in memory on a single service
+<ul>
+<li>Pros:
+<ul>
+<li>Best performance</li>
+<li>Can store any objects</li>
+<li>Easy to use</li>
+</ul></li>
+<li>Cons:
+<ul>
+<li>Size is limited by the process’s memory</li>
+<li>Can grow stale/inconsistent if the service is scaled out to multiple servers</li>
+</ul></li>
+</ul></li>
+<li>Distributed cache - Cache is independent of the services and can be accessed by all servers
+<ul>
+<li>Pros:
+<ul>
+<li>Supports scaled out servers</li>
+<li>Failover capabilities</li>
+<li>Storage is unlimited</li>
+</ul></li>
+<li>Cons:
+<ul>
+<li>Setup is more complex</li>
+<li>Often only support primitive data types</li>
+<li>Worse performance than in-memory cache</li>
+</ul></li>
+</ul></li>
+</ul>
 </section>
 <section id="messaging" class="level3">
 <h3 class="anchored" data-anchor-id="messaging">10.4. Messaging</h3>
-<p>Messaging methods can be evaluated on these criteria: - Performance - Message size - Execution model - Feedback (handshaking) and reliability - Complexity</p>
-<p>Messaging methods include: - REST API - HTTP Push - Queue - File-based and database-based methods</p>
+<p>Messaging methods can be evaluated on these criteria:</p>
+<ul>
+<li>Performance</li>
+<li>Message size</li>
+<li>Execution model</li>
+<li>Feedback (handshaking) and reliability</li>
+<li>Complexity</li>
+</ul>
+<p>Messaging methods include:</p>
+<ul>
+<li>REST API</li>
+<li>HTTP Push</li>
+<li>Queue</li>
+<li>File-based and database-based methods</li>
+</ul>
 <section id="rest-api" class="level4">
 <h4 class="anchored" data-anchor-id="rest-api">REST API</h4>
 <p>Universal standard for HTTP-based systems.</p>
@@ -636,7 +760,11 @@ Figure&nbsp;8: Queue
 <section id="file-based-and-db-based" class="level4">
 <h4 class="anchored" data-anchor-id="file-based-and-db-based">File-based and DB-based</h4>
 <p>Similar to queue, but rather han placing messages in a queue it places them in a file directory or database. There is no guarantee that messages are processed once and only once.</p>
-<p>If multiple services are polling the same file folder, then when a new file is added we can get two issues: 1. File locked 2. Duplicate processing</p>
+<p>If multiple services are polling the same file folder, then when a new file is added we can get two issues:</p>
+<ol type="1">
+<li>File locked</li>
+<li>Duplicate processing</li>
+</ol>
 <p>Similar use case to queues, but queues are generally preferred.</p>
 <div id="fig-file_based_messaging" class="lightbox quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -709,26 +837,59 @@ Figure&nbsp;10: Central Logging Service
 </section>
 <section id="external-considerations" class="level2">
 <h2 class="anchored" data-anchor-id="external-considerations">11. External considerations</h2>
-<p>External considerations can affect architecture and design decisions. - Deadlines - Dev team skills - New technologies can introduce uncertainty, delays and low quality - IT support - Assign who will support the product from the outset. This should not be developers. - Cost - Build vs buy. Estimate cost vs value. Spend money to save time, don’t spend time to save money.</p>
+<p>External considerations can affect architecture and design decisions.</p>
+<ul>
+<li>Deadlines</li>
+<li>Dev team skills - New technologies can introduce uncertainty, delays and low quality</li>
+<li>IT support - Assign who will support the product from the outset. This should not be developers.</li>
+<li>Cost - Build vs buy. Estimate cost vs value. Spend money to save time, don’t spend time to save money.</li>
+</ul>
 </section>
 <section id="architecture-document" class="level2">
 <h2 class="anchored" data-anchor-id="architecture-document">12. Architecture document</h2>
-<p>This should describe the basic elements of the system: - Technology stack - Components - Services - Communication between components and services</p>
+<p>This should describe the basic elements of the system:</p>
+<ul>
+<li>Technology stack</li>
+<li>Components</li>
+<li>Services</li>
+<li>Communication between components and services</li>
+</ul>
 <p>No development should begin before the document is complete.</p>
-<p>Goals of the document: - Describe what should be developed and how - List the functional and non-functional requirements</p>
-<p>Audience: - Everyone involved with the system: project manager, CTO, QA leader, developers - Sections for management appear first as they are unlikely to read the whole document - QA lead can begin preparing test infrastructure ahead of time</p>
+<p>Goals of the document:</p>
+<ul>
+<li>Describe what should be developed and how</li>
+<li>List the functional and non-functional requirements</li>
+</ul>
+<p>Audience:</p>
+<ul>
+<li>Everyone involved with the system: project manager, CTO, QA leader, developers</li>
+<li>Sections for management appear first as they are unlikely to read the whole document</li>
+<li>QA lead can begin preparing test infrastructure ahead of time</li>
+</ul>
 <p>Format: UML (universal modeling language) is often used. It visualises the system’s design with concepts and diagrams. However, this assumes the audience is familiar with UML which is often not the case.</p>
 <ul>
 <li>Keep the contents as simple as possible</li>
 <li>Use plain English</li>
 <li>Visualise using whatever software is comfortable and appropriate</li>
 </ul>
-<p>Structure: - Background - Requirements - Executive summary - Architecture overview - Components drill-down</p>
+<p>Structure:</p>
+<ul>
+<li>Background</li>
+<li>Requirements</li>
+<li>Executive summary</li>
+<li>Architecture overview</li>
+<li>Components drill-down</li>
+</ul>
 <section id="background" class="level4">
 <h4 class="anchored" data-anchor-id="background">Background</h4>
 <p>This section validates your point of view and instils confidence that you understand the project.</p>
 <p>One page for all team and management.</p>
-<p>Describe the system from a business POV: - The system’s role - Reasons for replacing the old system - Expected business impact</p>
+<p>Describe the system from a business POV:</p>
+<ul>
+<li>The system’s role</li>
+<li>Reasons for replacing the old system</li>
+<li>Expected business impact</li>
+</ul>
 <section id="requirements" class="level5">
 <h5 class="anchored" data-anchor-id="requirements">Requirements</h5>
 <p>Functional and non-functional requirements - what should the system do and deal with? This section validates your understadning of the requirements. The requirements dictate the architecture so this section sets the scene for the chosen architecture.</p>
@@ -762,7 +923,13 @@ Figure&nbsp;10: Central Logging Service
 <h4 class="anchored" data-anchor-id="components-drill-down">Components drill down</h4>
 <p>Detailed description of each component.</p>
 <p>Unlimited length, for developers and QA lead.</p>
-<p>For each component: - Component’s role - Technology stack: Data store, backend, frontend - Component’s architecture: Describe the API (URL, logic, response code, comments). Describe the layers. Mention design patterns here. - Development instructions: Specific development guidelines</p>
+<p>For each component:</p>
+<ul>
+<li>Component’s role</li>
+<li>Technology stack: Data store, backend, frontend</li>
+<li>Component’s architecture: Describe the API (URL, logic, response code, comments). Describe the layers. Mention design patterns here.</li>
+<li>Development instructions: Specific development guidelines</li>
+</ul>
 <p>Be specific and include rationale behind decisions.</p>
 </section>
 </section>
@@ -772,7 +939,13 @@ Figure&nbsp;10: Central Logging Service
 <section id="microservices" class="level3">
 <h3 class="anchored" data-anchor-id="microservices">13.1. Microservices</h3>
 <p>An architecture in which functionalities are implemented as separate, loosely coupled services that interact with each other using a standard lightweight protocol.</p>
-<p>Problems with monolithic services: - A single exception can crash the whole process - Updates impact all components - Limited to one development platform/language - Unoptimised compute resources</p>
+<p>Problems with monolithic services:</p>
+<ul>
+<li>A single exception can crash the whole process</li>
+<li>Updates impact all components</li>
+<li>Limited to one development platform/language</li>
+<li>Unoptimised compute resources</li>
+</ul>
 <p>With microservices, each service is independent of others so can be updated separately, use a different platform, and be optimised separately.</p>
 <p>An example of splitting a monolithic architecture into microservices:</p>
 <div id="fig-monolith_example" class="lightbox quarto-figure quarto-figure-center quarto-float anchored">
@@ -796,7 +969,12 @@ Figure&nbsp;12: Microservice Example
 </figcaption>
 </figure>
 </div>
-<p>Problems with microservices: - Complex monitoring of all services and their interactions - Complex architecture - Complex testing</p>
+<p>Problems with microservices:</p>
+<ul>
+<li>Complex monitoring of all services and their interactions</li>
+<li>Complex architecture</li>
+<li>Complex testing</li>
+</ul>
 </section>
 <section id="event-sourcing" class="level3">
 <h3 class="anchored" data-anchor-id="event-sourcing">13.2. Event sourcing</h3>
@@ -812,8 +990,18 @@ Figure&nbsp;13: Event Sourcing
 </figcaption>
 </figure>
 </div>
-<p>Pros: - Tracing history - Simple data model - Performance - Reporting</p>
-<p>Cons: - No unified view - need to rebuild all events from the start to see the current state - Storage usage</p>
+<p>Pros:</p>
+<ul>
+<li>Tracing history</li>
+<li>Simple data model</li>
+<li>Performance</li>
+<li>Reporting</li>
+</ul>
+<p>Cons:</p>
+<ul>
+<li>No unified view - need to rebuild all events from the start to see the current state</li>
+<li>Storage usage</li>
+</ul>
 </section>
 <section id="cqrs" class="level3">
 <h3 class="anchored" data-anchor-id="cqrs">13.3. CQRS</h3>
@@ -829,8 +1017,14 @@ Figure&nbsp;14: CQRS
 </figcaption>
 </figure>
 </div>
-<p>Pros: - Useful with high-frequency updates that require near real-time querying</p>
-<p>Cons: - Complexity - need 2 databases, a sync service, ETL between the storage and retrieval database</p>
+<p>Pros:</p>
+<ul>
+<li>Useful with high-frequency updates that require near real-time querying</li>
+</ul>
+<p>Cons:</p>
+<ul>
+<li>Complexity - need 2 databases, a sync service, ETL between the storage and retrieval database</li>
+</ul>
 </section>
 </section>
 <section id="soft-skills" class="level2">
@@ -852,8 +1046,8 @@ Figure&nbsp;14: CQRS
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
 <ul>
-<li>Udemy course https://www.udemy.com/course/the-complete-guide-to-becoming-a-software-architect/</li>
-<li>Design patterns https://refactoring.guru/</li>
+<li><a href="https://www.udemy.com/course/the-complete-guide-to-becoming-a-software-architect/">“The Complete Guide to Becoming a Software Architect” Udemy course</a></li>
+<li><a href="https://refactoring.guru/">Design patterns</a></li>
 </ul>
 
 
@@ -1265,7 +1459,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","openEffect":"zoom","selector":".lightbox","descPosition":"bottom","loop":false});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;

@@ -9,7 +9,7 @@ categories: [Engineering, Software]
 
 # Software Architecture Notes
 
-Notes from udemy course https://www.udemy.com/course/the-complete-guide-to-becoming-a-software-architect/
+Notes from ["The Complete Guide to Becoming a Software Architect" Udemy course](https://www.udemy.com/course/the-complete-guide-to-becoming-a-software-architect/)
 
 
 ## 1. What is a software architect
@@ -17,26 +17,31 @@ A developer knows what can be done, an architect knows what should be done.
 How do we use technology to meet business requirements. 
 
 General system requirements:
+
 - Fast
 - Secure
 - Reliable
 - Easy to maintain
 
 Architect's need to know how to code for:
+
 - Architecture's trustworthiness
 - Support developers
 - Respect of developers
 
 
 ## 2. The architect's mindset
+
 - Understand the business - Strengths, weaknesses, compettions, growth strategy.
 - Define the system's goals - Goals are not requirements. Goals describe the effect on the organisation, requirements describe what the system should do.
 - Work for your client's clients - Prioritise the end user.
 - Talk to the right people with the right language - What is the thing that really matters to the person I'm talking to?
+
 Project managers care about how things affect deadlines, developers care about the technologies used, CEOs care about business continuity and bottom line.
 
 
 ## 3. The architecture process
+
 1. Understand the system requirements - What the system should do.
 2. Understand the non-functional requirements - Technical and service level attributes, e.g. number of users, loads, volumes, performance.
 3. Map the components - Understand the system functionality and communicate this to your client. 
@@ -47,6 +52,7 @@ Completely non-technical at this point, no mention of specific technologies. A d
 7. Support the team
 
 Include developers in non-functional requirements and architecture design for two reasons:
+
 1. Learn about unknown scenarios early
 2. Create ambassadors
 
@@ -106,6 +112,7 @@ The application type should be established early based on the use case and expec
 
 ## 6. Select technology stack
 Considerations:
+
 - Appropriate for the task
 - Community - e.g. stack overflow activity
 - Popularity - google trends over 2 years
@@ -119,12 +126,14 @@ Options: .NET, Java, node.js, PHP, Python
 
 ### 6.2. Frontend technology
 Covers:
+
 - Web app - Angular, React
 - Mobile - Native (Swift, Java/Kotlin), Xamarin, React Native
 - Desktop - depends on target OS
 
 ### 6.3. Data store technology
 SQL - small, structured data
+
 - Relational tables
 - Transactions
   - Atomicity
@@ -134,6 +143,7 @@ SQL - small, structured data
 - Querying language is universal
 
 NoSQL - huge, unstructured or semi-structured data
+
 - Emphasis on scale and performance.
 - Schema-less, with entities stored as JSON.
 - Eventual consistency - data can be temporarily inconsistent
@@ -163,6 +173,7 @@ fit together to achieve the non-functional requirements.
 
 ### 8.1. Layers
 Layers represent horizontal functionality:
+
 1. UI/SI - user interface or service interface (i.e. an API), authentication
 2. Business logic - validation, enrichment, computation
 3. Data access layer - connection handling, transaction handling, querying/saving data
@@ -186,6 +197,7 @@ The abstract base class in Python is an example of this.
 Close coupling should be avoided; "new is glue".
 
 ### 8.3. SOLID
+
 1. Single responsibility principle: Each class, module or method should have exactly one responsibility. 
 2. Open/closed principle: Software should be open for extension but closed for modification. Can be implemented using class inheritance.
 3. Liskov substitution principle: If S is a subtype of T, then objects of type T can be replaced with objects of type S without altering the program.
@@ -198,11 +210,13 @@ A factory method determines which class to load and returns an instance of that 
 This also makes testing easier, as you can inject a mock class rather than having to mock out specific functionality.
 
 ### 8.4. Naming conventions
+
 1. Structure - case, underscores
 2. Content - class names should be nouns, methods should be imperative verbs
 
 ### 8.5. Exception handling
 Some best practices:
+
 1. Only catch exceptions if you are going to do something with it
 2. Catch specific exceptions
 3. Use try-catch on the smallest code fragments possible
@@ -210,6 +224,7 @@ Some best practices:
 Catch, log, re-raise a more generic error.
 
 Purposes of logging:
+
 1. Track errors
 2. Gather data
 
@@ -232,11 +247,13 @@ The facade does not create any new functionality, it is just a wrapper integrati
 
 ## 10. System architecture
 The architecture design is the big picture that should answer the following:
+
 - How will the system work under heavy load?
 - What will happen if the system crashes at a critical moment?
 - How complicated is it to update?
 
 The architecture should:
+
 1. Define components
 2. Define how components communicate
 3. Define the system's quality attributes
@@ -250,6 +267,7 @@ Avoid the "spiderweb" - when the graph of connections between services is densel
 Prevents coupling of platforms and URLs.
 
 To avoid URL coupling between services, two options are:
+
 - "Yellow pages" directory
 - Gateway
 
@@ -271,6 +289,7 @@ Services only need to know the gateway's URL.
 
 ### 10.2. Stateless
 The application's state is stored in only 2 places:
+
 1. The data store
 2. The user interface
 
@@ -284,6 +303,7 @@ If the user later tried to add itemsto the cart and their cart service request i
 to server B, then their user details will not exist as those are stored on server A.
 
 Disadvantages of stateful:
+
 - Lack of scalability
 - Lack of redundancy
 
@@ -301,6 +321,7 @@ It trades reliability of data (it is stored in volatile memory) for improved per
 A cache should store data that is frequently accessed and rarely modified.
 
 Two types of cache:
+
 - In-memory cache - Cache stored in memory on a single service
   - Pros:
     - Best performance
@@ -321,6 +342,7 @@ Two types of cache:
 
 ### 10.4. Messaging
 Messaging methods can be evaluated on these criteria:
+
 - Performance
 - Message size
 - Execution model
@@ -328,6 +350,7 @@ Messaging methods can be evaluated on these criteria:
 - Complexity
 
 Messaging methods include:
+
 - REST API
 - HTTP Push
 - Queue
@@ -394,6 +417,7 @@ Similar to queue, but rather han placing messages in a queue it places them in a
 There is no guarantee that messages are processed once and only once.
 
 If multiple services are polling the same file folder, then when a new file is added we can get two issues:
+
 1. File locked
 2. Duplicate processing
 
@@ -426,6 +450,7 @@ so that if there is an error at any point the user flow can be traced back throu
 
 ## 11. External considerations
 External considerations can affect architecture and design decisions.
+
 - Deadlines
 - Dev team skills - New technologies can introduce uncertainty, delays and low quality
 - IT support - Assign who will support the product from the outset. This should not be developers. 
@@ -434,6 +459,7 @@ External considerations can affect architecture and design decisions.
 
 ## 12. Architecture document
 This should describe the basic elements of the system:
+
 - Technology stack
 - Components
 - Services
@@ -442,10 +468,12 @@ This should describe the basic elements of the system:
 No development should begin before the document is complete.
 
 Goals of the document:
+
 - Describe what should be developed and how
 - List the functional and non-functional requirements
 
 Audience:
+
 - Everyone involved with the system: project manager, CTO, QA leader, developers
 - Sections for management appear first as they are unlikely to read the whole document
 - QA lead can begin preparing test infrastructure ahead of time
@@ -459,6 +487,7 @@ However, this assumes the audience is familiar with UML which is often not the c
 - Visualise using whatever software is comfortable and appropriate
 
 Structure:
+
 - Background
 - Requirements
 - Executive summary
@@ -471,6 +500,7 @@ This section validates your point of view and instils confidence that you unders
 One page for all team and management.
 
 Describe the system from a business POV:
+
 - The system's role
 - Reasons for replacing the old system
 - Expected business impact
@@ -511,6 +541,7 @@ Detailed description of each component.
 Unlimited length, for developers and QA lead.
 
 For each component:
+
 - Component's role
 - Technology stack: Data store, backend, frontend
 - Component's architecture: Describe the API (URL, logic, response code, comments). Describe the layers. Mention design patterns here.
@@ -526,6 +557,7 @@ These architecture patterns solve specific problems but add complexity to the sy
 An architecture in which functionalities are implemented as separate, loosely coupled services that interact with each other using a standard lightweight protocol.
 
 Problems with monolithic services:
+
 - A single exception can crash the whole process
 - Updates impact all components
 - Limited to one development platform/language
@@ -543,6 +575,7 @@ As a microservice architecture, this becomes:
 ![Microservice Example](microservice_example.png){.lightbox #fig-microservice_example}
 
 Problems with microservices:
+
 - Complex monitoring of all services and their interactions
 - Complex architecture
 - Complex testing
@@ -558,12 +591,14 @@ Use when history matters.
 
 
 Pros:
+
 - Tracing history
 - Simple data model
 - Performance
 - Reporting
 
 Cons:
+
 - No unified view - need to rebuild all events from the start to see the current state
 - Storage usage
 
@@ -578,9 +613,11 @@ current state is periodically built and stored in the retrieval database.
 ![CQRS](cqrs.png){.lightbox #fig-cqrs}
 
 Pros:
+
 - Useful with high-frequency updates that require near real-time querying
 
 Cons:
+
 - Complexity - need 2 databases, a sync service, ETL between the storage and retrieval database
 
 
@@ -600,5 +637,6 @@ You ultimately work with people, not software.
 
 
 ## References
-- Udemy course https://www.udemy.com/course/the-complete-guide-to-becoming-a-software-architect/
-- Design patterns https://refactoring.guru/
+
+- ["The Complete Guide to Becoming a Software Architect" Udemy course](https://www.udemy.com/course/the-complete-guide-to-becoming-a-software-architect/)
+- [Design patterns](https://refactoring.guru/)
