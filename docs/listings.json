@@ -30,16 +30,16 @@
     ]
   },
   {
-    "listing": "/gen-deep-learning-series.html",
-    "items": [
-      "/posts/ml/generative_deep_learning/lesson1/lesson.html"
-    ]
-  },
-  {
     "listing": "/projects.html",
     "items": [
       "/projects_section/xai_research/xai.html",
       "/projects_section/tradeintel/tradeintel.html"
+    ]
+  },
+  {
+    "listing": "/gen-deep-learning-series.html",
+    "items": [
+      "/posts/ml/generative_deep_learning/lesson1/lesson.html"
     ]
   }
 ]

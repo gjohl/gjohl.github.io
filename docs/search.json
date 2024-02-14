@@ -21,6 +21,13 @@
     "text": "This site contains my personal software and AI projects.\nFor projects that I’ve worked on, see my projects section. For notes on various topics that I’ve made, see my notes section.\nIf you’re interested in any of this stuff, my socials are at the bottom of this page - get in touch!"
   },
   {
+    "objectID": "index.html#bio",
+    "href": "index.html#bio",
+    "title": "About",
+    "section": "Bio",
+    "text": "Bio\nI’m a data scientist with experience at big hedge funds and plucky start-ups. I spent a few years at Man Group, both as a discretionary long-short equity analyst in GLG and on the systematic trading side as a quant in AHL, where I focused on equities and futures.\nI currently work at a fintech startup called BMLL Technologies, where I lead projects doing interesting things with massive amounts of financial order book data."
+  },
+  {
     "objectID": "posts/ml/tensorflow/tensorflow.html",
     "href": "posts/ml/tensorflow/tensorflow.html",
     "title": "Tensorflow Notes",
@@ -357,6 +364,20 @@
     "text": "Knowledge of specific facts is becoming more specialised and commoditised. Understanding how everything fits together is becoming broader, more unified.\nConcepts of specialised knowledge are outdated, stemming from industrial age thinknig. Modern thinking values:\n\nContextual knowledge\nCreating knowledge\nUnderstanding of humanity\n\nAs people become more interconnected, innovation becomes crowd-accelerated.\nHappiness is finding something bigger than you and dedicating your life to it. Nudge the world - give it questions to spark conversations. “The future is not yet written, we are all collectively in the process of writing it”"
   },
   {
+    "objectID": "projects_section/tradeintel/tradeintel.html",
+    "href": "projects_section/tradeintel/tradeintel.html",
+    "title": "TradeIntel",
+    "section": "",
+    "text": "This is a robo-advisor app to give tailored stock portfolio recommendations.\nThe user can input high-level preferences like their risk tolerance, industry preferences, and how closely they would like to follow the broader market. We then perform a portfolio optimisation process to recommend a robust portfolio based on those criteria.\nThis is available on the App Store\n\n\n\n\n Back to top"
+  },
+  {
+    "objectID": "projects_section/xai_research/xai.html",
+    "href": "projects_section/xai_research/xai.html",
+    "title": "Explainable AI in Healthcare",
+    "section": "",
+    "text": "This is a research project I completed which aimed to quantify the confidence we should have in a trained model applied ot our data set.\nThe full paper is available here.\nSlides from a presentation I gave at the Nuffield Department of Orthopaedics, Rheumatology and Musculoskeletal Sciences (NDORMS) at the University of Oxford are available here.\n\n\n\n Back to top"
+  },
+  {
     "objectID": "posts/business/pitching/pitching.html",
     "href": "posts/business/pitching/pitching.html",
     "title": "Pitching Notes",
@@ -691,33 +712,5 @@
     "title": "Series: Generative Deep Learning",
     "section": "",
     "text": "Generative AI: Chapter 1\n\n\n\n\n\n\nAI\n\n\nEngineering\n\n\nGenerativeAI\n\n\n\nNotes from Generative Deep Learning book\n\n\n\n\n\nFeb 8, 2024\n\n\n1 min\n\n\n\n\n\n\nNo matching items\n\n Back to top"
-  },
-  {
-    "objectID": "projects_section/tradeintel/tradeintel.html",
-    "href": "projects_section/tradeintel/tradeintel.html",
-    "title": "TradeIntel",
-    "section": "",
-    "text": "This is a robo-advisor app to give tailored stock portfolio recommendations.\nThe user can input high-level preferences like their risk tolerance, industry preferences, and how closely they would like to follow the broader market. We then perform a portfolio optimisation process to recommend a robust portfolio based on those criteria.\nThis is available on the App Store\n\n\n\n\n Back to top"
-  },
-  {
-    "objectID": "index.html#bio",
-    "href": "index.html#bio",
-    "title": "About",
-    "section": "Bio",
-    "text": "Bio\nI’m a data scientist with experience at big hedge funds and plucky start-ups. I spent a few years at Man Group, both as a discretionary long-short equity analyst in GLG and on the systematic trading side as a quant in AHL, where I focused on equities and futures.\nI currently work at a fintech startup called BMLL Technologies, where I lead projects doing interesting things with massive amounts of financial order book data."
-  },
-  {
-    "objectID": "index.html#boilerplate",
-    "href": "index.html#boilerplate",
-    "title": "About",
-    "section": "boilerplate",
-    "text": "boilerplate"
-  },
-  {
-    "objectID": "projects_section/xai_research/xai.html",
-    "href": "projects_section/xai_research/xai.html",
-    "title": "Explainable AI in Healthcare",
-    "section": "",
-    "text": "This is a research project I completed which aimed to quantify the confidence we should have in a trained model applied ot our data set.\nThe full paper is available here.\nSlides from a presentation I gave at the Nuffield Department of Orthopaedics, Rheumatology and Musculoskeletal Sciences (NDORMS) at the University of Oxford are available here.\n\n\n\n Back to top"
   }
 ]
