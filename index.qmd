@@ -15,4 +15,15 @@ about:
       href: https://twitter.com/gurpreetjohl
 ---
 
-This site contains (or will contain very soon) my personal software and AI projects...
+This site contains my personal software and AI projects.
+
+For projects that I've worked on, see my [projects section](projects.qmd).
+For notes on various topics that I've made, see my [notes section](blog.qmd).
+
+If you're interested in any of this stuff, my socials are at the bottom of this page - get in touch! 
+
+
+## Bio
+I'm a data scientist with experience at big hedge funds and plucky start-ups. I spent a few years at Man Group, both as a discretionary long-short equity analyst in GLG and on the systematic trading side as a quant in AHL, where I focused on equities and futures.
+
+I currently work at a fintech startup called BMLL Technologies, where I lead projects doing interesting things with massive amounts of financial order book data.

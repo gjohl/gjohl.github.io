@@ -34,5 +34,11 @@
     "items": [
       "/posts/ml/generative_deep_learning/lesson1/lesson.html"
     ]
+  },
+  {
+    "listing": "/projects.html",
+    "items": [
+      "/projects_section/tradeintel/tradeintel.html"
+    ]
   }
 ]

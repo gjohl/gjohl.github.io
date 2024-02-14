@@ -2,7 +2,7 @@
   {
     "objectID": "blog.html",
     "href": "blog.html",
-    "title": "Posts",
+    "title": "Notes",
     "section": "",
     "text": "Series\n\nfastai-series\nThis series contains notes from following the fastai “Practical Deep Learning for Coders” course. See the course page and book.\n\n\ngenerative-ai-series\nThis series contains notes from the book “Generative Deep Learning” by David Foster.\n\n\n\nAll Posts\n\n\n\n\n\n\n\n   \n     \n     \n       Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nGenerative AI: Chapter 1\n\n\n\n\n\n\nAI\n\n\nEngineering\n\n\nGenerativeAI\n\n\n\nNotes from Generative Deep Learning book\n\n\n\n\n\nFeb 8, 2024\n\n\n1 min\n\n\n\n\n\n\n\n\n\n\n\n\nFastAI Lesson 6: Random Forests\n\n\n\n\n\n\nAI\n\n\nEngineering\n\n\nFastAI\n\n\n\nPractical Deep Learning for Coders: Lesson 6\n\n\n\n\n\nOct 9, 2023\n\n\n6 min\n\n\n\n\n\n\n\n\n\n\n\n\nFastAI Lesson 5: Natural Language Processing\n\n\n\n\n\n\nAI\n\n\nEngineering\n\n\nFastAI\n\n\n\nPractical Deep Learning for Coders: Lesson 5\n\n\n\n\n\nSep 23, 2023\n\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\n\nFastAI Lesson 4: Natural Language Processing\n\n\n\n\n\n\nAI\n\n\nEngineering\n\n\nFastAI\n\n\n\nPractical Deep Learning for Coders: Lesson 4\n\n\n\n\n\nSep 7, 2023\n\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\n\nFastAI Lesson 3: How Does a Neural Network Learn?\n\n\n\n\n\n\nAI\n\n\nEngineering\n\n\nFastAI\n\n\n\nPractical Deep Learning for Coders: Lesson 3\n\n\n\n\n\nSep 1, 2023\n\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\n\nFastAI Lesson 2: Deployment\n\n\n\n\n\n\nAI\n\n\nEngineering\n\n\nFastAI\n\n\n\nPractical Deep Learning for Coders: Lesson 2\n\n\n\n\n\nAug 30, 2023\n\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\n\nFastAI Lesson 1: Image Classification Models\n\n\n\n\n\n\nAI\n\n\nEngineering\n\n\nFastAI\n\n\n\nPractical Deep Learning for Coders: Lesson 1\n\n\n\n\n\nAug 23, 2023\n\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\n\nSystem Design Notes\n\n\n\n\n\n\nEngineering\n\n\nSoftware\n\n\n\nNotes on System Design\n\n\n\n\n\nAug 14, 2023\n\n\n24 min\n\n\n\n\n\n\n\n\n\n\n\n\nPitching Notes\n\n\n\n\n\n\nBusiness\n\n\n\nNotes on Pitching\n\n\n\n\n\nAug 4, 2023\n\n\n9 min\n\n\n\n\n\n\n\n\n\n\n\n\nKalman Filter Notes\n\n\n\n\n\n\nAI\n\n\nEngineering\n\n\n\nNotes on Kalman filters\n\n\n\n\n\nJul 23, 2023\n\n\n10 min\n\n\n\n\n\n\n\n\n\n\n\n\nPublic Speaking Notes\n\n\n\n\n\n\nBusiness\n\n\n\nNotes on Public Speaking\n\n\n\n\n\nJul 20, 2023\n\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nMarketing Notes\n\n\n\n\n\n\nBusiness\n\n\n\nNotes on Marketing\n\n\n\n\n\nJul 18, 2023\n\n\n18 min\n\n\n\n\n\n\n\n\n\n\n\n\nSoftware Architecture Notes\n\n\n\n\n\n\nEngineering\n\n\nSoftware\n\n\n\nNotes on Software Architecture\n\n\n\n\n\nJun 23, 2023\n\n\n22 min\n\n\n\n\n\n\n\n\n\n\n\n\nTensorflow Notes\n\n\n\n\n\n\nAI\n\n\nEngineering\n\n\n\nNotes on Tensorflow\n\n\n\n\n\nFeb 23, 2023\n\n\n21 min\n\n\n\n\n\n\nNo matching items\n\n Back to top"
   },
@@ -18,7 +18,7 @@
     "href": "index.html",
     "title": "About",
     "section": "",
-    "text": "This site contains (or will contain very soon) my personal software and AI projects…\n\n\n Back to top"
+    "text": "This site contains my personal software and AI projects.\nFor projects that I’ve worked on, see my projects section. For notes on various topics that I’ve made, see my notes section.\nIf you’re interested in any of this stuff, my socials are at the bottom of this page - get in touch!"
   },
   {
     "objectID": "posts/ml/tensorflow/tensorflow.html",
@@ -655,7 +655,7 @@
     "href": "projects.html",
     "title": "Projects",
     "section": "",
-    "text": "Projects\n\n\n Back to top"
+    "text": "Projects\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTradeIntel\n\n\n\nTrading\n\n\nApp\n\n\n\nNext-generation robo advisor\n\n\n\n\n\n\n\nNo matching items\n\n Back to top"
   },
   {
     "objectID": "plan.html",
@@ -691,5 +691,26 @@
     "title": "Series: Generative Deep Learning",
     "section": "",
     "text": "Generative AI: Chapter 1\n\n\n\n\n\n\nAI\n\n\nEngineering\n\n\nGenerativeAI\n\n\n\nNotes from Generative Deep Learning book\n\n\n\n\n\nFeb 8, 2024\n\n\n1 min\n\n\n\n\n\n\nNo matching items\n\n Back to top"
+  },
+  {
+    "objectID": "projects_section/tradeintel/tradeintel.html",
+    "href": "projects_section/tradeintel/tradeintel.html",
+    "title": "TradeIntel",
+    "section": "",
+    "text": "This is a robo-advisor app to give tailored stock portfolio recommendations.\nThe user can input high-level preferences like their risk tolerance, industry preferences, and how closely they would like to follow the broader market. We then perform a portfolio optimisation process to recommend a robust portfolio based on those criteria.\nThis is available on the App Store\n\n\n\n Back to top"
+  },
+  {
+    "objectID": "index.html#bio",
+    "href": "index.html#bio",
+    "title": "About",
+    "section": "Bio",
+    "text": "Bio\nI’m a data scientist with experience at big hedge funds and plucky start-ups. I spent a few years at Man Group, both as a discretionary long-short equity analyst in GLG and on the systematic trading side as a quant in AHL, where I focused on equities and futures.\nI currently work at a fintech startup called BMLL Technologies, where I lead projects doing interesting things with massive amounts of financial order book data."
+  },
+  {
+    "objectID": "index.html#boilerplate",
+    "href": "index.html#boilerplate",
+    "title": "About",
+    "section": "boilerplate",
+    "text": "boilerplate"
   }
 ]

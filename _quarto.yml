@@ -19,10 +19,10 @@ website:
   navbar:
     search: true
     left:
-    - text: Blog
+    - text: Projects
+      href: projects.qmd
+    - text: Notes
       href: blog.qmd
-    # - text: Projects
-    #   href: projects.qmd
     right:
     - icon: github
       href: https://github.com/gjohl
