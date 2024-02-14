@@ -1,0 +1,18 @@
+---
+title: "TradeIntel"
+description: "Next-generation robo advisor"
+date: "2022-01-12"
+image: "trade-intel-icon.png"
+categories: [Trading, App]
+---
+![](trade-intel-splash-cropped.png){height=200}
+
+
+This is a robo-advisor app to give tailored stock portfolio recommendations.
+
+The user can input high-level preferences like their risk tolerance, industry preferences, and how closely they would like to follow the broader market.
+We then perform a portfolio optimisation process to recommend a robust portfolio based on those criteria.
+
+This is available on the [App Store](https://apps.apple.com/gb/app/tradeintel/id1570837417)
+
+![](trade-intel-example.jpeg){.lightbox height=500}
