@@ -38,6 +38,7 @@
   {
     "listing": "/projects.html",
     "items": [
+      "/projects_section/xai_research/xai.html",
       "/projects_section/tradeintel/tradeintel.html"
     ]
   }

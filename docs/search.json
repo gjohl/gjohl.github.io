@@ -655,7 +655,7 @@
     "href": "projects.html",
     "title": "Projects",
     "section": "",
-    "text": "Projects\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTradeIntel\n\n\n\nTrading\n\n\nApp\n\n\n\nNext-generation robo advisor\n\n\n\n\n\n\n\nNo matching items\n\n Back to top"
+    "text": "Projects\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nExplainable AI in Healthcare\n\n\n\nResearch\n\n\nAI\n\n\nHealthcare\n\n\n\nOpening the black box in medical AI\n\n\n\n\n\n\n\n\n\n\n\n\n\nTradeIntel\n\n\n\nTrading\n\n\nApp\n\n\n\nNext-generation robo advisor\n\n\n\n\n\n\n\nNo matching items\n\n Back to top"
   },
   {
     "objectID": "plan.html",
@@ -712,5 +712,12 @@
     "title": "About",
     "section": "boilerplate",
     "text": "boilerplate"
+  },
+  {
+    "objectID": "projects_section/xai_research/xai.html",
+    "href": "projects_section/xai_research/xai.html",
+    "title": "Explainable AI in Healthcare",
+    "section": "",
+    "text": "This is a research project I completed which aimed to quantify the confidence we should have in a trained model applied ot our data set.\nThe full paper is available here.\nSlides from a presentation I gave at the Nuffield Department of Orthopaedics, Rheumatology and Musculoskeletal Sciences (NDORMS) at the University of Oxford are available here.\n\n\n\n Back to top"
   }
 ]

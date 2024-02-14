@@ -1,0 +1,13 @@
+---
+title: "Explainable AI in Healthcare"
+description: "Opening the black box in medical AI"
+date: "2023-11-23"
+image: "histo_image.png"
+categories: [Research, AI, Healthcare]
+---
+
+This is a research project I completed which aimed to quantify the confidence we should have in a trained model applied ot our data set.
+
+The full paper is available [here](Research_Task_Gurpreet_Johl.pdf).
+
+Slides from a presentation I gave at the Nuffield Department of Orthopaedics, Rheumatology and Musculoskeletal Sciences (NDORMS) at the University of Oxford are available [here](https://docs.google.com/presentation/d/1-ArIC5GdrNPtVm8Wbwe7qTjOkUNGnzd2I_SAYQBNLnE/edit?usp=sharing).
