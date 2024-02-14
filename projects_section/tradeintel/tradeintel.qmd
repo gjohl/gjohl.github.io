@@ -14,3 +14,5 @@ The user can input high-level preferences like their risk tolerance, industry pr
 We then perform a portfolio optimisation process to recommend a robust portfolio based on those criteria.
 
 This is available on the [App Store](https://apps.apple.com/gb/app/tradeintel/id1570837417)
+
+![](trade-intel-example.jpeg){.lightbox height=500}
