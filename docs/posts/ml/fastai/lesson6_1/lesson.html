@@ -6,10 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2022-01-12">
-<meta name="description" content="Next-generation robo advisor">
+<meta name="author" content="Gurpreet Johl">
+<meta name="dcterms.date" content="2024-02-13">
+<meta name="description" content="Practical Deep Learning for Coders: Lesson 6.5">
 
-<title>Gurpreet Johl - TradeIntel</title>
+<title>Gurpreet Johl - FastAI Lesson 6.5: Road to the Top</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -25,25 +26,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../">
+<script src="../../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -73,17 +71,17 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../../../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../index.html">
+    <a class="navbar-brand" href="../../../../index.html">
     <span class="navbar-title">Gurpreet Johl</span>
     </a>
   </div>
@@ -94,11 +92,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../projects.html"> 
+    <a class="nav-link" href="../../../../projects.html"> 
 <span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../blog.html"> 
+    <a class="nav-link" href="../../../../blog.html"> 
 <span class="menu-text">Notes</span></a>
   </li>  
 </ul>
@@ -126,54 +124,154 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">FastAI Lesson 6.5: Road to the Top</h1>
+                  <div>
+        <div class="description">
+          Practical Deep Learning for Coders: Lesson 6.5
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">AI</div>
+                <div class="quarto-category">Engineering</div>
+                <div class="quarto-category">FastAI</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Gurpreet Johl </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">February 13, 2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
-<!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">TradeIntel</h1>
-  <div class="quarto-categories">
-    <div class="quarto-category">Trading</div>
-    <div class="quarto-category">App</div>
-  </div>
-  </div>
-
-<div>
-  <div class="description">
-    Next-generation robo advisor
-  </div>
-</div>
-
-
-<div class="quarto-title-meta">
-
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">January 12, 2022</p>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#kaggle-iterations" id="toc-kaggle-iterations" class="nav-link active" data-scroll-target="#kaggle-iterations">Kaggle Iterations</a>
+  <ul class="collapse">
+  <li><a href="#general-points" id="toc-general-points" class="nav-link" data-scroll-target="#general-points">1. General Points</a></li>
+  <li><a href="#some-rules-of-thumb" id="toc-some-rules-of-thumb" class="nav-link" data-scroll-target="#some-rules-of-thumb">2. Some Rules of Thumb</a></li>
+  <li><a href="#gradient-accumulation" id="toc-gradient-accumulation" class="nav-link" data-scroll-target="#gradient-accumulation">3. Gradient Accumulation</a></li>
+  <li><a href="#multi-target-classification" id="toc-multi-target-classification" class="nav-link" data-scroll-target="#multi-target-classification">4. Multi-target Classification</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
-  </div>
-  
-    
-  </div>
-  
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
-</header>
 
 
-<p><img src="trade-intel-splash-cropped.png" height="200"></p>
-<p>This is a robo-advisor app to give tailored stock portfolio recommendations.</p>
-<p>The user can input high-level preferences like their risk tolerance, industry preferences, and how closely they would like to follow the broader market. We then perform a portfolio optimisation process to recommend a robust portfolio based on those criteria.</p>
-<p>This is available on the <a href="https://apps.apple.com/gb/app/tradeintel/id1570837417">App Store</a></p>
-<p><a href="trade-intel-example.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="trade-intel-example.jpeg" height="500"></a></p>
+
+<section id="kaggle-iterations" class="level1">
+<h1>Kaggle Iterations</h1>
+<p>These are notes on the “Road to the Top” notebooks that span lessons 6 and 7 of Fast AI Practical Deep Learning for Coders. I’ve separated these from the main topics of those lectires to keep the posts focused.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Homework Task">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Homework Task
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Recreate the Softmax, Cross entropy loss. Spreadsheet example.</li>
+<li>Read the “Road to the Top” notebook series - parts <a href="https://www.kaggle.com/code/jhoward/first-steps-road-to-the-top-part-1">1</a>, <a href="https://www.kaggle.com/code/jhoward/small-models-road-to-the-top-part-2">2</a> and <a href="https://www.kaggle.com/code/jhoward/scaling-up-road-to-the-top-part-3">3</a></li>
+<li>Read <a href="https://chris-said.io/2020/12/26/two-things-that-confused-me-about-cross-entropy">“Things that confused me about cross entropy” by Chris Said.</a></li>
+</ul>
+</div>
+</div>
+<section id="general-points" class="level2">
+<h2 class="anchored" data-anchor-id="general-points">1. General Points</h2>
+<p>The focus should be:</p>
+<ol type="1">
+<li>Create an effective validation set</li>
+<li>Iterate quickly to find changes which improve the validation set</li>
+</ol>
+<p>Train a simple model straight away, get a result and submit it. You can iterate and improve later.</p>
+<p>Data augmentation, in particular <strong>test-time augmentation (TTA)</strong>, can improve results.</p>
+</section>
+<section id="some-rules-of-thumb" class="level2">
+<h2 class="anchored" data-anchor-id="some-rules-of-thumb">2. Some Rules of Thumb</h2>
+<p>Rules of thumb on model selection by problem type:</p>
+<ul>
+<li>For <strong>computer vision</strong> use CNNs, fine-tune a pre-trained model. See comparison of pre-trained models <a href="https://www.kaggle.com/code/jhoward/the-best-vision-models-for-fine-tuning">here</a>.
+<ul>
+<li>If unsure which model to choose, start with (small) convnext.</li>
+<li>Different models can have big differences in accuracy so try a few small models from different families.</li>
+<li>Once you are happy with the model, try a size up in that family.</li>
+<li>Resizing images to a square is a good, easy compromise to accomodate many different image sizes, orientations and aspect ratios. A more involved approach that may improve results is to batch images together and resize them to the median rectangle size.</li>
+</ul></li>
+<li>For <strong>tabular data</strong>, random forests will give a reasonably good result.
+<ul>
+<li>GBMs will give a better result eventually, but with more effort required to get a good model.</li>
+<li>Worth running a hyperparameter grid search for GBM because it’s fiddly.</li>
+</ul></li>
+</ul>
+<p>Rules of thumb on hardware:</p>
+<ul>
+<li>You generally want ~8 physical CPUs per GPU</li>
+<li>If model training is CPU bound, it can help to resize images to be smaller. The file I/O on the CPU may be taking too long.</li>
+<li>If model training is CPU bound and GPU usage is low, you might as well go up to a “better” (i.e.&nbsp;bigger) model with no increase of overall execution time.</li>
+</ul>
+</section>
+<section id="gradient-accumulation" class="level2">
+<h2 class="anchored" data-anchor-id="gradient-accumulation">3. Gradient Accumulation</h2>
+<p>This is a technique that allows you to run larger batch sizes without running out of GPU memory.</p>
+<p>Rather than needing to fit a whole batch (say, 64 images) in memory, we can split this up into sub-batches. Let’s say we use an accumulation factor of 4; this means each sub-batch would have 16 images.</p>
+<p>We calculate the gradient for each sub-batch <em>but don’t immediately subtract it from the weights</em>. We also keep a running count of the number of images we have seen. Once we have seen 64 images, i.e.&nbsp;4 batches, then apply the total accumulated gradient and reset the count. Remember that in Pytorch, if we calculate another gradient without zeroing in between, it will add the new gradient to the old one, so this is in effect the “default behaviour”.</p>
+<p>Gradient accumulation gives an identical result <em>unless using batch normalisation</em>, since the moving averages will be more volatile. Most big models use layer normalisation rather than batch normalisation so often this is not an issue.</p>
+<p>How do we pick a batch size? Just pick the largest you can without running out of GPU memory.</p>
+<p>Why not just reduce the batch size? If using a pretrained model, the other parameters such as learning rate work for that batch size and might not work for others. So we’d have to perform a hyperparameter search again to find a good combination for the new batch size. Gradient accumulation sidesteps this issue.</p>
+</section>
+<section id="multi-target-classification" class="level2">
+<h2 class="anchored" data-anchor-id="multi-target-classification">4. Multi-target Classification</h2>
+<p>Consider the case where we want to train a model with two different predicted labels, say plant species and disease type. If we have 10 plant species and 10 diseases, we create a model with 20 output neurons.</p>
+<p>How does the model know what each should do? Through the loss function. We make one loss function for disease which takes the first 10 columns of the input to the final layer, and a second loss function for variety which takes the last 10 columns of the input to the final layer. The overall loss function is the sum of the two.</p>
+<p>If you train it for longer, <strong>the multi target model can get better at predicting one target</strong>, say disease, than a single target model trained on just disease alone.</p>
+<ol type="1">
+<li>The early layers that are useful for variety may also be useful for disease</li>
+<li>Knowing the variety may be useful in predicting disease if there are confounding factors between disease and variety. For example, certain diseases affect certain varieties.</li>
+</ol>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li><a href="https://course.fast.ai/Lessons/lesson6.html">Course lesson page</a></li>
+<li><a href="https://www.kaggle.com/code/jhoward/first-steps-road-to-the-top-part-1">“Road to the Top” notebook</a></li>
+<li><a href="https://chris-said.io/2020/12/26/two-things-that-confused-me-about-cross-entropy">“Things that confused me about cross entropy” by Chris Said.</a></li>
+</ul>
 
 
+</section>
+</section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -564,31 +662,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","descPosition":"bottom","selector":".lightbox","closeEffect":"zoom","loop":false});
-window.onload = () => {
-  lightboxQuarto.on('slide_before_load', (data) => {
-    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-    const href = trigger.getAttribute('href');
-    if (href !== null) {
-      const imgEl = window.document.querySelector(`a[href="${href}"] img`);
-      if (imgEl !== null) {
-        const srcAttr = imgEl.getAttribute("src");
-        if (srcAttr && srcAttr.startsWith("data:")) {
-          slideConfig.href = srcAttr;
-        }
-      }
-    } 
-  });
-
-  lightboxQuarto.on('slide_after_load', (data) => {
-    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-    if (window.Quarto?.typesetMath) {
-      window.Quarto.typesetMath(slideNode);
-    }
-  });
-
-};
-          </script>
 
 
 
