@@ -10,7 +10,7 @@ categories: [AI, Engineering, FastAI]
 These are notes from lesson 7 of Fast AI Practical Deep Learning for Coders.
 
 ::: {.callout-tip title="Homework Task"}
-- Recreate the collaborative filtering spreadsheet - TODO GJ
+- Recreate the [collaborative filtering spreadsheet](https://docs.google.com/spreadsheets/d/1tIzbgwu3qmAJounfKtr4n-uwAkupetmVqkHAWllYRDw/edit?usp=sharing)
 :::
 
 ## 1. The Intuition Behind Collaborative Filtering

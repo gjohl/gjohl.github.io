@@ -170,6 +170,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#creating-a-recommendation-system" id="toc-creating-a-recommendation-system" class="nav-link active" data-scroll-target="#creating-a-recommendation-system">Creating a Recommendation System</a>
   <ul class="collapse">
+  <li><a href="#a-deep-learning-spreadsheet" id="toc-a-deep-learning-spreadsheet" class="nav-link" data-scroll-target="#a-deep-learning-spreadsheet">0. A deep learning spreadsheet (!)</a></li>
   <li><a href="#loading-movielens-data" id="toc-loading-movielens-data" class="nav-link" data-scroll-target="#loading-movielens-data">1. Loading MovieLens data</a></li>
   </ul></li>
   </ul>
@@ -216,9 +217,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="creating-a-recommendation-system" class="level1">
 <h1>Creating a Recommendation System</h1>
 <p>This is a worked example of creating a recommendation system using collaborative filtering applied to user ratings of movies.</p>
+<section id="a-deep-learning-spreadsheet" class="level2">
+<h2 class="anchored" data-anchor-id="a-deep-learning-spreadsheet">0. A deep learning spreadsheet (!)</h2>
+<p>To gain an intuition behind the calculations behind a collaborative filter, we can work through a (smaller) example in excel. This allows us to see the logic and dig into the calculations before we create them “for real” in Python.</p>
+<p>This can be found <a href="https://docs.google.com/spreadsheets/d/1tIzbgwu3qmAJounfKtr4n-uwAkupetmVqkHAWllYRDw/edit?usp=sharing">in this spreadsheet</a>.</p>
+</section>
 <section id="loading-movielens-data" class="level2">
 <h2 class="anchored" data-anchor-id="loading-movielens-data">1. Loading MovieLens data</h2>
-<p>We use data on user ratings of movies sourced from <a href="https://grouplens.org/datasets/movielens/">MovieLens</a>.</p>
+<p>We use data on user ratings of movies sourced from <a href="https://grouplens.org/datasets/movielens/">MovieLens</a>. The <code>ml-latest-small</code> data set is downloaded and saved in the <code>DATA_DIR</code> folder.</p>
 <div id="353108d5-1b01-408f-8e32-9c31979e0ffc" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
