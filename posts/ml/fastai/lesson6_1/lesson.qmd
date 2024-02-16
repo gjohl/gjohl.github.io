@@ -12,10 +12,9 @@ I've separated these from the main topics of those lectires to keep the posts fo
 
 ::: {.callout-tip title="Homework Task"}
 
-- Recreate the Softmax, Cross entropy loss. Spreadsheet example.
+- Recreate the [softmax and cross-entropy loss spreadsheet example](https://docs.google.com/spreadsheets/d/1y9TMtLPDkcsKK25k8cSDYjmTZkUGHzbHXNvdvnIInjA/edit?usp=sharing)
 - Read the "Road to the Top" notebook series - parts [1](https://www.kaggle.com/code/jhoward/first-steps-road-to-the-top-part-1), [2](https://www.kaggle.com/code/jhoward/small-models-road-to-the-top-part-2) and [3](https://www.kaggle.com/code/jhoward/scaling-up-road-to-the-top-part-3)
 - Read ["Things that confused me about cross entropy" by Chris Said.](https://chris-said.io/2020/12/26/two-things-that-confused-me-about-cross-entropy)
-
 :::
 
 ## 1. General Points

@@ -2,7 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
-      "/posts/ml/fastai/lesson7/7_collaborative_filtering.html",
+      "/posts/ml/fastai/lesson7/lesson.html",
       "/posts/ml/fastai/lesson6_1/lesson.html",
       "/posts/ml/generative_deep_learning/lesson1/lesson.html",
       "/posts/ml/fastai/lesson6/lesson.html",
@@ -23,7 +23,7 @@
   {
     "listing": "/fastai-series.html",
     "items": [
-      "/posts/ml/fastai/lesson7/7_collaborative_filtering.html",
+      "/posts/ml/fastai/lesson7/lesson.html",
       "/posts/ml/fastai/lesson6_1/lesson.html",
       "/posts/ml/fastai/lesson6/lesson.html",
       "/posts/ml/fastai/lesson5/lesson.html",
@@ -36,6 +36,7 @@
   {
     "listing": "/projects.html",
     "items": [
+      "/projects_section/fastai/collaborative_filtering/7_collaborative_filtering.html",
       "/projects_section/xai_research/xai.html",
       "/projects_section/tradeintel/tradeintel.html"
     ]

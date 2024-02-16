@@ -204,12 +204,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#collaborative-filtering" id="toc-collaborative-filtering" class="nav-link active" data-scroll-target="#collaborative-filtering">Collaborative Filtering</a>
-  <ul class="collapse">
-  <li><a href="#road-to-the-top" id="toc-road-to-the-top" class="nav-link" data-scroll-target="#road-to-the-top">Road to the top</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
-  <li><a href="#loading-movielens-data" id="toc-loading-movielens-data" class="nav-link" data-scroll-target="#loading-movielens-data">Loading MovieLens data</a></li>
-  </ul></li>
+  <li><a href="#loading-movielens-data" id="toc-loading-movielens-data" class="nav-link active" data-scroll-target="#loading-movielens-data">Loading MovieLens data</a></li>
   </ul>
 </nav>
     </div>
@@ -220,27 +215,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="collaborative-filtering" class="level1">
-<h1>Collaborative Filtering</h1>
-<p>These are notes from lesson 7 of Fast AI Practical Deep Learning for Coders.</p>
-<section id="road-to-the-top" class="level2">
-<h2 class="anchored" data-anchor-id="road-to-the-top">Road to the top</h2>
-<p>Collaborative Filtering. We have users ratings of movies. Say we had “embeddings” of a set of categories for each. So for a given film, we have a vector of [action, sci-fi, romance] and for a given user we have their preference for [action, sci-fi, romance]. Then we could do the for product between user embedding and movie embedding to get the probability that the user likes that movie. That is, the predicted user rating. So the problem boils down to: how do we get those embeddings?</p>
-<p>Let’s just pick a randomised embedding for each movie and each user. Then we have a loss function which is the MAE between predicted user rating for a movie and actual rating. Now we can use SGD to optimise those embeddings to find the best values.</p>
-<p>Recreate the collaborative filtering spreadsheet.</p>
-<p>How to choose the number of latent factors? (3 in the example above) Jeremy wrote down some ballpark values for models of different sizes in excel, then fit a function to it to get a heuristic measure. This is the default used by fast AI.</p>
-<p>An embedding is just “look up in an array”.</p>
-<p>Doing a matrix multiply by a one hot encoded vector is the same as doing a lookup in an array, just in a more computationally efficient way. Recall the softmax example.</p>
-<p>Putting a sigmoid_range on the final layer to squish ratings to fit 0 to 5 means “the model doesn’t have to work as hard” to get movies in the right range. In practice we use 5.5 as the sigmoid scale value as a sigmoid can never hit 1, but we want ratings to be able to hit 5.</p>
-<p>Adding a user bias term and a movie bias term to the prediction call helps account for the fact that some users always rate high (4 or 5) but other users always rate low. And similarly for movies if everyone always rates it a 5 or a 1.</p>
-<p>We want to avoid overfitting, but data augmentation isn’t possible here. We use weight decay AKA L2 regularisation. Add sum of weights squared to the loss function.</p>
-</section>
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
-<ul>
-<li><a href="https://course.fast.ai/Lessons/lesson7.html">Course lesson page</a></li>
-</ul>
-</section>
 <section id="loading-movielens-data" class="level2">
 <h2 class="anchored" data-anchor-id="loading-movielens-data">Loading MovieLens data</h2>
 <p>Using MovieLens data from <a href="https://grouplens.org/datasets/movielens/">here</a></p>
@@ -268,7 +242,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 
 
-</section>
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
