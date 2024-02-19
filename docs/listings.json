@@ -36,7 +36,6 @@
   {
     "listing": "/projects.html",
     "items": [
-      "/projects_section/fastai/collaborative_filtering/7_collaborative_filtering.html",
       "/projects_section/xai_research/xai.html",
       "/projects_section/tradeintel/tradeintel.html"
     ]
