@@ -6,11 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Gurpreet Johl">
-<meta name="dcterms.date" content="2023-08-23">
-<meta name="description" content="Practical Deep Learning for Coders: Lesson 1">
+<meta name="dcterms.date" content="2024-02-14">
+<meta name="description" content="A Worked Example of Collaborative Filtering">
 
-<title>Gurpreet Johl - FastAI Lesson 1: Image Classification Models</title>
+<title>Gurpreet Johl - Movie Recommendation System</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,28 +22,59 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../../../">
-<script src="../../../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<script src="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -72,19 +102,22 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
-<link rel="stylesheet" href="../../../../styles.css">
+<link rel="stylesheet" href="../../../styles.css">
 </head>
 
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+  <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../../../index.html">
+    <a class="navbar-brand" href="../../../index.html">
     <span class="navbar-title">Gurpreet Johl</span>
     </a>
   </div>
@@ -95,11 +128,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../../../projects.html"> 
+    <a class="nav-link" href="../../../projects.html"> 
 <span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../../blog.html"> 
+    <a class="nav-link" href="../../../blog.html"> 
 <span class="menu-text">Notes</span></a>
   </li>  
 </ul>
@@ -127,45 +160,7 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-body">
-      <h1 class="title">FastAI Lesson 1: Image Classification Models</h1>
-                  <div>
-        <div class="description">
-          Practical Deep Learning for Coders: Lesson 1
-        </div>
-      </div>
-                          <div class="quarto-categories">
-                <div class="quarto-category">AI</div>
-                <div class="quarto-category">Engineering</div>
-                <div class="quarto-category">FastAI</div>
-              </div>
-                  </div>
-  </div>
-    
-  
-  <div class="quarto-title-meta">
-
-      <div>
-      <div class="quarto-title-meta-heading">Author</div>
-      <div class="quarto-title-meta-contents">
-               <p>Gurpreet Johl </p>
-            </div>
-    </div>
-      
-      <div>
-      <div class="quarto-title-meta-heading">Published</div>
-      <div class="quarto-title-meta-contents">
-        <p class="date">August 23, 2023</p>
-      </div>
-    </div>
-    
-      
-    </div>
-    
-  
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
@@ -173,119 +168,277 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction-to-image-classification-models" id="toc-introduction-to-image-classification-models" class="nav-link active" data-scroll-target="#introduction-to-image-classification-models">Introduction to image classification models</a>
+  <li><a href="#creating-a-recommendation-system" id="toc-creating-a-recommendation-system" class="nav-link active" data-scroll-target="#creating-a-recommendation-system">Creating a Recommendation System</a>
   <ul class="collapse">
-  <li><a href="#notes-on-learning" id="toc-notes-on-learning" class="nav-link" data-scroll-target="#notes-on-learning">1. Notes on Learning</a></li>
-  <li><a href="#background-on-deep-learning-and-image-classification" id="toc-background-on-deep-learning-and-image-classification" class="nav-link" data-scroll-target="#background-on-deep-learning-and-image-classification">2. Background on Deep Learning and Image Classification</a></li>
-  <li><a href="#overview-of-the-fastai-learner" id="toc-overview-of-the-fastai-learner" class="nav-link" data-scroll-target="#overview-of-the-fastai-learner">3. Overview of the fastai learner</a></li>
-  <li><a href="#deep-learning-vs-traditional-computer-programs" id="toc-deep-learning-vs-traditional-computer-programs" class="nav-link" data-scroll-target="#deep-learning-vs-traditional-computer-programs">4. Deep Learning vs Traditional Computer Programs</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  <li><a href="#a-deep-learning-spreadsheet" id="toc-a-deep-learning-spreadsheet" class="nav-link" data-scroll-target="#a-deep-learning-spreadsheet">0. A deep learning spreadsheet (!)</a></li>
+  <li><a href="#loading-movielens-data" id="toc-loading-movielens-data" class="nav-link" data-scroll-target="#loading-movielens-data">1. Loading MovieLens data</a></li>
   </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content quarto-banner-title-block" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Movie Recommendation System</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">AI</div>
+    <div class="quarto-category">Engineering</div>
+    <div class="quarto-category">FastAI</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    A Worked Example of Collaborative Filtering
+  </div>
+</div>
 
 
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 14, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
 
 
+</header>
 
-<section id="introduction-to-image-classification-models" class="level1">
-<h1>Introduction to image classification models</h1>
-<p>These are notes from lesson 1 of Fast AI Practical Deep Learning for Coders.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Homework Task">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Homework Task
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Train an image classifier: see <a href="https://github.com/gjohl/ml-practice/blob/master/ml-practice/notebooks/fastai/1_image_classifier.ipynb">car classification notebook</a></p>
-</div>
-</div>
-<section id="notes-on-learning" class="level2">
-<h2 class="anchored" data-anchor-id="notes-on-learning">1. Notes on Learning</h2>
-<p>There is a companion course focusing on AI ethics <a href="https://ethics.fast.ai/">here</a></p>
-<p>Thoughts on education: play the whole game first to get an idea of the big picture. Don’t become afflicted with “elementitis” getting too bogged down in details too early.</p>
-<ul>
-<li>Coloured cups - green, amber, red - for each student to indicate how well they are following</li>
-<li>Meta Learning by Radek Osmulski - a book based on the author’s experience of learning about deep learning (via the fastai course)</li>
-<li>Mathematician’s Lament by Paul Lockhart - a book about the state of mathematics education</li>
-<li>Making Learning Whole by David Perkins - a book about apporaches to holistic learning</li>
-</ul>
-<p><a href="https://rise.readthedocs.io/en/latest/">RISE</a> is a jupyter notebook extension to turn notebooks into slides. Jeremy uses notebooks for: source code, book, blogging, CI/CD.</p>
+
+<section id="creating-a-recommendation-system" class="level1">
+<h1>Creating a Recommendation System</h1>
+<p>This is a worked example of creating a recommendation system using collaborative filtering applied to user ratings of movies.</p>
+<section id="a-deep-learning-spreadsheet" class="level2">
+<h2 class="anchored" data-anchor-id="a-deep-learning-spreadsheet">0. A deep learning spreadsheet (!)</h2>
+<p>To gain an intuition behind the calculations behind a collaborative filter, we can work through a (smaller) example in excel. This allows us to see the logic and dig into the calculations before we create them “for real” in Python.</p>
+<p>This can be found <a href="https://docs.google.com/spreadsheets/d/1tIzbgwu3qmAJounfKtr4n-uwAkupetmVqkHAWllYRDw/edit?usp=sharing">in this spreadsheet</a>.</p>
 </section>
-<section id="background-on-deep-learning-and-image-classification" class="level2">
-<h2 class="anchored" data-anchor-id="background-on-deep-learning-and-image-classification">2. Background on Deep Learning and Image Classification</h2>
-<p>Before deep learning, the approach to machine learning was to enlist many domain experts to <em>handcraft</em> features and feed this into a constrained linear model (e.g.&nbsp;ridge regression). This is time-consuming, expensive and requires many domain experts.</p>
-<p>Neural networks <em>learn</em> these features. Looking inside a CNN, for example, shows that these learned features match interpretable features that an expert might handcraft. An illustration of the features learned is given in <a href="https://arxiv.org/abs/1311.2901">this paper by Zeiler and Fergus</a>.</p>
-<p>For image classifiers, you don’t need particularly large images as inputs. GPUs are so quick now that if you use large images, most of the time is spent on <em>opening the file</em> rather than computations. So often we resize images down to 400x400 pixels or smaller.</p>
-<p>For most use cases, there are pre-trained models and sensible default values that we can use. In practice, most of the time is spent on the input layer and output layer. For most models the middle layers are identical.</p>
-</section>
-<section id="overview-of-the-fastai-learner" class="level2">
-<h2 class="anchored" data-anchor-id="overview-of-the-fastai-learner">3. Overview of the fastai learner</h2>
-<p>Data blocks structure the input to learners. An overview of the <code>DataBlock</code> class:</p>
-<ul>
-<li><code>blocks</code> determines the input and output type as a tuple. For multi-target classification this tuple can be arbitrary length.</li>
-<li><code>get_items</code> is a function that returns a list of all the inputs.</li>
-<li><code>splitter</code> defines how to split the training/validation set.</li>
-<li><code>get_y</code> is a function that returns the label of a given input image.</li>
-<li><code>item_tfms</code> defines what transforms to apply to the inputs before training, e.g.&nbsp;resize.</li>
-<li><code>dataloaders</code> is a method that parallelises loading the data.</li>
-</ul>
-<p>A learner combines the model (e.g.&nbsp;resnet or something from <a href="https://timm.fast.ai/">timm library</a>) and the data to run that model on (the dataloaders from the DataBlock).</p>
-<p>The <code>fine_tune</code> method starts with a pretrained model weights rather than randomised weights, and only needs to learn the differences between your data and the original model.</p>
-<p>Other image problems that can utilise deep learning:</p>
-<ul>
-<li>Image classification</li>
-<li>Image segmentation</li>
-</ul>
-<p>Other problem types use the same process, just with different DataBlock <code>blocks</code> types and the rest is the same. For example, tabular data, collaborative filtering.</p>
-</section>
-<section id="deep-learning-vs-traditional-computer-programs" class="level2">
-<h2 class="anchored" data-anchor-id="deep-learning-vs-traditional-computer-programs">4. Deep Learning vs Traditional Computer Programs</h2>
-<!-- Flowcharts from https://miro.com/app/board/uXjVNv5WRsc=/ -->
-<p>Traditional computer programs are essentially:</p>
-<div id="fig-traditional_program" class="lightbox quarto-figure quarto-figure-center quarto-float anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-traditional_program-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="traditional_program.png" class="lightbox" data-glightbox="description: .lightbox-desc-1" data-gallery="quarto-lightbox-gallery-1"><img src="traditional_program.png" class="img-fluid figure-img"></a>
+<section id="loading-movielens-data" class="level2">
+<h2 class="anchored" data-anchor-id="loading-movielens-data">1. Loading MovieLens data</h2>
+<p>We use data on user ratings of movies sourced from <a href="https://grouplens.org/datasets/movielens/">MovieLens</a>. The <code>ml-latest-small</code> data set is downloaded and saved in the <code>DATA_DIR</code> folder.</p>
+<div id="353108d5-1b01-408f-8e32-9c31979e0ffc" class="cell" data-execution_count="7">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>DATA_DIR <span class="op">=</span> Path(<span class="st">"/Users/gurpreetjohl/workspace/python/ml-practice/ml-practice/datasets/ml-latest-small"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-traditional_program-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Traditional computer programs
-</figcaption>
-</figure>
-</div>
-<p>Deep learning models are:</p>
-<div id="fig-deep_learning_model" class="lightbox quarto-figure quarto-figure-center quarto-float anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-deep_learning_model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="deep_learning_model.png" class="lightbox" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2"><img src="deep_learning_model.png" class="img-fluid figure-img"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-deep_learning_model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Deep learning model
-</figcaption>
-</figure>
-</div>
-</section>
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
-<ul>
-<li><a href="https://course.fast.ai/Lessons/lesson1.html">Course lesson page</a></li>
-<li><a href="https://arxiv.org/abs/1311.2901">Visualizing and Understanding Convolutional Networks</a></li>
-<li><a href="https://timm.fast.ai/">TIMM library</a></li>
-<li><a href="https://www.semanticscholar.org/paper/Statistical-Modeling%3A-The-Two-Cultures-(with-and-a-Breiman/e5df6bc6da5653ad98e754b08f63326c2e52b372">Statistical Modeling: The Two Cultures</a></li>
-</ul>
+<p>Load the <code>ratings</code> data which we will use for this task:</p>
+<div id="b2e2beb6-220b-40d5-b29d-a6fc1a032157" class="cell" data-execution_count="8">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ratings <span class="op">=</span> pd.read_csv(DATA_DIR <span class="op">/</span> <span class="st">'ratings.csv'</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>ratings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div>
 
 
-<div class="hidden" aria-hidden="true">
-<span class="glightbox-desc lightbox-desc-1">Figure&nbsp;1: Traditional computer programs</span>
-<span class="glightbox-desc lightbox-desc-2">Figure&nbsp;2: Deep learning model</span>
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">userId</th>
+<th data-quarto-table-cell-role="th">movieId</th>
+<th data-quarto-table-cell-role="th">rating</th>
+<th data-quarto-table-cell-role="th">timestamp</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>1</td>
+<td>4.0</td>
+<td>964982703</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1</td>
+<td>3</td>
+<td>4.0</td>
+<td>964981247</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>1</td>
+<td>6</td>
+<td>4.0</td>
+<td>964982224</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>1</td>
+<td>47</td>
+<td>5.0</td>
+<td>964983815</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>1</td>
+<td>50</td>
+<td>5.0</td>
+<td>964982931</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">100831</td>
+<td>610</td>
+<td>166534</td>
+<td>4.0</td>
+<td>1493848402</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">100832</td>
+<td>610</td>
+<td>168248</td>
+<td>5.0</td>
+<td>1493850091</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">100833</td>
+<td>610</td>
+<td>168250</td>
+<td>5.0</td>
+<td>1494273047</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">100834</td>
+<td>610</td>
+<td>168252</td>
+<td>5.0</td>
+<td>1493846352</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">100835</td>
+<td>610</td>
+<td>170875</td>
+<td>3.0</td>
+<td>1493846415</td>
+</tr>
+</tbody>
+</table>
+
+<p>100836 rows × 4 columns</p>
 </div>
+</div>
+</div>
+<p>The users and movies are encoded as integers.</p>
+<p>For reference, we can load the <code>movies</code> data to see what each <code>movieId</code> corresponds to:</p>
+<div id="79c2cc08-83e0-4c9f-a9e0-e4b3538187ee" class="cell" data-execution_count="10">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>movies <span class="op">=</span> pd.read_csv(DATA_DIR <span class="op">/</span> <span class="st">'movies.csv'</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>movies</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">movieId</th>
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">genres</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>Toy Story (1995)</td>
+<td>Adventure|Animation|Children|Comedy|Fantasy</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2</td>
+<td>Jumanji (1995)</td>
+<td>Adventure|Children|Fantasy</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>3</td>
+<td>Grumpier Old Men (1995)</td>
+<td>Comedy|Romance</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>4</td>
+<td>Waiting to Exhale (1995)</td>
+<td>Comedy|Drama|Romance</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>5</td>
+<td>Father of the Bride Part II (1995)</td>
+<td>Comedy</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">9737</td>
+<td>193581</td>
+<td>Black Butler: Book of the Atlantic (2017)</td>
+<td>Action|Animation|Comedy|Fantasy</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9738</td>
+<td>193583</td>
+<td>No Game No Life: Zero (2017)</td>
+<td>Animation|Comedy|Fantasy</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">9739</td>
+<td>193585</td>
+<td>Flint (2017)</td>
+<td>Drama</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9740</td>
+<td>193587</td>
+<td>Bungo Stray Dogs: Dead Apple (2018)</td>
+<td>Action|Animation</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">9741</td>
+<td>193609</td>
+<td>Andrew Dice Clay: Dice Rules (1991)</td>
+<td>Comedy</td>
+</tr>
+</tbody>
+</table>
+
+<p>9742 rows × 3 columns</p>
+</div>
+</div>
+</div>
+
+
 </section>
 </section>
 
@@ -678,31 +831,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","descPosition":"bottom","openEffect":"zoom","loop":false});
-window.onload = () => {
-  lightboxQuarto.on('slide_before_load', (data) => {
-    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-    const href = trigger.getAttribute('href');
-    if (href !== null) {
-      const imgEl = window.document.querySelector(`a[href="${href}"] img`);
-      if (imgEl !== null) {
-        const srcAttr = imgEl.getAttribute("src");
-        if (srcAttr && srcAttr.startsWith("data:")) {
-          slideConfig.href = srcAttr;
-        }
-      }
-    } 
-  });
-
-  lightboxQuarto.on('slide_after_load', (data) => {
-    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-    if (window.Quarto?.typesetMath) {
-      window.Quarto.typesetMath(slideNode);
-    }
-  });
-
-};
-          </script>
 
 
 

@@ -1,0 +1,85 @@
+---
+title: "FastAI Lesson 6.5: Road to the Top"
+description: "Practical Deep Learning for Coders: Lesson 6.5"
+date: "2024-02-13"
+image: "fastai.png"
+categories: [AI, Engineering, FastAI]
+---
+
+# Kaggle Iterations
+These are notes on the "Road to the Top" notebooks that span lessons 6 and 7 of Fast AI Practical Deep Learning for Coders.
+I've separated these from the main topics of those lectires to keep the posts focused.
+
+::: {.callout-tip title="Homework Task"}
+
+- Recreate the [softmax and cross-entropy loss spreadsheet example](https://docs.google.com/spreadsheets/d/1y9TMtLPDkcsKK25k8cSDYjmTZkUGHzbHXNvdvnIInjA/edit?usp=sharing)
+- Read the "Road to the Top" notebook series - parts [1](https://www.kaggle.com/code/jhoward/first-steps-road-to-the-top-part-1), [2](https://www.kaggle.com/code/jhoward/small-models-road-to-the-top-part-2) and [3](https://www.kaggle.com/code/jhoward/scaling-up-road-to-the-top-part-3)
+- Read ["Things that confused me about cross entropy" by Chris Said.](https://chris-said.io/2020/12/26/two-things-that-confused-me-about-cross-entropy)
+:::
+
+## 1. General Points
+The focus should be:
+
+1. Create an effective validation set
+2. Iterate quickly to find changes which improve the validation set
+
+Train a simple model straight away, get a result and submit it.
+You can iterate and improve later.
+
+Data augmentation, in particular **test-time augmentation (TTA)**, can improve results.
+
+
+## 2. Some Rules of Thumb
+Rules of thumb on model selection by problem type:
+
+- For **computer vision** use CNNs, fine-tune a pre-trained model. See comparison of pre-trained models [here](https://www.kaggle.com/code/jhoward/the-best-vision-models-for-fine-tuning).
+  - If unsure which model to choose, start with (small) convnext.
+  - Different models can have big differences in accuracy so try a few small models from different families.
+  - Once you are happy with the model, try a size up in that family.
+  - Resizing images to a square is a good, easy compromise to accomodate many different image sizes, orientations and aspect ratios. A more involved approach that may improve results is to batch images together and resize them to the median rectangle size.
+- For **tabular data**, random forests will give a reasonably good result.
+  - GBMs will give a better result eventually, but with more effort required to get a good model.
+  - Worth running a hyperparameter grid search for GBM because it's fiddly.
+
+Rules of thumb on hardware:
+
+- You generally want ~8 physical CPUs per GPU
+- If model training is CPU bound, it can help to resize images to be smaller. The file I/O on the CPU may be taking too long.
+- If model training is CPU bound and GPU usage is low, you might as well go up to a "better" (i.e. bigger) model with no increase of overall execution time.
+
+
+## 3. Gradient Accumulation
+This is a technique that allows you to run larger batch sizes without running out of GPU memory.
+
+Rather than needing to fit a whole batch (say, 64 images) in memory, we can split this up into sub-batches. Let's say we use an accumulation factor of 4; this means each sub-batch would have 16 images. 
+
+We calculate the gradient for each sub-batch *but don't immediately subtract it from the weights*. We also keep a running count of the number of images we have seen. Once we have seen 64 images, i.e. 4 batches, then apply the total accumulated gradient and reset the count. Remember that in Pytorch, if we calculate another gradient without zeroing in between, it will add the new gradient to the old one, so this is in effect the "default behaviour".
+
+Gradient accumulation gives an identical result *unless using batch normalisation*, since the moving averages will be more volatile. 
+Most big models use layer normalisation rather than batch normalisation so often this is not an issue. 
+
+How do we pick a batch size?
+Just pick the largest you can without running out of GPU memory. 
+
+Why not just reduce the batch size? 
+If using a pretrained model, the other parameters such as learning rate work for that batch size and might not work for others. So we'd have to perform a hyperparameter search again to find a good combination for the new batch size.
+Gradient accumulation sidesteps this issue. 
+
+
+## 4. Multi-target Classification
+Consider the case where we want to train a model with two different predicted labels, say plant species and disease type.
+If we have 10 plant species and 10 diseases, we create a model with 20 output neurons. 
+
+How does the model know what each should do? Through the loss function. We make one loss function for disease which takes the first 10 columns of the input to the final layer, and a second loss function for variety which takes the last 10 columns of the input to the final layer. The overall loss function is the sum of the two. 
+
+If you train it for longer, **the multi target model can get better at predicting one target**, say disease, than a single target model trained on just disease alone.  
+
+1. The early layers that are useful for variety may also be useful for disease
+2. Knowing the variety may be useful in predicting disease if there are confounding factors between disease and variety. For example, certain diseases affect certain varieties. 
+
+
+## References
+
+- [Course lesson page](https://course.fast.ai/Lessons/lesson6.html)
+- ["Road to the Top" notebook](https://www.kaggle.com/code/jhoward/first-steps-road-to-the-top-part-1)
+- ["Things that confused me about cross entropy" by Chris Said.](https://chris-said.io/2020/12/26/two-things-that-confused-me-about-cross-entropy)
