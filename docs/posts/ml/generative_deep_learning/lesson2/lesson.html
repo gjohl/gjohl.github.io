@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Gurpreet Johl">
+<meta name="dcterms.date" content="2024-02-19">
+<meta name="description" content="Intro to generative AI">
 
-<title>Gurpreet Johl - Series: Generative Deep Learning</title>
+<title>Gurpreet Johl - Generative AI: Chapter 1</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,24 +26,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../">
+<script src="../../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -68,35 +69,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-reading-time','listing-description','listing-categories','listing-image',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
+<script src="../../../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -128,7 +103,7 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../../../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -138,7 +113,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../../../index.html">
     <span class="navbar-title">Gurpreet Johl</span>
     </a>
   </div>
@@ -149,11 +124,11 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./projects.html"> 
+    <a class="nav-link" href="../../../../projects.html"> 
 <span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./blog.html"> 
+    <a class="nav-link" href="../../../../blog.html"> 
 <span class="menu-text">Notes</span></a>
   </li>  
 </ul>
@@ -183,159 +158,203 @@ window.Quarto = {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page">
-      <h1 class="title">Series: Generative Deep Learning</h1>
-                      </div>
+    <div class="quarto-title column-body">
+      <h1 class="title">Generative AI: Chapter 1</h1>
+                  <div>
+        <div class="description">
+          Intro to generative AI
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">AI</div>
+                <div class="quarto-category">Engineering</div>
+                <div class="quarto-category">GenerativeAI</div>
+              </div>
+                  </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page">
+  <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Gurpreet Johl </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">February 19, 2024</p>
+      </div>
+    </div>
     
       
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction-to-generative-deep-learning" id="toc-introduction-to-generative-deep-learning" class="nav-link active" data-scroll-target="#introduction-to-generative-deep-learning">Introduction to Generative Deep Learning</a>
+  <ul class="collapse">
+  <li><a href="#what-is-generative-modeling" id="toc-what-is-generative-modeling" class="nav-link" data-scroll-target="#what-is-generative-modeling">1. What is Generative Modeling?</a></li>
+  <li><a href="#the-generative-modeling-framework" id="toc-the-generative-modeling-framework" class="nav-link" data-scroll-target="#the-generative-modeling-framework">2. The Generative Modeling Framework</a></li>
+  <li><a href="#representation-learning" id="toc-representation-learning" class="nav-link" data-scroll-target="#representation-learning">3. Representation Learning</a></li>
+  <li><a href="#core-probability-theory" id="toc-core-probability-theory" class="nav-link" data-scroll-target="#core-probability-theory">4. Core Probability Theory</a></li>
+  <li><a href="#generative-model-taxonomy" id="toc-generative-model-taxonomy" class="nav-link" data-scroll-target="#generative-model-taxonomy">5. Generative Model Taxonomy</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block column-page" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
+<section id="introduction-to-generative-deep-learning" class="level1">
+<h1>Introduction to Generative Deep Learning</h1>
+<p>These are notes from chapter 1 of Generative Deep Learning by David Foster.</p>
+<section id="what-is-generative-modeling" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-generative-modeling">1. What is Generative Modeling?</h2>
+<blockquote class="blockquote">
+<p>Generative modeling is a branch of machine learning that involves training a model to produce new data that is similar ot a given dataset.</p>
+</blockquote>
+<p>This means we require some training data which we wish to imitate. The model should be probabilistic rather than deterministic, so that we can sample different variations of the output.</p>
+<p>A helpful way to define generative modeling is by contrasting it with its counterpart <em>discriminative modeling</em>:</p>
+<ul>
+<li><strong>Discriminative</strong> modeling estimates <span class="math inline">\(p(y|x)\)</span> - the probability of a label <span class="math inline">\(y\)</span> given some observation <span class="math inline">\(x\)</span></li>
+<li><strong>Generative</strong> modeling estimates <span class="math inline">\(p(x)\)</span> - the probability of seeing an observation <span class="math inline">\(x\)</span>. By sampling from this distribution we can generate new observations.
+<ul>
+<li>We can also create a <em>conditional</em> generative model to estimate <span class="math inline">\(p(x|y)\)</span>, the probability of seeing an observation <span class="math inline">\(x\)</span> with label <span class="math inline">\(y\)</span>. For ample, if we train a model to generate a given type of fruit.</li>
+</ul></li>
+</ul>
+</section>
+<section id="the-generative-modeling-framework" class="level2">
+<h2 class="anchored" data-anchor-id="the-generative-modeling-framework">2. The Generative Modeling Framework</h2>
+<p>The aim:</p>
+<ul>
+<li>We have training data of observations <span class="math inline">\(X\)</span></li>
+<li>We assume the training data has been generated by an unknown distribution <span class="math inline">\(p_{data}\)</span></li>
+<li>We want to build a generative model <span class="math inline">\(p_{model}\)</span> that mimics <span class="math inline">\(p_{data}\)</span>
+<ul>
+<li>If we succeed, we can sample from <span class="math inline">\(p_{model}\)</span> to generate synthetic observations</li>
+</ul></li>
+</ul>
+<p>Desirable properties of <span class="math inline">\(p_{model}\)</span> are:</p>
+<ul>
+<li>Accuracy - If <span class="math inline">\(p_{model}\)</span> is a high value it should look like a real observation, and likewise low values should look fake.</li>
+<li>Generation - It should be easy to sample from it.</li>
+<li>Representation - It should be possible to understand how high-level features are represented by the model.</li>
+</ul>
+</section>
+<section id="representation-learning" class="level2">
+<h2 class="anchored" data-anchor-id="representation-learning">3. Representation Learning</h2>
+<p>We want to be able to describe things in terms of high-level features. For example, when describing appearance, we might talk about hair colour, length, eye colour, etc. Not <a href="https://youtu.be/9i8L_bF2bv0?si=eKgK_enlpDk5fkAN&amp;t=27">RGB values pixel by pixel…</a></p>
+<p>This is the idea behind representation learning. We describe each training data observation using some lower-dimensional latent space. Then we learn a maaping function from the latent space to the original domain.</p>
+<p>Encoder-decoder techniques try to transform a high-dimensional nonlinear manifold into a simpler latent space.</p>
+</section>
+<section id="core-probability-theory" class="level2">
+<h2 class="anchored" data-anchor-id="core-probability-theory">4. Core Probability Theory</h2>
+<section id="sample-space" class="level4">
+<h4 class="anchored" data-anchor-id="sample-space">Sample space</h4>
+<p>The complete set of all values that an observation <span class="math inline">\(x\)</span> can take.</p>
+</section>
+<section id="probability-density-function" class="level4">
+<h4 class="anchored" data-anchor-id="probability-density-function">Probability density function</h4>
+<p>A function <span class="math inline">\(p(x)\)</span> that maps a point <span class="math inline">\(x\)</span> in the sample space to a number between 0 and 1. The integral over the sample space must equal 1 for it to be a well-define probability distribtution.</p>
+<p>There is one true data distribution <span class="math inline">\(p_{data}\)</span> but infinitely many approximations <span class="math inline">\(p_{model}\)</span> that we can find.</p>
+</section>
+<section id="parametric-modeling" class="level4">
+<h4 class="anchored" data-anchor-id="parametric-modeling">Parametric modeling</h4>
+<p>We can structure our approach to finding <span class="math inline">\(p_{model}\)</span> by restricting ourselves to a family of density functions <span class="math inline">\(p_{\theta}(x)\)</span> which can be described with a finite set of parameters <span class="math inline">\(\theta\)</span>.</p>
+<p>For example, restricting our search to a linear model <span class="math inline">\(y = w*x + b\)</span> where we need to find the parameters <span class="math inline">\(w\)</span> and <span class="math inline">\(b\)</span>.</p>
+</section>
+<section id="likelihood" class="level4">
+<h4 class="anchored" data-anchor-id="likelihood">Likelihood</h4>
+<p>The likelihood, <span class="math inline">\(L(\theta|x)\)</span>, of a parameter set <span class="math inline">\(\theta\)</span> is a function which measures the plausability of the parameters having observed some data point <span class="math inline">\(x\)</span>. It is the probability of seeing the data <span class="math inline">\(x\)</span> if the true data-generating distribution was the model parameterized by <span class="math inline">\(\theta\)</span>.</p>
+<p>It is defined as the parametric model density: <span class="math display">\[
+L(\theta|x) = p_{\theta}(x)
+\]</span></p>
+<p>If we have a dataset of <em>independent</em> observations <span class="math inline">\(X\)</span> then the probabilities multiply: <span class="math display">\[
+L(\theta|X) = \prod_{x \in X} p_{\theta}(x)
+\]</span></p>
+<p>The product of a lot of decimals can get unwieldy, so we often take the <strong>log-likelihood</strong> <span class="math inline">\(l\)</span> to turn the product into a sum: <span class="math display">\[
+l(\theta|X) = \sum_{x \in X} \log{p_{\theta}(x) }
+\]</span></p>
+<p>The focus of parametric modeling is therefore to find the optimal parameter set <span class="math inline">\(\hat{\theta}\)</span>, which leads to…</p>
+</section>
+<section id="maximum-likelihood-estimation" class="level4">
+<h4 class="anchored" data-anchor-id="maximum-likelihood-estimation">Maximum likelihood estimation</h4>
+<p>A technique to estimate <span class="math inline">\(\hat{\theta}\)</span>, the set of parameters that is most likely to explain the observed data <span class="math inline">\(X\)</span>: <span class="math display">\[
+\hat{\theta} = \arg\max_x l(\theta|X)
+\]</span></p>
+<p>Neural networks often work with a loss function, so this is equivalent to minimising the negative log-likelihood: <span class="math display">\[
+\hat{\theta} = \arg\min_\theta -l(\theta|X) = \arg\min_\theta -\log{p_{\theta}(X)}
+\]</span></p>
+</section>
+<section id="bringing-it-back-to-generative-modeling" class="level4">
+<h4 class="anchored" data-anchor-id="bringing-it-back-to-generative-modeling">Bringing it back to generative modeling</h4>
+<p>Generative modeling is a form of MLE where the parameters are the neural network weights. We want to find the weights that maximise the likelihood of observing the training data.</p>
+<p>But for high-dimensional problems <span class="math inline">\(p_{\theta}(X)\)</span> is intractable, it cannot be calculated directly.</p>
+<p>There are different approaches to maing the problem tractable. These are summarised in the following section and explored in more detail in subsequent chapters.</p>
+</section>
+</section>
+<section id="generative-model-taxonomy" class="level2">
+<h2 class="anchored" data-anchor-id="generative-model-taxonomy">5. Generative Model Taxonomy</h2>
+<p>All types of generative model are seeking to solve the same problem, but they take different approaches to modeling the intractable density function <span class="math inline">\(p_{\theta}(x)\)</span>.</p>
+<p>There are three general approaches:</p>
+<ol type="1">
+<li>Explicitly model the density function but constrain the model in some way.</li>
+<li>Explicitly model a <em>tractable approximation</em> of the density function.</li>
+<li>Implicitly model the density function, using a stochastic process that generates the data directly.</li>
+</ol>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
 
 
+  A(Generative models) --&gt; B1(Explicit density)
+  A(Generative models) --&gt; B2(Implicit density)
+
+  B1 --&gt; C1(Approximate density)
+  B1 --&gt; C2(Tractable density)
+
+  C1 --&gt; D1(VAE)
+  C1 --&gt; D2(Energy-based model)
+  C1 --&gt; D3(Diffusion model)
+
+  C2 --&gt; D4(Autoregressive model)
+  C2 --&gt; D5(Normalizing flow model)
+
+  B2 --&gt; D6(GAN)
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<ul>
+<li>Implicit density models don’t even try to estimate the probability density, instead focusing on producing a stochastic data generation process directly.</li>
+<li>Tractable models place constraints on the model architecture (i.e.&nbsp;the parameters <span class="math inline">\(\theta\)</span>).</li>
+</ul>
 
 
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="AI,Engineering,GenerativeAI" data-listing-date-sort="1708905600000" data-listing-file-modified-sort="1708986088088" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1143">
-<div class="thumbnail">
-<p><a href="./posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html" class="no-external"></a></p><a href="./posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html" class="no-external">
-<p class="card-img-top"><img src="posts/ml/generative_deep_learning/lesson2/chapter2_mlp_files/figure-html/cell-3-output-1.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html" class="no-external">Generative AI: Chapter 2</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('GenerativeAI'); return false;">
-GenerativeAI
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html" class="no-external">Intro to deep learning</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html" class="no-external">
-<div class="listing-date">
-Feb 26, 2024
-</div>
-<div class="listing-reading-time">
-6 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="AI,Engineering,GenerativeAI" data-listing-date-sort="1708300800000" data-listing-file-modified-sort="1708979637939" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="848">
-<div class="thumbnail">
-<p><a href="./posts/ml/generative_deep_learning/lesson2/lesson.html" class="no-external"></a></p><a href="./posts/ml/generative_deep_learning/lesson2/lesson.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./posts/ml/generative_deep_learning/lesson2/lesson.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ml/generative_deep_learning/lesson2/lesson.html" class="no-external">Generative AI: Chapter 1</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ml/generative_deep_learning/lesson2/lesson.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('GenerativeAI'); return false;">
-GenerativeAI
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/ml/generative_deep_learning/lesson2/lesson.html" class="no-external">Intro to generative AI</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ml/generative_deep_learning/lesson2/lesson.html" class="no-external">
-<div class="listing-date">
-Feb 19, 2024
-</div>
-<div class="listing-reading-time">
-5 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="AI,Engineering,GenerativeAI" data-listing-date-sort="1708300800000" data-listing-file-modified-sort="1708682072515" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="848">
-<div class="thumbnail">
-<p><a href="./posts/ml/generative_deep_learning/lesson1/lesson.html" class="no-external"></a></p><a href="./posts/ml/generative_deep_learning/lesson1/lesson.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./posts/ml/generative_deep_learning/lesson1/lesson.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ml/generative_deep_learning/lesson1/lesson.html" class="no-external">Generative AI: Chapter 1</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ml/generative_deep_learning/lesson1/lesson.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('GenerativeAI'); return false;">
-GenerativeAI
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/ml/generative_deep_learning/lesson1/lesson.html" class="no-external">Intro to generative AI</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ml/generative_deep_learning/lesson1/lesson.html" class="no-external">
-<div class="listing-date">
-Feb 19, 2024
-</div>
-<div class="listing-reading-time">
-5 min
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div><a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
