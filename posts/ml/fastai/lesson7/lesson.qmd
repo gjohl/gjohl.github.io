@@ -35,7 +35,7 @@ Jeremy wrote down some ballpark values for models of different sizes in excel, t
 
 An embedding is just “look up in an array”. 
 
-Doing a matrix multiply by a one hot encoded vector is the same as dogit sng a lookup in an array, just in a more computationally efficient way. Recall the softmax example. 
+Doing a matrix multiply by a one hot encoded vector is the same as doing a lookup in an array, just in a more computationally efficient way. Recall the softmax example. 
 
 Putting a sigmoid_range on the final layer to squish ratings to fit 0 to 5 means “the model doesn’t have to work as hard” to get movies in the right range. 
 In practice we use 5.5 as the sigmoid scale value as a sigmoid can never hit 1, but we want ratings to be able to hit 5. 

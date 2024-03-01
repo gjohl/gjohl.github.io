@@ -22,7 +22,7 @@ The latter is much easier to follow, modularise and requires less boilerplate.
 - With vanilla JS, you write *imperative* code, defining the steps, not the goal.
 
 
-A build tool (like Vite or Next.js) is necessary because the Javascript (specifically the JSX) must be transformed. React uses JSX whihc allows us to "mix" HTML and JS, so that we can define layout and functionality in the same place. This isn't natively supported by the browser, so a build tool transforms this to pure html and JS.
+A build tool (like Vite or Next.js) is necessary because the Javascript (specifically the JSX) must be transformed. React uses JSX which allows us to "mix" HTML and JS, so that we can define layout and functionality in the same place. This isn't natively supported by the browser, so a build tool transforms this to pure html and JS.
 
 
 ## 2. Javascript Refresher
