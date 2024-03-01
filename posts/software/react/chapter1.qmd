@@ -1,0 +1,28 @@
+---
+title: "Getting Started with React"
+description: "React Complete Guide: Section 1"
+date: "2024-03-01"
+# image: "fastai.png"
+categories: [Engineering, Software]
+# draft: true
+---
+
+# React
+
+These notes are from the [Udemy course](https://www.udemy.com/share/101Wby3@bwKzzF5Lsdyap2056rQpfSQPMwoPeWakiLbWURQe1VXLfFumI76lGqitdKHEWO3C/) "React: The Complete Guide".
+
+## 1. Getting Started
+React is a Javascript library for building user interfaces. It is less cumbersome and error-prone than using vanilla JS.
+
+[Code sandbox](https://codesandbox.io/) is an in-browser environment to experiment with UIs.
+As an example, the same page is implemented in [pure Javascript](https://codesandbox.io/p/sandbox/vanilla-js-demo-6049kj) and [React](https://codesandbox.io/p/sandbox/react-vs-vanilla-demo-uc08fv). 
+The latter is much easier to follow, modularise and requires less boilerplate.
+
+- With React, you write *declarative* code: you define the goal, not the steps to get there.
+- With vanilla JS, you write *imperative* code, defining the steps, not the goal.
+
+
+A build tool (like Vite or Next.js) is necessary because the Javascript (specifically the JSX) must be transformed. React uses JSX whihc allows us to "mix" HTML and JS, so that we can define layout and functionality in the same place. This isn't natively supported by the browser, so a build tool transforms this to pure html and JS.
+
+
+## 2. Javascript Refresher

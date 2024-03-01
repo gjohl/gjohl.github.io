@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/software/react/chapter1.html",
       "/posts/ml/generative_deep_learning/lesson3/chapter3.html",
       "/posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html",
       "/posts/ml/generative_deep_learning/lesson1/lesson.html",
