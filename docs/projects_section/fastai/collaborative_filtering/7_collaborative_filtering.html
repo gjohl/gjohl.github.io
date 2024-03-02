@@ -172,6 +172,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#a-deep-learning-spreadsheet" id="toc-a-deep-learning-spreadsheet" class="nav-link" data-scroll-target="#a-deep-learning-spreadsheet">0. A deep learning spreadsheet (!)</a></li>
   <li><a href="#loading-movielens-data" id="toc-loading-movielens-data" class="nav-link" data-scroll-target="#loading-movielens-data">1. Loading MovieLens data</a></li>
+  <li><a href="#collaborative-filtering" id="toc-collaborative-filtering" class="nav-link" data-scroll-target="#collaborative-filtering">2. Collaborative Filtering</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -225,25 +226,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="loading-movielens-data" class="level2">
 <h2 class="anchored" data-anchor-id="loading-movielens-data">1. Loading MovieLens data</h2>
 <p>We use data on user ratings of movies sourced from <a href="https://grouplens.org/datasets/movielens/">MovieLens</a>. The <code>ml-latest-small</code> data set is downloaded and saved in the <code>DATA_DIR</code> folder.</p>
-<div id="353108d5-1b01-408f-8e32-9c31979e0ffc" class="cell" data-execution_count="7">
+<div id="353108d5-1b01-408f-8e32-9c31979e0ffc" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd </span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>DATA_DIR <span class="op">=</span> Path(<span class="st">"/Users/gurpreetjohl/workspace/python/ml-practice/ml-practice/datasets/ml-latest-small"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.collab <span class="im">import</span> CollabDataLoaders</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.tabular.<span class="bu">all</span> <span class="im">import</span> one_hot</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>DATA_DIR <span class="op">=</span> Path(<span class="st">"/Users/gurpreetjohl/workspace/python/ml-practice/ml-practice/datasets/ml-latest-small"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output cell-output-stderr">
+<pre><code>/var/folders/8k/8jqhnfbd1t99blb07r1hs5440000gn/T/ipykernel_44686/3291159711.py:3: DeprecationWarning: 
+Pyarrow will become a required dependency of pandas in the next major release of pandas (pandas 3.0),
+(to allow more performant data types, such as the Arrow string type, and better interoperability with other libraries)
+but was not found to be installed on your system.
+If this would cause problems for you,
+please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
+        
+  import pandas as pd</code></pre>
+</div>
 </div>
 <p>Load the <code>ratings</code> data which we will use for this task:</p>
-<div id="b2e2beb6-220b-40d5-b29d-a6fc1a032157" class="cell" data-execution_count="8">
+<div id="b2e2beb6-220b-40d5-b29d-a6fc1a032157" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ratings <span class="op">=</span> pd.read_csv(DATA_DIR <span class="op">/</span> <span class="st">'ratings.csv'</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>ratings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ratings <span class="op">=</span> pd.read_csv(DATA_DIR <span class="op">/</span> <span class="st">'ratings.csv'</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ratings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="2">
 <div>
 
 
@@ -344,13 +358,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>The users and movies are encoded as integers.</p>
 <p>For reference, we can load the <code>movies</code> data to see what each <code>movieId</code> corresponds to:</p>
-<div id="79c2cc08-83e0-4c9f-a9e0-e4b3538187ee" class="cell" data-execution_count="10">
+<div id="79c2cc08-83e0-4c9f-a9e0-e4b3538187ee" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>movies <span class="op">=</span> pd.read_csv(DATA_DIR <span class="op">/</span> <span class="st">'movies.csv'</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>movies</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>movies <span class="op">=</span> pd.read_csv(DATA_DIR <span class="op">/</span> <span class="st">'movies.csv'</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>movies</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="3">
 <div>
 
 
@@ -436,6 +450,247 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>9742 rows × 3 columns</p>
 </div>
 </div>
+</div>
+<p>We’ll merge the two for easier human readability.</p>
+<div id="d302203b" class="cell" data-execution_count="10">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ratings <span class="op">=</span> ratings.merge(movies)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ratings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">userId</th>
+<th data-quarto-table-cell-role="th">movieId</th>
+<th data-quarto-table-cell-role="th">rating</th>
+<th data-quarto-table-cell-role="th">timestamp</th>
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">genres</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>1</td>
+<td>4.0</td>
+<td>964982703</td>
+<td>Toy Story (1995)</td>
+<td>Adventure|Animation|Children|Comedy|Fantasy</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1</td>
+<td>3</td>
+<td>4.0</td>
+<td>964981247</td>
+<td>Grumpier Old Men (1995)</td>
+<td>Comedy|Romance</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>1</td>
+<td>6</td>
+<td>4.0</td>
+<td>964982224</td>
+<td>Heat (1995)</td>
+<td>Action|Crime|Thriller</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>1</td>
+<td>47</td>
+<td>5.0</td>
+<td>964983815</td>
+<td>Seven (a.k.a. Se7en) (1995)</td>
+<td>Mystery|Thriller</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>1</td>
+<td>50</td>
+<td>5.0</td>
+<td>964982931</td>
+<td>Usual Suspects, The (1995)</td>
+<td>Crime|Mystery|Thriller</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">100831</td>
+<td>610</td>
+<td>166534</td>
+<td>4.0</td>
+<td>1493848402</td>
+<td>Split (2017)</td>
+<td>Drama|Horror|Thriller</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">100832</td>
+<td>610</td>
+<td>168248</td>
+<td>5.0</td>
+<td>1493850091</td>
+<td>John Wick: Chapter Two (2017)</td>
+<td>Action|Crime|Thriller</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">100833</td>
+<td>610</td>
+<td>168250</td>
+<td>5.0</td>
+<td>1494273047</td>
+<td>Get Out (2017)</td>
+<td>Horror</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">100834</td>
+<td>610</td>
+<td>168252</td>
+<td>5.0</td>
+<td>1493846352</td>
+<td>Logan (2017)</td>
+<td>Action|Sci-Fi</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">100835</td>
+<td>610</td>
+<td>170875</td>
+<td>3.0</td>
+<td>1493846415</td>
+<td>The Fate of the Furious (2017)</td>
+<td>Action|Crime|Drama|Thriller</td>
+</tr>
+</tbody>
+</table>
+
+<p>100836 rows × 6 columns</p>
+</div>
+</div>
+</div>
+</section>
+<section id="collaborative-filtering" class="level2">
+<h2 class="anchored" data-anchor-id="collaborative-filtering">2. Collaborative Filtering</h2>
+<p>The broad idea behind collaborative filtering is:</p>
+<ul>
+<li>If we could quantify the most salient “latent factors” about a movie, and…</li>
+<li>Quantify how much a user cares about that factor, then…</li>
+<li>If we multiplied the two (dot product) it would give a measure of their rating.</li>
+</ul>
+<p>But what are those latent factors? We let the model learn it. 1. We initialise randomised latent factors (called embeddings) 2. We use that to predict the user’s rating for each move. Initially, those randomised weights will give terrible predictions. 3. Our loss function is the MSE of the ground truth actual predictions and the prediction rating. 4. We can optimise the embedding values to minimise this loss function.</p>
+<p>Create a DataLoader</p>
+<div id="d01c93ab" class="cell" data-execution_count="11">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.collab <span class="im">import</span> CollabDataLoaders</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># from fastai.tabular.all import </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="fbe85521" class="cell" data-execution_count="12">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> CollabDataLoaders.from_df(ratings, item_name<span class="op">=</span><span class="st">'title'</span>, bs<span class="op">=</span><span class="dv">64</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>dls.show_batch()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">userId</th>
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">rating</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>202</td>
+<td>Eagle Has Landed, The (1976)</td>
+<td>4.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>608</td>
+<td>Batman Forever (1995)</td>
+<td>2.5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>109</td>
+<td>Rudy (1993)</td>
+<td>3.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>91</td>
+<td>Kelly's Heroes (1970)</td>
+<td>4.5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>533</td>
+<td>Planet Terror (2007)</td>
+<td>5.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>587</td>
+<td>Lethal Weapon (1987)</td>
+<td>4.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>525</td>
+<td>Chicago (2002)</td>
+<td>4.5</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>254</td>
+<td>Casino Royale (2006)</td>
+<td>4.5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>140</td>
+<td>Courage Under Fire (1996)</td>
+<td>4.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>474</td>
+<td>Monsters, Inc. (2001)</td>
+<td>3.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Initialise randomised 5-dimensional embeddings</p>
+<div id="28e63cdb" class="cell" data-execution_count="17">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>n_users  <span class="op">=</span> <span class="bu">len</span>(dls.classes[<span class="st">'userId'</span>])</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>n_movies <span class="op">=</span> <span class="bu">len</span>(dls.classes[<span class="st">'title'</span>])</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>n_factors <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>user_factors <span class="op">=</span> torch.randn(n_users, n_factors)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>movie_factors <span class="op">=</span> torch.randn(n_movies, n_factors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 
 
