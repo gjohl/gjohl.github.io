@@ -1,0 +1,13 @@
+---
+title: "Meta Learning"
+description: "Meta Meta Learning: My Notes on Meta Learning by Radek Osmulski"
+date: "2024-03-04"
+image: "react.png"
+categories: [Learning, AI]
+draft: true
+---
+
+See here: 
+https://www.scribd.com/document/661873147/Radek-Osmulski-Meta-Learning-How-to-Learn-Deep-Learning-and-Thrive-in-the-Digital-World-Radek-Osmulski-2021
+
+And condense notes here: https://docs.google.com/document/d/1-zHZwWqZtqh9_ESzoowWzjG0T0Dz54JlpcY2fV5lAPE/edit#heading=h.8r0bt3wfitk0
