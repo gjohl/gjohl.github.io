@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Gurpreet Johl">
+<meta name="dcterms.date" content="2024-03-05">
+<meta name="description" content="Practical Deep Learning for Coders: Lesson 8">
 
-<title>Gurpreet Johl - Projects</title>
+<title>Gurpreet Johl - FastAI Lesson 8: Convolutions</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,24 +26,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../">
+<script src="../../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -68,67 +69,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
 
-    const options = {
-      valueNames: ['listing-title','listing-description','listing-categories','listing-image',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../../../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -138,7 +81,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../../../index.html">
     <span class="navbar-title">Gurpreet Johl</span>
     </a>
   </div>
@@ -149,11 +92,11 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./projects.html" aria-current="page"> 
+    <a class="nav-link" href="../../../../projects.html"> 
 <span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./blog.html"> 
+    <a class="nav-link" href="../../../../blog.html"> 
 <span class="menu-text">Notes</span></a>
   </li>  
 </ul>
@@ -183,125 +126,157 @@ window.Quarto = {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page-left">
-      <h1 class="title">Projects</h1>
-                      </div>
+    <div class="quarto-title column-body">
+      <h1 class="title">FastAI Lesson 8: Convolutions</h1>
+                  <div>
+        <div class="description">
+          Practical Deep Learning for Coders: Lesson 8
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">AI</div>
+                <div class="quarto-category">Engineering</div>
+                <div class="quarto-category">FastAI</div>
+              </div>
+                  </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page-left">
+  <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Gurpreet Johl </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 5, 2024</p>
+      </div>
+    </div>
     
       
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(3)</span></div><div class="category" data-category="AI">AI <span class="quarto-category-count">(1)</span></div><div class="category" data-category="App">App <span class="quarto-category-count">(1)</span></div><div class="category" data-category="BJJ">BJJ <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Healthcare">Healthcare <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Research">Research <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Trading">Trading <span class="quarto-category-count">(1)</span></div><div class="category" data-category="WebDev">WebDev <span class="quarto-category-count">(1)</span></div></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#convolutions" id="toc-convolutions" class="nav-link active" data-scroll-target="#convolutions">Convolutions</a>
+  <ul class="collapse">
+  <li><a href="#the-intuition-behind-cnns" id="toc-the-intuition-behind-cnns" class="nav-link" data-scroll-target="#the-intuition-behind-cnns">1. The Intuition Behind CNNs</a>
+  <ul class="collapse">
+  <li><a href="#convolutional-layers" id="toc-convolutional-layers" class="nav-link" data-scroll-target="#convolutional-layers">1.1. Convolutional Layers</a></li>
+  <li><a href="#max-pooling" id="toc-max-pooling" class="nav-link" data-scroll-target="#max-pooling">1.2. Max Pooling</a></li>
+  <li><a href="#stride-length" id="toc-stride-length" class="nav-link" data-scroll-target="#stride-length">1.3. Stride Length</a></li>
+  <li><a href="#dropout-layers" id="toc-dropout-layers" class="nav-link" data-scroll-target="#dropout-layers">1.4. Dropout Layers</a></li>
+  <li><a href="#final-dense-layer" id="toc-final-dense-layer" class="nav-link" data-scroll-target="#final-dense-layer">1.5. Final Dense Layer</a></li>
+  <li><a href="#average-pooling" id="toc-average-pooling" class="nav-link" data-scroll-target="#average-pooling">1.6. Average Pooling</a></li>
+  </ul></li>
+  <li><a href="#convolutions-from-different-viewpoints" id="toc-convolutions-from-different-viewpoints" class="nav-link" data-scroll-target="#convolutions-from-different-viewpoints">2. Convolutions From Different Viewpoints</a></li>
+  <li><a href="#assorted-thoughts-from-jeremy" id="toc-assorted-thoughts-from-jeremy" class="nav-link" data-scroll-target="#assorted-thoughts-from-jeremy">3. Assorted Thoughts From Jeremy</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
-<section id="projects" class="level1">
-<h1>Projects</h1>
-
+<section id="convolutions" class="level1">
+<h1>Convolutions</h1>
+<p>These are notes from lesson 8 of Fast AI Practical Deep Learning for Coders.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Homework Task">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Homework Task
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Recreate the convolutions in a <a href="https://docs.google.com/spreadsheets/d/1gjgX8gJGIuKsUvhnutjq7gFlmMJxjzFeLiaLbDRhY2w/edit?usp=sharing">spreadsheet</a> which underpins the discussion below.</p>
+</div>
+</div>
+<section id="the-intuition-behind-cnns" class="level2">
+<h2 class="anchored" data-anchor-id="the-intuition-behind-cnns">1. The Intuition Behind CNNs</h2>
+<section id="convolutional-layers" class="level3">
+<h3 class="anchored" data-anchor-id="convolutional-layers">1.1. Convolutional Layers</h3>
+<p>Convolutions slide a window of numbers, say 3x3, across our original image.</p>
+<p>Depending on the values in the filter, it will be able to pick out different features like horizontal or vertical edges. Subsequent layers can combine these into more sophisticated layers, like corners. These can eventually be combined to detect complex features of the image.</p>
+<p>An interactive example of this to see the intuition behind the sliding window is <a href="https://tinymilky.github.io/demos/conv/index.html">here</a>.</p>
+</section>
+<section id="max-pooling" class="level3">
+<h3 class="anchored" data-anchor-id="max-pooling">1.2. Max Pooling</h3>
+<p>This is a technique to reduce the size of the input tensor.</p>
+<p>A 2x2 max pool layer slides a 2x2 filter over the input and replaces each value with the max of the 4 values in the image.</p>
+<p>Nowadays, using the stride length is generally preferred over max pool layers.</p>
+</section>
+<section id="stride-length" class="level3">
+<h3 class="anchored" data-anchor-id="stride-length">1.3. Stride Length</h3>
+<p>An alternative technique to reduce the size of the input is to <em>skip</em> pixels when we slide our filter over the image.</p>
+<p>For example, a <code>stride=2</code> convolution would apply to every second pixel and therefore halves the image size in each axis, having the same effect as a 2x2 max pool.</p>
+</section>
+<section id="dropout-layers" class="level3">
+<h3 class="anchored" data-anchor-id="dropout-layers">1.4. Dropout Layers</h3>
+<p>As a regularisation technique to make sure the model is not overly reliant on any single pixel or region, we can add a dropout layer.</p>
+<p>Conceptually, this is the same as initialisng a random tensor the same size as the input and masking the input based on whether the random weight is above a threshold.</p>
+</section>
+<section id="final-dense-layer" class="level3">
+<h3 class="anchored" data-anchor-id="final-dense-layer">1.5. Final Dense Layer</h3>
+<p>We eventually want to reduce our input image size to output a tensor with one value per class.</p>
+<p>One approach is to apply a dense layer when the image has been reduced “enough”, taking the dot product between the reduced image tensor and the dense layer. This is again deprecated in favour of the next approach…</p>
+</section>
+<section id="average-pooling" class="level3">
+<h3 class="anchored" data-anchor-id="average-pooling">1.6. Average Pooling</h3>
+<p>Nowadays, we use stride=2 convolutions until we get a small (7x7) tensor, then apply a single <strong>average pool</strong> layer to it.</p>
+<p>This 7x7 tensor (for a bear detector, say) effectively gives a value quantifying “is there a bear in this part of the image?”. It then takes the average of all of these to determine if there is a bear in the overall photo.</p>
+<p>This works fine if the bear occupies most of the photo, but less well if the bear occupies a small region in the corner of the photo. So the details of the model depend on the use case. If we want ot be able to detect small bears in the corner, max pooling would work better here.</p>
+<p><strong>Concat pool</strong> is a hybrid approach which does the max pool AND the average pool and concatentates the two results together.</p>
+</section>
+</section>
+<section id="convolutions-from-different-viewpoints" class="level2">
+<h2 class="anchored" data-anchor-id="convolutions-from-different-viewpoints">2. Convolutions From Different Viewpoints</h2>
+<p>Convolutions can be reframed in different ways, as matrix multiplications or as systems of linear equations.</p>
+<p><a href="https://medium.com/impactai/cnns-from-different-viewpoints-fab7f52d159c">This article</a> is a a helpful exploration of the topic.</p>
+</section>
+<section id="assorted-thoughts-from-jeremy" class="level2">
+<h2 class="anchored" data-anchor-id="assorted-thoughts-from-jeremy">3. Assorted Thoughts From Jeremy</h2>
+<p>A summary of questions to end the course.</p>
+<ul>
+<li>Read <a href="https://rosmulski.gumroad.com/l/learn_machine_learning/blog">Meta Learning</a>.</li>
+<li>Don’t try to know everything. Pick a bit that you’re interested and dig in. You’ll start to recognise the same ideas cropping up with slight tweaks.</li>
+<li>Does success in deep learning boil down to more compute power? No, we can be smarter about our approach. Also pick your problems to be ones that you can actually manage with smaller compute resources.</li>
+<li>Dragonbox Algebra 5+ can teach little kids algebra.</li>
+<li>Turning a model into a startup. The key to a legitimate business venture is to solve a legitimate problem, and one that people will pay you to solve. Start with the problem, not the prototype. The LEan Startup by Eric Ries: create the MVP as quick as possible (and fake the solution) then gradually make it “less fake” as more people use it (and pay you).</li>
+<li>Make the things you want to do easier, then you’ll want to do them more.</li>
+</ul>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li><a href="https://course.fast.ai/Lessons/lesson8.html">Course lesson page</a></li>
+<li><a href="https://rosmulski.gumroad.com/l/learn_machine_learning/blog">Meta Learning</a></li>
+</ul>
 
 
 </section>
+</section>
 
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="BJJ,WebDev" data-listing-date-sort="1709596800000" data-listing-file-modified-sort="1709594196851" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="23">
-<a href="./projects_section/bjj/bjj.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./projects_section/bjj/bjj.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Brazilian Jiu Jitsu Taxonomy
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('BJJ'); return false;">
-BJJ
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('WebDev'); return false;">
-WebDev
-</div>
-</div>
-<div class="card-text listing-description">
-Grappling with Web Development
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-categories="Research,AI,Healthcare" data-listing-date-sort="1700697600000" data-listing-file-modified-sort="1707928368263" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="54">
-<a href="./projects_section/xai_research/xai.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./projects_section/xai_research/histo_image.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Explainable AI in Healthcare
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Research'); return false;">
-Research
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Healthcare'); return false;">
-Healthcare
-</div>
-</div>
-<div class="card-text listing-description">
-Opening the black box in medical AI
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="2" data-categories="Trading,App" data-listing-date-sort="1641945600000" data-listing-file-modified-sort="1707928368259" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="55">
-<a href="./projects_section/tradeintel/tradeintel.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./projects_section/tradeintel/trade-intel-icon.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-TradeIntel
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Trading'); return false;">
-Trading
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('App'); return false;">
-App
-</div>
-</div>
-<div class="card-text listing-description">
-Next-generation robo advisor
-</div>
-</div>
-</div>
-</a>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div><a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

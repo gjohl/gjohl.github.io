@@ -1,0 +1,14 @@
+---
+title: "Brazilian Jiu Jitsu Taxonomy"
+description: "Grappling with Web Development"
+date: "2024-03-05"
+image: "bjj.png"
+categories: [BJJ, WebDev]
+---
+
+This is a (work-in-progress) interactive React app I made to:
+
+1. Keep track of my BJJ notes
+2. Practice some web development
+
+Check it out [here](https://gjohl.github.io/bjj/).
