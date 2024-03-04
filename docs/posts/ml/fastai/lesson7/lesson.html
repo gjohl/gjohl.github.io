@@ -1255,7 +1255,7 @@ Tip
 </section>
 <section id="deep-learning-for-collaborative-filtering" class="level2">
 <h2 class="anchored" data-anchor-id="deep-learning-for-collaborative-filtering">7. Deep Learning for Collaborative Filtering</h2>
-<p>The matrix completion approach used previously is known as <strong>Probabilistic Matrix Factorization (PMF)</strong>. An alternative approach is to use **deep learning.</p>
+<p>The matrix completion approach used previously is known as <strong>Probabilistic Matrix Factorization (PMF)</strong>. An alternative approach is to use <strong>deep learning</strong>.</p>
 <p>In practice the two approaches are often stacked in an ensemble.</p>
 <p>This section explores the deep learning collaborative filtering approach from scratch, then recreates it using fastai’s library.</p>
 <section id="building-a-deep-learning-collaborative-filter-from-scratch" class="level3">
@@ -1435,6 +1435,7 @@ Tip
 </ol>
 <p>For each approach, we build a model from scratch in Pytorch, then compared that with fastai’s implementation. For the PMF approach, we even gained some intuition by creating a spreadsheet implementation first!</p>
 <p>In practice, both approaches can be stacked for improved recommendations.</p>
+<p>The idea we explored here of user some (initially random) <strong>embeddings</strong> to represent an entity and then letting our model learn them is a powerful one and it is not limited to collaborative learning. NLP uses embeddings to represent each unique token (i.e.&nbsp;each word with word-level tokenisation). It can then understand relationships between similar words, much like we were able to use embedding distances to identify similar movies.</p>
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
