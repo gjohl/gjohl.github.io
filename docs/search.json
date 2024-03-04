@@ -893,7 +893,7 @@
     "href": "projects.html",
     "title": "Projects",
     "section": "",
-    "text": "Projects\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nExplainable AI in Healthcare\n\n\n\nResearch\n\n\nAI\n\n\nHealthcare\n\n\n\nOpening the black box in medical AI\n\n\n\n\n\n\n\n\n\n\n\n\n\nTradeIntel\n\n\n\nTrading\n\n\nApp\n\n\n\nNext-generation robo advisor\n\n\n\n\n\n\n\nNo matching items\n\n Back to top"
+    "text": "Projects\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nBrazilian Jiu Jitsu Taxonomy\n\n\n\nBJJ\n\n\nWebDev\n\n\n\nGrappling with Web Development\n\n\n\n\n\n\n\n\n\n\n\n\n\nExplainable AI in Healthcare\n\n\n\nResearch\n\n\nAI\n\n\nHealthcare\n\n\n\nOpening the black box in medical AI\n\n\n\n\n\n\n\n\n\n\n\n\n\nTradeIntel\n\n\n\nTrading\n\n\nApp\n\n\n\nNext-generation robo advisor\n\n\n\n\n\n\n\nNo matching items\n\n Back to top"
   },
   {
     "objectID": "plan.html",
@@ -964,5 +964,12 @@
     "title": "FastAI Lesson 8: Convolutions",
     "section": "",
     "text": "Course lesson page\nMeta Learning"
+  },
+  {
+    "objectID": "projects_section/bjj/bjj.html",
+    "href": "projects_section/bjj/bjj.html",
+    "title": "Brazilian Jiu Jitsu Taxonomy",
+    "section": "",
+    "text": "This is a (work-in-progress) interactive React app I made to:\n\nKeep track of my BJJ notes\nPractice some web development\n\nCheck it out here.\n\n\n\n Back to top"
   }
 ]
