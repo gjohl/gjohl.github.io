@@ -6,10 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2024-02-14">
-<meta name="description" content="A Worked Example of Collaborative Filtering">
+<meta name="author" content="Gurpreet Johl">
+<meta name="dcterms.date" content="2024-03-04">
+<meta name="description" content="React Complete Guide: Section 1">
 
-<title>Gurpreet Johl - Movie Recommendation System</title>
+<title>Gurpreet Johl - Getting Started with React</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,44 +23,10 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -102,9 +69,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="../../../styles.css">
@@ -113,7 +77,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
@@ -160,7 +124,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Getting Started with React</h1>
+                  <div>
+        <div class="description">
+          React Complete Guide: Section 1
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">Engineering</div>
+                <div class="quarto-category">Software</div>
+                <div class="quarto-category">React</div>
+                <div class="quarto-category">WebDev</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Gurpreet Johl </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 4, 2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
@@ -168,275 +171,53 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#creating-a-recommendation-system" id="toc-creating-a-recommendation-system" class="nav-link active" data-scroll-target="#creating-a-recommendation-system">Creating a Recommendation System</a>
+  <li><a href="#react" id="toc-react" class="nav-link active" data-scroll-target="#react">React</a>
   <ul class="collapse">
-  <li><a href="#a-deep-learning-spreadsheet" id="toc-a-deep-learning-spreadsheet" class="nav-link" data-scroll-target="#a-deep-learning-spreadsheet">0. A deep learning spreadsheet (!)</a></li>
-  <li><a href="#loading-movielens-data" id="toc-loading-movielens-data" class="nav-link" data-scroll-target="#loading-movielens-data">1. Loading MovieLens data</a></li>
+  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started">1. Getting Started</a></li>
+  <li><a href="#javascript-refresher" id="toc-javascript-refresher" class="nav-link" data-scroll-target="#javascript-refresher">2. Javascript Refresher</a></li>
+  <li><a href="#react-introduction" id="toc-react-introduction" class="nav-link" data-scroll-target="#react-introduction">3. React Introduction</a></li>
   </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Movie Recommendation System</h1>
-  <div class="quarto-categories">
-    <div class="quarto-category">AI</div>
-    <div class="quarto-category">Engineering</div>
-    <div class="quarto-category">FastAI</div>
-  </div>
-  </div>
-
-<div>
-  <div class="description">
-    A Worked Example of Collaborative Filtering
-  </div>
-</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
-<div class="quarto-title-meta">
-
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">February 14, 2024</p>
-    </div>
-  </div>
-  
-    
-  </div>
-  
 
 
-</header>
 
-
-<section id="creating-a-recommendation-system" class="level1">
-<h1>Creating a Recommendation System</h1>
-<p>This is a worked example of creating a recommendation system using collaborative filtering applied to user ratings of movies.</p>
-<section id="a-deep-learning-spreadsheet" class="level2">
-<h2 class="anchored" data-anchor-id="a-deep-learning-spreadsheet">0. A deep learning spreadsheet (!)</h2>
-<p>To gain an intuition behind the calculations behind a collaborative filter, we can work through a (smaller) example in excel. This allows us to see the logic and dig into the calculations before we create them “for real” in Python.</p>
-<p>This can be found <a href="https://docs.google.com/spreadsheets/d/1tIzbgwu3qmAJounfKtr4n-uwAkupetmVqkHAWllYRDw/edit?usp=sharing">in this spreadsheet</a>.</p>
+<section id="react" class="level1">
+<h1>React</h1>
+<p>These notes are from the <a href="https://www.udemy.com/share/101Wby3@bwKzzF5Lsdyap2056rQpfSQPMwoPeWakiLbWURQe1VXLfFumI76lGqitdKHEWO3C/">Udemy course</a> “React: The Complete Guide”.</p>
+<section id="getting-started" class="level2">
+<h2 class="anchored" data-anchor-id="getting-started">1. Getting Started</h2>
+<p>React is a Javascript library for building user interfaces. It is less cumbersome and error-prone than using vanilla JS.</p>
+<p><a href="https://codesandbox.io/">Code sandbox</a> is an in-browser environment to experiment with UIs. As an example, the same page is implemented in <a href="https://codesandbox.io/p/sandbox/vanilla-js-demo-6049kj">pure Javascript</a> and <a href="https://codesandbox.io/p/sandbox/react-vs-vanilla-demo-uc08fv">React</a>. The latter is much easier to follow, modularise and requires less boilerplate.</p>
+<ul>
+<li>With React, you write <em>declarative</em> code: you define the goal, not the steps to get there.</li>
+<li>With vanilla JS, you write <em>imperative</em> code, defining the steps, not the goal.</li>
+</ul>
+<p>A build tool (like Vite or Next.js) is necessary because the Javascript (specifically the JSX) must be transformed. React uses JSX which allows us to “mix” HTML and JS, so that we can define layout and functionality in the same place. This isn’t natively supported by the browser, so a build tool transforms this to pure html and JS.</p>
 </section>
-<section id="loading-movielens-data" class="level2">
-<h2 class="anchored" data-anchor-id="loading-movielens-data">1. Loading MovieLens data</h2>
-<p>We use data on user ratings of movies sourced from <a href="https://grouplens.org/datasets/movielens/">MovieLens</a>. The <code>ml-latest-small</code> data set is downloaded and saved in the <code>DATA_DIR</code> folder.</p>
-<div id="353108d5-1b01-408f-8e32-9c31979e0ffc" class="cell" data-execution_count="7">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd </span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>DATA_DIR <span class="op">=</span> Path(<span class="st">"/Users/gurpreetjohl/workspace/python/ml-practice/ml-practice/datasets/ml-latest-small"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<p>Load the <code>ratings</code> data which we will use for this task:</p>
-<div id="b2e2beb6-220b-40d5-b29d-a6fc1a032157" class="cell" data-execution_count="8">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ratings <span class="op">=</span> pd.read_csv(DATA_DIR <span class="op">/</span> <span class="st">'ratings.csv'</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>ratings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="8">
-<div>
-
-
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">userId</th>
-<th data-quarto-table-cell-role="th">movieId</th>
-<th data-quarto-table-cell-role="th">rating</th>
-<th data-quarto-table-cell-role="th">timestamp</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>1</td>
-<td>1</td>
-<td>4.0</td>
-<td>964982703</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>1</td>
-<td>3</td>
-<td>4.0</td>
-<td>964981247</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>1</td>
-<td>6</td>
-<td>4.0</td>
-<td>964982224</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>1</td>
-<td>47</td>
-<td>5.0</td>
-<td>964983815</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>1</td>
-<td>50</td>
-<td>5.0</td>
-<td>964982931</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">100831</td>
-<td>610</td>
-<td>166534</td>
-<td>4.0</td>
-<td>1493848402</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">100832</td>
-<td>610</td>
-<td>168248</td>
-<td>5.0</td>
-<td>1493850091</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">100833</td>
-<td>610</td>
-<td>168250</td>
-<td>5.0</td>
-<td>1494273047</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">100834</td>
-<td>610</td>
-<td>168252</td>
-<td>5.0</td>
-<td>1493846352</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">100835</td>
-<td>610</td>
-<td>170875</td>
-<td>3.0</td>
-<td>1493846415</td>
-</tr>
-</tbody>
-</table>
-
-<p>100836 rows × 4 columns</p>
-</div>
-</div>
-</div>
-<p>The users and movies are encoded as integers.</p>
-<p>For reference, we can load the <code>movies</code> data to see what each <code>movieId</code> corresponds to:</p>
-<div id="79c2cc08-83e0-4c9f-a9e0-e4b3538187ee" class="cell" data-execution_count="10">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>movies <span class="op">=</span> pd.read_csv(DATA_DIR <span class="op">/</span> <span class="st">'movies.csv'</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>movies</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="10">
-<div>
-
-
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">movieId</th>
-<th data-quarto-table-cell-role="th">title</th>
-<th data-quarto-table-cell-role="th">genres</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>1</td>
-<td>Toy Story (1995)</td>
-<td>Adventure|Animation|Children|Comedy|Fantasy</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>2</td>
-<td>Jumanji (1995)</td>
-<td>Adventure|Children|Fantasy</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>3</td>
-<td>Grumpier Old Men (1995)</td>
-<td>Comedy|Romance</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>4</td>
-<td>Waiting to Exhale (1995)</td>
-<td>Comedy|Drama|Romance</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>5</td>
-<td>Father of the Bride Part II (1995)</td>
-<td>Comedy</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">9737</td>
-<td>193581</td>
-<td>Black Butler: Book of the Atlantic (2017)</td>
-<td>Action|Animation|Comedy|Fantasy</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">9738</td>
-<td>193583</td>
-<td>No Game No Life: Zero (2017)</td>
-<td>Animation|Comedy|Fantasy</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">9739</td>
-<td>193585</td>
-<td>Flint (2017)</td>
-<td>Drama</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">9740</td>
-<td>193587</td>
-<td>Bungo Stray Dogs: Dead Apple (2018)</td>
-<td>Action|Animation</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">9741</td>
-<td>193609</td>
-<td>Andrew Dice Clay: Dice Rules (1991)</td>
-<td>Comedy</td>
-</tr>
-</tbody>
-</table>
-
-<p>9742 rows × 3 columns</p>
-</div>
-</div>
-</div>
+<section id="javascript-refresher" class="level2">
+<h2 class="anchored" data-anchor-id="javascript-refresher">2. Javascript Refresher</h2>
+<p>Adding JS to a page in script tags. Either in the body of the script tag, or preferably as a separate js file that’s then called as the src parameter of the script tag. The defer parameter means the script won’t be called until the rest of the body is loaded. The type=module parameter means the JavaScript file will be treated as a module.</p>
+</section>
+<section id="react-introduction" class="level2">
+<h2 class="anchored" data-anchor-id="react-introduction">3. React Introduction</h2>
+<p>Components are a core concept. They bundle html, CSS and JS into reusable blocks.</p>
+<p>In vanilla JS, the JavaScript and HTML are in different files, so it can be hard to follow what needs to be changed where. Related code lives together, which is a key benefit of React and component style coding.</p>
+<p>JSX is a JavaScript syntax extension that allows us to write HTML in JavaScript files. This is not natively supported by browsers, so requires transformation by the build system, such as Vite.</p>
+<p>The build process (of some but not all build tools) relies on the jsx file extension to indicate a JSX file that needs transformation. The browser does not care, as it never sees (and cannot read) these jsx files directly. Similarly, some build processes require the file extension in the imports but others don’t.</p>
+<p>Components must: 1. Start with an upper case letter - so they do not clash with built ins like header 2. Return a renderable object</p>
+<p>React creates a component tree. Your components do not end up as source code directly. The build process traverses the tree until each component is resolved into built ins, and then these appear in the source code.</p>
+<p>Dynamic values. Use curly braces. Ideally declare as constants rather than having complicated inline expressions. Images should be exported then the dynamic value passed as the src of the image. This prevents the image being lost in the build process if the build ignores files with certain extensions.</p>
+<p>Dynamic values can be passed to components as props. React components take a single argument called props, which is an object of key:value pairs passed to the component. If you have an object of props to pass, you can use the spread operator to avoid writing them out individually. Also use object destructuring inside the component to pick out the variables.</p>
+<p>Project structure. It is good practice that each component is in its own file. File name should match the component name and be the default export. Also split out style CSS files and keep these alongside the component. CSS files need to be imported by each component file that uses it. The styles are NOT automatically scoped to the component that uses them. They will apply to all components with that name. For example, if you apply header styling to a custom Header component, it will also apply to the built in header html component.</p>
+<p>The children prop is passed by all components and it is the value between the component tags. It can be used for HTML tag-style syntax.</p>
+<p>We can react to events by passing a function to onClick or similar. In vanilla JS, we would need to select the element and add an event listener, but react is declarative. We can define the handleClick function inside the component so that it has access to the component’s props and state. We can pass functions as props. This is useful as we can pass state setter functions down to nested components. This should be a pointer to the function, not the executed function itself, e.g.&nbsp;handleClick NOT handleClick()</p>
+<p>If we want to modify the args that we pass to the function in onClick, use an anonymous arrow function () =&gt; handleSelect(arg) That doesn’t actually get executed until onClick is called.</p>
 
 
 </section>

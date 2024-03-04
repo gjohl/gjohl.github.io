@@ -2,9 +2,11 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/software/react/chapter1.html",
+      "/posts/ml/fastai/lesson7/lesson.html",
+      "/posts/ml/generative_deep_learning/lesson3/chapter3.html",
       "/posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html",
       "/posts/ml/generative_deep_learning/lesson1/lesson.html",
-      "/posts/ml/fastai/lesson7/lesson.html",
       "/posts/ml/fastai/lesson6_1/lesson.html",
       "/posts/ml/fastai/lesson6/lesson.html",
       "/posts/ml/fastai/lesson5/lesson.html",
@@ -44,6 +46,7 @@
   {
     "listing": "/gen-deep-learning-series.html",
     "items": [
+      "/posts/ml/generative_deep_learning/lesson3/chapter3.html",
       "/posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html",
       "/posts/ml/generative_deep_learning/lesson1/lesson.html"
     ]

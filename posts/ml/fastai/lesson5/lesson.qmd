@@ -11,8 +11,8 @@ These are notes from lesson 5 of Fast AI Practical Deep Learning for Coders.
 
 ::: {.callout-tip title="Homework Task"}
 
-- Recreate the  Jupyter notebook to train a linear model and a neural network from scratch - see [from scratch notebook](https://github.com/gjohl/ml-practice/blob/master/ml-practice/notebooks/fastai/5_model_using_framework.ipynb)
-- Then repeat the exercise using the fastai framework (it's much easier!) - see [framework notebook](https://github.com/gjohl/ml-practice/blob/master/ml-practice/notebooks/fastai/5_models_from_scratch.ipynb)
+- Recreate the  Jupyter notebook to train a linear model and a neural network from scratch - see [from scratch notebook](https://github.com/gjohl/ml-practice/blob/master/ml-practice/notebooks/fastai/5_models_from_scratch.ipynb)
+- Then repeat the exercise using the fastai framework (it's much easier!) - see [framework notebook](https://github.com/gjohl/ml-practice/blob/master/ml-practice/notebooks/fastai/5_model_using_framework.ipynb)
 - Read [numpy broadcasting rules](https://numpy.org/doc/stable/user/basics.broadcasting.html)
 :::
 

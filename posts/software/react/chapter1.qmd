@@ -1,0 +1,72 @@
+---
+title: "Getting Started with React"
+description: "React Complete Guide: Section 1"
+date: "2024-03-04"
+image: "react.png"
+categories: [Engineering, Software, React, WebDev]
+# draft: true
+---
+
+# React
+
+These notes are from the [Udemy course](https://www.udemy.com/share/101Wby3@bwKzzF5Lsdyap2056rQpfSQPMwoPeWakiLbWURQe1VXLfFumI76lGqitdKHEWO3C/) "React: The Complete Guide".
+
+## 1. Getting Started
+React is a Javascript library for building user interfaces. It is less cumbersome and error-prone than using vanilla JS.
+
+[Code sandbox](https://codesandbox.io/) is an in-browser environment to experiment with UIs.
+As an example, the same page is implemented in [pure Javascript](https://codesandbox.io/p/sandbox/vanilla-js-demo-6049kj) and [React](https://codesandbox.io/p/sandbox/react-vs-vanilla-demo-uc08fv). 
+The latter is much easier to follow, modularise and requires less boilerplate.
+
+- With React, you write *declarative* code: you define the goal, not the steps to get there.
+- With vanilla JS, you write *imperative* code, defining the steps, not the goal.
+
+
+A build tool (like Vite or Next.js) is necessary because the Javascript (specifically the JSX) must be transformed. React uses JSX which allows us to "mix" HTML and JS, so that we can define layout and functionality in the same place. This isn't natively supported by the browser, so a build tool transforms this to pure html and JS.
+
+
+## 2. Javascript Refresher
+Adding JS to a page in script tags. 
+Either in the body of the script tag, or preferably as a separate js file that’s then called as the src parameter of the script tag. 
+The defer parameter means the script won’t be called until the rest of the body is loaded. 
+The type=module parameter means the JavaScript file will be treated as a module. 
+
+
+## 3. React Introduction
+
+Components are a core concept. They bundle html, CSS and JS into reusable blocks. 
+
+In vanilla JS, the JavaScript and HTML are in different files, so it can be hard to follow what needs to be changed where. Related code lives together, which is a key benefit of React and component style coding. 
+
+JSX is a JavaScript syntax extension that allows us to write HTML in JavaScript files. This is not natively supported by browsers, so requires transformation by the build system, such as Vite. 
+
+The build process (of some but not all build tools) relies on the jsx file extension to indicate a JSX file that needs transformation. The browser does not care, as it never sees (and cannot read) these jsx files directly. Similarly, some build processes require the file extension in the imports but others don’t. 
+
+Components must:
+1. Start with an upper case letter - so they do not clash with built ins like header
+2. Return a renderable object
+
+React creates a component tree. Your components do not end up as source code directly. The build process traverses the tree until each component is resolved into built ins, and then these appear in the source code. 
+
+Dynamic values. 
+Use curly braces. 
+Ideally declare as constants rather than having complicated inline expressions. 
+Images should be exported then the dynamic value passed as the src of the image. This prevents the image being lost in the build process if the build ignores files with certain extensions. 
+
+Dynamic values can be passed to components as props. React components take a single argument called props, which is an object of key:value pairs passed to the component. 
+If you have an object of props to pass, you can use the spread operator to avoid writing them out individually. 
+Also use object destructuring inside the component to pick out the variables. 
+
+Project structure. 
+It is good practice that each component is in its own file. File name should match the component name and be the default export. 
+Also split out style CSS files and keep these alongside the component. CSS files need to be imported by each component file that uses it. 
+The styles are NOT automatically scoped to the component that uses them. They will apply to all components with that name. For example, if you apply header styling to a custom Header component, it will also apply to the built in header html component. 
+
+The children prop is passed by all components and it is the value between the component tags. It can be used for HTML tag-style syntax. 
+
+We can react to events by passing a function to onClick or similar. In vanilla JS, we would need to select the element and add an event listener, but react is declarative. 
+We can define the handleClick function inside the component so that it has access to the component’s props and state. 
+We can pass functions as props. This is useful as we can pass state setter functions down to nested components. This should be a pointer to the function, not the executed function itself, e.g. handleClick NOT handleClick()
+
+If we want to modify the args that we pass to the function in onClick, use an anonymous arrow function () => handleSelect(arg)
+That doesn’t actually get executed until onClick is called. 
