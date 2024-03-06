@@ -218,6 +218,24 @@ ul.task-list li input[type="checkbox"] {
 <p>The children prop is passed by all components and it is the value between the component tags. It can be used for HTML tag-style syntax.</p>
 <p>We can react to events by passing a function to onClick or similar. In vanilla JS, we would need to select the element and add an event listener, but react is declarative. We can define the handleClick function inside the component so that it has access to the component’s props and state. We can pass functions as props. This is useful as we can pass state setter functions down to nested components. This should be a pointer to the function, not the executed function itself, e.g.&nbsp;handleClick NOT handleClick()</p>
 <p>If we want to modify the args that we pass to the function in onClick, use an anonymous arrow function () =&gt; handleSelect(arg) That doesn’t actually get executed until onClick is called.</p>
+<p>By default, React components only execute once, even if an internal variable changes. You have to “tell” React to execute something again. This is where state comes in useful. React checks if UI updates are needed by comparing old output with new and applying the difference. So we use states rather than regular variables to indicate that a re-render is required if the state changes. State is essentially a special registered variable that react handles differently. If the state of a component changes, that component and its children in the component tree re-render.</p>
+<p>Use state is a “hook”. Hooks must be declared in the top level of a component function, they can’t be nested in internal functions such as event handlers, and they also can’t be declared outside of functions. It returns an array of two elements, the state value and a setter. A default state value can be passed to use state. The setter “schedules” an update, but that isn’t necessarily immediate. So you can see unexpected things when logging a value after the setter in code, where the logged value is still the “old” state value because the UI update has been scheduled but not completed yet.</p>
+<p>Conditionally rendering content. Use JSX with a ternary expression { selectedState ? ComponentA : ComponentB }</p>
+<p>null is allowed in place of a component.</p>
+<p>The and operator can also be used for this. In JS, if the first term is truth then it returns the second term, which is what we want.</p>
+<p>{ selectedState &amp;&amp; ComponentA }</p>
+<p>A third option is to save the component as a variable. See lesson 55 7:21 for the syntax to add to notes.</p>
+<p>Conditional styling. We can set className as a JSX expression and use a ternary expression , eg to check if the button is selected and apply a different className depending on whether it’s selected.</p>
+<p>Outputting lists dynamically. JSX is capable of outputting lists of renderable components. We map over the array. MyArray.map((item) =&gt; (<component>))</component></p>
+<p>Add a key prop to the Component which uniquely identifies the item to avoid warnings raised by React.</p>
+<p>Module summary. Useful for subsection headings.</p>
+<p>Building UI with components. Using and outputting data. Handling user events. Using state for interactive content.</p>
+<p>React essentials deep dive section.</p>
+<p>You don’t NEED JSX, but it makes life easier. Copy example from lesson 60 3:00 using React.create element to manipulate the DOM directly. It’s not as clear. But it avoids the need for a build process because it IS valid JavaScript supported by the browser.</p>
+<p>Using Fragment. A JavaScript function must return one value, it cannot return multiple values. This is true of React components, since they are really just syntactic sugar around JavaScript code.</p>
+<p>So if we have two or more sibling components being returned, we must wrap them in a parent component. Naively, we could just use a div, but this adds an unnecessary extra component to our tree.</p>
+<p>An alternative is to use Fragment. This can be imported from react and used as a parent component without actually creating any new component when built. In newer versions of react, we can skip the import and just use empty opening and closing tags to create a Fragment.</p>
+<p>Splitting components. Remember React will re-render a component and all its child components when a state changes. So if a state is too high up the component tree, it will cause unnecessary re-rendering of many other components. This is an indication that a component needs to be split out and its state managed lower down the tree.</p>
 
 
 </section>
