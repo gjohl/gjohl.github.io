@@ -1,8 +1,8 @@
 ---
 title: "Meta Learning"
 description: "Meta Meta Learning: What I Learned From Meta Learning by Radek Osmulski"
-date: "2024-03-04"
-image: "react.png"
+date: "2024-03-10"
+# image: "react.png"
 categories: [Learning, AI]
 ---
 
@@ -56,5 +56,5 @@ For best results, combine practice and theory, in that order.
 
 
 ## References
-- [The Missing Semester](https://missing.csail.mit.edu/)
 
+- [The Missing Semester](https://missing.csail.mit.edu/)

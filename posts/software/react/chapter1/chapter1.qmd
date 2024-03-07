@@ -1,17 +1,18 @@
 ---
-title: "Getting Started with React"
+title: "React: Getting Started"
 description: "React Complete Guide: Section 1"
-date: "2024-03-04"
-image: "react.png"
+date: "2024-03-12"
+image: "../react.png"
 categories: [Engineering, Software, React, WebDev]
-draft: true
+# draft: true
 ---
 
-# React
+# Getting Started with React
 
-These notes are from the [Udemy course](https://www.udemy.com/share/101Wby3@bwKzzF5Lsdyap2056rQpfSQPMwoPeWakiLbWURQe1VXLfFumI76lGqitdKHEWO3C/) "React: The Complete Guide".
+These notes are from sections 1 and 3 of "React: The Complete Guide".
 
-## 1. Getting Started
+## 1. What is React?
+
 React is a Javascript library for building user interfaces. It is less cumbersome and error-prone than using vanilla JS.
 
 [Code sandbox](https://codesandbox.io/) is an in-browser environment to experiment with UIs.
@@ -21,48 +22,53 @@ The latter is much easier to follow, modularise and requires less boilerplate.
 - With React, you write *declarative* code: you define the goal, not the steps to get there.
 - With vanilla JS, you write *imperative* code, defining the steps, not the goal.
 
-
 A build tool (like Vite or Next.js) is necessary because the Javascript (specifically the JSX) must be transformed. React uses JSX which allows us to "mix" HTML and JS, so that we can define layout and functionality in the same place. This isn't natively supported by the browser, so a build tool transforms this to pure html and JS.
 
 
-## 2. Javascript Refresher
-Adding JS to a page in script tags. 
-Either in the body of the script tag, or preferably as a separate js file that’s then called as the src parameter of the script tag. 
-The defer parameter means the script won’t be called until the rest of the body is loaded. 
-The type=module parameter means the JavaScript file will be treated as a module. 
+## 2. Key React Concepts
 
-
-
-## 3. React Introduction
-
+### 2.1. Components
 Components are a core concept. They bundle html, CSS and JS into reusable blocks. 
 
 In vanilla JS, the JavaScript and HTML are in different files, so it can be hard to follow what needs to be changed where. Related code lives together, which is a key benefit of React and component style coding. 
 
 JSX is a JavaScript syntax extension that allows us to write HTML in JavaScript files. This is not natively supported by browsers, so requires transformation by the build system, such as Vite. 
 
-The build process (of some but not all build tools) relies on the jsx file extension to indicate a JSX file that needs transformation. The browser does not care, as it never sees (and cannot read) these jsx files directly. Similarly, some build processes require the file extension in the imports but others don’t. 
+The build process (of some but not all build tools) relies on the jsx file extension to indicate a JSX file that needs transformation. The browser does not care, as it never sees (and cannot read) these jsx files directly. Similarly, some build processes require the file extension in the import statements but others don’t.
 
 Components must:
-1. Start with an upper case letter - so they do not clash with built ins like header
+
+1. Start with an upper case letter - so they do not clash with built-ins like header
 2. Return a renderable object
 
-React creates a component tree. Your components do not end up as source code directly. The build process traverses the tree until each component is resolved into built ins, and then these appear in the source code. 
+React creates a **component tree** for your app. Your components do not end up in the source code directly. The build process traverses the tree until each component is resolved into built ins, and then these appear in the source code. 
 
-Dynamic values. 
-Use curly braces. 
-Ideally declare as constants rather than having complicated inline expressions. 
+### 2.2. Dynamic Values
+Use curly braces to indicate dynamic values in JSX. 
+
+Ideally declare constants rather than having complicated inline expressions. 
+
 Images should be exported then the dynamic value passed as the src of the image. This prevents the image being lost in the build process if the build ignores files with certain extensions. 
 
-Dynamic values can be passed to components as props. React components take a single argument called props, which is an object of key:value pairs passed to the component. 
+```javascript
+import myImage from './assets/exampleImage.png'
+
+<img src={myImage}/>
+```
+
+Dynamic values can be passed to components as *props*. React components take a single argument called `props`, which is an object of key:value pairs passed to the component. 
+
 If you have an object of props to pass, you can use the spread operator to avoid writing them out individually. 
 Also use object destructuring inside the component to pick out the variables. 
 
-Project structure. 
+### 2.3. Project Structure
 It is good practice that each component is in its own file. File name should match the component name and be the default export. 
+
 Also split out style CSS files and keep these alongside the component. CSS files need to be imported by each component file that uses it. 
+
 The styles are NOT automatically scoped to the component that uses them. They will apply to all components with that name. For example, if you apply header styling to a custom Header component, it will also apply to the built in header html component. 
 
+### 2.4. Props
 The children prop is passed by all components and it is the value between the component tags. It can be used for HTML tag-style syntax. 
 
 We can react to events by passing a function to onClick or similar. In vanilla JS, we would need to select the element and add an event listener, but react is declarative. 
@@ -123,3 +129,16 @@ An alternative is to use Fragment. This can be imported from react and used as a
 Splitting components. 
 Remember React will re-render a component and all its child components when a state changes. So if a state is too high up the component tree, it will cause unnecessary re-rendering of many other components. 
 This is an indication that a component needs to be split out and its state managed lower down the tree. 
+
+
+Forwarding props. 
+React doesn’t auto forward props to nested components. 
+We can forward an arbitrary number of props without having to write out each manually. 
+Use the rest operator …extraProps in the function signature. Then use the spread operator (same syntax) to pass them to the inner component that you want …extraProps
+
+This is like **kwargs in Python. 
+
+
+## References
+
+- ["React: The Complete Guide" Udemy course](https://www.udemy.com/share/101Wby3@bwKzzF5Lsdyap2056rQpfSQPMwoPeWakiLbWURQe1VXLfFumI76lGqitdKHEWO3C/)

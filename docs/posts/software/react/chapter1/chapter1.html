@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Gurpreet Johl">
-<meta name="dcterms.date" content="2024-03-04">
+<meta name="dcterms.date" content="2024-03-12">
 <meta name="description" content="React Complete Guide: Section 1">
 
-<title>Gurpreet Johl - Getting Started with React</title>
+<title>Gurpreet Johl - React: Getting Started</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,25 +23,59 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../../">
-<script src="../../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../">
+<script src="../../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -71,7 +105,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="../../../styles.css">
+<link rel="stylesheet" href="../../../../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -81,7 +115,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../../index.html">
+    <a class="navbar-brand" href="../../../../index.html">
     <span class="navbar-title">Gurpreet Johl</span>
     </a>
   </div>
@@ -92,11 +126,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../../projects.html"> 
+    <a class="nav-link" href="../../../../projects.html"> 
 <span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../blog.html"> 
+    <a class="nav-link" href="../../../../blog.html"> 
 <span class="menu-text">Notes</span></a>
   </li>  
 </ul>
@@ -127,7 +161,7 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Getting Started with React</h1>
+      <h1 class="title">React: Getting Started</h1>
                   <div>
         <div class="description">
           React Complete Guide: Section 1
@@ -155,7 +189,7 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">March 4, 2024</p>
+        <p class="date">March 12, 2024</p>
       </div>
     </div>
     
@@ -174,8 +208,13 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#getting-started-with-react" id="toc-getting-started-with-react" class="nav-link active" data-scroll-target="#getting-started-with-react">Getting Started with React</a>
   <ul class="collapse">
   <li><a href="#what-is-react" id="toc-what-is-react" class="nav-link" data-scroll-target="#what-is-react">1. What is React?</a></li>
-  <li><a href="#javascript-refresher" id="toc-javascript-refresher" class="nav-link" data-scroll-target="#javascript-refresher">2. Javascript Refresher</a></li>
-  <li><a href="#react-introduction" id="toc-react-introduction" class="nav-link" data-scroll-target="#react-introduction">3. React Introduction</a></li>
+  <li><a href="#key-react-concepts" id="toc-key-react-concepts" class="nav-link" data-scroll-target="#key-react-concepts">2. Key React Concepts</a>
+  <ul class="collapse">
+  <li><a href="#components" id="toc-components" class="nav-link" data-scroll-target="#components">2.1. Components</a></li>
+  <li><a href="#dynamic-values" id="toc-dynamic-values" class="nav-link" data-scroll-target="#dynamic-values">2.2. Dynamic Values</a></li>
+  <li><a href="#project-structure" id="toc-project-structure" class="nav-link" data-scroll-target="#project-structure">2.3. Project Structure</a></li>
+  <li><a href="#props" id="toc-props" class="nav-link" data-scroll-target="#props">2.4. Props</a></li>
+  </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul></li>
   </ul>
@@ -190,7 +229,7 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="getting-started-with-react" class="level1">
 <h1>Getting Started with React</h1>
-<p>These notes are from tsections 1 and 3 of “React: The Complete Guide”.</p>
+<p>These notes are from sections 1 and 3 of “React: The Complete Guide”.</p>
 <section id="what-is-react" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-react">1. What is React?</h2>
 <p>React is a Javascript library for building user interfaces. It is less cumbersome and error-prone than using vanilla JS.</p>
@@ -201,21 +240,40 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 <p>A build tool (like Vite or Next.js) is necessary because the Javascript (specifically the JSX) must be transformed. React uses JSX which allows us to “mix” HTML and JS, so that we can define layout and functionality in the same place. This isn’t natively supported by the browser, so a build tool transforms this to pure html and JS.</p>
 </section>
-<section id="javascript-refresher" class="level2">
-<h2 class="anchored" data-anchor-id="javascript-refresher">2. Javascript Refresher</h2>
-<p>Adding JS to a page in script tags. Either in the body of the script tag, or preferably as a separate js file that’s then called as the src parameter of the script tag. The defer parameter means the script won’t be called until the rest of the body is loaded. The type=module parameter means the JavaScript file will be treated as a module.</p>
-</section>
-<section id="react-introduction" class="level2">
-<h2 class="anchored" data-anchor-id="react-introduction">3. React Introduction</h2>
+<section id="key-react-concepts" class="level2">
+<h2 class="anchored" data-anchor-id="key-react-concepts">2. Key React Concepts</h2>
+<section id="components" class="level3">
+<h3 class="anchored" data-anchor-id="components">2.1. Components</h3>
 <p>Components are a core concept. They bundle html, CSS and JS into reusable blocks.</p>
 <p>In vanilla JS, the JavaScript and HTML are in different files, so it can be hard to follow what needs to be changed where. Related code lives together, which is a key benefit of React and component style coding.</p>
 <p>JSX is a JavaScript syntax extension that allows us to write HTML in JavaScript files. This is not natively supported by browsers, so requires transformation by the build system, such as Vite.</p>
-<p>The build process (of some but not all build tools) relies on the jsx file extension to indicate a JSX file that needs transformation. The browser does not care, as it never sees (and cannot read) these jsx files directly. Similarly, some build processes require the file extension in the imports but others don’t.</p>
-<p>Components must: 1. Start with an upper case letter - so they do not clash with built ins like header 2. Return a renderable object</p>
-<p>React creates a component tree. Your components do not end up as source code directly. The build process traverses the tree until each component is resolved into built ins, and then these appear in the source code.</p>
-<p>Dynamic values. Use curly braces. Ideally declare as constants rather than having complicated inline expressions. Images should be exported then the dynamic value passed as the src of the image. This prevents the image being lost in the build process if the build ignores files with certain extensions.</p>
-<p>Dynamic values can be passed to components as props. React components take a single argument called props, which is an object of key:value pairs passed to the component. If you have an object of props to pass, you can use the spread operator to avoid writing them out individually. Also use object destructuring inside the component to pick out the variables.</p>
-<p>Project structure. It is good practice that each component is in its own file. File name should match the component name and be the default export. Also split out style CSS files and keep these alongside the component. CSS files need to be imported by each component file that uses it. The styles are NOT automatically scoped to the component that uses them. They will apply to all components with that name. For example, if you apply header styling to a custom Header component, it will also apply to the built in header html component.</p>
+<p>The build process (of some but not all build tools) relies on the jsx file extension to indicate a JSX file that needs transformation. The browser does not care, as it never sees (and cannot read) these jsx files directly. Similarly, some build processes require the file extension in the import statements but others don’t.</p>
+<p>Components must:</p>
+<ol type="1">
+<li>Start with an upper case letter - so they do not clash with built-ins like header</li>
+<li>Return a renderable object</li>
+</ol>
+<p>React creates a <strong>component tree</strong> for your app. Your components do not end up in the source code directly. The build process traverses the tree until each component is resolved into built ins, and then these appear in the source code.</p>
+</section>
+<section id="dynamic-values" class="level3">
+<h3 class="anchored" data-anchor-id="dynamic-values">2.2. Dynamic Values</h3>
+<p>Use curly braces to indicate dynamic values in JSX.</p>
+<p>Ideally declare constants rather than having complicated inline expressions.</p>
+<p>Images should be exported then the dynamic value passed as the src of the image. This prevents the image being lost in the build process if the build ignores files with certain extensions.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> myImage <span class="im">from</span> <span class="st">'./assets/exampleImage.png'</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>img src<span class="op">=</span>{myImage}<span class="op">/&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Dynamic values can be passed to components as <em>props</em>. React components take a single argument called <code>props</code>, which is an object of key:value pairs passed to the component.</p>
+<p>If you have an object of props to pass, you can use the spread operator to avoid writing them out individually. Also use object destructuring inside the component to pick out the variables.</p>
+</section>
+<section id="project-structure" class="level3">
+<h3 class="anchored" data-anchor-id="project-structure">2.3. Project Structure</h3>
+<p>It is good practice that each component is in its own file. File name should match the component name and be the default export.</p>
+<p>Also split out style CSS files and keep these alongside the component. CSS files need to be imported by each component file that uses it.</p>
+<p>The styles are NOT automatically scoped to the component that uses them. They will apply to all components with that name. For example, if you apply header styling to a custom Header component, it will also apply to the built in header html component.</p>
+</section>
+<section id="props" class="level3">
+<h3 class="anchored" data-anchor-id="props">2.4. Props</h3>
 <p>The children prop is passed by all components and it is the value between the component tags. It can be used for HTML tag-style syntax.</p>
 <p>We can react to events by passing a function to onClick or similar. In vanilla JS, we would need to select the element and add an event listener, but react is declarative. We can define the handleClick function inside the component so that it has access to the component’s props and state. We can pass functions as props. This is useful as we can pass state setter functions down to nested components. This should be a pointer to the function, not the executed function itself, e.g.&nbsp;handleClick NOT handleClick()</p>
 <p>If we want to modify the args that we pass to the function in onClick, use an anonymous arrow function () =&gt; handleSelect(arg) That doesn’t actually get executed until onClick is called.</p>
@@ -239,6 +297,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Splitting components. Remember React will re-render a component and all its child components when a state changes. So if a state is too high up the component tree, it will cause unnecessary re-rendering of many other components. This is an indication that a component needs to be split out and its state managed lower down the tree.</p>
 <p>Forwarding props. React doesn’t auto forward props to nested components. We can forward an arbitrary number of props without having to write out each manually. Use the rest operator …extraProps in the function signature. Then use the spread operator (same syntax) to pass them to the inner component that you want …extraProps</p>
 <p>This is like **kwargs in Python.</p>
+</section>
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
