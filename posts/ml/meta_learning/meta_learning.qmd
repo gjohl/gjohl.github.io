@@ -1,13 +1,60 @@
 ---
 title: "Meta Learning"
-description: "Meta Meta Learning: My Notes on Meta Learning by Radek Osmulski"
+description: "Meta Meta Learning: What I Learned From Meta Learning by Radek Osmulski"
 date: "2024-03-04"
 image: "react.png"
 categories: [Learning, AI]
-draft: true
 ---
 
+<!-- 
 See here: 
 https://www.scribd.com/document/661873147/Radek-Osmulski-Meta-Learning-How-to-Learn-Deep-Learning-and-Thrive-in-the-Digital-World-Radek-Osmulski-2021
 
-And condense notes here: https://docs.google.com/document/d/1-zHZwWqZtqh9_ESzoowWzjG0T0Dz54JlpcY2fV5lAPE/edit#heading=h.8r0bt3wfitk0
+And condensed notes here: https://docs.google.com/document/d/1-zHZwWqZtqh9_ESzoowWzjG0T0Dz54JlpcY2fV5lAPE/edit#heading=h.8r0bt3wfitk0 -->
+
+These are notes on the book [Meta Learning by Radek Osmulski](https://rosmulski.gumroad.com/l/learn_machine_learning/blog).
+
+
+## 1. Learning to Program
+You must become a developer before you can be a deep learning expert. Start by tinkering with things you enjoy. Don't exert yourself too much so that you can stay consistent above all else.
+
+### 1.1. CS Foundations
+Start with a programming MOOC like Harvard CS50 if coming into this fresh. Don't get bogged down in tutorial hell, just get familiar enough with high-level concepts to be able to google the rest. "It doesn't make sense to invest all your time into learnng calligraphy if you have nothing to write about".
+
+### 1.2. IDE
+Learn to use an IDE effectively. If stuck, just start with VSCode.
+
+### 1.3. Version control
+Learn to use git and GitHub.
+
+### 1.4. DevOps
+Learn how to use your computer in the context of writing code: spin up a cloud VM, ssh into it, move data around, etc. A good resource is [The Missing Semester](https://missing.csail.mit.edu/)
+
+### 1.5. Start Learning Deep Learning the Right Way
+The above 4 steps are to get to a stage where you can take the [Practical Deep Learning for Coders](https://course.fast.ai/) which is the best starting foundation to get a high-level grounding in ML.
+
+Use the top-down approach to learning championed by fastai:
+
+1. Watch a lecture.
+2. Look through the associated notebook - run the code and understand the inputs and outputs of each cell.
+3. Start with a new notebook and try to work through the same steps from scratch as an open-book exercise. Also read the documentation as you go along to fill any gaps.
+4. Find a similar dataset (or make one) and try the same techniques you've just learned. Creating a dataset is a great way to think about feature engineering and choices of labels.
+
+Learn the whole game then play out of town.
+
+
+## 2. Theory vs Practice
+Starting from an "elements-first" approach can feel liek a never ending struggle. You want to learn ML, but then need to study calculus, but then you need to study real analysis before that, but then you need to study set theory before that...
+
+The problem with theory: theory follows practice!
+
+Become a great practitioner first and the theory will make more sense afterwards, once you have some intuition.
+Practical problems give you an incredibly useful feedback loop for you learning that you don't get from following a linear theoretical curriculum.
+
+For best results, combine practice and theory, in that order.
+
+
+
+## References
+- [The Missing Semester](https://missing.csail.mit.edu/)
+
