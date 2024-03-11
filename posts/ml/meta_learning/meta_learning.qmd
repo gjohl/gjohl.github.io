@@ -54,6 +54,80 @@ Practical problems give you an incredibly useful feedback loop for you learning 
 For best results, combine practice and theory, in that order.
 
 
+## 3. Programming is about what you have to say
+
+Your ability as a develpoer is measured by the utility of things you can do in your language of choice. What you have to say is the most important thing!
+
+The key to getting started is to read and write a lot of code. Start with 100-200 line projects, anything under 1000 lines should be possible to follow. Then graduate to larger problems.
+
+Domain knowledge comes first. Once you know what you are trying to achieve and broadly how you can achieve it, you can worry about best practices to write clean, maintainable code later.
+
+The fastest way to learn to program is to learn to say something useful.
+
+
+## 4. The Secret of Good Developers
+
+Becoming familiar with a codebase or problem requires holding multiple things in your head: the layout of the code, how it is tested, how you intend to change it, other places that might be affected by your change, etc. This requires uninterrupted focus. When you are interrupted, you drop those things you were holding in your head, and you might not always pick them up again when you switch back.
+
+The price of context switching is extremely high!
+
+Long, uninterrupted sessions - "deep work" - are the key to progress.
+
+
+## 5. The Best Way to Improve as a Developer
+
+You sharpen your skills with **practice**. To get better at a thing, do the thing!
+
+The key is to read and write code. Everything else, like MOOCs, books, articles etc are nice as a side dish but they are not the main course.
+
+
+## 6. Achieving Flow
+
+Flow is difficult to achieve, but we can help ourselves by removing any obvious obstacles.
+
+Learn your IDE inside out, and knowg all of the keyboard shortcuts so that you don't interrupt your flow by switching to your mouse or searching through settings.
+
+Likewise, address easy things like making sure your laptop, keyboard, mouse etc are charged and you don't spend time battling connectivity issues etc.
+
+Flow is a spectrum. Don't think of it as "in flow" or "not in flow". Rather, "how much are you flowing?".
+Take small actions to increase it.
+
+Just work on what you want to work on. Don't overthink it and talk yourself out of doing something because you're not a "real" developer/author/startup founder etc.
+
+
+## 7. Genuine Work Compounds
+"Reading a book without taking notes is like discovering a new territory without making a map".
+
+Doing > thinking
+
+Thinking about something without writing notes or doing more work on it is like running on a treadmill when your goal is to get from A to B. Just do a little bit: write some notes one day, then outline the project then next, then start the first component, etc. Before long, you will have made more progress than you expected.
+
+The more "atoms you move" the more feeback you can get, so the more you can reflect and learn.
+
+
+## 8. How to Structure an ML Project
+
+"The only way to maintain your sanity in the long run is to be paranoid in the short run".
+
+The key is a good [train-validation-test set split](https://rachel.fast.ai/posts/2017-11-13-validation-sets/).
+
+Then construct a baseline. The smaller and simpler, the better. 
+
+This helps us know we are moving in the right direction when we iterate. It also gives an idea of what shape our reeal results should be.
+
+Start broad. Explore different models and architectures first, rather than diving straight in to tuning hyperparameters.
+
+Make changes incrementally, then run the model and check that your output is the correct shape and not all zeros. You can't write a complex model all in one sweep!
+The requires running the entire pipelines regularly. This could be a big time sink to run on the whole dataset, so just train on 5% or less to keep iterations fast.
+
+Time is a key component of success. You might get a decent solution quite quickly. But going from good to great is a creative endeavour, which requires time to think and mull over in your subconscious.
+
+
+## 9. How to Win at Kaggle
+
+<!-- Page 46 of 93 -->
+
+
 
 ## References
 
