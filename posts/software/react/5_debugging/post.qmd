@@ -4,10 +4,10 @@ description: "React Complete Guide: Section 2"
 date: "2024-03-20"
 image: "../react.png"
 categories: [Engineering, Software, React, WebDev]
-# draft: true
+draft: true
 ---
 
-# Javascript Refresher
+# Debugging
 
 Adding JS to a page in script tags. 
 Either in the body of the script tag, or preferably as a separate js file that’s then called as the src parameter of the script tag. 

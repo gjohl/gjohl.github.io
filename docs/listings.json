@@ -2,8 +2,6 @@
   {
     "listing": "/blog.html",
     "items": [
-      "/posts/software/react/chapter2/chapter2.html",
-      "/posts/software/react/chapter1/chapter1.html",
       "/posts/ml/meta_learning/meta_learning.html",
       "/posts/ml/generative_deep_learning/lesson3/chapter3.html",
       "/posts/ml/fastai/lesson8/lesson.html",

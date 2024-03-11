@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Gurpreet Johl">
-<meta name="dcterms.date" content="2024-03-12">
-<meta name="description" content="React Complete Guide: Section 1">
+<meta name="dcterms.date" content="2024-03-20">
+<meta name="description" content="React Complete Guide: Section 2">
 
-<title>Gurpreet Johl - React: Getting Started</title>
+<title>Gurpreet Johl - React: JavaScript Essentials</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,40 +22,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -161,10 +127,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">React: Getting Started</h1>
+      <h1 class="title">React: JavaScript Essentials</h1>
                   <div>
         <div class="description">
-          React Complete Guide: Section 1
+          React Complete Guide: Section 2
         </div>
       </div>
                           <div class="quarto-categories">
@@ -189,7 +155,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">March 12, 2024</p>
+        <p class="date">March 20, 2024</p>
       </div>
     </div>
     
@@ -205,18 +171,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#getting-started-with-react" id="toc-getting-started-with-react" class="nav-link active" data-scroll-target="#getting-started-with-react">Getting Started with React</a>
-  <ul class="collapse">
-  <li><a href="#what-is-react" id="toc-what-is-react" class="nav-link" data-scroll-target="#what-is-react">1. What is React?</a></li>
-  <li><a href="#key-react-concepts" id="toc-key-react-concepts" class="nav-link" data-scroll-target="#key-react-concepts">2. Key React Concepts</a>
-  <ul class="collapse">
-  <li><a href="#components" id="toc-components" class="nav-link" data-scroll-target="#components">2.1. Components</a></li>
-  <li><a href="#dynamic-values" id="toc-dynamic-values" class="nav-link" data-scroll-target="#dynamic-values">2.2. Dynamic Values</a></li>
-  <li><a href="#project-structure" id="toc-project-structure" class="nav-link" data-scroll-target="#project-structure">2.3. Project Structure</a></li>
-  <li><a href="#props" id="toc-props" class="nav-link" data-scroll-target="#props">2.4. Props</a></li>
-  </ul></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
-  </ul></li>
+  <li><a href="#debugging" id="toc-debugging" class="nav-link active" data-scroll-target="#debugging">Debugging</a></li>
   </ul>
 </nav>
     </div>
@@ -227,108 +182,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="getting-started-with-react" class="level1">
-<h1>Getting Started with React</h1>
-<p>These notes are from sections 1 and 3 of “React: The Complete Guide”.</p>
-<section id="what-is-react" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-react">1. What is React?</h2>
-<p>React is a Javascript library for building user interfaces. It is less cumbersome and error-prone than using vanilla JS.</p>
-<p><a href="https://codesandbox.io/">Code sandbox</a> is an in-browser environment to experiment with UIs. As an example, the same page is implemented in <a href="https://codesandbox.io/p/sandbox/vanilla-js-demo-6049kj">pure Javascript</a> and <a href="https://codesandbox.io/p/sandbox/react-vs-vanilla-demo-uc08fv">React</a>. The latter is much easier to follow, modularise and requires less boilerplate.</p>
-<ul>
-<li>With React, you write <em>declarative</em> code: you define the goal, not the steps to get there.</li>
-<li>With vanilla JS, you write <em>imperative</em> code, defining the steps, not the goal.</li>
-</ul>
-<p>A build tool (like Vite or Next.js) is necessary because the Javascript (specifically the JSX) must be transformed. React uses JSX which allows us to “mix” HTML and JS, so that we can define layout and functionality in the same place. This isn’t natively supported by the browser, so a build tool transforms this to pure html and JS.</p>
-</section>
-<section id="key-react-concepts" class="level2">
-<h2 class="anchored" data-anchor-id="key-react-concepts">2. Key React Concepts</h2>
-<section id="components" class="level3">
-<h3 class="anchored" data-anchor-id="components">2.1. Components</h3>
-<p>Components are a core concept. They bundle html, CSS and JS into reusable blocks.</p>
-<p>In vanilla JS, the JavaScript and HTML are in different files, so it can be hard to follow what needs to be changed where. Related code lives together, which is a key benefit of React and component style coding.</p>
-<p>JSX is a JavaScript syntax extension that allows us to write HTML in JavaScript files. This is not natively supported by browsers, so requires transformation by the build system, such as Vite.</p>
-<p>The build process (of some but not all build tools) relies on the jsx file extension to indicate a JSX file that needs transformation. The browser does not care, as it never sees (and cannot read) these jsx files directly. Similarly, some build processes require the file extension in the import statements but others don’t.</p>
-<p>Components must:</p>
-<ol type="1">
-<li>Start with an upper case letter - so they do not clash with built-ins like header</li>
-<li>Return a renderable object</li>
-</ol>
-<p>React creates a <strong>component tree</strong> for your app. Your components do not end up in the source code directly. The build process traverses the tree until each component is resolved into built ins, and then these appear in the source code.</p>
-</section>
-<section id="dynamic-values" class="level3">
-<h3 class="anchored" data-anchor-id="dynamic-values">2.2. Dynamic Values</h3>
-<p>Use curly braces to indicate dynamic values in JSX.</p>
-<p>Ideally declare constants rather than having complicated inline expressions.</p>
-<p>Images should be exported then the dynamic value passed as the src of the image. This prevents the image being lost in the build process if the build ignores files with certain extensions.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> myImage <span class="im">from</span> <span class="st">'./assets/exampleImage.png'</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>img src<span class="op">=</span>{myImage}<span class="op">/&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Dynamic values can be passed to components as <em>props</em>. React components take a single argument called <code>props</code>, which is an object of key:value pairs passed to the component.</p>
-<p>If you have an object of props to pass, you can use the spread operator to avoid writing them out individually. Also use object destructuring inside the component to pick out the variables.</p>
-</section>
-<section id="project-structure" class="level3">
-<h3 class="anchored" data-anchor-id="project-structure">2.3. Project Structure</h3>
-<p>It is good practice that each component is in its own file. File name should match the component name and be the default export.</p>
-<p>Also split out style CSS files and keep these alongside the component. CSS files need to be imported by each component file that uses it.</p>
-<p>The styles are NOT automatically scoped to the component that uses them. They will apply to all components with that name. For example, if you apply header styling to a custom Header component, it will also apply to the built in header html component.</p>
-</section>
-<section id="props" class="level3">
-<h3 class="anchored" data-anchor-id="props">2.4. Props</h3>
-<p>The children prop is passed by all components and it is the value between the component tags. It can be used for HTML tag-style syntax.</p>
-<p>We can react to events by passing a function to onClick or similar. In vanilla JS, we would need to select the element and add an event listener, but react is declarative. We can define the handleClick function inside the component so that it has access to the component’s props and state. We can pass functions as props. This is useful as we can pass state setter functions down to nested components. This should be a pointer to the function, not the executed function itself, e.g.&nbsp;handleClick NOT handleClick()</p>
-<p>If we want to modify the args that we pass to the function in onClick, use an anonymous arrow function () =&gt; handleSelect(arg) That doesn’t actually get executed until onClick is called.</p>
-<p>By default, React components only execute once, even if an internal variable changes. You have to “tell” React to execute something again. This is where state comes in useful. React checks if UI updates are needed by comparing old output with new and applying the difference. So we use states rather than regular variables to indicate that a re-render is required if the state changes. State is essentially a special registered variable that react handles differently. If the state of a component changes, that component and its children in the component tree re-render.</p>
-<p>Use state is a “hook”. Hooks must be declared in the top level of a component function, they can’t be nested in internal functions such as event handlers, and they also can’t be declared outside of functions. It returns an array of two elements, the state value and a setter. A default state value can be passed to use state. The setter “schedules” an update, but that isn’t necessarily immediate. So you can see unexpected things when logging a value after the setter in code, where the logged value is still the “old” state value because the UI update has been scheduled but not completed yet.</p>
-<p>Conditionally rendering content. Use JSX with a ternary expression { selectedState ? ComponentA : ComponentB }</p>
-<p>null is allowed in place of a component.</p>
-<p>The and operator can also be used for this. In JS, if the first term is truth then it returns the second term, which is what we want.</p>
-<p>{ selectedState &amp;&amp; ComponentA }</p>
-<p>A third option is to save the component as a variable. See lesson 55 7:21 for the syntax to add to notes.</p>
-<p>Conditional styling. We can set className as a JSX expression and use a ternary expression , eg to check if the button is selected and apply a different className depending on whether it’s selected.</p>
-<p>Outputting lists dynamically. JSX is capable of outputting lists of renderable components. We map over the array. MyArray.map((item) =&gt; (<component>))</component></p>
-<p>Add a key prop to the Component which uniquely identifies the item to avoid warnings raised by React.</p>
-<p>Module summary. Useful for subsection headings.</p>
-<p>Building UI with components. Using and outputting data. Handling user events. Using state for interactive content.</p>
-<p>React essentials deep dive section.</p>
-<p>You don’t NEED JSX, but it makes life easier. Copy example from lesson 60 3:00 using React.create element to manipulate the DOM directly. It’s not as clear. But it avoids the need for a build process because it IS valid JavaScript supported by the browser.</p>
-<p>Using Fragment. A JavaScript function must return one value, it cannot return multiple values. This is true of React components, since they are really just syntactic sugar around JavaScript code.</p>
-<p>So if we have two or more sibling components being returned, we must wrap them in a parent component. Naively, we could just use a div, but this adds an unnecessary extra component to our tree.</p>
-<p>An alternative is to use Fragment. This can be imported from react and used as a parent component without actually creating any new component when built. In newer versions of react, we can skip the import and just use empty opening and closing tags to create a Fragment.</p>
-<p>Splitting components. Remember React will re-render a component and all its child components when a state changes. So if a state is too high up the component tree, it will cause unnecessary re-rendering of many other components. This is an indication that a component needs to be split out and its state managed lower down the tree.</p>
-<p>Forwarding props. React doesn’t auto forward props to nested components. We can forward an arbitrary number of props without having to write out each manually. Use the rest operator …extraProps in the function signature. Then use the spread operator (same syntax) to pass them to the inner component that you want …extraProps</p>
-<p>This is like **kwargs in Python.</p>
-<p>Multiple JSX slots. We’ve seen how we can pass the special children prop to pass arbitrary JSX to our components. What if we wanted 2 or more slots in our component with arbitrary content? Components are ultimately just JavaScript code, so we can pass the components for the other slot as a prop (and if there are multiple siblings we can wrap them in a fragment).</p>
-<p>Setting component types dynamically. We can pass a prop (with capital letter since it will be used as a custom component) which we can then vary in the nested component. For example, pass a prop called ButtonContainer which can be: - a string for a built in type like “menu” - a function for a custom component like Section (without calling it or using angled brackets)</p>
-<p>Setting default props values. Put the default value in the function signature. Restructure props and put ButtonContainer=“menu” in the component’s function signature as the default value.</p>
-<p>Not all content needs to go in components. Remember you can modify index.html directly if there is static content that makes more sense there.</p>
-<p>Any files (typically images) stored in the public directory of the root of the project are made publicly available, so anybody can navigate to them. If you want files to be private until used on the website, store them in a folder in src usually src/assets Anything in src is not publicly accessible.</p>
-<p>If setting a state value based on its previous value, pass it as a function. For example, if on a button click we want to invert the value of a Boolean, use</p>
-<p>setIsEditing((editing) =&gt; {!editing})</p>
-<p>Not</p>
-<p>setIsEditing(!isEditing)</p>
-<p>This is because React schedules when to change state, it doesn’t necessarily do it immediately. So you could get unexpected behaviour. But when passed as a function, this triggers a re-render.</p>
-<p>Handling user input. If we have an input tag, we can manage the user input value as a new state playerName. We use the onChange prop of the input to handle this. We pass a handleInput function to it that takes the event (from the user input) and updates our state based on it.</p>
-<p>function handleChange (event) { setPlayerName(event.target.value) }</p>
-<p>We then pass the value and onChange to the input</p>
-<p><input value="{playerName}" onchange="{handleChange}"></p>
-<p>This technique of passing a value to the input then allowing it to change the value is called a two-way binding.</p>
-<p>Updating object states in an immutable way. When your state is an object or array (an array is just a subset of object in JS) then you should create a deep copy of it before altering its value. Objects are passed by reference so you may see unintended side effects otherwise if you try to update the object directly. Use the spread operator to copy to a new variable.</p>
-<p>Lifting state up. If two or more sibling components all need access to the same state, the state should be handled by the closest ancestor component.</p>
-<p>Avoid intersecting states. Don’t have two different states in different places which refer to the same state / data. Potential for conflicts and bugs.</p>
-<p>Also avoid using logic based on state A for the setter logic of state B. For the same reason we use the functional form of the setter when it’s based on previous values; the state may be outdated as it is scheduled to updated but not yet recalculated and rendered.</p>
-<p>Deriving state from props. Manage as few states as possible and pass them as props where needed, then derive any further states from those instead of managing another set of states.</p>
-<p>Keep immutability of states in mind. If you initialise a state as an object or array, remember that JavaScript passes these by reference. So if you then modify that array, you are modifying the initial array. So if you later want to reset the state by setting the state back to that initial array, it won’t work because the original was mutated. To work around this, take a deep copy using the spread operator. If it is a nested array, map for each inner array. […initialArray.map(array =&gt; […array])]</p>
-<p>When NOT to lift state up. If doing so breaks the modularity of the nested components or would trigger the parent function to rerender unnecessarily.</p>
-</section>
-</section>
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
-<ul>
-<li><a href="https://www.udemy.com/share/101Wby3@bwKzzF5Lsdyap2056rQpfSQPMwoPeWakiLbWURQe1VXLfFumI76lGqitdKHEWO3C/">“React: The Complete Guide” Udemy course</a></li>
-</ul>
+<section id="debugging" class="level1">
+<h1>Debugging</h1>
+<p>Adding JS to a page in script tags. Either in the body of the script tag, or preferably as a separate js file that’s then called as the src parameter of the script tag. The defer parameter means the script won’t be called until the rest of the body is loaded. The type=module parameter means the JavaScript file will be treated as a module.</p>
 
 
-</section>
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->

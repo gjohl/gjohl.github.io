@@ -1,0 +1,10 @@
+---
+title: "React: TypeScript Essentials"
+description: "React Complete Guide: Section 2"
+date: "2024-03-20"
+image: "../react.png"
+categories: [Engineering, Software, React, WebDev]
+draft: true
+---
+
+# TypeScript in React

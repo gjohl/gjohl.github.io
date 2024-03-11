@@ -4,7 +4,7 @@ description: "React Complete Guide: Section 1"
 date: "2024-03-12"
 image: "../react.png"
 categories: [Engineering, Software, React, WebDev]
-# draft: true
+draft: true
 ---
 
 # Getting Started with React
@@ -138,6 +138,75 @@ Use the rest operator …extraProps in the function signature. Then use the spre
 
 This is like **kwargs in Python. 
 
+
+Multiple JSX slots. 
+We’ve seen how we can pass the special children prop to pass arbitrary JSX to our components. 
+What if we wanted 2 or more slots in our component with arbitrary content?
+Components are ultimately just JavaScript code, so we can pass the components for the other slot as a prop (and if there are multiple siblings we can wrap them in a fragment). 
+
+Setting component types dynamically. 
+We can pass a prop (with capital letter since it will be used as a custom component) which we can then vary in the nested component. 
+For example, pass a prop called ButtonContainer which can be:
+- a string for a built in type like “menu”
+- a function for a custom component like Section (without calling it or using angled brackets)
+
+Setting default props values. 
+Put the default value in the function signature. Restructure props and put ButtonContainer=“menu” in the component’s function signature as the default value. 
+
+
+Not all content needs to go in components. 
+Remember you can modify index.html directly if there is static content that makes more sense there. 
+
+Any files (typically images) stored in the public directory of the root of the project are made publicly available, so anybody can navigate to them. 
+If you want files to be private until used on the website, store them in a folder in src usually src/assets 
+Anything in src is not publicly accessible. 
+
+If setting a state value based on its previous value, pass it as a function. For example, if on a button click we want to invert the value of a Boolean, use
+
+setIsEditing((editing) => {!editing})
+
+Not
+
+setIsEditing(!isEditing)
+
+This is because React schedules when to change state, it doesn’t necessarily do it immediately. So you could get unexpected behaviour. But when passed as a function, this triggers a re-render. 
+
+Handling user input. 
+If we have an input tag, we can manage the user input value as a new state playerName. 
+We use the onChange prop of the input to handle this. We pass a handleInput function to it that takes the event (from the user input) and updates our state based on it. 
+
+function handleChange (event) {
+    setPlayerName(event.target.value)
+    }
+
+We then pass the value and onChange to the input
+
+<input value={playerName} onChange={handleChange} />
+
+This technique of passing a value to the input then allowing it to change the value is called a two-way binding. 
+
+
+Updating object states in an immutable way. 
+When your state is an object or array (an array is just a subset of object in JS) then you should create a deep copy of it before altering its value. Objects are passed by reference so you may see unintended side effects otherwise if you try to update the object directly. Use the spread operator to copy to a new variable. 
+
+Lifting state up. 
+If two or more sibling components all need access to the same state, the state should be handled by the closest ancestor component. 
+
+Avoid intersecting states. 
+Don’t have two different states in different places which refer to the same state / data. Potential for conflicts and bugs. 
+
+Also avoid using logic based on state A for the setter logic of state B. For the same reason we use the functional form of the setter when it’s based on previous values; the state may be outdated as it is scheduled to updated but not yet recalculated and rendered. 
+
+Deriving state from props. 
+Manage as few states as possible and pass them as props where needed, then derive any further states from those instead of managing another set of states. 
+
+Keep immutability of states in mind. 
+If you initialise a state as an object or array, remember that JavaScript passes these by reference. So if you then modify that array, you are modifying the initial array. So if you later want to reset the state by setting the state back to that initial array, it won’t work because the original was mutated. 
+To work around this, take a deep copy using the spread operator. If it is a nested array, map for each inner array. 
+[…initialArray.map(array => […array])]
+
+When NOT to lift state up. 
+If doing so breaks the modularity of the nested components or would trigger the parent function to rerender unnecessarily. 
 
 ## References
 
