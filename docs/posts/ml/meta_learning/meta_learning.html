@@ -185,6 +185,8 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#genuine-work-compounds" id="toc-genuine-work-compounds" class="nav-link" data-scroll-target="#genuine-work-compounds">7. Genuine Work Compounds</a></li>
   <li><a href="#how-to-structure-an-ml-project" id="toc-how-to-structure-an-ml-project" class="nav-link" data-scroll-target="#how-to-structure-an-ml-project">8. How to Structure an ML Project</a></li>
   <li><a href="#how-to-win-at-kaggle" id="toc-how-to-win-at-kaggle" class="nav-link" data-scroll-target="#how-to-win-at-kaggle">9. How to Win at Kaggle</a></li>
+  <li><a href="#hardware-for-deep-learning" id="toc-hardware-for-deep-learning" class="nav-link" data-scroll-target="#hardware-for-deep-learning">10. Hardware for Deep Learning</a></li>
+  <li><a href="#on-finding-a-job" id="toc-on-finding-a-job" class="nav-link" data-scroll-target="#on-finding-a-job">11. On Finding a Job</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
@@ -286,7 +288,56 @@ And condensed notes here: https://docs.google.com/document/d/1-zHZwWqZtqh9_ESzoo
 </section>
 <section id="how-to-win-at-kaggle" class="level2">
 <h2 class="anchored" data-anchor-id="how-to-win-at-kaggle">9. How to Win at Kaggle</h2>
-<!-- Page 46 of 93 -->
+<ul>
+<li>Join a competition early
+<ul>
+<li>Download the dataset, understand the schema of inputs and outputs</li>
+<li>Start writing code immediately. A good starting point is to just download the data and make a submission (of random numbers or all zeros) to make sure you have all of the mechanics in place before working on your model.</li>
+<li>More time for more iteration loops</li>
+<li>More time to mull the problem and think creatively</li>
+</ul></li>
+<li>Read Kaggle forums (daily)</li>
+<li>Make small improvements (daily)
+<ul>
+<li>Small tweaks compund into big results</li>
+<li>Initial exploration should cover as much ground as possible, so try multiple architectures rather than focusing on tuning one specific model in the early stages.</li>
+</ul></li>
+<li>Find an appropriate validation split that mirrors the leaderboard
+<ul>
+<li>Is random sampling appropriate or does the split require more thought?</li>
+<li>Train two models and submit them. The leaderboard results should reflect what you saw locally (i.e.&nbsp;which was he better model). If not, you might have problems with your validation split.</li>
+</ul></li>
+<li>Posts by top Kagglers will take you 80% of the way</li>
+<li>Papers, blogs and creativity will take you the remaining 20%
+<ul>
+<li>When reading papers, you don’t need to understand every paragraph, and trying to do so would be overly time-consuming and counter-productive. Scan the paper to understand the general idea and whether it is relevant to your problem.</li>
+<li>Blog posts are often more accessible and quick to implement.</li>
+</ul></li>
+<li>Ensemble your results
+<ul>
+<li>Cross-validation is a related concept and also essential.</li>
+</ul></li>
+</ul>
+</section>
+<section id="hardware-for-deep-learning" class="level2">
+<h2 class="anchored" data-anchor-id="hardware-for-deep-learning">10. Hardware for Deep Learning</h2>
+<p>Explore hardware only to the extent that you find it interesting. Otherwise it’s a false economy, you are paying with your time learning about concepts that might save a few $ here and there.</p>
+<p>Start with a cloud VM, colab or Kaggle kernels.</p>
+<p>Once you know you are serious, a home rig is the most cost effective option. Get a GPU with the most RAM you can afford. This first rig should just get you to a stage where you know what you like to work on and what the bottlenecks worth improving are: more RAM, better CPU, more storage (and how fast does the storage need to be).</p>
+<p>Debugging and profiling your code (use <code>%%timeit</code> in Jupyter) is essential.</p>
+</section>
+<section id="on-finding-a-job" class="level2">
+<h2 class="anchored" data-anchor-id="on-finding-a-job">11. On Finding a Job</h2>
+<p>A resume is of limited use nowadays. Meet people who influence hiring decisions where they hang out: conferences, social media, meetups, blogs etc.</p>
+<p>Credibility is key. Helping others and showing your work builds credibility.</p>
+<p>If you are looking for work, say so! On Twitter, Linkedin etc, and reach out to people you know.</p>
+<p>The deep learning community is active on Twitter. But keep your time on Twitter limited and focused. Your goal isn’t to become a content creator.</p>
+<p>Share your work. This builds a <a href="https://www.fast.ai/posts/2017-12-18-personal-brand.html">personal brand</a>. It also gives you a milestone to work towards and defines when it is “done”. The sooner you start sharing your work, the better. There are fewer, if any, of the negative consequences you might anticipate when sharing work online. Failure is just “cheap feedback”; embrace it!</p>
+<p>Most people’s biggest regret when learning ML is not enough time spent doing and too much time spent learning theory.</p>
+<p>There’s one guaranteed way to fail: stop trying. Learning compounds; you need to give it time before you see exponential results.</p>
+<p>A general technique that works for all aspects of life: oberseve whether you are getting the desired results. If not, change your approach.</p>
+<p>Find a mentor. This might not necessarily be someone you know or interact with directly, or even someone who’s alive. If you follow them (on Twitter) and learn from what they have to say, they are a mentor.</p>
+<p>The “permissionless apprenticeship” approach to finding a mentor means to give value first before you receive value.</p>
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>

@@ -125,8 +125,61 @@ Time is a key component of success. You might get a decent solution quite quickl
 
 ## 9. How to Win at Kaggle
 
-<!-- Page 46 of 93 -->
+- Join a competition early
+    - Download the dataset, understand the schema of inputs and outputs
+    - Start writing code immediately. A good starting point is to just download the data and make a submission (of random numbers or all zeros) to make sure you have all of the mechanics in place before working on your model.
+    - More time for more iteration loops
+    - More time to mull the problem and think creatively
+- Read Kaggle forums (daily)
+- Make small improvements (daily)
+    - Small tweaks compund into big results
+    - Initial exploration should cover as much ground as possible, so try multiple architectures rather than focusing on tuning one specific model in the early stages.
+- Find an appropriate validation split that mirrors the leaderboard
+    - Is random sampling appropriate or does the split require more thought?
+    - Train two models and submit them. The leaderboard results should reflect what you saw locally (i.e. which was he better model). If not, you might have problems with your validation split.
+- Posts by top Kagglers will take you 80% of the way
+- Papers, blogs and creativity will take you the remaining 20%
+    - When reading papers, you don't need to understand every paragraph, and trying to do so would be overly time-consuming and counter-productive. Scan the paper to understand the general idea and whether it is relevant to your problem.
+    - Blog posts are often more accessible and quick to implement.
+- Ensemble your results
+    - Cross-validation is a related concept and also essential.
 
+
+## 10. Hardware for Deep Learning
+
+Explore hardware only to the extent that you find it interesting. Otherwise it's a false economy, you are paying with your time learning about concepts that might save a few $ here and there.
+
+Start with a cloud VM, colab or Kaggle kernels.
+
+Once you know you are serious, a home rig is the most cost effective option. Get a GPU with the most RAM you can afford.
+This first rig should just get you to a stage where you know what you like to work on and what the bottlenecks worth improving are: more RAM, better CPU, more storage (and how fast does the storage need to be).
+
+
+Debugging and profiling your code (use `%%timeit` in Jupyter) is essential.
+
+
+## 11. On Finding a Job
+
+A resume is of limited use nowadays. Meet people who influence hiring decisions where they hang out: conferences, social media, meetups, blogs etc.
+
+Credibility is key. Helping others and showing your work builds credibility.
+
+If you are looking for work, say so! On Twitter, Linkedin etc, and reach out to people you know.
+
+The deep learning community is active on Twitter. But keep your time on Twitter limited and focused. Your goal isn't to become a content creator.
+
+Share your work. This builds a [personal brand](https://www.fast.ai/posts/2017-12-18-personal-brand.html). It also gives you a milestone to work towards and defines when it is "done". The sooner you start sharing your work, the better. There are fewer, if any, of the negative consequences you might anticipate when sharing work online. Failure is just "cheap feedback"; embrace it!
+
+Most people's biggest regret when learning ML is not enough time spent doing and too much time spent learning theory.
+
+There's one guaranteed way to fail: stop trying.
+Learning compounds; you need to give it time before you see exponential results.
+
+A general technique that works for all aspects of life: oberseve whether you are getting the desired results. If not, change your approach.
+
+Find a mentor. This might not necessarily be someone you know or interact with directly, or even someone who's alive. If you follow them (on Twitter) and learn from what they have to say, they are a mentor.
+
+The "permissionless apprenticeship" approach to finding a mentor means to give value first before you receive value.
 
 
 ## References
