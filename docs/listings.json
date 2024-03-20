@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/ml/meta_learning/meta_learning.html",
       "/posts/ml/generative_deep_learning/lesson3/chapter3.html",
       "/posts/ml/fastai/lesson8/lesson.html",
       "/posts/ml/fastai/lesson7/lesson.html",

@@ -1,13 +1,190 @@
 ---
 title: "Meta Learning"
-description: "Meta Meta Learning: My Notes on Meta Learning by Radek Osmulski"
-date: "2024-03-04"
-image: "react.png"
+description: "Meta Meta Learning: What I Learned From Meta Learning by Radek Osmulski"
+date: "2024-03-10"
+image: "meta_learning_cover.jpeg"
 categories: [Learning, AI]
-draft: true
 ---
 
+<!-- 
 See here: 
 https://www.scribd.com/document/661873147/Radek-Osmulski-Meta-Learning-How-to-Learn-Deep-Learning-and-Thrive-in-the-Digital-World-Radek-Osmulski-2021
 
-And condense notes here: https://docs.google.com/document/d/1-zHZwWqZtqh9_ESzoowWzjG0T0Dz54JlpcY2fV5lAPE/edit#heading=h.8r0bt3wfitk0
+And condensed notes here: https://docs.google.com/document/d/1-zHZwWqZtqh9_ESzoowWzjG0T0Dz54JlpcY2fV5lAPE/edit#heading=h.8r0bt3wfitk0 -->
+
+These are notes on the book [Meta Learning by Radek Osmulski](https://rosmulski.gumroad.com/l/learn_machine_learning/blog).
+
+
+## 1. Learning to Program
+You must become a developer before you can be a deep learning expert. Start by tinkering with things you enjoy. Don't exert yourself too much so that you can stay consistent above all else.
+
+### 1.1. CS Foundations
+Start with a programming MOOC like Harvard CS50 if coming into this fresh. Don't get bogged down in tutorial hell, just get familiar enough with high-level concepts to be able to google the rest. 
+
+"It doesn't make sense to invest all your time into learnng calligraphy if you have nothing to write about".
+
+### 1.2. IDE
+Learn to use an IDE effectively. If stuck, just start with VSCode.
+
+### 1.3. Version control
+Learn to use git and GitHub.
+
+### 1.4. DevOps
+Learn how to use your computer in the context of writing code: spin up a cloud VM, ssh into it, move data around, etc. A good resource is [The Missing Semester](https://missing.csail.mit.edu/).
+
+### 1.5. Start Learning Deep Learning the Right Way
+The above 4 steps are to get to a stage where you can take the [Practical Deep Learning for Coders](https://course.fast.ai/) which is the best starting foundation to get a high-level grounding in ML.
+
+Use the top-down approach to learning championed by fastai:
+
+1. Watch a lecture.
+2. Look through the associated notebook - run the code and understand the inputs and outputs of each cell.
+3. Start with a new notebook and try to work through the same steps from scratch as an open-book exercise. Also read the documentation as you go along to fill any gaps.
+4. Find a similar dataset (or make one) and try the same techniques you've just learned. Creating a dataset is a great way to think about feature engineering and choices of labels.
+
+Learn the whole game then play out of town.
+
+
+## 2. Theory vs Practice
+Starting from an "elements-first" approach can feel like a never ending struggle. You want to learn ML, but then need to study calculus, but then you need to study real analysis before that, but then you need to study set theory before that...
+
+The problem with theory: **theory follows practice!**
+
+Become a great practitioner first and the theory will make more sense afterwards, once you have some intuition.
+Practical problems give you an incredibly useful feedback loop for your learning that you don't get from following a linear theoretical curriculum.
+
+For best results, combine practice and theory, in that order.
+
+
+## 3. Programming is About What You Have to Say
+
+Your ability as a developer is measured by the utility of things you can do in your language of choice. What you have to say is the most important thing!
+
+The key to getting started is to read and write a lot of code. Start with 100-200 line projects, anything under 1000 lines should be possible to follow. Then graduate to larger problems.
+
+Domain knowledge comes first. Once you know what you are trying to achieve and broadly how you can achieve it, you can worry about best practices to write clean, maintainable code later.
+
+The fastest way to learn to program is to learn to say something useful.
+
+
+## 4. The Secret of Good Developers
+
+Becoming familiar with a codebase or problem requires holding multiple things in your head: the layout of the code, how it is tested, how you intend to change it, other places that might be affected by your change, etc. This requires uninterrupted focus. When you are interrupted, you drop those things you were holding in your head, and you might not always pick them up again when you switch back.
+
+**The price of context switching is extremely high!**
+
+Long, uninterrupted sessions - "deep work" - are the key to progress.
+
+
+## 5. The Best Way to Improve as a Developer
+
+You sharpen your skills with **practice**. To get better at a thing, do the thing!
+
+The key is to read and write code. Everything else, like MOOCs, books, articles etc are nice as a side dish but they are not the main course.
+
+
+## 6. Achieving Flow
+
+Flow is difficult to achieve, but we can help ourselves by removing any obvious obstacles.
+
+Learn your IDE inside out, and know all of the keyboard shortcuts so that you don't interrupt your flow by switching to your mouse or searching through settings.
+
+Likewise, address easy things like making sure you've charged your laptop, keyboard, mouse etc and you don't spend time battling connectivity issues or just plugging things in.
+
+Flow is a spectrum. Don't think of it as "in flow" or "not in flow". Rather, "how much are you flowing?".
+Take small actions to increase it.
+
+Just work on what you want to work on. Don't overthink it and talk yourself out of doing something because you're not a "real" developer/author/startup founder etc.
+
+
+## 7. Genuine Work Compounds
+> "Reading a book without taking notes is like discovering a new territory without making a map."
+
+Doing > thinking
+
+Thinking about something without writing notes or doing more work on it is like running on a treadmill when your goal is to get from A to B. Just do a little bit: write some notes one day, then outline the project then next, then start the first component, etc. Before long, you will have made more progress than you expected.
+
+The more "atoms you move" the more feeback you can get, so the more you can reflect and learn.
+
+
+## 8. How to Structure an ML Project
+
+> "The only way to maintain your sanity in the long run is to be paranoid in the short run."
+
+The key is a good [train-validation-test set split](https://rachel.fast.ai/posts/2017-11-13-validation-sets/).
+
+Then construct a baseline. The smaller and simpler, the better. 
+
+This helps us know we are moving in the right direction when we iterate. It also gives an idea of what shape our reeal results should be.
+
+Start broad. Explore different models and architectures first, rather than diving straight in to tuning hyperparameters.
+
+Make changes incrementally, then run the model and check that your output is the correct shape and not all zeros. You can't write a complex model all in one sweep!
+This requires running the entire pipelines regularly. This could be a big time sink to run on the whole dataset, so just train on 5% or less to keep iterations fast.
+
+Time is a key component of success. You might get a decent solution quite quickly. But going from good to great is a creative endeavour, which requires time to think and mull over in your subconscious.
+
+
+## 9. How to Win at Kaggle
+
+- Join a competition early
+    - Download the dataset, understand the schema of inputs and outputs
+    - Start writing code immediately. A good starting point is to just download the data and make a submission (of random numbers or all zeros) to make sure you have all of the mechanics in place before working on your model.
+    - More time for more iteration loops
+    - More time to mull the problem and think creatively
+- Read Kaggle forums (daily)
+- Make small improvements (daily)
+    - Small tweaks compound into big results
+    - Initial exploration should cover as much ground as possible, so try multiple architectures rather than focusing on tuning one specific model in the early stages.
+- Find an appropriate validation split that mirrors the leaderboard
+    - Is random sampling appropriate or does the split require more thought?
+    - Train two models and submit them. The leaderboard results should reflect what you saw locally (i.e. which was the better model). If not, you might have problems with your validation split.
+- Posts by top Kagglers will take you 80% of the way
+- Papers, blogs and creativity will take you the remaining 20%
+    - When reading papers, you don't need to understand every paragraph, and trying to do so would be overly time-consuming and counter-productive. Scan the paper to understand the general idea and whether it is relevant to your problem.
+    - Blog posts are often more accessible and quicker to implement.
+- Ensemble your results
+    - Cross-validation is a related concept and also essential.
+
+
+## 10. Hardware for Deep Learning
+
+Explore hardware only to the extent that you find it interesting. Otherwise it's a false economy: you are paying with your time learning about concepts that might save a few $ here and there.
+
+Start with a cloud VM, colab or Kaggle kernels.
+
+Once you know you are serious, a home rig is the most cost effective option. Get a GPU with the most RAM you can afford.
+This first rig should just get you to a stage where you know what you like to work on and what the bottlenecks worth improving are: more RAM, better CPU, more storage (and how fast does the storage need to be).
+
+Debugging and profiling your code (use `%%timeit` in Jupyter) is essential.
+
+
+## 11. Sharing Your Work
+
+A resume is of limited use nowadays. Meet people who influence hiring decisions where they hang out: conferences, social media, meetups, blogs etc.
+
+Credibility is key. Helping others and showing your work builds credibility.
+
+If you are looking for work, say so! On Twitter, Linkedin etc, and reach out to people you know.
+
+The deep learning community is active on Twitter. But keep your time on Twitter limited and focused. Your goal isn't to become a content creator.
+
+Share your work. This builds a [personal brand](https://www.fast.ai/posts/2017-12-18-personal-brand.html). It also gives you a milestone to work towards and defines when it is "done". The sooner you start sharing your work, the better. There are fewer, if any, of the negative consequences you might anticipate when sharing work online. Failure is just "cheap feedback"; embrace it!
+
+Most people's biggest regret when learning ML is not enough time spent doing and too much time spent learning theory.
+
+There's one guaranteed way to fail: stop trying.
+Learning compounds; you need to give it time before you see exponential results.
+
+A general technique that works for all aspects of life: oberseve whether you are getting the desired results. If not, change your approach.
+
+Find a mentor. This might not necessarily be someone you know or interact with directly, or even someone who's alive. If you follow them (on Twitter) and learn from what they have to say, they are a mentor.
+
+The "permissionless apprenticeship" approach to finding a mentor means to give value first before you receive value.
+
+
+## References
+
+- [The Missing Semester](https://missing.csail.mit.edu/)
+- [Validation sets](https://rachel.fast.ai/posts/2017-11-13-validation-sets/)
+- [Personal brand](https://www.fast.ai/posts/2017-12-18-personal-brand.html)

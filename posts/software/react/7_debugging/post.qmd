@@ -1,0 +1,25 @@
+---
+title: "React: Debugging"
+description: "React Complete Guide: Section 7"
+date: "2024-03-10"
+image: "../react.png"
+categories: [Engineering, Software, React, WebDev]
+draft: true
+---
+
+# Debugging
+
+Debug react apps using the browser console. 
+This gives the stack trace that raised the error, and the file and line number on which it was raised. 
+
+Use the Sources tab (in chrome) to use the debugger. You’ll see the directory structure of your project. You can click a line number to set a breakpoint and pause execution there, then observe variable values or step through execution. 
+
+Can also achieve the same by placing a debugger() line in the code. I think??
+
+Strict mode. 
+StrictMode is a react component (imported from react) which you can wrap any other component in, including the root App component. It causes React to render every component twice in development mode. This can help surface errors that may not be obvious in normal execution. 
+
+React Developer Tools. 
+This is a browser extension. It adds 2 new tabs to the console view in the browser window: profiler and components. 
+
+Components shows your component tree and highlights these in the browser. It also gives information about that component such as props. You can edit those props values in the browser. You can also see hooks and their state values. 
