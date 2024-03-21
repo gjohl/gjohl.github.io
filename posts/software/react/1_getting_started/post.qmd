@@ -1,6 +1,6 @@
 ---
 title: "React: A Gentle Introduction"
-description: "Getting Started with React"
+description: "Part 1: Getting Started with React"
 date: "2024-03-12"
 image: "../react.png"
 categories: [Engineering, Software, React, WebDev]
@@ -273,6 +273,7 @@ To work around this, take a deep copy using the spread operator. If it is a nest
 ### 5.7. When NOT to Lift State Up 
 
 If lifting up the state breaks the modularity of the nested components or would trigger the parent function to rerender unnecessarily, avoid lifting.
+
 
 ## References
 
