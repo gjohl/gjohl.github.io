@@ -1,6 +1,6 @@
 ---
 title: "React: Styling"
-description: "Part 3: Styling it out"
+description: "Part 3: Styling it Out"
 date: "2024-03-16"
 image: "../react.png"
 categories: [Engineering, Software, React, WebDev]
