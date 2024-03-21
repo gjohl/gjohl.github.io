@@ -1,110 +1,146 @@
 ---
-title: "React: JavaScript Essentials"
-description: "React Complete Guide: Section 2"
+title: "React: Styling"
+description: "Part 3: Styling it out"
 date: "2024-03-16"
 image: "../react.png"
 categories: [Engineering, Software, React, WebDev]
-draft: true
 ---
 
-# Styling and Profiling
+# Styling
+First stylin', then profilin'. [Woo!](https://www.youtube.com/watch?v=guEU5GSxvl0)
 
-Styling options in react:
-1. Vanilla CSS - inline or separate modules 
-2. Scoped CSS with modules
-3. CSS-in-React with styled components 
-4. Tailwind CSS
+
+## 0. Styling Options in React
+
+There are several options of styling in React:
+
+1. Vanilla CSS with separate modules 
+2. In-line CSS styles
+3. Scoped CSS with modules
+4. CSS-in-React with styled components 
+5. Tailwind CSS
+
+We will look at each in turn, along with their relative merits.
 
 In all cases, styling can be static or dynamic. 
 
-Vanilla CSS. 
-Element selectors - header h1
-ID selectors - #auth-inputs
-Class selectors - .controls
+
+## 1. Vanilla CSS
+
+In plain CSS we can use:
+
+- Element selectors - `header h1`
+- ID selectors - `#auth-inputs`
+- Class selectors - `.controls`
 
 Import the .css file into the JSX file you want to style. You can have multiple css files, placing each next to the component JSX file it relates to. 
 
 Advantages:
-- Decouples styling from JSX
-- CSS can be modified independently of the code logic, when working with multiple developers 
-- More developers will be familiar with plain CSS
+
+- Decouples styling from JSX.
+- CSS can be modified independently of the code logic, when working with multiple developers .
+- More developers will be familiar with plain CSS.
 
 Disadvantages:
-- Styles are not scoped to components, which can lead to clashes and unexpected behaviour. The css just gets injected into the styles part of the page by the build process, so they apply globally. 
+
+- Styles are not scoped to components, which can lead to clashes and unexpected behaviour. The CSS just gets injected into the styles part of the page by the build process, so they apply globally. 
 
 Dynamic styling can be achieved by having two different class names and conditionally switching between them with a ternary expression. 
 
-Inline styles. 
-You can set the style prop of each component. 
+## 2. Inline Styles
+You can set the style prop of each component directly.
 
 Advantages:
+
 - Quick to add
 - Styles are scoped to the component 
 - Dynamic styling is easy
 
 Disadvantages:
+
 - You have to style each component individually 
 - No separation between CSS and JSX code
 
 
-CSS modules. 
+## 3. CSS Modules
 File-specific scoping for CSS classes. 
 
-Using .module in the css file name e.g. Header.module.css will scope the styles to the file that it’s imported into. 
+Using `.module` in the css file name, e.g. `Header.module.css` will scope the styles to the file that it’s imported into. 
 
-You import slightly differently as it now returns a JavaScript object. 
+The import is done slightly differently as it now returns a JavaScript object. 
 
+```javascript
 import { styles } from ‘Header.module.css’
+```
 
 This module approach is not supported natively by browsers. Instead, the build tool takes each of your classes and renames it to ensure it is unique per file. These transformed styles are what you see in the rendered DOM. 
 
 Conditional switching for dynamic styles works the same as vanilla CSS. 
 
 Advantages:
+
 - Decouple CSS from JS
 - CSS classes are scoped to file
 
 Disadvantages:
+
 - Bigger projects end up with many small CSS module files 
 
 
-Styled components 3rd party library. 
+## 4. Styled Components Third Party Library
+Install this with
+```javascript
 npm install styled-components
+```
 
 This keeps components and styles linked as a combined object that can be reused in multiple places. 
 
-Use backticks to define a style template 
+Use backticks to define a style template :
 
+```javascript
 const Container = styled.div`
-Styling goes here
+    Styling goes here
 `
+```
 
 This creates a regular div under the hood. Any props passed to it will get forwarded to the underlying component so we can use it like normal. 
 
 We can pass functions in between the backticks for dynamic styling. Any props passed to the component are forwarded, so we can use these in functions to set styles. 
-(See image for example)
+
+```javascript
+const Label = styled.label`
+    display: block;
+    margin-bottom: 0.5rem;
+    color: ${({invalid}) => invalid ? 'red' : 'green'}
+`
+```
+A common convention is to name any props used only for styling with a `$` at the start to ensure they don’t clash with any other built-in props of the component. 
 
 
-A common convention is to name any props used only for styling with a $ at the start to ensure they don’t clash with any other built in props of the component. 
+## 5. Tailwind CSS
+This is another 3rd-party framework. The idea is you don’t need to know CSS. Instead you apply small, pre-defined utility classes to each component to achieve a style, and these abstract away a lot of the CSS styles. 
 
-
-Tailwind CSS. 
-This is another 3rd party framework. The idea is you don’t need to know CSS. Instead you apply small predefined utility classes to each component to achieve a style, and these abstract away a lot of the CSS styles. 
-
-Use a VSCode tailwind plugin to get autocomplete suggestions. 
+Use a VSCode tailwind plugin to get autocomplete suggestions.
 
 Media queries can be used to apply different styles depending on the screen size. 
-E.g. md: hover: 
+E.g. `md:`, `hover:`, etc
 
 
 Advantages:
-- don’t need to know CSS
-- Styles are scoped to the component
-- Configurable and extensible 
-- Rapid development (once you know the built in class names)
+
+- Don’t need to know CSS.
+- Styles are scoped to the component.
+- Configurable and extensible.
+- Rapid development (once you know the built-in class names).
 
 Disadvantages:
-- long class names
-- Changing styling requires modifying JSX
-- You end up with lots of small wrapper components or lots of copy paste
 
+- Long class names.
+- Changing styling requires modifying JSX.
+- You end up with lots of small wrapper components or lots of copy paste.
+- You need to learn the built-in class names.
+
+
+## References
+
+- Section 6 of  ["React: The Complete Guide" Udemy course](https://www.udemy.com/share/101Wby3@bwKzzF5Lsdyap2056rQpfSQPMwoPeWakiLbWURQe1VXLfFumI76lGqitdKHEWO3C/)

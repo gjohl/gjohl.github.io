@@ -8,9 +8,9 @@
 
 <meta name="author" content="Gurpreet Johl">
 <meta name="dcterms.date" content="2024-03-16">
-<meta name="description" content="React Complete Guide: Section 2">
+<meta name="description" content="Part 3: Styling it out">
 
-<title>Gurpreet Johl - React: JavaScript Essentials</title>
+<title>Gurpreet Johl - React: Styling</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -127,10 +161,10 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">React: JavaScript Essentials</h1>
+      <h1 class="title">React: Styling</h1>
                   <div>
         <div class="description">
-          React Complete Guide: Section 2
+          Part 3: Styling it out
         </div>
       </div>
                           <div class="quarto-categories">
@@ -171,7 +205,16 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#styling-and-profiling" id="toc-styling-and-profiling" class="nav-link active" data-scroll-target="#styling-and-profiling">Styling and Profiling</a></li>
+  <li><a href="#styling" id="toc-styling" class="nav-link active" data-scroll-target="#styling">Styling</a>
+  <ul class="collapse">
+  <li><a href="#styling-options-in-react" id="toc-styling-options-in-react" class="nav-link" data-scroll-target="#styling-options-in-react">0. Styling Options in React</a></li>
+  <li><a href="#vanilla-css" id="toc-vanilla-css" class="nav-link" data-scroll-target="#vanilla-css">1. Vanilla CSS</a></li>
+  <li><a href="#inline-styles" id="toc-inline-styles" class="nav-link" data-scroll-target="#inline-styles">2. Inline Styles</a></li>
+  <li><a href="#css-modules" id="toc-css-modules" class="nav-link" data-scroll-target="#css-modules">3. CSS Modules</a></li>
+  <li><a href="#styled-components-third-party-library" id="toc-styled-components-third-party-library" class="nav-link" data-scroll-target="#styled-components-third-party-library">4. Styled Components Third Party Library</a></li>
+  <li><a href="#tailwind-css" id="toc-tailwind-css" class="nav-link" data-scroll-target="#tailwind-css">5. Tailwind CSS</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -182,40 +225,122 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="styling-and-profiling" class="level1">
-<h1>Styling and Profiling</h1>
-<p>Styling options in react: 1. Vanilla CSS - inline or separate modules 2. Scoped CSS with modules 3. CSS-in-React with styled components 4. Tailwind CSS</p>
+<section id="styling" class="level1">
+<h1>Styling</h1>
+<p>First stylin’, then profilin’. <a href="https://www.youtube.com/watch?v=guEU5GSxvl0">Woo!</a></p>
+<section id="styling-options-in-react" class="level2">
+<h2 class="anchored" data-anchor-id="styling-options-in-react">0. Styling Options in React</h2>
+<p>There are several options of styling in React:</p>
+<ol type="1">
+<li>Vanilla CSS with separate modules</li>
+<li>In-line CSS styles</li>
+<li>Scoped CSS with modules</li>
+<li>CSS-in-React with styled components</li>
+<li>Tailwind CSS</li>
+</ol>
+<p>We will look at each in turn, along with their relative merits.</p>
 <p>In all cases, styling can be static or dynamic.</p>
-<p>Vanilla CSS. Element selectors - header h1 ID selectors - #auth-inputs Class selectors - .controls</p>
+</section>
+<section id="vanilla-css" class="level2">
+<h2 class="anchored" data-anchor-id="vanilla-css">1. Vanilla CSS</h2>
+<p>In plain CSS we can use:</p>
+<ul>
+<li>Element selectors - <code>header h1</code></li>
+<li>ID selectors - <code>#auth-inputs</code></li>
+<li>Class selectors - <code>.controls</code></li>
+</ul>
 <p>Import the .css file into the JSX file you want to style. You can have multiple css files, placing each next to the component JSX file it relates to.</p>
-<p>Advantages: - Decouples styling from JSX - CSS can be modified independently of the code logic, when working with multiple developers - More developers will be familiar with plain CSS</p>
-<p>Disadvantages: - Styles are not scoped to components, which can lead to clashes and unexpected behaviour. The css just gets injected into the styles part of the page by the build process, so they apply globally.</p>
+<p>Advantages:</p>
+<ul>
+<li>Decouples styling from JSX.</li>
+<li>CSS can be modified independently of the code logic, when working with multiple developers .</li>
+<li>More developers will be familiar with plain CSS.</li>
+</ul>
+<p>Disadvantages:</p>
+<ul>
+<li>Styles are not scoped to components, which can lead to clashes and unexpected behaviour. The CSS just gets injected into the styles part of the page by the build process, so they apply globally.</li>
+</ul>
 <p>Dynamic styling can be achieved by having two different class names and conditionally switching between them with a ternary expression.</p>
-<p>Inline styles. You can set the style prop of each component.</p>
-<p>Advantages: - Quick to add - Styles are scoped to the component - Dynamic styling is easy</p>
-<p>Disadvantages: - You have to style each component individually - No separation between CSS and JSX code</p>
-<p>CSS modules. File-specific scoping for CSS classes.</p>
-<p>Using .module in the css file name e.g.&nbsp;Header.module.css will scope the styles to the file that it’s imported into.</p>
-<p>You import slightly differently as it now returns a JavaScript object.</p>
-<p>import { styles } from ‘Header.module.css’</p>
+</section>
+<section id="inline-styles" class="level2">
+<h2 class="anchored" data-anchor-id="inline-styles">2. Inline Styles</h2>
+<p>You can set the style prop of each component directly.</p>
+<p>Advantages:</p>
+<ul>
+<li>Quick to add</li>
+<li>Styles are scoped to the component</li>
+<li>Dynamic styling is easy</li>
+</ul>
+<p>Disadvantages:</p>
+<ul>
+<li>You have to style each component individually</li>
+<li>No separation between CSS and JSX code</li>
+</ul>
+</section>
+<section id="css-modules" class="level2">
+<h2 class="anchored" data-anchor-id="css-modules">3. CSS Modules</h2>
+<p>File-specific scoping for CSS classes.</p>
+<p>Using <code>.module</code> in the css file name, e.g.&nbsp;<code>Header.module.css</code> will scope the styles to the file that it’s imported into.</p>
+<p>The import is done slightly differently as it now returns a JavaScript object.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { styles } <span class="im">from</span> ‘Header<span class="op">.</span><span class="at">module</span><span class="op">.</span><span class="at">css’</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This module approach is not supported natively by browsers. Instead, the build tool takes each of your classes and renames it to ensure it is unique per file. These transformed styles are what you see in the rendered DOM.</p>
 <p>Conditional switching for dynamic styles works the same as vanilla CSS.</p>
-<p>Advantages: - Decouple CSS from JS - CSS classes are scoped to file</p>
-<p>Disadvantages: - Bigger projects end up with many small CSS module files</p>
-<p>Styled components 3rd party library. npm install styled-components</p>
+<p>Advantages:</p>
+<ul>
+<li>Decouple CSS from JS</li>
+<li>CSS classes are scoped to file</li>
+</ul>
+<p>Disadvantages:</p>
+<ul>
+<li>Bigger projects end up with many small CSS module files</li>
+</ul>
+</section>
+<section id="styled-components-third-party-library" class="level2">
+<h2 class="anchored" data-anchor-id="styled-components-third-party-library">4. Styled Components Third Party Library</h2>
+<p>Install this with</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>npm install styled<span class="op">-</span>components</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This keeps components and styles linked as a combined object that can be reused in multiple places.</p>
-<p>Use backticks to define a style template</p>
-<p>const Container = styled.div<code>Styling goes here</code></p>
+<p>Use backticks to define a style template :</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> Container <span class="op">=</span> styled<span class="op">.</span><span class="fu">div</span><span class="vs">`</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="vs">    Styling goes here</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This creates a regular div under the hood. Any props passed to it will get forwarded to the underlying component so we can use it like normal.</p>
-<p>We can pass functions in between the backticks for dynamic styling. Any props passed to the component are forwarded, so we can use these in functions to set styles. (See image for example)</p>
-<p>A common convention is to name any props used only for styling with a $ at the start to ensure they don’t clash with any other built in props of the component.</p>
-<p>Tailwind CSS. This is another 3rd party framework. The idea is you don’t need to know CSS. Instead you apply small predefined utility classes to each component to achieve a style, and these abstract away a lot of the CSS styles.</p>
+<p>We can pass functions in between the backticks for dynamic styling. Any props passed to the component are forwarded, so we can use these in functions to set styles.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> Label <span class="op">=</span> styled<span class="op">.</span><span class="fu">label</span><span class="vs">`</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="vs">    display: block;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="vs">    margin-bottom: 0.5rem;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="vs">    color: </span><span class="sc">${</span>({invalid}) <span class="kw">=&gt;</span> invalid <span class="op">?</span> <span class="st">'red'</span> <span class="op">:</span> <span class="st">'green'</span><span class="sc">}</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>A common convention is to name any props used only for styling with a <code>$</code> at the start to ensure they don’t clash with any other built-in props of the component.</p>
+</section>
+<section id="tailwind-css" class="level2">
+<h2 class="anchored" data-anchor-id="tailwind-css">5. Tailwind CSS</h2>
+<p>This is another 3rd-party framework. The idea is you don’t need to know CSS. Instead you apply small, pre-defined utility classes to each component to achieve a style, and these abstract away a lot of the CSS styles.</p>
 <p>Use a VSCode tailwind plugin to get autocomplete suggestions.</p>
-<p>Media queries can be used to apply different styles depending on the screen size. E.g. md: hover:</p>
-<p>Advantages: - don’t need to know CSS - Styles are scoped to the component - Configurable and extensible - Rapid development (once you know the built in class names)</p>
-<p>Disadvantages: - long class names - Changing styling requires modifying JSX - You end up with lots of small wrapper components or lots of copy paste</p>
+<p>Media queries can be used to apply different styles depending on the screen size. E.g. <code>md:</code>, <code>hover:</code>, etc</p>
+<p>Advantages:</p>
+<ul>
+<li>Don’t need to know CSS.</li>
+<li>Styles are scoped to the component.</li>
+<li>Configurable and extensible.</li>
+<li>Rapid development (once you know the built-in class names).</li>
+</ul>
+<p>Disadvantages:</p>
+<ul>
+<li>Long class names.</li>
+<li>Changing styling requires modifying JSX.</li>
+<li>You end up with lots of small wrapper components or lots of copy paste.</li>
+<li>You need to learn the built-in class names.</li>
+</ul>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li>Section 6 of <a href="https://www.udemy.com/share/101Wby3@bwKzzF5Lsdyap2056rQpfSQPMwoPeWakiLbWURQe1VXLfFumI76lGqitdKHEWO3C/">“React: The Complete Guide” Udemy course</a></li>
+</ul>
 
 
+</section>
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
