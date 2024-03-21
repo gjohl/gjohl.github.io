@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Gurpreet Johl">
-<meta name="dcterms.date" content="2024-03-10">
-<meta name="description" content="React Complete Guide: Section 7">
+<meta name="dcterms.date" content="2024-03-17">
+<meta name="description" content="Part 4: A Bug’s Life">
 
 <title>Gurpreet Johl - React: Debugging</title>
 <style>
@@ -22,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -130,7 +164,7 @@ ul.task-list li input[type="checkbox"] {
       <h1 class="title">React: Debugging</h1>
                   <div>
         <div class="description">
-          React Complete Guide: Section 7
+          Part 4: A Bug’s Life
         </div>
       </div>
                           <div class="quarto-categories">
@@ -155,7 +189,7 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">March 10, 2024</p>
+        <p class="date">March 17, 2024</p>
       </div>
     </div>
     
@@ -171,7 +205,14 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#debugging" id="toc-debugging" class="nav-link active" data-scroll-target="#debugging">Debugging</a></li>
+  <li><a href="#debugging" id="toc-debugging" class="nav-link active" data-scroll-target="#debugging">Debugging</a>
+  <ul class="collapse">
+  <li><a href="#browser-console" id="toc-browser-console" class="nav-link" data-scroll-target="#browser-console">1. Browser Console</a></li>
+  <li><a href="#debugger" id="toc-debugger" class="nav-link" data-scroll-target="#debugger">2. Debugger</a></li>
+  <li><a href="#strict-mode" id="toc-strict-mode" class="nav-link" data-scroll-target="#strict-mode">3. Strict Mode</a></li>
+  <li><a href="#react-developer-tools" id="toc-react-developer-tools" class="nav-link" data-scroll-target="#react-developer-tools">4. React Developer Tools</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -184,14 +225,37 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="debugging" class="level1">
 <h1>Debugging</h1>
-<p>Debug react apps using the browser console. This gives the stack trace that raised the error, and the file and line number on which it was raised.</p>
-<p>Use the Sources tab (in chrome) to use the debugger. You’ll see the directory structure of your project. You can click a line number to set a breakpoint and pause execution there, then observe variable values or step through execution.</p>
-<p>Can also achieve the same by placing a debugger() line in the code. I think??</p>
-<p>Strict mode. StrictMode is a react component (imported from react) which you can wrap any other component in, including the root App component. It causes React to render every component twice in development mode. This can help surface errors that may not be obvious in normal execution.</p>
-<p>React Developer Tools. This is a browser extension. It adds 2 new tabs to the console view in the browser window: profiler and components.</p>
+<p>We’ve done stylin’, now time for profilin’. <a href="https://www.youtube.com/watch?v=guEU5GSxvl0">Woo!</a></p>
+<section id="browser-console" class="level2">
+<h2 class="anchored" data-anchor-id="browser-console">1. Browser Console</h2>
+<p>Debug react apps using the browser console.</p>
+<p>This gives the stack trace that raised the error, and the file and line number on which it was raised.</p>
+</section>
+<section id="debugger" class="level2">
+<h2 class="anchored" data-anchor-id="debugger">2. Debugger</h2>
+<p>Use the Sources tab (in chrome) to use the debugger.</p>
+<p>You’ll see the directory structure of your project. You can click a line number to set a breakpoint and pause execution there, then observe variable values or step through execution.</p>
+<p>You can also achieve the same by placing a <code>debugger()</code> line in the code.</p>
+</section>
+<section id="strict-mode" class="level2">
+<h2 class="anchored" data-anchor-id="strict-mode">3. Strict Mode</h2>
+<p><code>StrictMode</code> is a React component which you can wrap any other component in, including the root <code>App</code> component.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { StrictMode } <span class="im">from</span> <span class="st">'react'</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>It causes React to render every component twice in development mode. This can help surface errors that may not be obvious in normal execution.</p>
+</section>
+<section id="react-developer-tools" class="level2">
+<h2 class="anchored" data-anchor-id="react-developer-tools">4. React Developer Tools</h2>
+<p>This is a browser extension. It adds 2 new tabs to the console view in the browser window: <code>profiler</code> and <code>components</code>.</p>
 <p>Components shows your component tree and highlights these in the browser. It also gives information about that component such as props. You can edit those props values in the browser. You can also see hooks and their state values.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li>Section 7 of <a href="https://www.udemy.com/share/101Wby3@bwKzzF5Lsdyap2056rQpfSQPMwoPeWakiLbWURQe1VXLfFumI76lGqitdKHEWO3C/">“React: The Complete Guide” Udemy course</a></li>
+</ul>
 
 
+</section>
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->

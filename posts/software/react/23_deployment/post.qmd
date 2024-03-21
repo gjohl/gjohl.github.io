@@ -1,10 +1,75 @@
 ---
-title: "React: TypeScript Essentials"
-description: "React Complete Guide: Section 2"
-date: "2024-03-20"
+title: "React: Deployment"
+description: "Part 5: Deploying React Apps"
+date: "2024-03-18"
 image: "../react.png"
 categories: [Engineering, Software, React, WebDev]
-draft: true
 ---
 
 # Deploying React Apps
+We should think about the following when we're ready to deploy our app:
+
+1. Test code
+2. Optimise code
+3. Build app
+4. Upload app
+5. Configure server
+
+Testing is handled in a separate post.
+
+This post contains some optimisation, build and configuration considerations.
+
+
+## 1. Lazy Loading
+Load code only when it's needed.
+
+When we import files into other files, they are immediately resolved. This means that we need to load **everything** before any part of the site loads.
+
+With lazy loading, we only load each file as it is needed by the site.
+
+Instead of:
+```javascript
+import BlogPage from './pages/Blog';
+```
+
+We can use:
+```javascript
+import { lazy, Suspense } from 'react';
+
+const BlogPage = lazy(() => import('./pages/Blog'));
+
+// Then wherever the BlogPage component is used, wrap it with a Suspense component
+<Suspense fallback={<p>Loading...</p>}>
+  <BlogPost />
+</Suspense>
+```
+You can verify how lazy loading works by looking at the network tab of the browser while navigating the website. 
+
+It should only load pages as required while you navigate.
+
+
+## 2. Building Code for Production
+Running `npm run build` will create an optimised build which transforms React code to Javascript, CSS and HTML, which are supported natively by browsers.
+
+The contents of this `build` directory should be uploaded to the hosting server.
+
+A React **Single-Page Application (SPA)** is a static website. It does not require code to be executed by the server.
+
+There are many static site hosts, e.g. Github Pages, Firebase.
+
+
+## 3. Server-side Routing
+
+**Client-side routing** is commonly used in smaller apps to keep it as an SPA. 
+
+There are multiple "pages" which are handled by `react-router`. So the server only ever actually returns a single page, `index.html`, regardless of the URL and the page routing is handled in JavaScript on the client side.
+
+This is in contrast to **server-side routing**, where each page is a separate html file, so different URLs return different HTML pages.
+
+If creating the website as an SPA, the deployment job should be configured for this so that the server correctly resolves the different URLs internally rather than trying to serve different HTML files.
+
+
+## References
+
+- Section 23 of  ["React: The Complete Guide" Udemy course](https://www.udemy.com/share/101Wby3@bwKzzF5Lsdyap2056rQpfSQPMwoPeWakiLbWURQe1VXLfFumI76lGqitdKHEWO3C/)
+

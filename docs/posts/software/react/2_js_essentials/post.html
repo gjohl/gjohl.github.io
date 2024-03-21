@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Gurpreet Johl">
-<meta name="dcterms.date" content="2024-03-20">
-<meta name="description" content="React Complete Guide: Section 2">
+<meta name="dcterms.date" content="2024-03-14">
+<meta name="description" content="Part 2: WTF is JS">
 
 <title>Gurpreet Johl - React: JavaScript Essentials</title>
 <style>
@@ -22,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -130,7 +164,7 @@ ul.task-list li input[type="checkbox"] {
       <h1 class="title">React: JavaScript Essentials</h1>
                   <div>
         <div class="description">
-          React Complete Guide: Section 2
+          Part 2: WTF is JS
         </div>
       </div>
                           <div class="quarto-categories">
@@ -155,7 +189,7 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">March 20, 2024</p>
+        <p class="date">March 14, 2024</p>
       </div>
     </div>
     
@@ -171,7 +205,22 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#javascript-refresher" id="toc-javascript-refresher" class="nav-link active" data-scroll-target="#javascript-refresher">Javascript Refresher</a></li>
+  <li><a href="#javascript-refresher" id="toc-javascript-refresher" class="nav-link active" data-scroll-target="#javascript-refresher">Javascript Refresher</a>
+  <ul class="collapse">
+  <li><a href="#javascript-in-web-pages" id="toc-javascript-in-web-pages" class="nav-link" data-scroll-target="#javascript-in-web-pages">1. JavaScript in Web Pages</a></li>
+  <li><a href="#adding-javascript-to-a-page" id="toc-adding-javascript-to-a-page" class="nav-link" data-scroll-target="#adding-javascript-to-a-page">1.1. Adding JavaScript to a Page</a></li>
+  <li><a href="#react-projects-use-a-build-process." id="toc-react-projects-use-a-build-process." class="nav-link" data-scroll-target="#react-projects-use-a-build-process.">1.2. React Projects Use a Build Process.</a></li>
+  <li><a href="#imports-and-exports" id="toc-imports-and-exports" class="nav-link" data-scroll-target="#imports-and-exports">2. Imports and Exports</a></li>
+  <li><a href="#variables" id="toc-variables" class="nav-link" data-scroll-target="#variables">3. Variables</a></li>
+  <li><a href="#operators" id="toc-operators" class="nav-link" data-scroll-target="#operators">4. Operators</a></li>
+  <li><a href="#functions" id="toc-functions" class="nav-link" data-scroll-target="#functions">5. Functions</a></li>
+  <li><a href="#objects" id="toc-objects" class="nav-link" data-scroll-target="#objects">6. Objects</a></li>
+  <li><a href="#arrays" id="toc-arrays" class="nav-link" data-scroll-target="#arrays">7. Arrays</a></li>
+  <li><a href="#destructuring" id="toc-destructuring" class="nav-link" data-scroll-target="#destructuring">8. Destructuring</a></li>
+  <li><a href="#spread-operator" id="toc-spread-operator" class="nav-link" data-scroll-target="#spread-operator">9. Spread Operator</a></li>
+  <li><a href="#control-structures" id="toc-control-structures" class="nav-link" data-scroll-target="#control-structures">10. Control Structures</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -184,9 +233,196 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="javascript-refresher" class="level1">
 <h1>Javascript Refresher</h1>
-<p>Adding JS to a page in script tags. Either in the body of the script tag, or preferably as a separate js file that’s then called as the src parameter of the script tag. The defer parameter means the script won’t be called until the rest of the body is loaded. The type=module parameter means the JavaScript file will be treated as a module.</p>
+<p>These notes serve as a JavaScript refresher, and for me a gentle introduction to JavaScript coming from Python.</p>
+<section id="javascript-in-web-pages" class="level2">
+<h2 class="anchored" data-anchor-id="javascript-in-web-pages">1. JavaScript in Web Pages</h2>
+</section>
+<section id="adding-javascript-to-a-page" class="level2">
+<h2 class="anchored" data-anchor-id="adding-javascript-to-a-page">1.1. Adding JavaScript to a Page</h2>
+<p>Javascript is supported natively by the browser, so we can add it directly to the html of a webpage.</p>
+<p>We can add it either in the body of the <code>&lt;script&gt;</code> tag, or preferably as a separate <code>.js</code> file that’s then called as the <code>src</code> parameter of the script tag.</p>
+<p>The <code>defer</code> parameter means the script won’t be called until the rest of the body is loaded.</p>
+<p>The <code>type=module</code> parameter means the JavaScript file will be treated as a module rather than executed as a script.</p>
+</section>
+<section id="react-projects-use-a-build-process." class="level2">
+<h2 class="anchored" data-anchor-id="react-projects-use-a-build-process.">1.2. React Projects Use a Build Process.</h2>
+<p>JSX is <strong>not</strong> natively supported by the browser, so a build tool transforms it to regular JavaScript.</p>
+<p>It also minifies the project to optimise the size and loading times.</p>
+</section>
+<section id="imports-and-exports" class="level2">
+<h2 class="anchored" data-anchor-id="imports-and-exports">2. Imports and Exports</h2>
+<p>We need to use the <code>export</code> keyword to make a function or variable available outside of that file. Each file can have at most one <code>default</code> export.</p>
+<p>The <code>import</code> keyword then lets us use this.</p>
+<p>Use curly braces for the import unless it is a default export. If it is a default export, you assign your own name to the imported variable. The path to import from is in single or double quotes, with the file extension in plain JS. In React, some build tools automatically populate the file extension so you don’t need it.</p>
+<p>We can group the imports if there are many by using starred imports.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="op">*</span> <span class="im">as</span> utils <span class="im">from</span> “<span class="op">./</span>utils<span class="op">.</span><span class="at">js”</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then use <code>utils.blah</code> to use those imported values.</p>
+<p>We can also alias individual imported variables with the <code>as</code> keyword.</p>
+</section>
+<section id="variables" class="level2">
+<h2 class="anchored" data-anchor-id="variables">3. Variables</h2>
+<p>The primitives in JavaScript are: string, number, boolean, null, undefined.</p>
+<p>The are also complex types built in: object, array.</p>
+<p>Variables are defined with the <code>let</code> keyword. Camel case is most common in JS.</p>
+<p>Constants are defined with the <code>const</code> keyword. They cannot be reassigned. Prefer const where it is appropriate, to be clear about your intentions that this should not be reassigned.</p>
+<p>Older versions of JavaScript did not make this distinction and used <code>var</code> in all cases. This is discouraged now.</p>
+</section>
+<section id="operators" class="level2">
+<h2 class="anchored" data-anchor-id="operators">4. Operators</h2>
+<p>These include add, subtract, divide, multiply.</p>
+<p>These can be defined on any types, not just numbers.</p>
+<p>Triple equals <code>===</code> is used to compare values.</p>
+</section>
+<section id="functions" class="level2">
+<h2 class="anchored" data-anchor-id="functions">5. Functions</h2>
+<p>Functions can be defined using “regular” syntax or “arrow” syntax.</p>
+<p>Regular syntax:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">sum</span>(a<span class="op">,</span> b) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a <span class="op">+</span> b<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Arrow function syntax:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> sum <span class="op">=</span> (a<span class="op">,</span> b) <span class="kw">=&gt;</span> {a <span class="op">+</span> b}<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The function can then be invoked as</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="dv">1</span><span class="op">,</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can set default values of variables as</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> sum <span class="op">=</span> (a<span class="op">,</span> b <span class="op">=</span> <span class="dv">1</span>) <span class="kw">=&gt;</span> {a <span class="op">+</span> b}<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Functions can be passed as props to other functions. This is helpful when defining components which we want to pass state setters or other handler functions to (functional components are ultimately just functions themselves).</p>
+<p>We can also <em>define</em> functions inside of other functions. This is helpful when we want the function to be scoped only to the outer function, not defined globally. This is again used a lot in React since we may want to define functions with our (functional) components.</p>
+</section>
+<section id="objects" class="level2">
+<h2 class="anchored" data-anchor-id="objects">6. Objects</h2>
+<p>Objects are key-value pairs. The value for a given key can be accessed with <code>.</code>, for example:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>obj<span class="op">.</span><span class="at">key1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Objects can also have methods. These are functions defined inside the object.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> obj <span class="op">=</span> {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">name</span><span class="op">:</span> “Gurp”<span class="op">,</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">method1</span><span class="op">:</span> <span class="fu">greet</span>() {<span class="cf">return</span> “Hello “ <span class="op">+</span> <span class="kw">this</span><span class="op">.</span><span class="at">name</span>}</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>obj<span class="op">.</span><span class="fu">greet</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Class instances are essentially objects like above. If we want to create a reusable class, we can formally define a class.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="fu">User</span> (</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">constructor</span>(name<span class="op">,</span> age) {</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">=</span> name<span class="op">;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">age</span> <span class="op">=</span> age<span class="op">;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">greet</span>() {</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> “Hello “ <span class="op">+</span> <span class="kw">this</span><span class="op">.</span><span class="at">name</span><span class="op">;</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> user1 <span class="op">=</span> <span class="kw">new</span> <span class="fu">User</span>(<span class="st">"Gurp"</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Objects (and, by extension, arrays) are <strong>passed by reference</strong>. So when we modify the object, it does not create a new object, it mutates the original. The <em>memory address</em> is stored as a constant, not the <em>value</em>. So if we create an object as a <code>const</code>, we <em>can</em> modify it without reassigning it.</p>
+</section>
+<section id="arrays" class="level2">
+<h2 class="anchored" data-anchor-id="arrays">7. Arrays</h2>
+<p>Arrays are technically a special case of object.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> array1 <span class="op">=</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>There are some built-in utility methods of arrays that are particularly helpful/common:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Example</th>
+<th>Docs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>push</td>
+<td><code>array1.push(5);</code></td>
+<td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push">push docs</a></td>
+</tr>
+<tr class="even">
+<td>map</td>
+<td><code>const squares = array1.map((item) =&gt; item * 2);</code></td>
+<td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map">map docs</a></td>
+</tr>
+<tr class="odd">
+<td>find</td>
+<td><code>const found = array1.find((element) =&gt; element &gt; 3);</code></td>
+<td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find">find docs</a></td>
+</tr>
+<tr class="even">
+<td>findIndex</td>
+<td><code>arr.findIndex((item) =&gt; item===2)</code></td>
+<td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex">findIndex docs</a></td>
+</tr>
+<tr class="odd">
+<td>filter</td>
+<td><code>const result = array1.filter((item) =&gt; item &gt; 2);</code></td>
+<td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter">filter docs</a></td>
+</tr>
+<tr class="even">
+<td>reduce</td>
+<td><code>const summedArray = array1.reduce((accumulator, currentValue) =&gt; accumulator + currentValue);</code></td>
+<td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce">reduce docs</a></td>
+</tr>
+<tr class="odd">
+<td>concat</td>
+<td><code>const array3 = array1.concat(array2);</code></td>
+<td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat">concat docs</a></td>
+</tr>
+<tr class="even">
+<td>slice</td>
+<td><code>array1.slice(1,3)  // returns [2, 3]</code></td>
+<td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice">slice docs</a></td>
+</tr>
+<tr class="odd">
+<td>splice</td>
+<td><code>months.splice(4, 1, 'May');  // Replaces 1 element at index 4</code></td>
+<td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice">splice docs</a></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="destructuring" class="level2">
+<h2 class="anchored" data-anchor-id="destructuring">8. Destructuring</h2>
+<p>Array destructuring allows us to pick out the values of an array rather than assigning them one-by-one.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> [firstName<span class="op">,</span> lastName] <span class="op">=</span> [<span class="st">"Gurp"</span><span class="op">,</span> <span class="st">"Johl"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>instead of</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> nameArray <span class="op">=</span> [<span class="st">"Gurp"</span><span class="op">,</span> <span class="st">"Johl"</span>]</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> firstName <span class="op">=</span> nameArray[<span class="dv">0</span>]</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> lastName <span class="op">=</span>  nameArray[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Similarly, we can destructure objects too. We can also alias the keys with a <code>:</code>, as in the example below where the <code>name</code> key is aliased to <code>userName</code>.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> {<span class="dt">name</span><span class="op">:</span> userName<span class="op">,</span> age} <span class="op">=</span> {<span class="dt">name</span><span class="op">:</span> <span class="st">'Gurp'</span><span class="op">,</span> <span class="dt">age</span><span class="op">:</span> <span class="dv">30</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>instead of</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> userObj <span class="op">=</span> {<span class="dt">name</span><span class="op">:</span> <span class="st">'Gurp'</span><span class="op">,</span> <span class="dt">age</span><span class="op">:</span> <span class="dv">30</span>}</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> userName <span class="op">=</span> userObj<span class="op">.</span><span class="at">name</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> age <span class="op">=</span> userObj<span class="op">.</span><span class="at">age</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="spread-operator" class="level2">
+<h2 class="anchored" data-anchor-id="spread-operator">9. Spread Operator</h2>
+<p>The spread operator pulls out values of arrays and objects. This is useful for merging multiple arrays, e.g.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> arrayA <span class="op">=</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span>]</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> arrayB <span class="op">=</span> [<span class="dv">4</span><span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">6</span>]</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> mergedArray <span class="op">=</span> [<span class="op">...</span>arrayA<span class="op">,</span> <span class="op">...</span>arrayB]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The same applies to merging objects.</p>
+</section>
+<section id="control-structures" class="level2">
+<h2 class="anchored" data-anchor-id="control-structures">10. Control Structures</h2>
+<p>If-else clauses work similarly to other languages:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> userName <span class="op">===</span> <span class="st">"Gurp"</span> {</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Do something</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Do something else</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For loops again are similar, although the syntax looks a bit janky at first compared to Python:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> hobbies <span class="op">=</span> [<span class="st">"Sports"</span><span class="op">,</span> <span class="st">"Music"</span>]<span class="op">;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">const</span> hobby <span class="kw">of</span> hobbies) {</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(hobby)<span class="op">;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/">MDN docs</a></li>
+<li>Section 2 of <a href="https://www.udemy.com/share/101Wby3@bwKzzF5Lsdyap2056rQpfSQPMwoPeWakiLbWURQe1VXLfFumI76lGqitdKHEWO3C/">“React: The Complete Guide” Udemy course</a></li>
+</ul>
 
 
+</section>
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->

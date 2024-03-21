@@ -8,7 +8,7 @@
 
 <meta name="author" content="Gurpreet Johl">
 <meta name="dcterms.date" content="2024-03-20">
-<meta name="description" content="React Complete Guide: Section 2">
+<meta name="description" content="React Complete Guide: Section 29">
 
 <title>Gurpreet Johl - React: TypeScript Essentials</title>
 <style>
@@ -130,7 +130,7 @@ ul.task-list li input[type="checkbox"] {
       <h1 class="title">React: TypeScript Essentials</h1>
                   <div>
         <div class="description">
-          React Complete Guide: Section 2
+          React Complete Guide: Section 29
         </div>
       </div>
                           <div class="quarto-categories">
@@ -184,6 +184,26 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="testing-in-react" class="level1">
 <h1>Testing in React</h1>
+<p>Types of tests: unit, integration, end to end.</p>
+<p>We need some build tools to help us run tests. Jest is a testing framework that allows us to run tests. The test function creates a unit test. It takes a name of the test and an anonymous function which runs the test code. The expect function then defines some behaviour to assert. For pure JavaScript util functions, this is all we need. For React components, we need to test the rendered component as below.</p>
+<p>React testing library is a library that lets us simulate rendered components and assert characteristics of them. The render function is used to simulate the dom to render a component in a test. The screen function is used to get properties from the simulated dom, eg screen.getByText to assert a particular passage of text appears on the screen.</p>
+<p>Getting elements from the DOM to test. The get functions return an error if the object does not exist. The query functions return null instead. The latter is useful if we want to test when something should NOT be rendered.</p>
+<p>The getByRole function is useful to pick out specific elements. See available roles here: https://www.w3.org/TR/html-aria/#docconformance</p>
+<p>The 3 As of testing: Arrange, Act, Assert. Arrange: render the component. Act: any user events if applicable for the test. Assert: check the desired output is in the DOM.</p>
+<p>Test suites. We may want to group tests for related features/components together for readability. Use the describe function to define a test suite. It also takes a test suite description string and anonymous function as an argument. Then each of the tests are defined within it.</p>
+<p>Testing user interactivity and state. The userEvent object from testing library simulates user actions like click or hover.</p>
+<p>Testing asynchronous code. The findByRole function, and related “find” functions, return a promise which will wait and re-attempt to find the element before failing. This is useful for testing async code. You can pass optional args to the find functions to set how long they should wait, when to retry etc.</p>
+<p>We generally want to avoid sending external requests as part of unit tests, so this is more relevant to integration or end-to-end tests.</p>
+<p>For unit tests, we can mock the results.</p>
+<p>Using mocks. We want to mock out external calls like fetch. We can overwrite the <code>window.getch</code> method like:</p>
+<pre><code>window.fetch = jest.fn();
+window.fetch.mockResolvedValueOnce({
+    json: async() =&gt; {
+        // The mock values
+        [{id: 1, text: 'example text goes here'}] 
+}
+});</code></pre>
+<p>References. https://jestjs.io/ https://testing-library.com/docs/react-testing-library/intro/ For custom hooks: https://github.com/testing-library/react-hooks-testing-library</p>
 
 
 </section>
