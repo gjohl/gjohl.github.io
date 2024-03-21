@@ -1,25 +1,45 @@
 ---
 title: "React: Debugging"
-description: "React Complete Guide: Section 7"
-date: "2024-03-10"
+description: "Part 4: A Bug's Life"
+date: "2024-03-17"
 image: "../react.png"
 categories: [Engineering, Software, React, WebDev]
-draft: true
 ---
 
 # Debugging
+We've done stylin', now time for profilin'. [Woo!](https://www.youtube.com/watch?v=guEU5GSxvl0)
+
+## 1. Browser Console
 
 Debug react apps using the browser console. 
+
 This gives the stack trace that raised the error, and the file and line number on which it was raised. 
 
-Use the Sources tab (in chrome) to use the debugger. You’ll see the directory structure of your project. You can click a line number to set a breakpoint and pause execution there, then observe variable values or step through execution. 
 
-Can also achieve the same by placing a debugger() line in the code. I think??
+## 2. Debugger
+Use the Sources tab (in chrome) to use the debugger.
 
-Strict mode. 
-StrictMode is a react component (imported from react) which you can wrap any other component in, including the root App component. It causes React to render every component twice in development mode. This can help surface errors that may not be obvious in normal execution. 
+You’ll see the directory structure of your project. You can click a line number to set a breakpoint and pause execution there, then observe variable values or step through execution. 
 
-React Developer Tools. 
-This is a browser extension. It adds 2 new tabs to the console view in the browser window: profiler and components. 
+You can also achieve the same by placing a `debugger()` line in the code.
+
+
+## 3. Strict Mode
+`StrictMode` is a React component which you can wrap any other component in, including the root `App` component. 
+
+```javascript
+import { StrictMode } from 'react';
+```
+
+It causes React to render every component twice in development mode. This can help surface errors that may not be obvious in normal execution. 
+
+
+## 4. React Developer Tools
+This is a browser extension. It adds 2 new tabs to the console view in the browser window: `profiler` and `components`. 
 
 Components shows your component tree and highlights these in the browser. It also gives information about that component such as props. You can edit those props values in the browser. You can also see hooks and their state values. 
+
+
+## References
+
+- Section 7 of  ["React: The Complete Guide" Udemy course](https://www.udemy.com/share/101Wby3@bwKzzF5Lsdyap2056rQpfSQPMwoPeWakiLbWURQe1VXLfFumI76lGqitdKHEWO3C/)

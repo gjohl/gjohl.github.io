@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/software/react/7_debugging/post.html",
       "/posts/software/react/6_styling/post.html",
       "/posts/software/react/2_js_essentials/post.html",
       "/posts/software/react/1_getting_started/post.html",
