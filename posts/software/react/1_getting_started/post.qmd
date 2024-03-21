@@ -4,12 +4,9 @@ description: "Getting Started with React"
 date: "2024-03-12"
 image: "../react.png"
 categories: [Engineering, Software, React, WebDev]
-draft: true
 ---
 
 # Getting Started with React
-
-These notes are from sections 1 and 3 of "React: The Complete Guide".
 
 ## 1. What is React?
 
@@ -27,6 +24,8 @@ A build tool (like Vite or Next.js) is necessary because the Javascript (specifi
 
 ## 2. Key React Concepts
 
+Key concepts in React are: components, JSX, props, and state.
+
 ### 2.1. Components
 Components are a core concept. They bundle html, CSS and JS into reusable blocks. 
 
@@ -43,7 +42,8 @@ Components must:
 
 React creates a **component tree** for your app. Your components do not end up in the source code directly. The build process traverses the tree until each component is resolved into built ins, and then these appear in the source code. 
 
-### 2.2. Dynamic Values
+
+### 2.2. Dynamic Values with JSX
 Use curly braces to indicate dynamic values in JSX. 
 
 Ideally declare constants rather than having complicated inline expressions. 
@@ -61,6 +61,7 @@ Dynamic values can be passed to components as *props*. React components take a s
 If you have an object of props to pass, you can use the spread operator to avoid writing them out individually. 
 Also use object destructuring inside the component to pick out the variables. 
 
+
 ### 2.3. Project Structure
 It is good practice that each component is in its own file. File name should match the component name and be the default export. 
 
@@ -68,146 +69,211 @@ Also split out style CSS files and keep these alongside the component. CSS files
 
 The styles are NOT automatically scoped to the component that uses them. They will apply to all components with that name. For example, if you apply header styling to a custom Header component, it will also apply to the built in header html component. 
 
+
 ### 2.4. Props
-The children prop is passed by all components and it is the value between the component tags. It can be used for HTML tag-style syntax. 
+The `children` prop is passed by all components and it is the value between the component tags. It can be used for HTML tag-style syntax. 
 
 We can react to events by passing a function to onClick or similar. In vanilla JS, we would need to select the element and add an event listener, but react is declarative. 
 We can define the handleClick function inside the component so that it has access to the component’s props and state. 
-We can pass functions as props. This is useful as we can pass state setter functions down to nested components. This should be a pointer to the function, not the executed function itself, e.g. handleClick NOT handleClick()
+We can pass functions as props. This is useful as we can pass state setter functions down to nested components. This should be a pointer to the function, not the executed function itself, e.g. `handleClick` NOT `handleClick()`
 
 If we want to modify the args that we pass to the function in onClick, use an anonymous arrow function () => handleSelect(arg)
 That doesn’t actually get executed until onClick is called. 
 
+We can set **default values** of props by putting the default value in the function signature. 
+
+
+### 2.5. State
 By default, React components only execute once, even if an internal variable changes. You have to “tell” React to execute something again. This is where state comes in useful. React checks if UI updates are needed by comparing old output with new and applying the difference. So we use states rather than regular variables to indicate that a re-render is required if the state changes. State is essentially a special registered variable that react handles differently. 
 If the state of a component changes, that component and its children in the component tree re-render. 
 
-Use state is a “hook”. Hooks must be declared in the top level of a component function, they can’t be nested in internal functions such as event handlers, and they also can’t be declared outside of functions. It returns an array of two elements, the state value and a setter. A default state value can be passed to use state. 
+The useState function is a “hook”. Hooks must be declared in the top level of a component function, they can’t be nested in internal functions such as event handlers, and they also can’t be declared outside of functions. It returns an array of two elements, the state value and a setter. A default state value can be passed to use state. 
 The setter “schedules” an update, but that isn’t necessarily immediate. So you can see unexpected things when logging a value after the setter in code, where the logged value is still the “old” state value because the UI update has been scheduled but not completed yet. 
 
-Conditionally rendering content. 
-Use JSX with a ternary expression 
+If setting a state value based on its previous value, pass it as a function. For example, if on a button click we want to invert the value of a Boolean, use
+```javascript
+setIsEditing((editing) => {!editing})
+```
+NOT
+
+```javascript
+setIsEditing(!isEditing)
+```
+
+This is because React schedules when to change state, it doesn’t necessarily do it immediately. So you could get unexpected behaviour. But when passed as a function, this triggers a re-render, similarly to how a hook does. 
+
+
+## 3. Dynamic Content
+### 3.1. Conditionally Rendering Content
+One option is to use JSX with a ternary expression. It is valid for null to be used in place of a component. 
+```javascript
 { selectedState ? ComponentA : ComponentB }
+```
 
-null is allowed in place of a component. 
+An alternative is the `and` operator which can also be used for this. In JavaScript, if the first term is truthy then it returns the second term, which is what we want. 
 
-The and operator can also be used for this. In JS, if the first term is truth then it returns the second term, which is what we want. 
-
+```javascript
 { selectedState && ComponentA }
+```
+
+A third option is to save the component as a variable and conditionally reassign it.
+```javascript
+// The default component
+let tabContent = <p>Please select a topic</p>
+
+if (selectedTopic) {
+    tabContent = (
+        // The component displayed if a topic is selected
+        <div>
+            <h3>selectedTopic.title</h3>
+             <p>selectedTopic.description</p>
+        </div>
+    )
+}
+```
+
+### 3.2. Conditional Styling
+
+We can set className as a JSX expression and use a ternary expression. For example, check if the button is selected and apply a different className depending on whether it’s selected.
 
 
-A third option is to save the component as a variable. See lesson 55 7:21 for the syntax to add to notes. 
+### 3.3. Outputting Lists Dynamically
 
-Conditional styling. 
-We can set className as a JSX expression and use a ternary expression , eg to check if the button is selected and apply a different className depending on whether it’s selected. 
+JSX is capable of outputting lists of renderable components. We do this by using `map` over the array:
+```javascript
+myArray.map((item) => (<Component item={item}/>))
+```
 
-Outputting lists dynamically. 
-JSX is capable of outputting lists of renderable components. We map over the array. 
-MyArray.map((item) => (<Component/>))
-
-Add a key prop to the Component which uniquely identifies the item to avoid warnings raised by React. 
-
-Module summary. 
-Useful for subsection headings. 
-
-Building UI with components. 
-Using and outputting data. 
-Handling user events. 
-Using state for interactive content. 
+Add a `key` prop to the Component which uniquely identifies the item to avoid warnings raised by React. 
 
 
-React essentials deep dive section. 
+## 4. Going Deeper
 
-You don’t NEED JSX, but it makes life easier. Copy example from lesson 60 3:00 using React.create element to manipulate the DOM directly. It’s not as clear. But it avoids the need for a build process because it IS valid JavaScript supported by the browser. 
+The following sections are a collection of less essential topics but provide useful background in React.
 
-Using Fragment. 
-A JavaScript function must return one value, it cannot return multiple values. This is true of React components, since they are really just syntactic sugar around JavaScript code. 
+### 4.1. You Don't NEED to Use JSX (But You Probably Should)
+You don’t NEED JSX, but it makes life easier. 
+
+The following is JSX, which is easy to read but requires a build transformation process.
+```javascript
+<div id="content">
+    <p>Hello World!</p>
+</div>
+```
+
+The alternative in plain JavaScript is to manipulate the DOM directly. 
+It’s not as clear. But it avoids the need for a build process because it IS valid JavaScript supported by the browser. 
+```javascript
+React.createElement(
+    'div',
+    { id: 'content'},
+    React.createElement(
+        'p',
+        null,
+        'Hello World!'
+    )
+)
+```
+
+
+### 4.2. Fragment
+A JavaScript function must return one value, it cannot return multiple values. This is true of React components, since they are really just syntactic sugar around JavaScript functions. 
 
 So if we have two or more sibling components being returned, we must wrap them in a parent component. Naively, we could just use a div, but this adds an unnecessary extra component to our tree. 
 
-An alternative is to use Fragment. This can be imported from react and used as a parent component without actually creating any new component when built. In newer versions of react, we can skip the import and just use empty opening and closing tags to create a Fragment. 
+An alternative is to use `Fragment`. This can be imported from react and used as a parent component without actually creating any new component when built. In newer versions of react, we can skip the import and just use empty opening and closing tags `<> </>` to create a Fragment. 
 
-Splitting components. 
-Remember React will re-render a component and all its child components when a state changes. So if a state is too high up the component tree, it will cause unnecessary re-rendering of many other components. 
+
+### 4.3 Splitting Components
+Remember, React will re-render a component *and all its child components* when a state changes. So if a state is too high up the component tree, it will cause unnecessary re-rendering of many other components. 
+
 This is an indication that a component needs to be split out and its state managed lower down the tree. 
 
 
-Forwarding props. 
-React doesn’t auto forward props to nested components. 
+### 4.4. Forwarding Props
+React doesn’t auto-forward props to nested components. 
+
 We can forward an arbitrary number of props without having to write out each manually. 
-Use the rest operator …extraProps in the function signature. Then use the spread operator (same syntax) to pass them to the inner component that you want …extraProps
+Use the rest operator `…extraProps` in the function signature. Then use the spread operator (same syntax) to pass them to the inner component that you want `…extraProps`.
 
-This is like **kwargs in Python. 
+This is like `**kwargs` in Python. 
 
 
-Multiple JSX slots. 
+### 4.5. Multiple JSX Slots
 We’ve seen how we can pass the special children prop to pass arbitrary JSX to our components. 
+
 What if we wanted 2 or more slots in our component with arbitrary content?
 Components are ultimately just JavaScript code, so we can pass the components for the other slot as a prop (and if there are multiple siblings we can wrap them in a fragment). 
 
-Setting component types dynamically. 
+
+### 4.6. Setting Component Types Dynamically
 We can pass a prop (with capital letter since it will be used as a custom component) which we can then vary in the nested component. 
 For example, pass a prop called ButtonContainer which can be:
+
 - a string for a built in type like “menu”
 - a function for a custom component like Section (without calling it or using angled brackets)
 
-Setting default props values. 
-Put the default value in the function signature. Restructure props and put ButtonContainer=“menu” in the component’s function signature as the default value. 
 
-
+### 4.7. When is a Component Not a Component
 Not all content needs to go in components. 
 Remember you can modify index.html directly if there is static content that makes more sense there. 
 
-Any files (typically images) stored in the public directory of the root of the project are made publicly available, so anybody can navigate to them. 
-If you want files to be private until used on the website, store them in a folder in src usually src/assets 
+
+### 4.8. Images
+Any files (typically images) stored in the public directory of the root of the project are made **publicly available**, so anybody can navigate to them. 
+
+If you want files to be private until used on the website, store them in a folder in `src`, usually `src/assets`.
 Anything in src is not publicly accessible. 
 
-If setting a state value based on its previous value, pass it as a function. For example, if on a button click we want to invert the value of a Boolean, use
 
-setIsEditing((editing) => {!editing})
+## 5. More on States
+### 5.1. Handling User Input
+If we have an input tag, we can manage the user input value as a new state `playerName`. 
 
-Not
+We use the `onChange` prop of the input to handle this. We pass a `handleChange` function to it that takes the event (from the user input) and updates our state based on it. 
 
-setIsEditing(!isEditing)
-
-This is because React schedules when to change state, it doesn’t necessarily do it immediately. So you could get unexpected behaviour. But when passed as a function, this triggers a re-render. 
-
-Handling user input. 
-If we have an input tag, we can manage the user input value as a new state playerName. 
-We use the onChange prop of the input to handle this. We pass a handleInput function to it that takes the event (from the user input) and updates our state based on it. 
-
+```javascript
 function handleChange (event) {
     setPlayerName(event.target.value)
     }
+```
 
 We then pass the value and onChange to the input
-
+```javascript
 <input value={playerName} onChange={handleChange} />
+```
 
-This technique of passing a value to the input then allowing it to change the value is called a two-way binding. 
+This technique of passing a value to the input then allowing it to change the value is called a **two-way binding**. 
 
 
-Updating object states in an immutable way. 
-When your state is an object or array (an array is just a subset of object in JS) then you should create a deep copy of it before altering its value. Objects are passed by reference so you may see unintended side effects otherwise if you try to update the object directly. Use the spread operator to copy to a new variable. 
+### 5.2. Updating Object States in an Immutable Way
+When your state is an object or array (an array is just a subset of object in JavaScript) then you should create a **deep copy** of it before altering its value. Objects are passed by reference so you may see unintended side effects otherwise if you try to update the object directly. Use the spread operator to copy to a new variable. 
 
-Lifting state up. 
+### 5.3. Lifting State Up
 If two or more sibling components all need access to the same state, the state should be handled by the closest ancestor component. 
 
-Avoid intersecting states. 
+### 5.4. Avoid Intersecting States
 Don’t have two different states in different places which refer to the same state / data. Potential for conflicts and bugs. 
 
 Also avoid using logic based on state A for the setter logic of state B. For the same reason we use the functional form of the setter when it’s based on previous values; the state may be outdated as it is scheduled to updated but not yet recalculated and rendered. 
 
-Deriving state from props. 
+### 5.5. Deriving State From Props
 Manage as few states as possible and pass them as props where needed, then derive any further states from those instead of managing another set of states. 
 
-Keep immutability of states in mind. 
-If you initialise a state as an object or array, remember that JavaScript passes these by reference. So if you then modify that array, you are modifying the initial array. So if you later want to reset the state by setting the state back to that initial array, it won’t work because the original was mutated. 
-To work around this, take a deep copy using the spread operator. If it is a nested array, map for each inner array. 
-[…initialArray.map(array => […array])]
+### 5.6. Keep Immutability of States in Mind
+If you initialise a state as an object or array, remember that JavaScript passes these by **reference**. 
 
-When NOT to lift state up. 
-If doing so breaks the modularity of the nested components or would trigger the parent function to rerender unnecessarily. 
+So if you then modify that array, you are modifying the **initial array**. If you later want to reset the state by setting the state back to that initial array, it won’t work because the original was mutated. 
+
+To work around this, take a deep copy using the spread operator. If it is a nested array, map for each inner array. 
+```javascript
+[…initialArray.map(array => […array])]
+```
+
+### 5.7. When NOT to Lift State Up 
+
+If lifting up the state breaks the modularity of the nested components or would trigger the parent function to rerender unnecessarily, avoid lifting.
 
 ## References
 
-- ["React: The Complete Guide" Udemy course](https://www.udemy.com/share/101Wby3@bwKzzF5Lsdyap2056rQpfSQPMwoPeWakiLbWURQe1VXLfFumI76lGqitdKHEWO3C/)
+- Sections 1, 3 and 4 of  ["React: The Complete Guide" Udemy course](https://www.udemy.com/share/101Wby3@bwKzzF5Lsdyap2056rQpfSQPMwoPeWakiLbWURQe1VXLfFumI76lGqitdKHEWO3C/)

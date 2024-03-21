@@ -3,6 +3,7 @@
     "listing": "/blog.html",
     "items": [
       "/posts/software/react/2_js_essentials/post.html",
+      "/posts/software/react/1_getting_started/post.html",
       "/posts/ml/meta_learning/meta_learning.html",
       "/posts/ml/generative_deep_learning/lesson3/chapter3.html",
       "/posts/ml/fastai/lesson8/lesson.html",
