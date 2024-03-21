@@ -8,9 +8,9 @@
 
 <meta name="author" content="Gurpreet Johl">
 <meta name="dcterms.date" content="2024-03-20">
-<meta name="description" content="React Complete Guide: Section 2">
+<meta name="description" content="Deploying React Apps">
 
-<title>Gurpreet Johl - React: TypeScript Essentials</title>
+<title>Gurpreet Johl - React: Deployment</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -127,10 +127,10 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">React: TypeScript Essentials</h1>
+      <h1 class="title">React: Deployment</h1>
                   <div>
         <div class="description">
-          React Complete Guide: Section 2
+          Deploying React Apps
         </div>
       </div>
                           <div class="quarto-categories">
@@ -171,7 +171,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#deploying-react-apps" id="toc-deploying-react-apps" class="nav-link active" data-scroll-target="#deploying-react-apps">Deploying React Apps</a></li>
+  <li><a href="#deploying-react-apps" id="toc-deploying-react-apps" class="nav-link active" data-scroll-target="#deploying-react-apps">Deploying React Apps</a>
+  <ul class="collapse">
+  <li><a href="#lazy-loading" id="toc-lazy-loading" class="nav-link" data-scroll-target="#lazy-loading">Lazy Loading</a></li>
+  <li><a href="#building-code-for-production" id="toc-building-code-for-production" class="nav-link" data-scroll-target="#building-code-for-production">Building Code for Production</a></li>
+  <li><a href="#server-side-routing" id="toc-server-side-routing" class="nav-link" data-scroll-target="#server-side-routing">Server-side Routing</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -184,8 +189,47 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="deploying-react-apps" class="level1">
 <h1>Deploying React Apps</h1>
+<ol type="1">
+<li>Test code</li>
+<li>Optimise code</li>
+<li>Build app</li>
+<li>Upload app</li>
+<li>Configure server</li>
+</ol>
+<section id="lazy-loading" class="level2">
+<h2 class="anchored" data-anchor-id="lazy-loading">Lazy Loading</h2>
+<p>Load code only when it’s needed.</p>
+<p>When we import files into other files, they are immediately resolved. This means that we need to load <strong>everything</strong> before any part of the site loads.</p>
+<p>With lazy loading, we only load each file as it is needed by the site.</p>
+<p>Instead of</p>
+<pre><code>import BlogPage from './pages/Blog';</code></pre>
+<p>we can use:</p>
+<pre><code>import { lazy, Suspense } from 'react';
+
+const BlogPage = lazy(() =&gt; import('./pages/Blog'));
+
+// Then wherever the BlogPage component is used, wrap it with a Suspense component
+&lt;Suspense fallback={&lt;p&gt;Loading...&lt;/p&gt;}&gt;
+  &lt;BlogPost /&gt;
+&lt;/Suspense&gt;</code></pre>
+<p>You can verify how lazy loading works by looking at the network tab of the browser while navigating the website. It should only load pages as required while you navigate.</p>
+</section>
+<section id="building-code-for-production" class="level2">
+<h2 class="anchored" data-anchor-id="building-code-for-production">Building Code for Production</h2>
+<p>Running <code>npm run build</code> will create an optimised build which transforms React code to Javascript, CSS and HTML which is supported natively by browsers.</p>
+<p>The contents of this <code>build</code> directory should be uploaded to the hosting server.</p>
+<p>A React Single-Page Application (SPA) is a static website. It does not require code to be executed by the server.</p>
+<p>There are many static site hosts, e.g.&nbsp;Github Pages, Firebase</p>
+</section>
+<section id="server-side-routing" class="level2">
+<h2 class="anchored" data-anchor-id="server-side-routing">Server-side Routing</h2>
+<p><strong>Client-side routing</strong> is commonly used in smaller apps to keep it as an SPA.</p>
+<p>There are multiple “pages” which are handled by react-router. So the server only ever actually returns a single page, <code>index.html</code>, regardless of the URL and the page routing is handled in JavaScript on the client side.</p>
+<p>This is in contrast to <strong>server-side routing</strong>, where each page is a separate html file, so different URLs return different HTML pages.</p>
+<p>If creating the website as an SPA, the deployment job should be configured for this so that the server correctly resolves the different URLs internally rather than trying to serve different HTML files.</p>
 
 
+</section>
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->

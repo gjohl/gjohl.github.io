@@ -171,7 +171,18 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#javascript-refresher" id="toc-javascript-refresher" class="nav-link active" data-scroll-target="#javascript-refresher">Javascript Refresher</a></li>
+  <li><a href="#javascript-refresher" id="toc-javascript-refresher" class="nav-link active" data-scroll-target="#javascript-refresher">Javascript Refresher</a>
+  <ul class="collapse">
+  <li><a href="#imports-and-exports" id="toc-imports-and-exports" class="nav-link" data-scroll-target="#imports-and-exports">Imports and Exports</a></li>
+  <li><a href="#variables" id="toc-variables" class="nav-link" data-scroll-target="#variables">Variables</a></li>
+  <li><a href="#operators" id="toc-operators" class="nav-link" data-scroll-target="#operators">Operators</a></li>
+  <li><a href="#functions" id="toc-functions" class="nav-link" data-scroll-target="#functions">Functions</a></li>
+  <li><a href="#objects" id="toc-objects" class="nav-link" data-scroll-target="#objects">Objects</a></li>
+  <li><a href="#arrays" id="toc-arrays" class="nav-link" data-scroll-target="#arrays">Arrays</a></li>
+  <li><a href="#destructuring" id="toc-destructuring" class="nav-link" data-scroll-target="#destructuring">Destructuring</a></li>
+  <li><a href="#spread-operator" id="toc-spread-operator" class="nav-link" data-scroll-target="#spread-operator">Spread Operator</a></li>
+  <li><a href="#control-structures" id="toc-control-structures" class="nav-link" data-scroll-target="#control-structures">Control Structures</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -185,8 +196,79 @@ ul.task-list li input[type="checkbox"] {
 <section id="javascript-refresher" class="level1">
 <h1>Javascript Refresher</h1>
 <p>Adding JS to a page in script tags. Either in the body of the script tag, or preferably as a separate js file that’s then called as the src parameter of the script tag. The defer parameter means the script won’t be called until the rest of the body is loaded. The type=module parameter means the JavaScript file will be treated as a module.</p>
+<p>React projects use a build process.<br>
+JSX is not natively supported by the browser, so a build tool transforms it to regular JavaScript. It also minifies the project to optimise the size and loading times.</p>
+<section id="imports-and-exports" class="level2">
+<h2 class="anchored" data-anchor-id="imports-and-exports">Imports and Exports</h2>
+<p>We need to use the export keyword to make a function or variable available outside of that file. Each file can have at most one default export.</p>
+<p>The import keyword then lets us use this. Curly braces unless it is a default export. If it is a default export you assign your own name to the imported variable. Path is in single or double quotes with the file extension in plain JS. In react, some build tools automatically populate the file extension so you don’t need it.</p>
+<p>We can group the imports if there are many using starred imports. import * as utils from “./utils.js”;</p>
+<p>We can also alias individual imported variables with the as keyword.</p>
+</section>
+<section id="variables" class="level2">
+<h2 class="anchored" data-anchor-id="variables">Variables</h2>
+<p>string, number, boolean, null, undefined</p>
+<p>object, array</p>
+<p>Variables are defined with the let keyword. Camel case is most common in JS. Constants are defined with the const keyword. They cannot be reassigned. Prefer const where it is appropriate to be clear about your intentions that this should not be reassigned.</p>
+</section>
+<section id="operators" class="level2">
+<h2 class="anchored" data-anchor-id="operators">Operators</h2>
+<p>Add, subtract, divide, multiply. Work on numbers or strings or other types. Triple equality</p>
+</section>
+<section id="functions" class="level2">
+<h2 class="anchored" data-anchor-id="functions">Functions</h2>
+<p>Defining functions- regular syntax and arrow syntax. Invoking functions. Default values.</p>
+<p>Arrow function syntax shortcuts. See article 20.</p>
+</section>
+<section id="objects" class="level2">
+<h2 class="anchored" data-anchor-id="objects">Objects</h2>
+<p>Objects are key value pairs. The value for a given key can be accessed with . obj.key1</p>
+<p>Objects can also have methods. These are functions defined inside the object. const obj = { name: “Gurp”, method1: greet() {return “Hello “ + this.name} } obj.greet()</p>
+<p>Class instances are essentially objects like above. If we want to create a reusable class, we can formally define a class. See image for code example.</p>
+</section>
+<section id="arrays" class="level2">
+<h2 class="anchored" data-anchor-id="arrays">Arrays</h2>
+<p>Arrays are technically a type of object.</p>
+<p>There are some built in utility methods of arrays: - push - add a new item to the end of the array - arr.findIndex( (item) =&gt; item===“foo”) - arr.map((item) =&gt; item*2) - transform each item in the array - filter - return an array of items which match the condition</p>
+</section>
+<section id="destructuring" class="level2">
+<h2 class="anchored" data-anchor-id="destructuring">Destructuring</h2>
+<p>Array destructuring const [firstName, lastName] = [“Gurp”, “Johl”] instead of</p>
+<pre><code>const nameArray = ["Gurp", "Johl"]
+const firstName = nameArray[0]
+const lastName =  nameArray[1]</code></pre>
+<p>Similiarly, we can destructure objects too. We can also alias the keys with a <code>:</code>, as in the example below where the <code>name</code> key is aliased to <code>userName</code>.</p>
+<pre><code>const {name: userName, age} = {name: 'Gurp', age: 30}</code></pre>
+<p>instead of</p>
+<pre><code>const userObj = {name: 'Gurp', age: 30}
+const userName = userObj.name
+const age = userObj.age</code></pre>
+</section>
+<section id="spread-operator" class="level2">
+<h2 class="anchored" data-anchor-id="spread-operator">Spread Operator</h2>
+<p>The spread operator pulls out values of arrays and objects. THis is useful for merging multiple arrays, e.g.</p>
+<pre><code>const arrayA = [1, 2, 3]
+const arrayB = [4, 5, 6]
+const mergedArray = [...arrayA, ...arrayB]</code></pre>
+<p>The same applies to merging objects.</p>
+</section>
+<section id="control-structures" class="level2">
+<h2 class="anchored" data-anchor-id="control-structures">Control Structures</h2>
+<p>if-else</p>
+<pre><code>if userName === "Gurp" {
+    // Do something
+} else {
+    // Do something else
+}</code></pre>
+<p>for loop</p>
+<pre><code>const hobbies = ["Sports", "Music"];
+
+for (const hobby of hobbies) {
+    console.log(hobby);
+}</code></pre>
 
 
+</section>
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->

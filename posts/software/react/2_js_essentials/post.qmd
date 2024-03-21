@@ -4,7 +4,7 @@ description: "React Complete Guide: Section 2"
 date: "2024-03-20"
 image: "../react.png"
 categories: [Engineering, Software, React, WebDev]
-draft: true
+# draft: true
 ---
 
 # Javascript Refresher
@@ -13,3 +13,123 @@ Adding JS to a page in script tags.
 Either in the body of the script tag, or preferably as a separate js file that’s then called as the src parameter of the script tag. 
 The defer parameter means the script won’t be called until the rest of the body is loaded. 
 The type=module parameter means the JavaScript file will be treated as a module. 
+
+
+React projects use a build process.  
+JSX is not natively supported by the browser, so a build tool transforms it to regular JavaScript. It also minifies the project to optimise the size and loading times. 
+
+
+## Imports and Exports
+We need to use the export keyword to make a function or variable available outside of that file. Each file can have at most one default export. 
+
+The import keyword then lets us use this. 
+Curly braces unless it is a default export. If it is a default export you assign your own name to the imported variable. 
+Path is in single or double quotes with the file extension in plain JS. In react, some build tools automatically populate the file extension so you don’t need it. 
+
+We can group the imports if there are many using starred imports. 
+import * as utils from “./utils.js”;
+
+We can also alias individual imported variables with the as keyword. 
+
+
+## Variables
+string, number, boolean, null, undefined
+
+object, array
+
+Variables are defined with the let keyword. Camel case is most common in JS. 
+Constants are defined with the const keyword. They cannot be reassigned. Prefer const where it is appropriate to be clear about your intentions that this should not be reassigned. 
+
+## Operators
+Add, subtract, divide, multiply. 
+Work on numbers or strings or other types. 
+Triple equality 
+
+
+## Functions
+Defining functions- regular syntax and arrow syntax. 
+Invoking functions. 
+Default values. 
+
+Arrow function syntax shortcuts. See article 20. 
+
+
+## Objects
+Objects are key value pairs. The value for a given key can be accessed with .
+obj.key1
+
+Objects can also have methods. These are functions defined inside the object. 
+const obj = {
+    name: “Gurp”,
+    method1: greet() {return “Hello “ + this.name}
+}
+obj.greet()
+
+Class instances are essentially objects like above. If we want to create a reusable class, we can formally define a class. See image for code example. 
+
+
+## Arrays
+Arrays are technically a type of object.
+
+There are some built in utility methods of arrays:
+- push - add a new item to the end of the array
+- arr.findIndex( (item) => item===“foo”)
+- arr.map((item) => item*2) - transform each item in the array
+- filter - return an array of items which match the condition 
+
+
+## Destructuring
+Array destructuring
+const [firstName, lastName] = ["Gurp", "Johl"]
+instead of 
+```
+const nameArray = ["Gurp", "Johl"]
+const firstName = nameArray[0]
+const lastName =  nameArray[1]
+```
+
+Similiarly, we can destructure objects too. We can also alias the keys with a `:`, as in the example below where the `name` key is aliased to `userName`.
+```
+const {name: userName, age} = {name: 'Gurp', age: 30}
+```
+instead of
+```
+const userObj = {name: 'Gurp', age: 30}
+const userName = userObj.name
+const age = userObj.age
+```
+
+
+## Spread Operator
+
+The spread operator pulls out values of arrays and objects. THis is useful for merging multiple arrays, e.g.
+
+```
+const arrayA = [1, 2, 3]
+const arrayB = [4, 5, 6]
+const mergedArray = [...arrayA, ...arrayB]
+```
+
+The same applies to merging objects.
+
+
+## Control Structures
+if-else
+```
+if userName === "Gurp" {
+    // Do something
+} else {
+    // Do something else
+}
+```
+
+for loop
+
+```
+const hobbies = ["Sports", "Music"];
+
+for (const hobby of hobbies) {
+    console.log(hobby);
+}
+```
+

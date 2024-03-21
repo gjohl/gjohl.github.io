@@ -1,6 +1,6 @@
 ---
-title: "React: Getting Started"
-description: "React Complete Guide: Section 1"
+title: "React: A Gentle Introduction"
+description: "Getting Started with React"
 date: "2024-03-12"
 image: "../react.png"
 categories: [Engineering, Software, React, WebDev]
