@@ -37,8 +37,10 @@ string, number, boolean, null, undefined
 
 object, array
 
-Variables are defined with the let keyword. Camel case is most common in JS. 
-Constants are defined with the const keyword. They cannot be reassigned. Prefer const where it is appropriate to be clear about your intentions that this should not be reassigned. 
+Variables are defined with the `let` keyword. Camel case is most common in JS. 
+Constants are defined with the `const` keyword. They cannot be reassigned. Prefer const where it is appropriate to be clear about your intentions that this should not be reassigned. 
+
+Older versions of JavaScript did not make this distinction and used `var` in all cases. This is discouraged.
 
 ## Operators
 Add, subtract, divide, multiply. 
@@ -48,10 +50,28 @@ Triple equality
 
 ## Functions
 Defining functions- regular syntax and arrow syntax. 
+```
+function sum(a, b) {
+    return a + b;
+}
+```
+
+or as an arrow function
+```
+const sum = (a,b) => {a + b};
+```
+
 Invoking functions. 
 Default values. 
 
 Arrow function syntax shortcuts. See article 20. 
+
+Functions can be passed as props to other functions. This is helpful when defining components which we want to pass state setters or other handler functions to (functional components are just ultimately functions themselves).
+
+We can also *define* functions inside of other functions.
+This is helpful when we want the function to be scoped only to the outer function, not defined globally. 
+
+This is again used a lot in React since we may want to define functions with our (functional) components.
 
 
 ## Objects
@@ -67,15 +87,60 @@ obj.greet()
 
 Class instances are essentially objects like above. If we want to create a reusable class, we can formally define a class. See image for code example. 
 
+```
+class User (
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    greet() {
+        return “Hello “ + this.name;
+    }
+)
+
+const user1 = new User("Gurp", 30);
+```
+
+Objects (and, by extension, arrays) are passed by reference. So when we modify the object, it does not create a new object, it mutates the original. The *memory address* is stored as a constant, not the *value*. So if we create an object as a const, we can modify it without reassigning it.
+
 
 ## Arrays
 Arrays are technically a type of object.
 
+```
+const array1 = [1, 2, 3, 4];
+```
+
 There are some built in utility methods of arrays:
-- push - add a new item to the end of the array
-- arr.findIndex( (item) => item===“foo”)
-- arr.map((item) => item*2) - transform each item in the array
-- filter - return an array of items which match the condition 
+
+- `push`: Add a new item to the end of the array.
+    - `array1.push(5);`
+    - [push docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push)
+- `map`: Transform each item in the array.
+    - `const squares = array1.map((item) => item * 2);`
+    - [map docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
+- `find`: Returns the first element in the array that satisfies the condition. If no values satisfy the condition, undefined is returned.
+    - `const found = array1.find((element) => element > 3);`
+    - [find docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find)
+- `findIndex: Returns the *index* of the first element in the array that satisfies the condition. If no values satisfy the condition, -1 is returned.
+    - `arr.findIndex( (item) => item===2)`
+    - [findIndex docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex)
+- `filter`: Return an array of items which match the condition.
+    - `const result = array1.filter((item) => item > 2);`
+    - [filter docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
+- `reduce`: Apply the given function to each element, in order. The result of each iteration is passed as the currentValue of the next iteration to accumulate the result.
+    - `const summedArray = array1.reduce((accumulator, currentValue) => accumulator + currentValue);`
+    - [reduce docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce)
+- `concat`: merge two or more arrays.
+    - `const array3 = array1.concat(array2);`
+    - [concat docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat)
+- `slice`: Return a slice of the array between the given indices (not including the end index)
+    - `array1.slice(1,3)  // returns [2, 3]`
+    - [slice docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice)
+- `splice`: Remove, replace or insert items to an array **in-place**; the original array is modified.
+    - `months.splice(4, 1, 'May');  // Replaces 1 element at index 4`
+    - [splice docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice)
 
 
 ## Destructuring
@@ -114,6 +179,7 @@ The same applies to merging objects.
 
 
 ## Control Structures
+
 if-else
 ```
 if userName === "Gurp" {
