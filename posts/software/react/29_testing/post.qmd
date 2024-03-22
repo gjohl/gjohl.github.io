@@ -1,70 +1,97 @@
 ---
-title: "React: TypeScript Essentials"
-description: "React Complete Guide: Section 29"
+title: "React: Testing"
+description: "Part 6: Testing my patience"
 date: "2024-03-20"
 image: "../react.png"
 categories: [Engineering, Software, React, WebDev]
-draft: true
 ---
 
 # Testing in React
 
-Types of tests: unit, integration, end to end. 
+## 1. What to Test and How
+
+We should run tests at different levels of granularity:
+
+1. Unit tests
+2. Integration tests
+3. End-to-end tests
 
 We need some build tools to help us run tests. 
-Jest is a testing framework that allows us to run tests. 
-The test function creates a unit test. It takes a name of the test and an anonymous function which runs the test code. 
-The expect function then defines some behaviour to assert. For pure JavaScript util functions, this is all we need. 
-For React components, we need to test the rendered component as below. 
 
+Jest and React Testing Library are useful for unit and integration tests, which are the main focus of this page. End-to-end testing can be done with tools like Selenium or Cypress.
+
+
+### 1.1. Jest
+Jest is a testing framework that allows us to run JavaScript tests. 
+
+The `test` function creates a unit test. It takes a name of the test and an anonymous function which runs the test code. 
+
+The `expect` function then defines some behaviour to assert. For pure JavaScript util functions, this is all we need. 
+
+For React components, we need to test the rendered component with the help of React Testing Library. 
+
+
+### 1.2. React Testing Library
 React testing library is a library that lets us simulate rendered components and assert characteristics of them. 
-The render function is used to simulate the dom to render a component in a test. The screen function is used to get properties from the simulated dom, eg screen.getByText to assert a particular passage of text appears on the screen.
+
+The `render` function is used to simulate the dom to render a component in a test. 
+The `screen` function is used to get properties from the simulated DOM, eg `screen.getByText` to assert a particular passage of text appears on the screen.
+
+The `get` functions return an error if the object does not exist. The `query` functions return null instead. The latter is useful if we want to test when something should NOT be rendered. 
+
+The `getByRole` function is useful to pick out specific elements. See available roles [here](https://www.w3.org/TR/html-aria/#docconformance).
+
+The `userEvent` object from React Testing Library simulates user actions like click or hover, so we can test interactive behaviour of components.
 
 
-Getting elements from the DOM to test.
-The get functions return an error if the object does not exist. The query functions return null instead. The latter is useful if we want to test when something should NOT be rendered. 
+## 2. The 3 As of Testing
+The general pattern for testing is: Arrange, Act, Assert. 
 
-The getByRole function is useful to pick out specific elements. See available roles here: https://www.w3.org/TR/html-aria/#docconformance
+1. Arrange: Render the component. 
+2. Act: Any user events or interaction (if applicable for the test). 
+3. Assert: Check the desired output is in the DOM.
 
 
-The 3 As of testing:
-Arrange, Act, Assert. 
-Arrange: render the component. 
-Act: any user events if applicable for the test. 
-Assert: check the desired output is in the DOM. 
-
-Test suites. 
+## 3. Test Suites
 We may want to group tests for related features/components together for readability. 
-Use the describe function to define a test suite. It also takes a test suite description string and anonymous function as an argument. Then each of the tests are defined within it. 
+
+Use the `describe` function to define a test suite.
+
+It takes a test suite description string and anonymous function as argumens. Then each of the tests are defined within it. 
 
 
-Testing user interactivity and state. 
-The userEvent object from testing library simulates user actions like click or hover. 
 
+## 4. Testing Asynchronous Code
+The `get` and `query` functions attempt to retrieve elements from the DOM immediately, as soon as the component is rendered.
+This is not the behaviour we want for components with asynchronous elements which may take time to fetch data.
 
-Testing asynchronous code.
-The findByRole function, and related "find" functions, return a promise which will wait and re-attempt to find the element before failing. This is useful for testing async code. You can pass optional args to the find functions to set how long they should wait, when to retry etc.
+The `findByRole` function, and related "find" functions, return a promise which will wait and re-attempt to find the element before failing. This allows us to test async code. You can pass optional args to the find functions to set how long they should wait, when to retry etc.
 
 We generally want to avoid sending external requests as part of unit tests, so this is more relevant to integration or end-to-end tests.
 
 For unit tests, we can mock the results.
 
 
-Using mocks.
-We want to mock out external calls like fetch. We can overwrite the `window.getch` method like:
+## 5. Using Mocks
 
-```
+We want to mock out external calls like `fetch` when we run them is our unit tests. 
+
+We can overwrite the `window.fetch` method:
+
+```javascript
 window.fetch = jest.fn();
 window.fetch.mockResolvedValueOnce({
     json: async() => {
         // The mock values
         [{id: 1, text: 'example text goes here'}] 
-}
+    }
 });
 ```
 
 
-References.
-https://jestjs.io/
-https://testing-library.com/docs/react-testing-library/intro/
-For custom hooks: https://github.com/testing-library/react-hooks-testing-library
+## References
+
+- Section 29 of  ["React: The Complete Guide" Udemy course](https://www.udemy.com/share/101Wby3@bwKzzF5Lsdyap2056rQpfSQPMwoPeWakiLbWURQe1VXLfFumI76lGqitdKHEWO3C/)
+- [Jest](https://jestjs.io/)
+- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
+- [React Testing Library with custom hooks](https://github.com/testing-library/react-hooks-testing-library)

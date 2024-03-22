@@ -8,9 +8,9 @@
 
 <meta name="author" content="Gurpreet Johl">
 <meta name="dcterms.date" content="2024-03-20">
-<meta name="description" content="React Complete Guide: Section 29">
+<meta name="description" content="Part 6: Testing my patience">
 
-<title>Gurpreet Johl - React: TypeScript Essentials</title>
+<title>Gurpreet Johl - React: Testing</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -127,10 +161,10 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">React: TypeScript Essentials</h1>
+      <h1 class="title">React: Testing</h1>
                   <div>
         <div class="description">
-          React Complete Guide: Section 29
+          Part 6: Testing my patience
         </div>
       </div>
                           <div class="quarto-categories">
@@ -171,7 +205,19 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#testing-in-react" id="toc-testing-in-react" class="nav-link active" data-scroll-target="#testing-in-react">Testing in React</a></li>
+  <li><a href="#testing-in-react" id="toc-testing-in-react" class="nav-link active" data-scroll-target="#testing-in-react">Testing in React</a>
+  <ul class="collapse">
+  <li><a href="#what-to-test-and-how" id="toc-what-to-test-and-how" class="nav-link" data-scroll-target="#what-to-test-and-how">1. What to Test and How</a>
+  <ul class="collapse">
+  <li><a href="#jest" id="toc-jest" class="nav-link" data-scroll-target="#jest">1.1. Jest</a></li>
+  <li><a href="#react-testing-library" id="toc-react-testing-library" class="nav-link" data-scroll-target="#react-testing-library">1.2. React Testing Library</a></li>
+  </ul></li>
+  <li><a href="#the-3-as-of-testing" id="toc-the-3-as-of-testing" class="nav-link" data-scroll-target="#the-3-as-of-testing">2. The 3 As of Testing</a></li>
+  <li><a href="#test-suites" id="toc-test-suites" class="nav-link" data-scroll-target="#test-suites">3. Test Suites</a></li>
+  <li><a href="#testing-asynchronous-code" id="toc-testing-asynchronous-code" class="nav-link" data-scroll-target="#testing-asynchronous-code">4. Testing Asynchronous Code</a></li>
+  <li><a href="#using-mocks" id="toc-using-mocks" class="nav-link" data-scroll-target="#using-mocks">5. Using Mocks</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -184,28 +230,77 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="testing-in-react" class="level1">
 <h1>Testing in React</h1>
-<p>Types of tests: unit, integration, end to end.</p>
-<p>We need some build tools to help us run tests. Jest is a testing framework that allows us to run tests. The test function creates a unit test. It takes a name of the test and an anonymous function which runs the test code. The expect function then defines some behaviour to assert. For pure JavaScript util functions, this is all we need. For React components, we need to test the rendered component as below.</p>
-<p>React testing library is a library that lets us simulate rendered components and assert characteristics of them. The render function is used to simulate the dom to render a component in a test. The screen function is used to get properties from the simulated dom, eg screen.getByText to assert a particular passage of text appears on the screen.</p>
-<p>Getting elements from the DOM to test. The get functions return an error if the object does not exist. The query functions return null instead. The latter is useful if we want to test when something should NOT be rendered.</p>
-<p>The getByRole function is useful to pick out specific elements. See available roles here: https://www.w3.org/TR/html-aria/#docconformance</p>
-<p>The 3 As of testing: Arrange, Act, Assert. Arrange: render the component. Act: any user events if applicable for the test. Assert: check the desired output is in the DOM.</p>
-<p>Test suites. We may want to group tests for related features/components together for readability. Use the describe function to define a test suite. It also takes a test suite description string and anonymous function as an argument. Then each of the tests are defined within it.</p>
-<p>Testing user interactivity and state. The userEvent object from testing library simulates user actions like click or hover.</p>
-<p>Testing asynchronous code. The findByRole function, and related “find” functions, return a promise which will wait and re-attempt to find the element before failing. This is useful for testing async code. You can pass optional args to the find functions to set how long they should wait, when to retry etc.</p>
+<section id="what-to-test-and-how" class="level2">
+<h2 class="anchored" data-anchor-id="what-to-test-and-how">1. What to Test and How</h2>
+<p>We should run tests at different levels of granularity:</p>
+<ol type="1">
+<li>Unit tests</li>
+<li>Integration tests</li>
+<li>End-to-end tests</li>
+</ol>
+<p>We need some build tools to help us run tests.</p>
+<p>Jest and React Testing Library are useful for unit and integration tests, which are the main focus of this page. End-to-end testing can be done with tools like Selenium or Cypress.</p>
+<section id="jest" class="level3">
+<h3 class="anchored" data-anchor-id="jest">1.1. Jest</h3>
+<p>Jest is a testing framework that allows us to run JavaScript tests.</p>
+<p>The <code>test</code> function creates a unit test. It takes a name of the test and an anonymous function which runs the test code.</p>
+<p>The <code>expect</code> function then defines some behaviour to assert. For pure JavaScript util functions, this is all we need.</p>
+<p>For React components, we need to test the rendered component with the help of React Testing Library.</p>
+</section>
+<section id="react-testing-library" class="level3">
+<h3 class="anchored" data-anchor-id="react-testing-library">1.2. React Testing Library</h3>
+<p>React testing library is a library that lets us simulate rendered components and assert characteristics of them.</p>
+<p>The <code>render</code> function is used to simulate the dom to render a component in a test. The <code>screen</code> function is used to get properties from the simulated DOM, eg <code>screen.getByText</code> to assert a particular passage of text appears on the screen.</p>
+<p>The <code>get</code> functions return an error if the object does not exist. The <code>query</code> functions return null instead. The latter is useful if we want to test when something should NOT be rendered.</p>
+<p>The <code>getByRole</code> function is useful to pick out specific elements. See available roles <a href="https://www.w3.org/TR/html-aria/#docconformance">here</a>.</p>
+<p>The <code>userEvent</code> object from React Testing Library simulates user actions like click or hover, so we can test interactive behaviour of components.</p>
+</section>
+</section>
+<section id="the-3-as-of-testing" class="level2">
+<h2 class="anchored" data-anchor-id="the-3-as-of-testing">2. The 3 As of Testing</h2>
+<p>The general pattern for testing is: Arrange, Act, Assert.</p>
+<ol type="1">
+<li>Arrange: Render the component.</li>
+<li>Act: Any user events or interaction (if applicable for the test).</li>
+<li>Assert: Check the desired output is in the DOM.</li>
+</ol>
+</section>
+<section id="test-suites" class="level2">
+<h2 class="anchored" data-anchor-id="test-suites">3. Test Suites</h2>
+<p>We may want to group tests for related features/components together for readability.</p>
+<p>Use the <code>describe</code> function to define a test suite.</p>
+<p>It takes a test suite description string and anonymous function as argumens. Then each of the tests are defined within it.</p>
+</section>
+<section id="testing-asynchronous-code" class="level2">
+<h2 class="anchored" data-anchor-id="testing-asynchronous-code">4. Testing Asynchronous Code</h2>
+<p>The <code>get</code> and <code>query</code> functions attempt to retrieve elements from the DOM immediately, as soon as the component is rendered. This is not the behaviour we want for components with asynchronous elements which may take time to fetch data.</p>
+<p>The <code>findByRole</code> function, and related “find” functions, return a promise which will wait and re-attempt to find the element before failing. This allows us to test async code. You can pass optional args to the find functions to set how long they should wait, when to retry etc.</p>
 <p>We generally want to avoid sending external requests as part of unit tests, so this is more relevant to integration or end-to-end tests.</p>
 <p>For unit tests, we can mock the results.</p>
-<p>Using mocks. We want to mock out external calls like fetch. We can overwrite the <code>window.getch</code> method like:</p>
-<pre><code>window.fetch = jest.fn();
-window.fetch.mockResolvedValueOnce({
-    json: async() =&gt; {
-        // The mock values
-        [{id: 1, text: 'example text goes here'}] 
-}
-});</code></pre>
-<p>References. https://jestjs.io/ https://testing-library.com/docs/react-testing-library/intro/ For custom hooks: https://github.com/testing-library/react-hooks-testing-library</p>
+</section>
+<section id="using-mocks" class="level2">
+<h2 class="anchored" data-anchor-id="using-mocks">5. Using Mocks</h2>
+<p>We want to mock out external calls like <code>fetch</code> when we run them is our unit tests.</p>
+<p>We can overwrite the <code>window.fetch</code> method:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">window</span><span class="op">.</span><span class="at">fetch</span> <span class="op">=</span> jest<span class="op">.</span><span class="fu">fn</span>()<span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">window</span><span class="op">.</span><span class="at">fetch</span><span class="op">.</span><span class="fu">mockResolvedValueOnce</span>({</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">json</span><span class="op">:</span> <span class="kw">async</span>() <span class="kw">=&gt;</span> {</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        <span class="co">// The mock values</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        [{<span class="dt">id</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> <span class="st">'example text goes here'</span>}] </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li>Section 29 of <a href="https://www.udemy.com/share/101Wby3@bwKzzF5Lsdyap2056rQpfSQPMwoPeWakiLbWURQe1VXLfFumI76lGqitdKHEWO3C/">“React: The Complete Guide” Udemy course</a></li>
+<li><a href="https://jestjs.io/">Jest</a></li>
+<li><a href="https://testing-library.com/docs/react-testing-library/intro/">React Testing Library</a></li>
+<li><a href="https://github.com/testing-library/react-hooks-testing-library">React Testing Library with custom hooks</a></li>
+</ul>
 
 
+</section>
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->

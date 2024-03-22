@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Gurpreet Johl">
-<meta name="dcterms.date" content="2024-03-13">
-<meta name="description" content="React Complete Guide: Section 2">
+<meta name="dcterms.date" content="2024-03-21">
+<meta name="description" content="Part 7: I don’t got no type, bad code is the only thing that I like">
 
 <title>Gurpreet Johl - React: TypeScript Essentials</title>
 <style>
@@ -22,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -130,7 +164,7 @@ ul.task-list li input[type="checkbox"] {
       <h1 class="title">React: TypeScript Essentials</h1>
                   <div>
         <div class="description">
-          React Complete Guide: Section 2
+          Part 7: I don’t got no type, bad code is the only thing that I like
         </div>
       </div>
                           <div class="quarto-categories">
@@ -155,7 +189,7 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">March 13, 2024</p>
+        <p class="date">March 21, 2024</p>
       </div>
     </div>
     
@@ -171,7 +205,32 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#typescript-in-react" id="toc-typescript-in-react" class="nav-link active" data-scroll-target="#typescript-in-react">TypeScript in React</a></li>
+  <li><a href="#typescript-in-react" id="toc-typescript-in-react" class="nav-link active" data-scroll-target="#typescript-in-react">TypeScript in React</a>
+  <ul class="collapse">
+  <li><a href="#wtf-is-ts" id="toc-wtf-is-ts" class="nav-link" data-scroll-target="#wtf-is-ts">1. WTF is TS?</a></li>
+  <li><a href="#installing-and-using-ts." id="toc-installing-and-using-ts." class="nav-link" data-scroll-target="#installing-and-using-ts.">2. Installing and Using TS.</a></li>
+  <li><a href="#types" id="toc-types" class="nav-link" data-scroll-target="#types">3. Types</a>
+  <ul class="collapse">
+  <li><a href="#base-types" id="toc-base-types" class="nav-link" data-scroll-target="#base-types">3.1. Base Types</a></li>
+  <li><a href="#complex-types" id="toc-complex-types" class="nav-link" data-scroll-target="#complex-types">3.2. Complex Types</a></li>
+  <li><a href="#union-types" id="toc-union-types" class="nav-link" data-scroll-target="#union-types">3.3. Union Types</a></li>
+  <li><a href="#type-aliases" id="toc-type-aliases" class="nav-link" data-scroll-target="#type-aliases">3.4 Type Aliases</a></li>
+  <li><a href="#function-types" id="toc-function-types" class="nav-link" data-scroll-target="#function-types">3.5. Function Types</a></li>
+  <li><a href="#generics" id="toc-generics" class="nav-link" data-scroll-target="#generics">3.6. Generics</a></li>
+  <li><a href="#type-vs-interface" id="toc-type-vs-interface" class="nav-link" data-scroll-target="#type-vs-interface">3.7. Type vs Interface</a></li>
+  <li><a href="#class-types" id="toc-class-types" class="nav-link" data-scroll-target="#class-types">3.8. Class Types</a></li>
+  </ul></li>
+  <li><a href="#typescript-with-react" id="toc-typescript-with-react" class="nav-link" data-scroll-target="#typescript-with-react">4. Typescript with React</a>
+  <ul class="collapse">
+  <li><a href="#props-with-typescript" id="toc-props-with-typescript" class="nav-link" data-scroll-target="#props-with-typescript">4.1. Props with TypeScript</a></li>
+  <li><a href="#form-submission" id="toc-form-submission" class="nav-link" data-scroll-target="#form-submission">4.2. Form Submission</a></li>
+  <li><a href="#types-with-useref" id="toc-types-with-useref" class="nav-link" data-scroll-target="#types-with-useref">4.3. Types with useRef</a></li>
+  <li><a href="#function-props" id="toc-function-props" class="nav-link" data-scroll-target="#function-props">4.4 Function Props</a></li>
+  <li><a href="#tsconfig.json" id="toc-tsconfig.json" class="nav-link" data-scroll-target="#tsconfig.json">4.5. tsconfig.json</a></li>
+  <li><a href="#state-with-typescript" id="toc-state-with-typescript" class="nav-link" data-scroll-target="#state-with-typescript">4.6. State with TypeScript</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -184,44 +243,138 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="typescript-in-react" class="level1">
 <h1>TypeScript in React</h1>
-<p>What is TS. Typescript is a superset of JS which adds static typing. Vanilla JS is dynamically typed. Types do not have to be specified ahead of time. This can result in funky errors like the classic “1” + “2”= “12”.</p>
-<p>Installing and using TS. It can be installed like any other package and managed in the project dependencies package.json npm install typescript</p>
-<p>Typescript is compiled. It does not run in the browser directly. Instead, there is a compilation step which converts TS to JS which can run in the browser. This compile step is where we will find type errors, before they hit production. npx tsc</p>
-<p>Base types. The primitives are number, string, boolean. Also null and undefined.<br>
-Note that primitive types are lowercase. The object itself (ie Number) is not what we want here. There is also an any type which is a catch all. We generally avoid this, as it defeats the purpose of using TS.</p>
-<p>Complex types: objects and arrays. Define an array of strings like let myArray: string[] = [“this”, “is”, “an”, “array”];</p>
-<p>Define an object type by specifying the keys and their types let person: {name: string, age: number} = {name: “Gurp”, age: 30}</p>
-<p>Union types. Use a pipe to denote multiple types are allowed.</p>
-<p>Type aliases. Define a type with the type keyword. This allows the type to be reusable if it’s used in multiple places.</p>
-<p>Function types. TS infers the output type based on the arguments. If this is correct, it’s common practice to not override this, let it infer. But you may want to override if you want it to output a union of types which it hasn’t inferred.</p>
-<p>Functions also have a special void return type if they do not return anything.</p>
-<p>Generics. If you have a utility function that can accept any input type, but the output should be the same type as the input, you can denote this using generic types with angled brackets.</p>
-<p>const myFunc<t>(inputArray: T[], inputValue: T) { return [inputValue, …inputArray] }</t></p>
-<p>This can be called with strings and would return an array of strings. Or called with numbers and return an array of numbers. Rather than having to use any, using the generic (T is arbitrary and just stands for Type) then when we call the function, TS will infer the output type correctly.</p>
-<p>Typescript with React. Creating a react project using project is largely the same, but you will have tsx files rather than JSX.</p>
-<p>Certain packages that you install may have additional type annotations packages if they were written in JS so they play nicely with TS. Some packages don’t need it if they were written in TS to begin with.</p>
-<p>Props with TypeScript. When passing props in React, it automatically passes certain default props like children. It would be cumbersome if we had to manually define the types of those default props on every component. Instead, we can set the output type of our component as React.FC (Functional Component) and this will handle the default props. If we then want to define our custom prop types, we can do so in angle brackets after React.FC&lt;{prop1: string, prop2: number}&gt;</p>
-<p>Here we are using a generic type, React.FC. The angled brackets are defining what types are being used in this particular case for this generic type.</p>
-<p>Props are marked as optional by adding a ? after the variable name, i.e.&nbsp;the key in the object.</p>
-<p>Type vs Interface. These are often interchangeable. The key difference is that interfaces can be extended, whereas type cannot. See https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#differences-between-type-aliases-and-interfaces</p>
-<p>Class types. When defining a class, you can specify the types of each attribute. See lecture 561, 5mins in.</p>
+<section id="wtf-is-ts" class="level2">
+<h2 class="anchored" data-anchor-id="wtf-is-ts">1. WTF is TS?</h2>
+<p>TypeScript (TS) is a superset of JavaScript (JS) which adds static typing.</p>
+<p>Vanilla JS is dynamically typed. Types do not have to be specified ahead of time. This can result in funky errors like the classic <code>“1” + “2”= “12”</code>.</p>
+</section>
+<section id="installing-and-using-ts." class="level2">
+<h2 class="anchored" data-anchor-id="installing-and-using-ts.">2. Installing and Using TS.</h2>
+<p>It can be installed like any other package and managed in the project dependencies package.json</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> install typescript </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Typescript is compiled. It does not run in the browser directly. Instead, there is a compilation step which converts TS to JS which <em>can</em> run in the browser.</p>
+<p>This compile step is where we will find type errors, <em>before</em> they hit production.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> tsc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="types" class="level2">
+<h2 class="anchored" data-anchor-id="types">3. Types</h2>
+<section id="base-types" class="level3">
+<h3 class="anchored" data-anchor-id="base-types">3.1. Base Types</h3>
+<p>The primitives are <code>number</code>, <code>string</code>, <code>boolean</code>. We also have <code>null</code> and <code>undefined</code>.</p>
+<p>Note that primitive <em>types</em> are lowercase, e.g.&nbsp;<code>number</code>. The <em>object itself</em>, e.g.&nbsp;<code>Number</code>, is not what we want here.</p>
+<p>There is also an <code>any</code> type which is a catch all. We generally avoid this, as it defeats the purpose of using TS.</p>
+</section>
+<section id="complex-types" class="level3">
+<h3 class="anchored" data-anchor-id="complex-types">3.2. Complex Types</h3>
+<p>We have built-in complex types: <code>objects</code> and <code>arrays</code>.</p>
+<p>Define an array of strings like:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> myArray<span class="op">:</span> <span class="dt">string</span>[] <span class="op">=</span> [“this”<span class="op">,</span> “is”<span class="op">,</span> “an”<span class="op">,</span> “array”]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Define an object type by specifying the keys and their types:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> person<span class="op">:</span> {name<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> age<span class="op">:</span> <span class="dt">number</span>} <span class="op">=</span> {name<span class="op">:</span> “Gurp”<span class="op">,</span> age<span class="op">:</span> <span class="dv">30</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="union-types" class="level3">
+<h3 class="anchored" data-anchor-id="union-types">3.3. Union Types</h3>
+<p>Use a pipe to denote where multiple types are allowed, e.g.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> val<span class="op">:</span> <span class="dt">string</span><span class="op">|</span><span class="dt">number</span> <span class="op">=</span> <span class="dv">69</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="type-aliases" class="level3">
+<h3 class="anchored" data-anchor-id="type-aliases">3.4 Type Aliases</h3>
+<p>Define a type with the <code>type</code> keyword.</p>
+<p>This allows the type to be reusable if it’s used in multiple places.</p>
+</section>
+<section id="function-types" class="level3">
+<h3 class="anchored" data-anchor-id="function-types">3.5. Function Types</h3>
+<p>TS infers the output type based on the arguments.</p>
+<p>If this is correct, it’s common practice to not override this, let it infer. But you may want to override if you want it to output a union of types which it hasn’t inferred.</p>
+<p>Functions also have a special <code>void</code> return type if they do not return anything.</p>
+</section>
+<section id="generics" class="level3">
+<h3 class="anchored" data-anchor-id="generics">3.6. Generics</h3>
+<p>If you have a utility function that can accept any input type, but the output should be the same type as the input, you can denote this using generic types with angled brackets.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> <span class="fu">myFunc</span><span class="op">&lt;</span>T<span class="op">&gt;</span>(inputArray<span class="op">:</span> T[]<span class="op">,</span> inputValue<span class="op">:</span> T) {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [inputValue<span class="op">,</span> …inputArray]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This can be called with strings and would return an array of strings. Or called with numbers and return an array of numbers. Rather than having to use <code>any</code>, we can use the generic (T is arbitrary and just stands for Type) then when we call the function TypeScript will infer the output type correctly.</p>
+</section>
+<section id="type-vs-interface" class="level3">
+<h3 class="anchored" data-anchor-id="type-vs-interface">3.7. Type vs Interface</h3>
+<p>These are often interchangeable. The key difference is that <strong>interfaces can be extended, whereas type cannot</strong>.</p>
+<p>See <a href="https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#differences-between-type-aliases-and-interfaces">here</a></p>
+</section>
+<section id="class-types" class="level3">
+<h3 class="anchored" data-anchor-id="class-types">3.8. Class Types</h3>
+<p>When defining a class, you can specify the types of each attribute.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Todo {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    text<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">constructor</span>(inputText<span class="op">:</span> <span class="dt">string</span>) {</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">text</span> <span class="op">=</span> inputText<span class="op">;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">id</span> <span class="op">=</span> <span class="kw">new</span> <span class="bu">Date</span>()<span class="op">.</span><span class="fu">toISOString</span>()<span class="op">;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>When instances of this class are used, you can simply use the class itself as the type.</p>
 <p>This is useful for defining data models.</p>
-<p>Form submission. The form submit outputs an event object which can be used by other functions. The type of this can be encapsulated by the React.FormEvent type. Similarly, there is a React.MouseEvent for the onClick listener.</p>
-<p>Types with useRef. We create a ref with useRef then attach it to a component (built in or custom). Typescript doesn’t know which component you intend to attach the ref to, so you need to specify this when creating the ref. By default, useRef returns a generic type, so we need to set the specific type when we call it. We also need to provide a starting value (null) to convince the typescript compiler that the ref isn’t already assigned to something else.</p>
-<p>const inputRef = useRef<htmlinputelement>(null);</htmlinputelement></p>
-<p>Then use this in an input element <input ref="{inputRef}"></p>
-<p>When working with ref.current TS will often demand a ? to indicate that this is possibly null. The resulting value’s type will then be, for example, string or null. If you know it will never be null, you can replace with the ! operator. This means the resulting value will have type string only.</p>
-<p>Function props. Where we pass a function as a prop we define its type as an arrow function specifying inputs and outputs. myFunc: (text: string) =&gt; void</p>
-<p>Note that this is similar to the way object types look like an object but don’t actually create an object. Function types look like a function but don’t actually create a function.</p>
-<p>The .bind method is similar to partial in Python. This is useful when we are passing a function down a prop chain and it will always have a certain argument. Bind saves us having to pass the value and declare its type and every stage of the prop chain.</p>
-<p>tsconfig.json . compiler options target defines which version of JavaScript the typescript compiler will transform the code to. lib defines which typescript default types are included out of the box, e.g.&nbsp;dom gives support for built in html types like HTMLInputType.</p>
-<p>allowJs determines if JS files are allowed alongside TS files, or if everything must strictly be typescript.</p>
-<p>strict determines if the compiler is strict, eg forbidding implicit any types etc.</p>
-<p>State with typescript. When we create a state, we often initialise it with an empty value, e.g.&nbsp;null or an empty array. But then TS does not know what type is going to go in that state later.</p>
-<p>The useState function returns a generic type so we can overwrite it with our type. const [myState, setMyState] = useState&lt;string[]&gt;([])</p>
+</section>
+</section>
+<section id="typescript-with-react" class="level2">
+<h2 class="anchored" data-anchor-id="typescript-with-react">4. Typescript with React</h2>
+<p>Creating a react project using TypeScript is largely the same, but you will have <code>.tsx</code> files rather than <code>.jsx</code>.</p>
+<p>Certain packages that you install may have additional type annotations packages if they were written in JS, to make them they play nicely with TS. Some packages don’t need it if they were written in TS to begin with.</p>
+<section id="props-with-typescript" class="level3">
+<h3 class="anchored" data-anchor-id="props-with-typescript">4.1. Props with TypeScript</h3>
+<p>When passing props in React, it automatically passes certain default props like <code>children</code>. It would be cumbersome if we had to manually define the types of those default props on every component.</p>
+<p>Instead, we can set the output type of our component as <code>React.FC</code> (Functional Component) and this will handle the default props.</p>
+<p>If we then want to define our custom prop types, we can do so in angle brackets after:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>React<span class="op">.</span><span class="at">FC</span><span class="op">&lt;</span>{prop1<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> prop2<span class="op">:</span> <span class="dt">number</span>}<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here we are using a generic type, <code>React.FC</code>. The angled brackets are defining what types are being used in this particular case for this generic type.</p>
+<p>Props are marked as optional by adding a <code>?</code> after the variable name, i.e.&nbsp;the key in the object.</p>
+</section>
+<section id="form-submission" class="level3">
+<h3 class="anchored" data-anchor-id="form-submission">4.2. Form Submission</h3>
+<p>The form submit outputs an <code>event</code> object which can be used by other functions.</p>
+<p>The type of this can be encapsulated by the <code>React.FormEvent</code> type. Similarly, there is a <code>React.MouseEvent</code> for the <code>onClick</code> listener.</p>
+</section>
+<section id="types-with-useref" class="level3">
+<h3 class="anchored" data-anchor-id="types-with-useref">4.3. Types with useRef</h3>
+<p>We create a ref with <code>useRef</code> then attach it to a component (can be built-in or custom).</p>
+<p>TypeScript doesn’t know which component you intend to attach the ref to, so you need to specify this when creating the ref.</p>
+<p>By default, <code>useRef</code> returns a generic type, so we need to set the specific type when we call it. We also need to provide a starting value (null) to convince the TypeScript compiler that the ref isn’t already assigned to something else.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> inputRef <span class="op">=</span> <span class="fu">useRef</span><span class="op">&lt;</span><span class="bu">HTMLInputElement</span><span class="op">&gt;</span>(<span class="kw">null</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then use this in an input element</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>input ref<span class="op">=</span>{inputRef} <span class="op">/&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When working with <code>ref.current</code> TypeScript will often demand a <code>?</code> to indicate that this is possibly null. The resulting value’s type will then be, for example, string or null. If you know it will never be null, you can replace with the ! operator. This means the resulting value will have type string only.</p>
+</section>
+<section id="function-props" class="level3">
+<h3 class="anchored" data-anchor-id="function-props">4.4 Function Props</h3>
+<p>Where we pass a function as a prop we define its type as an arrow function specifying inputs and outputs.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>myFunc<span class="op">:</span> (text<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span> <span class="dt">void</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Note that this is similar to how object types look like an object but don’t actually create an object. Function types look like a function but don’t actually create a function.</p>
+<p>The <code>.bind</code> method is similar to partial in Python. This is useful when we are passing a function down a prop chain and it will always have a certain argument. Bind saves us having to pass the value and declare its type and every stage of the prop chain.</p>
+</section>
+<section id="tsconfig.json" class="level3">
+<h3 class="anchored" data-anchor-id="tsconfig.json">4.5. tsconfig.json</h3>
+<p>The <code>compilerOptions.target</code> value defines which version of JavaScript the TypeScript compiler will transform the code to.</p>
+<p>The <code>compilerOptions.lib</code> value defines which TypeScript default types are included out of the box. For example, “DOM” gives support for built-in html types like HTMLInputType.</p>
+<p>If we want to allow plain JavaScript files in the project alongside TypeScript, we can set <code>compilerOptions.allowJs</code> to True. If False, everything must strictly be TypeScript.</p>
+<p>We can set a strict compile with <code>compilerOptions.strict</code>. This will forbid implicit <code>any</code> types etc.</p>
+</section>
+<section id="state-with-typescript" class="level3">
+<h3 class="anchored" data-anchor-id="state-with-typescript">4.6. State with TypeScript</h3>
+<p>When we create a state, we often initialise it with an empty value, e.g.&nbsp;null or an empty array. But then TypeScript does not know what type is going to go in that state later.</p>
+<p>The <code>useState</code> function returns a generic type so we can overwrite it with our type.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> [myState<span class="op">,</span> setMyState] <span class="op">=</span> <span class="fu">useState</span><span class="op">&lt;</span><span class="dt">string</span>[]<span class="op">&gt;</span>([])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li>Section 30 of <a href="https://www.udemy.com/share/101Wby3@bwKzzF5Lsdyap2056rQpfSQPMwoPeWakiLbWURQe1VXLfFumI76lGqitdKHEWO3C/">“React: The Complete Guide” Udemy course</a></li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#differences-between-type-aliases-and-interfaces">Types vs Interfaces</a></li>
+</ul>
 
 
+</section>
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->

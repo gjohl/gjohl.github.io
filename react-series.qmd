@@ -1,7 +1,7 @@
 ---
-title: "Series: Generative AI"
+title: "Series: React"
 listing:
-  contents: posts/ml/generative_deep_learning
+  contents: posts/software/react
   sort: "date desc"
   type: default
   categories: false
