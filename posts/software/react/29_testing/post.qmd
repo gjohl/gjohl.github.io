@@ -1,6 +1,6 @@
 ---
 title: "React: Testing"
-description: "Testing my patience"
+description: "Part 6: Testing my patience"
 date: "2024-03-20"
 image: "../react.png"
 categories: [Engineering, Software, React, WebDev]

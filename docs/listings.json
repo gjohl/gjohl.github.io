@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/software/react/30_typescript/post.html",
       "/posts/software/react/29_testing/post.html",
       "/posts/software/react/23_deployment/post.html",
       "/posts/software/react/7_debugging/post.html",
@@ -58,6 +59,18 @@
       "/posts/ml/generative_deep_learning/lesson3/chapter3.html",
       "/posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html",
       "/posts/ml/generative_deep_learning/lesson1/lesson.html"
+    ]
+  },
+  {
+    "listing": "/react-series.html",
+    "items": [
+      "/posts/software/react/30_typescript/post.html",
+      "/posts/software/react/29_testing/post.html",
+      "/posts/software/react/23_deployment/post.html",
+      "/posts/software/react/7_debugging/post.html",
+      "/posts/software/react/6_styling/post.html",
+      "/posts/software/react/2_js_essentials/post.html",
+      "/posts/software/react/1_getting_started/post.html"
     ]
   }
 ]

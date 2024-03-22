@@ -6,11 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Gurpreet Johl">
-<meta name="dcterms.date" content="2024-03-21">
-<meta name="description" content="Part 7: I don’t got no type, bad code is the only thing that I like">
 
-<title>Gurpreet Johl - React: TypeScript Essentials</title>
+<title>Gurpreet Johl - Series: React</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -26,22 +23,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../../../">
-<script src="../../../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-listing/list.min.js"></script>
+<script src="site_libs/quarto-listing/quarto-listing.js"></script>
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -69,9 +68,67 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script>
 
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-listing .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
 
-<link rel="stylesheet" href="../../../../styles.css">
+    const options = {
+      valueNames: ['listing-date','listing-title','listing-reading-time','listing-description','listing-categories','listing-image',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -81,7 +138,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../../../index.html">
+    <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Gurpreet Johl</span>
     </a>
   </div>
@@ -92,11 +149,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../../../projects.html"> 
+    <a class="nav-link" href="./projects.html"> 
 <span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../../blog.html"> 
+    <a class="nav-link" href="./blog.html"> 
 <span class="menu-text">Notes</span></a>
   </li>  
 </ul>
@@ -126,114 +183,336 @@ ul.task-list li input[type="checkbox"] {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-body">
-      <h1 class="title">React: TypeScript Essentials</h1>
-                  <div>
-        <div class="description">
-          Part 7: I don’t got no type, bad code is the only thing that I like
-        </div>
-      </div>
-                          <div class="quarto-categories">
-                <div class="quarto-category">Engineering</div>
-                <div class="quarto-category">Software</div>
-                <div class="quarto-category">React</div>
-                <div class="quarto-category">WebDev</div>
-              </div>
-                  </div>
+    <div class="quarto-title column-page">
+      <h1 class="title">Series: React</h1>
+                      </div>
   </div>
     
   
-  <div class="quarto-title-meta">
+  <div class="quarto-title-meta column-page">
 
-      <div>
-      <div class="quarto-title-meta-heading">Author</div>
-      <div class="quarto-title-meta-contents">
-               <p>Gurpreet Johl </p>
-            </div>
-    </div>
       
-      <div>
-      <div class="quarto-title-meta-heading">Published</div>
-      <div class="quarto-title-meta-contents">
-        <p class="date">March 21, 2024</p>
-      </div>
-    </div>
     
       
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#typescript-in-react" id="toc-typescript-in-react" class="nav-link active" data-scroll-target="#typescript-in-react">TypeScript in React</a>
-  <ul class="collapse">
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
-  </ul></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
-<main class="content quarto-banner-title-block" id="quarto-document-content">
+<main class="content quarto-banner-title-block column-page" id="quarto-document-content">
 
 
 
 
 
-<section id="typescript-in-react" class="level1">
-<h1>TypeScript in React</h1>
-<p>What is TS. Typescript is a superset of JS which adds static typing. Vanilla JS is dynamically typed. Types do not have to be specified ahead of time. This can result in funky errors like the classic “1” + “2”= “12”.</p>
-<p>Installing and using TS. It can be installed like any other package and managed in the project dependencies package.json npm install typescript</p>
-<p>Typescript is compiled. It does not run in the browser directly. Instead, there is a compilation step which converts TS to JS which can run in the browser. This compile step is where we will find type errors, before they hit production. npx tsc</p>
-<p>Base types. The primitives are number, string, boolean. Also null and undefined.<br>
-Note that primitive types are lowercase. The object itself (ie Number) is not what we want here. There is also an any type which is a catch all. We generally avoid this, as it defeats the purpose of using TS.</p>
-<p>Complex types: objects and arrays. Define an array of strings like let myArray: string[] = [“this”, “is”, “an”, “array”];</p>
-<p>Define an object type by specifying the keys and their types let person: {name: string, age: number} = {name: “Gurp”, age: 30}</p>
-<p>Union types. Use a pipe to denote multiple types are allowed.</p>
-<p>Type aliases. Define a type with the type keyword. This allows the type to be reusable if it’s used in multiple places.</p>
-<p>Function types. TS infers the output type based on the arguments. If this is correct, it’s common practice to not override this, let it infer. But you may want to override if you want it to output a union of types which it hasn’t inferred.</p>
-<p>Functions also have a special void return type if they do not return anything.</p>
-<p>Generics. If you have a utility function that can accept any input type, but the output should be the same type as the input, you can denote this using generic types with angled brackets.</p>
-<p>const myFunc<t>(inputArray: T[], inputValue: T) { return [inputValue, …inputArray] }</t></p>
-<p>This can be called with strings and would return an array of strings. Or called with numbers and return an array of numbers. Rather than having to use any, using the generic (T is arbitrary and just stands for Type) then when we call the function, TS will infer the output type correctly.</p>
-<p>Typescript with React. Creating a react project using project is largely the same, but you will have tsx files rather than JSX.</p>
-<p>Certain packages that you install may have additional type annotations packages if they were written in JS so they play nicely with TS. Some packages don’t need it if they were written in TS to begin with.</p>
-<p>Props with TypeScript. When passing props in React, it automatically passes certain default props like children. It would be cumbersome if we had to manually define the types of those default props on every component. Instead, we can set the output type of our component as React.FC (Functional Component) and this will handle the default props. If we then want to define our custom prop types, we can do so in angle brackets after React.FC&lt;{prop1: string, prop2: number}&gt;</p>
-<p>Here we are using a generic type, React.FC. The angled brackets are defining what types are being used in this particular case for this generic type.</p>
-<p>Props are marked as optional by adding a ? after the variable name, i.e.&nbsp;the key in the object.</p>
-<p>Type vs Interface. These are often interchangeable. The key difference is that interfaces can be extended, whereas type cannot. See https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#differences-between-type-aliases-and-interfaces</p>
-<p>Class types. When defining a class, you can specify the types of each attribute. See lecture 561, 5mins in.</p>
-<p>When instances of this class are used, you can simply use the class itself as the type.</p>
-<p>This is useful for defining data models.</p>
-<p>Form submission. The form submit outputs an event object which can be used by other functions. The type of this can be encapsulated by the React.FormEvent type. Similarly, there is a React.MouseEvent for the onClick listener.</p>
-<p>Types with useRef. We create a ref with useRef then attach it to a component (built in or custom). Typescript doesn’t know which component you intend to attach the ref to, so you need to specify this when creating the ref. By default, useRef returns a generic type, so we need to set the specific type when we call it. We also need to provide a starting value (null) to convince the typescript compiler that the ref isn’t already assigned to something else.</p>
-<p>const inputRef = useRef<htmlinputelement>(null);</htmlinputelement></p>
-<p>Then use this in an input element <input ref="{inputRef}"></p>
-<p>When working with ref.current TS will often demand a ? to indicate that this is possibly null. The resulting value’s type will then be, for example, string or null. If you know it will never be null, you can replace with the ! operator. This means the resulting value will have type string only.</p>
-<p>Function props. Where we pass a function as a prop we define its type as an arrow function specifying inputs and outputs. myFunc: (text: string) =&gt; void</p>
-<p>Note that this is similar to the way object types look like an object but don’t actually create an object. Function types look like a function but don’t actually create a function.</p>
-<p>The .bind method is similar to partial in Python. This is useful when we are passing a function down a prop chain and it will always have a certain argument. Bind saves us having to pass the value and declare its type and every stage of the prop chain.</p>
-<p>tsconfig.json . compiler options target defines which version of JavaScript the typescript compiler will transform the code to. lib defines which typescript default types are included out of the box, e.g.&nbsp;dom gives support for built in html types like HTMLInputType.</p>
-<p>allowJs determines if JS files are allowed alongside TS files, or if everything must strictly be typescript.</p>
-<p>strict determines if the compiler is strict, eg forbidding implicit any types etc.</p>
-<p>State with typescript. When we create a state, we often initialise it with an empty value, e.g.&nbsp;null or an empty array. But then TS does not know what type is going to go in that state later.</p>
-<p>The useState function returns a generic type so we can overwrite it with our type. const [myState, setMyState] = useState&lt;string[]&gt;([])</p>
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
-<ul>
-<li>Section 30 of <a href="https://www.udemy.com/share/101Wby3@bwKzzF5Lsdyap2056rQpfSQPMwoPeWakiLbWURQe1VXLfFumI76lGqitdKHEWO3C/">“React: The Complete Guide” Udemy course</a></li>
-</ul>
 
 
-</section>
-</section>
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+
+<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
+<div class="list quarto-listing-default">
+<div class="quarto-post image-right" data-index="0" data-categories="Engineering,Software,React,WebDev" data-listing-date-sort="1710979200000" data-listing-file-modified-sort="1711102699608" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1062">
+<div class="thumbnail">
+<p><a href="./posts/software/react/30_typescript/post.html" class="no-external"></a></p><a href="./posts/software/react/30_typescript/post.html" class="no-external">
+<p><img src="./posts/software/react/react.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/software/react/30_typescript/post.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/software/react/30_typescript/post.html" class="no-external">React: TypeScript Essentials</a>
+</h3>
+<div class="listing-subtitle">
+<a href="./posts/software/react/30_typescript/post.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
+Engineering
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Software'); return false;">
+Software
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('React'); return false;">
+React
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('WebDev'); return false;">
+WebDev
+</div>
+</div>
+<div class="listing-description">
+<a href="./posts/software/react/30_typescript/post.html" class="no-external">Part 7: I don’t got no type, bad code is the only thing that I like</a>
+</div>
+</div>
+<div class="metadata">
+<a href="./posts/software/react/30_typescript/post.html" class="no-external">
+<div class="listing-date">
+Mar 21, 2024
+</div>
+<div class="listing-reading-time">
+6 min
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-categories="Engineering,Software,React,WebDev" data-listing-date-sort="1710892800000" data-listing-file-modified-sort="1711102466823" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="549">
+<div class="thumbnail">
+<p><a href="./posts/software/react/29_testing/post.html" class="no-external"></a></p><a href="./posts/software/react/29_testing/post.html" class="no-external">
+<p><img src="./posts/software/react/react.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/software/react/29_testing/post.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/software/react/29_testing/post.html" class="no-external">React: Testing</a>
+</h3>
+<div class="listing-subtitle">
+<a href="./posts/software/react/29_testing/post.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
+Engineering
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Software'); return false;">
+Software
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('React'); return false;">
+React
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('WebDev'); return false;">
+WebDev
+</div>
+</div>
+<div class="listing-description">
+<a href="./posts/software/react/29_testing/post.html" class="no-external">Part 6: Testing my patience</a>
+</div>
+</div>
+<div class="metadata">
+<a href="./posts/software/react/29_testing/post.html" class="no-external">
+<div class="listing-date">
+Mar 20, 2024
+</div>
+<div class="listing-reading-time">
+3 min
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="2" data-categories="Engineering,Software,React,WebDev" data-listing-date-sort="1710720000000" data-listing-file-modified-sort="1711061053104" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="331">
+<div class="thumbnail">
+<p><a href="./posts/software/react/23_deployment/post.html" class="no-external"></a></p><a href="./posts/software/react/23_deployment/post.html" class="no-external">
+<p><img src="./posts/software/react/react.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/software/react/23_deployment/post.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/software/react/23_deployment/post.html" class="no-external">React: Deployment</a>
+</h3>
+<div class="listing-subtitle">
+<a href="./posts/software/react/23_deployment/post.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
+Engineering
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Software'); return false;">
+Software
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('React'); return false;">
+React
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('WebDev'); return false;">
+WebDev
+</div>
+</div>
+<div class="listing-description">
+<a href="./posts/software/react/23_deployment/post.html" class="no-external">Part 5: Deploying React Apps</a>
+</div>
+</div>
+<div class="metadata">
+<a href="./posts/software/react/23_deployment/post.html" class="no-external">
+<div class="listing-date">
+Mar 18, 2024
+</div>
+<div class="listing-reading-time">
+2 min
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="3" data-categories="Engineering,Software,React,WebDev" data-listing-date-sort="1710633600000" data-listing-file-modified-sort="1711061053105" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="217">
+<div class="thumbnail">
+<p><a href="./posts/software/react/7_debugging/post.html" class="no-external"></a></p><a href="./posts/software/react/7_debugging/post.html" class="no-external">
+<p><img src="./posts/software/react/react.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/software/react/7_debugging/post.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/software/react/7_debugging/post.html" class="no-external">React: Debugging</a>
+</h3>
+<div class="listing-subtitle">
+<a href="./posts/software/react/7_debugging/post.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
+Engineering
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Software'); return false;">
+Software
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('React'); return false;">
+React
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('WebDev'); return false;">
+WebDev
+</div>
+</div>
+<div class="listing-description">
+<a href="./posts/software/react/7_debugging/post.html" class="no-external">Part 4: A Bug’s Life</a>
+</div>
+</div>
+<div class="metadata">
+<a href="./posts/software/react/7_debugging/post.html" class="no-external">
+<div class="listing-date">
+Mar 17, 2024
+</div>
+<div class="listing-reading-time">
+2 min
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="4" data-categories="Engineering,Software,React,WebDev" data-listing-date-sort="1710547200000" data-listing-file-modified-sort="1711061053105" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="631">
+<div class="thumbnail">
+<p><a href="./posts/software/react/6_styling/post.html" class="no-external"></a></p><a href="./posts/software/react/6_styling/post.html" class="no-external">
+<p><img src="./posts/software/react/react.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/software/react/6_styling/post.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/software/react/6_styling/post.html" class="no-external">React: Styling</a>
+</h3>
+<div class="listing-subtitle">
+<a href="./posts/software/react/6_styling/post.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
+Engineering
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Software'); return false;">
+Software
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('React'); return false;">
+React
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('WebDev'); return false;">
+WebDev
+</div>
+</div>
+<div class="listing-description">
+<a href="./posts/software/react/6_styling/post.html" class="no-external">Part 3: Styling it Out</a>
+</div>
+</div>
+<div class="metadata">
+<a href="./posts/software/react/6_styling/post.html" class="no-external">
+<div class="listing-date">
+Mar 16, 2024
+</div>
+<div class="listing-reading-time">
+4 min
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="5" data-categories="Engineering,Software,React,WebDev" data-listing-date-sort="1710374400000" data-listing-file-modified-sort="1711102451047" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1432">
+<div class="thumbnail">
+<p><a href="./posts/software/react/2_js_essentials/post.html" class="no-external"></a></p><a href="./posts/software/react/2_js_essentials/post.html" class="no-external">
+<p><img src="./posts/software/react/react.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/software/react/2_js_essentials/post.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/software/react/2_js_essentials/post.html" class="no-external">React: JavaScript Essentials</a>
+</h3>
+<div class="listing-subtitle">
+<a href="./posts/software/react/2_js_essentials/post.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
+Engineering
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Software'); return false;">
+Software
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('React'); return false;">
+React
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('WebDev'); return false;">
+WebDev
+</div>
+</div>
+<div class="listing-description">
+<a href="./posts/software/react/2_js_essentials/post.html" class="no-external">Part 2: WTF is JSX</a>
+</div>
+</div>
+<div class="metadata">
+<a href="./posts/software/react/2_js_essentials/post.html" class="no-external">
+<div class="listing-date">
+Mar 14, 2024
+</div>
+<div class="listing-reading-time">
+8 min
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="6" data-categories="Engineering,Software,React,WebDev" data-listing-date-sort="1710201600000" data-listing-file-modified-sort="1711061053104" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2268">
+<div class="thumbnail">
+<p><a href="./posts/software/react/1_getting_started/post.html" class="no-external"></a></p><a href="./posts/software/react/1_getting_started/post.html" class="no-external">
+<p><img src="./posts/software/react/react.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/software/react/1_getting_started/post.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/software/react/1_getting_started/post.html" class="no-external">React: A Gentle Introduction</a>
+</h3>
+<div class="listing-subtitle">
+<a href="./posts/software/react/1_getting_started/post.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
+Engineering
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Software'); return false;">
+Software
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('React'); return false;">
+React
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('WebDev'); return false;">
+WebDev
+</div>
+</div>
+<div class="listing-description">
+<a href="./posts/software/react/1_getting_started/post.html" class="no-external">Part 1: Getting Started with React</a>
+</div>
+</div>
+<div class="metadata">
+<a href="./posts/software/react/1_getting_started/post.html" class="no-external">
+<div class="listing-date">
+Mar 12, 2024
+</div>
+<div class="listing-reading-time">
+12 min
+</div>
+</a>
+</div>
+</div>
+</div>
+<div class="listing-no-matching d-none">
+No matching items
+</div>
+</div><a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

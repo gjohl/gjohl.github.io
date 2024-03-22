@@ -1,10 +1,9 @@
 ---
 title: "React: TypeScript Essentials"
-description: "React Complete Guide: Section 2"
-date: "2024-03-13"
+description: "Part 7: I don't got no type, bad code is the only thing that I like"
+date: "2024-03-21"
 image: "../react.png"
 categories: [Engineering, Software, React, WebDev]
-draft: true
 ---
 
 # TypeScript in React
@@ -126,4 +125,10 @@ When we create a state, we often initialise it with an empty value, e.g. null or
 
 The useState function returns a generic type so we can overwrite it with our type. 
 const [myState, setMyState] = useState<string[]>([])
+
+
+
+## References
+
+- Section 30 of  ["React: The Complete Guide" Udemy course](https://www.udemy.com/share/101Wby3@bwKzzF5Lsdyap2056rQpfSQPMwoPeWakiLbWURQe1VXLfFumI76lGqitdKHEWO3C/)
 
