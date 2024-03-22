@@ -8,127 +8,187 @@ categories: [Engineering, Software, React, WebDev]
 
 # TypeScript in React
 
-What is TS. 
-Typescript is a superset of JS which adds static typing. 
+## 1. WTF is TS? 
+TypeScript (TS) is a superset of JavaScript (JS) which adds static typing. 
+
 Vanilla JS is dynamically typed. Types do not have to be specified ahead of time. 
-This can result in funky errors like the classic “1” + “2”= “12”. 
+This can result in funky errors like the classic `“1” + “2”= “12”`. 
 
-Installing and using TS. 
+## 2. Installing and Using TS.
 It can be installed like any other package and managed in the project dependencies package.json
+
+```bash
 npm install typescript 
+```
 
-Typescript is compiled. It does not run in the browser directly. Instead, there is a compilation step which converts TS to JS which can run in the browser. 
-This compile step is where we will find type errors, before they hit production. 
-npx tsc 
+Typescript is compiled. It does not run in the browser directly. Instead, there is a compilation step which converts TS to JS which *can* run in the browser. 
 
-Base types. 
-The primitives are number, string, boolean. 
-Also null and undefined.  
-Note that primitive types are lowercase. The object itself (ie Number) is not what we want here. 
-There is also an any type which is a catch all. We generally avoid this, as it defeats the purpose of using TS. 
+This compile step is where we will find type errors, *before* they hit production. 
+```bash
+npx tsc
+``` 
 
-Complex types: objects and arrays.
-Define an array of strings like
+## 3. Types
+
+### 3.1. Base Types
+The primitives are `number`, `string`, `boolean`. 
+We also have `null` and `undefined`.  
+
+Note that primitive *types* are lowercase, e.g. `number`. The *object itself*, e.g. `Number`, is not what we want here. 
+
+There is also an `any` type which is a catch all. We generally avoid this, as it defeats the purpose of using TS. 
+
+
+### 3.2. Complex Types
+We have built-in complex types: `objects` and `arrays`.
+
+Define an array of strings like:
+```typescript
 let myArray: string[] = [“this”, “is”, “an”, “array”];
+```
 
-Define an object type by specifying the keys and their types
+Define an object type by specifying the keys and their types:
+```typescript
 let person: {name: string, age: number} = {name: “Gurp”, age: 30}
+```
 
-Union types. 
-Use a pipe to denote multiple types are allowed. 
 
-Type aliases. 
-Define a type with the type keyword. This allows the type to be reusable if it’s used in multiple places. 
+### 3.3. Union Types
+Use a pipe to denote where multiple types are allowed, e.g.
+```typescript
+let val: string|number = 69;
+```
 
-Function types. 
-TS infers the output type based on the arguments. If this is correct, it’s common practice to not override this, let it infer. But you may want to override if you want it to output a union of types which it hasn’t inferred. 
+### 3.4 Type Aliases
+Define a type with the `type` keyword. 
 
-Functions also have a special void return type if they do not return anything. 
+This allows the type to be reusable if it’s used in multiple places. 
 
-Generics. 
+### 3.5. Function Types
+TS infers the output type based on the arguments. 
+
+If this is correct, it’s common practice to not override this, let it infer. But you may want to override if you want it to output a union of types which it hasn’t inferred. 
+
+Functions also have a special `void` return type if they do not return anything. 
+
+### 3.6. Generics
 If you have a utility function that can accept any input type, but the output should be the same type as the input, you can denote this using generic types with angled brackets. 
 
+```typescript
 const myFunc<T>(inputArray: T[], inputValue: T) {
     return [inputValue, …inputArray]
 }
+```
 
-This can be called with strings and would return an array of strings. Or called with numbers and return an array of numbers. Rather than having to use any, using the generic (T is arbitrary and just stands for Type) then when we call the function, TS will infer the output type correctly. 
+This can be called with strings and would return an array of strings. Or called with numbers and return an array of numbers. Rather than having to use `any`, we can use the generic (T is arbitrary and just stands for Type) then when we call the function TypeScript will infer the output type correctly. 
 
+### 3.7. Type vs Interface
+These are often interchangeable. The key difference is that **interfaces can be extended, whereas type cannot**. 
 
-Typescript with React. 
-Creating a react project using project is largely the same, but you will have tsx files rather than JSX. 
-
-Certain packages that you install may have additional type annotations packages if they were written in JS so they play nicely with TS. Some packages don’t need it if they were written in TS to begin with.  
-
-
-Props with TypeScript. 
-When passing props in React, it automatically passes certain default props like children. It would be cumbersome if we had to manually define the types of those default props on every component. 
-Instead, we can set the output type of our component as React.FC (Functional Component) and this will handle the default props. 
-If we then want to define our custom prop types, we can do so in angle brackets after React.FC<{prop1: string, prop2: number}>
-
-Here we are using a generic type, React.FC. 
-The angled brackets are defining what types are being used in this particular case for this generic type. 
-
-Props are marked as optional by adding a ? after the variable name, i.e. the key in the object. 
+See [here](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#differences-between-type-aliases-and-interfaces)
 
 
-Type vs Interface. 
-These are often interchangeable. The key difference is that interfaces can be extended, whereas type cannot. 
-See https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#differences-between-type-aliases-and-interfaces
-
-
-Class types. 
+### 3.8. Class Types
 When defining a class, you can specify the types of each attribute. 
-See lecture 561, 5mins in. 
+
+```typescript
+class Todo {
+    id: string;
+    text: string;
+
+    constructor(inputText: string) {
+        this.text = inputText;
+        this.id = new Date().toISOString();
+    }
+}
+```
 
 When instances of this class are used, you can simply use the class itself as the type. 
 
 This is useful for defining data models. 
 
 
-Form submission. 
-The form submit outputs an event object which can be used by other functions. The type of this can be encapsulated by the React.FormEvent type. 
-Similarly, there is a React.MouseEvent for the onClick listener. 
+## 4. Typescript with React
+Creating a react project using TypeScript is largely the same, but you will have `.tsx` files rather than `.jsx`. 
 
-Types with useRef. 
-We create a ref with useRef then attach it to a component (built in or custom). 
-Typescript doesn’t know which component you intend to attach the ref to, so you need to specify this when creating the ref. By default, useRef returns a generic type, so we need to set the specific type when we call it. We also need to provide a starting value (null) to convince the typescript compiler that the ref isn’t already assigned to something else. 
+Certain packages that you install may have additional type annotations packages if they were written in JS, to make them they play nicely with TS. Some packages don’t need it if they were written in TS to begin with.  
 
+
+### 4.1. Props with TypeScript
+When passing props in React, it automatically passes certain default props like `children`. It would be cumbersome if we had to manually define the types of those default props on every component. 
+
+Instead, we can set the output type of our component as `React.FC` (Functional Component) and this will handle the default props. 
+
+If we then want to define our custom prop types, we can do so in angle brackets after: 
+```typescript
+React.FC<{prop1: string, prop2: number}>
+```
+
+Here we are using a generic type, `React.FC`. 
+The angled brackets are defining what types are being used in this particular case for this generic type. 
+
+Props are marked as optional by adding a `?` after the variable name, i.e. the key in the object. 
+
+
+### 4.2. Form Submission
+The form submit outputs an `event` object which can be used by other functions. 
+
+The type of this can be encapsulated by the `React.FormEvent` type. 
+Similarly, there is a `React.MouseEvent` for the `onClick` listener. 
+
+
+### 4.3. Types with useRef 
+We create a ref with `useRef` then attach it to a component (can be built-in or custom). 
+
+TypeScript doesn’t know which component you intend to attach the ref to, so you need to specify this when creating the ref. 
+
+By default, `useRef` returns a generic type, so we need to set the specific type when we call it. We also need to provide a starting value (null) to convince the TypeScript compiler that the ref isn’t already assigned to something else. 
+
+```typescript
 const inputRef = useRef<HTMLInputElement>(null);
+```
 
 Then use this in an input element 
+```typescript
 <input ref={inputRef} />
+```
 
-When working with ref.current TS will often demand a ? to indicate that this is possibly null. The resulting value’s type will then be, for example, string or null. If you know it will never be null, you can replace with the ! operator. This means the resulting value will have type string only. 
+When working with `ref.current` TypeScript will often demand a `?` to indicate that this is possibly null. The resulting value’s type will then be, for example, string or null. If you know it will never be null, you can replace with the ! operator. This means the resulting value will have type string only. 
 
-Function props. 
+
+### 4.4 Function Props
 Where we pass a function as a prop we define its type as an arrow function specifying inputs and outputs. 
+```typescript
 myFunc: (text: string) => void
+```
 
-Note that this is similar to the way object types look like an object but don’t actually create an object. Function types look like a function but don’t actually create a function. 
+Note that this is similar to how object types look like an object but don’t actually create an object. Function types look like a function but don’t actually create a function. 
 
-The .bind method is similar to partial in Python. This is useful when we are passing a function down a prop chain and it will always have a certain argument. Bind saves us having to pass the value and declare its type and every stage of the prop chain. 
-
-
-tsconfig.json . 
-compiler options target defines which version of JavaScript the typescript compiler will transform the code to. 
-lib defines which typescript default types are included out of the box, e.g. dom gives support for built in html types like HTMLInputType. 
-
-allowJs determines if JS files are allowed alongside TS files, or if everything must strictly be typescript. 
-
-strict determines if the compiler is strict, eg forbidding implicit any types etc. 
+The `.bind` method is similar to partial in Python. This is useful when we are passing a function down a prop chain and it will always have a certain argument. Bind saves us having to pass the value and declare its type and every stage of the prop chain. 
 
 
+### 4.5. tsconfig.json
+The `compilerOptions.target` value defines which version of JavaScript the TypeScript compiler will transform the code to. 
 
-State with typescript. 
-When we create a state, we often initialise it with an empty value, e.g. null or an empty array. But then TS does not know what type is going to go in that state later. 
+The `compilerOptions.lib` value defines which TypeScript default types are included out of the box. For example, "DOM" gives support for built-in html types like HTMLInputType. 
 
-The useState function returns a generic type so we can overwrite it with our type. 
+If we want to allow plain JavaScript files in the project alongside TypeScript, we can set `compilerOptions.allowJs` to True. If False, everything must strictly be TypeScript. 
+
+We can set a strict compile with `compilerOptions.strict`. This will forbid implicit `any` types etc. 
+
+
+
+### 4.6. State with TypeScript
+When we create a state, we often initialise it with an empty value, e.g. null or an empty array. But then TypeScript does not know what type is going to go in that state later. 
+
+The `useState` function returns a generic type so we can overwrite it with our type. 
+
+```typescript
 const [myState, setMyState] = useState<string[]>([])
-
+```
 
 
 ## References
 
 - Section 30 of  ["React: The Complete Guide" Udemy course](https://www.udemy.com/share/101Wby3@bwKzzF5Lsdyap2056rQpfSQPMwoPeWakiLbWURQe1VXLfFumI76lGqitdKHEWO3C/)
-
+- [Types vs Interfaces](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#differences-between-type-aliases-and-interfaces)
