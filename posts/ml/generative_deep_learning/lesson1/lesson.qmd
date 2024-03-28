@@ -1,6 +1,6 @@
 ---
-title: "Generative AI Part 1: Intro"
-description: "Intro to generative AI"
+title: "Generative AI: Intro"
+description: "Part 1: Introduction to Generative AI"
 date: "2024-02-19"
 # image: "deep_learning_model.png"
 categories: [AI, Engineering, GenerativeAI]
