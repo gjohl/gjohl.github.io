@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Gurpreet Johl">
+<meta name="dcterms.date" content="2024-04-01">
+<meta name="description" content="Generative Adversarial Networks">
 
-<title>Gurpreet Johl - Series: Generative AI</title>
+<title>Gurpreet Johl - Generative AI Part 4: GANs</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,24 +26,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../">
+<script src="../../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -68,67 +69,12 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
+<script src="../../../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
 
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-reading-time','listing-description','listing-categories','listing-image',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../../../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -138,7 +84,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../../../index.html">
     <span class="navbar-title">Gurpreet Johl</span>
     </a>
   </div>
@@ -149,11 +95,11 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./projects.html"> 
+    <a class="nav-link" href="../../../../projects.html"> 
 <span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./blog.html"> 
+    <a class="nav-link" href="../../../../blog.html"> 
 <span class="menu-text">Notes</span></a>
   </li>  
 </ul>
@@ -183,204 +129,126 @@ window.Quarto = {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page">
-      <h1 class="title">Series: Generative AI</h1>
-                      </div>
+    <div class="quarto-title column-body">
+      <h1 class="title">Generative AI Part 4: GANs</h1>
+                  <div>
+        <div class="description">
+          Generative Adversarial Networks
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">AI</div>
+                <div class="quarto-category">Engineering</div>
+                <div class="quarto-category">GenerativeAI</div>
+                <div class="quarto-category">GAN</div>
+              </div>
+                  </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page">
+  <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Gurpreet Johl </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">April 1, 2024</p>
+      </div>
+    </div>
     
       
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#gans" id="toc-gans" class="nav-link active" data-scroll-target="#gans">GANs</a>
+  <ul class="collapse">
+  <li><a href="#gans-1" id="toc-gans-1" class="nav-link" data-scroll-target="#gans-1">1. GANs</a></li>
+  <li><a href="#building-a-deep-convolutional-gan" id="toc-building-a-deep-convolutional-gan" class="nav-link" data-scroll-target="#building-a-deep-convolutional-gan">2. Building a Deep Convolutional GAN</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block column-page" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
+<section id="gans" class="level1">
+<h1>GANs</h1>
+<p>Notes on Generative Adversarial Networks (GANs).</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Story Time">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Story Time
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Imagine a forger trying to forge £20 notes and the popo trying to stop them.</p>
+<p>The popo learn to spot the fakes. But then the forger learns to improve their forging skills to make better fakes.</p>
+<p>This goes back and forth. With each iteration, the forger keeps getting better but then the popo learn to spot these more sophisticated fakes.</p>
+<p>The results in a forger (generator) learning to create convincing fakes and the popo (discriminator) learning to spot fakes.</p>
+</div>
+</div>
+<section id="gans-1" class="level2">
+<h2 class="anchored" data-anchor-id="gans-1">1. GANs</h2>
+<p>The idea of GANs is that we can train two competing models:</p>
+<ul>
+<li>The <strong>generator</strong> tries to convert random noise into convincing observations.</li>
+<li>The <strong>discriminator</strong> tries to predict whether an observation came from the original training dataset or is a “fake”.</li>
+</ul>
+<p>We initialise both as random models; the generator outputs noise and the discriminator predicts randomly. We then alternate the training of the two networks so that the generator gets incrementally better at fooling the discriminator, then the discriminator gets incrementally better at spotting fakes.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+
+  A([Random noise]) --&gt; B[Generator] --&gt; C([Generated image]) 
+
+  D([Image]) --&gt; E[Discriminator] --&gt; F([Prediction of realness probability])
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="building-a-deep-convolutional-gan" class="level2">
+<h2 class="anchored" data-anchor-id="building-a-deep-convolutional-gan">2. Building a Deep Convolutional GAN</h2>
+<p>We will implement a GAN to generate <a href="https://www.kaggle.com/datasets/joosthazelzet/lego-brick-images">pictures of bricks</a>.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li>Chapter 4 of Generative Deep Learning by David Foster.</li>
+</ul>
 
 
+</section>
+</section>
 
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="AI,Engineering,GenerativeAI,GAN" data-listing-date-sort="1711926000000" data-listing-file-modified-sort="1711657416669" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="210">
-<div class="thumbnail">
-<p><a href="./posts/ml/generative_deep_learning/lesson4/chapter4.html" class="no-external"></a></p><a href="./posts/ml/generative_deep_learning/lesson4/chapter4.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./posts/ml/generative_deep_learning/lesson4/chapter4.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ml/generative_deep_learning/lesson4/chapter4.html" class="no-external">Generative AI Part 4: GANs</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ml/generative_deep_learning/lesson4/chapter4.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('GenerativeAI'); return false;">
-GenerativeAI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('GAN'); return false;">
-GAN
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/ml/generative_deep_learning/lesson4/chapter4.html" class="no-external">Generative Adversarial Networks</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ml/generative_deep_learning/lesson4/chapter4.html" class="no-external">
-<div class="listing-date">
-Apr 1, 2024
-</div>
-<div class="listing-reading-time">
-2 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="AI,Engineering,GenerativeAI,VAE" data-listing-date-sort="1709683200000" data-listing-file-modified-sort="1709741367318" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1574">
-<div class="thumbnail">
-<p><a href="./posts/ml/generative_deep_learning/lesson3/chapter3.html" class="no-external"></a></p><a href="./posts/ml/generative_deep_learning/lesson3/chapter3.html" class="no-external">
-<p class="card-img-top"><img src="posts/ml/generative_deep_learning/lesson3/chapter3_files/figure-html/cell-4-output-1.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/ml/generative_deep_learning/lesson3/chapter3.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ml/generative_deep_learning/lesson3/chapter3.html" class="no-external">Generative AI: Chapter 3</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ml/generative_deep_learning/lesson3/chapter3.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('GenerativeAI'); return false;">
-GenerativeAI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('VAE'); return false;">
-VAE
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/ml/generative_deep_learning/lesson3/chapter3.html" class="no-external">Variational Autoencoders</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ml/generative_deep_learning/lesson3/chapter3.html" class="no-external">
-<div class="listing-date">
-Mar 6, 2024
-</div>
-<div class="listing-reading-time">
-8 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="AI,Engineering,GenerativeAI" data-listing-date-sort="1708905600000" data-listing-file-modified-sort="1709123168930" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1143">
-<div class="thumbnail">
-<p><a href="./posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html" class="no-external"></a></p><a href="./posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html" class="no-external">
-<p class="card-img-top"><img src="posts/ml/generative_deep_learning/lesson2/chapter2_mlp_files/figure-html/cell-3-output-1.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html" class="no-external">Generative AI: Chapter 2</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('GenerativeAI'); return false;">
-GenerativeAI
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html" class="no-external">Intro to deep learning</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html" class="no-external">
-<div class="listing-date">
-Feb 26, 2024
-</div>
-<div class="listing-reading-time">
-6 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-categories="AI,Engineering,GenerativeAI" data-listing-date-sort="1708300800000" data-listing-file-modified-sort="1708682072515" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="848">
-<div class="thumbnail">
-<p><a href="./posts/ml/generative_deep_learning/lesson1/lesson.html" class="no-external"></a></p><a href="./posts/ml/generative_deep_learning/lesson1/lesson.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./posts/ml/generative_deep_learning/lesson1/lesson.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ml/generative_deep_learning/lesson1/lesson.html" class="no-external">Generative AI: Chapter 1</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ml/generative_deep_learning/lesson1/lesson.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('GenerativeAI'); return false;">
-GenerativeAI
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/ml/generative_deep_learning/lesson1/lesson.html" class="no-external">Intro to generative AI</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ml/generative_deep_learning/lesson1/lesson.html" class="no-external">
-<div class="listing-date">
-Feb 19, 2024
-</div>
-<div class="listing-reading-time">
-5 min
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div><a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
