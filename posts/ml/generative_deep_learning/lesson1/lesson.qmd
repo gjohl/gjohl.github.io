@@ -1,5 +1,5 @@
 ---
-title: "Generative AI: Chapter 1"
+title: "Generative AI Part 1: Intro"
 description: "Intro to generative AI"
 date: "2024-02-19"
 # image: "deep_learning_model.png"
@@ -7,7 +7,7 @@ categories: [AI, Engineering, GenerativeAI]
 ---
 
 # Introduction to Generative Deep Learning
-These are notes from chapter 1 of Generative Deep Learning by David Foster.
+The 30000ft view of generative AI.
 
 
 ## 1. What is Generative Modeling?
@@ -137,3 +137,8 @@ flowchart LR
 
 - Implicit density models don't even try to estimate the probability density, instead focusing on producing a stochastic data generation process directly.
 - Tractable models place constraints on the model architecture (i.e. the parameters $\theta$).
+
+
+## References
+
+- Chapter 1 of Generative Deep Learning by David Foster.
