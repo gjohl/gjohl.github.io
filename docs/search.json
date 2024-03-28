@@ -1453,7 +1453,7 @@
     "href": "posts/ml/generative_deep_learning/lesson4/chapter4.html",
     "title": "Generative AI: GANs",
     "section": "",
-    "text": "Notes on Generative Adversarial Networks (GANs).\n\n\n\n\n\n\nStory Time\n\n\n\nImagine a forger trying to forge £20 notes and the popo trying to stop them.\nThe popo learn to spot the fakes. But then the forger learns to improve their forging skills to make better fakes.\nThis goes back and forth. With each iteration, the forger keeps getting better but then the popo learn to spot these more sophisticated fakes.\nThe results in a forger (generator) learning to create convincing fakes and the popo (discriminator) learning to spot fakes.\n\n\n\n\nThe idea of GANs is that we can train two competing models:\n\nThe generator tries to convert random noise into convincing observations.\nThe discriminator tries to predict whether an observation came from the original training dataset or is a “fake”.\n\nWe initialise both as random models; the generator outputs noise and the discriminator predicts randomly. We then alternate the training of the two networks so that the generator gets incrementally better at fooling the discriminator, then the discriminator gets incrementally better at spotting fakes.\n\n\n\n\n\nflowchart LR\n\n  A([Random noise]) --&gt; B[Generator] --&gt; C([Generated image]) \n\n  D([Image]) --&gt; E[Discriminator] --&gt; F([Prediction of realness probability])\n\n\n\n\n\n\n\n\n\nWe will implement a GAN to generate pictures of bricks.\n\n\nCode\n### 2.1. Load and pre-process \n\n\n\n\n\n\nChapter 4 of Generative Deep Learning by David Foster."
+    "text": "Notes on Generative Adversarial Networks (GANs).\n\n\n\n\n\n\nStory Time\n\n\n\nImagine a forger trying to forge £20 notes and the popo trying to stop them.\nThe popo learn to spot the fakes. But then the forger learns to improve their forging skills to make better fakes.\nThis goes back and forth. With each iteration, the forger keeps getting better but then the popo learn to spot these more sophisticated fakes.\nThe results in a forger (generator) learning to create convincing fakes and the popo (discriminator) learning to spot fakes.\n\n\n\n\nThe idea of GANs is that we can train two competing models:\n\nThe generator tries to convert random noise into convincing observations.\nThe discriminator tries to predict whether an observation came from the original training dataset or is a “fake”.\n\nWe initialise both as random models; the generator outputs noise and the discriminator predicts randomly. We then alternate the training of the two networks so that the generator gets incrementally better at fooling the discriminator, then the discriminator gets incrementally better at spotting fakes.\n\n\n\n\n\nflowchart LR\n\n  A([Random noise]) --&gt; B[Generator] --&gt; C([Generated image]) \n\n  D([Image]) --&gt; E[Discriminator] --&gt; F([Prediction of realness probability])\n\n\n\n\n\n\n\n\n\nWe will implement a GAN to generate pictures of bricks.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAlternate not simultaneously.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nChapter 4 of Generative Deep Learning by David Foster."
   },
   {
     "objectID": "posts/ml/generative_deep_learning/lesson4/chapter4.html#gans-1",
@@ -1467,7 +1467,7 @@
     "href": "posts/ml/generative_deep_learning/lesson4/chapter4.html#building-a-deep-convolutional-gan",
     "title": "Generative AI: GANs",
     "section": "",
-    "text": "We will implement a GAN to generate pictures of bricks.\n\n\nCode\n### 2.1. Load and pre-process"
+    "text": "We will implement a GAN to generate pictures of bricks.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAlternate not simulataneously."
   },
   {
     "objectID": "posts/ml/generative_deep_learning/lesson4/chapter4.html#references",
@@ -1496,5 +1496,12 @@
     "title": "Generative AI: Intro",
     "section": "",
     "text": "Chapter 1 of Generative Deep Learning by David Foster."
+  },
+  {
+    "objectID": "posts/ml/generative_deep_learning/lesson4/chapter4.html#building-a-deep-convolutional-gan-dcgan",
+    "href": "posts/ml/generative_deep_learning/lesson4/chapter4.html#building-a-deep-convolutional-gan-dcgan",
+    "title": "Generative AI: GANs",
+    "section": "",
+    "text": "We will implement a GAN to generate pictures of bricks.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAlternate not simultaneously."
   }
 ]

@@ -23,40 +23,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -211,7 +177,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#gans" id="toc-gans" class="nav-link active" data-scroll-target="#gans">GANs</a>
   <ul class="collapse">
   <li><a href="#gans-1" id="toc-gans-1" class="nav-link" data-scroll-target="#gans-1">1. GANs</a></li>
-  <li><a href="#building-a-deep-convolutional-gan" id="toc-building-a-deep-convolutional-gan" class="nav-link" data-scroll-target="#building-a-deep-convolutional-gan">2. Building a Deep Convolutional GAN</a></li>
+  <li><a href="#building-a-deep-convolutional-gan-dcgan" id="toc-building-a-deep-convolutional-gan-dcgan" class="nav-link" data-scroll-target="#building-a-deep-convolutional-gan-dcgan">2. Building a Deep Convolutional GAN (DCGAN)</a>
+  <ul class="collapse">
+  <li><a href="#load-and-pre-process-the-data" id="toc-load-and-pre-process-the-data" class="nav-link" data-scroll-target="#load-and-pre-process-the-data">2.1. Load and pre-process the data</a></li>
+  <li><a href="#build-the-discriminator" id="toc-build-the-discriminator" class="nav-link" data-scroll-target="#build-the-discriminator">2.2. Build the Discriminator</a></li>
+  <li><a href="#build-the-generator" id="toc-build-the-generator" class="nav-link" data-scroll-target="#build-the-generator">2.3. Build the Generator</a></li>
+  <li><a href="#train-the-gan" id="toc-train-the-gan" class="nav-link" data-scroll-target="#train-the-gan">2.4. Train the GAN</a></li>
+  </ul></li>
+  <li><a href="#analysing-the-gan" id="toc-analysing-the-gan" class="nav-link" data-scroll-target="#analysing-the-gan">3. Analysing the GAN</a></li>
+  <li><a href="#gan-training-tips" id="toc-gan-training-tips" class="nav-link" data-scroll-target="#gan-training-tips">4. GAN Training Tips</a></li>
+  <li><a href="#wasserstein-gan-with-gradient-penalty-wgan-gp" id="toc-wasserstein-gan-with-gradient-penalty-wgan-gp" class="nav-link" data-scroll-target="#wasserstein-gan-with-gradient-penalty-wgan-gp">5. Wasserstein GAN with Gradient Penalty (WGAN-GP)</a>
+  <ul class="collapse">
+  <li><a href="#wasserstein-loss" id="toc-wasserstein-loss" class="nav-link" data-scroll-target="#wasserstein-loss">5.1. Wasserstein Loss</a></li>
+  <li><a href="#lipschitz-constraint" id="toc-lipschitz-constraint" class="nav-link" data-scroll-target="#lipschitz-constraint">5.2. Lipschitz Constraint</a></li>
+  <li><a href="#gradient-penalty-loss" id="toc-gradient-penalty-loss" class="nav-link" data-scroll-target="#gradient-penalty-loss">5.3. Gradient Penalty Loss</a></li>
+  <li><a href="#training-the-wgan-gp" id="toc-training-the-wgan-gp" class="nav-link" data-scroll-target="#training-the-wgan-gp">5.4. Training the WGAN-GP</a></li>
+  <li><a href="#analysing-the-wgan-gp" id="toc-analysing-the-wgan-gp" class="nav-link" data-scroll-target="#analysing-the-wgan-gp">5.5. Analysing the WGAN-GP</a></li>
+  </ul></li>
+  <li><a href="#conditional-gan-cgan" id="toc-conditional-gan-cgan" class="nav-link" data-scroll-target="#conditional-gan-cgan">6. Conditional GAN (CGAN)</a>
+  <ul class="collapse">
+  <li><a href="#cgan-architecture" id="toc-cgan-architecture" class="nav-link" data-scroll-target="#cgan-architecture">6.1. CGAN Architecture</a></li>
+  </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul></li>
   </ul>
@@ -268,15 +254,58 @@ Story Time
 </div>
 </div>
 </section>
-<section id="building-a-deep-convolutional-gan" class="level2">
-<h2 class="anchored" data-anchor-id="building-a-deep-convolutional-gan">2. Building a Deep Convolutional GAN</h2>
+<section id="building-a-deep-convolutional-gan-dcgan" class="level2">
+<h2 class="anchored" data-anchor-id="building-a-deep-convolutional-gan-dcgan">2. Building a Deep Convolutional GAN (DCGAN)</h2>
 <p>We will implement a GAN to generate <a href="https://www.kaggle.com/datasets/joosthazelzet/lego-brick-images">pictures of bricks</a>.</p>
-<div id="cell-2" class="cell" data-vscode="{&quot;languageId&quot;:&quot;plaintext&quot;}">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">### 2.1. Load and pre-process </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
+<section id="load-and-pre-process-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="load-and-pre-process-the-data">2.1. Load and pre-process the data</h3>
+</section>
+<section id="build-the-discriminator" class="level3">
+<h3 class="anchored" data-anchor-id="build-the-discriminator">2.2. Build the Discriminator</h3>
+<section id="tanh-vs-sigmoid-activation" class="level4">
+<h4 class="anchored" data-anchor-id="tanh-vs-sigmoid-activation">tanh vs sigmoid activation</h4>
+</section>
+</section>
+<section id="build-the-generator" class="level3">
+<h3 class="anchored" data-anchor-id="build-the-generator">2.3. Build the Generator</h3>
+<section id="conv2dtranspose" class="level4">
+<h4 class="anchored" data-anchor-id="conv2dtranspose">Conv2DTranspose</h4>
+</section>
+</section>
+<section id="train-the-gan" class="level3">
+<h3 class="anchored" data-anchor-id="train-the-gan">2.4. Train the GAN</h3>
+<p>Alternate not simultaneously.</p>
+</section>
+</section>
+<section id="analysing-the-gan" class="level2">
+<h2 class="anchored" data-anchor-id="analysing-the-gan">3. Analysing the GAN</h2>
+</section>
+<section id="gan-training-tips" class="level2">
+<h2 class="anchored" data-anchor-id="gan-training-tips">4. GAN Training Tips</h2>
+</section>
+<section id="wasserstein-gan-with-gradient-penalty-wgan-gp" class="level2">
+<h2 class="anchored" data-anchor-id="wasserstein-gan-with-gradient-penalty-wgan-gp">5. Wasserstein GAN with Gradient Penalty (WGAN-GP)</h2>
+<section id="wasserstein-loss" class="level3">
+<h3 class="anchored" data-anchor-id="wasserstein-loss">5.1. Wasserstein Loss</h3>
+</section>
+<section id="lipschitz-constraint" class="level3">
+<h3 class="anchored" data-anchor-id="lipschitz-constraint">5.2. Lipschitz Constraint</h3>
+</section>
+<section id="gradient-penalty-loss" class="level3">
+<h3 class="anchored" data-anchor-id="gradient-penalty-loss">5.3. Gradient Penalty Loss</h3>
+</section>
+<section id="training-the-wgan-gp" class="level3">
+<h3 class="anchored" data-anchor-id="training-the-wgan-gp">5.4. Training the WGAN-GP</h3>
+</section>
+<section id="analysing-the-wgan-gp" class="level3">
+<h3 class="anchored" data-anchor-id="analysing-the-wgan-gp">5.5. Analysing the WGAN-GP</h3>
+</section>
+</section>
+<section id="conditional-gan-cgan" class="level2">
+<h2 class="anchored" data-anchor-id="conditional-gan-cgan">6. Conditional GAN (CGAN)</h2>
+<section id="cgan-architecture" class="level3">
+<h3 class="anchored" data-anchor-id="cgan-architecture">6.1. CGAN Architecture</h3>
+</section>
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
