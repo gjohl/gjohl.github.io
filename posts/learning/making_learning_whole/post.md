@@ -44,6 +44,12 @@ These are each explored in the following sections.
 
 ## 1. Play the Whole Game
 
+There is an important distinction between problem solving and problem finding.
+
+- Problem solving is working on a well-defined problem like in a textbook.
+- Problem finding is finding a good topic to work on.
+
+Playing the whole fame means doing both. If learners aren't problem finding, they aren't playing the whole game.
 
 ## 2. Make the Game Worth Playing
 
