@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/learning/making_learning_whole/post.html",
       "/posts/ml/generative_deep_learning/lesson4/chapter4.html",
       "/posts/software/react/30_typescript/post.html",
       "/posts/software/react/29_testing/post.html",
