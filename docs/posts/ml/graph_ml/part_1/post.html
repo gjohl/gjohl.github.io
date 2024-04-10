@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Gurpreet Johl">
-<meta name="dcterms.date" content="2024-02-19">
-<meta name="description" content="Part 1: Introduction to Generative AI">
+<meta name="dcterms.date" content="2024-04-01">
+<meta name="description" content="Part 4: Generative Adversarial Networks">
 
-<title>Gurpreet Johl - Generative AI: Intro</title>
+<title>Gurpreet Johl - Graph ML: Intro</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -69,39 +103,7 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script src="../../../../site_libs/quarto-diagram/mermaid.min.js"></script>
-<script src="../../../../site_libs/quarto-diagram/mermaid-init.js"></script>
-<link href="../../../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../../../styles.css">
 </head>
@@ -159,16 +161,16 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Generative AI: Intro</h1>
+      <h1 class="title">Graph ML: Intro</h1>
                   <div>
         <div class="description">
-          Part 1: Introduction to Generative AI
+          Part 4: Generative Adversarial Networks
         </div>
       </div>
                           <div class="quarto-categories">
                 <div class="quarto-category">AI</div>
                 <div class="quarto-category">Engineering</div>
-                <div class="quarto-category">GenerativeAI</div>
+                <div class="quarto-category">Graphs</div>
               </div>
                   </div>
   </div>
@@ -186,7 +188,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">February 19, 2024</p>
+        <p class="date">April 1, 2024</p>
       </div>
     </div>
     
@@ -198,21 +200,7 @@ window.Quarto = {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#introduction-to-generative-deep-learning" id="toc-introduction-to-generative-deep-learning" class="nav-link active" data-scroll-target="#introduction-to-generative-deep-learning">Introduction to Generative Deep Learning</a>
-  <ul class="collapse">
-  <li><a href="#what-is-generative-modeling" id="toc-what-is-generative-modeling" class="nav-link" data-scroll-target="#what-is-generative-modeling">1. What is Generative Modeling?</a></li>
-  <li><a href="#the-generative-modeling-framework" id="toc-the-generative-modeling-framework" class="nav-link" data-scroll-target="#the-generative-modeling-framework">2. The Generative Modeling Framework</a></li>
-  <li><a href="#representation-learning" id="toc-representation-learning" class="nav-link" data-scroll-target="#representation-learning">3. Representation Learning</a></li>
-  <li><a href="#core-probability-theory" id="toc-core-probability-theory" class="nav-link" data-scroll-target="#core-probability-theory">4. Core Probability Theory</a></li>
-  <li><a href="#generative-model-taxonomy" id="toc-generative-model-taxonomy" class="nav-link" data-scroll-target="#generative-model-taxonomy">5. Generative Model Taxonomy</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
-  </ul></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
@@ -221,145 +209,61 @@ window.Quarto = {
 
 
 
-<section id="introduction-to-generative-deep-learning" class="level1">
-<h1>Introduction to Generative Deep Learning</h1>
-<p>The 30000ft view of generative AI.</p>
-<section id="what-is-generative-modeling" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-generative-modeling">1. What is Generative Modeling?</h2>
-<blockquote class="blockquote">
-<p>Generative modeling is a branch of machine learning that involves training a model to produce new data that is similar ot a given dataset.</p>
-</blockquote>
-<p>This means we require some training data which we wish to imitate. The model should be probabilistic rather than deterministic, so that we can sample different variations of the output.</p>
-<p>A helpful way to define generative modeling is by contrasting it with its counterpart <em>discriminative modeling</em>:</p>
-<ul>
-<li><strong>Discriminative</strong> modeling estimates <span class="math inline">\(p(y|x)\)</span> - the probability of a label <span class="math inline">\(y\)</span> given some observation <span class="math inline">\(x\)</span></li>
-<li><strong>Generative</strong> modeling estimates <span class="math inline">\(p(x)\)</span> - the probability of seeing an observation <span class="math inline">\(x\)</span>. By sampling from this distribution we can generate new observations.
-<ul>
-<li>We can also create a <em>conditional</em> generative model to estimate <span class="math inline">\(p(x|y)\)</span>, the probability of seeing an observation <span class="math inline">\(x\)</span> with label <span class="math inline">\(y\)</span>. For ample, if we train a model to generate a given type of fruit.</li>
-</ul></li>
-</ul>
-</section>
-<section id="the-generative-modeling-framework" class="level2">
-<h2 class="anchored" data-anchor-id="the-generative-modeling-framework">2. The Generative Modeling Framework</h2>
-<p>The aim:</p>
-<ul>
-<li>We have training data of observations <span class="math inline">\(X\)</span></li>
-<li>We assume the training data has been generated by an unknown distribution <span class="math inline">\(p_{data}\)</span></li>
-<li>We want to build a generative model <span class="math inline">\(p_{model}\)</span> that mimics <span class="math inline">\(p_{data}\)</span>
-<ul>
-<li>If we succeed, we can sample from <span class="math inline">\(p_{model}\)</span> to generate synthetic observations</li>
-</ul></li>
-</ul>
-<p>Desirable properties of <span class="math inline">\(p_{model}\)</span> are:</p>
-<ul>
-<li>Accuracy - If <span class="math inline">\(p_{model}\)</span> is a high value it should look like a real observation, and likewise low values should look fake.</li>
-<li>Generation - It should be easy to sample from it.</li>
-<li>Representation - It should be possible to understand how high-level features are represented by the model.</li>
-</ul>
-</section>
-<section id="representation-learning" class="level2">
-<h2 class="anchored" data-anchor-id="representation-learning">3. Representation Learning</h2>
-<p>We want to be able to describe things in terms of high-level features. For example, when describing appearance, we might talk about hair colour, length, eye colour, etc. Not <a href="https://youtu.be/9i8L_bF2bv0?si=eKgK_enlpDk5fkAN&amp;t=27">RGB values pixel by pixel…</a></p>
-<p>This is the idea behind representation learning. We describe each training data observation using some lower-dimensional latent space. Then we learn a maaping function from the latent space to the original domain.</p>
-<p>Encoder-decoder techniques try to transform a high-dimensional nonlinear manifold into a simpler latent space.</p>
-</section>
-<section id="core-probability-theory" class="level2">
-<h2 class="anchored" data-anchor-id="core-probability-theory">4. Core Probability Theory</h2>
-<section id="sample-space" class="level4">
-<h4 class="anchored" data-anchor-id="sample-space">Sample space</h4>
-<p>The complete set of all values that an observation <span class="math inline">\(x\)</span> can take.</p>
-</section>
-<section id="probability-density-function" class="level4">
-<h4 class="anchored" data-anchor-id="probability-density-function">Probability density function</h4>
-<p>A function <span class="math inline">\(p(x)\)</span> that maps a point <span class="math inline">\(x\)</span> in the sample space to a number between 0 and 1. The integral over the sample space must equal 1 for it to be a well-define probability distribtution.</p>
-<p>There is one true data distribution <span class="math inline">\(p_{data}\)</span> but infinitely many approximations <span class="math inline">\(p_{model}\)</span> that we can find.</p>
-</section>
-<section id="parametric-modeling" class="level4">
-<h4 class="anchored" data-anchor-id="parametric-modeling">Parametric modeling</h4>
-<p>We can structure our approach to finding <span class="math inline">\(p_{model}\)</span> by restricting ourselves to a family of density functions <span class="math inline">\(p_{\theta}(x)\)</span> which can be described with a finite set of parameters <span class="math inline">\(\theta\)</span>.</p>
-<p>For example, restricting our search to a linear model <span class="math inline">\(y = w*x + b\)</span> where we need to find the parameters <span class="math inline">\(w\)</span> and <span class="math inline">\(b\)</span>.</p>
-</section>
-<section id="likelihood" class="level4">
-<h4 class="anchored" data-anchor-id="likelihood">Likelihood</h4>
-<p>The likelihood, <span class="math inline">\(L(\theta|x)\)</span>, of a parameter set <span class="math inline">\(\theta\)</span> is a function which measures the plausability of the parameters having observed some data point <span class="math inline">\(x\)</span>. It is the probability of seeing the data <span class="math inline">\(x\)</span> if the true data-generating distribution was the model parameterized by <span class="math inline">\(\theta\)</span>.</p>
-<p>It is defined as the parametric model density: <span class="math display">\[
-L(\theta|x) = p_{\theta}(x)
-\]</span></p>
-<p>If we have a dataset of <em>independent</em> observations <span class="math inline">\(X\)</span> then the probabilities multiply: <span class="math display">\[
-L(\theta|X) = \prod_{x \in X} p_{\theta}(x)
-\]</span></p>
-<p>The product of a lot of decimals can get unwieldy, so we often take the <strong>log-likelihood</strong> <span class="math inline">\(l\)</span> to turn the product into a sum: <span class="math display">\[
-l(\theta|X) = \sum_{x \in X} \log{p_{\theta}(x) }
-\]</span></p>
-<p>The focus of parametric modeling is therefore to find the optimal parameter set <span class="math inline">\(\hat{\theta}\)</span>, which leads to…</p>
-</section>
-<section id="maximum-likelihood-estimation" class="level4">
-<h4 class="anchored" data-anchor-id="maximum-likelihood-estimation">Maximum likelihood estimation</h4>
-<p>A technique to estimate <span class="math inline">\(\hat{\theta}\)</span>, the set of parameters that is most likely to explain the observed data <span class="math inline">\(X\)</span>: <span class="math display">\[
-\hat{\theta} = \arg\max_x l(\theta|X)
-\]</span></p>
-<p>Neural networks often work with a loss function, so this is equivalent to minimising the negative log-likelihood: <span class="math display">\[
-\hat{\theta} = \arg\min_\theta -l(\theta|X) = \arg\min_\theta -\log{p_{\theta}(X)}
-\]</span></p>
-</section>
-<section id="bringing-it-back-to-generative-modeling" class="level4">
-<h4 class="anchored" data-anchor-id="bringing-it-back-to-generative-modeling">Bringing it back to generative modeling</h4>
-<p>Generative modeling is a form of MLE where the parameters are the neural network weights. We want to find the weights that maximise the likelihood of observing the training data.</p>
-<p>But for high-dimensional problems <span class="math inline">\(p_{\theta}(X)\)</span> is intractable, it cannot be calculated directly.</p>
-<p>There are different approaches to maing the problem tractable. These are summarised in the following section and explored in more detail in subsequent chapters.</p>
-</section>
-</section>
-<section id="generative-model-taxonomy" class="level2">
-<h2 class="anchored" data-anchor-id="generative-model-taxonomy">5. Generative Model Taxonomy</h2>
-<p>All types of generative model are seeking to solve the same problem, but they take different approaches to modeling the intractable density function <span class="math inline">\(p_{\theta}(x)\)</span>.</p>
-<p>There are three general approaches:</p>
-<ol type="1">
-<li>Explicitly model the density function but constrain the model in some way.</li>
-<li>Explicitly model a <em>tractable approximation</em> of the density function.</li>
-<li>Implicitly model the density function, using a stochastic process that generates the data directly.</li>
-</ol>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">flowchart LR
-
-
-  A(Generative models) --&gt; B1(Explicit density)
-  A(Generative models) --&gt; B2(Implicit density)
-
-  B1 --&gt; C1(Approximate density)
-  B1 --&gt; C2(Tractable density)
-
-  C1 --&gt; D1(VAE)
-  C1 --&gt; D2(Energy-based model)
-  C1 --&gt; D3(Diffusion model)
-
-  C2 --&gt; D4(Autoregressive model)
-  C2 --&gt; D5(Normalizing flow model)
-
-  B2 --&gt; D6(GAN)
-</pre>
+<div id="cell-1" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p></p></figure><p></p>
+<div id="cell-2" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> nx.Graph()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-3" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>g.add_edges_from([</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'A'</span>, <span class="st">'B'</span>),</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'A'</span>, <span class="st">'C'</span>), </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'B'</span>, <span class="st">'D'</span>), </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'B'</span>, <span class="st">'E'</span>), </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'C'</span>, <span class="st">'F'</span>), </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'C'</span>, <span class="st">'G'</span>), </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'G'</span>, <span class="st">'G'</span>), </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-4" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>g.degree</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>DegreeView({'A': 2, 'B': 3, 'C': 3, 'D': 1, 'E': 1, 'F': 1, 'G': 3})</code></pre>
 </div>
 </div>
+<div id="cell-5" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>nx.degree_centrality(g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>{'A': 0.3333333333333333,
+ 'B': 0.5,
+ 'C': 0.5,
+ 'D': 0.16666666666666666,
+ 'E': 0.16666666666666666,
+ 'F': 0.16666666666666666,
+ 'G': 0.5}</code></pre>
 </div>
-<ul>
-<li>Implicit density models don’t even try to estimate the probability density, instead focusing on producing a stochastic data generation process directly.</li>
-<li>Tractable models place constraints on the model architecture (i.e.&nbsp;the parameters <span class="math inline">\(\theta\)</span>).</li>
-</ul>
-</section>
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
-<ul>
-<li>Chapter 1 of Generative Deep Learning by David Foster.</li>
-</ul>
+</div>
+<div id="cell-6" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>nx.closeness_centrality(g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>{'A': 0.6,
+ 'B': 0.5454545454545454,
+ 'C': 0.5454545454545454,
+ 'D': 0.375,
+ 'E': 0.375,
+ 'F': 0.375,
+ 'G': 0.375}</code></pre>
+</div>
+</div>
+<div id="cell-7" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>nx.betweenness_centrality(g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>{'A': 0.6, 'B': 0.6, 'C': 0.6, 'D': 0.0, 'E': 0.0, 'F': 0.0, 'G': 0.0}</code></pre>
+</div>
+</div>
 
 
-</section>
-</section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

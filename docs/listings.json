@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/ml/generative_deep_learning/lesson4/chapter4.html",
       "/posts/software/react/30_typescript/post.html",
       "/posts/software/react/29_testing/post.html",
       "/posts/software/react/23_deployment/post.html",
@@ -68,6 +69,7 @@
   {
     "listing": "/gen-deep-learning-series.html",
     "items": [
+      "/posts/ml/generative_deep_learning/lesson4/chapter4.html",
       "/posts/ml/generative_deep_learning/lesson3/chapter3.html",
       "/posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html",
       "/posts/ml/generative_deep_learning/lesson1/lesson.html"
