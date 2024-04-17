@@ -2,30 +2,11 @@
 draft: true
 ---
 
-## Current
-
-- Sales
-- AWS
-- Kalman filter
-
-## Done
-- Fast AI
-- SQL
-- Deep learning (Tensorflow)
-- Software architecture
-- Marketing
-- Public speaking
-- Pitching
-- SaaS
-- Consulting
-- System design
-
-
 ## Skills
 ### Soft skills
 Done:
-- Marketing - 1 page marketing plan; 22 immutable laws of marketing?
-- Public speaking - TED talk book. Steal the show by Michael Port?
+- Marketing - 1 page marketing plan; 
+- Public speaking - TED talk book.
 - Pitching - Pitch Anything by Oren Klaff
 - SaaS: Start small stay small; SaaS playbook
 - Consulting business book 
@@ -43,23 +24,26 @@ Backlog:
 - Leadership - teams of teams by Stanley mchrystal; Start with Why: How Great Leaders Inspire Everyone to Take Action by Simon Sinek
 - Networking - how to be a power connector by Judy Robinett
 - Fundraising - crack the funding code by Judy Robinett; venture deals by Brad Feld; the art of startup fundraising by Alejandro Cremades; the startup checklist by David Rose
+- Marketing - 22 immutable laws of marketing?
+- Public Speaking - Steal the show by Michael Port?
 
 ### Software
 Done:
 - SQL - Udemy course
 - Software architecture - Udemy course
 - System design - Udemy course
+- AWS solutions architect Udemy course
+- Cracking the coding interview
+- Data structures and algorithms
 
 In progress:
-- AWS solutions architect Udemy course
+
 
 To Do:
 - Docker - Udemy course
 
 Backlog:
 - Game development - Unity udemy course
-- Cracking the coding interview
-- Data structures and algorithms https://allendowney.github.io/DSIRP/
 - Devops - Continuous deployment book
 
 ### Engineering/maths
