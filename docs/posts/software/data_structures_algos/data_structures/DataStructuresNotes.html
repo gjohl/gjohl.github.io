@@ -248,9 +248,7 @@ window.Quarto = {
   <li><a href="#array-based-sets" id="toc-array-based-sets" class="nav-link" data-scroll-target="#array-based-sets">3.1. Array-based Sets</a></li>
   <li><a href="#hash-sets" id="toc-hash-sets" class="nav-link" data-scroll-target="#hash-sets">3.2. Hash Sets</a></li>
   </ul></li>
-  <li><a href="#ordered-arrays" id="toc-ordered-arrays" class="nav-link" data-scroll-target="#ordered-arrays">Ordered Arrays</a></li>
   </ul></li>
-  <li><a href="#algorithms" id="toc-algorithms" class="nav-link" data-scroll-target="#algorithms">Algorithms</a></li>
   </ul>
 </nav>
     </div>
@@ -352,7 +350,7 @@ window.Quarto = {
 <li>Delete the element. This leaves a gap in the middle of the array.</li>
 <li>Shift each of the elements to the right of the gap leftwards, to fill the gap.</li>
 </ol>
-<p>So to delete at index <span class="math inline">\(i\)</span>, we do 1 operation to delete that element (Step 1), then shift <span class="math inline">\(N-i\)</span> leftwards (Step 2).</p>
+<p>So to delete at index <span class="math inline">\(i\)</span>, we do 1 operation to delete that element (Step 1), then shift the next <span class="math inline">\(N-i\)</span> elements leftwards (Step 2).</p>
 <p>In the worst case - deleting the first element of the array - deletion is <strong>O(N)</strong>.</p>
 </section>
 </section>
@@ -525,16 +523,14 @@ window.Quarto = {
 <pre><code>{1: True, 2: True, 3: True}</code></pre>
 </div>
 </div>
-</section>
-</section>
-<section id="ordered-arrays" class="level2">
-<h2 class="anchored" data-anchor-id="ordered-arrays">Ordered Arrays</h2>
-</section>
-</section>
-<section id="algorithms" class="level1">
-<h1>Algorithms</h1>
+<!-- ## Ordered Arrays
 
 
+# Algorithms -->
+
+
+</section>
+</section>
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
