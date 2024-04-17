@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/software/data_structures_algos/data_structures/DataStructuresNotes.html",
       "/posts/ml/generative_deep_learning/lesson4/chapter4.html",
       "/posts/software/react/30_typescript/post.html",
       "/posts/software/react/29_testing/post.html",
@@ -33,17 +34,11 @@
     ]
   },
   {
-    "listing": "/fastai-series.html",
+    "listing": "/projects.html",
     "items": [
-      "/posts/ml/fastai/lesson8/lesson.html",
-      "/posts/ml/fastai/lesson7/lesson.html",
-      "/posts/ml/fastai/lesson6_1/lesson.html",
-      "/posts/ml/fastai/lesson6/lesson.html",
-      "/posts/ml/fastai/lesson5/lesson.html",
-      "/posts/ml/fastai/lesson4/lesson.html",
-      "/posts/ml/fastai/lesson3/lesson.html",
-      "/posts/ml/fastai/lesson2/lesson.html",
-      "/posts/ml/fastai/lesson1/lesson.html"
+      "/projects_section/bjj/bjj.html",
+      "/projects_section/xai_research/xai.html",
+      "/projects_section/tradeintel/tradeintel.html"
     ]
   },
   {
@@ -59,11 +54,17 @@
     ]
   },
   {
-    "listing": "/projects.html",
+    "listing": "/fastai-series.html",
     "items": [
-      "/projects_section/bjj/bjj.html",
-      "/projects_section/xai_research/xai.html",
-      "/projects_section/tradeintel/tradeintel.html"
+      "/posts/ml/fastai/lesson8/lesson.html",
+      "/posts/ml/fastai/lesson7/lesson.html",
+      "/posts/ml/fastai/lesson6_1/lesson.html",
+      "/posts/ml/fastai/lesson6/lesson.html",
+      "/posts/ml/fastai/lesson5/lesson.html",
+      "/posts/ml/fastai/lesson4/lesson.html",
+      "/posts/ml/fastai/lesson3/lesson.html",
+      "/posts/ml/fastai/lesson2/lesson.html",
+      "/posts/ml/fastai/lesson1/lesson.html"
     ]
   },
   {

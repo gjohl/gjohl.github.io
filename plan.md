@@ -1,10 +1,15 @@
+---
+draft: true
+---
+
 ## Current
-- Fast AI
+
 - Sales
 - AWS
 - Kalman filter
 
 ## Done
+- Fast AI
 - SQL
 - Deep learning (Tensorflow)
 - Software architecture
@@ -60,9 +65,9 @@ Backlog:
 ### Engineering/maths
 Done:
 - Deep learning (Tensorflow) - Udemy course
+- Fast AI course
 
 In progress:
-- Fast AI course
 - Kalman filter book
 
 Backlog:
@@ -71,11 +76,13 @@ Backlog:
 - RNNs?
 - https://greenteapress.com/wp/think-complexity-2e/
 
+
 ### Stats
 Backlog:
 - Intro to probability book
 - Classical stats: t-stat, ANOVA https://www.udacity.com/course/intro-to-inferential-statistics--ud201
 - Filters https://www.udacity.com/course/artificial-intelligence-for-robotics--cs373
+
 
 ### Big data
 Backlog:
