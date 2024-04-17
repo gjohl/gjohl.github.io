@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Gurpreet Johl - Series: Generative AI</title>
+<title>Gurpreet Johl</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -68,73 +66,15 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-reading-time','listing-description','listing-categories','listing-image',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+  <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
@@ -181,206 +121,175 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page">
-      <h1 class="title">Series: Generative AI</h1>
-                      </div>
-  </div>
-    
-  
-  <div class="quarto-title-meta column-page">
-
-      
-    
-      
-    </div>
-    
-  
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content quarto-banner-title-block column-page" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 
 
 
+<section id="coding-and-algo-interview" class="level1">
+<h1>Coding and Algo Interview</h1>
+<section id="coding" class="level2">
+<h2 class="anchored" data-anchor-id="coding">Coding</h2>
+<p>Know one programming language well.</p>
+<ul>
+<li>APIs</li>
+<li>OOP</li>
+<li>Testing</li>
+</ul>
+</section>
+<section id="algorithms" class="level2">
+<h2 class="anchored" data-anchor-id="algorithms">Algorithms</h2>
+<ul>
+<li>Big O Complexity</li>
+<li>Sorting</li>
+<li>Search and binary search</li>
+<li>Divide and conquer</li>
+<li>Dynamic programming and memoisation</li>
+<li>Greediness</li>
+<li>Recursion</li>
+<li>Dijkstra and A* algorithms</li>
+</ul>
+</section>
+<section id="sorting" class="level2">
+<h2 class="anchored" data-anchor-id="sorting">Sorting</h2>
+<p>What input data each algorithm is efficient/inefficient for.</p>
+<ul>
+<li>Space and time complexity</li>
+<li>Sorting algorithms: insertion sort, quicksort, mergesort, heapsort, radix sort</li>
+</ul>
+</section>
+<section id="data-structures" class="level2">
+<h2 class="anchored" data-anchor-id="data-structures">Data Structures</h2>
+<p>Know the data structure and common algorithms associated with it.</p>
+<ul>
+<li>Arrays</li>
+<li>Linked lists</li>
+<li>Stacks</li>
+<li>Queues</li>
+<li>Hash sets, hash maps, hash tables</li>
+<li>Dictionary</li>
+<li>Trees and binary trees</li>
+</ul>
+<p>Not mentioned in doc but also:</p>
+<ul>
+<li>Graphs</li>
+<li>Tries</li>
+</ul>
+</section>
+<section id="maths" class="level2">
+<h2 class="anchored" data-anchor-id="maths">Maths</h2>
+<p>Basic discrete maths.</p>
+<ul>
+<li>Probability
+<ul>
+<li>Distributions - support of a gamma distribution</li>
+<li>t-tests, p-values, r-squared</li>
+</ul></li>
+<li>Combinatorics - n-choose-k problems</li>
+</ul>
+<p>From reddit comments: - Calculus - Linear algebra</p>
+</section>
+<section id="graphs" class="level2">
+<h2 class="anchored" data-anchor-id="graphs">Graphs</h2>
+<p>Know the pros and cons of each, complexity, and how to implement in code.</p>
+<ul>
+<li>Ways to represent a graph in memory: (1) objects and pointers, (2) matrix, (3) adjacency list</li>
+<li>Graph algorithms: distance, search, connectivity, cycle detection</li>
+<li>Grap traversal algorithms</li>
+<li>Breadth-first and depth-first search</li>
+</ul>
+</section>
+<section id="recursion" class="level2">
+<h2 class="anchored" data-anchor-id="recursion">Recursion</h2>
+<p>Practice recursion problems.</p>
+</section>
+</section>
+<section id="machine-learning-technical-prep" class="level1">
+<h1>Machine Learning Technical Prep</h1>
+<section id="general-concepts" class="level2">
+<h2 class="anchored" data-anchor-id="general-concepts">General Concepts</h2>
+<ul>
+<li>Supervised vs unsupervised</li>
+<li>Overfitting</li>
+<li>Boosting</li>
+<li>Regularisation</li>
+</ul>
+</section>
+<section id="common-algorithms" class="level2">
+<h2 class="anchored" data-anchor-id="common-algorithms">Common Algorithms</h2>
+<p>Understand and know when to apply.</p>
+<ul>
+<li>Logistic regression</li>
+<li>Decision trees</li>
+<li>PCA</li>
+<li>K-means</li>
+</ul>
+<p>Also: - Ridge/Lasso regression - SVM - duality</p>
+</section>
+<section id="ml-specialist-subjects" class="level2">
+<h2 class="anchored" data-anchor-id="ml-specialist-subjects">ML Specialist Subjects</h2>
+<ul>
+<li>Recommendation/Ranking/Prediction</li>
+<li>Computer vision
+<ul>
+<li>Acquire, process, analyse iamges</li>
+<li>Tracking</li>
+<li>Pose estimation</li>
+<li>Compression</li>
+</ul></li>
+<li>NLP
+<ul>
+<li>Main concepts: word embeddings, parse trees, parts of speech</li>
+<li>Main tools: LSTM, attention, bidrectional models, beam search</li>
+<li>ML approach vs classical approaches (ngram models) pros and cons</li>
+</ul></li>
+<li>Deep Learning
+<ul>
+<li>CNN</li>
+<li>RNN</li>
+<li>Optimisation: SGD, Backpropagation</li>
+<li>Design/training of networks</li>
+</ul></li>
+<li>Speech/audio
+<ul>
+<li>Speech synthesis</li>
+<li>Speech recognition</li>
+<li>Speaker recognition</li>
+<li>Speaker verification</li>
+<li>Speech/audio encoding</li>
+<li>Multimodal interaction</li>
+</ul></li>
+<li>Reinforcement learning
+<ul>
+<li>Agent, environment, actions, rewards</li>
+<li>Main concepts: Markov decision processes, value functions, Bellman equations, policy gradient, Q-learning, actor-critic</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="system-design" class="level1">
+<h1>System Design</h1>
+</section>
+<section id="deepmind-reading-list" class="level1">
+<h1>DeepMind Reading List</h1>
+<p>Computer science:</p>
+<ul>
+<li>Introduction to Algorithms, Cormen, Leiserson, Rivest, Stein, The MIT Press (2009) and Essential Algorithms, Stephens, Wiley (2013).</li>
+<li>Numerical Recipes, Press, Teukolsky, Vetterling, Flannery, Cambridge University Press (2007).</li>
+<li>xUnit Test Patterns, Meszaros, Pearson Education (2007); or Refactoring: Improving the Design of Existing Code, Fowler, Addison-Wesley Professional (2018).</li>
+<li>Distributed Systems: Concepts and Design, Coulouris, Dollimore, Kindberg, Blair, Pearson Higher Ed (2011); or Designing Data-Intensive Applications, Kleppmann, O’Reilly Media (2017).</li>
+</ul>
+<p>Machine Learning: - Introduction to Machine Learning, Ethem Alapaydin, The MIT Press (2014). - Reinforcement Learning - An Introduction book by Richard S. Sutton and Andrew.</p>
 
 
+</section>
 
-
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="AI,Engineering,GenerativeAI,GAN" data-listing-date-sort="1712703600000" data-listing-file-modified-sort="1713383123830" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2167">
-<div class="thumbnail">
-<p><a href="./posts/ml/generative_deep_learning/lesson4/chapter4.html" class="no-external"></a></p><a href="./posts/ml/generative_deep_learning/lesson4/chapter4.html" class="no-external">
-<p class="card-img-top"><img src="posts/ml/generative_deep_learning/lesson4/chapter4_files/figure-html/cell-5-output-1.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/ml/generative_deep_learning/lesson4/chapter4.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ml/generative_deep_learning/lesson4/chapter4.html" class="no-external">Generative AI: GANs</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ml/generative_deep_learning/lesson4/chapter4.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('GenerativeAI'); return false;">
-GenerativeAI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('GAN'); return false;">
-GAN
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/ml/generative_deep_learning/lesson4/chapter4.html" class="no-external">Part 4: Generative Adversarial Networks</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ml/generative_deep_learning/lesson4/chapter4.html" class="no-external">
-<div class="listing-date">
-Apr 10, 2024
-</div>
-<div class="listing-reading-time">
-11 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="AI,Engineering,GenerativeAI,VAE" data-listing-date-sort="1709683200000" data-listing-file-modified-sort="1712783722405" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1574">
-<div class="thumbnail">
-<p><a href="./posts/ml/generative_deep_learning/lesson3/chapter3.html" class="no-external"></a></p><a href="./posts/ml/generative_deep_learning/lesson3/chapter3.html" class="no-external">
-<p class="card-img-top"><img src="posts/ml/generative_deep_learning/lesson3/chapter3_files/figure-html/cell-4-output-1.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/ml/generative_deep_learning/lesson3/chapter3.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ml/generative_deep_learning/lesson3/chapter3.html" class="no-external">Generative AI: VAEs</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ml/generative_deep_learning/lesson3/chapter3.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('GenerativeAI'); return false;">
-GenerativeAI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('VAE'); return false;">
-VAE
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/ml/generative_deep_learning/lesson3/chapter3.html" class="no-external">Part 3: Variational Autoencoders</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ml/generative_deep_learning/lesson3/chapter3.html" class="no-external">
-<div class="listing-date">
-Mar 6, 2024
-</div>
-<div class="listing-reading-time">
-8 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="AI,Engineering,GenerativeAI" data-listing-date-sort="1708905600000" data-listing-file-modified-sort="1712783722387" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1151">
-<div class="thumbnail">
-<p><a href="./posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html" class="no-external"></a></p><a href="./posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html" class="no-external">
-<p class="card-img-top"><img src="posts/ml/generative_deep_learning/lesson2/chapter2_mlp_files/figure-html/cell-3-output-1.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html" class="no-external">Generative AI: Deep Learning Foundations</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('GenerativeAI'); return false;">
-GenerativeAI
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html" class="no-external">Part 2: The Building Blocks for Generative AI</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html" class="no-external">
-<div class="listing-date">
-Feb 26, 2024
-</div>
-<div class="listing-reading-time">
-6 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-categories="AI,Engineering,GenerativeAI" data-listing-date-sort="1708300800000" data-listing-file-modified-sort="1712783722383" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="851">
-<div class="thumbnail">
-<p><a href="./posts/ml/generative_deep_learning/lesson1/lesson.html" class="no-external"></a></p><a href="./posts/ml/generative_deep_learning/lesson1/lesson.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./posts/ml/generative_deep_learning/lesson1/lesson.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ml/generative_deep_learning/lesson1/lesson.html" class="no-external">Generative AI: Intro</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ml/generative_deep_learning/lesson1/lesson.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Engineering'); return false;">
-Engineering
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('GenerativeAI'); return false;">
-GenerativeAI
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/ml/generative_deep_learning/lesson1/lesson.html" class="no-external">Part 1: Introduction to Generative AI</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ml/generative_deep_learning/lesson1/lesson.html" class="no-external">
-<div class="listing-date">
-Feb 19, 2024
-</div>
-<div class="listing-reading-time">
-5 min
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div><a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

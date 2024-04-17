@@ -107,6 +107,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../../site_libs/quarto-diagram/mermaid-init.js"></script>
 <link href="../../../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../../../styles.css">
 </head>
@@ -228,7 +257,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#hyperparameters" id="toc-hyperparameters" class="nav-link" data-scroll-target="#hyperparameters">4.4 Hyperparameters</a></li>
   <li><a href="#wasserstein-gan-with-gradient-penalty-wgan-gp" id="toc-wasserstein-gan-with-gradient-penalty-wgan-gp" class="nav-link" data-scroll-target="#wasserstein-gan-with-gradient-penalty-wgan-gp">5. Wasserstein GAN with Gradient Penalty (WGAN-GP)</a>
   <ul class="collapse">
-  <li><a href="#wasserstein-loss" id="toc-wasserstein-loss" class="nav-link" data-scroll-target="#wasserstein-loss">5.1. Wasserstein Loss</a></li>
+  <li><a href="#wassertein-loss" id="toc-wassertein-loss" class="nav-link" data-scroll-target="#wassertein-loss">5.1. Wassertein Loss</a></li>
   <li><a href="#lipschitz-constraint" id="toc-lipschitz-constraint" class="nav-link" data-scroll-target="#lipschitz-constraint">5.2. Lipschitz Constraint</a></li>
   <li><a href="#gradient-penalty-loss" id="toc-gradient-penalty-loss" class="nav-link" data-scroll-target="#gradient-penalty-loss">5.3. Gradient Penalty Loss</a></li>
   <li><a href="#training-the-wgan-gp" id="toc-training-the-wgan-gp" class="nav-link" data-scroll-target="#training-the-wgan-gp">5.4. Training the WGAN-GP</a></li>
@@ -237,6 +266,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#conditional-gan-cgan" id="toc-conditional-gan-cgan" class="nav-link" data-scroll-target="#conditional-gan-cgan">6. Conditional GAN (CGAN)</a>
   <ul class="collapse">
   <li><a href="#cgan-architecture" id="toc-cgan-architecture" class="nav-link" data-scroll-target="#cgan-architecture">6.1. CGAN Architecture</a></li>
+  <li><a href="#using-the-cgan" id="toc-using-the-cgan" class="nav-link" data-scroll-target="#using-the-cgan">6.2. Using the CGAN</a></li>
   </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul></li>
@@ -263,9 +293,9 @@ Story Time
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Imagine a forger trying to forge £20 notes and the popo trying to stop them.</p>
-<p>The popo learn to spot the fakes. But then the forger learns to improve their forging skills to make better fakes.</p>
-<p>This goes back and forth. With each iteration, the forger keeps getting better but then the popo learn to spot these more sophisticated fakes.</p>
+<p>Imagine a forger trying to forge £20 notes and the police trying to stop them.</p>
+<p>The police learn to spot the fakes. But then the forger learns to improve their forging skills to make better fakes.</p>
+<p>This goes back and forth. With each iteration, the forger keeps getting better but then the police learn to spot these more sophisticated fakes.</p>
 <p>The results in a forger (generator) learning to create convincing fakes and the popo (discriminator) learning to spot fakes.</p>
 </div>
 </div>
@@ -306,8 +336,6 @@ Story Time
 <p>Often we will rescale this to [0, 1] so that we can use sigmoid activation functions.</p>
 <p>In this case we will scale to [-1, 1] so that we can use tanh activation functions, which tend to give stronger gradients than sigmoid.</p>
 <div id="cell-2" class="cell" data-execution_count="11">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -352,12 +380,9 @@ Story Time
 <span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Saved to </span><span class="sc">{</span>save_to<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <p>Model and data parameters:</p>
 <div id="cell-4" class="cell" data-execution_count="14">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>DATA_DIR <span class="op">=</span> Path(<span class="st">"/Users/gurpreetjohl/workspace/datasets/lego-brick-images"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>IMAGE_SIZE <span class="op">=</span> <span class="dv">64</span></span>
@@ -370,12 +395,9 @@ Story Time
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>ADAM_BETA_2 <span class="op">=</span> <span class="fl">0.999</span></span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>LEARNING_RATE <span class="op">=</span> <span class="fl">0.0002</span></span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>NOISE_PARAM <span class="op">=</span> <span class="fl">0.1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <p>Load and pre-process the training data:</p>
 <div id="cell-6" class="cell" data-execution_count="17">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> preprocess(img):</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Normalize and reshape the images."""</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    img <span class="op">=</span> (tf.cast(img, <span class="st">"float32"</span>) <span class="op">-</span> <span class="fl">127.5</span>) <span class="op">/</span> <span class="fl">127.5</span></span>
@@ -393,17 +415,13 @@ Story Time
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    interpolation<span class="op">=</span><span class="st">"bilinear"</span>,</span>
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> training_data.<span class="bu">map</span>(<span class="kw">lambda</span> x: preprocess(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Found 40000 files belonging to 1 classes.</code></pre>
 </div>
 </div>
 <p>Some sample input images:</p>
 <div id="cell-8" class="cell" data-execution_count="20">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>display_images(sample_batch(train))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -419,8 +437,6 @@ Story Time
 <p>The goal of the discriminator is to predict whether an image is real or fake.</p>
 <p>This is a supervised binary classification problem, so we can use CNN architecture with a single output node. We stack <code>Conv2D</code> layers with <code>BatchNormalization</code>, <code>LeakyReLU</code> and <code>Dropout</code> layers sandwiched between.</p>
 <div id="cell-10" class="cell" data-execution_count="22">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>discriminator_input <span class="op">=</span> layers.Input(shape<span class="op">=</span>(IMAGE_SIZE, IMAGE_SIZE, CHANNELS))</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> layers.Conv2D(<span class="dv">64</span>, kernel_size<span class="op">=</span><span class="dv">4</span>, strides<span class="op">=</span><span class="dv">2</span>, padding<span class="op">=</span><span class="st">"same"</span>, use_bias<span class="op">=</span><span class="va">False</span>)(discriminator_input)</span>
@@ -447,7 +463,6 @@ Story Time
 <span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>discriminator <span class="op">=</span> models.Model(discriminator_input, discriminator_output)</span>
 <span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>discriminator.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Model: "model_1"
 _________________________________________________________________
@@ -516,8 +531,6 @@ _________________________________________________________________</code></pre>
 <p>The idea is similar with <code>Conv2DTranspose</code>, but the extra rows and columns are <em>filled with zeros</em> rather than repeated existing values.</p>
 <p><code>Conv2DTranspose</code> layers can result in checkerboard pattern artifacts. Both options are used in practice, so it is often helpful to experiment and see which gives better results.</p>
 <div id="cell-12" class="cell" data-execution_count="23">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>generator_input <span class="op">=</span> layers.Input(shape<span class="op">=</span>(Z_DIM,))</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> layers.Reshape((<span class="dv">1</span>, <span class="dv">1</span>, Z_DIM))(generator_input)  <span class="co"># Reshape the input vector so we can apply conv transpose operations to it</span></span>
@@ -549,7 +562,6 @@ _________________________________________________________________</code></pre>
 <span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>generator <span class="op">=</span> models.Model(generator_input, generator_output)</span>
 <span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>generator.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Model: "model_2"
 _________________________________________________________________
@@ -609,8 +621,6 @@ _________________________________________________________________</code></pre>
 <p>For the discriminator, we create a training set where some images are real images from the training data and some are outputs from the generator. This is then a supervised binary classification problem.</p>
 <p>For the generator, we want a way of scoring each generated image on its realness so that we can optimise this. The discriminator provides exactly this. We pass the generated images through the discriminator to get probabilities. The generator wants to fool the discriminator, so ideally this would be a vector of 1s. So the loss function is the binary crossentropy between these probabilities and a vector of 1s.</p>
 <div id="cell-14" class="cell" data-execution_count="24">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DCGAN(models.Model):</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, discriminator, generator, latent_dim):</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(DCGAN, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
@@ -700,20 +710,14 @@ _________________________________________________________________</code></pre>
 <span id="cb11-87"><a href="#cb11-87" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.g_acc_metric.update_state(real_labels, fake_predictions)</span>
 <span id="cb11-88"><a href="#cb11-88" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-89"><a href="#cb11-89" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {m.name: m.result() <span class="cf">for</span> m <span class="kw">in</span> <span class="va">self</span>.metrics}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div id="cell-15" class="cell" data-execution_count="25">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a DCGAN</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>dcgan <span class="op">=</span> DCGAN(</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    discriminator<span class="op">=</span>discriminator, generator<span class="op">=</span>generator, latent_dim<span class="op">=</span>Z_DIM</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div id="cell-16" class="cell" data-execution_count="33">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dcgan.<span class="bu">compile</span>(</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    d_optimizer<span class="op">=</span>optimizers.legacy.Adam(</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>        learning_rate<span class="op">=</span>LEARNING_RATE, beta_1<span class="op">=</span>ADAM_BETA_1, beta_2<span class="op">=</span>ADAM_BETA_2</span>
@@ -723,7 +727,6 @@ _________________________________________________________________</code></pre>
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    ),</span>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>dcgan.fit(train,  epochs<span class="op">=</span>EPOCHS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Epoch 1/100
 313/313 [==============================] - 459s 1s/step - d_loss: 0.0252 - d_real_acc: 0.9011 - d_fake_acc: 0.9013 - d_acc: 0.9012 - g_loss: 5.3464 - g_acc: 0.0987
@@ -931,12 +934,9 @@ Epoch 100/100
 </div>
 </div>
 <div id="cell-17" class="cell" data-execution_count="34">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the final models</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>generator.save(<span class="st">"./models/generator"</span>)</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>discriminator.save(<span class="st">"./models/discriminator"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>WARNING:tensorflow:Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
 INFO:tensorflow:Assets written to: ./models/generator/assets
@@ -957,8 +957,6 @@ INFO:tensorflow:Assets written to: ./models/discriminator/assets</code></pre>
 <p>We can see some examples of images produced by the GAN.</p>
 <p>(I don’t have a GPU so training is slow and I only trained 100 epochs… they’re a bit crap)</p>
 <div id="cell-19" class="cell" data-execution_count="37">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample some points in the latent space, from the standard normal distribution</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>grid_width, grid_height <span class="op">=</span> (<span class="dv">10</span>, <span class="dv">3</span>)</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>z_sample <span class="op">=</span> np.random.normal(size<span class="op">=</span>(grid_width <span class="op">*</span> grid_height, Z_DIM))</span>
@@ -975,7 +973,6 @@ INFO:tensorflow:Assets written to: ./models/discriminator/assets</code></pre>
 <span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> fig.add_subplot(grid_height, grid_width, i <span class="op">+</span> <span class="dv">1</span>)</span>
 <span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    ax.axis(<span class="st">"off"</span>)</span>
 <span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    ax.imshow(reconstructions[i, :, :], cmap<span class="op">=</span><span class="st">"Greys"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -987,8 +984,6 @@ INFO:tensorflow:Assets written to: ./models/discriminator/assets</code></pre>
 <p>We also want to make sure a generative model doesn’t simply recreate images that are already in the training set.</p>
 <p>As a sanity check, we plot some generated images and the closest training images (using the L1 distance). This confirms that the generator is able to understand high-level features, even though we didn’t provide anything other than raw pixels, and it can generate examples distinct from those encountered before.</p>
 <div id="cell-21" class="cell" data-execution_count="40">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compare_images(img1, img2):</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.mean(np.<span class="bu">abs</span>(img1 <span class="op">-</span> img2))</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1013,7 +1008,6 @@ INFO:tensorflow:Assets written to: ./models/discriminator/assets</code></pre>
 <span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>        cnt <span class="op">+=</span> <span class="dv">1</span></span>
 <span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>1/1 [==============================] - 0s 80ms/step</code></pre>
 </div>
@@ -1026,8 +1020,6 @@ INFO:tensorflow:Assets written to: ./models/discriminator/assets</code></pre>
 </div>
 </div>
 <div id="cell-22" class="cell" data-execution_count="41">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(r, c, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">"Closest images in the training set"</span>, fontsize<span class="op">=</span><span class="dv">20</span>)</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1046,7 +1038,6 @@ INFO:tensorflow:Assets written to: ./models/discriminator/assets</code></pre>
 <span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>        cnt <span class="op">+=</span> <span class="dv">1</span></span>
 <span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1103,32 +1094,99 @@ INFO:tensorflow:Assets written to: ./models/discriminator/assets</code></pre>
 <li>A meaningful loss metric that correlates with generator convergence. This allows for better monitoring of training.</li>
 <li>More stable optimisation process.</li>
 </ol>
-<section id="wasserstein-loss" class="level3">
-<h3 class="anchored" data-anchor-id="wasserstein-loss">5.1. Wasserstein Loss</h3>
+<section id="wassertein-loss" class="level3">
+<h3 class="anchored" data-anchor-id="wassertein-loss">5.1. Wassertein Loss</h3>
+<section id="revisiting-binary-cross-entropy-loss" class="level4">
+<h4 class="anchored" data-anchor-id="revisiting-binary-cross-entropy-loss">Revisiting Binary Cross-Entropy Loss</h4>
+<p>First, recall the <strong>binary cross-entropy loss</strong>, which is defined as: <span class="math display">\[
+-\frac{1}{n} \sum_{i=1}^{n}{y_i log(p_i) + (1 - y_i)log(1-p_i)}
+\]</span></p>
+<p>In a regular GAN, the discriminator compares the predictions for real images <span class="math inline">\(p_i = D(x_i)\)</span> to the response <span class="math inline">\(y_i = 1\)</span>, and it compares the predictions for generated images <span class="math inline">\(p_i = D(G(z_i))\)</span> to the response <span class="math inline">\(y_i = 0\)</span>.</p>
+<p>So the discriminator loss minimisation can be written as: <span class="math display">\[
+\min_{D} -(E_{x \sim p_X}[log D(x)] + E_{z \sim p_Z}[log (1 - D(G(z))] )
+\]</span></p>
+<p>The generator aims to trick the discriminator into believing the images are real, so it compares the discriminator’s predicted response to the desired response of <span class="math inline">\(y_i=1\)</span>. So the generator loss minimisation can be written as: <span class="math display">\[
+\min_{G} -(E_{z \sim p_Z}[log D(G(z)] )
+\]</span></p>
+</section>
+<section id="introducing-wasserstein-loss" class="level4">
+<h4 class="anchored" data-anchor-id="introducing-wasserstein-loss">Introducing Wasserstein Loss</h4>
+<p>In contrast , the <strong>Wasserstein loss function</strong> is defined as: <span class="math display">\[
+-\frac{1}{n} \sum_{i=1}^{n}{y_i p_i}
+\]</span></p>
+<p>It requires that we use <span class="math inline">\(y_i=1\)</span> and <span class="math inline">\(y_i=-1\)</span> as labels rather than 1 and 0. We also remove the final sigmoid activation layer, which constrained the output to the range <span class="math inline">\([0, 1]\)</span>, meaning the output can now be any real number in the range <span class="math inline">\((-\infty, \infty)\)</span>.</p>
+<p>Because of these changes, rather than referring to a <em>discriminator</em> which outputs a <em>probability</em>, for WGANs we refer to a <em>critic</em> which outputs a <em>score</em>.</p>
+<p>With these changes of labels to -1 and 1, the critic loss minimisation becomes: <span class="math display">\[
+\min_{D} -(E_{x \sim p_X}[D(x)] - E_{z \sim p_Z}[D(G(z)] )
+\]</span></p>
+<p>i.e.&nbsp;it aims to maximise the difference in predictions between real and generated images.</p>
+<p>The generator is still trying to trick the critic as in a regular GAN, so it wants the critic to score its generated images as highly as possible. To this end, it still compares to the desired critic response of <span class="math inline">\(y_i=1\)</span> corresponding to the critic believing the generated image is real. So the generator loss minimisation remains similar, just without the log: <span class="math display">\[
+\min_{G} -(E_{z \sim p_Z}[D(G(z)] )
+\]</span></p>
+</section>
 </section>
 <section id="lipschitz-constraint" class="level3">
 <h3 class="anchored" data-anchor-id="lipschitz-constraint">5.2. Lipschitz Constraint</h3>
+<p>Allowing the critic to use the range <span class="math inline">\((-\infty, \infty)\)</span> initially seems a bit counterintuitive - usually we want to avoid large numbers in neural networks otherwise gradients explode!</p>
+<p>There is an additional constraint placed on the critic requiring it to be a <em>1-Lipschitz continuous function</em>. This means that for any two input images, <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>, it satisfied the following inequality: <span class="math display">\[
+\frac{| D(x_1) - D(x_2) |}{| x_1 - x_2 |} \le 1
+\]</span></p>
+<p>Recall that the critic is a function <span class="math inline">\(D\)</span> which converts an image into a scalar prediction. The numerator is the change in predictions, and the denominator is the average pixelwise difference. So this is essentially a limit on how sharply the critic predictions are allowed to change for a given image perturbation.</p>
+<p>An in-depth exploration of why the Wasserstein loss requires this constraint is given <a href="https://jonathan-hui.medium.com/gan-wasserstein-gan-wgan-gp-6a1a2aa1b490">here</a>.</p>
+<section id="enforcing-the-lipschitz-constraint" class="level4">
+<h4 class="anchored" data-anchor-id="enforcing-the-lipschitz-constraint">Enforcing the Lipschitz Constraint</h4>
+<p>One crude way of enforcing the constraint suggested by the original authors (and described as “a terrible way to enforce a Lipschitz constraint) is to clip the weights to <span class="math inline">\([-0.01, 0.01]\)</span> after each training batch. However, this diminishes the critic’s ability to learn.</p>
+<p>An improved approach is to introduce a gradient penalty term to penalise the gradient norm when it deviates from 1.</p>
+</section>
 </section>
 <section id="gradient-penalty-loss" class="level3">
 <h3 class="anchored" data-anchor-id="gradient-penalty-loss">5.3. Gradient Penalty Loss</h3>
+<p>The gradient penalty (GP) loss term encourages gradients towards 1 to conform to the 1-Lipschitz continuous constraint.</p>
+<p>The GP loss measures the squared difference between <em>the norm of the gradient of predictions w.r.t. input images</em> and 1, i.e. <span class="math display">\[
+loss_{GP} = (||\frac{\delta predictions}{\delta input}|| - 1)^2
+\]</span></p>
+<p>Calculating this everywhere during the training process would be computationally intensive. Instead we evaluate it at a sample of points. To encourage a balanced mix, we use an interpolated image which is a pairwise weighted average of a real image and a generated image.</p>
+<p>The combined loss function is then a weighted sum of the Wasserstein loss and the GP loss: <span class="math display">\[
+loss = loss_{Wasserstein} + \lambda_{GP} * loss_{GP}
+\]</span></p>
 </section>
 <section id="training-the-wgan-gp" class="level3">
 <h3 class="anchored" data-anchor-id="training-the-wgan-gp">5.4. Training the WGAN-GP</h3>
+<p>When training WGANs, we train the critic to convergence and then the train the generator. This ensures the gradients used for the generator update are accurate.</p>
+<p>This is a major benefit over traditional GANs, where we must balance the alternating training of generator and discriminator.</p>
+<p>We train the critic several times between each generator training step. A typical ratio is 3-5 critic updates for each generator update.</p>
+<p>Note that <strong>batch normalisation shouldn’t be used for WGAN-GP</strong> because it creates correlation between images of a given batch, which makes the GP term less effective.</p>
 </section>
 <section id="analysing-the-wgan-gp" class="level3">
 <h3 class="anchored" data-anchor-id="analysing-the-wgan-gp">5.5. Analysing the WGAN-GP</h3>
+<p>Images produced by VAEs tend to produce softer images that blur colour boundaries, whereas GANs produce sharper, more well-defined.</p>
+<p>However, GANs typically take longer to train and can be more sensitive to hyperparameter choices to reach a satisfactory result.</p>
 </section>
 </section>
 <section id="conditional-gan-cgan" class="level2">
 <h2 class="anchored" data-anchor-id="conditional-gan-cgan">6. Conditional GAN (CGAN)</h2>
+<p>Conditional GANs allow us to control the <em>type</em> of image that is generated. For example, should we generate a large or small brick? A male or female face?</p>
 <section id="cgan-architecture" class="level3">
 <h3 class="anchored" data-anchor-id="cgan-architecture">6.1. CGAN Architecture</h3>
+<p>The key difference of a CGAN is we pass a one-hot encoded label.</p>
+<p>For the generator, we append the one-hot encoded label vector to the random noise input to the generator. For the critic, we append the one-hot encoded label vector to the image. If it has multiple channels, as in an RGB image, the label vector is repeated on each of the channels to fit the required shape.</p>
+<p>The critic can now see the label, which means the generator needs to create images that match the generated labels. If the generated image was inconsistent with the generated label, then the critic could use this to easily distinguish the fakes.</p>
+<blockquote class="blockquote">
+<p>The only change required to the architecture is to concatenate the label to the inputs of the discriminator (actual training labels) and the generator (initially randomised vectors of the correct shape).</p>
+</blockquote>
+<p>The images and labels are unpacked during the training step.</p>
+</section>
+<section id="using-the-cgan" class="level3">
+<h3 class="anchored" data-anchor-id="using-the-cgan">6.2. Using the CGAN</h3>
+<p>We can control the type of image generated by passing a particular one-hot encoded label into the input of the generator.</p>
+<p>If labels are available for your training data, it is generally a good idea to include them in the inputs even if you don’t intend to create a conditional GAN from it. They tend to improve the quality of the output generated, since the labels act as a highly informative extension of the pixel inputs.</p>
 </section>
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
 <ul>
 <li>Chapter 4 of Generative Deep Learning by David Foster.</li>
+<li><a href="https://jonathan-hui.medium.com/gan-wasserstein-gan-wgan-gp-6a1a2aa1b490">Wasserstein loss and Lipschitz constraint</a></li>
 </ul>
 
 
