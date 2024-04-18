@@ -23,6 +23,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -202,6 +236,18 @@ window.Quarto = {
   <li><a href="#algorithms" id="toc-algorithms" class="nav-link active" data-scroll-target="#algorithms">Algorithms</a>
   <ul class="collapse">
   <li><a href="#big-o" id="toc-big-o" class="nav-link" data-scroll-target="#big-o">1. Big O</a></li>
+  <li><a href="#recursion" id="toc-recursion" class="nav-link" data-scroll-target="#recursion">2. Recursion</a>
+  <ul class="collapse">
+  <li><a href="#reading-recursive-functions" id="toc-reading-recursive-functions" class="nav-link" data-scroll-target="#reading-recursive-functions">2.1 Reading Recursive Functions</a></li>
+  <li><a href="#call-stack" id="toc-call-stack" class="nav-link" data-scroll-target="#call-stack">2.2. Call Stack</a></li>
+  <li><a href="#how-deep-does-this-go" id="toc-how-deep-does-this-go" class="nav-link" data-scroll-target="#how-deep-does-this-go">2.3. How Deep Does This Go?</a></li>
+  <li><a href="#writing-recursive-functions" id="toc-writing-recursive-functions" class="nav-link" data-scroll-target="#writing-recursive-functions">2.4. Writing Recursive Functions</a></li>
+  </ul></li>
+  <li><a href="#dynamic-programming" id="toc-dynamic-programming" class="nav-link" data-scroll-target="#dynamic-programming">3. Dynamic Programming</a>
+  <ul class="collapse">
+  <li><a href="#the-top-down-dp-approach" id="toc-the-top-down-dp-approach" class="nav-link" data-scroll-target="#the-top-down-dp-approach">3.1. The Top-down DP Approach</a></li>
+  <li><a href="#the-bottom-up-dp-approach" id="toc-the-bottom-up-dp-approach" class="nav-link" data-scroll-target="#the-bottom-up-dp-approach">3.2. The Bottom-up DP Approach</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -227,8 +273,102 @@ window.Quarto = {
 <p>Be aware, though, that this doesn’t necessarily mean a lower complexity algorithm will always be faster in practice for every use case. Take for exmaple algorithm A, which always takes 100 steps regardless of input size so is <span class="math inline">\(O(1)\)</span>, and algorithm B which scales linearly with the input so in <span class="math inline">\(O(N)\)</span>.</p>
 <p>If we apply these to an array with 10 elements, A will take 100 steps and B will take 10 steps. So the “worse” algorithm can perform better for small data.</p>
 <p>When an algorithm is <span class="math inline">\(O(log(N))\)</span>, the log is implicitly <span class="math inline">\(log_2\)</span>. These come up regularly in algorithms where we divide and conquer, as in the binary search, because we half the data with each iteration. If you see an algorithm has a log term in its complexity, that’s generally a clue that there is some binary split happening somewhere.</p>
+</section>
+<section id="recursion" class="level2">
+<h2 class="anchored" data-anchor-id="recursion">2. Recursion</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Definition: Recursion</p>
+<p>See “Recursion”.</p>
+</div>
+</div>
+<p>Recursion is when a function calls itself.</p>
+<p>In any case where you can use a loop, you could also write it recursively. I’m not saying you <em>should</em>, but you <em>can</em>.</p>
+<p>Every recursive function should have a <strong>base case</strong> (or multiple base cases) where it does not recurse, to prevent it from entering an infinite loop.</p>
+<section id="reading-recursive-functions" class="level3">
+<h3 class="anchored" data-anchor-id="reading-recursive-functions">2.1 Reading Recursive Functions</h3>
+<p>There is a knack to reading recursive functions. Start from the base case and work backwards.</p>
+<ol type="1">
+<li>Identify the base case and walk through it</li>
+<li>Identify the “second-to-last” case and walk through it</li>
+<li>Repeat for the next-to-last case before that and walk through it</li>
+</ol>
+<div id="cell-3" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> factorial(number):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Recursively calculate the factorial of a number."""</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The base case</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> number <span class="op">==</span> <span class="dv">1</span>:</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The recursive bit</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> number <span class="op">*</span> factorial(number <span class="op">-</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-4" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>factorial(<span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>720</code></pre>
+</div>
+</div>
+</section>
+<section id="call-stack" class="level3">
+<h3 class="anchored" data-anchor-id="call-stack">2.2. Call Stack</h3>
+<p>The computer uses a call stack to keep track of the functions to call. When we enter a new recursion, we push a function call on to the stack, and when we finish executing we pop it from the call stack.</p>
+<p>If we don’t write appropriate base cases, the recursive function can loop infinitely, leading to <strong>stack overflow</strong>.</p>
+</section>
+<section id="how-deep-does-this-go" class="level3">
+<h3 class="anchored" data-anchor-id="how-deep-does-this-go">2.3. How Deep Does This Go?</h3>
+<p>Use recursion when the depth of the problem is unknown or arbitrary.</p>
+<p>If we have a problem where we want to go through nested structures but we don’t know ahead of time how deep they go, we can’t solve this using regular loops but we can with recursion.</p>
+<p>For example, if we want to traverse a directory and each of its subdirectories, and each of their subdirectories, etc.</p>
+</section>
+<section id="writing-recursive-functions" class="level3">
+<h3 class="anchored" data-anchor-id="writing-recursive-functions">2.4. Writing Recursive Functions</h3>
+<p>Recursive algorithms are useful for categories of problems where:</p>
+<ol type="1">
+<li>The goal is to <strong>repeatedly execute</strong> a task</li>
+<li>The problem can be broken into <strong>subproblems</strong>, which are versions of the same problem but with a smaller input.</li>
+</ol>
+<section id="passing-extra-parameters" class="level5">
+<h5 class="anchored" data-anchor-id="passing-extra-parameters">Passing Extra Parameters</h5>
+<p>If we are modifying the data structure, say an array, in place, we can pass it as an extra parameter to the recursive function so that it can be passed up and down the call stack.</p>
+<p>This is often useful for the <strong>repeatedly execute</strong> category of problems.</p>
+</section>
+<section id="top-down-thought-process" class="level5">
+<h5 class="anchored" data-anchor-id="top-down-thought-process">Top-down Thought Process</h5>
+<p>Recursion is useful when coupled with a new, slightly unintuitive, mental model of top-down problem solving.</p>
+<ol type="1">
+<li>Imagine the function you’re writing has <em>already been implemented</em></li>
+<li>Identify the <em>subproblem</em>, often the next step along</li>
+<li>See what happens when you <em>call the function on the subproblem</em></li>
+<li>Go from there until you reach a <em>base case</em></li>
+</ol>
+<p>This is often useful for the <strong>subproblem</strong> category of problems.</p>
+</section>
+</section>
+</section>
+<section id="dynamic-programming" class="level2">
+<h2 class="anchored" data-anchor-id="dynamic-programming">3. Dynamic Programming</h2>
+<p>The idea behind dynamic programming is similar to recursion: break the problem down into smaller subproblems. For dynamic programming problems, the subproblems are typically <strong>overlapping subproblems</strong>. We also want to remove any duplicate calls.</p>
+<section id="the-top-down-dp-approach" class="level3">
+<h3 class="anchored" data-anchor-id="the-top-down-dp-approach">3.1. The Top-down DP Approach</h3>
+<p>A common problem with recursive approaches is that we end up calculating the same function multiple times in the call stack. This can lead to some horrendous complexities like <span class="math inline">\(O(N!)\)</span> or <span class="math inline">\(O(2^N)\)</span>.</p>
+<p>The key difference to recursion is we only solve each subproblem once and store its result. This way, we can just look it up for any other calls that require it. This storing of intermediate calculations is called <strong>memoization</strong>.</p>
+<p>We will need to pass this memoised object as an extra parameter and modify it in place, as noted in the recusion section.</p>
+</section>
+<section id="the-bottom-up-dp-approach" class="level3">
+<h3 class="anchored" data-anchor-id="the-bottom-up-dp-approach">3.2. The Bottom-up DP Approach</h3>
+<p>Ditch recursion and just use a loop.</p>
+<p>This is technically another way of “solving a problem that can be solved using recursion but without making duplciate calls” - which is what dynamic programming essentially is. In this case, we do it by removing recursion altogether.</p>
 
 
+</section>
 </section>
 </section>
 
