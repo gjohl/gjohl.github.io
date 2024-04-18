@@ -235,9 +235,21 @@ window.Quarto = {
   <ul>
   <li><a href="#sorting" id="toc-sorting" class="nav-link active" data-scroll-target="#sorting">Sorting</a>
   <ul class="collapse">
-  <li><a href="#bubble-sort" id="toc-bubble-sort" class="nav-link" data-scroll-target="#bubble-sort">1. Bubble Sort</a></li>
-  <li><a href="#selection-sort" id="toc-selection-sort" class="nav-link" data-scroll-target="#selection-sort">2. Selection Sort</a></li>
-  <li><a href="#insertion-sort" id="toc-insertion-sort" class="nav-link" data-scroll-target="#insertion-sort">3. Insertion Sort</a></li>
+  <li><a href="#bubble-sort" id="toc-bubble-sort" class="nav-link" data-scroll-target="#bubble-sort">1. Bubble Sort</a>
+  <ul class="collapse">
+  <li><a href="#algorithm" id="toc-algorithm" class="nav-link" data-scroll-target="#algorithm">1.1. Algorithm</a></li>
+  <li><a href="#complexity" id="toc-complexity" class="nav-link" data-scroll-target="#complexity">1.2. Complexity</a></li>
+  </ul></li>
+  <li><a href="#selection-sort" id="toc-selection-sort" class="nav-link" data-scroll-target="#selection-sort">2. Selection Sort</a>
+  <ul class="collapse">
+  <li><a href="#algorithm-1" id="toc-algorithm-1" class="nav-link" data-scroll-target="#algorithm-1">2.1. Algorithm</a></li>
+  <li><a href="#complexity-1" id="toc-complexity-1" class="nav-link" data-scroll-target="#complexity-1">2.2. Complexity</a></li>
+  </ul></li>
+  <li><a href="#insertion-sort" id="toc-insertion-sort" class="nav-link" data-scroll-target="#insertion-sort">3. Insertion Sort</a>
+  <ul class="collapse">
+  <li><a href="#algorithm-2" id="toc-algorithm-2" class="nav-link" data-scroll-target="#algorithm-2">3.1. Algorithm</a></li>
+  <li><a href="#complexity-2" id="toc-complexity-2" class="nav-link" data-scroll-target="#complexity-2">3.2. Complexity</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -258,6 +270,8 @@ window.Quarto = {
 </blockquote>
 <section id="bubble-sort" class="level2">
 <h2 class="anchored" data-anchor-id="bubble-sort">1. Bubble Sort</h2>
+<section id="algorithm" class="level3">
+<h3 class="anchored" data-anchor-id="algorithm">1.1. Algorithm</h3>
 <p>We “bubble up” the next highest unsorted number on each pass-through.</p>
 <ol type="1">
 <li>Start with 2 pointers pointing at the first two values in the array.</li>
@@ -278,7 +292,7 @@ window.Quarto = {
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">    array: list</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">        The array that we wish to sort</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">        The array that we wish to sort.</span></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
@@ -315,6 +329,9 @@ window.Quarto = {
 <pre><code>[0, 1, 3, 5, 7, 8, 8, 9, 12, 23, 69, 420]</code></pre>
 </div>
 </div>
+</section>
+<section id="complexity" class="level3">
+<h3 class="anchored" data-anchor-id="complexity">1.2. Complexity</h3>
 <p>Each pass through loops through one fewer element:</p>
 <table class="table">
 <thead>
@@ -359,8 +376,11 @@ window.Quarto = {
 <p>The complexity is therefore <strong><span class="math inline">\(O(N^2)\)</span></strong>.</p>
 <p>In general, any nested loop should be a hint at quadratic time complexity.</p>
 </section>
+</section>
 <section id="selection-sort" class="level2">
 <h2 class="anchored" data-anchor-id="selection-sort">2. Selection Sort</h2>
+<section id="algorithm-1" class="level3">
+<h3 class="anchored" data-anchor-id="algorithm-1">2.1. Algorithm</h3>
 <p>Find the smallest value from the unsorted part of the array and put it at the beginning.</p>
 <ol type="1">
 <li>Check each cell of the array from left to right to find the lowest value. Store the index of the running minimum value.</li>
@@ -369,22 +389,33 @@ window.Quarto = {
 </ol>
 <div id="cell-6" class="cell" data-execution_count="72">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> selection_sort(array):</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Selection sort algorithm to sort an array into ascending order."""</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    array_length <span class="op">=</span> <span class="bu">len</span>(array)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Loop through all array elements</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> pass_through_number <span class="kw">in</span> <span class="bu">range</span>(array_length):</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Find the minimum element in the remaining unsorted array</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        min_index <span class="op">=</span> pass_through_number</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> idx_unsorted_section <span class="kw">in</span> <span class="bu">range</span>(pass_through_number <span class="op">+</span> <span class="dv">1</span>, array_length):</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> array[idx_unsorted_section] <span class="op">&lt;</span> array[min_index]:</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>                min_index <span class="op">=</span> idx_unsorted_section</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Swap the found minimum element with the first element</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        array[pass_through_number], array[min_index] <span class="op">=</span> array[min_index], array[pass_through_number]</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> array</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Selection sort algorithm to sort an array into ascending order.</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">    array: list</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">        The array that we wish to sort.</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">    array: list</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">        The input array sorted in-place.</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    array_length <span class="op">=</span> <span class="bu">len</span>(array)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Loop through all array elements</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> pass_through_number <span class="kw">in</span> <span class="bu">range</span>(array_length):</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Find the minimum element in the remaining unsorted array</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        min_index <span class="op">=</span> pass_through_number</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> idx_unsorted_section <span class="kw">in</span> <span class="bu">range</span>(pass_through_number <span class="op">+</span> <span class="dv">1</span>, array_length):</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> array[idx_unsorted_section] <span class="op">&lt;</span> array[min_index]:</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>                min_index <span class="op">=</span> idx_unsorted_section</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Swap the found minimum element with the first element</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>        array[pass_through_number], array[min_index] <span class="op">=</span> array[min_index], array[pass_through_number]</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> array</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-7" class="cell" data-execution_count="74">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>input_array <span class="op">=</span> [<span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">9</span>, <span class="dv">0</span>, <span class="dv">8</span>, <span class="dv">23</span>, <span class="dv">69</span>, <span class="dv">420</span>, <span class="dv">12</span>]</span>
@@ -393,13 +424,115 @@ window.Quarto = {
 <pre><code>[0, 1, 3, 5, 7, 8, 8, 9, 12, 23, 69, 420]</code></pre>
 </div>
 </div>
+</section>
+<section id="complexity-1" class="level3">
+<h3 class="anchored" data-anchor-id="complexity-1">2.2. Complexity</h3>
 <p>As with bubble sort, on each pass-through we loop through one fewer element, so there are <span class="math inline">\(\frac{N^2}{2}\)</span> comparisons. But each pass-through only performs 1 swap, so the total number of operations is <span class="math inline">\(\frac{N^2}{2} + N\)</span>.</p>
 <p>This is still therefore <strong><span class="math inline">\(O(N^2)\)</span></strong> complexity, but it should be about twice as fast as bubble sort.</p>
 </section>
+</section>
 <section id="insertion-sort" class="level2">
 <h2 class="anchored" data-anchor-id="insertion-sort">3. Insertion Sort</h2>
+<section id="algorithm-2" class="level3">
+<h3 class="anchored" data-anchor-id="algorithm-2">3.1. Algorithm</h3>
+<p>Remove a value to create a gap, shift values along to move the gap leftwards, then fill the gap.</p>
+<ol type="1">
+<li><strong>Create a gap.</strong> For the first pass-through, we temporarily remove the second cell (i.e.&nbsp;index 1) and store it as a temporary variable. This leaves a gap at that index.</li>
+<li><strong>Shifting phase.</strong> Take each value to the left of the gap and compare it to the temporary variable. if <code>left_val &gt; temp_val</code>, move left value to the right. This has the same effect as moving the gap leftwards. As soon as we encounter a value where <code>left_val &lt; temp_val</code> the shifting phase is complete.</li>
+<li><strong>Fill the gap.</strong> Insert the temporary value into the current gap.</li>
+<li><strong>Repeat pass-throughs.</strong> Steps 1-3 constitute a single pass-through. Repeat this until the pass through begins at the final index of the array. At this point the array is sorted.</li>
+</ol>
+<div id="cell-10" class="cell" data-execution_count="82">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> insertion_sort(array):</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Insertion sort algorithm to sort an array into ascending order.</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">    array: list</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">        The array that we wish to sort.</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">    array: list</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">        The input array sorted in-place.</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    array_len <span class="op">=</span> <span class="bu">len</span>(array)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> pass_thru_number <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, array_len):</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 1. Create a gap</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        temp_val <span class="op">=</span> array[pass_thru_number]</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>        gap_idx <span class="op">=</span> pass_thru_number</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 2. Shifting phase</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Move leftwards from the gap and keep shifting elements right if they are greater than temp_val</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> (gap_idx <span class="op">&gt;</span> <span class="dv">0</span>) <span class="kw">and</span> (array[gap_idx <span class="op">-</span> <span class="dv">1</span>] <span class="op">&gt;</span> temp_val):</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>            array[gap_idx] <span class="op">=</span> array[gap_idx <span class="op">-</span> <span class="dv">1</span>]</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>            gap_idx <span class="op">-=</span> <span class="dv">1</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 3. Fill the gap</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>        array[gap_idx] <span class="op">=</span> temp_val</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> array</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-11" class="cell" data-execution_count="83">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>input_array <span class="op">=</span> [<span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">9</span>, <span class="dv">0</span>, <span class="dv">8</span>, <span class="dv">23</span>, <span class="dv">69</span>, <span class="dv">420</span>, <span class="dv">12</span>]</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>insertion_sort(input_array)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="83">
+<pre><code>[0, 1, 3, 5, 7, 8, 8, 9, 12, 23, 69, 420]</code></pre>
+</div>
+</div>
+</section>
+<section id="complexity-2" class="level3">
+<h3 class="anchored" data-anchor-id="complexity-2">3.2. Complexity</h3>
+<p>The worst case is when the input array is sorted in descending order.</p>
+<p>There are 4 types of operations that occur:</p>
+<section id="comparisons" class="level5">
+<h5 class="anchored" data-anchor-id="comparisons">Comparisons</h5>
+<p>If we compare values to the left of the gap on each step, there will be 1 comparison on the first pass-through, 2 on the second, 3 on the third, etc.</p>
+<p>So there are <span class="math inline">\(1 + 2 + ... + N-1 = \frac{N^2}{2}\)</span> comparisons in the worst case.</p>
+</section>
+<section id="shifts" class="level5">
+<h5 class="anchored" data-anchor-id="shifts">Shifts</h5>
+<p>Each comparison could result in a shift, so there are the same number of shifts as comparisons in the worst case.</p>
+</section>
+<section id="removals-and-insertions" class="level5">
+<h5 class="anchored" data-anchor-id="removals-and-insertions">Removals and Insertions</h5>
+<p>We remove 1 temp value per pass-through, so there are <span class="math inline">\(N-1\)</span> removals.</p>
+<p>We insert that value at the end of each pass-through, so there are also <span class="math inline">\(N-1\)</span> insertions.</p>
+</section>
+<section id="total" class="level5">
+<h5 class="anchored" data-anchor-id="total">Total</h5>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Operation</th>
+<th>Number</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Removals</td>
+<td><span class="math inline">\(N-1\)</span></td>
+</tr>
+<tr class="even">
+<td>Comparisons</td>
+<td><span class="math inline">\(\frac{N^2}{2}\)</span></td>
+</tr>
+<tr class="odd">
+<td>Shifts</td>
+<td><span class="math inline">\(\frac{N^2}{2}\)</span></td>
+</tr>
+<tr class="even">
+<td>Insertions</td>
+<td><span class="math inline">\(N-1\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Overall there are <span class="math inline">\(N^2 + 2N - 2\)</span> operations, so the complexity is <span class="math inline">\(O(N^2)\)</span></p>
 
 
+</section>
+</section>
 </section>
 </section>
 
