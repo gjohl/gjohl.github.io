@@ -249,6 +249,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#algorithm-2" id="toc-algorithm-2" class="nav-link" data-scroll-target="#algorithm-2">3.1. Algorithm</a></li>
   <li><a href="#complexity-2" id="toc-complexity-2" class="nav-link" data-scroll-target="#complexity-2">3.2. Complexity</a></li>
+  <li><a href="#the-average-case" id="toc-the-average-case" class="nav-link" data-scroll-target="#the-average-case">3.3 The Average Case</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -528,10 +529,43 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p>Overall there are <span class="math inline">\(N^2 + 2N - 2\)</span> operations, so the complexity is <span class="math inline">\(O(N^2)\)</span></p>
-
-
+<p>Overall there are <span class="math inline">\(N^2 + 2N - 2\)</span> operations, so the complexity is <span class="math inline">\(O(N^2)\)</span>.</p>
 </section>
+</section>
+<section id="the-average-case" class="level3">
+<h3 class="anchored" data-anchor-id="the-average-case">3.3 The Average Case</h3>
+<p>The complexity generally considers the worst case, but insertion sort varies greatly based on the input.</p>
+<p>We saw in the <strong>worst case</strong> the number of steps is <span class="math inline">\(N^2 + 2N - 2\)</span>.</p>
+<p>In the <strong>best case</strong> the data is already sorted, so we do a remove and an insert on each pass-through, for a totla of <span class="math inline">\(2N - 2\)</span> steps.</p>
+<p>In the <strong>average case</strong>, let’s assume about half of the data is already sorted. So we’ll still need to do <span class="math inline">\(N - 1\)</span> removes and <span class="math inline">\(N - 1\)</span> inserts in total. We’ll also need to compare about half the data, so <span class="math inline">\(\frac{N^2}{4}\)</span> comparisons and the same number on swaps. This gives a total of <span class="math inline">\(\frac{N^2}{2} + 2N - 2\)</span> steps.</p>
+<p>Depending on the state of the input data, the speed can vary considerably. Compare this to selection sort, which will always take <span class="math inline">\(\frac{N^2}{2}\)</span> steps regardless of the input data.</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Algorithm</th>
+<th>Best Case</th>
+<th>Average Case</th>
+<th>Worst Case</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Selection sort</td>
+<td><span class="math inline">\(\frac{N^2}{2}\)</span></td>
+<td><span class="math inline">\(\frac{N^2}{2}\)</span></td>
+<td><span class="math inline">\(\frac{N^2}{2}\)</span></td>
+</tr>
+<tr class="even">
+<td>Insertion sort</td>
+<td><span class="math inline">\(N\)</span></td>
+<td><span class="math inline">\(\frac{N^2}{2}\)</span></td>
+<td><span class="math inline">\(N^2\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>So the choice of which algorithm is “best” depends on the state of your input data. Both have the same <span class="math inline">\(O(N^2)\)</span> time complexity.</p>
+
+
 </section>
 </section>
 </section>

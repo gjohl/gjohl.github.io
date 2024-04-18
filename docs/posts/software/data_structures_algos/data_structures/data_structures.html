@@ -8,7 +8,7 @@
 
 <meta name="author" content="Gurpreet Johl">
 <meta name="dcterms.date" content="2024-04-17">
-<meta name="description" content="An Array of Possibilities">
+<meta name="description" content="An Array of Possibilities, Heaps of Fun">
 
 <title>Gurpreet Johl - Data Structures</title>
 <style>
@@ -193,7 +193,7 @@ window.Quarto = {
       <h1 class="title">Data Structures</h1>
                   <div>
         <div class="description">
-          An Array of Possibilities
+          An Array of Possibilities, Heaps of Fun
         </div>
       </div>
                           <div class="quarto-categories">
@@ -251,6 +251,13 @@ window.Quarto = {
   <li><a href="#ordered-arrays" id="toc-ordered-arrays" class="nav-link" data-scroll-target="#ordered-arrays">4. Ordered Arrays</a>
   <ul class="collapse">
   <li><a href="#binary-search" id="toc-binary-search" class="nav-link" data-scroll-target="#binary-search">4.1. Binary Search</a></li>
+  </ul></li>
+  <li><a href="#hash-tables" id="toc-hash-tables" class="nav-link" data-scroll-target="#hash-tables">5. Hash Tables</a>
+  <ul class="collapse">
+  <li><a href="#hashing" id="toc-hashing" class="nav-link" data-scroll-target="#hashing">5.1. Hashing</a></li>
+  <li><a href="#hash-table-lookups" id="toc-hash-table-lookups" class="nav-link" data-scroll-target="#hash-table-lookups">5.2. Hash Table Lookups</a></li>
+  <li><a href="#dealing-with-collisions" id="toc-dealing-with-collisions" class="nav-link" data-scroll-target="#dealing-with-collisions">5.3. Dealing with Collisions</a></li>
+  <li><a href="#hash-table-efficiency" id="toc-hash-table-efficiency" class="nav-link" data-scroll-target="#hash-table-efficiency">5.4. Hash Table Efficiency</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -662,6 +669,90 @@ window.Quarto = {
 </div>
 </div>
 <p>The binary search is ~14000x faster than the linear search!</p>
+</section>
+</section>
+<section id="hash-tables" class="level2">
+<h2 class="anchored" data-anchor-id="hash-tables">5. Hash Tables</h2>
+<p>Hash tables are key:value pairs. We can look up a the value for a given key in <span class="math inline">\(O(1)\)</span> time.</p>
+<p>Also known as hash maps, dictionaries, maps, associative arrays.</p>
+<section id="hashing" class="level3">
+<h3 class="anchored" data-anchor-id="hashing">5.1. Hashing</h3>
+<p>The process of taking characters and converting them to numbers is called <strong>hashing</strong>.</p>
+<p>The code that performs this conversion is the <strong>hash function</strong>.</p>
+<p>A hash function requires one condition:</p>
+<blockquote class="blockquote">
+<p>Consistency: A hash function must convert the same string to the same number every time it’s applied.</p>
+</blockquote>
+<p>In practice, for the hash function to be useful, it should also be collision resistant:</p>
+<blockquote class="blockquote">
+<p>Collision resistant: Different inputs should hash to different outputs.</p>
+</blockquote>
+<p>As an extreme example, the following hash function is consistent but not collision resistant:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> crappy_hash(input_str: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""This is the world's worst hash function."""</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="hash-table-lookups" class="level3">
+<h3 class="anchored" data-anchor-id="hash-table-lookups">5.2. Hash Table Lookups</h3>
+<p>We want to insert the following key:value pair into our hash table:</p>
+<pre><code>key = "Name"
+value = "Gurp"</code></pre>
+<p>Let’s say we have a hash function that is actually good, and in this particular case <code>hash_function(key)</code> returns <code>12</code>.</p>
+<p>The hash table will then insert <code>value</code> at memory address <code>12</code> (or more specifically, the memory address of the head of the dictionary + 12).</p>
+<p>This means if we ever want to look up the key <code>"Name"</code>, we hash it and immediately know to access memory address 12 and return the value <code>"Gurp"</code>.</p>
+<p>So hash table lookups are <span class="math inline">\(O(1)\)</span>.</p>
+<p>More specifically, looking up by <strong>key</strong> is <span class="math inline">\(O(1)\)</span>. Searching by <strong>value</strong> is essentially searching through an array, so is <span class="math inline">\(O(N)\)</span>.</p>
+</section>
+<section id="dealing-with-collisions" class="level3">
+<h3 class="anchored" data-anchor-id="dealing-with-collisions">5.3. Dealing with Collisions</h3>
+<p>A <strong>collision</strong> occurs when we try to add data to a cell that is already occupied.</p>
+<p>One approach to handling this is called <strong>separate chaining</strong>.</p>
+<p>Instead of placing a single value in a cell, we place a <em>pointer to an array</em>. This array contains length-2 subarrays where the first element is the key and the second element is the value.</p>
+<p>If there are no collisions, a hash table look up is <span class="math inline">\(O(1)\)</span>. In the worst case, ALL keys collide and so we essentially have to search through an array which is <span class="math inline">\(O(N)\)</span>.</p>
+</section>
+<section id="hash-table-efficiency" class="level3">
+<h3 class="anchored" data-anchor-id="hash-table-efficiency">5.4. Hash Table Efficiency</h3>
+<p>A hash tables efficiency depends on:</p>
+<ol type="1">
+<li>How much <strong>data</strong> we’re storing in it</li>
+<li>How many <strong>cells</strong> are available</li>
+<li>Which <strong>hash function</strong> we use</li>
+</ol>
+<p>A good hash function (3) should distribute the data (1) evenly across all cells (2).</p>
+<p>This ensures the memory is used efficiently while avoiding collisions.</p>
+<p>The <strong>load factor</strong> is the ratio of data to cells, and ideally should be around 0.7, i.e.&nbsp;7 elements for every 10 cells.</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Operation</th>
+<th>Complexity (Worst)</th>
+<th>Complexity <strong>(Average)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Read</td>
+<td>O(N)</td>
+<td>O(1)</td>
+</tr>
+<tr class="even">
+<td>Search</td>
+<td>O(N)</td>
+<td>Keys: O(1) Values: O(N)</td>
+</tr>
+<tr class="odd">
+<td>Insertion</td>
+<td>O(N)</td>
+<td>O(1)</td>
+</tr>
+<tr class="even">
+<td>Deletion</td>
+<td>O(N)</td>
+<td>O(1)</td>
+</tr>
+</tbody>
+</table>
+<p>The worst case corresponds to when all keys collide, reducing the hash table to an array effectively.</p>
 
 
 </section>
