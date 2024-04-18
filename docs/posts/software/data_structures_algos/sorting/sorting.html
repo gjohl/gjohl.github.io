@@ -251,6 +251,13 @@ window.Quarto = {
   <li><a href="#complexity-2" id="toc-complexity-2" class="nav-link" data-scroll-target="#complexity-2">3.2. Complexity</a></li>
   <li><a href="#the-average-case" id="toc-the-average-case" class="nav-link" data-scroll-target="#the-average-case">3.3 The Average Case</a></li>
   </ul></li>
+  <li><a href="#quicksort" id="toc-quicksort" class="nav-link" data-scroll-target="#quicksort">4. Quicksort</a>
+  <ul class="collapse">
+  <li><a href="#partitioning" id="toc-partitioning" class="nav-link" data-scroll-target="#partitioning">4.1. Partitioning</a></li>
+  <li><a href="#quicksort-algorithm" id="toc-quicksort-algorithm" class="nav-link" data-scroll-target="#quicksort-algorithm">4.2. Quicksort Algorithm</a></li>
+  <li><a href="#complexity-3" id="toc-complexity-3" class="nav-link" data-scroll-target="#complexity-3">4.3. Complexity</a></li>
+  <li><a href="#quickselect" id="toc-quickselect" class="nav-link" data-scroll-target="#quickselect">4.4. Quickselect</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -269,6 +276,42 @@ window.Quarto = {
 <blockquote class="blockquote">
 <p>Given an array of unsorted values, how can we sort them in ascending order?</p>
 </blockquote>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Algorithm</th>
+<th>Best Case</th>
+<th>Average Case</th>
+<th>Worst Case</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Bubble sort</td>
+<td><span class="math inline">\(N^2\)</span></td>
+<td><span class="math inline">\(N^2\)</span></td>
+<td><span class="math inline">\(N^2\)</span></td>
+</tr>
+<tr class="even">
+<td>Selection sort</td>
+<td><span class="math inline">\(\frac{N^2}{2}\)</span></td>
+<td><span class="math inline">\(\frac{N^2}{2}\)</span></td>
+<td><span class="math inline">\(\frac{N^2}{2}\)</span></td>
+</tr>
+<tr class="odd">
+<td>Insertion sort</td>
+<td><span class="math inline">\(N\)</span></td>
+<td><span class="math inline">\(\frac{N^2}{2}\)</span></td>
+<td><span class="math inline">\(N^2\)</span></td>
+</tr>
+<tr class="even">
+<td>Quicksort</td>
+<td><span class="math inline">\(N log N\)</span></td>
+<td><span class="math inline">\(N log N\)</span></td>
+<td><span class="math inline">\(N^2\)</span></td>
+</tr>
+</tbody>
+</table>
 <section id="bubble-sort" class="level2">
 <h2 class="anchored" data-anchor-id="bubble-sort">1. Bubble Sort</h2>
 <section id="algorithm" class="level3">
@@ -564,6 +607,226 @@ window.Quarto = {
 </tbody>
 </table>
 <p>So the choice of which algorithm is “best” depends on the state of your input data. Both have the same <span class="math inline">\(O(N^2)\)</span> time complexity.</p>
+</section>
+</section>
+<section id="quicksort" class="level2">
+<h2 class="anchored" data-anchor-id="quicksort">4. Quicksort</h2>
+<p>Quicksort is a sorting algorithm that relies on the concept of <strong>partitioning</strong>.</p>
+<section id="partitioning" class="level3">
+<h3 class="anchored" data-anchor-id="partitioning">4.1. Partitioning</h3>
+<p>The idea behind partitioning is we take a random value from the array which we call the <strong>pivot</strong>.</p>
+<p>We then want to ensure any smaller numbers are left of the pivot and any larger numbers to its right.</p>
+<ol type="1">
+<li>If we take the rightmost value as the pivot, we create a left pointer pointing at the leftmost value and a right pointer at the second from the right (i.e.&nbsp;not the pivot but the next rightmost).</li>
+<li>The <strong>left pointer</strong> moves rightwards until it reaches a value &gt;= the pivot value.</li>
+<li>The <strong>right pointer</strong> moves leftwards until it reaches a value &lt;= the pivot value.</li>
+<li>If at this pointer the left pointer has crossed past the right pointer, move straight on to the next step. Otherwise swap the values that the left and right pointers are pointing at.</li>
+<li>Swap the pivot value with the left pointer’s value.</li>
+</ol>
+<div id="cell-14" class="cell" data-execution_count="95">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> partition(array):</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Partition an array around the rightmost value.</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">    array: list</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">        The array that we wish to partition.</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">    array: list</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">        The input array partitioned in-place.</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Initialise the pivot and pointers</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    pivot_idx <span class="op">=</span> <span class="bu">len</span>(array) <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    left_pointer_idx <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    right_pointer_idx <span class="op">=</span> pivot_idx <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Loop until the left and right pointers cross </span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> left_pointer_idx <span class="op">&lt;</span> right_pointer_idx:</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 2. Move the left pointer</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> (left_pointer_idx <span class="op">&lt;</span> pivot_idx) <span class="kw">and</span> (array[left_pointer_idx] <span class="op">&lt;</span> array[pivot_idx]):</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>            left_pointer_idx <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 3. Move the right pointer</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> (right_pointer_idx <span class="op">&gt;</span> <span class="dv">0</span>) <span class="kw">and</span> (array[right_pointer_idx] <span class="op">&gt;</span> array[pivot_idx]):</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>            right_pointer_idx <span class="op">-=</span> <span class="dv">1</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 4. Swap values if the pointers haven't crossed yet, otherwise end the loop</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> left_pointer_idx <span class="op">&lt;</span> right_pointer_idx:</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>            array[left_pointer_idx], array[right_pointer_idx] <span class="op">=</span> array[right_pointer_idx], array[left_pointer_idx]</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5. Swap the pivot and left_pointer values</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>    array[left_pointer_idx], array[pivot_idx] <span class="op">=</span> array[pivot_idx], array[left_pointer_idx]</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> array</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-15" class="cell" data-execution_count="93">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>input_array <span class="op">=</span> [<span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">9</span>, <span class="dv">0</span>, <span class="dv">8</span>, <span class="dv">23</span>, <span class="dv">69</span>, <span class="dv">420</span>, <span class="dv">12</span>]</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>partition(input_array)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="93">
+<pre><code>([8, 7, 5, 3, 1, 9, 0, 8, 12, 69, 420, 23], 8)</code></pre>
+</div>
+</div>
+<p>Partitioning isn’t the same as sorting the array, but it’s “sorted-ish”.</p>
+</section>
+<section id="quicksort-algorithm" class="level3">
+<h3 class="anchored" data-anchor-id="quicksort-algorithm">4.2. Quicksort Algorithm</h3>
+<p>Quicksort is a combination of partitions and recursion.</p>
+<ol type="1">
+<li>Partition the array. The <strong>pivot</strong> is now at the correct position in the sorted array.</li>
+<li>Consider the subarrays to the left and the right of the pivot as their own arrays. We’ll partition these recursively.</li>
+<li>If a subarray has 0 or 1 elements, that is the base case and we do nothing; it is already sorted.</li>
+</ol>
+<p>We’ll make a few tweaks to the partition function to take a start index and an end index, and to also return the pivot index. These extra parameters will allow us to call it recursively in quicksort.</p>
+<div id="cell-17" class="cell" data-execution_count="96">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> partition(array, start_idx, end_idx):</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Partition an array around the rightmost value.</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co">    array: list</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">        The array that we wish to partition.</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co">    start_idx: int</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">        The start index of the array to consider.</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co">    end_index: int</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co">        The end index of the array to consider.</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co">    array: list</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co">        The input array partitioned in-place.</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co">    final_pivot_idx: int</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co">        The index position of the pivot point in the partitioned array.</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Initialise the pivot and pointers</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    pivot_idx <span class="op">=</span> end_idx</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    left_pointer_idx <span class="op">=</span> start_idx</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    right_pointer_idx <span class="op">=</span> pivot_idx <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Loop until the left and right pointers cross </span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> left_pointer_idx <span class="op">&lt;</span> right_pointer_idx:</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 2. Move the left pointer</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> (left_pointer_idx <span class="op">&lt;</span> pivot_idx) <span class="kw">and</span> (array[left_pointer_idx] <span class="op">&lt;</span> array[pivot_idx]):</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>            left_pointer_idx <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 3. Move the right pointer</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> (right_pointer_idx <span class="op">&gt;</span> <span class="dv">0</span>) <span class="kw">and</span> (array[right_pointer_idx] <span class="op">&gt;</span> array[pivot_idx]):</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>            right_pointer_idx <span class="op">-=</span> <span class="dv">1</span></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 4. Swap values if the pointers haven't crossed yet, otherwise end the loop</span></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> left_pointer_idx <span class="op">&lt;</span> right_pointer_idx:</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>            array[left_pointer_idx], array[right_pointer_idx] <span class="op">=</span> array[right_pointer_idx], array[left_pointer_idx]</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5. Swap the pivot and left_pointer values</span></span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>    array[left_pointer_idx], array[pivot_idx] <span class="op">=</span> array[pivot_idx], array[left_pointer_idx]</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>    final_pivot_idx <span class="op">=</span> left_pointer_idx</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> array, final_pivot_idx</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-18" class="cell" data-execution_count="100">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>input_array <span class="op">=</span> [<span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">9</span>, <span class="dv">0</span>, <span class="dv">8</span>, <span class="dv">23</span>, <span class="dv">69</span>, <span class="dv">420</span>, <span class="dv">12</span>]</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>partition(input_array, <span class="dv">0</span>, <span class="dv">11</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="100">
+<pre><code>([8, 7, 5, 3, 1, 9, 0, 8, 12, 69, 420, 23], 8)</code></pre>
+</div>
+</div>
+<div id="cell-19" class="cell" data-execution_count="113">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> quicksort(array, start_idx<span class="op">=</span><span class="dv">0</span>, end_idx<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Quicksort algorithm to sort an array into ascending order.</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co">    array: list</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co">        The array that we wish to sort.</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co">    start_idx: int</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co">        The start index of the array to consider.</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co">    end_index: int</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co">        The end index of the array to consider.</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="co">    array: list</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="co">        The input array sorted in-place.</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    end_idx <span class="op">=</span> end_idx <span class="kw">or</span> <span class="bu">len</span>(array) <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Base case - an array of 0 or 1 elements is already sorted</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(array[start_idx: end_idx]) <span class="op">&lt;=</span> <span class="dv">1</span>:</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> array</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Partition the array</span></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    array, pivot_idx <span class="op">=</span> partition(array, start_idx, end_idx)</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Recursively partition the left and right subarrays</span></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>    quicksort(array, start_idx<span class="op">=</span>start_idx, end_idx<span class="op">=</span>pivot_idx <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>    quicksort(array, start_idx<span class="op">=</span>pivot_idx <span class="op">+</span> <span class="dv">1</span>, end_idx<span class="op">=</span>end_idx)</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> array</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-20" class="cell" data-execution_count="114">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>input_array <span class="op">=</span> [<span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">9</span>, <span class="dv">0</span>, <span class="dv">8</span>, <span class="dv">23</span>, <span class="dv">69</span>, <span class="dv">420</span>, <span class="dv">12</span>]</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>quicksort(input_array)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="114">
+<pre><code>[0, 1, 3, 5, 7, 8, 9, 8, 12, 23, 69, 420]</code></pre>
+</div>
+</div>
+</section>
+<section id="complexity-3" class="level3">
+<h3 class="anchored" data-anchor-id="complexity-3">4.3. Complexity</h3>
+<section id="complexity-of-partition" class="level4">
+<h4 class="anchored" data-anchor-id="complexity-of-partition">4.3.1 Complexity of Partition</h4>
+<p>Partitioning involves two steps:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Operation</th>
+<th>Number</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Swaps</td>
+<td><span class="math inline">\(N\)</span></td>
+</tr>
+<tr class="even">
+<td>Comparisons</td>
+<td><span class="math inline">\(\frac{N^2}{2}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Each element is compared to the pivot point at least N times, because the left and right pointers move until they reach each other. So there are <span class="math inline">\(N\)</span> comparisons.</p>
+<p>Each swap handles two values, so in the worst case if we swapped every value there would be <span class="math inline">\(\frac{N}{2}\)</span> swaps. On average, there’d be about half that, so <span class="math inline">\(\frac{N}{4}\)</span>.</p>
+<p>Either way, this means a single partition operation is <span class="math inline">\(O(N)\)</span>.</p>
+</section>
+<section id="complexity-of-quicksort" class="level4">
+<h4 class="anchored" data-anchor-id="complexity-of-quicksort">4.3.2. Complexity of Quicksort</h4>
+<p>Quicksort performs multiple partitions. How many?</p>
+<p>In the best case, each partition would place the pivot directly in the middle of the subarray, spltting them clean in half each time. So there would be <span class="math inline">\(log_2 N\)</span> splits.</p>
+<p>In the average case this is “close enough”. Not every level will split equally so there’ll be a few extra but it will still be broadly symmetric, therefore a logarithmic function of <span class="math inline">\(N\)</span>.</p>
+<p>In the worst case, every partition ends up on the left side, so with each partition we are effectively placing each element one-by-one from the left. This means we will partition <span class="math inline">\(N\)</span> times, and each has <span class="math inline">\(O(N)\)</span> complexity, resulting in a total compleixty of <span class="math inline">\(O(N^2)\)</span>.</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Algorithm</th>
+<th>Best Case</th>
+<th>Average Case</th>
+<th>Worst Case</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Quicksort</td>
+<td><span class="math inline">\(N log N\)</span></td>
+<td><span class="math inline">\(N log N\)</span></td>
+<td><span class="math inline">\(N^2\)</span></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="quickselect" class="level3">
+<h3 class="anchored" data-anchor-id="quickselect">4.4. Quickselect</h3>
 
 
 </section>
