@@ -8,7 +8,7 @@
 
 <meta name="author" content="Gurpreet Johl">
 <meta name="dcterms.date" content="2024-04-17">
-<meta name="description" content="An Array of Possibilities">
+<meta name="description" content="An Array of Possibilities, Trie it Out, You’ll Have Heaps of Fun">
 
 <title>Gurpreet Johl - Data Structures</title>
 <style>
@@ -193,7 +193,7 @@ window.Quarto = {
       <h1 class="title">Data Structures</h1>
                   <div>
         <div class="description">
-          An Array of Possibilities
+          An Array of Possibilities, Trie it Out, You’ll Have Heaps of Fun
         </div>
       </div>
                           <div class="quarto-categories">
@@ -248,6 +248,19 @@ window.Quarto = {
   <li><a href="#array-based-sets" id="toc-array-based-sets" class="nav-link" data-scroll-target="#array-based-sets">3.1. Array-based Sets</a></li>
   <li><a href="#hash-sets" id="toc-hash-sets" class="nav-link" data-scroll-target="#hash-sets">3.2. Hash Sets</a></li>
   </ul></li>
+  <li><a href="#ordered-arrays" id="toc-ordered-arrays" class="nav-link" data-scroll-target="#ordered-arrays">4. Ordered Arrays</a>
+  <ul class="collapse">
+  <li><a href="#binary-search" id="toc-binary-search" class="nav-link" data-scroll-target="#binary-search">4.1. Binary Search</a></li>
+  </ul></li>
+  <li><a href="#hash-tables" id="toc-hash-tables" class="nav-link" data-scroll-target="#hash-tables">5. Hash Tables</a>
+  <ul class="collapse">
+  <li><a href="#hashing" id="toc-hashing" class="nav-link" data-scroll-target="#hashing">5.1. Hashing</a></li>
+  <li><a href="#hash-table-lookups" id="toc-hash-table-lookups" class="nav-link" data-scroll-target="#hash-table-lookups">5.2. Hash Table Lookups</a></li>
+  <li><a href="#dealing-with-collisions" id="toc-dealing-with-collisions" class="nav-link" data-scroll-target="#dealing-with-collisions">5.3. Dealing with Collisions</a></li>
+  <li><a href="#hash-table-efficiency" id="toc-hash-table-efficiency" class="nav-link" data-scroll-target="#hash-table-efficiency">5.4. Hash Table Efficiency</a></li>
+  </ul></li>
+  <li><a href="#stacks" id="toc-stacks" class="nav-link" data-scroll-target="#stacks">6. Stacks</a></li>
+  <li><a href="#queues" id="toc-queues" class="nav-link" data-scroll-target="#queues">7. Queues</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -523,13 +536,375 @@ window.Quarto = {
 <pre><code>{1: True, 2: True, 3: True}</code></pre>
 </div>
 </div>
-<!-- ## Ordered Arrays
-
-
-# Algorithms -->
-
-
 </section>
+</section>
+<section id="ordered-arrays" class="level2">
+<h2 class="anchored" data-anchor-id="ordered-arrays">4. Ordered Arrays</h2>
+<p>These are identical to regular arrays with the additional condition that elements are always ordered.</p>
+<p>This obviously relies heavily on efficient sorting. This is a topic unto itself; see notes on sorting for more info.</p>
+<p>When <strong>inserting</strong> into an ordered array, we need to:</p>
+<ol type="1">
+<li>Search for the correct position - Look at each element in turn and compare if the insert element is greater than it</li>
+<li>Insert into the array</li>
+</ol>
+<p>These two terms increase in opposite directions depending on the insert position. The further into the array we need to search (Step 1), the fewer elements we need to shift for the insertion (Step 2).</p>
+<section id="binary-search" class="level3">
+<h3 class="anchored" data-anchor-id="binary-search">4.1. Binary Search</h3>
+<p>In a typical (unordered) array, the only option for searching is a <em>linear search</em>: we loop through each element in turn until we find our target.</p>
+<p>For an ordered array, we can improve on this using a <strong>binary search</strong>.</p>
+<ol type="1">
+<li>Pick the middle element.</li>
+<li>If the target value is greater than this, search the right half, otherwise search the left half.</li>
+<li>Repeat this recursively until we find our target.</li>
+</ol>
+<p>This approach splits the search region in half for every constant time comparison operation.</p>
+<p>Or put another way, if we doubled the number of elements in the array, the binary search would only have to perform 1 extra step. For <span class="math inline">\(N\)</span> elements we need <span class="math inline">\(log_2(N)\)</span> binary splits.</p>
+<p>Therefore, the time complexity is <strong>O(log(N))</strong>.</p>
+<div id="00d5950d" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> binary_search(ordered_array, target):</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Perform a binary search for the target value on the given ordered array.</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co">    ordered_array: list</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co">        The array to search in.</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co">    target: int</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co">        The target value we are searching for.</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co">    target_index: int</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co">        The index of the target value.</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns None if the value does not exist in the array.</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Establish the lower and upper bounds of our search.</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initially, this is the entire array</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    idx_lower <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    idx_upper <span class="op">=</span> <span class="bu">len</span>(ordered_array) <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> idx_lower <span class="op">&lt;=</span> idx_upper:</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Find the midpoint between our bounds</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>        idx_midpoint <span class="op">=</span> (idx_upper <span class="op">+</span> idx_lower) <span class="op">//</span> <span class="dv">2</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>        value_at_midpoint <span class="op">=</span> ordered_array[idx_midpoint]</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Compare to our target value and narrow the upper or lower bound accordingly</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> value_at_midpoint <span class="op">==</span> target:</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>            <span class="co"># We have found the target!</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> idx_midpoint</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> value_at_midpoint <span class="op">&lt;</span> target:</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>            <span class="co"># The target is bigger so must be to the right side</span></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>            idx_lower <span class="op">=</span> idx_midpoint <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> value_at_midpoint <span class="op">&gt;</span> target:</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>            <span class="co"># The target is smaller so must be on the left side</span></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>            idx_upper <span class="op">=</span> idx_midpoint <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If the lower and upper bounds meet we have exhausted the whole array, so the target is not in the array</span></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">None</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s try this on a few examples.</p>
+<div id="39a2fd2f" class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ordered_array <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">13</span>, <span class="dv">14</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="f4703523" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>binary_search(ordered_array, <span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="35">
+<pre><code>4</code></pre>
+</div>
+</div>
+<div id="d8cb4c44" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>binary_search(ordered_array, <span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="36">
+<pre><code>9</code></pre>
+</div>
+</div>
+<p>Now a value that’s not in the array:</p>
+<div id="7c0945cd" class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>binary_search(ordered_array, <span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="37">
+<pre><code>9</code></pre>
+</div>
+</div>
+<p>Compare this with a linear search</p>
+<div id="23677ede" class="cell" data-execution_count="46">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> linear_search(array, target):</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Perform a linear search for the target value on the given array.</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co">    array: list</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co">        The array to search in.</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co">    target: int</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co">        The target value we are searching for.</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="co">    target_index: int</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="co">        The index of the target value.</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns None if the value does not exist in the array.</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Loop through every element in the array.</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Note: we should really use enumerate() rather than range(len()) but I wanted to keep this generic </span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># without too many python-specific helpers</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> idx <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(array)):</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> array[idx] <span class="op">==</span> target:</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> idx</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If we reach the end of the array without returning a value, then the target does not exist in the array.</span></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">None</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s compare how they perform for a reasonably big array with 1 million elements.</p>
+<div id="c41d3476" class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>array <span class="op">=</span> [k <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1000000</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-24" class="cell" data-execution_count="51">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>timeit</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>binary_search(array, <span class="dv">987654</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1.13 µs ± 56.9 ns per loop (mean ± std. dev. of 7 runs, 1,000,000 loops each)</code></pre>
+</div>
+</div>
+<div id="bb5d3a90" class="cell" data-execution_count="52">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>timeit</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>linear_search(array, <span class="dv">987654</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>15.9 ms ± 320 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)</code></pre>
+</div>
+</div>
+<p>The binary search is ~14000x faster than the linear search!</p>
+</section>
+</section>
+<section id="hash-tables" class="level2">
+<h2 class="anchored" data-anchor-id="hash-tables">5. Hash Tables</h2>
+<p>Hash tables are key:value pairs. We can look up a the value for a given key in <span class="math inline">\(O(1)\)</span> time.</p>
+<p>Also known as hash maps, dictionaries, maps, associative arrays.</p>
+<section id="hashing" class="level3">
+<h3 class="anchored" data-anchor-id="hashing">5.1. Hashing</h3>
+<p>The process of taking characters and converting them to numbers is called <strong>hashing</strong>.</p>
+<p>The code that performs this conversion is the <strong>hash function</strong>.</p>
+<p>A hash function requires one condition:</p>
+<blockquote class="blockquote">
+<p>Consistency: A hash function must convert the same string to the same number every time it’s applied.</p>
+</blockquote>
+<p>In practice, for the hash function to be useful, it should also be collision resistant:</p>
+<blockquote class="blockquote">
+<p>Collision resistant: Different inputs should hash to different outputs.</p>
+</blockquote>
+<p>As an extreme example, the following hash function is consistent but not collision resistant:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> crappy_hash(input_str: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""This is the world's worst hash function."""</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="hash-table-lookups" class="level3">
+<h3 class="anchored" data-anchor-id="hash-table-lookups">5.2. Hash Table Lookups</h3>
+<p>We want to insert the following key:value pair into our hash table:</p>
+<pre><code>key = "Name"
+value = "Gurp"</code></pre>
+<p>Let’s say we have a hash function that is actually good, and in this particular case <code>hash_function(key)</code> returns <code>12</code>.</p>
+<p>The hash table will then insert <code>value</code> at memory address <code>12</code> (or more specifically, the memory address of the head of the dictionary + 12).</p>
+<p>This means if we ever want to look up the key <code>"Name"</code>, we hash it and immediately know to access memory address 12 and return the value <code>"Gurp"</code>.</p>
+<p>So hash table lookups are <span class="math inline">\(O(1)\)</span>.</p>
+<p>More specifically, looking up by <strong>key</strong> is <span class="math inline">\(O(1)\)</span>. Searching by <strong>value</strong> is essentially searching through an array, so is <span class="math inline">\(O(N)\)</span>.</p>
+</section>
+<section id="dealing-with-collisions" class="level3">
+<h3 class="anchored" data-anchor-id="dealing-with-collisions">5.3. Dealing with Collisions</h3>
+<p>A <strong>collision</strong> occurs when we try to add data to a cell that is already occupied.</p>
+<p>One approach to handling this is called <strong>separate chaining</strong>.</p>
+<p>Instead of placing a single value in a cell, we place a <em>pointer to an array</em>. This array contains length-2 subarrays where the first element is the key and the second element is the value.</p>
+<p>If there are no collisions, a hash table look up is <span class="math inline">\(O(1)\)</span>. In the worst case, ALL keys collide and so we essentially have to search through an array which is <span class="math inline">\(O(N)\)</span>.</p>
+</section>
+<section id="hash-table-efficiency" class="level3">
+<h3 class="anchored" data-anchor-id="hash-table-efficiency">5.4. Hash Table Efficiency</h3>
+<p>A hash tables efficiency depends on:</p>
+<ol type="1">
+<li>How much <strong>data</strong> we’re storing in it</li>
+<li>How many <strong>cells</strong> are available</li>
+<li>Which <strong>hash function</strong> we use</li>
+</ol>
+<p>A good hash function (3) should distribute the data (1) evenly across all cells (2).</p>
+<p>This ensures the memory is used efficiently while avoiding collisions.</p>
+<p>The <strong>load factor</strong> is the ratio of data to cells, and ideally should be around 0.7, i.e.&nbsp;7 elements for every 10 cells.</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Operation</th>
+<th>Complexity (Worst)</th>
+<th>Complexity <strong>(Average)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Read</td>
+<td>O(N)</td>
+<td>O(1)</td>
+</tr>
+<tr class="even">
+<td>Search</td>
+<td>O(N)</td>
+<td>Keys: O(1) Values: O(N)</td>
+</tr>
+<tr class="odd">
+<td>Insertion</td>
+<td>O(N)</td>
+<td>O(1)</td>
+</tr>
+<tr class="even">
+<td>Deletion</td>
+<td>O(N)</td>
+<td>O(1)</td>
+</tr>
+</tbody>
+</table>
+<p>The worst case corresponds to when all keys collide, reducing the hash table to an array effectively.</p>
+</section>
+</section>
+<section id="stacks" class="level2">
+<h2 class="anchored" data-anchor-id="stacks">6. Stacks</h2>
+<p>A stack is stored in memory the same as an array, but it has 3 constraints:</p>
+<ol type="1">
+<li>Data can only be <strong>inserted</strong> at the end (push)</li>
+<li>Data can only be <strong>deleted</strong> from the end (pop)</li>
+<li>Only the last element can be <strong>read</strong> (peek)</li>
+</ol>
+<blockquote class="blockquote">
+<p>Read, insert and delete can only happen at the end.</p>
+</blockquote>
+<p>This makes them useful as Last-In First-Out (LIFO) data stores: the last item pushed the the stack is the first to be popped.</p>
+<p>Example in Python:</p>
+<div id="d91f1b89" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Stack:</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, initial_elements: <span class="bu">list</span> <span class="op">=</span> []):</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>        <span class="co"># We can pass a list to initialise the Stack</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.data <span class="op">=</span> initial_elements</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__repr__</span>(<span class="va">self</span>):</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">str</span>(<span class="va">self</span>.data)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> push(<span class="va">self</span>, element):</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.data.append(element)</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> pop(<span class="va">self</span>):</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.data.pop()</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> peek(<span class="va">self</span>):</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.data:</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">self</span>.data[<span class="op">-</span><span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="b792b958" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>stack <span class="op">=</span> Stack([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>])</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>stack</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>[1, 2, 3, 4]</code></pre>
+</div>
+</div>
+<div id="f3b27f64" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>stack.push(<span class="dv">5</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(stack)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1, 2, 3, 4, 5]</code></pre>
+</div>
+</div>
+<div id="2024894b" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>stack.peek()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>5</code></pre>
+</div>
+</div>
+<div id="715abd79" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(stack)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1, 2, 3, 4, 5]</code></pre>
+</div>
+</div>
+<div id="d6b42ad6" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>stack.pop()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<pre><code>5</code></pre>
+</div>
+</div>
+<div id="d4f7f50d" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(stack)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1, 2, 3, 4]</code></pre>
+</div>
+</div>
+<p>The benefits of stacks, and other constrained data structures, are:</p>
+<ol type="1">
+<li>Prevent potential bugs when using certain algorithms. For example, an algorithm that relies on stacks may break if removing elements from the middle of the array, so using a standard array is more error-prone.</li>
+<li>A new mental model for tackling problems. In the case of stacks, this is the LIFO approach.</li>
+</ol>
+<p>The concept of stacks is a useful precursor to recursion, as we push to and pop from the end of a stack.</p>
+</section>
+<section id="queues" class="level2">
+<h2 class="anchored" data-anchor-id="queues">7. Queues</h2>
+<p>A queue is conceptually similar to a stack - it is a constrained array. This time, it is First-In First-Out (FIFO) like a queue of people; the first person to arrive is the first to leave.</p>
+<p>Queue restrictions:</p>
+<ol type="1">
+<li>Data can only be <strong>inserted</strong> at the <strong>end</strong> (enqueue)</li>
+<li>Data can only be <strong>deleted</strong> from the <strong>front</strong> (dequeue)</li>
+<li>Data can only be <strong>read</strong> from the <strong>front</strong> (peek)</li>
+</ol>
+<p>Points (2) and (3) are the opposite of the stack.</p>
+<div id="0baf7b51" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Queue:</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, initial_elements: <span class="bu">list</span> <span class="op">=</span> []):</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>        <span class="co"># We can pass a list to initialise the Stack</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.data <span class="op">=</span> initial_elements</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__repr__</span>(<span class="va">self</span>):</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">str</span>(<span class="va">self</span>.data)</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> enqueue(<span class="va">self</span>, element):</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.data.append(element)</span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> dequeue(<span class="va">self</span>):</span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.data.pop(<span class="dv">0</span>)</span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> peek(<span class="va">self</span>):</span>
+<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.data:</span>
+<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">self</span>.data[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="bbbdff9d" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>q <span class="op">=</span> Queue([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>])</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>q</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
+<pre><code>[1, 2, 3, 4]</code></pre>
+</div>
+</div>
+<div id="3746ed68" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>q.enqueue(<span class="dv">5</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(q)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1, 2, 3, 4, 5]</code></pre>
+</div>
+</div>
+<div id="685ce12b" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>q.dequeue()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="24">
+<pre><code>1</code></pre>
+</div>
+</div>
+<div id="c1eadd69" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(q)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[2, 3, 4, 5]</code></pre>
+</div>
+</div>
+<div id="d03b5f01" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>q.peek()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<pre><code>2</code></pre>
+</div>
+</div>
+<div id="f46443f6" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(q)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[2, 3, 4, 5]</code></pre>
+</div>
+</div>
+
+
 </section>
 </section>
 
