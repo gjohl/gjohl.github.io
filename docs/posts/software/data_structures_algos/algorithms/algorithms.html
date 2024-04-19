@@ -248,6 +248,19 @@ window.Quarto = {
   <li><a href="#the-top-down-dp-approach" id="toc-the-top-down-dp-approach" class="nav-link" data-scroll-target="#the-top-down-dp-approach">3.1. The Top-down DP Approach</a></li>
   <li><a href="#the-bottom-up-dp-approach" id="toc-the-bottom-up-dp-approach" class="nav-link" data-scroll-target="#the-bottom-up-dp-approach">3.2. The Bottom-up DP Approach</a></li>
   </ul></li>
+  <li><a href="#space-complexity" id="toc-space-complexity" class="nav-link" data-scroll-target="#space-complexity">4. Space Complexity</a>
+  <ul class="collapse">
+  <li><a href="#the-hidden-cost-of-recursion" id="toc-the-hidden-cost-of-recursion" class="nav-link" data-scroll-target="#the-hidden-cost-of-recursion">4.1. The Hidden Cost of Recursion</a></li>
+  </ul></li>
+  <li><a href="#code-optimisation-techniques" id="toc-code-optimisation-techniques" class="nav-link" data-scroll-target="#code-optimisation-techniques">5. Code Optimisation Techniques</a>
+  <ul class="collapse">
+  <li><a href="#the-best-imaginable-big-o" id="toc-the-best-imaginable-big-o" class="nav-link" data-scroll-target="#the-best-imaginable-big-o">5.1. The Best Imaginable Big O</a></li>
+  <li><a href="#magical-lookups" id="toc-magical-lookups" class="nav-link" data-scroll-target="#magical-lookups">5.2. Magical Lookups</a></li>
+  <li><a href="#recognising-patterns" id="toc-recognising-patterns" class="nav-link" data-scroll-target="#recognising-patterns">5.3. Recognising Patterns</a></li>
+  <li><a href="#greedy-algorithms" id="toc-greedy-algorithms" class="nav-link" data-scroll-target="#greedy-algorithms">5.4. Greedy Algorithms</a></li>
+  <li><a href="#change-the-data-structure" id="toc-change-the-data-structure" class="nav-link" data-scroll-target="#change-the-data-structure">5.5. Change the Data Structure</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -366,9 +379,63 @@ Tip
 <h3 class="anchored" data-anchor-id="the-bottom-up-dp-approach">3.2. The Bottom-up DP Approach</h3>
 <p>Ditch recursion and just use a loop.</p>
 <p>This is technically another way of “solving a problem that can be solved using recursion but without making duplciate calls” - which is what dynamic programming essentially is. In this case, we do it by removing recursion altogether.</p>
-
-
 </section>
+</section>
+<section id="space-complexity" class="level2">
+<h2 class="anchored" data-anchor-id="space-complexity">4. Space Complexity</h2>
+<p>Often the primary focus of an algorithm is its speed, characterised by its time complexity - how many steps does the algorithm take for an input of N elements?</p>
+<p>But another useful dimension to analyse is its space complexity - how much <strong>memory</strong> does the algorithm consume for an input of N elements?</p>
+<p>It is important to note that space complexity <em>generally</em> only considers the <em>new data</em> that the algorithm is generating, not the original input. The extra space consumed by the new data is called <strong>auxiliary space</strong>.</p>
+<p>(However, some textbooks <em>do</em> include the original data in the space complexity, so it’s important to check the convention being used.)</p>
+<section id="the-hidden-cost-of-recursion" class="level3">
+<h3 class="anchored" data-anchor-id="the-hidden-cost-of-recursion">4.1. The Hidden Cost of Recursion</h3>
+<p>A recursive function takes up a unit of memory for each call that it makes.</p>
+<p>Each time it is called, it adds an item (the function call itself and any additional parameters) on the call stack. So to understand its space complexity, we need to determine how big the call stack can get at its peak, i.e.&nbsp;how many recursive calls it makes.</p>
+</section>
+</section>
+<section id="code-optimisation-techniques" class="level2">
+<h2 class="anchored" data-anchor-id="code-optimisation-techniques">5. Code Optimisation Techniques</h2>
+<p>The first step towards optimising your code is understanding its current complexity.</p>
+<section id="the-best-imaginable-big-o" class="level3">
+<h3 class="anchored" data-anchor-id="the-best-imaginable-big-o">5.1. The Best Imaginable Big O</h3>
+<p>What is the best complexity you can imagine?</p>
+<p>Also called the best-conceivable runtime.</p>
+<p>For example, if a problem requires processing every unit of a list, then you will have to visit all <span class="math inline">\(N\)</span> elements, so the best you can do is probably <span class="math inline">\(O(N)\)</span>. You won’t necessarily be able to achieve this, but it gives you an indication of the potential.</p>
+<ol type="1">
+<li>Determine your current algorithm’s Big O</li>
+<li>Determine the best-imaginable Big O</li>
+<li>If they’re different, try optimising</li>
+</ol>
+<p>Another mental trick that can be helpful is to pick a really fast Big and ask yourself “If someone told me they had an algorithm to achieve this Big O, would I believe them?”</p>
+</section>
+<section id="magical-lookups" class="level3">
+<h3 class="anchored" data-anchor-id="magical-lookups">5.2. Magical Lookups</h3>
+<p>Ask yourself: “If I could magically look up a desired piece of information in <span class="math inline">\(O(1)\)</span> time, could I make my algorithm faster?”</p>
+<p>If so, you may be able to bring in an additional data structure to accommodate this look up. Often this is a hash table.</p>
+</section>
+<section id="recognising-patterns" class="level3">
+<h3 class="anchored" data-anchor-id="recognising-patterns">5.3. Recognising Patterns</h3>
+<p>Start with several smaller cases of the problem and work through the answers by hand.</p>
+<p>Does a pattern emerge that might generalise to bigger cases?</p>
+</section>
+<section id="greedy-algorithms" class="level3">
+<h3 class="anchored" data-anchor-id="greedy-algorithms">5.4. Greedy Algorithms</h3>
+<p>A greedy algorithm, at each step, chooses what appears to be the current best option.</p>
+<p>This local optimisation doesn’t necessarily find the global optimal solution. But it can be sueful in situations where finding the absolute best option is not necessary or practical.</p>
+</section>
+<section id="change-the-data-structure" class="level3">
+<h3 class="anchored" data-anchor-id="change-the-data-structure">5.5. Change the Data Structure</h3>
+<p>If the input data were stored as a different data structure, would it make the problem easier?</p>
+<p>In some cases, it can be worthwhile performing a pre-compute step to convert the data structure if it then allows faster algorithms to be run.</p>
+</section>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li>A common sense guide to data structures and algorithms, Jay Wengrow.</li>
+</ul>
+
+
 </section>
 </section>
 

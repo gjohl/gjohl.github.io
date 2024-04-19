@@ -238,26 +238,48 @@ window.Quarto = {
   <li><a href="#bubble-sort" id="toc-bubble-sort" class="nav-link" data-scroll-target="#bubble-sort">1. Bubble Sort</a>
   <ul class="collapse">
   <li><a href="#algorithm" id="toc-algorithm" class="nav-link" data-scroll-target="#algorithm">1.1. Algorithm</a></li>
-  <li><a href="#complexity" id="toc-complexity" class="nav-link" data-scroll-target="#complexity">1.2. Complexity</a></li>
+  <li><a href="#implementation" id="toc-implementation" class="nav-link" data-scroll-target="#implementation">1.2. Implementation</a></li>
+  <li><a href="#complexity" id="toc-complexity" class="nav-link" data-scroll-target="#complexity">1.3. Complexity</a></li>
   </ul></li>
   <li><a href="#selection-sort" id="toc-selection-sort" class="nav-link" data-scroll-target="#selection-sort">2. Selection Sort</a>
   <ul class="collapse">
   <li><a href="#algorithm-1" id="toc-algorithm-1" class="nav-link" data-scroll-target="#algorithm-1">2.1. Algorithm</a></li>
-  <li><a href="#complexity-1" id="toc-complexity-1" class="nav-link" data-scroll-target="#complexity-1">2.2. Complexity</a></li>
+  <li><a href="#implementation-1" id="toc-implementation-1" class="nav-link" data-scroll-target="#implementation-1">2.2. Implementation</a></li>
+  <li><a href="#complexity-1" id="toc-complexity-1" class="nav-link" data-scroll-target="#complexity-1">2.3. Complexity</a></li>
   </ul></li>
   <li><a href="#insertion-sort" id="toc-insertion-sort" class="nav-link" data-scroll-target="#insertion-sort">3. Insertion Sort</a>
   <ul class="collapse">
   <li><a href="#algorithm-2" id="toc-algorithm-2" class="nav-link" data-scroll-target="#algorithm-2">3.1. Algorithm</a></li>
-  <li><a href="#complexity-2" id="toc-complexity-2" class="nav-link" data-scroll-target="#complexity-2">3.2. Complexity</a></li>
+  <li><a href="#implementation-2" id="toc-implementation-2" class="nav-link" data-scroll-target="#implementation-2">3.2. Implementation</a></li>
+  <li><a href="#complexity-2" id="toc-complexity-2" class="nav-link" data-scroll-target="#complexity-2">3.3. Complexity</a></li>
   <li><a href="#the-average-case" id="toc-the-average-case" class="nav-link" data-scroll-target="#the-average-case">3.3 The Average Case</a></li>
   </ul></li>
   <li><a href="#quicksort" id="toc-quicksort" class="nav-link" data-scroll-target="#quicksort">4. Quicksort</a>
   <ul class="collapse">
   <li><a href="#partitioning" id="toc-partitioning" class="nav-link" data-scroll-target="#partitioning">4.1. Partitioning</a></li>
   <li><a href="#quicksort-algorithm" id="toc-quicksort-algorithm" class="nav-link" data-scroll-target="#quicksort-algorithm">4.2. Quicksort Algorithm</a></li>
-  <li><a href="#complexity-3" id="toc-complexity-3" class="nav-link" data-scroll-target="#complexity-3">4.3. Complexity</a></li>
-  <li><a href="#quickselect" id="toc-quickselect" class="nav-link" data-scroll-target="#quickselect">4.4. Quickselect</a></li>
-  <li><a href="#complexity-of-quickselect" id="toc-complexity-of-quickselect" class="nav-link" data-scroll-target="#complexity-of-quickselect">4.5. Complexity of Quickselect</a></li>
+  <li><a href="#implementation-3" id="toc-implementation-3" class="nav-link" data-scroll-target="#implementation-3">4.3. Implementation</a></li>
+  <li><a href="#complexity-3" id="toc-complexity-3" class="nav-link" data-scroll-target="#complexity-3">4.4. Complexity</a></li>
+  <li><a href="#quickselect" id="toc-quickselect" class="nav-link" data-scroll-target="#quickselect">4.5. Quickselect</a></li>
+  <li><a href="#complexity-of-quickselect" id="toc-complexity-of-quickselect" class="nav-link" data-scroll-target="#complexity-of-quickselect">4.6. Complexity of Quickselect</a></li>
+  </ul></li>
+  <li><a href="#merge-sort" id="toc-merge-sort" class="nav-link" data-scroll-target="#merge-sort">5. Merge Sort</a>
+  <ul class="collapse">
+  <li><a href="#algorithm-3" id="toc-algorithm-3" class="nav-link" data-scroll-target="#algorithm-3">5.1. Algorithm</a></li>
+  <li><a href="#implementation-4" id="toc-implementation-4" class="nav-link" data-scroll-target="#implementation-4">5.2. Implementation</a></li>
+  <li><a href="#complexity-4" id="toc-complexity-4" class="nav-link" data-scroll-target="#complexity-4">5.3. Complexity</a></li>
+  </ul></li>
+  <li><a href="#radix-sort" id="toc-radix-sort" class="nav-link" data-scroll-target="#radix-sort">6. Radix Sort</a>
+  <ul class="collapse">
+  <li><a href="#algorithm-4" id="toc-algorithm-4" class="nav-link" data-scroll-target="#algorithm-4">6.1. Algorithm</a></li>
+  <li><a href="#implementation-5" id="toc-implementation-5" class="nav-link" data-scroll-target="#implementation-5">6.2. Implementation</a></li>
+  <li><a href="#complexity-5" id="toc-complexity-5" class="nav-link" data-scroll-target="#complexity-5">6.3. Complexity</a></li>
+  </ul></li>
+  <li><a href="#heap-sort" id="toc-heap-sort" class="nav-link" data-scroll-target="#heap-sort">7. Heap Sort</a>
+  <ul class="collapse">
+  <li><a href="#algorithm-5" id="toc-algorithm-5" class="nav-link" data-scroll-target="#algorithm-5">7.1. Algorithm</a></li>
+  <li><a href="#implementation-6" id="toc-implementation-6" class="nav-link" data-scroll-target="#implementation-6">7.2. Implementation</a></li>
+  <li><a href="#complexity-6" id="toc-complexity-6" class="nav-link" data-scroll-target="#complexity-6">7.3. Complexity</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -326,6 +348,9 @@ window.Quarto = {
 <li>Repeat Steps 2-3 until we reach values that have already been sorted. This completes the first “pass-through” and means we have “bubbled up” the biggest number to the end of the array.</li>
 <li>Start over. repeat Steps 1-4 to bubble up the second biggest number into the second to last position. Repeat this until we perform a pass through with no swaps.</li>
 </ol>
+</section>
+<section id="implementation" class="level3">
+<h3 class="anchored" data-anchor-id="implementation">1.2. Implementation</h3>
 <div id="cell-2" class="cell" data-execution_count="76">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bubble_sort(array):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Bubble sort algorithm to sort an array into ascending order.</span></span>
@@ -377,7 +402,7 @@ window.Quarto = {
 </div>
 </section>
 <section id="complexity" class="level3">
-<h3 class="anchored" data-anchor-id="complexity">1.2. Complexity</h3>
+<h3 class="anchored" data-anchor-id="complexity">1.3. Complexity</h3>
 <p>Each pass through loops through one fewer element:</p>
 <table class="table">
 <thead>
@@ -433,6 +458,9 @@ window.Quarto = {
 <li>At the end of pass-through <span class="math inline">\(j\)</span> (starting at 0), swap the minimum value with the one at index <span class="math inline">\(j\)</span>.</li>
 <li>Repeat steps 1-2 until we reach a pass-through that would start at the end of the array, i.e.&nbsp;<span class="math inline">\(j = N-1\)</span></li>
 </ol>
+</section>
+<section id="implementation-1" class="level3">
+<h3 class="anchored" data-anchor-id="implementation-1">2.2. Implementation</h3>
 <div id="cell-6" class="cell" data-execution_count="72">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> selection_sort(array):</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Selection sort algorithm to sort an array into ascending order.</span></span>
@@ -472,7 +500,7 @@ window.Quarto = {
 </div>
 </section>
 <section id="complexity-1" class="level3">
-<h3 class="anchored" data-anchor-id="complexity-1">2.2. Complexity</h3>
+<h3 class="anchored" data-anchor-id="complexity-1">2.3. Complexity</h3>
 <p>As with bubble sort, on each pass-through we loop through one fewer element, so there are <span class="math inline">\(\frac{N^2}{2}\)</span> comparisons. But each pass-through only performs 1 swap, so the total number of operations is <span class="math inline">\(\frac{N^2}{2} + N\)</span>.</p>
 <p>This is still therefore <strong><span class="math inline">\(O(N^2)\)</span></strong> complexity, but it should be about twice as fast as bubble sort.</p>
 </section>
@@ -488,6 +516,9 @@ window.Quarto = {
 <li><strong>Fill the gap.</strong> Insert the temporary value into the current gap.</li>
 <li><strong>Repeat pass-throughs.</strong> Steps 1-3 constitute a single pass-through. Repeat this until the pass through begins at the final index of the array. At this point the array is sorted.</li>
 </ol>
+</section>
+<section id="implementation-2" class="level3">
+<h3 class="anchored" data-anchor-id="implementation-2">3.2. Implementation</h3>
 <div id="cell-10" class="cell" data-execution_count="82">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> insertion_sort(array):</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Insertion sort algorithm to sort an array into ascending order.</span></span>
@@ -529,7 +560,7 @@ window.Quarto = {
 </div>
 </section>
 <section id="complexity-2" class="level3">
-<h3 class="anchored" data-anchor-id="complexity-2">3.2. Complexity</h3>
+<h3 class="anchored" data-anchor-id="complexity-2">3.3. Complexity</h3>
 <p>The worst case is when the input array is sorted in descending order.</p>
 <p>There are 4 types of operations that occur:</p>
 <section id="comparisons" class="level5">
@@ -681,6 +712,9 @@ window.Quarto = {
 <li>If a subarray has 0 or 1 elements, that is the base case and we do nothing; it is already sorted.</li>
 </ol>
 <p>We’ll make a few tweaks to the partition function to take a start index and an end index, and to also return the pivot index. These extra parameters will allow us to call it recursively in quicksort.</p>
+</section>
+<section id="implementation-3" class="level3">
+<h3 class="anchored" data-anchor-id="implementation-3">4.3. Implementation</h3>
 <div id="cell-17" class="cell" data-execution_count="96">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> partition(array, start_idx, end_idx):</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Partition an array around the rightmost value.</span></span>
@@ -775,9 +809,9 @@ window.Quarto = {
 </div>
 </section>
 <section id="complexity-3" class="level3">
-<h3 class="anchored" data-anchor-id="complexity-3">4.3. Complexity</h3>
+<h3 class="anchored" data-anchor-id="complexity-3">4.4. Complexity</h3>
 <section id="complexity-of-partition" class="level4">
-<h4 class="anchored" data-anchor-id="complexity-of-partition">4.3.1 Complexity of Partition</h4>
+<h4 class="anchored" data-anchor-id="complexity-of-partition">4.4.1 Complexity of Partition</h4>
 <p>Partitioning involves two steps:</p>
 <table class="table">
 <thead>
@@ -802,7 +836,7 @@ window.Quarto = {
 <p>Either way, this means a single partition operation is <span class="math inline">\(O(N)\)</span>.</p>
 </section>
 <section id="complexity-of-quicksort" class="level4">
-<h4 class="anchored" data-anchor-id="complexity-of-quicksort">4.3.2. Complexity of Quicksort</h4>
+<h4 class="anchored" data-anchor-id="complexity-of-quicksort">4.4.2. Complexity of Quicksort</h4>
 <p>Quicksort performs multiple partitions. How many?</p>
 <p>In the best case, each partition would place the pivot directly in the middle of the subarray, spltting them clean in half each time. So there would be <span class="math inline">\(log_2 N\)</span> splits.</p>
 <p>In the average case this is “close enough”. Not every level will split equally so there’ll be a few extra but it will still be broadly symmetric, therefore a logarithmic function of <span class="math inline">\(N\)</span>.</p>
@@ -828,7 +862,7 @@ window.Quarto = {
 </section>
 </section>
 <section id="quickselect" class="level3">
-<h3 class="anchored" data-anchor-id="quickselect">4.4. Quickselect</h3>
+<h3 class="anchored" data-anchor-id="quickselect">4.5. Quickselect</h3>
 <p>Quickselect is an algorithm with a similar approach. It’s a hybrid of Quicksort and a binary search.</p>
 <blockquote class="blockquote">
 <p>Given an unsorted array, find the fifth-highest value in the array.</p>
@@ -889,10 +923,252 @@ window.Quarto = {
 </div>
 </section>
 <section id="complexity-of-quickselect" class="level3">
-<h3 class="anchored" data-anchor-id="complexity-of-quickselect">4.5. Complexity of Quickselect</h3>
+<h3 class="anchored" data-anchor-id="complexity-of-quickselect">4.6. Complexity of Quickselect</h3>
 <p>In the average case, we are splitting the subarrays (roughly) in half each time.</p>
 <p>Each split is operating on a subarray of half the size, so in total there are <span class="math inline">\(N + \frac{N}{2} +  \frac{N}{4} + \frac{N}{8} + ... + 2 = 2N\)</span> steps.</p>
-<p>THus, overall the complexity is <span class="math inline">\(O(N)\)</span> in the average case.</p>
+<p>Thus, overall the complexity is <span class="math inline">\(O(N)\)</span> in the average case.</p>
+</section>
+</section>
+<section id="merge-sort" class="level2">
+<h2 class="anchored" data-anchor-id="merge-sort">5. Merge Sort</h2>
+<p>Merge sort is like organizing a messy pile of papers. You divide the pile into smaller piles, sort each smaller pile, and then merge them back together in the correct order.</p>
+<section id="algorithm-3" class="level3">
+<h3 class="anchored" data-anchor-id="algorithm-3">5.1. Algorithm</h3>
+<ol type="1">
+<li><strong>Divide</strong>. Recursively split the array into two halves until each subarray contains only one element (and is therefore sorted).</li>
+<li><strong>Sort</strong>. Recursively mergesort each half.</li>
+<li><strong>Merge</strong>. Recursively merge the sorted subarrays back together in the correct order.</li>
+</ol>
+</section>
+<section id="implementation-4" class="level3">
+<h3 class="anchored" data-anchor-id="implementation-4">5.2. Implementation</h3>
+<div id="cell-26" class="cell" data-execution_count="121">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> merge_sort(array):</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Mergesort sort algorithm to sort an array into ascending order.</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co">    array: list</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co">        The array that we wish to sort.</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="co">    array: list</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="co">        The input array sorted in-place.</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Base case - the array has 0 or 1 elements so is already sorted</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(array) <span class="op">&lt;=</span> <span class="dv">1</span>:</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> array</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Split the array</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>    idx_mid <span class="op">=</span> <span class="bu">len</span>(array) <span class="op">//</span> <span class="dv">2</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>    left_half <span class="op">=</span> array[:idx_mid]</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>    right_half <span class="op">=</span> array[idx_mid:]</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Sort each half recursively</span></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>    left_half <span class="op">=</span> merge_sort(left_half)</span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>    right_half <span class="op">=</span> merge_sort(right_half)</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Merge the subarrays</span></span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> merge(left_half, right_half)</span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> merge(left_array, right_array):</span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Merge two subarrays together which are each sorted.</span></span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a><span class="co">    left_array: list</span></span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a><span class="co">        The first subarray to merge.</span></span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a><span class="co">    right_array: list</span></span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a><span class="co">        The second subarray to merge.</span></span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
+<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a><span class="co">    result: list</span></span>
+<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a><span class="co">        The merged, sorted array.</span></span>
+<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb22-45"><a href="#cb22-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialise pointers at the start of each subarray</span></span>
+<span id="cb22-46"><a href="#cb22-46" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> []</span>
+<span id="cb22-47"><a href="#cb22-47" aria-hidden="true" tabindex="-1"></a>    left_idx <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb22-48"><a href="#cb22-48" aria-hidden="true" tabindex="-1"></a>    right_idx <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb22-49"><a href="#cb22-49" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-50"><a href="#cb22-50" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Loop until we reach the end of one of the subarrays</span></span>
+<span id="cb22-51"><a href="#cb22-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> left_idx <span class="op">&lt;</span> <span class="bu">len</span>(left_array) <span class="kw">and</span> right_idx <span class="op">&lt;</span> <span class="bu">len</span>(right_array):</span>
+<span id="cb22-52"><a href="#cb22-52" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Compare the values of the left and right array, then insert the smaller of the two into the result</span></span>
+<span id="cb22-53"><a href="#cb22-53" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> left_array[left_idx] <span class="op">&lt;</span> right_array[right_idx]:</span>
+<span id="cb22-54"><a href="#cb22-54" aria-hidden="true" tabindex="-1"></a>            <span class="co"># The left value is smaller so insert it into the result and increment the pointer</span></span>
+<span id="cb22-55"><a href="#cb22-55" aria-hidden="true" tabindex="-1"></a>            result.append(left_array[left_idx])</span>
+<span id="cb22-56"><a href="#cb22-56" aria-hidden="true" tabindex="-1"></a>            left_idx <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb22-57"><a href="#cb22-57" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb22-58"><a href="#cb22-58" aria-hidden="true" tabindex="-1"></a>            <span class="co"># The right value is smaller so insert it into the result and increment the pointer</span></span>
+<span id="cb22-59"><a href="#cb22-59" aria-hidden="true" tabindex="-1"></a>            result.append(right_array[right_idx])</span>
+<span id="cb22-60"><a href="#cb22-60" aria-hidden="true" tabindex="-1"></a>            right_idx <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb22-61"><a href="#cb22-61" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-62"><a href="#cb22-62" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The array that reaches the end first will be empty, but there will still be elements in the other.</span></span>
+<span id="cb22-63"><a href="#cb22-63" aria-hidden="true" tabindex="-1"></a>    <span class="co"># So insert any remaining elements at the end of the result</span></span>
+<span id="cb22-64"><a href="#cb22-64" aria-hidden="true" tabindex="-1"></a>    result.extend(left_array[left_idx:])</span>
+<span id="cb22-65"><a href="#cb22-65" aria-hidden="true" tabindex="-1"></a>    result.extend(right_array[right_idx:])</span>
+<span id="cb22-66"><a href="#cb22-66" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-67"><a href="#cb22-67" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-27" class="cell" data-execution_count="122">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>input_array <span class="op">=</span> [<span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">9</span>, <span class="dv">0</span>, <span class="dv">8</span>, <span class="dv">23</span>, <span class="dv">69</span>, <span class="dv">420</span>, <span class="dv">12</span>]</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>merge_sort(input_array)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="122">
+<pre><code>[0, 1, 3, 5, 7, 8, 8, 9, 12, 23, 69, 420]</code></pre>
+</div>
+</div>
+</section>
+<section id="complexity-4" class="level3">
+<h3 class="anchored" data-anchor-id="complexity-4">5.3. Complexity</h3>
+<p>The time complexity of merge sort is the same for the best case, average case, and worst case.</p>
+<p>In every case, each divide step splits the array in half, meaning there are <span class="math inline">\(log_2(N)\)</span> splits.</p>
+<p>For the merge step, the elements subarrays are looped through one-by-one, so all <span class="math inline">\(N\)</span> elements are touched.</p>
+<p>Therefore, the overall complexity is <span class="math inline">\(O(NlogN)\)</span>.</p>
+<p>The space complexity is O(n).</p>
+<p>This is because merge sort requires additional space to store temporary arrays during the merging process. In the worst case, when merging two halves of the array, an additional array of size equal to the original array is needed to store the merged result temporarily.</p>
+</section>
+</section>
+<section id="radix-sort" class="level2">
+<h2 class="anchored" data-anchor-id="radix-sort">6. Radix Sort</h2>
+<p>Radix sort is a sorting algorithm that sorts numbers by processing individual digits. It sorts numbers by first grouping the individual digits of the same place value together and sorting them. It starts sorting from the least significant digit (rightmost digit) to the most significant digit (leftmost digit).</p>
+<p>Here’s an intuitive explanation:</p>
+<p>Imagine you have a bunch of numbers written on cards. You want to sort these numbers using radix sort. Instead of comparing the numbers directly, radix sort looks at the digits of each number.</p>
+<section id="algorithm-4" class="level3">
+<h3 class="anchored" data-anchor-id="algorithm-4">6.1. Algorithm</h3>
+<ol type="1">
+<li>Start from the rightmost digit: Look at the least significant digit of each number. Group the numbers based on this digit.</li>
+<li>Sort each group: After grouping, the numbers are rearranged based on their digit value. So, all the numbers with the same rightmost digit are now together, and they are sorted within this group.</li>
+<li>Move to the next digit: Now, look at the second rightmost digit and repeat the process. Group the numbers based on this digit and sort each group. C4. ontinue until all digits are considered: Keep repeating this process until you’ve looked at all digits, moving towards the leftmost digit.</li>
+</ol>
+<p>By the end of this process, the numbers will be sorted because each time you look at a digit, the numbers are sorted according to that digit.</p>
+</section>
+<section id="implementation-5" class="level3">
+<h3 class="anchored" data-anchor-id="implementation-5">6.2. Implementation</h3>
+<div id="cell-30" class="cell" data-execution_count="125">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> counting_sort(arr, exp):</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(arr)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> n</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> <span class="dv">10</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Count occurrences of digits</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>        index <span class="op">=</span> arr[i] <span class="op">//</span> exp</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>        count[index <span class="op">%</span> <span class="dv">10</span>] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Cumulative count</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">10</span>):</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>        count[i] <span class="op">+=</span> count[i <span class="op">-</span> <span class="dv">1</span>]</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Build the output array</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    i <span class="op">=</span> n <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> i <span class="op">&gt;=</span> <span class="dv">0</span>:</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>        index <span class="op">=</span> arr[i] <span class="op">//</span> exp</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>        output[count[index <span class="op">%</span> <span class="dv">10</span>] <span class="op">-</span> <span class="dv">1</span>] <span class="op">=</span> arr[i]</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>        count[index <span class="op">%</span> <span class="dv">10</span>] <span class="op">-=</span> <span class="dv">1</span></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>        i <span class="op">-=</span> <span class="dv">1</span></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Copy the output array to arr, to be ready for the next iteration</span></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>        arr[i] <span class="op">=</span> output[i]</span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> radix_sort(arr):</span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Find the maximum number to determine the number of digits</span></span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>    max_num <span class="op">=</span> <span class="bu">max</span>(arr)</span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>    exp <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> max_num <span class="op">//</span> exp <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>        counting_sort(arr, exp)</span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>        exp <span class="op">*=</span> <span class="dv">10</span></span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> arr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-31" class="cell" data-execution_count="126">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>input_array <span class="op">=</span> [<span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">9</span>, <span class="dv">0</span>, <span class="dv">8</span>, <span class="dv">23</span>, <span class="dv">69</span>, <span class="dv">420</span>, <span class="dv">12</span>]</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>radix_sort(input_array)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="126">
+<pre><code>[0, 1, 3, 5, 7, 8, 8, 9, 12, 23, 69, 420]</code></pre>
+</div>
+</div>
+</section>
+<section id="complexity-5" class="level3">
+<h3 class="anchored" data-anchor-id="complexity-5">6.3. Complexity</h3>
+<p>The time complexity of radix sort depends on the number of digits or the range of the input numbers. Let’s denote:</p>
+<ul>
+<li>n as the number of elements in the array to be sorted.</li>
+<li>d as the maximum number of digits in the input numbers.</li>
+<li>b as the base of the number system being used (usually 10 for decimal numbers).</li>
+</ul>
+<p>Best Case: The best-case scenario occurs when all the numbers have the same number of digits. In this case, the algorithm still has to iterate through each digit of each number. So, the time complexity in the best case is O(d⋅n)</p>
+<p>Average Case: The average case time complexity is also O(d⋅n). This is because, on average, each number requires � d passes through the counting and distribution steps of the radix sort. Worst Case: The worst-case scenario happens when the numbers have significantly different numbers of digits, resulting in more passes through the counting and distribution steps. In the worst case, the time complexity is O(d⋅n).</p>
+<p>In practice, however, the value of d is often considered to be a constant because it is bounded by the word size of the machine (e.g., 32 or 64 bits for integers). Therefore, the time complexity is often simplified to O(n), making radix sort very efficient, especially when the range of input numbers is relatively small.</p>
+<p>In radix sort, the time complexity is the same in the best case, average case, and worst case. This is because the algorithm always needs to iterate through each digit of each number, regardless of the distribution of digits among the input numbers.</p>
+</section>
+</section>
+<section id="heap-sort" class="level2">
+<h2 class="anchored" data-anchor-id="heap-sort">7. Heap Sort</h2>
+<p>Builds a heap data structure from the input data and then repeatedly removes the largest element from the heap and inserts it into the sorted array.</p>
+<p>Imagine you have a pile of numbered blocks, and you want to sort them from smallest to largest. You could use a heap sort to do this.</p>
+<section id="algorithm-5" class="level3">
+<h3 class="anchored" data-anchor-id="algorithm-5">7.1. Algorithm</h3>
+<ol type="1">
+<li>Build a heap. First, you arrange the blocks into a special structure called a heap. In a heap, each block is either larger than or equal to its parent block (max heap), or smaller than or equal to its parent block (min heap). This means the largest (or smallest) block is at the root of the heap.</li>
+<li>Heapify: Once you have your heap, you remove the root block (which is the largest or smallest, depending on the type of heap) and place it at the end of your sorted list. Then, you rearrange the remaining blocks to form a new heap.</li>
+<li>Sorting: Repeat this process until all elements are sorted.</li>
+</ol>
+</section>
+<section id="implementation-6" class="level3">
+<h3 class="anchored" data-anchor-id="implementation-6">7.2. Implementation</h3>
+<div id="cell-34" class="cell" data-execution_count="128">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> heapify(arr, n, i):</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    largest <span class="op">=</span> i  <span class="co"># Initialize largest as root</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    left <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> i <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    right <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> i <span class="op">+</span> <span class="dv">2</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check if left child exists and is greater than root</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> left <span class="op">&lt;</span> n <span class="kw">and</span> arr[left] <span class="op">&gt;</span> arr[largest]:</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>        largest <span class="op">=</span> left</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check if right child exists and is greater than the largest so far</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> right <span class="op">&lt;</span> n <span class="kw">and</span> arr[right] <span class="op">&gt;</span> arr[largest]:</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>        largest <span class="op">=</span> right</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Change root, if needed</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> largest <span class="op">!=</span> i:</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>        arr[i], arr[largest] <span class="op">=</span> arr[largest], arr[i]  <span class="co"># Swap</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Heapify the affected sub-tree</span></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>        heapify(arr, n, largest)</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> heap_sort(arr):</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(arr)</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Build a max heap.</span></span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n <span class="op">//</span> <span class="dv">2</span> <span class="op">-</span> <span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>        heapify(arr, n, i)</span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># One by one extract elements</span></span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n <span class="op">-</span> <span class="dv">1</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>        arr[i], arr[<span class="dv">0</span>] <span class="op">=</span> arr[<span class="dv">0</span>], arr[i]  <span class="co"># Swap</span></span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>        heapify(arr, i, <span class="dv">0</span>)</span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> arr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-35" class="cell" data-execution_count="130">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>input_array <span class="op">=</span> [<span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">9</span>, <span class="dv">0</span>, <span class="dv">8</span>, <span class="dv">23</span>, <span class="dv">69</span>, <span class="dv">420</span>, <span class="dv">12</span>]</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>heap_sort(input_array)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="130">
+<pre><code>[0, 1, 3, 5, 7, 8, 8, 9, 12, 23, 69, 420]</code></pre>
+</div>
+</div>
+</section>
+<section id="complexity-6" class="level3">
+<h3 class="anchored" data-anchor-id="complexity-6">7.3. Complexity</h3>
+<p>There are two steps in the algorithm:</p>
+<ol type="1">
+<li>Building the heap (heapify): This operation takes O(n) time.</li>
+<li>Extracting the maximum (or minimum) element and heapifying: This operation is performed n times, each taking O(log n) time. Since both operations are performed independently of each other, the overall time complexity of heap sort remains O(n log n) across all cases.</li>
+</ol>
+<p>The time complexity of heap sort in the best case, average case, and worst case is the same, <span class="math inline">\(O(N log N)\)</span>.</p>
 
 
 </section>
