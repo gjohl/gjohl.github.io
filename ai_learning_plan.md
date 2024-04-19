@@ -19,6 +19,7 @@ draft: true
 ## Graph Neural Networks
 
 - Read Hands-On Graph Neural Networks Using Python
+- Write Notes
 - Implement a project
 
 
