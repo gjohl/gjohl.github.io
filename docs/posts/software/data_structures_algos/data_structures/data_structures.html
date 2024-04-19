@@ -279,6 +279,11 @@ window.Quarto = {
   <li><a href="#trees" id="toc-trees" class="nav-link" data-scroll-target="#trees">9.1. Trees</a></li>
   <li><a href="#binary-search-tree-rules" id="toc-binary-search-tree-rules" class="nav-link" data-scroll-target="#binary-search-tree-rules">9.2. Binary Search Tree Rules</a></li>
   <li><a href="#implementation" id="toc-implementation" class="nav-link" data-scroll-target="#implementation">9.3. Implementation</a></li>
+  <li><a href="#searching-a-binary-search-tree" id="toc-searching-a-binary-search-tree" class="nav-link" data-scroll-target="#searching-a-binary-search-tree">9.4. Searching a Binary Search Tree</a></li>
+  <li><a href="#complexity" id="toc-complexity" class="nav-link" data-scroll-target="#complexity">9.5. Complexity</a></li>
+  <li><a href="#insertion" id="toc-insertion" class="nav-link" data-scroll-target="#insertion">9.6. Insertion</a></li>
+  <li><a href="#deletion" id="toc-deletion" class="nav-link" data-scroll-target="#deletion">9.7. Deletion</a></li>
+  <li><a href="#inorder-traversal" id="toc-inorder-traversal" class="nav-link" data-scroll-target="#inorder-traversal">9.8. Inorder Traversal</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -1466,6 +1471,38 @@ None</code></pre>
 <li>Has fast inserts, deletes and search</li>
 </ol>
 <p>This is where a binary search tree comes in.</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Operation</th>
+<th>Complexity (Worst)*</th>
+<th>Complexity (Best)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Read</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
+<tr class="even">
+<td>Search</td>
+<td>O(N)</td>
+<td>O(log N)</td>
+</tr>
+<tr class="odd">
+<td>Insertion</td>
+<td>O(N)</td>
+<td>O(log N)</td>
+</tr>
+<tr class="even">
+<td>Deletion</td>
+<td>O(N)</td>
+<td>O(log N)</td>
+</tr>
+</tbody>
+</table>
+<p>*The worst case corresponds to an imbalanced tree that is essentailly a linked list (a straight line). The best case is a perfectly balanced tree.</p>
 <section id="trees" class="level3">
 <h3 class="anchored" data-anchor-id="trees">9.1. Trees</h3>
 <p>Trees are another node-based data structure when each node can point to multiple other nodes.</p>
@@ -1509,7 +1546,7 @@ None</code></pre>
 </section>
 <section id="implementation" class="level3">
 <h3 class="anchored" data-anchor-id="implementation">9.3. Implementation</h3>
-<div id="317e252e" class="cell" data-execution_count="161">
+<div id="317e252e" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TreeNode:</span>
 <span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, value, left<span class="op">=</span><span class="va">None</span>, right<span class="op">=</span><span class="va">None</span>):</span>
@@ -1529,36 +1566,113 @@ None</code></pre>
 <span id="cb86-17"><a href="#cb86-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__repr__</span>(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb86-18"><a href="#cb86-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"Tree with root: </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>root_node<span class="sc">}</span><span class="ss">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="4dc246e2" class="cell" data-execution_count="162">
+<div id="4dc246e2" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb87"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>tree_node2 <span class="op">=</span> TreeNode(<span class="st">'b'</span>)</span>
 <span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>tree_node3 <span class="op">=</span> TreeNode(<span class="st">'c'</span>)</span>
 <span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>tree_node1 <span class="op">=</span> TreeNode(<span class="st">'a'</span>, tree_node2, tree_node3)</span>
 <span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb87-5"><a href="#cb87-5" aria-hidden="true" tabindex="-1"></a>tree <span class="op">=</span> Tree(tree_node1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="1bcf8794" class="cell" data-execution_count="163">
+<div id="1bcf8794" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb88"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>tree_node1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="163">
+<div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>TreeNode with value: a</code></pre>
 </div>
 </div>
-<div id="e541475f" class="cell" data-execution_count="164">
+<div id="e541475f" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb90"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>tree_node1.left</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="164">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>TreeNode with value: b</code></pre>
 </div>
 </div>
-<div id="57555ea9" class="cell" data-execution_count="165">
+<div id="57555ea9" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb92"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>tree_node1.right</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="165">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>TreeNode with value: c</code></pre>
 </div>
 </div>
-<div id="6327fb3c" class="cell" data-execution_count="166">
+<div id="6327fb3c" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb94"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>tree</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="166">
+<div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>Tree with root: TreeNode with value: a</code></pre>
 </div>
+</div>
+</section>
+<section id="searching-a-binary-search-tree" class="level3">
+<h3 class="anchored" data-anchor-id="searching-a-binary-search-tree">9.4. Searching a Binary Search Tree</h3>
+<ol type="1">
+<li>Designate a current node (start with the root) and inspect its value.</li>
+<li>If the current node is our target, success! Stop here.</li>
+<li>If the current node is smaller than our target, search the left subtree. If it’s larger, search the right subtree.</li>
+<li>Repeat until we find our target. If we reach the end of the subtree without finding the target, then the target is not in the tree.</li>
+</ol>
+</section>
+<section id="complexity" class="level3">
+<h3 class="anchored" data-anchor-id="complexity">9.5. Complexity</h3>
+<p>Searching a binary search tree is <span class="math inline">\(O(log N)\)</span> in the best case (a perfectly balanced tree) since we narrow our search area by half on each step.</p>
+<p>The worst case is a horribly imbalanced tree. Imagine a tree that only has left descendants. This is essentially a linked list, so searching through it means inspecting every element. Therefore the worst case complexity is <span class="math inline">\(O(N)\)</span>.</p>
+<p>So searching a binary search tree is the same complexity as a binary search performed on an ordered array. Where trees differentiate themselves is on <strong>insertions and deletes</strong>.</p>
+</section>
+<section id="insertion" class="level3">
+<h3 class="anchored" data-anchor-id="insertion">9.6. Insertion</h3>
+<ol type="1">
+<li>Compare our new_node to each value in the tree starting from the root. Like with search, follow the path to the left if new_node is lower or right if higher.</li>
+<li>Traverse until we find a node where the appropriate child (left or right) does not exist yet. Make new_node the child.</li>
+</ol>
+<p>The <strong>order of insertion</strong> is important to maintain balance. Binary search trees work best when seeded with randomly sorted data, as this will typically end up quite well-balanced. Seeding the tree with <strong>sorted data leads to imbalanced trees</strong>.</p>
+<p>Insertion is <span class="math inline">\(O(log N)\)</span> for balanced trees because we search for the correct place to insert and then perform an <span class="math inline">\(O(1)\)</span> operation to insert it.</p>
+</section>
+<section id="deletion" class="level3">
+<h3 class="anchored" data-anchor-id="deletion">9.7. Deletion</h3>
+<p>Deleting a node is more complicated because it depends if the target node has 0, 1 or 2 children.</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Number of Children</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>Simply delete the node</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>Replace the deleted node with its child</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>Replace the deleted node with the <strong>successor node</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The <strong>successor node</strong> is the next largest descendant of the deleted node. More formally: the child node whose value is the least of all values that are greater than the deleted node.</p>
+<p>Finding the successor:</p>
+<ol type="1">
+<li>Visit the right child of the deleted node.</li>
+<li>Keep visiting left children until there are no more elft children. This is the successor node.</li>
+<li>If the successor node has a right child, that child takes the original place of the successor node. The successor node gets moved to replace the deleted node.</li>
+</ol>
+<p>Deletion is <span class="math inline">\(O(log N)\)</span> for balanced trees because we search for the correct place to insert and then perform (potentially several) <span class="math inline">\(O(1)\)</span> operations to delete the node and replace it with a child / successor.</p>
+</section>
+<section id="inorder-traversal" class="level3">
+<h3 class="anchored" data-anchor-id="inorder-traversal">9.8. Inorder Traversal</h3>
+<p>The point of a binary search tree is to maintain order. We can traverse the elements in order with the following recursive algorithm.</p>
+<ol type="1">
+<li>Call itself recursively on the node’s left child. This will repeat until we hit a node without a left child.</li>
+<li>Visit this node.</li>
+<li>Call itself recursviely on the node’s right child.</li>
+</ol>
+<p>Since we are visiting every element of the tree, this is necessarily <span class="math inline">\(O(N)\)</span>.</p>
+<div id="9bc4e626" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> traverse(tree_node):</span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Inorder traversal of a binary search tree."""</span></span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> tree_node <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span></span>
+<span id="cb96-5"><a href="#cb96-5" aria-hidden="true" tabindex="-1"></a>    traverse(tree_node.left)</span>
+<span id="cb96-6"><a href="#cb96-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(tree_node.value)</span>
+<span id="cb96-7"><a href="#cb96-7" aria-hidden="true" tabindex="-1"></a>    traverse(tree_node.right)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
