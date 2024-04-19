@@ -274,6 +274,12 @@ window.Quarto = {
   <li><a href="#deleting-from-a-linked-list" id="toc-deleting-from-a-linked-list" class="nav-link" data-scroll-target="#deleting-from-a-linked-list">8.6. Deleting from a Linked List</a></li>
   <li><a href="#doubly-linked-lists" id="toc-doubly-linked-lists" class="nav-link" data-scroll-target="#doubly-linked-lists">8.7. Doubly Linked Lists</a></li>
   </ul></li>
+  <li><a href="#binary-search-trees" id="toc-binary-search-trees" class="nav-link" data-scroll-target="#binary-search-trees">9. Binary Search Trees</a>
+  <ul class="collapse">
+  <li><a href="#trees" id="toc-trees" class="nav-link" data-scroll-target="#trees">9.1. Trees</a></li>
+  <li><a href="#binary-search-tree-rules" id="toc-binary-search-tree-rules" class="nav-link" data-scroll-target="#binary-search-tree-rules">9.2. Binary Search Tree Rules</a></li>
+  <li><a href="#implementation" id="toc-implementation" class="nav-link" data-scroll-target="#implementation">9.3. Implementation</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -1448,6 +1454,112 @@ None</code></pre>
 </div>
 </div>
 <p>Doubly linked lists are a good data structure to use for queues, since we can insert/delete at either end.</p>
+</section>
+</section>
+<section id="binary-search-trees" class="level2">
+<h2 class="anchored" data-anchor-id="binary-search-trees">9. Binary Search Trees</h2>
+<p>We can have some use cases where we want to keep our data sorted.</p>
+<p>Sorting is expensive, <span class="math inline">\(O(N log N)\)</span> at the best of times, so we want to avoid sorting often. Ideally we would keep our data sorted at all times. An ordered array <em>could</em> do the job, but insertions and deletions are slow as we have to shift a chunk over the array every time.</p>
+<p>We want a data structure that:</p>
+<ol type="1">
+<li>Maintains order</li>
+<li>Has fast inserts, deletes and search</li>
+</ol>
+<p>This is where a binary search tree comes in.</p>
+<section id="trees" class="level3">
+<h3 class="anchored" data-anchor-id="trees">9.1. Trees</h3>
+<p>Trees are another node-based data structure when each node can point to multiple other nodes.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+
+
+  A(a) --&gt; B(b)
+  A(a) --&gt; C(c)
+
+  B(b) --&gt; D(d)
+  B(b) --&gt; E(e)
+
+  C(c) --&gt; F(f)
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<ul>
+<li>The <strong>root</strong> is the uppermost node.</li>
+<li><code>a</code> is the <strong>parent</strong> of <code>b</code> and <code>c</code>; <code>b</code> and <code>c</code> are <strong>children</strong> of <code>a</code>.</li>
+<li>The <strong>descendants</strong> of a node are all of its children and its children’s children’s children etc. The <strong>ancestors</strong> of anode are its parents and its parent’s parent’s parents etc.</li>
+<li>Each horizontal layer ofthe tree is a <strong>level</strong>.</li>
+<li>A tree is <strong>balanced</strong> if all of its subtrees have the same number of nodes.</li>
+</ul>
+</section>
+<section id="binary-search-tree-rules" class="level3">
+<h3 class="anchored" data-anchor-id="binary-search-tree-rules">9.2. Binary Search Tree Rules</h3>
+<p>A <strong>binary tree</strong> is one in which each node can have at most 2 children.</p>
+<p>A <strong>binary search tree</strong>must abide by the following rules:</p>
+<ol type="1">
+<li>Each node can have at most one “left” child and one “right” child</li>
+<li>A node’s left descendants are all smaller than the node. It’s right descendants are all larger.</li>
+</ol>
+</section>
+<section id="implementation" class="level3">
+<h3 class="anchored" data-anchor-id="implementation">9.3. Implementation</h3>
+<div id="317e252e" class="cell" data-execution_count="161">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TreeNode:</span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, value, left<span class="op">=</span><span class="va">None</span>, right<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.value <span class="op">=</span> value</span>
+<span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.left <span class="op">=</span> left</span>
+<span id="cb86-6"><a href="#cb86-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.right <span class="op">=</span> right</span>
+<span id="cb86-7"><a href="#cb86-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-8"><a href="#cb86-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__repr__</span>(<span class="va">self</span>):</span>
+<span id="cb86-9"><a href="#cb86-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"TreeNode with value: </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>value<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb86-10"><a href="#cb86-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-11"><a href="#cb86-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-12"><a href="#cb86-12" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Tree: </span>
+<span id="cb86-13"><a href="#cb86-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-14"><a href="#cb86-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, root_node):</span>
+<span id="cb86-15"><a href="#cb86-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.root_node <span class="op">=</span> root_node</span>
+<span id="cb86-16"><a href="#cb86-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-17"><a href="#cb86-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__repr__</span>(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb86-18"><a href="#cb86-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"Tree with root: </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>root_node<span class="sc">}</span><span class="ss">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="4dc246e2" class="cell" data-execution_count="162">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>tree_node2 <span class="op">=</span> TreeNode(<span class="st">'b'</span>)</span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>tree_node3 <span class="op">=</span> TreeNode(<span class="st">'c'</span>)</span>
+<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>tree_node1 <span class="op">=</span> TreeNode(<span class="st">'a'</span>, tree_node2, tree_node3)</span>
+<span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb87-5"><a href="#cb87-5" aria-hidden="true" tabindex="-1"></a>tree <span class="op">=</span> Tree(tree_node1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="1bcf8794" class="cell" data-execution_count="163">
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>tree_node1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="163">
+<pre><code>TreeNode with value: a</code></pre>
+</div>
+</div>
+<div id="e541475f" class="cell" data-execution_count="164">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>tree_node1.left</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="164">
+<pre><code>TreeNode with value: b</code></pre>
+</div>
+</div>
+<div id="57555ea9" class="cell" data-execution_count="165">
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>tree_node1.right</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="165">
+<pre><code>TreeNode with value: c</code></pre>
+</div>
+</div>
+<div id="6327fb3c" class="cell" data-execution_count="166">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>tree</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="166">
+<pre><code>Tree with root: TreeNode with value: a</code></pre>
+</div>
+</div>
 
 
 </section>
