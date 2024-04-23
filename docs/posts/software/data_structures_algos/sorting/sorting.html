@@ -1120,57 +1120,77 @@ window.Quarto = {
 </section>
 <section id="implementation-6" class="level3">
 <h3 class="anchored" data-anchor-id="implementation-6">7.2. Implementation</h3>
-<div id="cell-34" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> heapify(array, n, i):</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    largest <span class="op">=</span> i  <span class="co"># Initialize largest as root</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    left <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> i <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    right <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> i <span class="op">+</span> <span class="dv">2</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check if left child exists and is greater than root</span></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> left <span class="op">&lt;</span> n <span class="kw">and</span> array[left] <span class="op">&gt;</span> array[largest]:</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>        largest <span class="op">=</span> left</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check if right child exists and is greater than the largest so far</span></span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> right <span class="op">&lt;</span> n <span class="kw">and</span> array[right] <span class="op">&gt;</span> array[largest]:</span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>        largest <span class="op">=</span> right</span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Change root, if needed</span></span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> largest <span class="op">!=</span> i:</span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>        array[i], array[largest] <span class="op">=</span> array[largest], array[i]  <span class="co"># Swap</span></span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Heapify the affected sub-tree</span></span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>        heapify(array, n, largest)</span>
-<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> heap_sort(array):</span>
-<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Heap sort algorithm to sort an array into ascending order.</span></span>
-<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
-<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
-<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
-<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a><span class="co">    array: list</span></span>
-<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a><span class="co">        The array that we wish to sort.</span></span>
-<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
-<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
-<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a><span class="co">    array: list</span></span>
-<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a><span class="co">        The sorted array sorted in-place.</span></span>
-<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(array)</span>
+<div id="cell-34" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> heapify(array, heap_size, current_idx):</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Heapify function to maintain the max-heap property.</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co">    array: list</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co">        List of elements</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="co">    heap_size: int</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="co">        Size of heap</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="co">    current_idx: int</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="co">        Index of current node</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="co">    None</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="co">        The input heap `array` is heapified in-place.</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Track the largest node, initially assumed to be the root</span></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>    largest <span class="op">=</span> current_idx  </span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>    left_child <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> current_idx <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>    right_child <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> current_idx <span class="op">+</span> <span class="dv">2</span></span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check if the node's children, if it has any, are larger than the current node</span></span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> left_child <span class="op">&lt;</span> heap_size <span class="kw">and</span> array[left_child] <span class="op">&gt;</span> array[largest]:</span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>        largest <span class="op">=</span> left_child</span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> right_child <span class="op">&lt;</span> heap_size <span class="kw">and</span> array[right_child] <span class="op">&gt;</span> array[largest]:</span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>        largest <span class="op">=</span> right_child</span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> largest <span class="op">!=</span> current_idx:</span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a>        <span class="co"># If largest is not root, swap it with root to maintain the heap condition</span></span>
+<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a>        array[current_idx], array[largest] <span class="op">=</span> array[largest], array[current_idx]</span>
+<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Recursively heapify the affected sub-tree</span></span>
+<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a>        heapify(array, heap_size, largest)</span>
 <span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-36"><a href="#cb28-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Build a max heap.</span></span>
-<span id="cb28-37"><a href="#cb28-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n <span class="op">//</span> <span class="dv">2</span> <span class="op">-</span> <span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>):</span>
-<span id="cb28-38"><a href="#cb28-38" aria-hidden="true" tabindex="-1"></a>        heapify(array, n, i)</span>
-<span id="cb28-39"><a href="#cb28-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-40"><a href="#cb28-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># One by one extract elements</span></span>
-<span id="cb28-41"><a href="#cb28-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n <span class="op">-</span> <span class="dv">1</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>):</span>
-<span id="cb28-42"><a href="#cb28-42" aria-hidden="true" tabindex="-1"></a>        array[i], array[<span class="dv">0</span>] <span class="op">=</span> array[<span class="dv">0</span>], array[i]  <span class="co"># Swap</span></span>
-<span id="cb28-43"><a href="#cb28-43" aria-hidden="true" tabindex="-1"></a>        heapify(array, i, <span class="dv">0</span>)</span>
+<span id="cb28-36"><a href="#cb28-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-37"><a href="#cb28-37" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> heap_sort(array):</span>
+<span id="cb28-38"><a href="#cb28-38" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Heap sort algorithm to sort an array into ascending order.</span></span>
+<span id="cb28-39"><a href="#cb28-39" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb28-40"><a href="#cb28-40" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
+<span id="cb28-41"><a href="#cb28-41" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb28-42"><a href="#cb28-42" aria-hidden="true" tabindex="-1"></a><span class="co">    array: list</span></span>
+<span id="cb28-43"><a href="#cb28-43" aria-hidden="true" tabindex="-1"></a><span class="co">        The array that we wish to sort.</span></span>
 <span id="cb28-44"><a href="#cb28-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-45"><a href="#cb28-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> array</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-45"><a href="#cb28-45" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
+<span id="cb28-46"><a href="#cb28-46" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb28-47"><a href="#cb28-47" aria-hidden="true" tabindex="-1"></a><span class="co">    array: list</span></span>
+<span id="cb28-48"><a href="#cb28-48" aria-hidden="true" tabindex="-1"></a><span class="co">        The sorted array sorted in-place.</span></span>
+<span id="cb28-49"><a href="#cb28-49" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb28-50"><a href="#cb28-50" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Build a max heap.</span></span>
+<span id="cb28-51"><a href="#cb28-51" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Start from the last non-leaf node, and heapify each node</span></span>
+<span id="cb28-52"><a href="#cb28-52" aria-hidden="true" tabindex="-1"></a>    array_len <span class="op">=</span> <span class="bu">len</span>(array)</span>
+<span id="cb28-53"><a href="#cb28-53" aria-hidden="true" tabindex="-1"></a>    idx_last_non_leaf <span class="op">=</span> array_len <span class="op">//</span> <span class="dv">2</span> <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb28-54"><a href="#cb28-54" aria-hidden="true" tabindex="-1"></a>    idx_last_node <span class="op">=</span> array_len <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb28-55"><a href="#cb28-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-56"><a href="#cb28-56" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(idx_last_non_leaf, <span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb28-57"><a href="#cb28-57" aria-hidden="true" tabindex="-1"></a>        heapify(array, array_len, i)</span>
+<span id="cb28-58"><a href="#cb28-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-59"><a href="#cb28-59" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Extract elements one-by-one starting from the end</span></span>
+<span id="cb28-60"><a href="#cb28-60" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(idx_last_node, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb28-61"><a href="#cb28-61" aria-hidden="true" tabindex="-1"></a>        array[i], array[<span class="dv">0</span>] <span class="op">=</span> array[<span class="dv">0</span>], array[i]</span>
+<span id="cb28-62"><a href="#cb28-62" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 3. Maintain the heap condition for the unsorted portion of the array</span></span>
+<span id="cb28-63"><a href="#cb28-63" aria-hidden="true" tabindex="-1"></a>        heapify(array, i, <span class="dv">0</span>)</span>
+<span id="cb28-64"><a href="#cb28-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-65"><a href="#cb28-65" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> array</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-35" class="cell" data-execution_count="2">
+<div id="cell-35" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>input_array <span class="op">=</span> [<span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">9</span>, <span class="dv">0</span>, <span class="dv">8</span>, <span class="dv">23</span>, <span class="dv">69</span>, <span class="dv">420</span>, <span class="dv">12</span>]</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>heap_sort(input_array)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
+<div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>[0, 1, 3, 5, 7, 8, 8, 9, 12, 23, 69, 420]</code></pre>
 </div>
 </div>
@@ -1178,7 +1198,12 @@ window.Quarto = {
 <section id="complexity-6" class="level3">
 <h3 class="anchored" data-anchor-id="complexity-6">7.3. Complexity</h3>
 <p>The pre-processing step is to build the heap. This operation takes O(n) time.</p>
-<p>Once the heap is created, we perform the following operations: 1. <strong>Pop the max value</strong>: This is accessible as it is the root, so <span class="math inline">\(O(1)\)</span> time. 2. <strong>Insert at the end of the result array</strong>: This is also <span class="math inline">\(O(1)\)</span> time. 3. <strong>Heapifying</strong>: This takes <span class="math inline">\(O(log N)\)</span> time.</p>
+<p>Once the heap is created, we perform the following operations:</p>
+<ol type="1">
+<li><strong>Pop the max value</strong>: This is accessible as it is the root, so <span class="math inline">\(O(1)\)</span> time.</li>
+<li><strong>Insert at the end of the result array</strong>: This is also <span class="math inline">\(O(1)\)</span> time.</li>
+<li><strong>Heapifying</strong>: This takes <span class="math inline">\(O(log N)\)</span> time.</li>
+</ol>
 <p>These are performed for each of the <span class="math inline">\(N\)</span> data elements, so the overall time complexity of heap sort is <span class="math inline">\(O(N log N)\)</span>.</p>
 <p>This is the same regardless of the arrangement of the input, so the time complexity of heap sort is the same in the best case, average case, and worst case.</p>
 
