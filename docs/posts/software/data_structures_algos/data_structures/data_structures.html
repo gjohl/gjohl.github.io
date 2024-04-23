@@ -285,6 +285,23 @@ window.Quarto = {
   <li><a href="#deletion" id="toc-deletion" class="nav-link" data-scroll-target="#deletion">9.7. Deletion</a></li>
   <li><a href="#inorder-traversal" id="toc-inorder-traversal" class="nav-link" data-scroll-target="#inorder-traversal">9.8. Inorder Traversal</a></li>
   </ul></li>
+  <li><a href="#heaps" id="toc-heaps" class="nav-link" data-scroll-target="#heaps">10. Heaps</a>
+  <ul class="collapse">
+  <li><a href="#priority-queues" id="toc-priority-queues" class="nav-link" data-scroll-target="#priority-queues">10.1. Priority Queues</a></li>
+  <li><a href="#binary-heaps" id="toc-binary-heaps" class="nav-link" data-scroll-target="#binary-heaps">10.2. Binary Heaps</a></li>
+  <li><a href="#heap-properties" id="toc-heap-properties" class="nav-link" data-scroll-target="#heap-properties">10.3. Heap Properties</a></li>
+  <li><a href="#inserting-into-a-heap" id="toc-inserting-into-a-heap" class="nav-link" data-scroll-target="#inserting-into-a-heap">10.4. Inserting into a Heap</a></li>
+  <li><a href="#deleting-from-a-heap" id="toc-deleting-from-a-heap" class="nav-link" data-scroll-target="#deleting-from-a-heap">10.5. Deleting from a Heap</a></li>
+  <li><a href="#complexity-of-heap-vs-ordered-array" id="toc-complexity-of-heap-vs-ordered-array" class="nav-link" data-scroll-target="#complexity-of-heap-vs-ordered-array">10.6. Complexity of Heap vs Ordered Array</a></li>
+  <li><a href="#the-problem-of-the-last-node" id="toc-the-problem-of-the-last-node" class="nav-link" data-scroll-target="#the-problem-of-the-last-node">10.7 The Problem of the Last Node</a></li>
+  </ul></li>
+  <li><a href="#tries" id="toc-tries" class="nav-link" data-scroll-target="#tries">11. Tries</a>
+  <ul class="collapse">
+  <li><a href="#trie-search" id="toc-trie-search" class="nav-link" data-scroll-target="#trie-search">11.1. Trie Search</a></li>
+  <li><a href="#trie-insertion" id="toc-trie-insertion" class="nav-link" data-scroll-target="#trie-insertion">11.2. Trie Insertion</a></li>
+  <li><a href="#implementation-1" id="toc-implementation-1" class="nav-link" data-scroll-target="#implementation-1">11.3. Implementation</a></li>
+  <li><a href="#autocomplete" id="toc-autocomplete" class="nav-link" data-scroll-target="#autocomplete">11.4. Autocomplete</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -1674,6 +1691,290 @@ None</code></pre>
 <span id="cb96-6"><a href="#cb96-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(tree_node.value)</span>
 <span id="cb96-7"><a href="#cb96-7" aria-hidden="true" tabindex="-1"></a>    traverse(tree_node.right)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+</section>
+<section id="heaps" class="level2">
+<h2 class="anchored" data-anchor-id="heaps">10. Heaps</h2>
+<section id="priority-queues" class="level3">
+<h3 class="anchored" data-anchor-id="priority-queues">10.1. Priority Queues</h3>
+<p>A <strong>queue</strong> is a FIFO list that means data is inserted at the end but accessed/removed from the front.</p>
+<p>A <strong>priority queue</strong> is a list where deletions and access are the same as a regular queue, but <em>insertions are like an ordered array</em>. So the priority queue is always ordered.</p>
+<p>An example use case is a triage system in a hospital: patients are seen based on severity, not just when they arrived.</p>
+<p>This is an abstract data types that we could implement in multiple ways using different fundamental data types. E.g. we <em>could</em> implement using an ordered array, but insertions would be O(N).</p>
+<p>Heaps are another data structure that fit this use case well.</p>
+</section>
+<section id="binary-heaps" class="level3">
+<h3 class="anchored" data-anchor-id="binary-heaps">10.2. Binary Heaps</h3>
+<p>There a multiple kinds of heaps. As a starting point, we consider the <strong>binary max-heap</strong>, which is a special kind of binary tree.</p>
+<p>Binary max-heap conditions:</p>
+<ol type="1">
+<li><strong>Heap condition</strong>: Each node is greater than its children.</li>
+<li>The tree must be <strong>complete</strong>.</li>
+</ol>
+<p>Because the heap condition is true for each node, we can recursively reason that a node is greater than its children, and they are too, then a node is greater than all of its <em>descendants</em>.</p>
+<p>The <strong>complete</strong> condition essentially means values are filled left-to-right, top-down with no holes. There are no empty positions anywhere except the bottom row, and the bottom row is filled from left to right. The <strong>last node</strong> is the rightmost node at its bottom level.</p>
+<p>There is also a min-heap variant. The difference is trivial, aside from the heap condition inequality being reversed, the logic is the same.</p>
+</section>
+<section id="heap-properties" class="level3">
+<h3 class="anchored" data-anchor-id="heap-properties">10.3. Heap Properties</h3>
+<ul>
+<li>Heaps are <em>weakly ordered</em>.</li>
+<li>The root node is the maximum value.</li>
+</ul>
+<p>With a binary search tree, we know precisely whether a value is the left or right descendant of a node. E.g. <code>3</code> will be a left child of <code>100</code>.</p>
+<p>But in a max-heap, we don’t know whether <code>3</code> is to the left or right, only that it is a descendant rather than an ancestor.</p>
+<p><strong>Searching</strong> would require inspecting every node, <span class="math inline">\(O(N)\)</span>. In practice, searching a heap is not typically done in the use cases it is used for.</p>
+<p><strong>Reading</strong> a heap typically refers to accessing the root node, which is <span class="math inline">\(O(1)\)</span>.</p>
+</section>
+<section id="inserting-into-a-heap" class="level3">
+<h3 class="anchored" data-anchor-id="inserting-into-a-heap">10.4. Inserting into a Heap</h3>
+<ol type="1">
+<li><strong>Last node</strong>: Insert the new node as the heap’s last node</li>
+<li><strong>Trickle up the new node</strong>: Compare the new node to its parent. If it’s greater than its parent, swap them.</li>
+</ol>
+<p>The number of steps to trickle is proportional to the depth of the tree. Therefore, insertion is a <span class="math inline">\(O(log N)\)</span> operation.</p>
+</section>
+<section id="deleting-from-a-heap" class="level3">
+<h3 class="anchored" data-anchor-id="deleting-from-a-heap">10.5. Deleting from a Heap</h3>
+<p>We only ever delete the root node from a heap.</p>
+<ol type="1">
+<li><strong>New root</strong>: The <em>last node</em> becomes the new root node.</li>
+<li><strong>Trickle down the root node</strong>: Trickle the root down to its proper place.</li>
+</ol>
+<p>Trickling down is more complicated than trickling up because there are two possible directions to swap in. We compare to <em>both</em> children and <strong>swap with the larger</strong> of the two. This ensures the largest value ends up as the root node, which is the key property we want to preserve.</p>
+<p>Deletion is also <span class="math inline">\(O(log N)\)</span> since the number of steps to trickle is again proprtional to the depth of the tree.</p>
+</section>
+<section id="complexity-of-heap-vs-ordered-array" class="level3">
+<h3 class="anchored" data-anchor-id="complexity-of-heap-vs-ordered-array">10.6. Complexity of Heap vs Ordered Array</h3>
+<p>An alternative way of implementing a priority queue would be using an ordered array rather than a heap.</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Operation</th>
+<th>Heap Complexity</th>
+<th>Array Complexity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Read*</td>
+<td><span class="math inline">\(O(1)\)</span></td>
+<td><span class="math inline">\(O(1)\)</span></td>
+</tr>
+<tr class="even">
+<td>Search^</td>
+<td><span class="math inline">\(O(N)\)</span></td>
+<td><span class="math inline">\(O(N)\)</span></td>
+</tr>
+<tr class="odd">
+<td>Insertion</td>
+<td><span class="math inline">\(O(log N)\)</span></td>
+<td><span class="math inline">\(O(N)\)</span></td>
+</tr>
+<tr class="even">
+<td>Deletion</td>
+<td><span class="math inline">\(O(log N)\)</span></td>
+<td><span class="math inline">\(O(1)\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>* Reading the root node</p>
+<p>^ Searching is not typically done on a heap</p>
+<p>Comparing the complexities, heaps are fast, <span class="math inline">\(O(log N)\)</span>, for both insertions and deletions, wheres ordered arrays are faster for deletions but slower for insertions.</p>
+<p>As this is in log space and priority queues typically perform similar numbers of inserts and deletes, on average this makes heap much faster.</p>
+</section>
+<section id="the-problem-of-the-last-node" class="level3">
+<h3 class="anchored" data-anchor-id="the-problem-of-the-last-node">10.7 The Problem of the Last Node</h3>
+<p>Many operations with heaps, such as insertion, rely on knowing where the last node is.</p>
+<p>This is important because inserting/deleting the last node ensures the heap is always <em>complete</em>, and completeness is important to ensure the graph remains <em>well-balanced</em>.</p>
+<p>Being well-balanced ensures the heap remains <em>efficient</em>. As in the case of binary search tree, if a tree is severely unbalanced it effectively becomes a linked list, so actions that should search through the depth of the tree in <span class="math inline">\(O(log N)\)</span> time take <span class="math inline">\(O(N)\)</span> in the worst case.</p>
+<section id="array-based-heaps" class="level4">
+<h4 class="anchored" data-anchor-id="array-based-heaps">10.7.1. Array-based Heaps</h4>
+<p>Heaps are often implemented as arrays because the problem of the last node is so crucial, and accessing the last element of an array is <span class="math inline">\(O(1)\)</span>.</p>
+<p>The tree below shows the values and their index in the corresponding array as <code>value|index</code>:</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+
+    A["100|0"] ---&gt; B["88|1"]
+    A["100|0"] ---&gt; C["25|2"]
+
+    B["88|1"] ---&gt; B1["87|3"]
+    B["88|1"] ---&gt; B2["16|4"]
+
+    C["25|2"] ---&gt; C1["8|5"]
+    C["25|2"] ---&gt; C2["12|6"]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>The array representation is then:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>100</td>
+<td>88</td>
+<td>25</td>
+<td>87</td>
+<td>16</td>
+<td>8</td>
+<td>12</td>
+</tr>
+</tbody>
+</table>
+<p>The indices are then deterministic. We can find the <strong>child</strong> index of any given node as:</p>
+<pre><code>left_child_idx = (parent_index * 2) + 1
+right_child_idx = (parent_index * 2) + 2</code></pre>
+<p>To find a given node’s parent index:</p>
+<pre><code>parent_idx = (child_idx - 1) // 2</code></pre>
+</section>
+<section id="linked-node-based-heaps" class="level4">
+<h4 class="anchored" data-anchor-id="linked-node-based-heaps">10.7.2. Linked Node-based Heaps</h4>
+<p>It is also possible to implement heaps as linked nodes.</p>
+<p>In this case, a different trick is required to solve the problem of the last node using <strong>binary numbers</strong>.</p>
+<ol type="1">
+<li><strong>Assign Binary Numbers</strong>: Each level of the heap is assigned a unique binary number. The root is 0, then each left child is concatenates the parent’s number with 0 at the end, and each right child concatenates the parent’s index with 1 at the end.</li>
+<li><strong>Insertion using Binary Representation</strong>: To insert a new node into the heap, you convert the index of the node into binary form. Starting from the most significant bit (MSB), traverse the heap according to the binary digits:
+<ol type="1">
+<li>If the bit is 0, move to the left child.</li>
+<li>If the bit is 1, move to the right child.</li>
+</ol></li>
+<li><strong>Insertion at the Last Available Position</strong>: As you traverse the heap, you’ll eventually reach a node that doesn’t exist yet. This node represents the last available position in the heap, where the new node can be inserted while maintaining the complete binary tree property.</li>
+</ol>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+
+A["100|0"] ---&gt; B["88|00"]
+A["100|0"] ---&gt; C["25|01"]
+
+B["88|00"] ---&gt; B1["87|000"]
+B["88|00"] ---&gt; B2["16|001"]
+
+C["25|01"] ---&gt; C1["8|010"]
+C["25|01"] ---&gt; C2["12|011"]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="tries" class="level2">
+<h2 class="anchored" data-anchor-id="tries">11. Tries</h2>
+<p>This is a kind of tree which is particularly useful for text-based features.</p>
+<p>Each trie node can have any number of children. Each word is split into characters which are stored as a series of nested child nodes. A terminal character is used to denote the end of a word.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+
+G(G) ---&gt; U(U) ---&gt; R(R) ---&gt; P(P) ---&gt; X(*)
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<section id="trie-search" class="level3">
+<h3 class="anchored" data-anchor-id="trie-search">11.1. Trie Search</h3>
+<p>There are two flavours of search: (1) checking if a substring is a valid prefix, and (2) checking if a substring is a valid whole word.</p>
+<p>The algorithm below is for the more general case of searching for a prefix. Searching for a whole word then becomes trivial because we have a terminal character, so we can search for “Implement*” to find the whole word.</p>
+<p>Iterate through the trie one character at a time:</p>
+<ol type="1">
+<li>Initialise <code>current_node</code> at the root.</li>
+<li>Iterate through each character of <code>search_string</code> and see if current_node has a child with that key.</li>
+<li>Repeat Step 3 for the whole <code>search_string</code>. If the character is not a valid key, the word does not exist.</li>
+</ol>
+<p>The efficiency of a trie search depends on the <em>length of the search term</em>, <span class="math inline">\(K\)</span>, <strong>not</strong> the <em>number of elements stored in the trie</em>, <span class="math inline">\(N\)</span>. Therefore, it has complexity <span class="math inline">\(O(K)\)</span>.</p>
+</section>
+<section id="trie-insertion" class="level3">
+<h3 class="anchored" data-anchor-id="trie-insertion">11.2. Trie Insertion</h3>
+<p>Inserting a new word into a trie follows similar steps to searching for an existing word: we traverse the trie and insert new nodes where they do not already exist.</p>
+<ol type="1">
+<li>Initialise <code>current_node</code> at the root.</li>
+<li>Iterate through each character of <code>search_string</code> and see if current_node has a child with that key.
+<ol type="1">
+<li>If the key exists, update <code>current_node</code> to move to that next node.</li>
+<li>Otherwise, create a new child node and update <code>current_node</code> to move to it.</li>
+</ol></li>
+<li>Insert the terminal character of the word at the end.</li>
+</ol>
+<p>This is again <span class="math inline">\(O(K)\)</span> since it depends on the length of the input, not the data stored in the trie.</p>
+</section>
+<section id="implementation-1" class="level3">
+<h3 class="anchored" data-anchor-id="implementation-1">11.3. Implementation</h3>
+<p>We can implement a trie as dictionaries nested within dictionaries.</p>
+<div id="16b2e160" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TrieNode:</span>
+<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb99-4"><a href="#cb99-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.children <span class="op">=</span> {}</span>
+<span id="cb99-5"><a href="#cb99-5" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb99-6"><a href="#cb99-6" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb99-7"><a href="#cb99-7" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Trie:</span>
+<span id="cb99-8"><a href="#cb99-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb99-9"><a href="#cb99-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb99-10"><a href="#cb99-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.root <span class="op">=</span> TrieNode()</span>
+<span id="cb99-11"><a href="#cb99-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._TERMINAL_CHAR <span class="op">=</span> <span class="st">"*"</span></span>
+<span id="cb99-12"><a href="#cb99-12" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb99-13"><a href="#cb99-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> search(<span class="va">self</span>, word):</span>
+<span id="cb99-14"><a href="#cb99-14" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Search for a given word in the Trie."""</span></span>
+<span id="cb99-15"><a href="#cb99-15" aria-hidden="true" tabindex="-1"></a>        current_node <span class="op">=</span> <span class="va">self</span>.root</span>
+<span id="cb99-16"><a href="#cb99-16" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb99-17"><a href="#cb99-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> char <span class="kw">in</span> word:</span>
+<span id="cb99-18"><a href="#cb99-18" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> char <span class="kw">in</span> current_node.keys():</span>
+<span id="cb99-19"><a href="#cb99-19" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Keep traversing as long as we find valid children</span></span>
+<span id="cb99-20"><a href="#cb99-20" aria-hidden="true" tabindex="-1"></a>                current_node <span class="op">=</span> current_node[char]</span>
+<span id="cb99-21"><a href="#cb99-21" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>: </span>
+<span id="cb99-22"><a href="#cb99-22" aria-hidden="true" tabindex="-1"></a>                <span class="co"># The search_string is not a valid prefix, so return None</span></span>
+<span id="cb99-23"><a href="#cb99-23" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb99-24"><a href="#cb99-24" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb99-25"><a href="#cb99-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> current_node</span>
+<span id="cb99-26"><a href="#cb99-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb99-27"><a href="#cb99-27" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> insert(<span class="va">self</span>, new_word):</span>
+<span id="cb99-28"><a href="#cb99-28" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Insert a new word into the Trie."""</span></span>
+<span id="cb99-29"><a href="#cb99-29" aria-hidden="true" tabindex="-1"></a>        current_node <span class="op">=</span> <span class="va">self</span>.root</span>
+<span id="cb99-30"><a href="#cb99-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb99-31"><a href="#cb99-31" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Traverse the word + terminal character</span></span>
+<span id="cb99-32"><a href="#cb99-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> char <span class="kw">in</span> new_word <span class="op">+</span> <span class="va">self</span>._TERMINAL_CHAR:</span>
+<span id="cb99-33"><a href="#cb99-33" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> char <span class="kw">in</span> current_node.keys():</span>
+<span id="cb99-34"><a href="#cb99-34" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Keep traversing as long as we find valid children</span></span>
+<span id="cb99-35"><a href="#cb99-35" aria-hidden="true" tabindex="-1"></a>                current_node <span class="op">=</span> current_node[char]</span>
+<span id="cb99-36"><a href="#cb99-36" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb99-37"><a href="#cb99-37" aria-hidden="true" tabindex="-1"></a>                current_node[char] <span class="op">=</span> {}</span>
+<span id="cb99-38"><a href="#cb99-38" aria-hidden="true" tabindex="-1"></a>                current_node <span class="op">=</span> current_node[char]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="autocomplete" class="level3">
+<h3 class="anchored" data-anchor-id="autocomplete">11.4. Autocomplete</h3>
+<p>A good use case of tries is for autocomplete.</p>
+<p>We use a trie to store our dictionary of possible words.</p>
+<p>Then for a given user input, we can recursively list all of the words with that prefix.</p>
+<p>We can improve autocomplete further by storing an integer <code>popularity</code> value as the terminal value rather than an empty dictionary or null value. This can be a 1-10 score of how commonly used that word is, so that we can prioritise showing more common words as autocompletion suggestions.</p>
 
 
 </section>
