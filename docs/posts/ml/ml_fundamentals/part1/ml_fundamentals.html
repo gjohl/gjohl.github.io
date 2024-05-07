@@ -185,6 +185,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#boosting-bagging" id="toc-boosting-bagging" class="nav-link" data-scroll-target="#boosting-bagging">6. Boosting, Bagging</a></li>
   <li><a href="#common-supervised-algorithms" id="toc-common-supervised-algorithms" class="nav-link" data-scroll-target="#common-supervised-algorithms">7. Common Supervised Algorithms</a></li>
   <li><a href="#common-unsupervised-algorithms" id="toc-common-unsupervised-algorithms" class="nav-link" data-scroll-target="#common-unsupervised-algorithms">8. Common Unsupervised Algorithms</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -204,12 +205,17 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="the-training-loop" class="level2">
 <h2 class="anchored" data-anchor-id="the-training-loop">2. The Training Loop</h2>
-<p>Model produces a prediction Loss function f(prediction, label) Backprop gradients of loss Optimiser adjusts weights based on gradients.</p>
+<ol type="1">
+<li>Model produces a prediction</li>
+<li>Loss function f(prediction, label)</li>
+<li>Backprop gradients of loss</li>
+<li>Optimiser adjusts weights based on gradients.</li>
+</ol>
 </section>
 <section id="loss-functions" class="level2">
 <h2 class="anchored" data-anchor-id="loss-functions">3. Loss Functions</h2>
 <p>Draw a flowchart:</p>
-<p>Classification: (Binary) cross entropy REgression: MSE, MAE</p>
+<p>Classification: (Binary) cross entropy Regression: MSE, MAE</p>
 <p>Write mathemetical definitions of each an intuitive explanation.</p>
 </section>
 <section id="optimisers" class="level2">
@@ -217,12 +223,14 @@ ul.task-list li input[type="checkbox"] {
 <p>Convex optimisation boils down to having some function that we want to find the minimum of.</p>
 <p>This is often described intuitively rolling a ball down a hill to try to find the lowest valley.</p>
 <p>But this can be confusing - I can look over there and see it’s lower, why don’t I just walk straight there?</p>
-<p>The analogy is missing a few caveats: 1. <strong>You’re blindfolded</strong>: The “function” learned by our model isn’t one that has a neat closed form solution that we can plot to see at every point. It’s got so many dimensions the best we can do is sample one point at a time. 2. <strong>You’re teleporting</strong>. Each “step” that you take isn’t a smooth continuous roll; you don’t learn anything about the points in between your start point and end point when you take a step, you only know where you started and where you finished. If you happened to “step over” a minimum, you’d have no way of knowing.</p>
+<p>The analogy is missing a few caveats:</p>
 <ol type="1">
-<li>SGD</li>
-<li>RMSProp</li>
-<li>AdaProp</li>
-<li>Adam</li>
+<li><p><strong>You’re blindfolded</strong>: The “function” learned by our model isn’t one that has a neat closed form solution that we can plot to see at every point. It’s got so many dimensions the best we can do is sample one point at a time.</p></li>
+<li><p><strong>You’re teleporting</strong>. Each “step” that you take isn’t a smooth continuous roll; you don’t learn anything about the points in between your start point and end point when you take a step, you only know where you started and where you finished. If you happened to “step over” a minimum, you’d have no way of knowing.</p></li>
+<li><p>SGD</p></li>
+<li><p>RMSProp</p></li>
+<li><p>AdaProp</p></li>
+<li><p>Adam</p></li>
 </ol>
 </section>
 <section id="regularisation" class="level2">
@@ -235,7 +243,12 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="weight-regularisation-penalty-terms" class="level3">
 <h3 class="anchored" data-anchor-id="weight-regularisation-penalty-terms">5.2. Weight regularisation penalty terms</h3>
-<p>Norms: &gt;= 1 encourages convexity &lt;= 1 encourages sparsity of weights Link youtube video</p>
+<p>Regularisation terms are bias terms - they tell us which model to prefer (bias towards) in the absence of data.</p>
+<p>Norms: &gt;= 1 encourages convexity &lt;= 1 encourages sparsity of weights</p>
+<p>Norms &gt;= 1 are convex, which makes optimisation easier.</p>
+<p>Norms &lt;= 1 encourage sparsity of weights. Think of an expanding balloon - your more likely to hit the corner of a square (L1 norm), whereas the L2 norm is like the balloon hitting a ball, it’s equally likely to hit at any point not just the axes.</p>
+<p>So the L1 norm is a balance between sparsity and convexity.</p>
+<p>Link youtube video: https://youtu.be/sO4ZirJh9ds?si=7RMI1y4NmcejRBs5</p>
 </section>
 <section id="other-forms-of-regularisation" class="level3">
 <h3 class="anchored" data-anchor-id="other-forms-of-regularisation">5.3. Other forms of regularisation</h3>
@@ -249,11 +262,27 @@ ul.task-list li input[type="checkbox"] {
 <section id="common-supervised-algorithms" class="level2">
 <h2 class="anchored" data-anchor-id="common-supervised-algorithms">7. Common Supervised Algorithms</h2>
 <p>Understand and know when to apply.</p>
-<p>Ridge/Lasso regression Logistic regression Decision trees SVM - duality</p>
+<ul>
+<li>Ridge/Lasso regression</li>
+<li>Logistic regression</li>
+<li>Decision trees</li>
+<li>SVM - duality</li>
+</ul>
 </section>
 <section id="common-unsupervised-algorithms" class="level2">
 <h2 class="anchored" data-anchor-id="common-unsupervised-algorithms">8. Common Unsupervised Algorithms</h2>
-<p>PCA K-means t-SNE Understand and know when to apply.</p>
+<p>Understand and know when to apply.</p>
+<ul>
+<li>PCA</li>
+<li>K-means</li>
+<li>t-SNE</li>
+</ul>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li><a href="https://youtu.be/sO4ZirJh9ds?si=7RMI1y4NmcejRBs5">Explanation of L1 vs L2 norms</a></li>
+</ul>
 
 
 </section>
