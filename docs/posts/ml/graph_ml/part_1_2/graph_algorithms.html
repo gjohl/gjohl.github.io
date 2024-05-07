@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Gurpreet Johl">
-<meta name="dcterms.date" content="2024-04-17">
-<meta name="description" content="Big G Explains Big O">
+<meta name="dcterms.date" content="2024-05-09">
+<meta name="description" content="Part 0.5: Traditional Grpah Algorithms">
 
-<title>Gurpreet Johl - Algorithms</title>
+<title>Gurpreet Johl - Graph ML: Graph Algorithms</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,40 +22,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -190,16 +156,17 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Algorithms</h1>
+      <h1 class="title">Graph ML: Graph Algorithms</h1>
                   <div>
         <div class="description">
-          Big G Explains Big O
+          Part 0.5: Traditional Grpah Algorithms
         </div>
       </div>
                           <div class="quarto-categories">
+                <div class="quarto-category">AI</div>
                 <div class="quarto-category">Engineering</div>
-                <div class="quarto-category">ComputerScience</div>
-                <div class="quarto-category">InterviewPrep</div>
+                <div class="quarto-category">Graphs</div>
+                <div class="quarto-category">GraphML</div>
                 <div class="quarto-category">Algorithms</div>
               </div>
                   </div>
@@ -218,7 +185,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">April 17, 2024</p>
+        <p class="date">May 9, 2024</p>
       </div>
     </div>
     
@@ -234,35 +201,22 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#algorithms" id="toc-algorithms" class="nav-link active" data-scroll-target="#algorithms">Algorithms</a>
+  <li><a href="#graph-search" id="toc-graph-search" class="nav-link active" data-scroll-target="#graph-search">1. Graph Search</a>
   <ul class="collapse">
-  <li><a href="#big-o" id="toc-big-o" class="nav-link" data-scroll-target="#big-o">1. Big O</a></li>
-  <li><a href="#recursion" id="toc-recursion" class="nav-link" data-scroll-target="#recursion">2. Recursion</a>
+  <li><a href="#depth-first-search-dfs" id="toc-depth-first-search-dfs" class="nav-link" data-scroll-target="#depth-first-search-dfs">1.1. Depth-First Search (DFS)</a></li>
+  <li><a href="#breadth-first-search-bfs" id="toc-breadth-first-search-bfs" class="nav-link" data-scroll-target="#breadth-first-search-bfs">1.2. Breadth-First Search (BFS)</a></li>
+  <li><a href="#a-algorithm" id="toc-a-algorithm" class="nav-link" data-scroll-target="#a-algorithm">1.3. A* Algorithm</a></li>
+  </ul></li>
+  <li><a href="#shortest-path-algorithms" id="toc-shortest-path-algorithms" class="nav-link" data-scroll-target="#shortest-path-algorithms">2. Shortest Path Algorithms</a>
   <ul class="collapse">
-  <li><a href="#reading-recursive-functions" id="toc-reading-recursive-functions" class="nav-link" data-scroll-target="#reading-recursive-functions">2.1 Reading Recursive Functions</a></li>
-  <li><a href="#call-stack" id="toc-call-stack" class="nav-link" data-scroll-target="#call-stack">2.2. Call Stack</a></li>
-  <li><a href="#how-deep-does-this-go" id="toc-how-deep-does-this-go" class="nav-link" data-scroll-target="#how-deep-does-this-go">2.3. How Deep Does This Go?</a></li>
-  <li><a href="#writing-recursive-functions" id="toc-writing-recursive-functions" class="nav-link" data-scroll-target="#writing-recursive-functions">2.4. Writing Recursive Functions</a></li>
+  <li><a href="#dijkstras-algorithm" id="toc-dijkstras-algorithm" class="nav-link" data-scroll-target="#dijkstras-algorithm">2.1. Dijkstra’s Algorithm</a></li>
   </ul></li>
-  <li><a href="#dynamic-programming" id="toc-dynamic-programming" class="nav-link" data-scroll-target="#dynamic-programming">3. Dynamic Programming</a>
+  <li><a href="#minimum-spanning-tree" id="toc-minimum-spanning-tree" class="nav-link" data-scroll-target="#minimum-spanning-tree">3. Minimum Spanning Tree</a>
   <ul class="collapse">
-  <li><a href="#the-top-down-dp-approach" id="toc-the-top-down-dp-approach" class="nav-link" data-scroll-target="#the-top-down-dp-approach">3.1. The Top-down DP Approach</a></li>
-  <li><a href="#the-bottom-up-dp-approach" id="toc-the-bottom-up-dp-approach" class="nav-link" data-scroll-target="#the-bottom-up-dp-approach">3.2. The Bottom-up DP Approach</a></li>
+  <li><a href="#kruskals-algorithm" id="toc-kruskals-algorithm" class="nav-link" data-scroll-target="#kruskals-algorithm">3.1. Kruskal’s Algorithm</a></li>
+  <li><a href="#prims-algorithm" id="toc-prims-algorithm" class="nav-link" data-scroll-target="#prims-algorithm">3.2. Prim’s Algorithm</a></li>
   </ul></li>
-  <li><a href="#space-complexity" id="toc-space-complexity" class="nav-link" data-scroll-target="#space-complexity">4. Space Complexity</a>
-  <ul class="collapse">
-  <li><a href="#the-hidden-cost-of-recursion" id="toc-the-hidden-cost-of-recursion" class="nav-link" data-scroll-target="#the-hidden-cost-of-recursion">4.1. The Hidden Cost of Recursion</a></li>
-  </ul></li>
-  <li><a href="#code-optimisation-techniques" id="toc-code-optimisation-techniques" class="nav-link" data-scroll-target="#code-optimisation-techniques">5. Code Optimisation Techniques</a>
-  <ul class="collapse">
-  <li><a href="#the-best-imaginable-big-o" id="toc-the-best-imaginable-big-o" class="nav-link" data-scroll-target="#the-best-imaginable-big-o">5.1. The Best Imaginable Big O</a></li>
-  <li><a href="#magical-lookups" id="toc-magical-lookups" class="nav-link" data-scroll-target="#magical-lookups">5.2. Magical Lookups</a></li>
-  <li><a href="#recognising-patterns" id="toc-recognising-patterns" class="nav-link" data-scroll-target="#recognising-patterns">5.3. Recognising Patterns</a></li>
-  <li><a href="#greedy-algorithms" id="toc-greedy-algorithms" class="nav-link" data-scroll-target="#greedy-algorithms">5.4. Greedy Algorithms</a></li>
-  <li><a href="#change-the-data-structure" id="toc-change-the-data-structure" class="nav-link" data-scroll-target="#change-the-data-structure">5.5. Change the Data Structure</a></li>
-  </ul></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
-  </ul></li>
+  <li><a href="#further-topics-in-graph-theory" id="toc-further-topics-in-graph-theory" class="nav-link" data-scroll-target="#further-topics-in-graph-theory">4. Further Topics in Graph Theory</a></li>
   </ul>
 </nav>
     </div>
@@ -273,171 +227,77 @@ window.Quarto = {
 
 
 
-<section id="algorithms" class="level1">
-<h1>Algorithms</h1>
-<section id="big-o" class="level2">
-<h2 class="anchored" data-anchor-id="big-o">1. Big O</h2>
-<p>The mathematical explanation is given in terms of the upper bound of the growth rate of a function. Very briefly: if a function <span class="math inline">\(g(x)\)</span> grows no faster than <span class="math inline">\(f(x)\)</span> then <span class="math inline">\(g\)</span> is a member of <span class="math inline">\(O(f)\)</span>. This isn’t particularly helpful for intuitive understanding though.</p>
-<p>The fundamental question is:</p>
-<blockquote class="blockquote">
-<p>If there are <span class="math inline">\(N\)</span> data elements, how many steps will the algorithm take?</p>
-</blockquote>
-<p>This helps us understand how the performance of the algorithm changes as the data increases.</p>
-<p>Basically, count the number of steps the algorithm takes as a function of N (and M if it involves two arrays), then drop any constants and only keep the “worst” term since we consider the worst case scenario.</p>
-<p>Be aware, though, that this doesn’t necessarily mean a lower complexity algorithm will always be faster in practice for every use case. Take for exmaple algorithm A, which always takes 100 steps regardless of input size so is <span class="math inline">\(O(1)\)</span>, and algorithm B which scales linearly with the input so in <span class="math inline">\(O(N)\)</span>.</p>
-<p>If we apply these to an array with 10 elements, A will take 100 steps and B will take 10 steps. So the “worse” algorithm can perform better for small data.</p>
-<p>When an algorithm is <span class="math inline">\(O(log(N))\)</span>, the log is implicitly <span class="math inline">\(log_2\)</span>. These come up regularly in algorithms where we divide and conquer, as in the binary search, because we half the data with each iteration. If you see an algorithm has a log term in its complexity, that’s generally a clue that there is some binary split happening somewhere.</p>
-</section>
-<section id="recursion" class="level2">
-<h2 class="anchored" data-anchor-id="recursion">2. Recursion</h2>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Definition: Recursion</p>
-<p>See “Recursion”.</p>
-</div>
-</div>
-<p>Recursion is when a function calls itself.</p>
-<p>In any case where you can use a loop, you could also write it recursively. I’m not saying you <em>should</em>, but you <em>can</em>.</p>
-<p>Every recursive function should have a <strong>base case</strong> (or multiple base cases) where it does not recurse, to prevent it from entering an infinite loop.</p>
-<section id="reading-recursive-functions" class="level3">
-<h3 class="anchored" data-anchor-id="reading-recursive-functions">2.1 Reading Recursive Functions</h3>
-<p>There is a knack to reading recursive functions. Start from the base case and work backwards.</p>
+<p>The following are standard graph algorithms.</p>
+<section id="graph-search" class="level2">
+<h2 class="anchored" data-anchor-id="graph-search">1. Graph Search</h2>
+<p>We are searching for a particular vertex in the graph.</p>
+<p>For DFS and BFS, we need to iterate over each of the <span class="math inline">\(V\)</span> nodes and each of its edges <span class="math inline">\(E\)</span>. We visit the edge from both sides, i.e.&nbsp;from each of the nodes attached to it, so we perform <span class="math inline">\(V + 2E\)</span> steps.</p>
+<p>The complexity is therefore <span class="math inline">\(O(V+ E)\)</span>.</p>
+<section id="depth-first-search-dfs" class="level3">
+<h3 class="anchored" data-anchor-id="depth-first-search-dfs">1.1. Depth-First Search (DFS)</h3>
+<p>DFS is a recursive algorithm where we keep track of the nodes visited so far.</p>
+<p>It is similar to the binary tree traversal algorithm, which shouldn’t be surprising since a tree is a type of graph and we want to traverse it to find our target node.</p>
+<p>Steps:</p>
 <ol type="1">
-<li>Identify the base case and walk through it</li>
-<li>Identify the “second-to-last” case and walk through it</li>
-<li>Repeat for the next-to-last case before that and walk through it</li>
+<li><strong>Initialise</strong>: Start at any (random) node.</li>
+<li><strong>Visit the node</strong>: Add the current node to the <code>visited_nodes</code> hash table.</li>
+<li><strong>Recursively visit neighbors</strong>: Iterate through the current node’s neighbors. If the neighbor has already been visited, ignore it. Otherwise, recursively call DFS on the unvisited neighbor, i.e.&nbsp;go back to Step 2.</li>
 </ol>
-<div id="cell-3" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> factorial(number):</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Recursively calculate the factorial of a number."""</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The base case</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> number <span class="op">==</span> <span class="dv">1</span>:</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The recursive bit</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> number <span class="op">*</span> factorial(number <span class="op">-</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-4" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>factorial(<span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>720</code></pre>
-</div>
-</div>
 </section>
-<section id="call-stack" class="level3">
-<h3 class="anchored" data-anchor-id="call-stack">2.2. Call Stack</h3>
-<p>The computer uses a call stack to keep track of the functions to call. When we enter a new recursion, we push a function call on to the stack, and when we finish executing we pop it from the call stack.</p>
-<p>If we don’t write appropriate base cases, the recursive function can loop infinitely, leading to <strong>stack overflow</strong>.</p>
-</section>
-<section id="how-deep-does-this-go" class="level3">
-<h3 class="anchored" data-anchor-id="how-deep-does-this-go">2.3. How Deep Does This Go?</h3>
-<p>Use recursion when the depth of the problem is unknown or arbitrary.</p>
-<p>If we have a problem where we want to go through nested structures but we don’t know ahead of time how deep they go, we can’t solve this using regular loops but we can with recursion.</p>
-<p>For example, if we want to traverse a directory and each of its subdirectories, and each of their subdirectories, etc.</p>
-</section>
-<section id="writing-recursive-functions" class="level3">
-<h3 class="anchored" data-anchor-id="writing-recursive-functions">2.4. Writing Recursive Functions</h3>
-<p>Recursive algorithms are useful for categories of problems where:</p>
+<section id="breadth-first-search-bfs" class="level3">
+<h3 class="anchored" data-anchor-id="breadth-first-search-bfs">1.2. Breadth-First Search (BFS)</h3>
+<p>BFS does not rely on recursion, instead using a <em>queue</em> to track the execution order.</p>
+<p>Steps:</p>
 <ol type="1">
-<li>The goal is to <strong>repeatedly execute</strong> a task</li>
-<li>The problem can be broken into <strong>subproblems</strong>, which are versions of the same problem but with a smaller input.</li>
+<li><strong>Initialise</strong>: Start at any (random) node.</li>
+<li><strong>Visit the node</strong>: Add the current node to the <code>visited_nodes</code> hash table and to the <code>node_queue</code>.</li>
+<li><strong>Iterate through the queue</strong>: Run a while-loop to iterate while the queue is populated.</li>
+<li><strong>Process the queue</strong>: Pop the first node from <code>node_queue</code>. Iterate over its neighbors. If the neighbor has been visited already, ignore it. Otherwise, visit the node - add it to the <code>visited_nodes</code> hash table and to the <code>node_queue</code>. Repeat until the queue is empty.</li>
 </ol>
-<section id="passing-extra-parameters" class="level5">
-<h5 class="anchored" data-anchor-id="passing-extra-parameters">Passing Extra Parameters</h5>
-<p>If we are modifying the data structure, say an array, in place, we can pass it as an extra parameter to the recursive function so that it can be passed up and down the call stack.</p>
-<p>This is often useful for the <strong>repeatedly execute</strong> category of problems.</p>
 </section>
-<section id="top-down-thought-process" class="level5">
-<h5 class="anchored" data-anchor-id="top-down-thought-process">Top-down Thought Process</h5>
-<p>Recursion is useful when coupled with a new, slightly unintuitive, mental model of top-down problem solving.</p>
+<section id="a-algorithm" class="level3">
+<h3 class="anchored" data-anchor-id="a-algorithm">1.3. A* Algorithm</h3>
+</section>
+</section>
+<section id="shortest-path-algorithms" class="level2">
+<h2 class="anchored" data-anchor-id="shortest-path-algorithms">2. Shortest Path Algorithms</h2>
+<p>We are trying to find the shortest path between two nodes.</p>
+<section id="dijkstras-algorithm" class="level3">
+<h3 class="anchored" data-anchor-id="dijkstras-algorithm">2.1. Dijkstra’s Algorithm</h3>
+<p>Dijkstra’s algorithm maintains</p>
 <ol type="1">
-<li>Imagine the function you’re writing has <em>already been implemented</em></li>
-<li>Identify the <em>subproblem</em>, often the next step along</li>
-<li>See what happens when you <em>call the function on the subproblem</em></li>
-<li>Go from there until you reach a <em>base case</em></li>
+<li>A hash map <code>shortest_distances</code> containing shortest known distances from the starting node to each node visited.</li>
+<li>A hash map <code>shortest_path_previous_node</code> tracking the previous node visited on the shortest knonw path to a node.</li>
 </ol>
-<p>This is often useful for the <strong>subproblem</strong> category of problems.</p>
-</section>
-</section>
-</section>
-<section id="dynamic-programming" class="level2">
-<h2 class="anchored" data-anchor-id="dynamic-programming">3. Dynamic Programming</h2>
-<p>The idea behind dynamic programming is similar to recursion: break the problem down into smaller subproblems. For dynamic programming problems, the subproblems are typically <strong>overlapping subproblems</strong>. We also want to remove any duplicate calls.</p>
-<section id="the-top-down-dp-approach" class="level3">
-<h3 class="anchored" data-anchor-id="the-top-down-dp-approach">3.1. The Top-down DP Approach</h3>
-<p>A common problem with recursive approaches is that we end up calculating the same function multiple times in the call stack. This can lead to some horrendous complexities like <span class="math inline">\(O(N!)\)</span> or <span class="math inline">\(O(2^N)\)</span>.</p>
-<p>The key difference to recursion is we only solve each subproblem once and store its result. This way, we can just look it up for any other calls that require it. This storing of intermediate calculations is called <strong>memoization</strong>.</p>
-<p>We will need to pass this memoised object as an extra parameter and modify it in place, as noted in the recusion section.</p>
-</section>
-<section id="the-bottom-up-dp-approach" class="level3">
-<h3 class="anchored" data-anchor-id="the-bottom-up-dp-approach">3.2. The Bottom-up DP Approach</h3>
-<p>Ditch recursion and just use a loop.</p>
-<p>This is technically another way of “solving a problem that can be solved using recursion but without making duplciate calls” - which is what dynamic programming essentially is. In this case, we do it by removing recursion altogether.</p>
-</section>
-</section>
-<section id="space-complexity" class="level2">
-<h2 class="anchored" data-anchor-id="space-complexity">4. Space Complexity</h2>
-<p>Often the primary focus of an algorithm is its speed, characterised by its time complexity - how many steps does the algorithm take for an input of N elements?</p>
-<p>But another useful dimension to analyse is its space complexity - how much <strong>memory</strong> does the algorithm consume for an input of N elements?</p>
-<p>It is important to note that space complexity <em>generally</em> only considers the <em>new data</em> that the algorithm is generating, not the original input. The extra space consumed by the new data is called <strong>auxiliary space</strong>.</p>
-<p>(However, some textbooks <em>do</em> include the original data in the space complexity, so it’s important to check the convention being used.)</p>
-<section id="the-hidden-cost-of-recursion" class="level3">
-<h3 class="anchored" data-anchor-id="the-hidden-cost-of-recursion">4.1. The Hidden Cost of Recursion</h3>
-<p>A recursive function takes up a unit of memory for each call that it makes.</p>
-<p>Each time it is called, it adds an item (the function call itself and any additional parameters) on the call stack. So to understand its space complexity, we need to determine how big the call stack can get at its peak, i.e.&nbsp;how many recursive calls it makes.</p>
-</section>
-</section>
-<section id="code-optimisation-techniques" class="level2">
-<h2 class="anchored" data-anchor-id="code-optimisation-techniques">5. Code Optimisation Techniques</h2>
-<p>The first step towards optimising your code is understanding its current complexity.</p>
-<section id="the-best-imaginable-big-o" class="level3">
-<h3 class="anchored" data-anchor-id="the-best-imaginable-big-o">5.1. The Best Imaginable Big O</h3>
-<p>What is the best complexity you can imagine?</p>
-<p>Also called the best-conceivable runtime.</p>
-<p>For example, if a problem requires processing every unit of a list, then you will have to visit all <span class="math inline">\(N\)</span> elements, so the best you can do is probably <span class="math inline">\(O(N)\)</span>. You won’t necessarily be able to achieve this, but it gives you an indication of the potential.</p>
+<p>A nice bonus is that it ends up finding the shortest path from the source node to all other nodes, not just the target node we care about.</p>
+<p>Steps:</p>
 <ol type="1">
-<li>Determine your current algorithm’s Big O</li>
-<li>Determine the best-imaginable Big O</li>
-<li>If they’re different, try optimising</li>
+<li><strong>Initialise</strong>: Start at the source node and make it the <code>current_node</code>.</li>
+<li><strong>Check the immediate neighbours</strong>: If the distance to a neighbor from the source node is shorter than the current known <code>shortest_distances</code>, then update <code>shortest_distances</code> and <code>shortest_path_previous_node</code>.</li>
+<li><strong>Visit the new node closest to source</strong>: Visit whichever unvisited node has the shortest known distance. Make it the <code>current_node</code> and repeat Step 2.</li>
 </ol>
-<p>Another mental trick that can be helpful is to pick a really fast Big and ask yourself “If someone told me they had an algorithm to achieve this Big O, would I believe them?”</p>
-</section>
-<section id="magical-lookups" class="level3">
-<h3 class="anchored" data-anchor-id="magical-lookups">5.2. Magical Lookups</h3>
-<p>Ask yourself: “If I could magically look up a desired piece of information in <span class="math inline">\(O(1)\)</span> time, could I make my algorithm faster?”</p>
-<p>If so, you may be able to bring in an additional data structure to accommodate this look up. Often this is a hash table.</p>
-</section>
-<section id="recognising-patterns" class="level3">
-<h3 class="anchored" data-anchor-id="recognising-patterns">5.3. Recognising Patterns</h3>
-<p>Start with several smaller cases of the problem and work through the answers by hand.</p>
-<p>Does a pattern emerge that might generalise to bigger cases?</p>
-</section>
-<section id="greedy-algorithms" class="level3">
-<h3 class="anchored" data-anchor-id="greedy-algorithms">5.4. Greedy Algorithms</h3>
-<p>A greedy algorithm, at each step, chooses what appears to be the current best option.</p>
-<p>This local optimisation doesn’t necessarily find the global optimal solution. But it can be sueful in situations where finding the absolute best option is not necessary or practical.</p>
-</section>
-<section id="change-the-data-structure" class="level3">
-<h3 class="anchored" data-anchor-id="change-the-data-structure">5.5. Change the Data Structure</h3>
-<p>If the input data were stored as a different data structure, would it make the problem easier?</p>
-<p>In some cases, it can be worthwhile performing a pre-compute step to convert the data structure if it then allows faster algorithms to be run.</p>
 </section>
 </section>
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
+<section id="minimum-spanning-tree" class="level2">
+<h2 class="anchored" data-anchor-id="minimum-spanning-tree">3. Minimum Spanning Tree</h2>
+<section id="kruskals-algorithm" class="level3">
+<h3 class="anchored" data-anchor-id="kruskals-algorithm">3.1. Kruskal’s Algorithm</h3>
+</section>
+<section id="prims-algorithm" class="level3">
+<h3 class="anchored" data-anchor-id="prims-algorithm">3.2. Prim’s Algorithm</h3>
+</section>
+</section>
+<section id="further-topics-in-graph-theory" class="level2">
+<h2 class="anchored" data-anchor-id="further-topics-in-graph-theory">4. Further Topics in Graph Theory</h2>
 <ul>
-<li>A common sense guide to data structures and algorithms, Jay Wengrow.</li>
+<li>Topological sort</li>
+<li>Bidirectional search</li>
+<li>Floyd-Warshall algorithms</li>
+<li>Bellman-Ford algorithm</li>
+<li>Graph coloring</li>
 </ul>
 
 
-</section>
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->

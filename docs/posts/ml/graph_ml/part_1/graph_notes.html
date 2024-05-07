@@ -8,7 +8,7 @@
 
 <meta name="author" content="Gurpreet Johl">
 <meta name="dcterms.date" content="2024-05-08">
-<meta name="description" content="Part 1: Intro to Graphs">
+<meta name="description" content="Part 0: Intro to Graphs">
 
 <title>Gurpreet Johl - Graph ML: Intro</title>
 <style>
@@ -103,6 +103,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="../../../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="../../../../styles.css">
@@ -164,7 +167,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <h1 class="title">Graph ML: Intro</h1>
                   <div>
         <div class="description">
-          Part 1: Intro to Graphs
+          Part 0: Intro to Graphs
         </div>
       </div>
                           <div class="quarto-categories">
@@ -218,6 +221,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#adjacency-matrix" id="toc-adjacency-matrix" class="nav-link" data-scroll-target="#adjacency-matrix">2.3. Adjacency Matrix</a></li>
   </ul></li>
   <li><a href="#implementing-a-grpah-with-networkx" id="toc-implementing-a-grpah-with-networkx" class="nav-link" data-scroll-target="#implementing-a-grpah-with-networkx">3. Implementing a Grpah with networkx</a></li>
+  </ul></li>
+  <li><a href="#old" id="toc-old" class="nav-link" data-scroll-target="#old">Old</a>
+  <ul class="collapse">
   <li><a href="#graph-metrics" id="toc-graph-metrics" class="nav-link" data-scroll-target="#graph-metrics">3. Graph Metrics</a></li>
   <li><a href="#graph-search" id="toc-graph-search" class="nav-link" data-scroll-target="#graph-search">4. Graph Search</a>
   <ul class="collapse">
@@ -256,6 +262,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Nodes that are connected are <strong>adjacent</strong> and are called <strong>neighbours</strong>.</p>
 <p>Graphs are the general case of trees. A graph is broadly something with nodes and edges. A tree is a graph that has <em>no cycles</em> and all nodes are <em>connected</em>.</p>
 <p>A <strong>directed graph</strong> shows where relationships can be directional, e.g.&nbsp;social network followers.</p>
+<p>Edges can be <strong>weighted</strong> or unweighted.</p>
+<p>A <strong>path</strong> is the sequence of edges used to get from one vertex to another.</p>
 </section>
 </section>
 <section id="implementing-a-graph-from-scratch" class="level2">
@@ -268,9 +276,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Adjacency matrix</li>
 </ol>
 <p>Each approach has its own trade-offs in terms of memory usage, ease of implementation, and efficiency based on the specific characteristics of the graph you’re dealing with.</p>
+<p>We’ll implement the following simple graph using each approach:</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+
+A[1] &lt;---&gt; B[2]
+B[2] &lt;---&gt; C[3]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 <section id="objects-and-pointers" class="level3">
 <h3 class="anchored" data-anchor-id="objects-and-pointers">2.1. Objects and Pointers</h3>
 <p>In this approach, we represent each node in the graph as an object, and you use pointers to connect these nodes. Each object typically contains a list of pointers to other nodes it’s connected to.</p>
+<p>For a <em>connected</em> graph, if we have access to one node we can traverse the graph to find all other nodes. This is not true for graphs with unconnected nodes.</p>
 <p>This approach will be familiar to computer scientists - it bears a resemblance to linked lists. In practice this isn’t used much in practical ML because traversing the graph is more cumbersome.</p>
 <p>Pros:</p>
 <ul>
@@ -452,13 +477,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         [0, 0, 1, 0, 0, 0, 1]])</code></pre>
 </div>
 </div>
-<div id="cell-18" class="cell" data-execution_count="7">
+</section>
+</section>
+<section id="old" class="level1">
+<h1>Old</h1>
+<div id="cell-19" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>g.degree</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>DegreeView({'A': 2, 'B': 3, 'C': 3, 'D': 1, 'E': 1, 'F': 1, 'G': 3})</code></pre>
 </div>
 </div>
-<div id="cell-19" class="cell" data-execution_count="8">
+<div id="cell-20" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>nx.degree_centrality(g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>{'A': 0.3333333333333333,
@@ -470,7 +499,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  'G': 0.5}</code></pre>
 </div>
 </div>
-<div id="cell-20" class="cell" data-execution_count="9">
+<div id="cell-21" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>nx.closeness_centrality(g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>{'A': 0.6,
@@ -482,13 +511,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  'G': 0.375}</code></pre>
 </div>
 </div>
-<div id="cell-21" class="cell" data-execution_count="10">
+<div id="cell-22" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>nx.betweenness_centrality(g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>{'A': 0.6, 'B': 0.6, 'C': 0.6, 'D': 0.0, 'E': 0.0, 'F': 0.0, 'G': 0.0}</code></pre>
 </div>
 </div>
-</section>
 <section id="graph-metrics" class="level2">
 <h2 class="anchored" data-anchor-id="graph-metrics">3. Graph Metrics</h2>
 <p>Connectedness</p>
