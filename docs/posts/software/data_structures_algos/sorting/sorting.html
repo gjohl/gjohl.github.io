@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Gurpreet Johl">
-<meta name="dcterms.date" content="2024-04-17">
+<meta name="dcterms.date" content="2024-05-07">
 <meta name="description" content="Algorithms? Sorted, mate.">
 
 <title>Gurpreet Johl - Sorting Algorithms</title>
@@ -217,7 +217,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">April 17, 2024</p>
+        <p class="date">May 7, 2024</p>
       </div>
     </div>
     
@@ -275,12 +275,19 @@ window.Quarto = {
   <li><a href="#implementation-5" id="toc-implementation-5" class="nav-link" data-scroll-target="#implementation-5">6.2. Implementation</a></li>
   <li><a href="#complexity-5" id="toc-complexity-5" class="nav-link" data-scroll-target="#complexity-5">6.3. Complexity</a></li>
   </ul></li>
-  <li><a href="#radix-sort" id="toc-radix-sort" class="nav-link" data-scroll-target="#radix-sort">7. Radix Sort</a>
+  <li><a href="#counting-sort" id="toc-counting-sort" class="nav-link" data-scroll-target="#counting-sort">7. Counting Sort</a>
   <ul class="collapse">
-  <li><a href="#algorithm-5" id="toc-algorithm-5" class="nav-link" data-scroll-target="#algorithm-5">7.1. Algorithm</a></li>
+  <li><a href="#algorithm-5" id="toc-algorithm-5" class="nav-link" data-scroll-target="#algorithm-5">7.1 Algorithm</a></li>
   <li><a href="#implementation-6" id="toc-implementation-6" class="nav-link" data-scroll-target="#implementation-6">7.2. Implementation</a></li>
   <li><a href="#complexity-6" id="toc-complexity-6" class="nav-link" data-scroll-target="#complexity-6">7.3. Complexity</a></li>
   </ul></li>
+  <li><a href="#radix-sort" id="toc-radix-sort" class="nav-link" data-scroll-target="#radix-sort">8. Radix Sort</a>
+  <ul class="collapse">
+  <li><a href="#algorithm-6" id="toc-algorithm-6" class="nav-link" data-scroll-target="#algorithm-6">8.1. Algorithm</a></li>
+  <li><a href="#implementation-7" id="toc-implementation-7" class="nav-link" data-scroll-target="#implementation-7">8.2. Implementation</a></li>
+  <li><a href="#complexity-7" id="toc-complexity-7" class="nav-link" data-scroll-target="#complexity-7">8.3. Complexity</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -344,6 +351,18 @@ window.Quarto = {
 <td><span class="math inline">\(N log N\)</span></td>
 <td><span class="math inline">\(N log N\)</span></td>
 <td><span class="math inline">\(N log N\)</span></td>
+</tr>
+<tr class="odd">
+<td>Counting sort</td>
+<td><span class="math inline">\(N + K\)</span></td>
+<td><span class="math inline">\(N + K\)</span></td>
+<td><span class="math inline">\(N + K\)</span></td>
+</tr>
+<tr class="even">
+<td>Radix sort</td>
+<td><span class="math inline">\(N * D\)</span></td>
+<td><span class="math inline">\(N * D\)</span></td>
+<td><span class="math inline">\(N * D\)</span></td>
 </tr>
 </tbody>
 </table>
@@ -1144,12 +1163,91 @@ window.Quarto = {
 <p>This is the same regardless of the arrangement of the input, so the time complexity of heap sort is the same in the best case, average case, and worst case.</p>
 </section>
 </section>
+<section id="counting-sort" class="level2">
+<h2 class="anchored" data-anchor-id="counting-sort">7. Counting Sort</h2>
+<p>We count how many of each element is in the array, i.e.&nbsp;how many 0s, how many 1s, how many 2s.</p>
+<p>From this we can then determine what the <em>starting position</em> of each element in the output will be. E.g. if there are three 0s then these will take the first three slots in the sorted output, so 1s will start at the fourth position.</p>
+<p>Counting sort works best when the number of unique items is small, i.e.&nbsp;there are lots of duplicates in the list.</p>
+<p>It is a <strong>stable</strong> sorting algorithm, meaning items with identical values in the input will retain their original ordering in the output.</p>
+<section id="algorithm-5" class="level3">
+<h3 class="anchored" data-anchor-id="algorithm-5">7.1 Algorithm</h3>
+<!-- https://www.youtube.com/watch?v=OKd534EWcdk -->
+<p>Say we want to sort the following array:</p>
+<pre><code>[0, 1, 2, 0, 0, 1, 2, 1, 0, 0, 2, 1, 2]</code></pre>
+<ol type="1">
+<li><strong>Counting</strong>: Count the <em>number of occurrences of each unique element</em> in the input list. How many 0s? How many 1s? How many 2s? Etc.</li>
+<li><strong>Cumulative count</strong>: Then calculate the <em>cumulative count of the elements</em>. This step determines the <em>starting position of each element</em> in the sorted output.</li>
+<li><strong>Placement</strong>: Finally, you <em>place each element</em> in its correct position in the sorted output based on its cumulative count.</li>
+</ol>
+</section>
+<section id="implementation-6" class="level3">
+<h3 class="anchored" data-anchor-id="implementation-6">7.2. Implementation</h3>
+<div id="cell-34" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> counting_sort(array):</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Counting sort algorithm to sort an array into ascending order.</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="co">    array: list</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="co">        The array that we wish to sort.</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="co">    sorted_array: list</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="co">        The sorted array.</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Count the elements in the input. </span></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>    max_val <span class="op">=</span> <span class="bu">max</span>(array)</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>    count_store <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> (max_val <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> num <span class="kw">in</span> array:</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>        count_store[num] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Cumulative count</span></span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(count_store)):</span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>        count_store[i] <span class="op">+=</span> count_store[i <span class="op">-</span> <span class="dv">1</span>]</span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Place each element in its correct position in the sorted array</span></span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>    sorted_array <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> <span class="bu">len</span>(array)</span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># for num in reversed(array):</span></span>
+<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     sorted_array[count_store[num] - 1] = num</span></span>
+<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     count_store[num] -= 1</span></span>
+<span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> num <span class="kw">in</span> array:</span>
+<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a>        sorted_array[count_store[num] <span class="op">-</span> <span class="dv">1</span>] <span class="op">=</span> num</span>
+<span id="cb29-34"><a href="#cb29-34" aria-hidden="true" tabindex="-1"></a>        count_store[num] <span class="op">-=</span> <span class="dv">1</span></span>
+<span id="cb29-35"><a href="#cb29-35" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-36"><a href="#cb29-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sorted_array</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-35" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>input_array <span class="op">=</span> [<span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">9</span>, <span class="dv">0</span>, <span class="dv">8</span>, <span class="dv">23</span>, <span class="dv">69</span>, <span class="dv">420</span>, <span class="dv">12</span>]</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>counting_sort(input_array)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
+<pre><code>[0, 1, 3, 5, 7, 8, 8, 9, 12, 23, 69, 420]</code></pre>
+</div>
+</div>
+</section>
+<section id="complexity-6" class="level3">
+<h3 class="anchored" data-anchor-id="complexity-6">7.3. Complexity</h3>
+<p>The complexity of counting sort depends on the number of elements, <span class="math inline">\(N\)</span>, and the number of <em>unique</em> elements, <span class="math inline">\(K\)</span>.</p>
+<p>For each each of the steps:</p>
+<ol type="1">
+<li><strong>Counting</strong>: We loop through all <span class="math inline">\(N\)</span> elements. We also create a <code>count_store</code> array which takes <span class="math inline">\(K\)</span> elements of auxiliary space.</li>
+<li><strong>Cumulative count</strong>: We loop through the <span class="math inline">\(K\)</span> elements in the <code>count_store</code> array.</li>
+<li><strong>Placement</strong>: We initialise an output_array of size <span class="math inline">\(N\)</span>, which therefore takes <span class="math inline">\(N\)</span> elements of auxiliary space. We then loop through the <span class="math inline">\(N\)</span> elements in the original array, using <code>count_store</code> to determine the correct placement.</li>
+</ol>
+<p>So there are <span class="math inline">\(N + K + N\)</span> steps and <span class="math inline">\(N + K\)</span> elements of auxiliary data.</p>
+<p>Time complexity: <span class="math inline">\(O(N + K)\)</span></p>
+<p>Auxiliary space: <span class="math inline">\(O(N + K)\)</span></p>
+</section>
+</section>
 <section id="radix-sort" class="level2">
-<h2 class="anchored" data-anchor-id="radix-sort">7. Radix Sort</h2>
+<h2 class="anchored" data-anchor-id="radix-sort">8. Radix Sort</h2>
 <p>Radix sort is a sorting algorithm that sorts numbers by processing individual digits.</p>
 <p>It sorts numbers by first grouping the individual digits of the same place value together and sorting them. It starts sorting from the least significant digit (rightmost digit) to the most significant digit (leftmost digit).</p>
-<section id="algorithm-5" class="level3">
-<h3 class="anchored" data-anchor-id="algorithm-5">7.1. Algorithm</h3>
+<section id="algorithm-6" class="level3">
+<h3 class="anchored" data-anchor-id="algorithm-6">8.1. Algorithm</h3>
 <ol type="1">
 <li>Start from the rightmost digit: Look at the least significant digit of each number. Group the numbers based on this digit.</li>
 <li>Sort each group: After grouping, the numbers are rearranged based on their digit value. So, all the numbers with the same rightmost digit are now together, and they are sorted within this group.</li>
@@ -1158,56 +1256,56 @@ window.Quarto = {
 </ol>
 <p>By the end of this process, the numbers will be sorted because each time you look at a digit, the numbers are sorted according to that digit.</p>
 </section>
-<section id="implementation-6" class="level3">
-<h3 class="anchored" data-anchor-id="implementation-6">7.2. Implementation</h3>
-<div id="cell-34" class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> counting_sort(arr, exp):</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(arr)</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> n</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> <span class="dv">10</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Count occurrences of digits</span></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>        index <span class="op">=</span> arr[i] <span class="op">//</span> exp</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>        count[index <span class="op">%</span> <span class="dv">10</span>] <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Cumulative count</span></span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">10</span>):</span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>        count[i] <span class="op">+=</span> count[i <span class="op">-</span> <span class="dv">1</span>]</span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Build the output array</span></span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>    i <span class="op">=</span> n <span class="op">-</span> <span class="dv">1</span></span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> i <span class="op">&gt;=</span> <span class="dv">0</span>:</span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>        index <span class="op">=</span> arr[i] <span class="op">//</span> exp</span>
-<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>        output[count[index <span class="op">%</span> <span class="dv">10</span>] <span class="op">-</span> <span class="dv">1</span>] <span class="op">=</span> arr[i]</span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>        count[index <span class="op">%</span> <span class="dv">10</span>] <span class="op">-=</span> <span class="dv">1</span></span>
-<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>        i <span class="op">-=</span> <span class="dv">1</span></span>
-<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Copy the output array to arr, to be ready for the next iteration</span></span>
-<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
-<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>        arr[i] <span class="op">=</span> output[i]</span>
-<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> radix_sort(arr):</span>
-<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Find the maximum number to determine the number of digits</span></span>
-<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>    max_num <span class="op">=</span> <span class="bu">max</span>(arr)</span>
-<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a>    exp <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> max_num <span class="op">//</span> exp <span class="op">&gt;</span> <span class="dv">0</span>:</span>
-<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a>        counting_sort(arr, exp)</span>
-<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a>        exp <span class="op">*=</span> <span class="dv">10</span></span>
-<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-36"><a href="#cb28-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> arr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="implementation-7" class="level3">
+<h3 class="anchored" data-anchor-id="implementation-7">8.2. Implementation</h3>
+<div id="cell-38" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> counting_sort(arr, exp):</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(arr)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> n</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> <span class="dv">10</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Count occurrences of digits</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>        index <span class="op">=</span> arr[i] <span class="op">//</span> exp</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>        count[index <span class="op">%</span> <span class="dv">10</span>] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Cumulative count</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">10</span>):</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>        count[i] <span class="op">+=</span> count[i <span class="op">-</span> <span class="dv">1</span>]</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Build the output array</span></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>    i <span class="op">=</span> n <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> i <span class="op">&gt;=</span> <span class="dv">0</span>:</span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>        index <span class="op">=</span> arr[i] <span class="op">//</span> exp</span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>        output[count[index <span class="op">%</span> <span class="dv">10</span>] <span class="op">-</span> <span class="dv">1</span>] <span class="op">=</span> arr[i]</span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>        count[index <span class="op">%</span> <span class="dv">10</span>] <span class="op">-=</span> <span class="dv">1</span></span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>        i <span class="op">-=</span> <span class="dv">1</span></span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Copy the output array to arr, to be ready for the next iteration</span></span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a>        arr[i] <span class="op">=</span> output[i]</span>
+<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> radix_sort(arr):</span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Find the maximum number to determine the number of digits</span></span>
+<span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a>    max_num <span class="op">=</span> <span class="bu">max</span>(arr)</span>
+<span id="cb32-30"><a href="#cb32-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-31"><a href="#cb32-31" aria-hidden="true" tabindex="-1"></a>    exp <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb32-32"><a href="#cb32-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> max_num <span class="op">//</span> exp <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb32-33"><a href="#cb32-33" aria-hidden="true" tabindex="-1"></a>        counting_sort(arr, exp)</span>
+<span id="cb32-34"><a href="#cb32-34" aria-hidden="true" tabindex="-1"></a>        exp <span class="op">*=</span> <span class="dv">10</span></span>
+<span id="cb32-35"><a href="#cb32-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-36"><a href="#cb32-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> arr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-35" class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>input_array <span class="op">=</span> [<span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">9</span>, <span class="dv">0</span>, <span class="dv">8</span>, <span class="dv">23</span>, <span class="dv">69</span>, <span class="dv">420</span>, <span class="dv">12</span>]</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>radix_sort(input_array)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
+<div id="cell-39" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>input_array <span class="op">=</span> [<span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">9</span>, <span class="dv">0</span>, <span class="dv">8</span>, <span class="dv">23</span>, <span class="dv">69</span>, <span class="dv">420</span>, <span class="dv">12</span>]</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>radix_sort(input_array)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="24">
 <pre><code>[0, 1, 3, 5, 7, 8, 8, 9, 12, 23, 69, 420]</code></pre>
 </div>
 </div>
 </section>
-<section id="complexity-6" class="level3">
-<h3 class="anchored" data-anchor-id="complexity-6">7.3. Complexity</h3>
+<section id="complexity-7" class="level3">
+<h3 class="anchored" data-anchor-id="complexity-7">8.3. Complexity</h3>
 <p>The time complexity of radix sort depends on the number of digits or the range of the input numbers. Let’s denote:</p>
 <ul>
 <li>n as the number of elements in the array to be sorted.</li>
@@ -1218,9 +1316,16 @@ window.Quarto = {
 <p>Average Case: The average case time complexity is also O(d⋅n). This is because, on average, each number requires � d passes through the counting and distribution steps of the radix sort. Worst Case: The worst-case scenario happens when the numbers have significantly different numbers of digits, resulting in more passes through the counting and distribution steps. In the worst case, the time complexity is O(d⋅n).</p>
 <p>In practice, however, the value of d is often considered to be a constant because it is bounded by the word size of the machine (e.g., 32 or 64 bits for integers). Therefore, the time complexity is often simplified to O(n), making radix sort very efficient, especially when the range of input numbers is relatively small.</p>
 <p>In radix sort, the time complexity is the same in the best case, average case, and worst case. This is because the algorithm always needs to iterate through each digit of each number, regardless of the distribution of digits among the input numbers.</p>
-
-
 </section>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li>Counting sort: https://www.youtube.com/watch?v=OKd534EWcdk</li>
+<li>Radix sort: https://www.youtube.com/watch?v=XiuSW_mEn7g</li>
+</ul>
+
+
 </section>
 </section>
 
