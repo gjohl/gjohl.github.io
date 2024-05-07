@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Gurpreet Johl">
-<meta name="dcterms.date" content="2024-05-09">
-<meta name="description" content="Part 0.5: Traditional Grpah Algorithms">
+<meta name="dcterms.date" content="2024-05-08">
+<meta name="description" content="Part 0.5: Traditional Graph Algorithms">
 
 <title>Gurpreet Johl - Graph ML: Graph Algorithms</title>
 <style>
@@ -159,7 +159,7 @@ window.Quarto = {
       <h1 class="title">Graph ML: Graph Algorithms</h1>
                   <div>
         <div class="description">
-          Part 0.5: Traditional Grpah Algorithms
+          Part 0.5: Traditional Graph Algorithms
         </div>
       </div>
                           <div class="quarto-categories">
@@ -185,7 +185,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">May 9, 2024</p>
+        <p class="date">May 8, 2024</p>
       </div>
     </div>
     
@@ -206,6 +206,7 @@ window.Quarto = {
   <li><a href="#depth-first-search-dfs" id="toc-depth-first-search-dfs" class="nav-link" data-scroll-target="#depth-first-search-dfs">1.1. Depth-First Search (DFS)</a></li>
   <li><a href="#breadth-first-search-bfs" id="toc-breadth-first-search-bfs" class="nav-link" data-scroll-target="#breadth-first-search-bfs">1.2. Breadth-First Search (BFS)</a></li>
   <li><a href="#a-algorithm" id="toc-a-algorithm" class="nav-link" data-scroll-target="#a-algorithm">1.3. A* Algorithm</a></li>
+  <li><a href="#bidirectional-search" id="toc-bidirectional-search" class="nav-link" data-scroll-target="#bidirectional-search">1.4. Bidirectional Search</a></li>
   </ul></li>
   <li><a href="#shortest-path-algorithms" id="toc-shortest-path-algorithms" class="nav-link" data-scroll-target="#shortest-path-algorithms">2. Shortest Path Algorithms</a>
   <ul class="collapse">
@@ -235,6 +236,7 @@ window.Quarto = {
 <p>The complexity is therefore <span class="math inline">\(O(V+ E)\)</span>.</p>
 <section id="depth-first-search-dfs" class="level3">
 <h3 class="anchored" data-anchor-id="depth-first-search-dfs">1.1. Depth-First Search (DFS)</h3>
+<p>Start at the root node and go as deep as possible before backtracking.</p>
 <p>DFS is a recursive algorithm where we keep track of the nodes visited so far.</p>
 <p>It is similar to the binary tree traversal algorithm, which shouldn’t be surprising since a tree is a type of graph and we want to traverse it to find our target node.</p>
 <p>Steps:</p>
@@ -243,9 +245,11 @@ window.Quarto = {
 <li><strong>Visit the node</strong>: Add the current node to the <code>visited_nodes</code> hash table.</li>
 <li><strong>Recursively visit neighbors</strong>: Iterate through the current node’s neighbors. If the neighbor has already been visited, ignore it. Otherwise, recursively call DFS on the unvisited neighbor, i.e.&nbsp;go back to Step 2.</li>
 </ol>
+<p>DFS can be used to find <strong>cycles</strong>, because a node will be visited twice during traversal if and only if a cycle exists.</p>
 </section>
 <section id="breadth-first-search-bfs" class="level3">
 <h3 class="anchored" data-anchor-id="breadth-first-search-bfs">1.2. Breadth-First Search (BFS)</h3>
+<p>Start at the root node and explore all neighbors before going deeper.</p>
 <p>BFS does not rely on recursion, instead using a <em>queue</em> to track the execution order.</p>
 <p>Steps:</p>
 <ol type="1">
@@ -257,6 +261,9 @@ window.Quarto = {
 </section>
 <section id="a-algorithm" class="level3">
 <h3 class="anchored" data-anchor-id="a-algorithm">1.3. A* Algorithm</h3>
+</section>
+<section id="bidirectional-search" class="level3">
+<h3 class="anchored" data-anchor-id="bidirectional-search">1.4. Bidirectional Search</h3>
 </section>
 </section>
 <section id="shortest-path-algorithms" class="level2">
@@ -290,11 +297,12 @@ window.Quarto = {
 <section id="further-topics-in-graph-theory" class="level2">
 <h2 class="anchored" data-anchor-id="further-topics-in-graph-theory">4. Further Topics in Graph Theory</h2>
 <ul>
+<li>Tarjan’s strongly connected components algorithm</li>
 <li>Topological sort</li>
-<li>Bidirectional search</li>
 <li>Floyd-Warshall algorithms</li>
 <li>Bellman-Ford algorithm</li>
 <li>Graph coloring</li>
+<li>Min-cut max-flow</li>
 </ul>
 
 

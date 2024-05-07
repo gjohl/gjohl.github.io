@@ -2,8 +2,6 @@
   {
     "listing": "/blog.html",
     "items": [
-      "/posts/ml/generative_deep_learning/lesson5/AR_Models.html",
-      "/posts/ml/ml_fundamentals/part1/ml_fundamentals.html",
       "/posts/ml/graph_ml/part_1_2/graph_algorithms.html",
       "/posts/ml/graph_ml/part_1/graph_notes.html",
       "/posts/software/data_structures_algos/sorting/sorting.html",
@@ -76,7 +74,6 @@
   {
     "listing": "/gen-deep-learning-series.html",
     "items": [
-      "/posts/ml/generative_deep_learning/lesson5/AR_Models.html",
       "/posts/ml/generative_deep_learning/lesson4/chapter4.html",
       "/posts/ml/generative_deep_learning/lesson3/chapter3.html",
       "/posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html",

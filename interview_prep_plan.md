@@ -65,7 +65,7 @@ Know the pros and cons of each, complexity, and how to implement in code.
 
 - Ways to represent a graph in memory: (1) objects and pointers, (2) matrix, (3) adjacency list
 - Graph algorithms: distance, search, connectivity, cycle detection
-- Grap traversal algorithms
+- Graph traversal algorithms
 - Breadth-first and depth-first search
 
 
