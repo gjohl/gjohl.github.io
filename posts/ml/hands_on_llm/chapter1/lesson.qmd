@@ -1,0 +1,78 @@
+---
+title: "Hands-On LLMs"
+description: "Part 1: Introduction to LLMs"
+date: "2024-11-26"
+# image: "deep_learning_model.png"
+categories: [AI, Engineering, GenerativeAI, LLM]
+---
+
+# Introduction to Large Language Models
+
+
+## 1. A Brief History of Language AI
+
+### 1.1. Bag of Words
+This approach originated in the 1950s but gained popularity in the 2000s.
+
+It treats unstructured text as a bag or words, throwing away any information from the position / ordering of the words and any semantic meaning of text.
+
+1. Tokenise the text. A straightforward way to do this is to split on the spaces so we have a list of words.
+2. Create a vocabulary of length N, containing every word in our training data.
+3. We can then represent any sentence or document as a one-hot encoded N-dimensional vector.
+4. Use those vectors for downstream tasks, e.g. cosine similarity between vectors to measure the similarity of documents for recommender systems.
+
+For example, if our vocabulary contains the words: `that is a cute dog my cat`
+
+Then we can encode the sentence "that is a cute dog" as:
+
+| that | is | a | cute | dog | my | cat |
+|------|----|---|------|-----|----|-----|
+| 1    | 1  | 1 | 1    | 1   | 0  | 0   |
+
+And another sentence "my cat is cute" as:
+
+| that | is | a | cute | dog | my | cat |
+|------|----|---|------|-----|----|-----|
+| 0    | 1  | 0 | 1    | 0   | 1  | 1   |
+
+Then to compare how similar the two sentences are, we can compare those vectors, for example using cosine similarity.
+
+
+### 1.2. Word2Vec
+
+A limitation of bag-of-words is that it makes no attempt to capture meaning from the text, treating each word as an unrelated token. By encoding text as one-hot encoded vectors, it does not capture that the word "cute" might be similar to "adorable" or "scrum-diddly-umptious"; every word is simply an arbitrary element of the vocabulary.
+
+Dense vector embeddings attempt to capture these differences; rather than treating words as discrete elements, we can introduce a continuous scale for each embedding dimension, and learn where each word falls on the scale. Word2Vec was an early, and successful, approach to generating these embeddings.
+
+The approach is to:
+
+1. Assign every word in the vocabulary an (initial random) vector of the embedding dimension, say 50.
+2. Take pairs of words from the training data, and train a model to predict whether they are likely to be neighbors in a sentence.
+3. If two words typically share the same neighbouring words, they are likely to share similar embedding vectors, and vice versa.
+
+[Illustrated word2vec](https://jalammar.github.io/illustrated-word2vec/) provides a deeper dive.
+
+These embeddings then have interesting properties. The classic example is that adding/subtracting the vectors for the corresponding words gives:
+$$
+king - man + woman \approx queen
+$$
+
+> The numbers don't lie and they spell disaster 
+>
+> \- "Big Poppa Pump" Scott Steiner
+
+- **N-grams** are sliding windows of N words sampled from text. These can be used to train a model where the input is N words and the output is the predicted next word.
+- **Continuous bag or words** (CBOW) tries to predict a missing word given the N preceding and following words. 
+- **Skip-grams** take a single word and try to predict the surrounding words. The are the "opposite" of CBOW.
+
+| Architecture | Task                    | Inputs                   | Output                   |
+|--------------|-------------------------|--------------------------|--------------------------|
+| N-gram       | The numbers ___         | [The, numbers]           | don't                    |
+| CBOW         | The numbers ___ lie and | [The, numbers, lie, and] | don't                    |
+| Skip-gram    | ___ ___ don't ___ ___   | don't                    | [The, numbers, lie, and] |
+
+
+## References
+
+- Chapter 1 of Hands-On Large Language Models by Jay Alammar & Marten Grootendoorst
+- https://jalammar.github.io/illustrated-word2vec/
