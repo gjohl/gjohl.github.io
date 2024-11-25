@@ -201,4 +201,4 @@ print(output[0]["generated_text"])
 ## References
 
 - Chapter 1 of Hands-On Large Language Models by Jay Alammar & Marten Grootendoorst
-- https://jalammar.github.io/illustrated-word2vec/
+- [https://jalammar.github.io/illustrated-word2vec/](https://jalammar.github.io/illustrated-word2vec/)
