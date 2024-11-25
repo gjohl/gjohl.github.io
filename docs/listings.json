@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/ml/hands_on_llm/chapter1/lesson.html",
       "/posts/ml/graph_ml/part_1_2/graph_algorithms.html",
       "/posts/ml/graph_ml/part_1/graph_notes.html",
       "/posts/software/data_structures_algos/sorting/sorting.html",
