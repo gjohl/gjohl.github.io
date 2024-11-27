@@ -72,10 +72,10 @@ $$
 | Skip-gram    | ___ ___ don't ___ ___   | don't                    | [The, numbers, lie, and] |
 
 
-**Negative sampling** is used to speed up the next-word prediction process. Instead of predicting the next token (a computationally expensive neural network), we reframe the task as "given two words, what is the probability that they are neighbours?" (a much faster logisitc regression problem.)
+**Negative sampling** is used to speed up the next-word prediction process. Instead of predicting the next token (a computationally expensive neural network), we reframe the task as "given two words, what is the probability that they are neighbours?" (a much faster logistic regression problem.)
 
 But the issue is, our training dataset only has *positive* examples of neighbours. So the model could just always output 1 to get 100% accuracy.
-To avoid this, we introduce negative exmaples by taking random combinations of words in the vocabulary that aren't neighbours.
+To avoid this, we introduce negative exmaples by taking random combinations of words in the vocabulary that aren't neighbours. This idea is called **noise-contrastive estimation**.
 
 **Word2vec is then just "skip gram with negative sampling"** to generate *word* embeddings.
 
