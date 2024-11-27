@@ -390,8 +390,8 @@ king - man + woman \approx queen
 </tr>
 </tbody>
 </table>
-<p><strong>Negative sampling</strong> is used to speed up the next-word prediction process. Instead of predicting the next token (a computationally expensive neural network), we reframe the task as “given two words, what is the probability that they are neighbours?” (a much faster logisitc regression problem.)</p>
-<p>But the issue is, our training dataset only has <em>positive</em> examples of neighbours. So the model could just always output 1 to get 100% accuracy. To avoid this, we introduce negative exmaples by taking random combinations of words in the vocabulary that aren’t neighbours.</p>
+<p><strong>Negative sampling</strong> is used to speed up the next-word prediction process. Instead of predicting the next token (a computationally expensive neural network), we reframe the task as “given two words, what is the probability that they are neighbours?” (a much faster logistic regression problem.)</p>
+<p>But the issue is, our training dataset only has <em>positive</em> examples of neighbours. So the model could just always output 1 to get 100% accuracy. To avoid this, we introduce negative exmaples by taking random combinations of words in the vocabulary that aren’t neighbours. This idea is called <strong>noise-contrastive estimation</strong>.</p>
 <p><strong>Word2vec is then just “skip gram with negative sampling”</strong> to generate <em>word</em> embeddings.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Types of embeddings">
 <div class="callout-header d-flex align-content-center">
