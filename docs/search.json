@@ -1873,6 +1873,27 @@
     "href": "posts/ml/hands_on_llm/chapter2/lesson.html#embeddings-in-action",
     "title": "Hands-On LLMs: Tokens and Embeddings",
     "section": "2.1. Embeddings in Action",
-    "text": "2.1. Embeddings in Action\nExploring a few examples of models that operate at different levels of abstraction.\n\n2.1.1 Word Embeddings\nDeberta is a small model that produces high-quality word embeddings.\n\nfrom transformers import AutoModel, AutoTokenizer \n\n# Load a tokenizer \ntokenizer = AutoTokenizer.from_pretrained(\"microsoft/debertabase\") \n\n# Load a language model \nmodel = AutoModel.from_pretrained(\"microsoft/deberta-v3-xsmall\") \n\n# Tokenize the sentence \ntokens = tokenizer('Hello world', return_tensors='pt') \n\n# Process the tokens \noutput = model(**tokens)[0]\n\n\n\n2.1.2. Sentence/Document Embeddings\nSome models operate on sentences or entire documents.\nA simple approach is to take the word embeddings for each word in the document, then average them. Some LLMs produce “text embeddings” which represent the whole text as an embedding vector directly.\n\nfrom sentence_transformers import SentenceTransformer \n\n# Load model \nmodel = SentenceTransformer(\"sentence-transformers/all-mpnetbase-v2\") \n\n# Convert text to text embeddings \nvector = model.encode(\"Best movie ever!\")\n\n\n\n2.1.3. Non-LLM-based Embeddings\nEmbeddings are useful in NLP more generally, and some techniques, such as Word2Vec and GloVe, predate LLMs."
+    "text": "2.1. Embeddings in Action\nExploring a few examples of models that operate at different levels of abstraction.\n\n2.1.1 Word Embeddings\nDeberta is a small model that produces high-quality word embeddings.\n\nfrom transformers import AutoModel, AutoTokenizer \n\n# Load a tokenizer \ntokenizer = AutoTokenizer.from_pretrained(\"microsoft/debertabase\") \n\n# Load a language model \nmodel = AutoModel.from_pretrained(\"microsoft/deberta-v3-xsmall\") \n\n# Tokenize the sentence \ntokens = tokenizer('Hello world', return_tensors='pt') \n\n# Process the tokens \noutput = model(**tokens)[0]\n\n\n\n2.1.2. Sentence/Document Embeddings\nSome models operate on sentences or entire documents.\nA simple approach is to take the word embeddings for each word in the document, then average them. Some LLMs produce “text embeddings” which represent the whole text as an embedding vector directly.\n\nfrom sentence_transformers import SentenceTransformer \n\n# Load model \nmodel = SentenceTransformer(\"sentence-transformers/all-mpnetbase-v2\") \n\n# Convert text to text embeddings \nvector = model.encode(\"Best movie ever!\")\n\n\n\n2.1.3. Non-LLM-based Embeddings\nEmbeddings are useful in NLP more generally, and some techniques, such as Word2Vec and GloVe, predate LLMs.\nThese can be useful to apply NLP to non-text applications, such as music recommendations.\nSay we have a data set of songs belonging to playlists. This can help us learn which songs are similar, because similar songs are likely to be neighbouring on playlists, just as similar words are likely to be neighbouring in a sentence.\nSo we can convert eac song to an ID, and treat a playlist like a sentence, i.e. it is just a sequence of tokens. Then we can train a Word2Vec model on it to get embedding vectors for each song.\nThen, if we have a song we like, we can look at its embedding vector and find similar songs by finding the songs with the closest embeddings"
+  },
+  {
+    "objectID": "posts/ml/hands_on_llm/chapter2/lesson.html#sentencedocument-embeddings",
+    "href": "posts/ml/hands_on_llm/chapter2/lesson.html#sentencedocument-embeddings",
+    "title": "Hands-On LLMs: Tokens and Embeddings",
+    "section": "2.2. Sentence/Document Embeddings",
+    "text": "2.2. Sentence/Document Embeddings\nSome models operate on sentences or entire documents.\nA simple approach is to take the word embeddings for each word in the document, then average them. Some LLMs produce “text embeddings” which represent the whole text as an embedding vector directly.\n\nfrom sentence_transformers import SentenceTransformer \n\n# Load model \nmodel = SentenceTransformer(\"sentence-transformers/all-mpnetbase-v2\") \n\n# Convert text to text embeddings \nvector = model.encode(\"Best movie ever!\")"
+  },
+  {
+    "objectID": "posts/ml/hands_on_llm/chapter2/lesson.html#non-llm-based-embeddings",
+    "href": "posts/ml/hands_on_llm/chapter2/lesson.html#non-llm-based-embeddings",
+    "title": "Hands-On LLMs: Tokens and Embeddings",
+    "section": "2.3. Non-LLM-based Embeddings",
+    "text": "2.3. Non-LLM-based Embeddings\nEmbeddings are useful in NLP more generally, and some techniques, such as Word2Vec and GloVe, predate LLMs.\nThese can be useful to apply NLP to non-text applications, such as music recommendations.\nSay we have a data set of songs belonging to playlists. This can help us learn which songs are similar, because similar songs are likely to be neighbouring on playlists, just as similar words are likely to be neighbouring in a sentence.\nSo we can convert each song to an ID, and treat a playlist like a sentence, i.e. it is just a sequence of tokens. Then we can train a Word2Vec model on it to get embedding vectors for each song.\nThen, if we have a song we like, we can look at its embedding vector and find similar songs by finding the songs with the closest embeddings."
+  },
+  {
+    "objectID": "posts/ml/hands_on_llm/chapter2/lesson.html#references",
+    "href": "posts/ml/hands_on_llm/chapter2/lesson.html#references",
+    "title": "Hands-On LLMs: Tokens and Embeddings",
+    "section": "References",
+    "text": "References\n\nChapter 1 of Hands-On Large Language Models by Jay Alammar & Marten Grootendoorst\nhttps://jalammar.github.io/illustrated-word2vec/"
   }
 ]
