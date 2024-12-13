@@ -1,5 +1,5 @@
 ---
-title: "Hands-On LLMs"
+title: "Hands-On LLMs: Intro"
 description: "Part 1: Introduction to LLMs"
 date: "2024-11-26"
 # image: "deep_learning_model.png"
