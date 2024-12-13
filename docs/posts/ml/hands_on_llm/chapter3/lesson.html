@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Gurpreet Johl">
-<meta name="dcterms.date" content="2024-11-28">
+<meta name="dcterms.date" content="2024-12-15">
 <meta name="description" content="Pay attention">
 
 <title>Gurpreet Johl - Hands-On LLMs: Attention Mechanism</title>
@@ -69,6 +69,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="../../../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="../../../../styles.css">
@@ -155,7 +158,7 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">November 28, 2024</p>
+        <p class="date">December 15, 2024</p>
       </div>
     </div>
     
@@ -171,8 +174,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#attention" id="toc-attention" class="nav-link active" data-scroll-target="#attention">Attention</a></li>
-  <li><a href="#attention-1" id="toc-attention-1" class="nav-link" data-scroll-target="#attention-1">1. Attention</a></li>
+  <li><a href="#transformers" id="toc-transformers" class="nav-link active" data-scroll-target="#transformers">Transformers</a></li>
+  <li><a href="#transformers-overview" id="toc-transformers-overview" class="nav-link" data-scroll-target="#transformers-overview">1. Transformers Overview</a>
+  <ul class="collapse">
+  <li><a href="#what-is-the-model-doing" id="toc-what-is-the-model-doing" class="nav-link" data-scroll-target="#what-is-the-model-doing">1.1. What is the model doing?</a></li>
+  <li><a href="#the-forward-pass" id="toc-the-forward-pass" class="nav-link" data-scroll-target="#the-forward-pass">1.1. The forward pass</a></li>
+  </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
@@ -184,11 +191,48 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="attention" class="level1">
-<h1>Attention</h1>
+<section id="transformers" class="level1">
+<h1>Transformers</h1>
+<p>Neural networks in disguise.</p>
 </section>
-<section id="attention-1" class="level1">
-<h1>1. Attention</h1>
+<section id="transformers-overview" class="level1">
+<h1>1. Transformers Overview</h1>
+<section id="what-is-the-model-doing" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-the-model-doing">1.1. What is the model doing?</h2>
+<p>Transformer LLMs are fundamentally just models that take text as an input and produce text as an output.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+
+  A([Input text]) --&gt; B[LLM] --&gt; C([Output text]) 
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>They are <strong>autoregressive models</strong>. They generate outputs one token at a time, iteratively appending the output to the input to generate the next. So the model is simply predicting the next token given a tensor of input token embeddings.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+
+  A(["Once upon a"]) --&gt; B[Transformer] --&gt; C(["time"]) 
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="the-forward-pass" class="level2">
+<h2 class="anchored" data-anchor-id="the-forward-pass">1.1. The forward pass</h2>
+</section>
 </section>
 <section id="references" class="level1">
 <h1>References</h1>
