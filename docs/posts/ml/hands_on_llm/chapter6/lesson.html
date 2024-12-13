@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Gurpreet Johl">
-<meta name="dcterms.date" content="2024-11-26">
-<meta name="description" content="Part 1: Introduction to LLMs">
+<meta name="dcterms.date" content="2024-12-13">
+<meta name="description" content="Professional prompts">
 
-<title>Gurpreet Johl - Hands-On LLMs: Intro</title>
+<title>Gurpreet Johl - Hands-On LLMs: Prompt Engineering</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,40 +22,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -103,39 +69,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script src="../../../../site_libs/quarto-diagram/mermaid.min.js"></script>
-<script src="../../../../site_libs/quarto-diagram/mermaid-init.js"></script>
-<link href="../../../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../../../styles.css">
 </head>
@@ -193,10 +127,10 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Hands-On LLMs: Intro</h1>
+      <h1 class="title">Hands-On LLMs: Prompt Engineering</h1>
                   <div>
         <div class="description">
-          Part 1: Introduction to LLMs
+          Professional prompts
         </div>
       </div>
                           <div class="quarto-categories">
@@ -221,7 +155,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">November 26, 2024</p>
+        <p class="date">December 13, 2024</p>
       </div>
     </div>
     
@@ -237,23 +171,34 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction-to-large-language-models" id="toc-introduction-to-large-language-models" class="nav-link active" data-scroll-target="#introduction-to-large-language-models">Introduction to Large Language Models</a>
+  <li><a href="#prompt-engineering" id="toc-prompt-engineering" class="nav-link active" data-scroll-target="#prompt-engineering">Prompt Engineering</a></li>
+  <li><a href="#how-the-model-interprets-a-basic-prompt" id="toc-how-the-model-interprets-a-basic-prompt" class="nav-link" data-scroll-target="#how-the-model-interprets-a-basic-prompt">1. How the model interprets a basic prompt</a>
   <ul class="collapse">
-  <li><a href="#a-brief-history-of-language-ai" id="toc-a-brief-history-of-language-ai" class="nav-link" data-scroll-target="#a-brief-history-of-language-ai">1. A Brief History of Language AI</a>
-  <ul class="collapse">
-  <li><a href="#bag-of-words" id="toc-bag-of-words" class="nav-link" data-scroll-target="#bag-of-words">1.1. Bag of Words</a></li>
-  <li><a href="#word2vec" id="toc-word2vec" class="nav-link" data-scroll-target="#word2vec">1.2. Word2Vec</a></li>
-  <li><a href="#rnns" id="toc-rnns" class="nav-link" data-scroll-target="#rnns">1.3. RNNs</a></li>
-  <li><a href="#transformers" id="toc-transformers" class="nav-link" data-scroll-target="#transformers">1.4. Transformers</a></li>
-  <li><a href="#representation-models" id="toc-representation-models" class="nav-link" data-scroll-target="#representation-models">1.5. Representation Models</a></li>
-  <li><a href="#generative-models" id="toc-generative-models" class="nav-link" data-scroll-target="#generative-models">1.6. Generative Models</a></li>
-  <li><a href="#other-modern-architectures" id="toc-other-modern-architectures" class="nav-link" data-scroll-target="#other-modern-architectures">1.7. Other Modern Architectures</a></li>
+  <li><a href="#special-tokens" id="toc-special-tokens" class="nav-link" data-scroll-target="#special-tokens">1.1. Special Tokens</a></li>
+  <li><a href="#temperature" id="toc-temperature" class="nav-link" data-scroll-target="#temperature">1.2. Temperature</a></li>
+  <li><a href="#constraining-the-sample-space-top-p-and-top-k" id="toc-constraining-the-sample-space-top-p-and-top-k" class="nav-link" data-scroll-target="#constraining-the-sample-space-top-p-and-top-k">1.3. Constraining the sample space: Top p and Top k</a></li>
+  <li><a href="#example-use-cases" id="toc-example-use-cases" class="nav-link" data-scroll-target="#example-use-cases">1.4. Example use cases</a></li>
   </ul></li>
-  <li><a href="#how-large-is-a-large-language-model" id="toc-how-large-is-a-large-language-model" class="nav-link" data-scroll-target="#how-large-is-a-large-language-model">2. How Large is a Large Language Model?</a></li>
-  <li><a href="#ethical-considerations-of-llms" id="toc-ethical-considerations-of-llms" class="nav-link" data-scroll-target="#ethical-considerations-of-llms">3. Ethical Considerations of LLMS</a></li>
-  <li><a href="#using-an-llm-locally" id="toc-using-an-llm-locally" class="nav-link" data-scroll-target="#using-an-llm-locally">4. Using an LLM Locally</a></li>
+  <li><a href="#basic-prompt-engineering" id="toc-basic-prompt-engineering" class="nav-link" data-scroll-target="#basic-prompt-engineering">2. Basic prompt engineering</a>
+  <ul class="collapse">
+  <li><a href="#the-ingredients-of-a-prompt" id="toc-the-ingredients-of-a-prompt" class="nav-link" data-scroll-target="#the-ingredients-of-a-prompt">2.1. The ingredients of a prompt</a></li>
+  <li><a href="#instruction-based-tasks" id="toc-instruction-based-tasks" class="nav-link" data-scroll-target="#instruction-based-tasks">2.2. Instruction-based tasks</a></li>
+  </ul></li>
+  <li><a href="#modular-components-of-prompts" id="toc-modular-components-of-prompts" class="nav-link" data-scroll-target="#modular-components-of-prompts">3. Modular components of prompts</a></li>
+  <li><a href="#in-context-learning" id="toc-in-context-learning" class="nav-link" data-scroll-target="#in-context-learning">4. In-context learning</a>
+  <ul class="collapse">
+  <li><a href="#zero-shot" id="toc-zero-shot" class="nav-link" data-scroll-target="#zero-shot">4.1. Zero-shot</a></li>
+  <li><a href="#one-shot-and-few-shot" id="toc-one-shot-and-few-shot" class="nav-link" data-scroll-target="#one-shot-and-few-shot">4.2. One-shot and Few-shot</a></li>
+  </ul></li>
+  <li><a href="#chain-prompting" id="toc-chain-prompting" class="nav-link" data-scroll-target="#chain-prompting">5. Chain Prompting</a></li>
+  <li><a href="#reasoning" id="toc-reasoning" class="nav-link" data-scroll-target="#reasoning">6. Reasoning</a>
+  <ul class="collapse">
+  <li><a href="#chain-of-thought" id="toc-chain-of-thought" class="nav-link" data-scroll-target="#chain-of-thought">6.1. Chain of thought</a></li>
+  <li><a href="#self-consistency" id="toc-self-consistency" class="nav-link" data-scroll-target="#self-consistency">6.2. Self-consistency</a></li>
+  <li><a href="#tree-of-thought" id="toc-tree-of-thought" class="nav-link" data-scroll-target="#tree-of-thought">6.3. Tree of thought</a></li>
+  </ul></li>
+  <li><a href="#output-verification" id="toc-output-verification" class="nav-link" data-scroll-target="#output-verification">7. Output verification</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
-  </ul></li>
   </ul>
 </nav>
     </div>
@@ -264,269 +209,299 @@ window.Quarto = {
 
 
 
-<section id="introduction-to-large-language-models" class="level1">
-<h1>Introduction to Large Language Models</h1>
-<section id="a-brief-history-of-language-ai" class="level2">
-<h2 class="anchored" data-anchor-id="a-brief-history-of-language-ai">1. A Brief History of Language AI</h2>
-<section id="bag-of-words" class="level3">
-<h3 class="anchored" data-anchor-id="bag-of-words">1.1. Bag of Words</h3>
-<p>This approach originated in the 1950s but gained popularity in the 2000s.</p>
-<p>It treats unstructured text as a bag or words, throwing away any information from the position / ordering of the words and any semantic meaning of text.</p>
-<ol type="1">
-<li>Tokenise the text. A straightforward way to do this is to split on the spaces so we have a list of words.</li>
-<li>Create a vocabulary of length N, containing every word in our training data.</li>
-<li>We can then represent any sentence or document as a one-hot encoded N-dimensional vector.</li>
-<li>Use those vectors for downstream tasks, e.g.&nbsp;cosine similarity between vectors to measure the similarity of documents for recommender systems.</li>
-</ol>
-<p>For example, if our vocabulary contains the words: <code>that is a cute dog my cat</code></p>
-<p>Then we can encode the sentence “that is a cute dog” as:</p>
-<table class="table">
-<thead>
-<tr class="header">
-<th>that</th>
-<th>is</th>
-<th>a</th>
-<th>cute</th>
-<th>dog</th>
-<th>my</th>
-<th>cat</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-</tr>
-</tbody>
-</table>
-<p>And another sentence “my cat is cute” as:</p>
-<table class="table">
-<thead>
-<tr class="header">
-<th>that</th>
-<th>is</th>
-<th>a</th>
-<th>cute</th>
-<th>dog</th>
-<th>my</th>
-<th>cat</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>1</td>
-<td>1</td>
-</tr>
-</tbody>
-</table>
-<p>Then to compare how similar the two sentences are, we can compare those vectors, for example using cosine similarity.</p>
+<section id="prompt-engineering" class="level1">
+<h1>Prompt Engineering</h1>
+<p>Prompt engineering is an umbrella term for techniques that can improve the quality of a response from an LLM.</p>
+<p>It extends beyond this as a tool to evaluate the model’s outputs and implement guardrails on the response.</p>
 </section>
-<section id="word2vec" class="level3">
-<h3 class="anchored" data-anchor-id="word2vec">1.2. Word2Vec</h3>
-<p>A limitation of bag-of-words is that it makes no attempt to capture meaning from the text, treating each word as an unrelated token. By encoding text as one-hot encoded vectors, it does not capture that the word “cute” might be similar to “adorable” or “scrum-diddly-umptious”; every word is simply an arbitrary element of the vocabulary.</p>
-<p>Dense vector embeddings attempt to capture these differences; rather than treating words as discrete elements, we can introduce a continuous scale for each embedding dimension, and learn where each word falls on the scale. Word2Vec was an early, and successful, approach to generating these embeddings.</p>
-<p>The approach is to:</p>
-<ol type="1">
-<li>Assign every word in the vocabulary an (initial random) vector of the embedding dimension, say 50.</li>
-<li>Take pairs of words from the training data, and train a model to predict whether they are likely to be neighbors in a sentence.</li>
-<li>If two words typically share the same neighbouring words, they are likely to share similar embedding vectors, and vice versa.</li>
-</ol>
-<p><a href="https://jalammar.github.io/illustrated-word2vec/">Illustrated word2vec</a> provides a deeper dive.</p>
-<p>These embeddings then have interesting properties. The classic example is that adding/subtracting the vectors for the corresponding words gives: <span class="math display">\[
-king - man + woman \approx queen
-\]</span></p>
-<blockquote class="blockquote">
-<p>The numbers don’t lie and they spell disaster</p>
-<p>- “Big Poppa Pump” Scott Steiner</p>
-</blockquote>
+<section id="how-the-model-interprets-a-basic-prompt" class="level1">
+<h1>1. How the model interprets a basic prompt</h1>
+<p>It’s helpful to start by studying how a model sees a basic prompt.</p>
+<section id="special-tokens" class="level2">
+<h2 class="anchored" data-anchor-id="special-tokens">1.1. Special Tokens</h2>
+<p>We can explore the tokens used by a model in a transformers pipeline by inspecting the chat template.</p>
+<pre><code>prompt = pipe.tokenizer.apply_chat_template(messages, tokenize=False)</code></pre>
+<p>This gives a prompt in the form:</p>
+<pre><code>&lt;s&gt;&lt;|user|&gt; Create a funny joke about chickens.&lt;|end|&gt; &lt;|assistant|&gt; </code></pre>
+<p>There are special tokens to indicate:</p>
 <ul>
-<li><strong>N-grams</strong> are sliding windows of N words sampled from text. These can be used to train a model where the input is N words and the output is the predicted next word.</li>
-<li><strong>Continuous bag or words</strong> (CBOW) tries to predict a missing word given the N preceding and following words.</li>
-<li><strong>Skip-grams</strong> take a single word and try to predict the surrounding words. The are the “opposite” of CBOW.</li>
+<li><code>&lt;s&gt;</code> - the start of the prompt</li>
+<li><code>&lt;|user|&gt;</code> - when a user (i.e.&nbsp;you) begins their message</li>
+<li><code>&lt;|end|&gt;</code> - when that message ends</li>
+<li><code>&lt;|assistant|&gt;</code> - when the assistant (the LLM) begins their message.</li>
 </ul>
+<p>This gets passed to the model to complete the sequence, one token and a time until it generates an <code>&lt;|end|&gt;</code> token.</p>
+<p>These special tokens help the model keep track of the context.</p>
+</section>
+<section id="temperature" class="level2">
+<h2 class="anchored" data-anchor-id="temperature">1.2. Temperature</h2>
+<p>LLMs are fundamentally trained neural networks, so their output should be (and is) deterministic.</p>
+<p>But we don’t want to always get the same response to a given prompt. That would be boring. We want a bit of pizazz.</p>
+<p>When the model is predicting the next token, what it actually does is create a probability distribution over all possible tokens in the vocabulary. It then <em>samples</em> from this distribution to choose the next word.</p>
+<p><strong>Temperature</strong> defines how likely it is to choose less probable tokens.</p>
+<p>A <code>temperature=0</code> will always choose the most likely token; this is greedy sampling.</p>
+<p>Higher temperatures lead to more creative outputs.</p>
+</section>
+<section id="constraining-the-sample-space-top-p-and-top-k" class="level2">
+<h2 class="anchored" data-anchor-id="constraining-the-sample-space-top-p-and-top-k">1.3. Constraining the sample space: Top p and Top k</h2>
+<p>A related concept in sampling is to restrict the sample space, so rather than having the possibility (however small) of selecting <em>any</em> token in the vocab list, we constrain the possibilities.</p>
+<p>The <code>top_p</code> parameter considers tokens from most to least probable until the cumulative probability reaches the given value. So <code>top_p=1</code> considers all tokens, and a lower value filters out less probable tokens. This is known as <em>nucleus sampling</em>.</p>
+<p>The <code>top_k</code> parameter restrict the sample space to the <code>k</code> most probable tokens.</p>
+</section>
+<section id="example-use-cases" class="level2">
+<h2 class="anchored" data-anchor-id="example-use-cases">1.4. Example use cases</h2>
 <table class="table">
 <colgroup>
-<col style="width: 15%">
-<col style="width: 27%">
-<col style="width: 28%">
-<col style="width: 28%">
+<col style="width: 23%">
+<col style="width: 30%">
+<col style="width: 16%">
+<col style="width: 30%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>Architecture</th>
-<th>Task</th>
-<th>Inputs</th>
-<th>Output</th>
+<th>Use case</th>
+<th><code>temperature</code></th>
+<th><code>top_p</code></th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>N-gram</td>
-<td>The numbers ___</td>
-<td>[The, numbers]</td>
-<td>don’t</td>
+<td>Brainstorming</td>
+<td>High</td>
+<td>High</td>
+<td>Creative and unexpected responses</td>
 </tr>
 <tr class="even">
-<td>CBOW</td>
-<td>The numbers ___ lie and</td>
-<td>[The, numbers, lie, and]</td>
-<td>don’t</td>
+<td>Email generation</td>
+<td>Low</td>
+<td>Low</td>
+<td>Predictable and focused responses that aren’t too out there</td>
 </tr>
 <tr class="odd">
-<td>Skip-gram</td>
-<td>___ ___ don’t ___ ___</td>
-<td>don’t</td>
-<td>[The, numbers, lie, and]</td>
+<td>Creative writing</td>
+<td>High</td>
+<td>Low</td>
+<td>Creative but still coherent</td>
+</tr>
+<tr class="even">
+<td>Translation</td>
+<td>Low</td>
+<td>High</td>
+<td>Deterministic output but with linguistic variety</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Negative sampling</strong> is used to speed up the next-word prediction process. Instead of predicting the next token (a computationally expensive neural network), we reframe the task as “given two words, what is the probability that they are neighbours?” (a much faster logistic regression problem.)</p>
-<p>But the issue is, our training dataset only has <em>positive</em> examples of neighbours. So the model could just always output 1 to get 100% accuracy. To avoid this, we introduce negative exmaples by taking random combinations of words in the vocabulary that aren’t neighbours. This idea is called <strong>noise-contrastive estimation</strong>.</p>
-<p><strong>Word2vec is then just “skip gram with negative sampling”</strong> to generate <em>word</em> embeddings.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Types of embeddings">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Types of embeddings
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>There are different types of embeddings that indicate different levels of abstraction.</p>
-<p>We can create an embedding for a <strong>sub-word, a word, a sentence or a whole document</strong>. In each case, the result is an N-dimensional vector where N is the embedding size.</p>
-</div>
-</div>
 </section>
-<section id="rnns" class="level3">
-<h3 class="anchored" data-anchor-id="rnns">1.3. RNNs</h3>
-<p>The embeddings so far have been <strong>static</strong>: the embedding for “bank” will be the same regardless of whether it’s referring to the bank of a river or a branch of Santander.</p>
-<p>The next development notes that the embeddings should vary depending on their context, i.e.&nbsp;the surrounding words.</p>
-<p>Recurrent Neural Networks (RNNs) were initially used with attention mechanisms. These would:</p>
+</section>
+<section id="basic-prompt-engineering" class="level1">
+<h1>2. Basic prompt engineering</h1>
+<section id="the-ingredients-of-a-prompt" class="level2">
+<h2 class="anchored" data-anchor-id="the-ingredients-of-a-prompt">2.1. The ingredients of a prompt</h2>
+<p>The most basic prompt is simply an <code>input</code>, without even an instruction. The LLM will simply complete the sequence. E.g.</p>
+<blockquote class="blockquote">
+<p>The sky is</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>blue</p>
+</blockquote>
+<p>We can extend this to an instruction prompt where we now have two components:</p>
 <ol type="1">
-<li>Take pre-generated embeddings (say, from word2vec) as inputs</li>
-<li>Pass this to an <strong>encoder RNN</strong> to generate a <strong>context embedding</strong></li>
-<li>Pass this to a <strong>decoder RNN</strong> to generate an output, such as the input text translated to another language.</li>
+<li>Instruction - Classify the text into negative or positive</li>
+<li>Data - “This is a great movie!”</li>
 </ol>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">flowchart LR
-
-  A(Pre-generated embeddings) --&gt; B[[Encoder RNN]] --&gt; C(Context embedding) --&gt; D[[Decoder RNN]] --&gt; E(Output)
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
+<p>The model may have seen similar instructions in its training data, or at least seen similar enough example to allow it to generalise.</p>
+<p>This is called <strong>instruction-based prompting</strong>.</p>
 </section>
-<section id="transformers" class="level3">
-<h3 class="anchored" data-anchor-id="transformers">1.4. Transformers</h3>
-<p>Transformers were introduced in the 2017 paper “Attention is All You Need”, which solely used the attention mechanism and removed the RNNs.</p>
-<p>The original transformer was an encoder-decoder model for machine translation.</p>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">flowchart LR
-
-  A(Pre-generated embeddings) --&gt; B[[Transformer Encoder]] --&gt; C[[Transformer Decoder]] --&gt; E(Output)
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-</section>
-<section id="representation-models" class="level3">
-<h3 class="anchored" data-anchor-id="representation-models">1.5. Representation Models</h3>
-<p>By splitting the encoder-decoder architecture and focusing only on the <strong>encoder</strong>, we can create models the excel at <em>creating meaningful representations of language</em>.</p>
-<p>This is the premise behind models like BERT. The classification token is appended to the input, and the encoder alone is trained.</p>
-</section>
-<section id="generative-models" class="level3">
-<h3 class="anchored" data-anchor-id="generative-models">1.6. Generative Models</h3>
-<p>Similarly, we can split the encoder-decoder architecture and focusing only on the <strong>decoder</strong>. These excel at <em>text generation</em>.</p>
-<p>This is the premise behind models like GPT.</p>
-<p>Generative LLMs are essentially sequence-to-sequence machines: given some input text, predict the next tokens. The primary use case these days is being fine-tuned for “instruct” or “chat” models that are trained to provide an answer when given a question.</p>
-<p><strong>Foundation models</strong> are open-source base models that can be fine-tuned for specific tasks.</p>
-</section>
-<section id="other-modern-architectures" class="level3">
-<h3 class="anchored" data-anchor-id="other-modern-architectures">1.7. Other Modern Architectures</h3>
-<p>Aside from Transformers, Mamba and RWKV perform well.</p>
-</section>
-</section>
-<section id="how-large-is-a-large-language-model" class="level2">
-<h2 class="anchored" data-anchor-id="how-large-is-a-large-language-model">2. How Large is a Large Language Model?</h2>
-<p>This size of a large larnguage model is a moving target as the field develops and model sizes scale.</p>
-<p>Considerations:</p>
+<section id="instruction-based-tasks" class="level2">
+<h2 class="anchored" data-anchor-id="instruction-based-tasks">2.2. Instruction-based tasks</h2>
+<p>It’s helpful to understand common tasks LLMs are used to perform, as they may have been trained on such examples, so if you use the phrasing they are familiar with, they are more likely to give you the desired output.</p>
 <ul>
-<li>What if a new model has the same capabilities as an existing LLM but with a fraction of the parameters. Is this new model still “large”?</li>
-<li>What if we train a model the same size as GPT-4 but for text classification instead of generation? Is it still an LLM?</li>
+<li>Classification - Classify the text into positive, neutral or negative.</li>
+<li>Search - Find the ___ in the following text</li>
+<li>Summarization - Summarise the following text</li>
+<li>Code generation - Generate python code for…</li>
+<li>Named entity recognition - An entity is… Extract the named entities from the following text</li>
 </ul>
-<p>The creation of LLMs is typically done in two stages:</p>
+<p>The common features of these prompts for these different tasks are:</p>
+<ul>
+<li>Specificity - accurately describe what you want to achieve</li>
+<li>Hallucination - LLMs are confident, not correct. We can ask the LLM to generate an answer if it knows the answer, otherwise respond with I don’t know</li>
+<li>Order - The instruction should come either at the <strong>beginning or end</strong>. LLMs tend to focus at either extreme, known as the <em>primacy effect</em> and the <em>recency effect</em> respectively.</li>
+</ul>
+</section>
+</section>
+<section id="modular-components-of-prompts" class="level1">
+<h1>3. Modular components of prompts</h1>
+<p>We can build a complex prompt out of reusable components.</p>
+<table class="table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 39%">
+<col style="width: 27%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Persona</td>
+<td>Describe what role the LLM should take on</td>
+<td>“You are an expert in astrophysics”</td>
+</tr>
+<tr class="even">
+<td>Instruction</td>
+<td>The <strong>specific</strong> task (see last section)</td>
+<td>“Classify the following text…”</td>
+</tr>
+<tr class="odd">
+<td>Context</td>
+<td>Additional info on the problem or task</td>
+<td>“Your summary should extract the crucial points for executives to understand the vital information”</td>
+</tr>
+<tr class="even">
+<td>Format</td>
+<td>Useful if you need a particular structured output</td>
+<td>“Create a bullet point summary”</td>
+</tr>
+<tr class="odd">
+<td>Audience</td>
+<td>Target of the response</td>
+<td>“Explain like I’m 5 years old”</td>
+</tr>
+<tr class="even">
+<td>Tone</td>
+<td>The tone of voice of the response</td>
+<td>“The tone should be professional and clear.”</td>
+</tr>
+<tr class="odd">
+<td>Emotional stimuli!</td>
+<td>Get creative, make the model feel</td>
+<td>“This is very important for my career” changes the response!</td>
+</tr>
+<tr class="even">
+<td>Data</td>
+<td>The data related to the task itself</td>
+<td>…</td>
+</tr>
+</tbody>
+</table>
+<p>Due to the modular nature, we can add and remove components and judge the effect on the output.</p>
+<p>The <strong>order</strong> of these components matters — the primacy and recency effects again — so experimentation is key.</p>
+<p>This is also <strong>model-dependent</strong>; some models respond better to certain prompting.</p>
+</section>
+<section id="in-context-learning" class="level1">
+<h1>4. In-context learning</h1>
+<p>This is when we provide the model with examples of the correct behaviour.</p>
+<section id="zero-shot" class="level2">
+<h2 class="anchored" data-anchor-id="zero-shot">4.1. Zero-shot</h2>
+<p><strong>Zero-shot</strong> prompts provide no examples but outline the shape of the desired response. E.g.</p>
+<blockquote class="blockquote">
+<p>Classify the text into positive, neutral or negative Text: The food was great! Sentiment:</p>
+</blockquote>
+</section>
+<section id="one-shot-and-few-shot" class="level2">
+<h2 class="anchored" data-anchor-id="one-shot-and-few-shot">4.2. One-shot and Few-shot</h2>
+<p><strong>Few-shot</strong> prompts provide two or more examples, <strong>one-shot</strong> prompts provide one example.</p>
+<p>We can use the <code>user</code> and <code>assistant</code> roles in the prompt to distinguish the user prompt from the exemplar assistant output.</p>
+<pre><code>one_shot_prompt = [  
+    {"role": "user",
+    "content": "A 'Gigamuru' is a type of Japanese musical instrument. An example of a sentence that uses the word Gigamuru is:"  },
+    {"role": "assistant",
+     "content": "I have a Gigamuru that my uncle gave me as a gift. I love to play it at home."  },
+    {"role": "user",
+     "content": "To 'screeg' something is to swing a sword at it. An example of a sentence that uses the word screeg is:"}
+]</code></pre>
+</section>
+</section>
+<section id="chain-prompting" class="level1">
+<h1>5. Chain Prompting</h1>
+<p>Rather than dumping everything in a single prompt, we take the output of one prompt and use it as the input to the next.</p>
+<p>This gives the LLM more time (and context tokens) to focus on each part.</p>
+<p>E.g. if we want to generate a product name, slogan and sales pitch for a new product, we <em>could</em> ask for all of those in a single prompt.</p>
+<p><em>Or</em> we could chain prompt: ask for a name, then ask for a slogan given the name, then ask for a sales pitch given the name and slogan.</p>
+<p>This idea is at the core or LangChain and agents.</p>
+<p>Two other use cases for chain prompting are:</p>
 <ol type="1">
-<li><strong>Language modeling</strong>: Create a foundation model by (unsuperivsed) training on a vast corpus of text. This step allows the model to learn the grammar, structure and patterns of the language. It is not yet directed at a specific task. This takes the majority of the training time.</li>
-<li><strong>Fine-tuning</strong>: Using the foundation model for (supervised) training on a specific task.</li>
+<li>Response validation - send a follow-up prompt asking the model to check its answer</li>
+<li>Parallel prompts - send multiple prompts and ask the LLM to merge the answers</li>
 </ol>
 </section>
-<section id="ethical-considerations-of-llms" class="level2">
-<h2 class="anchored" data-anchor-id="ethical-considerations-of-llms">3. Ethical Considerations of LLMS</h2>
+<section id="reasoning" class="level1">
+<h1>6. Reasoning</h1>
+<p>Emergent behaviour of LLMs “resembles” reasoning, though is generally considered to do this just by memorisation and pattern-matching. (Although who says that isn’t what humans are doing too?)</p>
+<section id="chain-of-thought" class="level2">
+<h2 class="anchored" data-anchor-id="chain-of-thought">6.1. Chain of thought</h2>
+<p>We can coax this behaviour which mimics reasoning out of the LLM to improve the output.</p>
+<p>This is analogous to the System 1 and System 2 thinking of Kahneman and Tversky; by default the LLM will give a knee-jerk System 1 response, but if we ask it to reason it will give an more considered System 2 response.</p>
+<p>We can encourage this with a one-shot <strong>chain-of-thought</strong> prompt demonstrating reasoning. E.g.</p>
+<pre><code>cot_prompt = [
+    {"role": "user",
+     "content": "Roger has 5 tennis balls. He buys 2 more cans of tennis balls. Each can has 3 tennis balls. How many tennis balls does he have now?"},
+    {"role": "assistant", 
+     "content": "Roger started with 5 balls. 2 cans of 3 tennis balls each is 6 tennis balls. 5 + 6 = 11. The answer is 11."},
+     {"role": "user",
+      "content": "The cafeteria had 23 apples. If they used 20 to make lunch and bought 6 more, how many apples do they have?"}
+]</code></pre>
+<p>This guides the model towards providing an explanation as well as the answer. “Show your working!”</p>
+<p>There is a <strong>zero-shot chain-of-thought</strong> approach that doesn’t require us to give an example of reasoning. A common and effective method is use this phrase to prime reasoning:</p>
+<blockquote class="blockquote">
+<p>Let’s think set-by-step</p>
+</blockquote>
+<p>(AKA the Bobby Valentino approach: slow down!)</p>
+</section>
+<section id="self-consistency" class="level2">
+<h2 class="anchored" data-anchor-id="self-consistency">6.2. Self-consistency</h2>
+<p>We can use the same prompt multiple times and get different responses (with differing quality) due to the sampling nature of LLMs.</p>
+<p>We can sample multiple responses and ask the LLM to give the majority vote as the response.</p>
+<p>This does make it slower and more expensive though, since we’re prompting <code>n</code> times for each prompt.</p>
+</section>
+<section id="tree-of-thought" class="level2">
+<h2 class="anchored" data-anchor-id="tree-of-thought">6.3. Tree of thought</h2>
+<p>This is a combination of the previous ideas.</p>
+<pre><code>Tree of thought = Chain of thought + Self consistency </code></pre>
+<p>We break the problem down into multiple steps. At each step, we ask the model to explore different solutions, then vote for the best solution(s) and move on to the next step. The thoughts are rates, with the most promising kept and the least promising pruned.</p>
+<p>The disadvantage is that it requires even more calls to the model, slowing things down.</p>
+<p>A <strong>zero-shot</strong> tree-of-thought approach is to ask the model to emulate a “discussion between multiple experts”. E.g.</p>
+<pre><code>zeroshot_tot_prompt = [
+    {"role": "user",
+     "content": "Imagine three different experts are answering this question. All experts will write down 1 step of their thinking, then share it with the group. Then all experts will go on to the next step, etc. If any expert realizes they're wrong at any point then they leave. The question is 'The cafeteria had 23 apples. If they used 20 to make lunch and bought 6 more, how many apples do they have?' Make sure to discuss the results."}
+]</code></pre>
+<p>An extention of Three-of-thought is <strong>Graph-of-thought</strong>, where each prompt is treated like a node in a graph. Rather than a tree following a linear train of thought, the prompts can be reused in different orders and combinations in a graph.</p>
+</section>
+</section>
+<section id="output-verification" class="level1">
+<h1>7. Output verification</h1>
+<p>There are several reasons we may wish to verify the output of the model:</p>
 <ul>
-<li>Bias and fariness: Training data is seldom shared, so may contain implicit biases</li>
-<li>Transparency and accountability: Unintended consequences when there is no “human in the loop”. Who is accountable for the outcomes of the LLM? The company that trained it? Or the one that used it? Or the patient?</li>
-<li>Generating harmful content</li>
-<li>Intellectual property: Who owns the output of an LLM? The user? The company that trained it? Or the original creators of the training data?</li>
-<li>Regulation</li>
+<li><strong>Structured output</strong> - the use case may require a certain format like JSON</li>
+<li><strong>Valid output</strong> - if a model is asked to pick one of two choices, it should not create a third</li>
+<li><strong>Ethics</strong> - biases, personal info leakage, etc</li>
+<li><strong>Accuracy</strong> - fact-check</li>
 </ul>
+<p>There are generally three ways to control the output of a generative model:</p>
+<ol type="1">
+<li><strong>Examples</strong> - of the expected output</li>
+<li><strong>Grammar</strong> - control the token selection process</li>
+<li><strong>Fine-tuning</strong> - tune a model on data which contains the desired output</li>
+</ol>
+<p><strong>Example-based approaches</strong> are essentially the in-context learning approach discussed previously. The model may still disregard your examples though.</p>
+<p><strong>Grammar-based approaches</strong> pass the output through another LLM to validate it meets the requirements. Packages like Guidance, Guardrails and LMQL constrain and validate the output of LLMs.</p>
+<p>We can also constrain the tokens which the model is allowed to sample from.</p>
+<p>Some models, like Llama, allow a response_format to be specified if it is a standard format like JSON.</p>
 </section>
-<section id="using-an-llm-locally" class="level2">
-<h2 class="anchored" data-anchor-id="using-an-llm-locally">4. Using an LLM Locally</h2>
-<p>The following can be run in Google Colab on a free GPU.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModelForCausalLM, AutoTokenizer, pipeline</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load model and tokenizer </span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> AutoModelForCausalLM.from_pretrained(</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"microsoft/Phi-3-mini-4k-instruct"</span>, device_map<span class="op">=</span><span class="st">"cuda"</span>, torch_dtype<span class="op">=</span><span class="st">"auto"</span>, trust_remote_code<span class="op">=</span><span class="va">True</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>) </span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(<span class="st">"microsoft/Phi-3-mini4k-instruct"</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a pipeline </span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>generator <span class="op">=</span> pipeline(</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"text-generation"</span>, model<span class="op">=</span>model, tokenizer<span class="op">=</span>tokenizer, return_full_text<span class="op">=</span><span class="va">False</span>, max_new_tokens<span class="op">=</span><span class="dv">500</span>, do_sample<span class="op">=</span><span class="va">False</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># The prompt (user input / query) </span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>messages <span class="op">=</span> [{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="st">"Create a funny joke about chickens."</span>}]</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate output </span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> generator(messages)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(output[<span class="dv">0</span>][<span class="st">"generated_text"</span>])</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> Why don<span class="st">'t chickens like to go to the gym? Because they can'</span>t crack the egg<span class="op">-</span>sistence of it<span class="op">!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
+<section id="references" class="level1">
+<h1>References</h1>
 <ul>
-<li>Chapter 1 of Hands-On Large Language Models by Jay Alammar &amp; Marten Grootendoorst</li>
-<li><a href="https://jalammar.github.io/illustrated-word2vec/">https://jalammar.github.io/illustrated-word2vec/</a></li>
+<li>Chapter 6 of Hands-On Large Language Models by Jay Alammar &amp; Marten Grootendoorst</li>
+<li><a href="https://cameronrwolfe.substack.com/p/modern-advances-in-prompt-engineering">https://cameronrwolfe.substack.com/p/modern-advances-in-prompt-engineering</a></li>
 </ul>
 
 
-</section>
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
