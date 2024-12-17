@@ -1957,7 +1957,7 @@
     "href": "posts/ml/hands_on_llm/chapter3/lesson.html#the-forward-pass",
     "title": "Hands-On LLMs: Attention Mechanism",
     "section": "1.1. The forward pass",
-    "text": "1.1. The forward pass"
+    "text": "1.1. The forward pass\nWe can break down the Transformer LLM into sub-components:\n\nTokenizer\nTransformer blocks\nLM head\n\n\n\n\n\n\nflowchart LR\n\n  A[Tokenizer] --&gt; B[Stack of Transformer Blocks] --&gt; C[LM Head]\n\n\n\n\n\n\n\n\n\nimage.png"
   },
   {
     "objectID": "posts/ml/hands_on_llm/chapter3/lesson.html#what-is",
@@ -1971,6 +1971,6 @@
     "href": "posts/ml/hands_on_llm/chapter3/lesson.html#what-is-the-model-doing",
     "title": "Hands-On LLMs: Attention Mechanism",
     "section": "1.1. What is the model doing?",
-    "text": "1.1. What is the model doing?\nTransformer LLMs are fundamentally just models that take text as an input and produce text as an output.\n\n\n\n\n\nflowchart LR\n\n  A([Input text]) --&gt; B[LLM] --&gt; C([Output text]) \n\n\n\n\n\n\nThey are autoregressive models. They generate outputs one token at a time, iteratively appending the output to the input to generate the next. So the model is simply predicting the next token given a tensor of input token embeddings.\n\n\n\n\n\nflowchart LR\n\n  A([\"Once upon a\"]) --&gt; B[Transformer] --&gt; C([\"time\"])"
+    "text": "1.1. What is the model doing?\nTransformer LLMs are fundamentally just models that take text as an input and produce text as an output.\n\n\n\n\n\nflowchart LR\n\n  A([Input text]) --&gt; B[LLM] --&gt; C([Output text]) \n\n\n\n\n\n\nThey are autoregressive models. They generate outputs one token at a time, iteratively appending the output to the input to generate the next. So the model is simply predicting the next token given a tensor of input token embeddings.\n\n\n\n\n\nflowchart LR\n\n  A([\"Once upon a\"]) --&gt; B[Model] --&gt; C([\"time\"])"
   }
 ]
