@@ -213,7 +213,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#text-clustering-and-topic-modeling" id="toc-text-clustering-and-topic-modeling" class="nav-link active" data-scroll-target="#text-clustering-and-topic-modeling">Text Clustering and Topic Modeling</a></li>
-  <li><a href="#text-clustering" id="toc-text-clustering" class="nav-link" data-scroll-target="#text-clustering">1. Text clustering</a>
+  <li><a href="#text-clustering" id="toc-text-clustering" class="nav-link" data-scroll-target="#text-clustering">1. Text Clustering</a>
   <ul class="collapse">
   <li><a href="#the-goal" id="toc-the-goal" class="nav-link" data-scroll-target="#the-goal">1.1 The goal</a></li>
   <li><a href="#text-clustering-pipeline" id="toc-text-clustering-pipeline" class="nav-link" data-scroll-target="#text-clustering-pipeline">1.2. Text clustering pipeline</a>
@@ -225,7 +225,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#topic-modelling" id="toc-topic-modelling" class="nav-link" data-scroll-target="#topic-modelling">2. Topic Modelling</a>
   <ul class="collapse">
-  <li><a href="#bertopic" id="toc-bertopic" class="nav-link" data-scroll-target="#bertopic">2.1. BERTopic</a></li>
+  <li><a href="#bertopic" id="toc-bertopic" class="nav-link" data-scroll-target="#bertopic">2.1. BERTopic</a>
+  <ul class="collapse">
+  <li><a href="#create-a-bertopic-model" id="toc-create-a-bertopic-model" class="nav-link" data-scroll-target="#create-a-bertopic-model">2.1.1. Create a BERTopic model</a></li>
+  <li><a href="#explore-the-topics" id="toc-explore-the-topics" class="nav-link" data-scroll-target="#explore-the-topics">2.1.2. Explore the topics</a></li>
+  <li><a href="#visualise-the-topics" id="toc-visualise-the-topics" class="nav-link" data-scroll-target="#visualise-the-topics">2.1.3. Visualise the topics</a></li>
+  </ul></li>
   </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
@@ -242,7 +247,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Text Clustering and Topic Modeling</h1>
 </section>
 <section id="text-clustering" class="level1">
-<h1>1. Text clustering</h1>
+<h1>1. Text Clustering</h1>
 <section id="the-goal" class="level2">
 <h2 class="anchored" data-anchor-id="the-goal">1.1 The goal</h2>
 <p>Text clustering is an unsupervised technique that aims to group similar texts based on their content, meaning and relationships.</p>
@@ -441,7 +446,7 @@ generate animation; therefore the interpretation lost the truth inf...
 </code></pre>
 </div>
 </div>
-<p>Now we can plot the data in the reduced embedding space</p>
+<p>Now we can plot the data in the reduced embedding space:</p>
 <div id="cell-13" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd </span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -549,7 +554,266 @@ generate animation; therefore the interpretation lost the truth inf...
 </figure>
 </div>
 <p>This modularity also means the same base model can be used and adapted for different tasks and use cases by adding/removing components downstream of the base model.</p>
-<p>TODO: from p 212</p>
+<section id="create-a-bertopic-model" class="level3">
+<h3 class="anchored" data-anchor-id="create-a-bertopic-model">2.1.1. Create a BERTopic model</h3>
+<p>We can run this end-to-end pipeline using the previously defined models in BERTopic:</p>
+<div id="cell-18" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bertopic <span class="im">import</span> BERTopic </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Train our model with our previously defined models </span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>topic_model <span class="op">=</span> (BERTopic(embedding_model<span class="op">=</span>embedding_model, </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>                        umap_model<span class="op">=</span>umap_model,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>                        hdbscan_model<span class="op">=</span>hdbscan_model,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>                        verbose<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>               .fit(abstracts, embeddings))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+    - Avoid using `tokenizers` before the fork if possible
+    - Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+    - Avoid using `tokenizers` before the fork if possible
+    - Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+2025-01-15 11:48:19,327 - BERTopic - Dimensionality - Fitting the dimensionality reduction algorithm
+2025-01-15 11:48:47,848 - BERTopic - Dimensionality - Completed ✓
+2025-01-15 11:48:47,851 - BERTopic - Cluster - Start clustering the reduced embeddings
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+    - Avoid using `tokenizers` before the fork if possible
+    - Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+    - Avoid using `tokenizers` before the fork if possible
+    - Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+    - Avoid using `tokenizers` before the fork if possible
+    - Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+    - Avoid using `tokenizers` before the fork if possible
+    - Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+2025-01-15 11:48:49,745 - BERTopic - Cluster - Completed ✓
+2025-01-15 11:48:49,757 - BERTopic - Representation - Extracting topics from clusters using representation models.
+2025-01-15 11:48:51,583 - BERTopic - Representation - Completed ✓</code></pre>
+</div>
+</div>
+</section>
+<section id="explore-the-topics" class="level3">
+<h3 class="anchored" data-anchor-id="explore-the-topics">2.1.2. Explore the topics</h3>
+<p>We can then explore the topics found by the model.</p>
+<p>Note that the topic labelled <code>-1</code> is a bucket for outliers that do not fit in any other cluster.</p>
+<div id="cell-21" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>topic_model.get_topic_info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Topic</th>
+<th data-quarto-table-cell-role="th">Count</th>
+<th data-quarto-table-cell-role="th">Name</th>
+<th data-quarto-table-cell-role="th">Representation</th>
+<th data-quarto-table-cell-role="th">Representative_Docs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>-1</td>
+<td>13779</td>
+<td>-1_of_the_and_to</td>
+<td>[of, the, and, to, in, we, language, that, for...</td>
+<td>[ Language models have emerged as a central c...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>0</td>
+<td>2224</td>
+<td>0_speech_asr_recognition_end</td>
+<td>[speech, asr, recognition, end, acoustic, spea...</td>
+<td>[ The amount of labeled data to train models ...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>1</td>
+<td>2104</td>
+<td>1_question_qa_questions_answer</td>
+<td>[question, qa, questions, answer, answering, a...</td>
+<td>[ Multi-hop question answering (QA) requires ...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>2</td>
+<td>1428</td>
+<td>2_medical_clinical_biomedical_patient</td>
+<td>[medical, clinical, biomedical, patient, healt...</td>
+<td>[ Clinical texts, such as admission notes, di...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>3</td>
+<td>986</td>
+<td>3_translation_nmt_machine_neural</td>
+<td>[translation, nmt, machine, neural, bleu, engl...</td>
+<td>[ In this paper, we introduce a hybrid search...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">146</td>
+<td>145</td>
+<td>54</td>
+<td>145_gans_gan_adversarial_generation</td>
+<td>[gans, gan, adversarial, generation, generativ...</td>
+<td>[ Text generation is of particular interest i...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">147</td>
+<td>146</td>
+<td>54</td>
+<td>146_emoji_emojis_emoticons_sentiment</td>
+<td>[emoji, emojis, emoticons, sentiment, twitter,...</td>
+<td>[ The frequent use of Emojis on social media ...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">148</td>
+<td>147</td>
+<td>51</td>
+<td>147_prompt_prompts_optimization_prompting</td>
+<td>[prompt, prompts, optimization, prompting, llm...</td>
+<td>[ Prompt optimization aims to find the best p...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">149</td>
+<td>148</td>
+<td>51</td>
+<td>148_coherence_discourse_paragraph_text</td>
+<td>[coherence, discourse, paragraph, text, cohesi...</td>
+<td>[ While there has been significant progress t...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">150</td>
+<td>149</td>
+<td>51</td>
+<td>149_long_context_window_length</td>
+<td>[long, context, window, length, llms, memory, ...</td>
+<td>[ We present a series of long-context LLMs th...</td>
+</tr>
+</tbody>
+</table>
+
+<p>151 rows × 5 columns</p>
+</div>
+</div>
+</div>
+<p>We can explore a particular topic by its topic number:</p>
+<div id="cell-23" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>topic_model.get_topic(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>[('medical', 0.0220337946328463),
+ ('clinical', 0.02092442350104087),
+ ('biomedical', 0.014552038344966458),
+ ('patient', 0.010048801098837407),
+ ('health', 0.008769124731484461),
+ ('notes', 0.008421182820081155),
+ ('patients', 0.0067969193810322485),
+ ('healthcare', 0.0067470745955792765),
+ ('and', 0.006483211946307094),
+ ('drug', 0.006111735386306484)]</code></pre>
+</div>
+</div>
+<p>We can also search for clusters which match a given search term:</p>
+<div id="cell-25" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>topic_model.find_topics(<span class="st">"rocket science"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<pre><code>([131, 46, 28, -1, 9], [0.8482957, 0.8474297, 0.8343923, 0.8332416, 0.8269581])</code></pre>
+</div>
+</div>
+<p>Topic number 31 allegedly matches the term, so we can look closer at this topic:</p>
+<div id="cell-27" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>topic_model.get_topic(<span class="dv">131</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<pre><code>[('materials', 0.050279482237225254),
+ ('science', 0.02243336305054669),
+ ('chemistry', 0.0215702079363354),
+ ('chemical', 0.019510674137408444),
+ ('scientific', 0.019096261213199146),
+ ('material', 0.01734997997000861),
+ ('synthesis', 0.013922383987668636),
+ ('literature', 0.011377588070962407),
+ ('reaction', 0.010392948527677913),
+ ('extraction', 0.009880316014163601)]</code></pre>
+</div>
+</div>
+</section>
+<section id="visualise-the-topics" class="level3">
+<h3 class="anchored" data-anchor-id="visualise-the-topics">2.1.3. Visualise the topics</h3>
+<p>As we did in the “manual” example, we can visualise the text clusters. The library provides a handy convenience method for interactive plotting.</p>
+<div id="cell-30" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> topic_model.visualize_documents( titles, reduced_embeddings<span class="op">=</span>reduced_embeddings, width<span class="op">=</span><span class="dv">1200</span>, hide_annotations<span class="op">=</span><span class="va">True</span> ) </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>fig.update_layout(font<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">16</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lesson_files/figure-html/cell-31-1-image.png" class="img-fluid figure-img"></p>
+<figcaption>Cluster embedding space</figcaption>
+</figure>
+</div>
+<p>We can also plot keywords per topic:</p>
+<div id="cell-33" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>topic_model.visualize_barchart()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lesson_files/figure-html/cell-34-1-image.png" class="img-fluid figure-img"></p>
+<figcaption>Topic word scores</figcaption>
+</figure>
+</div>
+<p>We can plot the similarity between topics as a heatmap:</p>
+<div id="cell-36" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>topic_model.visualize_heatmap(n_clusters<span class="op">=</span><span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lesson_files/figure-html/cell-37-1-image.png" class="img-fluid figure-img"></p>
+<figcaption>Topic similarity heatmap</figcaption>
+</figure>
+</div>
+<p>We can also see the hierarchies within topics</p>
+<div id="cell-39" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>topic_model.visualize_hierarchy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lesson_files/figure-html/cell-40-1-image.png" class="img-fluid figure-img"></p>
+<figcaption>Topic hierarchies</figcaption>
+</figure>
+</div>
+<p>TODO: p 220 onwards</p>
+</section>
 </section>
 </section>
 <section id="references" class="level1">
@@ -557,6 +821,7 @@ generate animation; therefore the interpretation lost the truth inf...
 <ul>
 <li>Chapter 5 of Hands On LLMs</li>
 <li><a href="https://huggingface.co/spaces/mteb/leaderboard">MTEB leaderboard</a></li>
+<li><a href="https://maartengr.github.io/BERTopic/getting_started/best_practices/best_practices.html">BERT best practices</a></li>
 </ul>
 
 
