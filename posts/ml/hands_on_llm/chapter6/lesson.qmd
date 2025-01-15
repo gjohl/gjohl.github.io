@@ -1,6 +1,6 @@
 ---
 title: "Hands-On LLMs: Prompt Engineering"
-description: "Professional prompts"
+description: "Part 6: Professional prompts"
 date: "2024-12-13"
 # image: "deep_learning_model.png"
 categories: [AI, Engineering, GenerativeAI, LLM]
