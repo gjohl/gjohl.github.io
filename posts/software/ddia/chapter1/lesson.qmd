@@ -1,6 +1,6 @@
 ---
 title: "Designing Data Intensive Applications: Part 1"
-description: "Part 4: Stay Classy"
+description: "Data Systems"
 date: "2025-01-17"
 # image: "deep_learning_model.png"
 categories: [DataEngineering, Engineering, Software]
