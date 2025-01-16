@@ -231,6 +231,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#explore-the-topics" id="toc-explore-the-topics" class="nav-link" data-scroll-target="#explore-the-topics">2.1.2. Explore the topics</a></li>
   <li><a href="#visualise-the-topics" id="toc-visualise-the-topics" class="nav-link" data-scroll-target="#visualise-the-topics">2.1.3. Visualise the topics</a></li>
   </ul></li>
+  <li><a href="#re-ranking" id="toc-re-ranking" class="nav-link" data-scroll-target="#re-ranking">2.2. Re-ranking</a>
+  <ul class="collapse">
+  <li><a href="#keybertinspired" id="toc-keybertinspired" class="nav-link" data-scroll-target="#keybertinspired">2.2.1. KeyBERTInspired</a></li>
+  <li><a href="#maximal-marginal-relevance" id="toc-maximal-marginal-relevance" class="nav-link" data-scroll-target="#maximal-marginal-relevance">2.2.2. Maximal Marginal Relevance</a></li>
+  </ul></li>
+  <li><a href="#text-generation" id="toc-text-generation" class="nav-link" data-scroll-target="#text-generation">2.3. Text Generation</a></li>
   </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
@@ -261,10 +267,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>It also has applications in <strong>topic modelling</strong>, where we assign a label or keywords to a cluster describing its constituents.</p>
 <p>We apply this to an example data set of Arxiv articles. Let’s load the Arxiv data we’ll use for this:</p>
 <div id="cell-2" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datasets <span class="im">import</span> load_dataset </span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> load_dataset(<span class="st">"maartengr/arxiv_nlp"</span>)[<span class="st">"train"</span>]</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>abstracts <span class="op">=</span> dataset[<span class="st">"Abstracts"</span>]</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>titles <span class="op">=</span> dataset[<span class="st">"Titles"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datasets <span class="im">import</span> load_dataset</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> load_dataset(<span class="st">"maartengr/arxiv_nlp"</span>)[<span class="st">"train"</span>]</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>abstracts <span class="op">=</span> dataset[<span class="st">"Abstracts"</span>]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>titles <span class="op">=</span> dataset[<span class="st">"Titles"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id":"867d708a464c4698b1113f2cf8589fe6","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
@@ -812,8 +820,153 @@ To disable this warning, you can either:
 <figcaption>Topic hierarchies</figcaption>
 </figure>
 </div>
-<p>TODO: p 220 onwards</p>
 </section>
+</section>
+<section id="re-ranking" class="level2">
+<h2 class="anchored" data-anchor-id="re-ranking">2.2. Re-ranking</h2>
+<p>The pipeline so far relied on the bag-of-words (BoW) approach to identify key words. This is fast, but does not take the semantic structure of a sentence into account.</p>
+<p>We <em>could</em> swap the bag-of-words “lego block” for something more sophisticated. Another approach is to instead keep it as is but add an extra “re-ranker” block at the end to fine-tune the ordering of the keywords. This can be a slower algorithm, but it only processes the list of words identified by BoW for each topic (tens or hundreds), not the entire dcoument corpus (millions or more).</p>
+<p>These re-rankers are referred to as <strong>representation models</strong>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lesson_files/figure-html/cell-41-2-image.png" class="img-fluid figure-img"></p>
+<figcaption>Re-ranker block</figcaption>
+</figure>
+</div>
+<section id="keybertinspired" class="level3">
+<h3 class="anchored" data-anchor-id="keybertinspired">2.2.1. KeyBERTInspired</h3>
+<p>The idea behind this apporach is to use the similarity between embedding and words vectors to give a score, then order key words by their match score.</p>
+<ol type="1">
+<li><strong>Average document embedding</strong>: Calculate embeddings for each document, then average</li>
+<li>Calculate embeddings for each <strong>keyword</strong></li>
+<li>Calculate <strong>cosine similarity</strong> between each keyword and the average document embedding</li>
+<li>Order by the most similar</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lesson_files/figure-html/cell-41-1-image-2.png" class="img-fluid figure-img"></p>
+<figcaption>KeyBERTInspired</figcaption>
+</figure>
+</div>
+<p>We will save the representations from the previousl model so we can compare them to the re-ranked versions</p>
+<div id="cell-43" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save original representations </span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> copy <span class="im">import</span> deepcopy </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>original_topics <span class="op">=</span> deepcopy(topic_model.topic_representations_)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The following convenience function helps to compare topics between the original and reranked versions.</p>
+<div id="cell-45" class="cell" data-execution_count="39">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> topic_differences(model, original_topics, num_topics<span class="op">=</span><span class="dv">5</span>):</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Show the differences in topic representations between two models"""</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    topic_words <span class="op">=</span> []</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> topic <span class="kw">in</span> <span class="bu">range</span>(num_topics): </span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Extract top 4 words per topic per model </span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>        og_words <span class="op">=</span> <span class="st">" | "</span>.join(<span class="bu">list</span>(<span class="bu">zip</span>(<span class="op">*</span>original_topics[topic])) [<span class="dv">0</span>][:<span class="dv">4</span>]) </span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>        reranked_words <span class="op">=</span> <span class="st">" | "</span>.join(<span class="bu">list</span>(<span class="bu">zip</span>(<span class="op">*</span>model.get_topic(topic))) [<span class="dv">0</span>][:<span class="dv">4</span>]) </span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>        topic_words.append((topic, og_words, reranked_words,))</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.DataFrame(columns<span class="op">=</span>[<span class="st">"Topic"</span>, <span class="st">"Original"</span>, <span class="st">"Reranked"</span>], data<span class="op">=</span>topic_words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-46" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bertopic.representation <span class="im">import</span> KeyBERTInspired </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Update our topic representations using KeyBERTInspired </span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>representation_model <span class="op">=</span> KeyBERTInspired() </span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>topic_model.update_topics(abstracts, representation_model<span class="op">=</span>representation_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-47" class="cell" data-execution_count="41">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show topic differences </span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>topic_differences(topic_model, original_topics, num_topics<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="41">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Topic</th>
+<th data-quarto-table-cell-role="th">Original</th>
+<th data-quarto-table-cell-role="th">Reranked</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0</td>
+<td>speech | asr | recognition | end</td>
+<td>transcription | phonetic | speech | language</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1</td>
+<td>question | qa | questions | answer</td>
+<td>answering | comprehension | retrieval | questions</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>2</td>
+<td>medical | clinical | biomedical | patient</td>
+<td>nlp | clinical | text | language</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>3</td>
+<td>translation | nmt | machine | neural</td>
+<td>translation | translate | translations | multi...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>4</td>
+<td>summarization | summaries | summary | abstractive</td>
+<td>summarization | summarizers | summaries | abst...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>5</td>
+<td>hate | offensive | speech | detection</td>
+<td>hate | hateful | language | cyberbullying</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>6</td>
+<td>gender | bias | biases | debiasing</td>
+<td>gendered | gender | bias | biases</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>7</td>
+<td>relation | extraction | relations | re</td>
+<td>relation | relations | relational | extracting</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>8</td>
+<td>ner | entity | named | recognition</td>
+<td>entity | entities | labeled | name</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>9</td>
+<td>agents | agent | game | games</td>
+<td>reasoning | ai | game | agents</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="maximal-marginal-relevance" class="level3">
+<h3 class="anchored" data-anchor-id="maximal-marginal-relevance">2.2.2. Maximal Marginal Relevance</h3>
+</section>
+</section>
+<section id="text-generation" class="level2">
+<h2 class="anchored" data-anchor-id="text-generation">2.3. Text Generation</h2>
 </section>
 </section>
 <section id="references" class="level1">
