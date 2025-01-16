@@ -1,0 +1,36 @@
+---
+title: "Designing Data Intensive Applications: Part 1"
+description: "Part 4: Stay Classy"
+date: "2025-01-17"
+# image: "deep_learning_model.png"
+categories: [DataEngineering, Engineering, Software]
+---
+
+# Reliable, Scalable, and Maintainable Applications
+
+# 1. Data Systems
+
+Modern applications are often **data**-intensive rather than **compute**-intensive. That is to say, the bottleneck is not the CPU speed, but some aspect of data, whether that be storage, throughput or some other factor.
+
+These applications are often built by assembling building blocks of well-established **data systems**. For example, database, caches, search indexes, stream processing, batch processing. 
+The application is essentially a new, special purpose data system built from generic components.
+
+These are often so well abstracted that we do not think too deeply about the internals of their operation. But this is key to how our overall application will perform.
+
+This chapter serves as a gentle introduction to establish some of the key terminology in this field. Later chapters dive deeper into individual data systems that form the layers of an application.
+
+
+There are three main focuses when designing software systems:
+
+- **Reliability** - the system should continue to wrok correctly in the face of adversity
+- **Scalability** - the system can deal with growth
+- **Maintainability** - the system can be operated and extended
+
+
+# 2. Reliabilty
+
+
+# 3. Scalability
+
+
+# Maintainability
