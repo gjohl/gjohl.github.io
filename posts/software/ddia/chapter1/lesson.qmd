@@ -22,15 +22,42 @@ This chapter serves as a gentle introduction to establish some of the key termin
 
 There are three main focuses when designing software systems:
 
-- **Reliability** - the system should continue to wrok correctly in the face of adversity
+- **Reliability** - the system should continue to work correctly in the face of adversity
 - **Scalability** - the system can deal with growth
 - **Maintainability** - the system can be operated and extended
 
 
-# 2. Reliabilty
+# 2. Reliability
+
+The application "working correctly" broadly means that it meets its functional and non-functional requirements.
+
+> Reliability roughly means "the application should work correctly, and continue to work correctly when things go wrong"
+
+The "things that go wrong" are **faults**; a system that can cope with faults is **fault-tolerant** or **resilient**. 
+In practice, we can't account for every possible fault (what happens if an asteroid hits the Earth) so we specify what types of faults we are tolerant of.
+
+A fault is different from a **failure**. A *fault* is where one component of the system deviates from the spec. A *failure* is when the system as a whole stops provided the required service to the user. There are diminishing returns which means it is generally not possible to reduce the proability of fault to zero, so instead we focus our attention on **ensuring faults do not cause failures**.
+
+To ensure the fault tolerance of a system is well-exercised, we may (counterintuitively) want to induce faults intentionally to periodically assess the impact on the overall system.
+This is the idea behind Netflix's [Chaos Monkey](https://netflixtechblog.com/the-netflix-simian-army-16e57fbab116) approach, where production services are disabled at random to ensure the system as a whole remains functional in such an event.
+
+Categories of faults:
+
+- Hardware faults
+- Software faults
+- Human errors
+
+*human errors* can be minimised with well-designed abstractions that "make it easy to do the right think and make it hard to do the wrong thing".
+This can be a tricky balance to get right, as interfaces that are too restrictive will force people to work around them.
+*sandbox envrionments* and making *rollbacks* of config changes fast can also help mitigate risk.  
 
 
 # 3. Scalability
 
 
-# Maintainability
+# 4. Maintainability
+
+
+# References
+
+- Chapter 1 of Designing Data Intensive Applications by Martin Kleppmann
