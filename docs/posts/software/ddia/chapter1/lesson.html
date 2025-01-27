@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Gurpreet Johl">
-<meta name="dcterms.date" content="2023-08-23">
-<meta name="description" content="Practical Deep Learning for Coders: Lesson 1">
+<meta name="dcterms.date" content="2025-01-26">
+<meta name="description" content="Data Systems">
 
-<title>Gurpreet Johl - FastAI Lesson 1: Image Classification Models</title>
+<title>Gurpreet Johl - Designing Data Intensive Applications: Part 1</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -42,9 +42,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<script src="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -130,16 +127,16 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">FastAI Lesson 1: Image Classification Models</h1>
+      <h1 class="title">Designing Data Intensive Applications: Part 1</h1>
                   <div>
         <div class="description">
-          Practical Deep Learning for Coders: Lesson 1
+          Data Systems
         </div>
       </div>
                           <div class="quarto-categories">
-                <div class="quarto-category">AI</div>
+                <div class="quarto-category">DataEngineering</div>
                 <div class="quarto-category">Engineering</div>
-                <div class="quarto-category">FastAI</div>
+                <div class="quarto-category">Software</div>
               </div>
                   </div>
   </div>
@@ -157,7 +154,7 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">August 23, 2023</p>
+        <p class="date">January 26, 2025</p>
       </div>
     </div>
     
@@ -173,14 +170,19 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction-to-image-classification-models" id="toc-introduction-to-image-classification-models" class="nav-link active" data-scroll-target="#introduction-to-image-classification-models">Introduction to image classification models</a>
+  <li><a href="#reliable-scalable-and-maintainable-applications" id="toc-reliable-scalable-and-maintainable-applications" class="nav-link active" data-scroll-target="#reliable-scalable-and-maintainable-applications">Reliable, Scalable, and Maintainable Applications</a></li>
+  <li><a href="#data-systems" id="toc-data-systems" class="nav-link" data-scroll-target="#data-systems">1. Data Systems</a></li>
+  <li><a href="#reliability" id="toc-reliability" class="nav-link" data-scroll-target="#reliability">2. Reliability</a></li>
+  <li><a href="#scalability" id="toc-scalability" class="nav-link" data-scroll-target="#scalability">3. Scalability</a>
   <ul class="collapse">
-  <li><a href="#notes-on-learning" id="toc-notes-on-learning" class="nav-link" data-scroll-target="#notes-on-learning">1. Notes on Learning</a></li>
-  <li><a href="#background-on-deep-learning-and-image-classification" id="toc-background-on-deep-learning-and-image-classification" class="nav-link" data-scroll-target="#background-on-deep-learning-and-image-classification">2. Background on Deep Learning and Image Classification</a></li>
-  <li><a href="#overview-of-the-fastai-learner" id="toc-overview-of-the-fastai-learner" class="nav-link" data-scroll-target="#overview-of-the-fastai-learner">3. Overview of the fastai learner</a></li>
-  <li><a href="#deep-learning-vs-traditional-computer-programs" id="toc-deep-learning-vs-traditional-computer-programs" class="nav-link" data-scroll-target="#deep-learning-vs-traditional-computer-programs">4. Deep Learning vs Traditional Computer Programs</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  <li><a href="#describe-load" id="toc-describe-load" class="nav-link" data-scroll-target="#describe-load">3.1. Describe Load</a>
+  <ul class="collapse">
+  <li><a href="#twitter-example" id="toc-twitter-example" class="nav-link" data-scroll-target="#twitter-example">Twitter Example</a></li>
   </ul></li>
+  <li><a href="#describe-performance" id="toc-describe-performance" class="nav-link" data-scroll-target="#describe-performance">3.2. Describe Performance</a></li>
+  </ul></li>
+  <li><a href="#maintainability" id="toc-maintainability" class="nav-link" data-scroll-target="#maintainability">4. Maintainability</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
     </div>
@@ -191,102 +193,71 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="introduction-to-image-classification-models" class="level1">
-<h1>Introduction to image classification models</h1>
-<p>These are notes from lesson 1 of Fast AI Practical Deep Learning for Coders.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Homework Task">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Homework Task
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Train an image classifier: see <a href="https://github.com/gjohl/ml-practice/blob/master/ml-practice/notebooks/fastai/1_image_classifier.ipynb">car classification notebook</a></p>
-</div>
-</div>
-<section id="notes-on-learning" class="level2">
-<h2 class="anchored" data-anchor-id="notes-on-learning">1. Notes on Learning</h2>
-<p>There is a companion course focusing on AI ethics <a href="https://ethics.fast.ai/">here</a></p>
-<p>Thoughts on education: play the whole game first to get an idea of the big picture. Don’t become afflicted with “elementitis” getting too bogged down in details too early.</p>
+<section id="reliable-scalable-and-maintainable-applications" class="level1">
+<h1>Reliable, Scalable, and Maintainable Applications</h1>
+</section>
+<section id="data-systems" class="level1">
+<h1>1. Data Systems</h1>
+<p>Modern applications are often <strong>data</strong>-intensive rather than <strong>compute</strong>-intensive. That is to say, the bottleneck is not the CPU speed, but some aspect of data, whether that be storage, throughput or some other factor.</p>
+<p>These applications are often built by assembling building blocks of well-established <strong>data systems</strong>. For example, database, caches, search indexes, stream processing, batch processing. The application is essentially a new, special purpose data system built from generic components.</p>
+<p>These are often so well abstracted that we do not think too deeply about the internals of their operation. But this is key to how our overall application will perform.</p>
+<p>This chapter serves as a gentle introduction to establish some of the key terminology in this field. Later chapters dive deeper into individual data systems that form the layers of an application.</p>
+<p>There are three main focuses when designing software systems:</p>
 <ul>
-<li>Coloured cups - green, amber, red - for each student to indicate how well they are following</li>
-<li>Meta Learning by Radek Osmulski - a book based on the author’s experience of learning about deep learning (via the fastai course)</li>
-<li>Mathematician’s Lament by Paul Lockhart - a book about the state of mathematics education</li>
-<li>Making Learning Whole by David Perkins - a book about apporaches to holistic learning</li>
+<li><strong>Reliability</strong> - the system should continue to work correctly in the face of adversity</li>
+<li><strong>Scalability</strong> - the system can deal with growth</li>
+<li><strong>Maintainability</strong> - the system can be operated and extended</li>
 </ul>
-<p><a href="https://rise.readthedocs.io/en/latest/">RISE</a> is a jupyter notebook extension to turn notebooks into slides. Jeremy uses notebooks for: source code, book, blogging, CI/CD.</p>
 </section>
-<section id="background-on-deep-learning-and-image-classification" class="level2">
-<h2 class="anchored" data-anchor-id="background-on-deep-learning-and-image-classification">2. Background on Deep Learning and Image Classification</h2>
-<p>Before deep learning, the approach to machine learning was to enlist many domain experts to <em>handcraft</em> features and feed this into a constrained linear model (e.g.&nbsp;ridge regression). This is time-consuming, expensive and requires many domain experts.</p>
-<p>Neural networks <em>learn</em> these features. Looking inside a CNN, for example, shows that these learned features match interpretable features that an expert might handcraft. An illustration of the features learned is given in <a href="https://arxiv.org/abs/1311.2901">this paper by Zeiler and Fergus</a>.</p>
-<p>For image classifiers, you don’t need particularly large images as inputs. GPUs are so quick now that if you use large images, most of the time is spent on <em>opening the file</em> rather than computations. So often we resize images down to 400x400 pixels or smaller.</p>
-<p>For most use cases, there are pre-trained models and sensible default values that we can use. In practice, most of the time is spent on the input layer and output layer. For most models the middle layers are identical.</p>
-</section>
-<section id="overview-of-the-fastai-learner" class="level2">
-<h2 class="anchored" data-anchor-id="overview-of-the-fastai-learner">3. Overview of the fastai learner</h2>
-<p>Data blocks structure the input to learners. An overview of the <code>DataBlock</code> class:</p>
+<section id="reliability" class="level1">
+<h1>2. Reliability</h1>
+<p>The application “working correctly” broadly means that it meets its functional and non-functional requirements.</p>
+<blockquote class="blockquote">
+<p>Reliability roughly means “the application should work correctly, and continue to work correctly when things go wrong”</p>
+</blockquote>
+<p>The “things that go wrong” are <strong>faults</strong>; a system that can cope with faults is <strong>fault-tolerant</strong> or <strong>resilient</strong>. In practice, we can’t account for every possible fault (what happens if an asteroid hits the Earth) so we specify what types of faults we are tolerant of.</p>
+<p>A fault is different from a <strong>failure</strong>. A <em>fault</em> is where one component of the system deviates from the spec. A <em>failure</em> is when the system as a whole stops provided the required service to the user. There are diminishing returns which means it is generally not possible to reduce the proability of fault to zero, so instead we focus our attention on <strong>ensuring faults do not cause failures</strong>.</p>
+<p>To ensure the fault tolerance of a system is well-exercised, we may (counterintuitively) want to induce faults intentionally to periodically assess the impact on the overall system. This is the idea behind Netflix’s <a href="https://netflixtechblog.com/the-netflix-simian-army-16e57fbab116">Chaos Monkey</a> approach, where production services are disabled at random to ensure the system as a whole remains functional in such an event.</p>
+<p>Categories of faults:</p>
 <ul>
-<li><code>blocks</code> determines the input and output type as a tuple. For multi-target classification this tuple can be arbitrary length.</li>
-<li><code>get_items</code> is a function that returns a list of all the inputs.</li>
-<li><code>splitter</code> defines how to split the training/validation set.</li>
-<li><code>get_y</code> is a function that returns the label of a given input image.</li>
-<li><code>item_tfms</code> defines what transforms to apply to the inputs before training, e.g.&nbsp;resize.</li>
-<li><code>dataloaders</code> is a method that parallelises loading the data.</li>
+<li>Hardware faults</li>
+<li>Software faults</li>
+<li>Human errors</li>
 </ul>
-<p>A learner combines the model (e.g.&nbsp;resnet or something from <a href="https://timm.fast.ai/">timm library</a>) and the data to run that model on (the dataloaders from the DataBlock).</p>
-<p>The <code>fine_tune</code> method starts with a pretrained model weights rather than randomised weights, and only needs to learn the differences between your data and the original model.</p>
-<p>Other image problems that can utilise deep learning:</p>
-<ul>
-<li>Image classification</li>
-<li>Image segmentation</li>
-</ul>
-<p>Other problem types use the same process, just with different DataBlock <code>blocks</code> types and the rest is the same. For example, tabular data, collaborative filtering.</p>
+<p><em>Human errors</em> can be minimised with well-designed abstractions that “make it easy to do the right think and make it hard to do the wrong thing”. This can be a tricky balance to get right, as interfaces that are too restrictive will force people to work around them. <em>sandbox environments</em> and making <em>rollbacks</em> of config changes fast can also help mitigate risk.</p>
 </section>
-<section id="deep-learning-vs-traditional-computer-programs" class="level2">
-<h2 class="anchored" data-anchor-id="deep-learning-vs-traditional-computer-programs">4. Deep Learning vs Traditional Computer Programs</h2>
-<!-- Flowcharts from https://miro.com/app/board/uXjVNv5WRsc=/ -->
-<p>Traditional computer programs are essentially:</p>
-<div id="fig-traditional_program" class="lightbox quarto-figure quarto-figure-center quarto-float anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-traditional_program-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="traditional_program.png" class="lightbox" data-glightbox="description: .lightbox-desc-1" data-gallery="quarto-lightbox-gallery-1"><img src="traditional_program.png" class="img-fluid figure-img"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-traditional_program-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Traditional computer programs
-</figcaption>
-</figure>
-</div>
-<p>Deep learning models are:</p>
-<div id="fig-deep_learning_model" class="lightbox quarto-figure quarto-figure-center quarto-float anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-deep_learning_model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="deep_learning_model.png" class="lightbox" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2"><img src="deep_learning_model.png" class="img-fluid figure-img"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-deep_learning_model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Deep learning model
-</figcaption>
-</figure>
-</div>
+<section id="scalability" class="level1">
+<h1>3. Scalability</h1>
+<p>Scalability describes the system’s ability to cope with an increased load.</p>
+<blockquote class="blockquote">
+<p>It is not a one-dimensional label that we can attach to a system: <strong>it is meaningless to say “X is scalable” or “Y doesn’t scale.”</strong> Rather, discussing scalability means considering questions like “If the system <strong>grows in a particular way</strong>, what are our options for coping with the growth?” and “How can we add computing resources to handle the additional load?”</p>
+</blockquote>
+<section id="describe-load" class="level2">
+<h2 class="anchored" data-anchor-id="describe-load">3.1. Describe Load</h2>
+<p>We first need to describe the load. This means summarising the system’s load with <strong>load parameters</strong> which depend on the system itself. This may be requests per second for a web server, read/write ratio for a database, number of concurrent users, cache hit rate etc.</p>
+<section id="twitter-example" class="level3">
+<h3 class="anchored" data-anchor-id="twitter-example">Twitter Example</h3>
+<p>Scaling can be made difficult by <em>fan out</em>. For exmaple, Twitter’s scaling challenge is not primarily due to tweet volume, but due to fan-out, whereby each user follows many people, and each user is followed by many people. When a tweet is published it needs to be updated on the tweeter’s timeline and update on each of their follower’s home screen.</p>
+<p>Approach (1) would be to store all data in a relational database and join the <code>follows</code>, <code>tweets</code> and <code>users</code> table on each tweet and timeline update.</p>
+<p>Approach (2) is to keep a cache for each user’s timeline, and insert new tweets into the relevant users’ caches when someone they follow tweets. This generally works well because there are far more reads than writes - more lurkers than tweeters.</p>
+<p>Twitter started with approach (1) then moved to (2). But for celebrities who have millions of followers, the fan out of approach (2) is prohibitively slow, so they use a hybrid of both where users with lots of followers use approach 1.</p>
 </section>
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
+</section>
+<section id="describe-performance" class="level2">
+<h2 class="anchored" data-anchor-id="describe-performance">3.2. Describe Performance</h2>
+<!-- TODO - page 13 -->
+</section>
+</section>
+<section id="maintainability" class="level1">
+<h1>4. Maintainability</h1>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
 <ul>
-<li><a href="https://course.fast.ai/Lessons/lesson1.html">Course lesson page</a></li>
-<li><a href="https://arxiv.org/abs/1311.2901">Visualizing and Understanding Convolutional Networks</a></li>
-<li><a href="https://timm.fast.ai/">TIMM library</a></li>
-<li><a href="https://www.semanticscholar.org/paper/Statistical-Modeling%3A-The-Two-Cultures-(with-and-a-Breiman/e5df6bc6da5653ad98e754b08f63326c2e52b372">Statistical Modeling: The Two Cultures</a></li>
+<li>Chapter 1 of Designing Data Intensive Applications by Martin Kleppmann</li>
 </ul>
 
 
-<div class="hidden" aria-hidden="true">
-<span class="glightbox-desc lightbox-desc-1">Figure&nbsp;1: Traditional computer programs</span>
-<span class="glightbox-desc lightbox-desc-2">Figure&nbsp;2: Deep learning model</span>
-</div>
-</section>
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
@@ -678,31 +649,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"selector":".lightbox","closeEffect":"zoom","loop":false,"descPosition":"bottom","openEffect":"zoom"});
-window.onload = () => {
-  lightboxQuarto.on('slide_before_load', (data) => {
-    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-    const href = trigger.getAttribute('href');
-    if (href !== null) {
-      const imgEl = window.document.querySelector(`a[href="${href}"] img`);
-      if (imgEl !== null) {
-        const srcAttr = imgEl.getAttribute("src");
-        if (srcAttr && srcAttr.startsWith("data:")) {
-          slideConfig.href = srcAttr;
-        }
-      }
-    } 
-  });
-
-  lightboxQuarto.on('slide_after_load', (data) => {
-    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-    if (window.Quarto?.typesetMath) {
-      window.Quarto.typesetMath(slideNode);
-    }
-  });
-
-};
-          </script>
 
 
 
