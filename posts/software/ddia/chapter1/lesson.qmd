@@ -47,9 +47,9 @@ Categories of faults:
 - Software faults
 - Human errors
 
-*human errors* can be minimised with well-designed abstractions that "make it easy to do the right think and make it hard to do the wrong thing".
+*Human errors* can be minimised with well-designed abstractions that "make it easy to do the right think and make it hard to do the wrong thing".
 This can be a tricky balance to get right, as interfaces that are too restrictive will force people to work around them.
-*sandbox envrionments* and making *rollbacks* of config changes fast can also help mitigate risk.  
+*sandbox environments* and making *rollbacks* of config changes fast can also help mitigate risk.  
 
 
 # 3. Scalability

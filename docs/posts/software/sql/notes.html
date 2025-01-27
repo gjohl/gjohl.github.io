@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Gurpreet Johl">
-<meta name="dcterms.date" content="2025-01-17">
-<meta name="description" content="Data Systems">
+<meta name="dcterms.date" content="2025-01-27">
+<meta name="description" content="Part 1 of 1: No Sequel">
 
-<title>Gurpreet Johl - Designing Data Intensive Applications: Part 1</title>
+<title>Gurpreet Johl - SQL</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -26,22 +26,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../../../">
-<script src="../../../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -71,7 +71,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="../../../../styles.css">
+<link rel="stylesheet" href="../../../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -81,7 +81,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../../../index.html">
+    <a class="navbar-brand" href="../../../index.html">
     <span class="navbar-title">Gurpreet Johl</span>
     </a>
   </div>
@@ -92,11 +92,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../../../projects.html"> 
+    <a class="nav-link" href="../../../projects.html"> 
 <span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../../blog.html"> 
+    <a class="nav-link" href="../../../blog.html"> 
 <span class="menu-text">Notes</span></a>
   </li>  
 </ul>
@@ -127,16 +127,16 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Designing Data Intensive Applications: Part 1</h1>
+      <h1 class="title">SQL</h1>
                   <div>
         <div class="description">
-          Data Systems
+          Part 1 of 1: No Sequel
         </div>
       </div>
                           <div class="quarto-categories">
-                <div class="quarto-category">DataEngineering</div>
-                <div class="quarto-category">Engineering</div>
+                <div class="quarto-category">InterviewPrep</div>
                 <div class="quarto-category">Software</div>
+                <div class="quarto-category">DataEngineering</div>
               </div>
                   </div>
   </div>
@@ -154,7 +154,7 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">January 17, 2025</p>
+        <p class="date">January 27, 2025</p>
       </div>
     </div>
     
@@ -170,11 +170,33 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#reliable-scalable-and-maintainable-applications" id="toc-reliable-scalable-and-maintainable-applications" class="nav-link active" data-scroll-target="#reliable-scalable-and-maintainable-applications">Reliable, Scalable, and Maintainable Applications</a></li>
-  <li><a href="#data-systems" id="toc-data-systems" class="nav-link" data-scroll-target="#data-systems">1. Data Systems</a></li>
-  <li><a href="#reliability" id="toc-reliability" class="nav-link" data-scroll-target="#reliability">2. Reliability</a></li>
-  <li><a href="#scalability" id="toc-scalability" class="nav-link" data-scroll-target="#scalability">3. Scalability</a></li>
-  <li><a href="#maintainability" id="toc-maintainability" class="nav-link" data-scroll-target="#maintainability">4. Maintainability</a></li>
+  <li><a href="#sql-overview" id="toc-sql-overview" class="nav-link active" data-scroll-target="#sql-overview">1. SQL Overview</a>
+  <ul class="collapse">
+  <li><a href="#sql-and-rdbms" id="toc-sql-and-rdbms" class="nav-link" data-scroll-target="#sql-and-rdbms">1.1. SQL and RDBMS</a></li>
+  <li><a href="#sql-flavours" id="toc-sql-flavours" class="nav-link" data-scroll-target="#sql-flavours">1.2. SQL Flavours</a></li>
+  <li><a href="#postgresql" id="toc-postgresql" class="nav-link" data-scroll-target="#postgresql">1.3. PostgreSQL</a></li>
+  </ul></li>
+  <li><a href="#basic-sql-commands" id="toc-basic-sql-commands" class="nav-link" data-scroll-target="#basic-sql-commands">2. Basic SQL Commands</a>
+  <ul class="collapse">
+  <li><a href="#select" id="toc-select" class="nav-link" data-scroll-target="#select">2.1. SELECT</a></li>
+  <li><a href="#where" id="toc-where" class="nav-link" data-scroll-target="#where">2.2. WHERE</a></li>
+  <li><a href="#combining-conditions" id="toc-combining-conditions" class="nav-link" data-scroll-target="#combining-conditions">2.3. Combining Conditions</a></li>
+  <li><a href="#between" id="toc-between" class="nav-link" data-scroll-target="#between">2.4. BETWEEN</a></li>
+  <li><a href="#in" id="toc-in" class="nav-link" data-scroll-target="#in">2.5. IN</a></li>
+  <li><a href="#like" id="toc-like" class="nav-link" data-scroll-target="#like">2.6. LIKE</a></li>
+  <li><a href="#order-by" id="toc-order-by" class="nav-link" data-scroll-target="#order-by">2.7. ORDER BY</a></li>
+  </ul></li>
+  <li><a href="#intermediate-sql-commands" id="toc-intermediate-sql-commands" class="nav-link" data-scroll-target="#intermediate-sql-commands">3. Intermediate SQL Commands</a>
+  <ul class="collapse">
+  <li><a href="#aggregate-functions" id="toc-aggregate-functions" class="nav-link" data-scroll-target="#aggregate-functions">3.1. Aggregate Functions</a></li>
+  <li><a href="#group-by" id="toc-group-by" class="nav-link" data-scroll-target="#group-by">3.2. GROUP BY</a></li>
+  <li><a href="#having" id="toc-having" class="nav-link" data-scroll-target="#having">3.3. HAVING</a></li>
+  <li><a href="#distinct" id="toc-distinct" class="nav-link" data-scroll-target="#distinct">3.4. DISTINCT</a></li>
+  <li><a href="#arithmetic" id="toc-arithmetic" class="nav-link" data-scroll-target="#arithmetic">3.5. Arithmetic</a></li>
+  <li><a href="#mathematical-functions" id="toc-mathematical-functions" class="nav-link" data-scroll-target="#mathematical-functions">3.6. Mathematical Functions</a></li>
+  <li><a href="#division" id="toc-division" class="nav-link" data-scroll-target="#division">3.7. Division</a></li>
+  <li><a href="#nulls" id="toc-nulls" class="nav-link" data-scroll-target="#nulls">3.8. Nulls</a></li>
+  </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
@@ -186,49 +208,269 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="reliable-scalable-and-maintainable-applications" class="level1">
-<h1>Reliable, Scalable, and Maintainable Applications</h1>
+<section id="sql-overview" class="level1">
+<h1>1. SQL Overview</h1>
+<section id="sql-and-rdbms" class="level2">
+<h2 class="anchored" data-anchor-id="sql-and-rdbms">1.1. SQL and RDBMS</h2>
+<p>Structured Query Language (SQL) is used to manage and query data stored in a <strong>Relational Database Management System (RDMBS)</strong>. Essentially, put data in tables and get it out again.</p>
+<p>An RDMBS organises data into tables with defined schemas (column names and data types).</p>
+<p>SQL is a <em>declarative</em> language. You specify what you want to happen, not how to achieve it. The SQL query engine optimises how the query run internally, e.g.&nbsp;what order to execute commands, what indexes to use.</p>
 </section>
-<section id="data-systems" class="level1">
-<h1>1. Data Systems</h1>
-<p>Modern applications are often <strong>data</strong>-intensive rather than <strong>compute</strong>-intensive. That is to say, the bottleneck is not the CPU speed, but some aspect of data, whether that be storage, throughput or some other factor.</p>
-<p>These applications are often built by assembling building blocks of well-established <strong>data systems</strong>. For example, database, caches, search indexes, stream processing, batch processing. The application is essentially a new, special purpose data system built from generic components.</p>
-<p>These are often so well abstracted that we do not think too deeply about the internals of their operation. But this is key to how our overall application will perform.</p>
-<p>This chapter serves as a gentle introduction to establish some of the key terminology in this field. Later chapters dive deeper into individual data systems that form the layers of an application.</p>
-<p>There are three main focuses when designing software systems:</p>
+<section id="sql-flavours" class="level2">
+<h2 class="anchored" data-anchor-id="sql-flavours">1.2. SQL Flavours</h2>
+<p>There are different “flavours” of SQL. For example, MySQL, PostegreSQL, SQLite, SQL Server. These are often, incorrectly, used interchangeably with SQL. SQL is a general, high-level language for querying RDMBSes.</p>
+<p>The “flavours” are each a specific RDBMS which you query with the corresponding language. Postgres is an RDBMS which you can query by writing PostgreSQL. MySQL is and RDBMS which you can query by writing MySQL. Etc. In practice, the difference is pretty minimal. If you can use one, you’ll learn the others pretty quickly.</p>
+</section>
+<section id="postgresql" class="level2">
+<h2 class="anchored" data-anchor-id="postgresql">1.3. PostgreSQL</h2>
+<p>We use PostgreSQL and its associated Postgres RDBMS.</p>
+<p>Some of the advantages of PostgreSQL:</p>
 <ul>
-<li><strong>Reliability</strong> - the system should continue to work correctly in the face of adversity</li>
-<li><strong>Scalability</strong> - the system can deal with growth</li>
-<li><strong>Maintainability</strong> - the system can be operated and extended</li>
+<li><strong>Popularity</strong>: One of the most popular behind MySQL</li>
+<li><strong>Open Source</strong>: BSD-style license is not too restrictive</li>
+<li><strong>Extensible</strong>: Postgres has extensions like PostGIS for geospatial data, etc</li>
+<li><strong>ANSI Compliant</strong>: American National Standards Institute (ANSI) define standards and PostgreSQL mostly conforms to these. One of the least quirky flavours of SQL.</li>
 </ul>
 </section>
-<section id="reliability" class="level1">
-<h1>2. Reliability</h1>
-<p>The application “working correctly” broadly means that it meets its functional and non-functional requirements.</p>
+</section>
+<section id="basic-sql-commands" class="level1">
+<h1>2. Basic SQL Commands</h1>
+<section id="select" class="level2">
+<h2 class="anchored" data-anchor-id="select">2.1. SELECT</h2>
+<p>Use <code>SELECT</code> to read specific columns (or all with <code>*</code>) from a given table.</p>
+<pre class="postgresql"><code>SELECT column1, column2
+FROM table_name;</code></pre>
+<p>We can optional use <code>LIMIT</code> to return a set number of rows. This can be helpful if we’re querying a massive table that might be a huge query.</p>
+<pre class="postgresql"><code>SELECT *
+FROM table_name
+LIMIT 10</code></pre>
+<p>We can use the <code>AS</code> keyword to alias a column name.</p>
+<pre class="postgresql"><code>SELECT column1, column2 AS skibidi  -- using a stupid alias
+FROM table_name;</code></pre>
+<p>We can also add comments with <code>--</code> as above.</p>
+</section>
+<section id="where" class="level2">
+<h2 class="anchored" data-anchor-id="where">2.2. WHERE</h2>
+<p>Use <code>WHERE</code> to filter the result on a specific condition. Conditions can be: <code>=</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code></p>
+<pre class="postgresql"><code>SELECT column1, column2
+FROM table_name
+WHERE condition;</code></pre>
+</section>
+<section id="combining-conditions" class="level2">
+<h2 class="anchored" data-anchor-id="combining-conditions">2.3. Combining Conditions</h2>
+<p>Use logical operators <code>AND</code>, <code>OR</code>, <code>NOT</code> to chain multiple conditions.</p>
+<pre class="postgresql"><code>SELECT *
+FROM table
+WHERE condition1
+  AND condition2
+  AND NOT condition3;</code></pre>
+</section>
+<section id="between" class="level2">
+<h2 class="anchored" data-anchor-id="between">2.4. BETWEEN</h2>
+<p>The <code>BETWEEN</code> operator can also be used as a condition, and is equivalent to a combination of &gt;= AND &lt;=. Note that both sides are inclusive.</p>
+<p>For example, the following <code>BETWEEN</code> condition:</p>
+<pre class="postgresql"><code>SELECT column1, column2
+FROM table_name
+WHERE column1 BETWEEN 0 AND 100;</code></pre>
+<p>is equivalent to</p>
+<pre class="postgresql"><code>SELECT column1, column2
+FROM table_name
+WHERE column1 &gt;= 0 AND column2 &lt;= 100;</code></pre>
+</section>
+<section id="in" class="level2">
+<h2 class="anchored" data-anchor-id="in">2.5. IN</h2>
+<p>The <code>IN</code> operator is another implicit combined condition. It saves us the hassle of writing out multiple <code>OR</code> conditions.</p>
+<p>For example, the following <code>IN</code> condition:</p>
+<pre class="postgresql"><code>SELECT column1, column2
+FROM table_name
+WHERE column1 (1, 2);</code></pre>
+<p>is equivalent to</p>
+<pre class="postgresql"><code>SELECT column1, column2
+FROM table_name
+WHERE column1 = 1 OR column1 = 2;</code></pre>
+</section>
+<section id="like" class="level2">
+<h2 class="anchored" data-anchor-id="like">2.6. LIKE</h2>
+<p>The <code>LIKE</code> operator is another implicit condition. Similarly to <code>IN</code>, it save us the hassle of writing out multiple <code>OR</code> conditions.</p>
+<p>It allows us to match patterns using the wildcards <code>_</code> (to represent a single character) or <code>%</code> (to represent arbitrary number of characters).</p>
+<pre class="postgresql"><code>SELECT product_id,
+       manufacturer,
+       drug
+FROM pharmacy_sales
+WHERE drug LIKE '%Relief%';</code></pre>
+<p>We can use multiple underscores to match a specific number of unknown characters. For example, this will match “a” followed by any 3 characters.</p>
+<pre class="postgresql"><code>WHERE word LIKE 'a___'</code></pre>
+<p>The wildcards can be at multiple points in the pattern, e.g.</p>
+<pre class="postgresql"><code>WHERE word LIKE 'f_c_'</code></pre>
+</section>
+<section id="order-by" class="level2">
+<h2 class="anchored" data-anchor-id="order-by">2.7. ORDER BY</h2>
+<p>The order of rows saved in the database is not guaranteed. Executing the same SELECT twice in a row can give a different ordering.</p>
+<p>If we want a specific order, we can specify the <code>ORDER BY</code> column(s).</p>
+<pre class="postgresql"><code>SELECT column1, column2
+FROM table_name
+ORDER BY column1;</code></pre>
+<p>By default, this is in ascending order (<code>ASC</code>). We can pass <code>DESC</code> to instead return items in descending order. This can be column-specific.</p>
+<pre class="postgresql"><code>SELECT column1, column2
+FROM table_name
+ORDER BY column1 ASC, column2 DESC;</code></pre>
+<p>We can also pass the column numbers rather than names.</p>
+<pre class="postgresql"><code>SELECT policy_holder_id, call_category, call_received
+FROM callers
+ORDER BY 1,3 DESC;</code></pre>
+<p>We can use <code>ORDER BY</code> in conjunction with <code>LIMIT</code> where we need the top N highest/lowest results. We can also use <code>OFFSET</code> to skip a number of results.</p>
+<p>For example, we can skip the first 10 rows and then return the next 5, so the following query returns the 11th-15th ordered results.</p>
+<pre class="postgresql"><code>SELECT *
+FROM callers
+ORDER BY call_received DESC
+OFFSET 10
+LIMIT 5;</code></pre>
+</section>
+</section>
+<section id="intermediate-sql-commands" class="level1">
+<h1>3. Intermediate SQL Commands</h1>
+<section id="aggregate-functions" class="level2">
+<h2 class="anchored" data-anchor-id="aggregate-functions">3.1. Aggregate Functions</h2>
+<p>We can aggregate data with <code>SUM</code>, <code>MIN</code>, <code>MAX</code>, <code>AVG</code>, <code>COUNT</code>.</p>
+<pre class="postgresql"><code>SELECT COUNT(*)
+FROM table_name;</code></pre>
+</section>
+<section id="group-by" class="level2">
+<h2 class="anchored" data-anchor-id="group-by">3.2. GROUP BY</h2>
+<p>The aggregate functions can be run on the entire table as above. But they come into their own when grouping by particular fields.</p>
+<p>We can <code>GROUP BY</code> one or more columns.</p>
+<pre class="postgresql"><code>SELECT
+category,
+    SUM(spend) AS total_spend
+FROM product_spend
+GROUP BY category;</code></pre>
+</section>
+<section id="having" class="level2">
+<h2 class="anchored" data-anchor-id="having">3.3. HAVING</h2>
+<p>Suppose we want to filter the data on the aggregated value. For example, in the previous example, we want to only return categories with <code>total_spend &gt; 10</code>.</p>
+<p>Naively, we might try to use <code>WHERE</code>. But <code>WHERE</code> filters individual rows. Trying this will give some variation of the following error message</p>
 <blockquote class="blockquote">
-<p>Reliability roughly means “the application should work correctly, and continue to work correctly when things go wrong”</p>
+<p>aggregate functions are not allowed in WHERE</p>
 </blockquote>
-<p>The “things that go wrong” are <strong>faults</strong>; a system that can cope with faults is <strong>fault-tolerant</strong> or <strong>resilient</strong>. In practice, we can’t account for every possible fault (what happens if an asteroid hits the Earth) so we specify what types of faults we are tolerant of.</p>
-<p>A fault is different from a <strong>failure</strong>. A <em>fault</em> is where one component of the system deviates from the spec. A <em>failure</em> is when the system as a whole stops provided the required service to the user. There are diminishing returns which means it is generally not possible to reduce the proability of fault to zero, so instead we focus our attention on <strong>ensuring faults do not cause failures</strong>.</p>
-<p>To ensure the fault tolerance of a system is well-exercised, we may (counterintuitively) want to induce faults intentionally to periodically assess the impact on the overall system. This is the idea behind Netflix’s <a href="https://netflixtechblog.com/the-netflix-simian-army-16e57fbab116">Chaos Monkey</a> approach, where production services are disabled at random to ensure the system as a whole remains functional in such an event.</p>
-<p>Categories of faults:</p>
+<p>The <code>HAVING</code> clause is essentially the analog of <code>WHERE</code>, but operates on grouped data rather than individual rows.</p>
+<pre class="postgresql"><code>SELECT ticker, AVG(open)
+FROM stock_prices
+GROUP BY ticker
+HAVING AVG(open) &gt; 200;</code></pre>
+</section>
+<section id="distinct" class="level2">
+<h2 class="anchored" data-anchor-id="distinct">3.4. DISTINCT</h2>
+<p>The <code>DISTINCT</code> keyword can specify that only rows where the column(s) are distinct. If we pass multiple columns, we will get all of the distinct pairs (or tuples in the general case) of those columns.</p>
+<pre class="postgresql"><code>SELECT DISTINCT col1, col2
+FROM table_name;</code></pre>
+<p><code>DISTINCT</code> can be combined with aggregate functions, typically <code>COUNT</code>.</p>
+<pre class="postgresql"><code>SELECT COUNT(DISTINCT user_id)
+FROM trades;</code></pre>
+</section>
+<section id="arithmetic" class="level2">
+<h2 class="anchored" data-anchor-id="arithmetic">3.5. Arithmetic</h2>
+<p>We can use standard mathematical operations <code>+</code>, <code>-</code>, <code>/</code>, <code>*</code>, <code>^</code>, <code>%</code></p>
+<pre class="postgresql"><code>SELECT salary + bonus AS total_compensation
+FROM employees;</code></pre>
+<p>We have the modulus operator <code>%</code> which returns the remainder of a division. This is often helpful in problems where we need to find odd or even values.</p>
+<pre class="postgresql"><code>SELECT *
+FROM measurements
+WHERE measurement_num % 2 = 1</code></pre>
+<p>These operations follow the usual BODMAS rule (or PEMDAS if you’re an asshole).</p>
+</section>
+<section id="mathematical-functions" class="level2">
+<h2 class="anchored" data-anchor-id="mathematical-functions">3.6. Mathematical Functions</h2>
+<p>The following built-in maths functions are useful:</p>
 <ul>
-<li>Hardware faults</li>
-<li>Software faults</li>
-<li>Human errors</li>
+<li><code>ABS()</code> - absolute value</li>
+<li><code>CEIL()</code> - round up</li>
+<li><code>FLOOR()</code> - round down</li>
+<li><code>ROUND(column_name, N)</code> - round to N decimal places</li>
+<li><code>POWER(column_name, exponent)</code> - equivalent to <code>column_name ^ exponent</code></li>
+<li><code>MOD(column_name, divisor) - equivalent to</code>column_name % divisor`</li>
 </ul>
-<p><em>Human errors</em> can be minimised with well-designed abstractions that “make it easy to do the right think and make it hard to do the wrong thing”. This can be a tricky balance to get right, as interfaces that are too restrictive will force people to work around them. <em>sandbox environments</em> and making <em>rollbacks</em> of config changes fast can also help mitigate risk.</p>
 </section>
-<section id="scalability" class="level1">
-<h1>3. Scalability</h1>
+<section id="division" class="level2">
+<h2 class="anchored" data-anchor-id="division">3.7. Division</h2>
+<p>Division is SQL can be deceptively tricky. Naively, we might think we just do <code>col1 / col2</code>, job done.</p>
+<p>But in practice, we can get weird results depending on the data types of the numerator or denominator.</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Input</th>
+<th>SQL Output</th>
+<th>Expected</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>SELECT 10/4</code></td>
+<td>2</td>
+<td>2.5</td>
+</tr>
+<tr class="even">
+<td><code>SELECT 10/2</code></td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr class="odd">
+<td><code>SELECT 10/6</code></td>
+<td>1</td>
+<td>1.6666666667</td>
+</tr>
+<tr class="even">
+<td><code>SELECT 10.0/4</code></td>
+<td>2.5000000000000000</td>
+<td>2.5</td>
+</tr>
+<tr class="odd">
+<td><code>SELECT 10/3.0</code></td>
+<td>3.3333333333333333</td>
+<td>3.333333333</td>
+</tr>
+</tbody>
+</table>
+<p>We can coerce values to floats by:</p>
+<ul>
+<li>Using the <code>CAST(column_name AS FLOAT)</code> function</li>
+<li>Multiplying <code>* 1.0</code></li>
+<li>Explicitly using types with <code>::</code></li>
+</ul>
+<pre class="postgresql"><code>SELECT 
+  CAST(10 AS DECIMAL)/4,
+  CAST(10 AS FLOAT)/4,
+  10 * 1.0 / 4
+  10::DECIMAL / 4</code></pre>
 </section>
-<section id="maintainability" class="level1">
-<h1>4. Maintainability</h1>
+<section id="nulls" class="level2">
+<h2 class="anchored" data-anchor-id="nulls">3.8. Nulls</h2>
+<p>A <code>NULL</code> value indicates the <strong>absence of a value</strong>. Missing data is different to data which is populated but empty, like a 0 or an empty string.</p>
+<p>We can identify null and non-null values with <code>IS NULL</code> and <code>IS NOT NULL</code>.</p>
+<pre class="postgresql"><code>SELECT *
+FROM goodreads
+WHERE book_title IS NULL;</code></pre>
+<p>The <code>COALESCE</code> keyword allows us to pass multiple inputs and return the first non-null value. We can pass multiple columns, or a mix of columns and a hard-coded default value. This makes it useful to fill nulls. Think of it like the pandas <code>fillna</code> method.</p>
+<pre><code>SELECT COALESCE(book_rating, 0)  -- fill NULL values with 0
+FROM goodreads;</code></pre>
+<p>We can also use the <code>IFNULL</code> keyword to fill null values.</p>
+<pre class="postgresql"><code>SELECT 
+  book_title, 
+  IFNULL(book_rating, 0) AS rated_books  - fill NULL values with 0
+FROM goodreads;</code></pre>
+<p>In the above examples, <code>IFNULL</code> and <code>COALESCE</code> are interchangeable. In general, use <code>COALESCE</code> when checking multiple columns, e.g.&nbsp;<code>COALESCE(col1, col2, col3)</code>. If only checking one column, <code>IFNULL</code> is more concise.</p>
+<!-- # N+1. Miscellaneous Points
+
+## N+1.1. Order of Execution
+
+The clauses in a SQL query must be written according to the following
+[SQL Order of Execution](https://www.datacamp.com/tutorial/sql-order-of-execution). -->
+</section>
 </section>
 <section id="references" class="level1">
 <h1>References</h1>
 <ul>
-<li>Chapter 1 of Designing Data Intensive Applications by Martin Kleppmann</li>
+<li>https://datalemur.com/sql-tutorial</li>
+<li><a href="https://www.datacamp.com/tutorial/sql-order-of-execution">SQL Order of Execution</a></li>
 </ul>
 
 
