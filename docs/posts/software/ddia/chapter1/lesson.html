@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Gurpreet Johl">
-<meta name="dcterms.date" content="2025-01-17">
+<meta name="dcterms.date" content="2025-01-26">
 <meta name="description" content="Data Systems">
 
 <title>Gurpreet Johl - Designing Data Intensive Applications: Part 1</title>
@@ -154,7 +154,7 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">January 17, 2025</p>
+        <p class="date">January 26, 2025</p>
       </div>
     </div>
     
@@ -173,7 +173,14 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#reliable-scalable-and-maintainable-applications" id="toc-reliable-scalable-and-maintainable-applications" class="nav-link active" data-scroll-target="#reliable-scalable-and-maintainable-applications">Reliable, Scalable, and Maintainable Applications</a></li>
   <li><a href="#data-systems" id="toc-data-systems" class="nav-link" data-scroll-target="#data-systems">1. Data Systems</a></li>
   <li><a href="#reliability" id="toc-reliability" class="nav-link" data-scroll-target="#reliability">2. Reliability</a></li>
-  <li><a href="#scalability" id="toc-scalability" class="nav-link" data-scroll-target="#scalability">3. Scalability</a></li>
+  <li><a href="#scalability" id="toc-scalability" class="nav-link" data-scroll-target="#scalability">3. Scalability</a>
+  <ul class="collapse">
+  <li><a href="#describe-load" id="toc-describe-load" class="nav-link" data-scroll-target="#describe-load">3.1. Describe Load</a>
+  <ul class="collapse">
+  <li><a href="#twitter-example" id="toc-twitter-example" class="nav-link" data-scroll-target="#twitter-example">Twitter Example</a></li>
+  </ul></li>
+  <li><a href="#describe-performance" id="toc-describe-performance" class="nav-link" data-scroll-target="#describe-performance">3.2. Describe Performance</a></li>
+  </ul></li>
   <li><a href="#maintainability" id="toc-maintainability" class="nav-link" data-scroll-target="#maintainability">4. Maintainability</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
@@ -221,6 +228,25 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="scalability" class="level1">
 <h1>3. Scalability</h1>
+<p>Scalability describes the system’s ability to cope with an increased load.</p>
+<blockquote class="blockquote">
+<p>It is not a one-dimensional label that we can attach to a system: <strong>it is meaningless to say “X is scalable” or “Y doesn’t scale.”</strong> Rather, discussing scalability means considering questions like “If the system <strong>grows in a particular way</strong>, what are our options for coping with the growth?” and “How can we add computing resources to handle the additional load?”</p>
+</blockquote>
+<section id="describe-load" class="level2">
+<h2 class="anchored" data-anchor-id="describe-load">3.1. Describe Load</h2>
+<p>We first need to describe the load. This means summarising the system’s load with <strong>load parameters</strong> which depend on the system itself. This may be requests per second for a web server, read/write ratio for a database, number of concurrent users, cache hit rate etc.</p>
+<section id="twitter-example" class="level3">
+<h3 class="anchored" data-anchor-id="twitter-example">Twitter Example</h3>
+<p>Scaling can be made difficult by <em>fan out</em>. For exmaple, Twitter’s scaling challenge is not primarily due to tweet volume, but due to fan-out, whereby each user follows many people, and each user is followed by many people. When a tweet is published it needs to be updated on the tweeter’s timeline and update on each of their follower’s home screen.</p>
+<p>Approach (1) would be to store all data in a relational database and join the <code>follows</code>, <code>tweets</code> and <code>users</code> table on each tweet and timeline update.</p>
+<p>Approach (2) is to keep a cache for each user’s timeline, and insert new tweets into the relevant users’ caches when someone they follow tweets. This generally works well because there are far more reads than writes - more lurkers than tweeters.</p>
+<p>Twitter started with approach (1) then moved to (2). But for celebrities who have millions of followers, the fan out of approach (2) is prohibitively slow, so they use a hybrid of both where users with lots of followers use approach 1.</p>
+</section>
+</section>
+<section id="describe-performance" class="level2">
+<h2 class="anchored" data-anchor-id="describe-performance">3.2. Describe Performance</h2>
+<!-- TODO - page 13 -->
+</section>
 </section>
 <section id="maintainability" class="level1">
 <h1>4. Maintainability</h1>

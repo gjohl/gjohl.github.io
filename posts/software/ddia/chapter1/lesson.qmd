@@ -1,7 +1,7 @@
 ---
 title: "Designing Data Intensive Applications: Part 1"
 description: "Data Systems"
-date: "2025-01-17"
+date: "2025-01-26"
 # image: "deep_learning_model.png"
 categories: [DataEngineering, Engineering, Software]
 ---
@@ -53,6 +53,27 @@ This can be a tricky balance to get right, as interfaces that are too restrictiv
 
 
 # 3. Scalability
+
+Scalability describes the system's ability to cope with an increased load.
+
+> It is not a one-dimensional label that we can attach to a system: **it is meaningless to say “X is scalable” or “Y doesn’t scale.”** Rather, discussing scalability means considering questions like “If the system **grows in a particular way**, what are our options for coping with the growth?” and “How can we add computing resources to handle the additional load?”
+
+## 3.1. Describe Load
+We first need to describe the load. This means summarising the system's load with **load parameters** which depend on the system itself.
+This may be requests per second for a web server, read/write ratio for a database, number of concurrent users, cache hit rate etc.
+
+### Twitter Example
+Scaling can be made difficult by *fan out*. For exmaple, Twitter’s scaling challenge is not primarily due to tweet volume, but due to fan-out, whereby each user follows many people, and each user is followed by many people. When a tweet is published it needs to be updated on the tweeter's timeline and update on each of their follower's home screen.
+
+Approach (1) would be to store all data in a relational database and join the `follows`, `tweets` and `users` table on each tweet and timeline update.
+
+Approach (2) is to keep a cache for each user's timeline, and insert new tweets into the relevant users' caches when someone they follow tweets. This generally works well because there are far more reads than writes - more lurkers than tweeters.
+
+Twitter started with approach (1) then moved to (2). But for celebrities who have millions of followers, the fan out of approach (2) is prohibitively slow, so they use a hybrid of both where users with lots of followers use approach 1.
+
+## 3.2. Describe Performance
+
+<!-- TODO - page 13 -->
 
 
 # 4. Maintainability
