@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.549">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Gurpreet Johl">
+<meta name="dcterms.date" content="2025-01-31">
+<meta name="description" content="Snowflake? Snow Problem.">
+
+<title>Gurpreet Johl - Snowflake: SnowPro Core</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Gurpreet Johl</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../blog.html"> 
+<span class="menu-text">Notes</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/gjohl"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/gurpreetjohl"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/gurpreetjohl"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Snowflake: SnowPro Core</h1>
+                  <div>
+        <div class="description">
+          Snowflake? Snow Problem.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">Software</div>
+                <div class="quarto-category">DataEngineering</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Gurpreet Johl </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">January 31, 2025</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">1. Overview</a></li>
+  <li><a href="#snowflake-architecture" id="toc-snowflake-architecture" class="nav-link" data-scroll-target="#snowflake-architecture">2. Snowflake Architecture</a></li>
+  <li><a href="#data-loading-unloading" id="toc-data-loading-unloading" class="nav-link" data-scroll-target="#data-loading-unloading">3. Data Loading / Unloading</a></li>
+  <li><a href="#storage-monitoring" id="toc-storage-monitoring" class="nav-link" data-scroll-target="#storage-monitoring">STORAGE MONITORING</a></li>
+  <li><a href="#resource-monitors" id="toc-resource-monitors" class="nav-link" data-scroll-target="#resource-monitors">Resource monitors</a></li>
+  <li><a href="#data-transformation" id="toc-data-transformation" class="nav-link" data-scroll-target="#data-transformation">4. Data Transformation</a></li>
+  <li><a href="#snowflake-tools-and-connectors" id="toc-snowflake-tools-and-connectors" class="nav-link" data-scroll-target="#snowflake-tools-and-connectors">5. Snowflake Tools and Connectors</a></li>
+  <li><a href="#continuous-data-protection" id="toc-continuous-data-protection" class="nav-link" data-scroll-target="#continuous-data-protection">6. Continuous Data Protection</a></li>
+  <li><a href="#zero-copy-cloning-and-sharing" id="toc-zero-copy-cloning-and-sharing" class="nav-link" data-scroll-target="#zero-copy-cloning-and-sharing">7. Zero-Copy Cloning and Sharing</a></li>
+  <li><a href="#account-and-security" id="toc-account-and-security" class="nav-link" data-scroll-target="#account-and-security">8. Account and Security</a></li>
+  <li><a href="#performance-concepts" id="toc-performance-concepts" class="nav-link" data-scroll-target="#performance-concepts">9. Performance Concepts</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<section id="overview" class="level1">
+<h1>1. Overview</h1>
+<p>The <strong>Snowsight</strong> interface is the GUI through which we interact with Snowflake.</p>
+<p>When querying a Snowflake table, a <strong>fully qualified table name</strong> means <code>database_name + schema_name + table_name</code>. For example, “DERIVED_DB.PUBLIC.TRADES_DATA”</p>
+<p><strong>Worksheets</strong> are associated with a <strong>role</strong>.</p>
+<p>A <strong>warehouse</strong> is needed for <strong>compute</strong> to execute a query.</p>
+<p>Snowflake is a “self-managed cloud data platform”. It is cloud only. No on premise option.</p>
+<p>“Self-managed” service means:</p>
+<ul>
+<li>No hardware</li>
+<li>No software</li>
+<li>No maintenance</li>
+</ul>
+<p>“Data platform” means it can function as:</p>
+<ul>
+<li>Data warehouse</li>
+<li>Data lake - mix of structured and semi structured data</li>
+<li>Data science - use yourpreferred language via <em>Snowpark</em></li>
+</ul>
+</section>
+<section id="snowflake-architecture" class="level1">
+<h1>2. Snowflake Architecture</h1>
+<p>In general, there are two approaches to designing a dsitributed data / compute platform: shared-disk and shared-nothing.</p>
+<p><strong>Shared-disk</strong> uses <em>central data storage</em> connected to <em>multiple compute nodes</em>. Pros: simple, easy data management since their is only one database/disk Cons: limited scalability (bottleneck of the central disk), single point of failure</p>
+<p>Shared-nothing. Each node is independent. Each node is a separate processor, memory and disk. Pros: scalability, availability Cons: complicated, expensive</p>
+<p>Snowflake is “multi-cluster shared-data”. This is a hybrid of both. There is a single data repository like shared-disk. There are multiple clusters or nodes that store a portion of the data locally, like shared-nothing. Combines the pros of both: simplicity, scalability</p>
+<p>3 layers of snowflake 1. Database storage 2. Compute - query processing 3. Cloud services</p>
+<p>Database storage. Compressed columnar storage. This is stored as blobs in AWS, Azure, GCP etc. Snowflake abstracts this away so we just interact with it like a table. This is optimised for OLAP (analytical purposes) which is read heavy, rather than OLTP which is write-heavy.</p>
+<p>Query processing. “The muscle of the system”. Queries are processed using “virtual warehouses”, massive parallel processing compute cluster, e.g.&nbsp;EC2 on AWS.</p>
+<p>Cloud services. “The brain of the system”.</p>
+<p>Collection of service to manage and coordinate components, e.g.&nbsp;the S3 and EC2 instances used in the other two layers. The cloud services layer also runs on a compute instance of the cloud provider and is completely handled by Snowflake.</p>
+<p>This layer handles: authentication, access control, metadata management, infrastructure management, query parsing and optimisation (the query EXECUTION happens in the compute layer).</p>
+</section>
+<section id="data-loading-unloading" class="level1">
+<h1>3. Data Loading / Unloading</h1>
+<p>Loading data into snowflake.</p>
+<p>The usual sql commands can be used to create databases and tables.</p>
+<p>Create database myfirstdb Alter database myfirstdb rename firstdb Create table loan_payments ( COL_NAME string, OTHER_COL_NAME string, )</p>
+<p>Use this to switch the active database to avoid having to use the fully qualified table name everywhere. Use database firstdb</p>
+<p>Copy into loan_payments From s3/… (url) File format = (delimiter=“,”, skip rows=1, type=csv)</p>
+<p>Snowflake editions. Vary by features and pricing. Feature matrix on snowflake docs.</p>
+<p>Standard: Complete DWH, automatic data encryption, support for standard and special data types, time travel 1 day, disaster recovery for 7 days beyond time travel, network policies, federated auth and SSO, 24/7 support</p>
+<p>Enterprise: Multi cluster warehouse, time travel 90 days, materialised views, search optimisation, column-level security, 24 hour early access to new releases</p>
+<p>Business critical: Additional security features such as customer managed encryption, support for data specific regulation, database failover and fallback</p>
+<p>Virtual private: Dedicated virtual servers and warehouse, dedicated metadata store. Isolated from all other snowflake accounts.</p>
+<p>Compute costs. Compute costs and storage costs are decoupled and can be scaled separately. Pay for what you need.</p>
+<p>Active warehouses - used for standard query processing. Billed per second (minimum one minute). Depends on size of warehouse, time and number of warehouses. Cloud services - behind the scenes cloud service tasks. Only charged if &gt;10% of warehouse consumption, which is not the case for most customers. Serverless - used for search optimisation and snowpipe. This is compute that is managed by snowflake, e.g.&nbsp;event-based processing.</p>
+<p>Charged in snowflake credits.</p>
+<p>Calculating number of credits consumed - Number of credits per hour: XS 1 S 2 M 4 L 8 XL 16 4XL 128</p>
+<p>Credits cost different amounts per edition. 2$/ credit for standard, 3 for enterprise, 4 for business critical. Also depends on the cloud provider (AWS) and region (US east)</p>
+<p>Storage and data costs. Monthly cost based on average storage used per month. Also depends on cloud provider and region. Cost is calculated AFTER Snowflake’s data compression</p>
+<p>On demand storage. Pay for what you use.</p>
+<p>Capacity storage. Pay upfront for defined capacity.</p>
+<p>Typically start with on demand until we understand our actual usage, then shift to capacity storage once this is stable.</p>
+<p>Transfer costs. Ingress vs egress Data IN is free. Data OUT is charged. Depends on cloud provider and region. In region transfers are free. Cross region or cross providers are charged.</p>
+</section>
+<section id="storage-monitoring" class="level1">
+<h1>STORAGE MONITORING</h1>
+<p>Individual table storage.</p>
+<p>Show tables (stats for table storage and properties)</p>
+<p>(Detailed views) TABLE_STORAGE_METRICS view in INFORMATION_SCHEMA</p>
+<p>TABLE_STORAGE_METRICS view in ACCOUNT_USAGE</p>
+<p>Can also look at the admin -&gt; usage screen in the snowflake UI</p>
+</section>
+<section id="resource-monitors" class="level1">
+<h1>Resource monitors</h1>
+<p>Control and monitor credit usage of individual warehouses and entire account</p>
+<p>We can set limits of credits used per period, eg max number of credits that can be spent per month.</p>
+<p>We can set actions based on when a % of the credit limit is reached. Notify, suspend and notify (but continue running tasks that have already started), or suspend immediately (aborting any running queries) and notify. These percentages can be &gt;100%.</p>
+<p>Hands on: Can use the usage tab in the account admin role in the snowsight UI under Admin -&gt; Usage.</p>
+<p>Can select a warehouse then filter on different dimensions. Distinguish storage vs compute vs data transfer costs.</p>
+<p>To set up a new resource monitor, we give it: - name - credit quota - how many credits to limit to - monitor type - specific warehouse, group of warehouses, or overall account - schedule - Actions</p>
+<p>Warehouses and multi clustering. There are different types and sizes of warehouse and they can be multi clustered. Types: standard and snowpark-optimised Size: XS to XXL. Snowpark type is only M or bigger and consumes 50% more credits</p>
+<p>Multi clustering is good for more queries, ie more concurrent users. We scale horizontally so there are multiple small warehouses rather than one big one. They can be in maximised mode (set size) or autoscaled mode (number of nodes scales between predefined min and max)</p>
+<p>The autoscaler decides to add warehouses based on the queue, according to the scaling policy. Standard - favours starting extra clusters. Starts a new cluster as soon as there is a query queued. Cluster shuts down after 2 to 3 successful checks - the load on the least used node could be redistributed to other nodes. Economy - favours conserving credits. Starts a new cluster once the workload for the cluster would keep it running for &gt; 6 mins. Cluster shuts down after 5-6 successful checks.</p>
+<p>Hands on. Need account role to be account admin, security admin or sys admin.</p>
+<p>Warehouse can be created through UI or SQL.</p>
+<p>Create warehouse my_wh With Warehouse_size = small Min_cluster_count = 1 Max_cluster_count = 3</p>
+<p>Can also alter or drop a warehouse.</p>
+<p>Snowflake objects. Hierarchy of objects. An organisation can have multiple accounts. These accounts might be by cloud region or department. Within each account we have multiple account objects: users, roles, databases, warehouses, other objects. Databases can have multiple schemas. Schemas can have multiples UDFs, views, tables, stages, other objects</p>
+<p>SnowSQL. Used to connect to Snowflake via the command line. We can execute queries, load and unload data.</p>
+<p>Needs to be installed on your local machine.</p>
+<p>SECTION 3: loading and unloading data</p>
+<p>Stages. Stages are locations used to store data. From the stage, say an S3 bucket, we can load data from a stage into a database. Likewise, we can unload data from the database to the stage (S3 bucket)</p>
+<p>Stages can be internal (managed by snowflake) or external (managed by your cloud provider, eg AWS S3)</p>
+<p>Internal stage. We upload data into an internal stage using the PUT command. By default compressed with gzip and encrypted. We load it into the database using the COPY INTO command. We can also unload using the COPY INTO command by varying the destination.</p>
+<p>There are 3 types of stage: - user stage. Can only be accessed by one user. Every user has one by default and it cannot be altered or dropped. Accessed with @~ - table stage. Can only be accessed by one table. Cannot be altered or dropped. Use this to load to a specific table. Accessed with @% - Named stage. CREATE STAGE to create your own. This is then just like any other database object, so you can modify it or grant privileges. Most commonly used. Accessed with @</p>
+<p>Use cases: - we have a file on our local system that we want to load into snowflake but we don’t have an external cloud provider set up.</p>
+<p>External stage. Connect to external cloud provider such as S3 bucket. CREATE STAGE stagename url=… like with named internal stage. This creates a snowflake object that we can modify and grant privileges to.</p>
+<p>We can add credentials argument but this would store them in plain text. A better practice is to pass a storage_integration arg that points to credentials.</p>
+<p>We can also specify the file_format.</p>
+<p>Commands for stages: - List - list all files - copy into - load or unload data - Select - query - Desc - describe</p>
+<p>Copy into. This can bulk load or unload data. A warehouse is needed. Data transfer costs may apply if moving across regions or cloud providers.</p>
+<p>Load: Copy into table_name from stage_name</p>
+<p>Can specify a file or list of files with the files arg: files = … We can also use the pattern arg to match a file pattern with wildcards, eg order*.csv</p>
+<p>Unload: Copy into stage_name from table_name</p>
+<p>Can specify a file format with file_format arg, or pass a reusable file format object A range of file formats are supported including: csv, json, parquet, orc, avro, xml</p>
+<p>File format. If the file format is not specified, it defaults to csv. You can see this and other default values by describing the stage with: Desc stage stage_name</p>
+<p>We can overrule the defaults by specifying file_format arg in the copy into command.</p>
+<p>A better practice is to use the file_format arg to pass a file_format object such as file_format = (TYPE = CSV)</p>
+<p>We create this object with CREATE FILE FORMAT file_format_name TYPE = CSV FIELD_DELIMITER = ‘,’ SKIP_HEADER = 1</p>
+<p>We write this file format to a table like manage_db Then we can reuse it in multiple places when creating the stage or table, loading or unloading data, etc.</p>
+<p>Insert and update. Inserts are the same as standard SQL: INSERT INTO table_name VALUES ( )</p>
+<p>To only insert specific columns:</p>
+<p>INSERT INTO table_name (col1, col2) VALUES ( )</p>
+<p>INSERT OVERWRITE will truncate any existing data and insert only the given values.</p>
+<p>UPDATE also works like standard SQL: UPDATE table_name SET col1=10 WHERE col1=1</p>
+<p>TRUNCATE removes all of the values in the table</p>
+<p>DROP removes the entire table object and its contents.</p>
+<p>Storage integration object. Stores a generated identity for external cloud storage. We create it as a snowflake object which constrains allowed location and grant permissions to it in AWS, Azure etc.</p>
+<p>Snowpipe. The discussion so far has focused on bulk loading, ie manual loading of a batch of data.</p>
+<p>Snowpipe is used for continuous data loading.</p>
+<p>A pipe is a snowflake object. It loads data immediately when a file appears in blob storage. It triggers a predefined copy command. This is useful when data needs to be available immediately.</p>
+<p>Snowpipe uses serverless features rather than warehouses.</p>
+<p>When files are uploaded to an S3 bucket, it sends an event notification to a serverless process which executes the copy command into the snowflake database.</p>
+<p>CREATE PIPE pipe_name AUTO_INGEST = TRUE INGESTION = notification integration from cloud storage COMMENT = string AS COPY INTO table_name FROM stage_name</p>
+<p>Snowpipe can be triggered by cloud messages or REST API. Cloud messages are for external stages only with that cloud provider. Rest api can be internal or external stage.</p>
+<p>Cost is based on per second per core of the serverless process. Time depends on size and number of files. Ideal file size is between 100-250 MB.</p>
+<p>Snowflake stores metadata about the file loading. Old history is retained for 14 days. The location of the pipe is stored in a schema in the database. The schedule can be paused or resumed by altering the pipe. ALTER PIPE pipe_name SET PIPE_EXECUTION_PAUSED = True</p>
+<p>Copy options.</p>
+<p>These are arguments we can pass to COPY INTO for loading and unloading. Some options only apply to loading and do not apply to unloading.</p>
+<p>They are properties of the stage object, so if not defined it will fall back to these default values.</p>
+<p>The options:</p>
+<p>ON_ERROR. String.</p>
+<p>Only for data loading.</p>
+<p>Continue - continue loading file if errors are found SKIP_FILE - skip loading this file if errors are found. This is the default for Snowpipe. SKIP_FILE_<num> - skip if &gt;= num errors are found (absolute) SKIP_FILE_<pct>% - skip if &gt;= pct errors are found (percentage) ABORT_STATEMENT - abort loading if an error is found. This is the default for bulk load.</pct></num></p>
+<p>SIZE_LIMIT. Int. Maximum cumulative size, in bytes to load. Once this amount of data has been loaded, skip any remaining files.</p>
+<p>PURGE. Bool. Remove files from the stage after they have been loaded. Default is False.</p>
+<p>MATCH_BY_COLUMN_NAME. String. Load semi structured data by matching field names.</p>
+<p>CASE_SENSITIVE CASE _INSENSITIVE NONE - default</p>
+<p>ENFORCE_LENGTH. Bool.<br>
+if we have a varchar(10) field, how should we handle data that is too long?</p>
+<p>TRUE - raise an error. Default. FALSE - automatically truncate strings.</p>
+<p>TRUNCATECOLUMNS is an alternative arg that does the OPPOSITE.</p>
+<p>FORCE. Bool.</p>
+<p>If we have loaded this file before, should we load it again?</p>
+<p>FALSE by default.</p>
+<p>LOAD_UNCERTAIN_FILES. Bool. Should we load files if the load status is unknown?</p>
+<p>FALSE by default.</p>
+<p>VALIDATION_MODE. String. Validate the data instead of actually loading it.</p>
+<p>RETURN_N_ROWS - validate the first N rows and returns them (like a select statement would). If there is one or more errors in those rows, raise the first. RETURN_ERRORS - return all errors in the file.</p>
+<p>VALIDATE. Validates the files loaded in a previous COPY INTO. Returns a list of errors from that bulk load. This is a table function.</p>
+<p>SELECT * FROM TABLE(VALIDATE(table_name, job_id =&gt; ’_last’))</p>
+<p>Can pass a query ID instead of _last, which uses the last run.</p>
+<p>Unloading. COPY INTO stage_name FROM table_name</p>
+<p>We can unload specific rows or columns by using a SELECT statement:</p>
+<p>COPY INTO stage_name FROM (SELECT col1, col2 FROM table_name)</p>
+<p>We can pass a FILE_FORMAT object and HEADER args.</p>
+<p>We can also specify the prefix for each file. By default the prefix is data_ and the suffix is _0, _1, etc. This is the default behaviour to split the output into multiple files once <code>MAX_FILE_SIZE</code> is reached, setting an upper limit on the output. The <code>SINGLE</code> parameter can be passed to override this, to force the unloading task to keep the output to a single file without splitting.</p>
+<p>COPY INTO stage_name/myprefix</p>
+<p>If unloading to an internal stage, to get the data on your local machine use SnowSQL to run a GET command on the internal stage after unloading.</p>
+<p>You can then use the REMOVE command to delete from the internal stage.</p>
+</section>
+<section id="data-transformation" class="level1">
+<h1>4. Data Transformation</h1>
+</section>
+<section id="snowflake-tools-and-connectors" class="level1">
+<h1>5. Snowflake Tools and Connectors</h1>
+</section>
+<section id="continuous-data-protection" class="level1">
+<h1>6. Continuous Data Protection</h1>
+</section>
+<section id="zero-copy-cloning-and-sharing" class="level1">
+<h1>7. Zero-Copy Cloning and Sharing</h1>
+</section>
+<section id="account-and-security" class="level1">
+<h1>8. Account and Security</h1>
+</section>
+<section id="performance-concepts" class="level1">
+<h1>9. Performance Concepts</h1>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<ul>
+<li><a href="https://www.udemy.com/course/snowflake-certification-snowpro-core-exam-prep">“Snowflake Certification: SnowPro Core COF-C02 Exam Prep” Udemy course</a></li>
+</ul>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
