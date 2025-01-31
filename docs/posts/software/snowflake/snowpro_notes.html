@@ -170,10 +170,29 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">1. Overview</a></li>
-  <li><a href="#snowflake-architecture" id="toc-snowflake-architecture" class="nav-link" data-scroll-target="#snowflake-architecture">2. Snowflake Architecture</a></li>
-  <li><a href="#data-loading-unloading" id="toc-data-loading-unloading" class="nav-link" data-scroll-target="#data-loading-unloading">3. Data Loading / Unloading</a></li>
-  <li><a href="#storage-monitoring" id="toc-storage-monitoring" class="nav-link" data-scroll-target="#storage-monitoring">STORAGE MONITORING</a></li>
+  <li><a href="#snowflake-architecture" id="toc-snowflake-architecture" class="nav-link" data-scroll-target="#snowflake-architecture">2. Snowflake Architecture</a>
+  <ul class="collapse">
+  <li><a href="#multi-cluster-shared-disk" id="toc-multi-cluster-shared-disk" class="nav-link" data-scroll-target="#multi-cluster-shared-disk">2.1. Multi-cluster Shared Disk</a></li>
+  <li><a href="#layers-of-snowflake" id="toc-layers-of-snowflake" class="nav-link" data-scroll-target="#layers-of-snowflake">2.2. Layers of Snowflake</a></li>
+  <li><a href="#loading-data-into-snowflake" id="toc-loading-data-into-snowflake" class="nav-link" data-scroll-target="#loading-data-into-snowflake">2.3. Loading Data into Snowflake</a></li>
+  <li><a href="#snowflake-editions" id="toc-snowflake-editions" class="nav-link" data-scroll-target="#snowflake-editions">2.4. Snowflake Editions</a></li>
+  <li><a href="#compute-costs" id="toc-compute-costs" class="nav-link" data-scroll-target="#compute-costs">2.5. Compute Costs</a>
+  <ul class="collapse">
+  <li><a href="#overview-of-cost-categories" id="toc-overview-of-cost-categories" class="nav-link" data-scroll-target="#overview-of-cost-categories">2.5.1. Overview of Cost Categories</a></li>
+  <li><a href="#calculating-number-of-credits-consumed-" id="toc-calculating-number-of-credits-consumed-" class="nav-link" data-scroll-target="#calculating-number-of-credits-consumed-">2.5.2. Calculating Number of Credits Consumed-</a></li>
+  </ul></li>
+  <li><a href="#storage-and-data-costs" id="toc-storage-and-data-costs" class="nav-link" data-scroll-target="#storage-and-data-costs">2.6 Storage and Data Costs</a>
+  <ul class="collapse">
+  <li><a href="#storage-types-and-costs" id="toc-storage-types-and-costs" class="nav-link" data-scroll-target="#storage-types-and-costs">2.6.1. Storage Types and Costs</a></li>
+  <li><a href="#transfer-costs" id="toc-transfer-costs" class="nav-link" data-scroll-target="#transfer-costs">2.6.2. Transfer Costs</a></li>
+  </ul></li>
+  <li><a href="#storage-monitoring" id="toc-storage-monitoring" class="nav-link" data-scroll-target="#storage-monitoring">2.7. Storage Monitoring</a></li>
   <li><a href="#resource-monitors" id="toc-resource-monitors" class="nav-link" data-scroll-target="#resource-monitors">Resource monitors</a></li>
+  <li><a href="#warehouses-and-multi-clustering." id="toc-warehouses-and-multi-clustering." class="nav-link" data-scroll-target="#warehouses-and-multi-clustering.">Warehouses and multi clustering.</a></li>
+  <li><a href="#snowflake-objects." id="toc-snowflake-objects." class="nav-link" data-scroll-target="#snowflake-objects.">Snowflake objects.</a></li>
+  <li><a href="#snowsql." id="toc-snowsql." class="nav-link" data-scroll-target="#snowsql.">SnowSQL.</a></li>
+  </ul></li>
+  <li><a href="#data-loading-unloading" id="toc-data-loading-unloading" class="nav-link" data-scroll-target="#data-loading-unloading">3. Data Loading / Unloading</a></li>
   <li><a href="#data-transformation" id="toc-data-transformation" class="nav-link" data-scroll-target="#data-transformation">4. Data Transformation</a></li>
   <li><a href="#snowflake-tools-and-connectors" id="toc-snowflake-tools-and-connectors" class="nav-link" data-scroll-target="#snowflake-tools-and-connectors">5. Snowflake Tools and Connectors</a></li>
   <li><a href="#continuous-data-protection" id="toc-continuous-data-protection" class="nav-link" data-scroll-target="#continuous-data-protection">6. Continuous Data Protection</a></li>
@@ -213,66 +232,248 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="snowflake-architecture" class="level1">
 <h1>2. Snowflake Architecture</h1>
+<section id="multi-cluster-shared-disk" class="level2">
+<h2 class="anchored" data-anchor-id="multi-cluster-shared-disk">2.1. Multi-cluster Shared Disk</h2>
 <p>In general, there are two approaches to designing a dsitributed data / compute platform: shared-disk and shared-nothing.</p>
-<p><strong>Shared-disk</strong> uses <em>central data storage</em> connected to <em>multiple compute nodes</em>. Pros: simple, easy data management since their is only one database/disk Cons: limited scalability (bottleneck of the central disk), single point of failure</p>
-<p>Shared-nothing. Each node is independent. Each node is a separate processor, memory and disk. Pros: scalability, availability Cons: complicated, expensive</p>
-<p>Snowflake is “multi-cluster shared-data”. This is a hybrid of both. There is a single data repository like shared-disk. There are multiple clusters or nodes that store a portion of the data locally, like shared-nothing. Combines the pros of both: simplicity, scalability</p>
-<p>3 layers of snowflake 1. Database storage 2. Compute - query processing 3. Cloud services</p>
-<p>Database storage. Compressed columnar storage. This is stored as blobs in AWS, Azure, GCP etc. Snowflake abstracts this away so we just interact with it like a table. This is optimised for OLAP (analytical purposes) which is read heavy, rather than OLTP which is write-heavy.</p>
-<p>Query processing. “The muscle of the system”. Queries are processed using “virtual warehouses”, massive parallel processing compute cluster, e.g.&nbsp;EC2 on AWS.</p>
-<p>Cloud services. “The brain of the system”.</p>
-<p>Collection of service to manage and coordinate components, e.g.&nbsp;the S3 and EC2 instances used in the other two layers. The cloud services layer also runs on a compute instance of the cloud provider and is completely handled by Snowflake.</p>
-<p>This layer handles: authentication, access control, metadata management, infrastructure management, query parsing and optimisation (the query EXECUTION happens in the compute layer).</p>
+<p><strong>Shared-disk</strong> uses <em>central data storage</em> connected to <em>multiple compute nodes</em>.</p>
+<ul>
+<li>Pros: simple, easy data management since their is only one database/disk</li>
+<li>Cons: limited scalability (bottleneck of the central disk), single point of failure</li>
+</ul>
+<p><strong>Shared-nothing</strong> keeps <em>each node independent</em>. Each node is a <em>separate processor, memory and disk</em>.</p>
+<ul>
+<li>Pros: scalability, availability</li>
+<li>Cons: complicated, expensive</li>
+</ul>
+<p>Snowflake uses a <strong>hybrid approach</strong>: “multi-cluster shared-data”.</p>
+<ul>
+<li>There is a <em>single data repository like shared-disk</em>.</li>
+<li>There are <em>multiple clusters or nodes</em> that store a <strong>portion</strong> of the data <strong>locally</strong>, like shared-nothing.</li>
+</ul>
+<p>This combines the pros of both: simplicity and scalability.</p>
 </section>
-<section id="data-loading-unloading" class="level1">
-<h1>3. Data Loading / Unloading</h1>
-<p>Loading data into snowflake.</p>
-<p>The usual sql commands can be used to create databases and tables.</p>
-<p>Create database myfirstdb Alter database myfirstdb rename firstdb Create table loan_payments ( COL_NAME string, OTHER_COL_NAME string, )</p>
-<p>Use this to switch the active database to avoid having to use the fully qualified table name everywhere. Use database firstdb</p>
-<p>Copy into loan_payments From s3/… (url) File format = (delimiter=“,”, skip rows=1, type=csv)</p>
-<p>Snowflake editions. Vary by features and pricing. Feature matrix on snowflake docs.</p>
-<p>Standard: Complete DWH, automatic data encryption, support for standard and special data types, time travel 1 day, disaster recovery for 7 days beyond time travel, network policies, federated auth and SSO, 24/7 support</p>
-<p>Enterprise: Multi cluster warehouse, time travel 90 days, materialised views, search optimisation, column-level security, 24 hour early access to new releases</p>
-<p>Business critical: Additional security features such as customer managed encryption, support for data specific regulation, database failover and fallback</p>
-<p>Virtual private: Dedicated virtual servers and warehouse, dedicated metadata store. Isolated from all other snowflake accounts.</p>
-<p>Compute costs. Compute costs and storage costs are decoupled and can be scaled separately. Pay for what you need.</p>
-<p>Active warehouses - used for standard query processing. Billed per second (minimum one minute). Depends on size of warehouse, time and number of warehouses. Cloud services - behind the scenes cloud service tasks. Only charged if &gt;10% of warehouse consumption, which is not the case for most customers. Serverless - used for search optimisation and snowpipe. This is compute that is managed by snowflake, e.g.&nbsp;event-based processing.</p>
-<p>Charged in snowflake credits.</p>
-<p>Calculating number of credits consumed - Number of credits per hour: XS 1 S 2 M 4 L 8 XL 16 4XL 128</p>
-<p>Credits cost different amounts per edition. 2$/ credit for standard, 3 for enterprise, 4 for business critical. Also depends on the cloud provider (AWS) and region (US east)</p>
-<p>Storage and data costs. Monthly cost based on average storage used per month. Also depends on cloud provider and region. Cost is calculated AFTER Snowflake’s data compression</p>
-<p>On demand storage. Pay for what you use.</p>
-<p>Capacity storage. Pay upfront for defined capacity.</p>
+<section id="layers-of-snowflake" class="level2">
+<h2 class="anchored" data-anchor-id="layers-of-snowflake">2.2. Layers of Snowflake</h2>
+<p>There are three distinct layers of Snowflake:</p>
+<ol type="1">
+<li>Database storage
+<ol type="a">
+<li>Compressed columnar storage.</li>
+<li>This is stored as blobs in AWS, Azure, GCP etc.</li>
+<li><strong>Snowflake abstracts this away</strong> so we just interact with it like a table.</li>
+<li>This is optimised for OLAP (analytical purposes) which is <strong>read-heavy</strong>, rather than OLTP which is write-heavy.</li>
+</ol></li>
+<li>Compute
+<ol type="a">
+<li>“The <strong>muscle</strong> of the system”.</li>
+<li>Query processing.</li>
+<li>Queries are processed using <strong>“virtual warehouses”</strong>. These are massive parallel processing compute clusters, e.g.&nbsp;EC2 on AWS.</li>
+</ol></li>
+<li>Cloud services
+<ol type="a">
+<li>“The <strong>brain</strong> of the system”.</li>
+<li>Collection of services to manage and coordinate components, e.g.&nbsp;the S3 and EC2 instances used in the other two layers.</li>
+<li>The cloud services layer also runs on a compute instance of the cloud provider and is <em>completely handled by Snowflake</em>.</li>
+<li>This layer handles: <strong>authentication, access control, metadata management, infrastructure management, query parsing and optimisation</strong>. The query <strong>execution</strong> happens in the compute layer.</li>
+</ol></li>
+</ol>
+</section>
+<section id="loading-data-into-snowflake" class="level2">
+<h2 class="anchored" data-anchor-id="loading-data-into-snowflake">2.3. Loading Data into Snowflake</h2>
+<p>This is covered more extensivelyt in its own section, but this sub-section serves as a brief introduction.</p>
+<p>The usual SQL commands can be used to create databases and tables.</p>
+<pre><code>CREATE DATABASE myfirstdb
+ALTER DATABASE myfirstdb RENAME firstdb
+CREATE TABLE loan_payments (
+    col1 string,
+    col2 string,
+);</code></pre>
+<p>We can specify a database to use with the <code>USE DATABASE</code> command to switch the active database. This avoids having to use the <em>fully qualified table name</em> everywhere.</p>
+<pre><code>USE DATABASE firstdb
+
+COPY INTO loan_payments
+FROM s3/… -- The URL to copy from
+file_format = (delimiter = “,”,
+               skip rows=1,
+               type=csv);</code></pre>
+</section>
+<section id="snowflake-editions" class="level2">
+<h2 class="anchored" data-anchor-id="snowflake-editions">2.4. Snowflake Editions</h2>
+<p>The different Snowflake editions vary by <em>features and pricing</em>. The feature matrix is available on the <a href="https://docs.snowflake.com/en/user-guide/intro-editions">Snowflake docs</a>.</p>
+<ul>
+<li>Standard
+<ul>
+<li>Complete DWH, automatic data encryption, support for standard and special data types, time travel 1 day, disaster recovery for 7 days beyond time travel, network policies, federated auth and SSO, 24/7 support</li>
+</ul></li>
+<li>Enterprise
+<ul>
+<li>Multi cluster warehouse, time travel 90 days, materialised views, search optimisation, column-level security, 24 hour early access to new releases</li>
+</ul></li>
+<li>Business critical
+<ul>
+<li>Additional security features such as customer managed encryption, support for data specific regulation, database failover and fallback</li>
+</ul></li>
+<li>Virtual private
+<ul>
+<li>Dedicated virtual servers and warehouse, dedicated metadata store. Isolated from all other snowflake accounts.</li>
+</ul></li>
+</ul>
+</section>
+<section id="compute-costs" class="level2">
+<h2 class="anchored" data-anchor-id="compute-costs">2.5. Compute Costs</h2>
+<section id="overview-of-cost-categories" class="level3">
+<h3 class="anchored" data-anchor-id="overview-of-cost-categories">2.5.1. Overview of Cost Categories</h3>
+<p>Compute costs and storage costs are decoupled and can be scaled separately. “Pay for what you need”.</p>
+<ul>
+<li><strong>Active warehouses</strong>
+<ul>
+<li>Used for standard query processing.</li>
+<li>Billed per second (minimum 1 minute).</li>
+<li>Depends on <em>size of warehouse, time and number of warehouses</em>.</li>
+</ul></li>
+<li><strong>Cloud services</strong>
+<ul>
+<li>Behind-the-scenes cloud service tasks.</li>
+<li><em>Only charged if &gt;10% of warehouse consumption</em>, which is not the case for most customers.</li>
+</ul></li>
+<li><strong>Serverless</strong>
+<ul>
+<li>Used for <em>search optimisation</em> and <em>Snowpipe</em>.</li>
+<li>This is compute that is managed by snowflake, e.g.&nbsp;event-based processing.</li>
+</ul></li>
+</ul>
+<p>These are charged in <strong>Snowflake credits</strong>.</p>
+</section>
+<section id="calculating-number-of-credits-consumed-" class="level3">
+<h3 class="anchored" data-anchor-id="calculating-number-of-credits-consumed-">2.5.2. Calculating Number of Credits Consumed-</h3>
+<p>The warehouses consume the following number of credits per hour:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Warehouse Size</th>
+<th>Number of Credits</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>XS</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>S</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td>M</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td>L</td>
+<td>8</td>
+</tr>
+<tr class="odd">
+<td>XL</td>
+<td>16</td>
+</tr>
+<tr class="even">
+<td>4XL</td>
+<td>128</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Credits cost different amounts per edition.</strong> It also depends on the <em>cloud provider</em> (AWS) and <em>region</em> (US-East-1). Indicative costs for AWS US-East-1 are:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Edition</th>
+<th>$ / Credit</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Standard</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>Enterprise</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>Business Critical</td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="storage-and-data-costs" class="level2">
+<h2 class="anchored" data-anchor-id="storage-and-data-costs">2.6 Storage and Data Costs</h2>
+<section id="storage-types-and-costs" class="level3">
+<h3 class="anchored" data-anchor-id="storage-types-and-costs">2.6.1. Storage Types and Costs</h3>
+<p>Monthly storage costs are based on <strong>average storage used per month</strong>. Also depends on <strong>cloud provider and region</strong>. Cost is calculated <strong>AFTER Snowflake’s data compression</strong>.</p>
+<p>There are two options for storage pricing:</p>
+<ul>
+<li><strong>On demand storage</strong>: Pay for what you use.</li>
+<li><strong>Capacity storage</strong>: Pay upfront for defined capacity.</li>
+</ul>
 <p>Typically start with on demand until we understand our actual usage, then shift to capacity storage once this is stable.</p>
-<p>Transfer costs. Ingress vs egress Data IN is free. Data OUT is charged. Depends on cloud provider and region. In region transfers are free. Cross region or cross providers are charged.</p>
 </section>
-<section id="storage-monitoring" class="level1">
-<h1>STORAGE MONITORING</h1>
+<section id="transfer-costs" class="level3">
+<h3 class="anchored" data-anchor-id="transfer-costs">2.6.2. Transfer Costs</h3>
+<p>This depends on data <strong>ingress vs egress</strong>.</p>
+<ul>
+<li><strong>Data IN is free</strong>
+<ul>
+<li>Snowflake wants to remove friction to getting your data in.</li>
+</ul></li>
+<li><strong>Data OUT is charged</strong>
+<ul>
+<li>Snowflake wants to add friction to leaving.</li>
+<li>Depends on <em>cloud provider and region</em>. <strong>In-region transfers are free</strong>. Cross-region or cross-providers are charged.</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="storage-monitoring" class="level2">
+<h2 class="anchored" data-anchor-id="storage-monitoring">2.7. Storage Monitoring</h2>
+<p><todo from="" here=""></todo></p>
 <p>Individual table storage.</p>
 <p>Show tables (stats for table storage and properties)</p>
 <p>(Detailed views) TABLE_STORAGE_METRICS view in INFORMATION_SCHEMA</p>
 <p>TABLE_STORAGE_METRICS view in ACCOUNT_USAGE</p>
 <p>Can also look at the admin -&gt; usage screen in the snowflake UI</p>
 </section>
-<section id="resource-monitors" class="level1">
-<h1>Resource monitors</h1>
+<section id="resource-monitors" class="level2">
+<h2 class="anchored" data-anchor-id="resource-monitors">Resource monitors</h2>
 <p>Control and monitor credit usage of individual warehouses and entire account</p>
 <p>We can set limits of credits used per period, eg max number of credits that can be spent per month.</p>
 <p>We can set actions based on when a % of the credit limit is reached. Notify, suspend and notify (but continue running tasks that have already started), or suspend immediately (aborting any running queries) and notify. These percentages can be &gt;100%.</p>
 <p>Hands on: Can use the usage tab in the account admin role in the snowsight UI under Admin -&gt; Usage.</p>
 <p>Can select a warehouse then filter on different dimensions. Distinguish storage vs compute vs data transfer costs.</p>
 <p>To set up a new resource monitor, we give it: - name - credit quota - how many credits to limit to - monitor type - specific warehouse, group of warehouses, or overall account - schedule - Actions</p>
-<p>Warehouses and multi clustering. There are different types and sizes of warehouse and they can be multi clustered. Types: standard and snowpark-optimised Size: XS to XXL. Snowpark type is only M or bigger and consumes 50% more credits</p>
+</section>
+<section id="warehouses-and-multi-clustering." class="level2">
+<h2 class="anchored" data-anchor-id="warehouses-and-multi-clustering.">Warehouses and multi clustering.</h2>
+<p>There are different types and sizes of warehouse and they can be multi clustered. Types: standard and snowpark-optimised Size: XS to XXL. Snowpark type is only M or bigger and consumes 50% more credits</p>
 <p>Multi clustering is good for more queries, ie more concurrent users. We scale horizontally so there are multiple small warehouses rather than one big one. They can be in maximised mode (set size) or autoscaled mode (number of nodes scales between predefined min and max)</p>
 <p>The autoscaler decides to add warehouses based on the queue, according to the scaling policy. Standard - favours starting extra clusters. Starts a new cluster as soon as there is a query queued. Cluster shuts down after 2 to 3 successful checks - the load on the least used node could be redistributed to other nodes. Economy - favours conserving credits. Starts a new cluster once the workload for the cluster would keep it running for &gt; 6 mins. Cluster shuts down after 5-6 successful checks.</p>
 <p>Hands on. Need account role to be account admin, security admin or sys admin.</p>
 <p>Warehouse can be created through UI or SQL.</p>
 <p>Create warehouse my_wh With Warehouse_size = small Min_cluster_count = 1 Max_cluster_count = 3</p>
 <p>Can also alter or drop a warehouse.</p>
-<p>Snowflake objects. Hierarchy of objects. An organisation can have multiple accounts. These accounts might be by cloud region or department. Within each account we have multiple account objects: users, roles, databases, warehouses, other objects. Databases can have multiple schemas. Schemas can have multiples UDFs, views, tables, stages, other objects</p>
-<p>SnowSQL. Used to connect to Snowflake via the command line. We can execute queries, load and unload data.</p>
+</section>
+<section id="snowflake-objects." class="level2">
+<h2 class="anchored" data-anchor-id="snowflake-objects.">Snowflake objects.</h2>
+<p>Hierarchy of objects. An organisation can have multiple accounts. These accounts might be by cloud region or department. Within each account we have multiple account objects: users, roles, databases, warehouses, other objects. Databases can have multiple schemas. Schemas can have multiples UDFs, views, tables, stages, other objects</p>
+</section>
+<section id="snowsql." class="level2">
+<h2 class="anchored" data-anchor-id="snowsql.">SnowSQL.</h2>
+<p>Used to connect to Snowflake via the command line. We can execute queries, load and unload data.</p>
 <p>Needs to be installed on your local machine.</p>
+</section>
+</section>
+<section id="data-loading-unloading" class="level1">
+<h1>3. Data Loading / Unloading</h1>
 <p>SECTION 3: loading and unloading data</p>
 <p>Stages. Stages are locations used to store data. From the stage, say an S3 bucket, we can load data from a stage into a database. Likewise, we can unload data from the database to the stage (S3 bucket)</p>
 <p>Stages can be internal (managed by snowflake) or external (managed by your cloud provider, eg AWS S3)</p>
@@ -366,6 +567,7 @@ if we have a varchar(10) field, how should we handle data that is too long?</p>
 <h1>References</h1>
 <ul>
 <li><a href="https://www.udemy.com/course/snowflake-certification-snowpro-core-exam-prep">“Snowflake Certification: SnowPro Core COF-C02 Exam Prep” Udemy course</a></li>
+<li><a href="https://docs.snowflake.com/en/user-guide/intro-editions">Snowflake feature matrix</a></li>
 </ul>
 
 

@@ -37,118 +37,155 @@ It is cloud only. No on premise option.
 
 # 2. Snowflake Architecture 
 
+## 2.1. Multi-cluster Shared Disk
 In general, there are two approaches to designing a dsitributed data / compute platform: shared-disk and shared-nothing.
 
 **Shared-disk** uses *central data storage* connected to *multiple compute nodes*. 
-Pros: simple, easy data management since their is only one database/disk
-Cons: limited scalability (bottleneck of the central disk), single point of failure
 
-Shared-nothing. Each node is independent. Each node is a separate processor, memory and disk. 
-Pros: scalability, availability 
-Cons: complicated, expensive 
+- Pros: simple, easy data management since their is only one database/disk
+- Cons: limited scalability (bottleneck of the central disk), single point of failure
 
-Snowflake is “multi-cluster shared-data”. 
-This is a hybrid of both. There is a single data repository like shared-disk. 
-There are multiple clusters or nodes that store a portion of the data locally, like shared-nothing. 
-Combines the pros of both: simplicity, scalability 
+**Shared-nothing** keeps *each node independent*. Each node is a *separate processor, memory and disk*. 
+
+- Pros: scalability, availability 
+- Cons: complicated, expensive 
+
+Snowflake uses a **hybrid approach**: “multi-cluster shared-data”. 
+
+- There is a *single data repository like shared-disk*. 
+- There are *multiple clusters or nodes* that store a **portion** of the data **locally**, like shared-nothing. 
+
+This combines the pros of both: simplicity and scalability.
 
 
-3 layers of snowflake
+## 2.2. Layers of Snowflake
+There are three distinct layers of Snowflake:
+
 1. Database storage
-2. Compute - query processing
+    a. Compressed columnar storage. 
+    b. This is stored as blobs in AWS, Azure, GCP etc. 
+    c. **Snowflake abstracts this away** so we just interact with it like a table. 
+    d. This is optimised for OLAP (analytical purposes) which is **read-heavy**, rather than OLTP which is write-heavy.
+2. Compute 
+    a. “The **muscle** of the system”.
+    b. Query processing.
+    c. Queries are processed using **“virtual warehouses”**. These are massive parallel processing compute clusters, e.g. EC2 on AWS.
 3. Cloud services
-
-Database storage.
-Compressed columnar storage. This is stored as blobs in AWS, Azure, GCP etc. Snowflake abstracts this away so we just interact with it like a table. This is optimised for OLAP (analytical purposes) which is read heavy, rather than OLTP which is write-heavy.
-
-Query processing.
-“The muscle of the system”.
-Queries are processed using “virtual warehouses”, massive parallel processing compute cluster, e.g. EC2 on AWS.
-
-Cloud services.
-“The brain of the system”.
-
-Collection of service to manage and coordinate components, e.g. the S3 and EC2 instances used in the other two layers. The cloud services layer also runs on a compute instance of the cloud provider and is completely handled by Snowflake.
-
-This layer handles: authentication, access control, metadata management, infrastructure management, query parsing and optimisation (the query EXECUTION happens in the compute layer).
-
-
-# 3. Data Loading / Unloading
-Loading data into snowflake. 
-
-The usual sql commands can be used to create databases and tables. 
-
-Create database myfirstdb
-Alter database myfirstdb rename firstdb
-Create table loan_payments (
-COL_NAME string,
-OTHER_COL_NAME string,
-)
-
-
-Use this to switch the active database to avoid having to use the fully qualified table name everywhere. 
-Use database firstdb
-
-Copy into loan_payments
-From s3/… (url)
-File format = (delimiter=“,”, skip rows=1, type=csv)
+    a. “The **brain** of the system”.
+    b. Collection of services to manage and coordinate components, e.g. the S3 and EC2 instances used in the other two layers. 
+    c. The cloud services layer also runs on a compute instance of the cloud provider and is *completely handled by Snowflake*. 
+    d. This layer handles: **authentication, access control, metadata management, infrastructure management, query parsing and optimisation**. The query **execution** happens in the compute layer.
 
 
 
-Snowflake editions. 
-Vary by features and pricing. 
-Feature matrix on snowflake docs. 
+## 2.3. Loading Data into Snowflake
 
-Standard:
-Complete DWH, automatic data encryption, support for standard and special data types, time travel 1 day, disaster recovery for 7 days beyond time travel,  network policies, federated auth and SSO, 24/7 support
+This is covered more extensivelyt in its own section, but this sub-section serves as a brief introduction.
 
-Enterprise:
-Multi cluster warehouse, time travel 90 days, materialised views, search optimisation, column-level security, 24 hour early access to new releases
+The usual SQL commands can be used to create databases and tables. 
+```
+CREATE DATABASE myfirstdb
+ALTER DATABASE myfirstdb RENAME firstdb
+CREATE TABLE loan_payments (
+    col1 string,
+    col2 string,
+);
+```
 
-Business critical:
-Additional security features such as customer managed encryption, support for data specific regulation, database failover and fallback
+We can specify a database to use with the `USE DATABASE` command to switch the active database.
+This avoids having to use the *fully qualified table name* everywhere. 
+```
+USE DATABASE firstdb
 
-Virtual private:
-Dedicated virtual servers and warehouse, dedicated metadata store. Isolated from all other snowflake accounts. 
-
-
-Compute costs. 
-Compute costs and storage costs are decoupled and can be scaled separately. Pay for what you need. 
-
-Active warehouses - used for standard query processing. Billed per second (minimum one minute). Depends on size of warehouse, time and number of warehouses. 
-Cloud services - behind the scenes cloud service tasks. Only charged if >10% of warehouse consumption, which is not the case for most customers. 
-Serverless - used for search optimisation and snowpipe. This is compute that is managed by snowflake, e.g. event-based processing. 
-
-Charged in snowflake credits. 
-
-Calculating number of credits consumed - Number of credits per hour:
-XS 1
-S 2 
-M 4
-L 8
-XL 16
-4XL 128
-
-Credits cost different amounts per edition. 2$/ credit for standard, 3 for enterprise, 4 for business critical. 
-Also depends on the cloud provider (AWS) and region (US east)
+COPY INTO loan_payments
+FROM s3/… -- The URL to copy from
+file_format = (delimiter = “,”,
+               skip rows=1,
+               type=csv);
+```
 
 
-Storage and data costs. 
-Monthly cost based on average storage used per month. Also depends on cloud provider and region. Cost is calculated AFTER Snowflake’s data compression 
+## 2.4. Snowflake Editions
+The different Snowflake editions vary by *features and pricing*.
+The feature matrix is available on the [Snowflake docs](https://docs.snowflake.com/en/user-guide/intro-editions).
 
-On demand storage. Pay for what you use. 
-
-Capacity storage. Pay upfront for defined capacity. 
-
-Typically start with on demand until we understand our actual usage, then shift to capacity storage once this is stable. 
-
-Transfer costs. 
-Ingress vs egress
-Data IN is free. 
-Data OUT is charged. Depends on cloud provider and region. In region transfers are free. Cross region or cross providers are charged. 
+- Standard
+    - Complete DWH, automatic data encryption, support for standard and special data types, time travel 1 day, disaster recovery for 7 days beyond time travel, network policies, federated auth and SSO, 24/7 support
+- Enterprise
+    - Multi cluster warehouse, time travel 90 days, materialised views, search optimisation, column-level security, 24 hour early access to new releases
+- Business critical
+    - Additional security features such as customer managed encryption, support for data specific regulation, database failover and fallback
+- Virtual private
+    - Dedicated virtual servers and warehouse, dedicated metadata store. Isolated from all other snowflake accounts. 
 
 
-# STORAGE MONITORING 
+## 2.5. Compute Costs 
+### 2.5.1. Overview of Cost Categories
+Compute costs and storage costs are decoupled and can be scaled separately. "Pay for what you need". 
+
+- **Active warehouses**
+    - Used for standard query processing. 
+    - Billed per second (minimum 1 minute).
+    - Depends on *size of warehouse, time and number of warehouses*.
+- **Cloud services**
+    - Behind-the-scenes cloud service tasks.
+    - *Only charged if >10% of warehouse consumption*, which is not the case for most customers.
+- **Serverless**
+    - Used for *search optimisation* and *Snowpipe*.
+    - This is compute that is managed by snowflake, e.g. event-based processing.
+
+These are charged in **Snowflake credits**. 
+
+### 2.5.2. Calculating Number of Credits Consumed- 
+
+The warehouses consume the following number of credits per hour:
+
+| Warehouse Size | Number of Credits |
+|----------------|-------------------|
+| XS             | 1                 |
+|S               | 2                 |
+|M               | 4                 |
+|L               | 8                 |
+|XL              | 16                |
+|4XL             | 128               |
+
+**Credits cost different amounts per edition.**
+It also depends on the *cloud provider* (AWS) and *region* (US-East-1).
+Indicative costs for AWS US-East-1 are:
+
+| Edition             | $ / Credit |
+|---------------------|------------|
+| Standard            | 2          |
+| Enterprise          | 3          |
+| Business Critical   | 4          |
+
+
+## 2.6 Storage and Data Costs
+### 2.6.1. Storage Types and Costs
+Monthly storage costs are based on **average storage used per month**.
+Also depends on **cloud provider and region**.
+Cost is calculated **AFTER Snowflake’s data compression**.
+
+There are two options for storage pricing:
+
+- **On demand storage**: Pay for what you use.
+- **Capacity storage**: Pay upfront for defined capacity. 
+
+Typically start with on demand until we understand our actual usage, then shift to capacity storage once this is stable.
+
+### 2.6.2. Transfer Costs
+This depends on data **ingress vs egress**.
+
+- **Data IN is free**
+    - Snowflake wants to remove friction to getting your data in. 
+- **Data OUT is charged**
+    - Snowflake wants to add friction to leaving. 
+    - Depends on *cloud provider and region*. **In-region transfers are free**. Cross-region or cross-providers are charged. 
+
+
+## 2.7. Storage Monitoring
+<TODO FROM HERE>
+
 Individual table storage. 
 
 Show tables
@@ -162,7 +199,7 @@ TABLE_STORAGE_METRICS view in ACCOUNT_USAGE
 Can also look at the admin -> usage screen in the snowflake UI
 
 
-# Resource monitors 
+## Resource monitors 
 Control and monitor credit usage of individual warehouses and entire account
 
 We can set limits of credits used per period, eg max number of credits that can be spent per month. 
@@ -183,7 +220,7 @@ To set up a new resource monitor, we give it:
 - Actions
 
 
-Warehouses and multi clustering. 
+## Warehouses and multi clustering. 
 There are different types and sizes of warehouse and they can be multi clustered. 
 Types: standard and snowpark-optimised
 Size: XS to XXL. Snowpark type is only M or bigger and consumes 50% more credits
@@ -210,7 +247,7 @@ Max_cluster_count = 3
 Can also alter or drop a warehouse. 
 
 
-Snowflake objects. 
+## Snowflake objects. 
 Hierarchy of objects. 
 An organisation can have multiple accounts. These accounts might be by cloud region or department. 
 Within each account we have multiple account objects: users, roles, databases, warehouses, other objects. 
@@ -218,12 +255,13 @@ Databases can have multiple schemas.
 Schemas can have multiples UDFs, views, tables, stages, other objects 
 
 
-SnowSQL. 
+## SnowSQL. 
 Used to connect to Snowflake via the command line. We can execute queries, load and unload data. 
 
 Needs to be installed on your local machine. 
 
 
+# 3. Data Loading / Unloading
 SECTION 3: loading and unloading data 
 
 Stages. 
@@ -485,3 +523,4 @@ You can then use the REMOVE command to delete from the internal stage.
 # References
 
 - ["Snowflake Certification: SnowPro Core COF-C02 Exam Prep" Udemy course](https://www.udemy.com/course/snowflake-certification-snowpro-core-exam-prep)
+- [Snowflake feature matrix](https://docs.snowflake.com/en/user-guide/intro-editions)
