@@ -1,0 +1,90 @@
+[
+  {
+    "listing": "/blog.html",
+    "items": [
+      "/posts/software/sql/notes.html",
+      "/posts/software/ddia/chapter1/lesson.html",
+      "/posts/ml/hands_on_llm/chapter5/lesson.html",
+      "/posts/ml/hands_on_llm/chapter4/lesson.html",
+      "/posts/ml/hands_on_llm/chapter6/lesson.html",
+      "/posts/ml/hands_on_llm/chapter2/lesson.html",
+      "/posts/ml/hands_on_llm/chapter1/lesson.html",
+      "/posts/ml/graph_ml/part_1_2/graph_algorithms.html",
+      "/posts/ml/graph_ml/part_1/graph_notes.html",
+      "/posts/software/data_structures_algos/sorting/sorting.html",
+      "/posts/software/data_structures_algos/data_structures/data_structures.html",
+      "/posts/software/data_structures_algos/algorithms/algorithms.html",
+      "/posts/ml/generative_deep_learning/lesson4/chapter4.html",
+      "/posts/software/react/30_typescript/post.html",
+      "/posts/software/react/29_testing/post.html",
+      "/posts/software/react/23_deployment/post.html",
+      "/posts/software/react/7_debugging/post.html",
+      "/posts/software/react/6_styling/post.html",
+      "/posts/software/react/2_js_essentials/post.html",
+      "/posts/software/react/1_getting_started/post.html",
+      "/posts/ml/meta_learning/meta_learning.html",
+      "/posts/ml/generative_deep_learning/lesson3/chapter3.html",
+      "/posts/ml/fastai/lesson8/lesson.html",
+      "/posts/ml/fastai/lesson7/lesson.html",
+      "/posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html",
+      "/posts/ml/generative_deep_learning/lesson1/lesson.html",
+      "/posts/ml/fastai/lesson6_1/lesson.html",
+      "/posts/ml/fastai/lesson6/lesson.html",
+      "/posts/ml/fastai/lesson5/lesson.html",
+      "/posts/ml/fastai/lesson4/lesson.html",
+      "/posts/ml/fastai/lesson3/lesson.html",
+      "/posts/ml/fastai/lesson2/lesson.html",
+      "/posts/ml/fastai/lesson1/lesson.html",
+      "/posts/software/system_design/system_design_notes.html",
+      "/posts/business/pitching/pitching.html",
+      "/posts/ml/kalman_filter/kalman_filter.html",
+      "/posts/business/public_speaking/public_speaking.html",
+      "/posts/business/marketing/marketing.html",
+      "/posts/software/software_architecture/software_architect_notes.html",
+      "/posts/ml/tensorflow/tensorflow.html"
+    ]
+  },
+  {
+    "listing": "/projects.html",
+    "items": [
+      "/projects_section/bjj/bjj.html",
+      "/projects_section/xai_research/xai.html",
+      "/projects_section/tradeintel/tradeintel.html"
+    ]
+  },
+  {
+    "listing": "/react-series.html",
+    "items": [
+      "/posts/software/react/30_typescript/post.html",
+      "/posts/software/react/29_testing/post.html",
+      "/posts/software/react/23_deployment/post.html",
+      "/posts/software/react/7_debugging/post.html",
+      "/posts/software/react/6_styling/post.html",
+      "/posts/software/react/2_js_essentials/post.html",
+      "/posts/software/react/1_getting_started/post.html"
+    ]
+  },
+  {
+    "listing": "/fastai-series.html",
+    "items": [
+      "/posts/ml/fastai/lesson8/lesson.html",
+      "/posts/ml/fastai/lesson7/lesson.html",
+      "/posts/ml/fastai/lesson6_1/lesson.html",
+      "/posts/ml/fastai/lesson6/lesson.html",
+      "/posts/ml/fastai/lesson5/lesson.html",
+      "/posts/ml/fastai/lesson4/lesson.html",
+      "/posts/ml/fastai/lesson3/lesson.html",
+      "/posts/ml/fastai/lesson2/lesson.html",
+      "/posts/ml/fastai/lesson1/lesson.html"
+    ]
+  },
+  {
+    "listing": "/gen-deep-learning-series.html",
+    "items": [
+      "/posts/ml/generative_deep_learning/lesson4/chapter4.html",
+      "/posts/ml/generative_deep_learning/lesson3/chapter3.html",
+      "/posts/ml/generative_deep_learning/lesson2/chapter2_mlp.html",
+      "/posts/ml/generative_deep_learning/lesson1/lesson.html"
+    ]
+  }
+]
