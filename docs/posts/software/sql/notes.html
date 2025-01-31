@@ -196,7 +196,27 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#mathematical-functions" id="toc-mathematical-functions" class="nav-link" data-scroll-target="#mathematical-functions">3.6. Mathematical Functions</a></li>
   <li><a href="#division" id="toc-division" class="nav-link" data-scroll-target="#division">3.7. Division</a></li>
   <li><a href="#nulls" id="toc-nulls" class="nav-link" data-scroll-target="#nulls">3.8. Nulls</a></li>
+  <li><a href="#case" id="toc-case" class="nav-link" data-scroll-target="#case">3.9. CASE</a></li>
+  <li><a href="#join" id="toc-join" class="nav-link" data-scroll-target="#join">3.10. JOIN</a></li>
+  <li><a href="#datetimes" id="toc-datetimes" class="nav-link" data-scroll-target="#datetimes">3.11. Datetimes</a></li>
   </ul></li>
+  <li><a href="#advanced-sql" id="toc-advanced-sql" class="nav-link" data-scroll-target="#advanced-sql">4. Advanced SQL</a>
+  <ul class="collapse">
+  <li><a href="#cte-vs-subquery" id="toc-cte-vs-subquery" class="nav-link" data-scroll-target="#cte-vs-subquery">4.1. CTE vs Subquery</a>
+  <ul class="collapse">
+  <li><a href="#cte" id="toc-cte" class="nav-link" data-scroll-target="#cte">4.1.1. CTE</a></li>
+  <li><a href="#subquery" id="toc-subquery" class="nav-link" data-scroll-target="#subquery">4.1.2. Subquery</a></li>
+  </ul></li>
+  <li><a href="#window" id="toc-window" class="nav-link" data-scroll-target="#window">4.2. WINDOW</a></li>
+  <li><a href="#ranking" id="toc-ranking" class="nav-link" data-scroll-target="#ranking">4.3. Ranking</a></li>
+  <li><a href="#leadlag" id="toc-leadlag" class="nav-link" data-scroll-target="#leadlag">4.4. Lead/Lag</a></li>
+  <li><a href="#self-joins" id="toc-self-joins" class="nav-link" data-scroll-target="#self-joins">4.5. Self Joins</a></li>
+  <li><a href="#set-operations---union-intersect-except" id="toc-set-operations---union-intersect-except" class="nav-link" data-scroll-target="#set-operations---union-intersect-except">4.6. Set operations - UNION, INTERSECT, EXCEPT</a></li>
+  <li><a href="#sql-code-best-practices" id="toc-sql-code-best-practices" class="nav-link" data-scroll-target="#sql-code-best-practices">4.7. SQL Code Best Practices</a></li>
+  <li><a href="#execution-order" id="toc-execution-order" class="nav-link" data-scroll-target="#execution-order">4.8. Execution Order</a></li>
+  <li><a href="#string-functions" id="toc-string-functions" class="nav-link" data-scroll-target="#string-functions">4.9. String Functions</a></li>
+  </ul></li>
+  <li><a href="#creating-and-modifying-data" id="toc-creating-and-modifying-data" class="nav-link" data-scroll-target="#creating-and-modifying-data">5. Creating and Modifying Data</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
@@ -293,6 +313,7 @@ WHERE column1 = 1 OR column1 = 2;</code></pre>
 <h2 class="anchored" data-anchor-id="like">2.6. LIKE</h2>
 <p>The <code>LIKE</code> operator is another implicit condition. Similarly to <code>IN</code>, it save us the hassle of writing out multiple <code>OR</code> conditions.</p>
 <p>It allows us to match patterns using the wildcards <code>_</code> (to represent a single character) or <code>%</code> (to represent arbitrary number of characters).</p>
+<p>The <code>LIKE</code> command is <strong>case-sensitive</strong>. The <code>ILIKE</code> command is a <strong>case-insensitive</strong> variant (<strong>I</strong>nsensitive <strong>LIKE</strong>)</p>
 <pre class="postgresql"><code>SELECT product_id,
        manufacturer,
        drug
@@ -458,19 +479,503 @@ FROM goodreads;</code></pre>
   IFNULL(book_rating, 0) AS rated_books  - fill NULL values with 0
 FROM goodreads;</code></pre>
 <p>In the above examples, <code>IFNULL</code> and <code>COALESCE</code> are interchangeable. In general, use <code>COALESCE</code> when checking multiple columns, e.g.&nbsp;<code>COALESCE(col1, col2, col3)</code>. If only checking one column, <code>IFNULL</code> is more concise.</p>
-<!-- # N+1. Miscellaneous Points
-
-## N+1.1. Order of Execution
-
-The clauses in a SQL query must be written according to the following
-[SQL Order of Execution](https://www.datacamp.com/tutorial/sql-order-of-execution). -->
+<p>The above examples are to <strong>replace null with values</strong>. We can do the opposite – <strong>conditionally replace values with nulls</strong> – using the <code>NULLIF</code> command. <code>NULLIF(expr1, expr2)</code> will return NULL if the two expressions are equal.</p>
 </section>
+<section id="case" class="level2">
+<h2 class="anchored" data-anchor-id="case">3.9. CASE</h2>
+<p>The <code>CASE</code> statement is used to create new columns, categorize data, or perform calculations based on specified conditions.</p>
+<pre class="postgresql"><code>SELECT
+  column_1,
+  column_2, 
+  CASE 
+    WHEN condition_1 THEN result_1
+    WHEN condition_2 THEN result_2
+    ELSE result_3 -- If condition_1 and condition_2 are not met, return result_3 in ELSE clause
+  END AS column_3_name -- Give your new column an alias
+FROM table_1;  </code></pre>
+<p>We can also use <code>CASE</code> inside a <code>WHERE</code> clause to filter rows based on specific conditions.</p>
+<pre class="postgresql"><code>SELECT
+  column_1,
+  column_2
+FROM table_1
+WHERE CASE 
+    WHEN condition_1 THEN result_1
+    WHEN condition_2 THEN result_2
+    ELSE result_3 -- If condition_1 and condition_2 are not met, return result_3 in ELSE clause
+  END; </code></pre>
+<p>As a concrete example of filtering, we may want to filter based on number of followers, where the threshold for followers depends on the platform</p>
+<pre class="postgresql"><code>SELECT 
+  actor, 
+  character, 
+  platform
+FROM marvel_avengers
+WHERE 
+  CASE 
+    WHEN platform = 'Instagram' THEN followers &gt;= 500000
+    WHEN platform = 'Twitter' THEN followers &gt;= 200000
+    ELSE followers &gt;= 100000
+  END;</code></pre>
+<p>We can also use aggregate functions like <code>COUNT</code>, <code>AVG</code>, <code>SUM</code> around a <code>CASE</code> statement to only include rows which meet a certain criteria.</p>
+<pre class="postgresql"><code>SELECT
+  platform,
+  SUM(CASE 
+    WHEN engagement_rate &gt;= 8.0 THEN followers
+    ELSE 0
+  END) AS high_engagement_followers_sum,
+  SUM(CASE 
+    WHEN engagement_rate &lt; 8.0 THEN followers
+    ELSE 0
+  END) AS low_engagement_followers_sum
+FROM marvel_avengers
+GROUP BY platform;</code></pre>
+</section>
+<section id="join" class="level2">
+<h2 class="anchored" data-anchor-id="join">3.10. JOIN</h2>
+<p>Joining multiple tables is the bread and butter of relational databases. We specify the tables to <code>JOIN</code> and the keys to join <code>ON</code>. We optionally define the <em>type</em> of join; this defaults to <code>INNER</code> if not specified.</p>
+<pre class="postgresql"><code>SELECT *
+FROM artists
+JOIN songs
+  ON artists.artist_id = songs.artist_id;</code></pre>
+<p>There are 4 types of join:</p>
+<ul>
+<li><code>INNER JOIN</code> - Returns only the rows with matching values from <strong>both</strong> tables.</li>
+<li><code>LEFT JOIN</code> - Returns all the rows from the left table and the matching rows from the right table. NULL values where there is no match in the right table.</li>
+<li><code>RIGHT JOIN</code> - Returns all the rows from the right table and the matching rows from the left table. NULL values where there is no match in the left table.</li>
+<li><code>FULL OUTER JOIN</code> - Returns all rows from <strong>either</strong> table. Where there is no match in either left or right, return a NULL value.</li>
+</ul>
+<p>We can perform <strong>conditional joins</strong> where we filter the tables as we join them. This avoids the need to join two, potentially large tables, then filter the very large result after joining.</p>
+<p>This example will filter the orders table before joining it.</p>
+<pre class="postgresql"><code>SELECT 
+  g.book_title, 
+  o.quantity
+FROM goodreads AS g
+INNER JOIN orders AS o 
+  ON g.book_id = o.book_id
+    AND o.quantity &gt; 2;</code></pre>
+<p>Similarly, we can also use <code>CASE</code> statements in the <code>JOIN</code> to apply the CASE on the source table before joining, rather than on the potentially larger result set. This may be particularly helpful when we also want to <strong>filter</strong> on that <code>CASE</code> statement before joining.</p>
+</section>
+<section id="datetimes" class="level2">
+<h2 class="anchored" data-anchor-id="datetimes">3.11. Datetimes</h2>
+<p>Dates and timestamps are handled as specific data types in SQL.</p>
+<p>The following functions are useful for getting the current date, time or datetime: - <code>CURRENT_DATE</code> - <code>CURRENT_TIME</code> - <code>CURRENT_TIMESTAMP</code> or <code>NOW()</code></p>
+<p>We can use <strong>comparison operators</strong> <code>=</code>, <code>!=</code>, <code>&gt;</code>, <code>&lt;</code> to compare datetimes. Aggregate functions like <code>MIN</code> and <code>MAX</code> also work.</p>
+<pre class="postgresql"><code>SELECT *
+FROM messages
+WHERE sent_date &gt;= '2022-08-10 00:00:00';</code></pre>
+<p>We can <strong>extract parts</strong> of the date with either <code>EXTRACT</code> or <code>DATE_PART</code>. These are equivalent, and can be used to extract year, month, day, hour, minute.</p>
+<pre class="postgresql"><code>SELECT 
+  EXTRACT(YEAR FROM sent_date) AS extracted_year,
+  DATE_PART('year', sent_date) AS part_year
+FROM messages;</code></pre>
+<p>We can <strong>truncate</strong> a datetime to a specified granularity with <code>DATE_TRUNC</code>.</p>
+<pre class="postgresql"><code>SELECT 
+  DATE_TRUNC('day', sent_date) AS truncated_to_day
+FROM messages;</code></pre>
+<p>We can <strong>add and subtract</strong> datetimes using <code>INTERVAL</code>.</p>
+<pre class="postgresql"><code>SELECT 
+  sent_date + INTERVAL '2 days' AS add_2days,
+  sent_date - INTERVAL '10 minutes' AS minus_10mins
+FROM messages;</code></pre>
+<p>Timestamps can be <strong>converted to strings</strong> with a specified format using <code>TO_CHAR</code>.</p>
+<pre class="postgresql"><code>SELECT 
+  TO_CHAR(sent_date, 'YYYY-MM-DD HH:MI:SS') AS formatted_iso8601
+FROM messages;</code></pre>
+<p>There are different formatting options for the string.</p>
+<table class="table">
+<colgroup>
+<col style="width: 40%">
+<col style="width: 29%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Format Name</th>
+<th>Format</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ISO 8601 Date and Time</td>
+<td>‘YYYY-MM-DD HH24:MI:SS’</td>
+<td>‘2023-08-27 14:30:00’</td>
+</tr>
+<tr class="even">
+<td>Date and Time with 12-hour Format</td>
+<td>‘YYYY-MM-DD HH:MI:SS AM’</td>
+<td>‘2023-08-27 02:30:00 PM’</td>
+</tr>
+<tr class="odd">
+<td>Long Month Name, Day and Year</td>
+<td>‘Month DDth, YYYY’</td>
+<td>‘August 27th, 2023’</td>
+</tr>
+<tr class="even">
+<td>Short Month Name, Day and Year</td>
+<td>‘Mon DD, YYYY’</td>
+<td>‘Aug 27, 2023’</td>
+</tr>
+<tr class="odd">
+<td>Day, Month, and Year</td>
+<td>‘DD Month YYYY’</td>
+<td>‘27 August 2023’</td>
+</tr>
+<tr class="even">
+<td>Day of the Month</td>
+<td>‘Month’</td>
+<td>‘August’</td>
+</tr>
+<tr class="odd">
+<td>Day of the Week</td>
+<td>‘Day’</td>
+<td>‘Saturday’</td>
+</tr>
+</tbody>
+</table>
+<p>Strings can be converted to timestamps by casting. There are two equivalent syntaxes. For dates we can use <code>::DATE</code> or <code>TO_DATE()</code>. For timestamps we can use <code>::TIMESTAMP</code> or <code>TO_TIMESTAMP()</code>.</p>
+<pre class="postgresql"><code>SELECT 
+  sent_date::DATE AS casted_date,
+  TO_DATE('2023-08-27', 'YYYY-MM-DD') AS converted_to_date,
+  sent_date::TIMESTAMP AS casted_timestamp,
+  TO_TIMESTAMP('2023-08-27 10:30:00', 'YYYY-MM-DD HH:MI:SS') AS converted_to_timestamp
+FROM messages;</code></pre>
+</section>
+</section>
+<section id="advanced-sql" class="level1">
+<h1>4. Advanced SQL</h1>
+<section id="cte-vs-subquery" class="level2">
+<h2 class="anchored" data-anchor-id="cte-vs-subquery">4.1. CTE vs Subquery</h2>
+<p>A <strong>Common Table Expression (CTE)</strong> is like a query within a query using a <code>WITH</code> statement.</p>
+<p>A <strong>Subquery</strong> is a query within a query using parentheses.</p>
+<section id="cte" class="level3">
+<h3 class="anchored" data-anchor-id="cte">4.1.1. CTE</h3>
+<p>We declare CTEs at the beginning of the query, which can help break down more complex queries to improve <strong>readability</strong>.</p>
+<pre class="postgresql"><code>-- Start of a CTE
+WITH genre_revenue_cte AS (
+  SELECT
+    genre,
+    SUM(concert_revenue) AS total_revenue
+  FROM concerts
+  GROUP BY genre
+)
+-- End of a CTE
+
+SELECT
+  g.genre,
+  g.total_revenue,
+  AVG(c.concert_revenue) AS avg_concert_revenue
+FROM genre_revenue_cte AS g
+INNER JOIN concerts AS c 
+  ON g.genre = c.genre
+WHERE c.concert_revenue &gt; g.total_revenue * 0.5
+GROUP BY g.genre, g.total_revenue;</code></pre>
+<p>We can <strong>reuse</strong> the same CTE result multiple times, which can avoid redundant calculations.</p>
+<p>They also allow for <strong>recursive queries</strong>.</p>
+<pre class="postgresql"><code>WITH recursive_cte AS (
+  SELECT 
+    employee_id, 
+    name, 
+    manager_id
+  FROM employees
+  WHERE manager_id = @manager_id
+  
+  UNION ALL
+  
+  SELECT 
+    e.employee_id, 
+    e.name, 
+    e.manager_id
+  FROM employees AS e
+  INNER JOIN recursive_cte AS r -- The RECURSIVE CTE is utilized here within the main CTE.
+    ON e.ManagerID = r.employee_id
+)
+
+SELECT * 
+FROM recursive_cte;</code></pre>
+</section>
+<section id="subquery" class="level3">
+<h3 class="anchored" data-anchor-id="subquery">4.1.2. Subquery</h3>
+<p>Subqueries are generally favoured where we need the result from some other small query. Think of it like lambda functions compared to defining a function in python; if the inner query is small then a subquery is more readable.</p>
+<pre class="postgresql"><code>SELECT artist_name
+FROM concerts
+WHERE concert_revenue &gt; (
+  SELECT AVG(concert_revenue) FROM concerts);</code></pre>
+<p>In a similar vein, we can use subqueries to create and aggregate columns on the fly without sacrificing readability.</p>
+<pre class="postgresql"><code>SELECT 
+  artist_name, 
+  genre, 
+  concert_revenue,
+  (SELECT AVG(concert_revenue) FROM concerts) AS avg_concert_revenue,
+  (SELECT MAX(concert_revenue) FROM concerts) AS max_concert_revenue
+FROM concerts;</code></pre>
+<p>They can be useful for filtering on conditions in another query.</p>
+<pre class="postgresql"><code>SELECT artist_name
+FROM concerts
+WHERE artist_id IN (
+  SELECT artist_id FROM concert_revenue WHERE concert_revenue &gt; 500000);</code></pre>
+<p><strong>Correlated subqueries</strong> are when we want to query one table based on a dynamic result in another (or itself). For example, return fields for the highest-grossing concerts of each genre.</p>
+<pre class="postgresql"><code>SELECT 
+  artist_name, 
+  genre, 
+  concert_revenue
+FROM concerts AS c1
+WHERE concert_revenue = (
+  SELECT MAX(concert_revenue)
+  FROM concerts AS c2
+  WHERE c1.genre = c2.genre
+);</code></pre>
+</section>
+</section>
+<section id="window" class="level2">
+<h2 class="anchored" data-anchor-id="window">4.2. WINDOW</h2>
+<p>We have already calculated aggregates over <em>the whole table or certain groups</em>.</p>
+<p><strong>Window</strong> functions allow us to create our own partitions, or “virtual windows”, and perform <strong>cumulative aggregates</strong> over these.</p>
+<p>For example, if we want a cumulative total of revenue for each product type:</p>
+<pre class="postgresql"><code>SELECT
+  spend,
+   SUM(spend) OVER (
+     PARTITION BY product
+     ORDER BY transaction_date) AS running_total
+  FROM product_spend;</code></pre>
+<p>The <code>PARTITION BY</code> clause defines our virtual windows. We can partition by multiple fields. <code>ORDER BY</code> determines the ordering for a running total. <code>SUM(spend) OVER</code> defines what aggreagtion we perform per partition. The <code>OVER</code> keyword is required for window function.</p>
+<p>Common aggregates are <code>COUNT</code>, <code>SUM</code>, <code>AVG</code>, <code>MIN</code>, <code>MAX</code>, <code>FIRST_VALUE</code>, <code>LAST_VALUE</code>.</p>
+<p>The distinction between <code>PARTITION BY</code> vs <code>GROUP BY</code> can feel subtle. Think of it like <code>.rolling()</code> vs <code>.groupby()</code> in pandas.</p>
+<ul>
+<li><code>GROUP BY</code> normally <strong>reduces the number of rows returned</strong> by grouping them up and calculating averages or sums for each group.</li>
+<li><code>PARTITION BY</code> <strong>does not affect the number of rows returned</strong>, but it changes how a window function’s result is calculated.</li>
+</ul>
+</section>
+<section id="ranking" class="level2">
+<h2 class="anchored" data-anchor-id="ranking">4.3. Ranking</h2>
+<p>There are several ranking functions – <code>RANK</code>, <code>DENSE_RANK</code>, <code>ROW_NUMBER</code> – we can use to <strong>ranks rows based on specific criteria</strong>. This assigns numbers indicating the position of the data within a certain “window”.</p>
+<p>The syntax for all of them follows the same pattern:</p>
+<pre class="postgresql"><code>SELECT 
+  RANK() / DENSE_RANK() / ROW_NUMBER() OVER ( -- Compulsory expression
+    PARTITION BY partitioning_expression -- Optional expression
+    ORDER BY order_expression) -- Compulsory expression
+FROM table_name;</code></pre>
+<p>The differences between the ranking functions:</p>
+<ul>
+<li><code>ROW_NUMBER()</code>: Essentially numbers the rows in order.</li>
+<li><code>RANK()</code>: Tied values are given the <em>same rank</em>, <strong>skipping</strong> subsequent ranks which leaves gaps in the sequence.</li>
+<li><code>DENSE_RANK()</code>: Tied values are given the <em>same rank</em>, <strong>without skipping</strong> subsequent ranks so there are no gaps in the sequence.</li>
+</ul>
+</section>
+<section id="leadlag" class="level2">
+<h2 class="anchored" data-anchor-id="leadlag">4.4. Lead/Lag</h2>
+<p>The time series window functions <code>LAG</code> and <code>LEAD</code> allow us to access data from rows before or after the current row.</p>
+<pre class="postgresql"><code>LEAD(column_name, offset) OVER (  -- Compulsory expression
+  PARTITION BY partition_column -- Optional expression
+  ORDER BY order_column) -- Compulsory expression</code></pre>
+<p>This can “feel” similar to the <code>OFFSET</code> function. The difference is <code>OFFSET</code> skips rows in the output, resulting in a different result set. <code>LAG</code> <em>accesses previous rows within the same result set</em>, allowing for row-wise comparisons <em>within a window</em>. <code>OFFSET</code> wouldn’t work in a window function.</p>
+</section>
+<section id="self-joins" class="level2">
+<h2 class="anchored" data-anchor-id="self-joins">4.5. Self Joins</h2>
+<p>We can join a table to itself to match on the data within the table.</p>
+<p>As an example, the query below will take each book in the table and give suggestions of other books in the same genre.</p>
+<pre class="postgresql"><code>SELECT
+  b1.genre,
+  b1.book_title AS current_book,
+  b2.book_title AS suggested_book
+FROM goodreads AS b1
+INNER JOIN goodreads AS b2
+  ON b1.genre = b2.genre
+WHERE b1.book_id != b2.book_id  -- Don't suggest the same book
+ORDER BY b1.book_title;</code></pre>
+</section>
+<section id="set-operations---union-intersect-except" class="level2">
+<h2 class="anchored" data-anchor-id="set-operations---union-intersect-except">4.6. Set operations - UNION, INTERSECT, EXCEPT</h2>
+<p>The set operation <code>UNION</code> allows us to combine data <strong>vertically</strong>, i.e. appending <strong>columns</strong>.</p>
+<p>In the same way that <code>JOIN</code>s allow us to combine data <strong>horizontally</strong>, i.e.&nbsp;appending <strong>rows</strong>.</p>
+<p>For all set operations – <code>UNION</code>, <code>INTERSECT</code>, <code>EXCEPT</code> – the number of columns, data types, and order of columns must match between the two <code>SELECT</code> statements.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="image.png" class="img-fluid figure-img"></p>
+<figcaption>JOIN vs UNION. From datalemur.com</figcaption>
+</figure>
+</div>
+<p>The <code>UNION</code> keyword gives all <strong>unique</strong> rows, <code>UNION ALL</code> <strong>retains duplicate</strong> rows.</p>
+<pre class="postgresql"><code>SELECT col1, col2
+FROM table1
+UNION ALL
+SELECT col1, col2
+FROM table2;</code></pre>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="image-1.png" class="img-fluid figure-img"></p>
+<figcaption>UNION vs UNION ALL. From datalemur.com</figcaption>
+</figure>
+</div>
+<p>The <code>INTERSECT</code> command gives the intersection between two sets, i.e.&nbsp;the common rows present in both.</p>
+<pre class="postgresql"><code>SELECT order_id
+FROM orders
+WHERE quantity &gt;= 2
+INTERSECT
+SELECT order_id
+FROM deliveries
+WHERE delivery_status = 'Delivered';</code></pre>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="image-2.png" class="img-fluid figure-img"></p>
+<figcaption>INTERSECT. From datalemur.com</figcaption>
+</figure>
+</div>
+<p><code>EXCEPT</code> gives all the unique rows in A that are <strong>not</strong> present in B.</p>
+<pre class="postgresql"><code>SELECT ingredient
+FROM recipe_1
+EXCEPT
+SELECT ingredient
+FROM recipe_2;</code></pre>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="image-3.png" class="img-fluid figure-img"></p>
+<figcaption>EXCEPT. From datalemur.com</figcaption>
+</figure>
+</div>
+</section>
+<section id="sql-code-best-practices" class="level2">
+<h2 class="anchored" data-anchor-id="sql-code-best-practices">4.7. SQL Code Best Practices</h2>
+<ul>
+<li><code>UPPERCASE</code> for <strong>keywords</strong>:</li>
+<li><code>lowercase</code> or <code>snake_case</code> for <strong>names</strong></li>
+<li>Descriptive and concise <strong>aliases</strong></li>
+<li>Consistent formatting and <strong>indentation</strong></li>
+<li>Avoid SELECT *, explicitly specify columns</li>
+<li>Use <code>JOIN</code>s explicitly for clarity
+<ul>
+<li>Rather than relying on <code>FROM table1, table2</code> syntax</li>
+<li>Specify the <strong>type</strong> of join (INNER, LEFT, RIGHT, OUTER)</li>
+</ul></li>
+<li>Format <strong>dates</strong> consistently - YYYY-MM-DD</li>
+<li><strong>Comment</strong> wisely
+<ul>
+<li>Use <code>--</code> for inline comments and <code>/* ... */</code> for multiline</li>
+</ul></li>
+</ul>
+</section>
+<section id="execution-order" class="level2">
+<h2 class="anchored" data-anchor-id="execution-order">4.8. Execution Order</h2>
+<p>The query engine for the database handles the <a href="https://www.datacamp.com/tutorial/sql-order-of-execution">order of execution</a> of commands in the query. This is helpful to understand what happens in the database under the hood so we can optimise our queries better.</p>
+<table class="table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 3%">
+<col style="width: 86%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Clause</th>
+<th>Order</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FROM / JOIN</td>
+<td>1</td>
+<td>The query begins with the FROM clause, where the database identifies the tables involved and accesses the necessary data.</td>
+</tr>
+<tr class="even">
+<td>WHERE</td>
+<td>2</td>
+<td>The database applies the conditions specified in the WHERE clause to filter the data retrieved from the tables in the FROM clause.</td>
+</tr>
+<tr class="odd">
+<td>GROUP BY</td>
+<td>3</td>
+<td>If a GROUP BY clause is present, the data is grouped based on the specified columns, and aggregation functions (such as SUM(), AVG(), COUNT()) are applied to each group.</td>
+</tr>
+<tr class="even">
+<td>HAVING</td>
+<td>4</td>
+<td>The HAVING clause filters the aggregated data based on specified conditions.</td>
+</tr>
+<tr class="odd">
+<td>SELECT / DISTINCT</td>
+<td>5</td>
+<td>The SELECT clause defines the columns to be included in the final result set.</td>
+</tr>
+<tr class="even">
+<td>ORDER BY</td>
+<td>6</td>
+<td>If an ORDER BY clause is used, the result set is sorted according to the specified columns.</td>
+</tr>
+<tr class="odd">
+<td>LIMIT / OFFSET</td>
+<td>7</td>
+<td>If LIMIT or OFFSET clause is present, the result set is restricted to the specified number of rows and optionally offset by a certain number of rows.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="string-functions" class="level2">
+<h2 class="anchored" data-anchor-id="string-functions">4.9. String Functions</h2>
+<p>String functions are useful for cleaning and manipulating text data.</p>
+<p>We can change case with <code>UPPER</code> and <code>LOWER</code>.</p>
+<pre class="postgresql"><code>SELECT 
+  UPPER(text_col) AS upper_case_text,
+  LOWER(text_col) AS lower_case_text
+FROM table_name;</code></pre>
+<p>We can extract the first or last N characters of a string with <code>LEFT(col, N)</code> and <code>RIGHT(col, N)</code>. If N is greater than the length of the string, it will return the whole string.</p>
+<pre class="postgresql"><code>SELECT 
+  LEFT(text_col, 5) AS left_substring,
+  RIGHT(text_col, 5) AS right_substring
+FROM table_name;</code></pre>
+<p>We can calculate the <code>LENGTH</code> of a string.</p>
+<pre class="postgresql"><code>SELECT 
+  LENGTH(text_col) AS text_length
+FROM table_name;</code></pre>
+<p>We can find the index of a substring within a larger string using <code>POSITION(substring IN string)</code>. This returns 0 if the substring is not found.</p>
+<pre class="postgresql"><code>SELECT POSITION('substring' IN text_col) AS position_result
+FROM table_name;</code></pre>
+<p>White spaces (and other characters) can be trimmed from the left, right or both sides using <code>LTRIM</code>, <code>RTRIM</code>, <code>BTRIM</code>. They can each take an optional second argument specifying the character to trim. The <code>TRIM</code> command removes spaces from both sides of the string; essentially a shorthand for <code>BTRIM(text_col, ' ')</code>.</p>
+<pre class="postgresql"><code>SELECT 
+  TRIM('     Spiderman') AS full_trim,
+  LTRIM('Iron Man', 'Iron ') AS left_trim,
+  RTRIM('Scarlet Witch', ' Witch') AS right_trim,
+  BTRIM('   Falcon   ', ' ') AS combination_trim1,
+  BTRIM('...Iron Man...', '.') AS combination_trim2
+FROM marvel_avengers;</code></pre>
+<p>We can combine multiple string fields with <code>CONCAT</code>.</p>
+<pre class="postgresql"><code>SELECT 
+    CONCAT(col1, col2)
+FROM table_name;</code></pre>
+<p>We can also “concatenate with separator” using <code>CONCAT_WS</code>. So these two queries would be equivalent.</p>
+<pre class="postgresql"><code>SELECT 
+    CONCAT(col1, '-', col2),
+    CONCAT_WS('-', col1,col2)
+FROM table_name;</code></pre>
+<p>We can extract a <code>SUBSTRING</code> from a larger string using the following syntax: <code>SUBSTRING(string, start_position, length [optional])</code>. The <code>start_position</code> argument can be a negative index, meaning it counts from the end of the string. The <code>length</code> argument is optional. If not provided it will return the rest of the string.</p>
+<pre class="postgresql"><code>SELECT 
+    SUBSTRING(col1, 2),  -- From second chracter onwards
+    SUBSTRING(col1, 2, 5)  -- 5 characters, starting from the 2nd
+FROM table_name;</code></pre>
+<p>We can split text into segments based on a specific delimiter using <code>SPLIT_PART(string, delimiter, part_number)</code>.</p>
+<pre class="postgresql"><code>SELECT 
+  SPLIT_PART('Spider-Man', '-', 1) AS split_part_1, -- Extracting the first part: 'Spider'
+  SPLIT_PART('Spider-Man', '-', 2) AS split_part_2, -- Extracting the second part: 'Man'
+  SPLIT_PART('Black Widow', ' ', -1) AS split_part_3 -- Extracting the last part: 'Widow'
+FROM marvel_avengers;</code></pre>
+</section>
+</section>
+<section id="creating-and-modifying-data" class="level1">
+<h1>5. Creating and Modifying Data</h1>
+<p>We can use the <code>CREATE</code> command to create new <code>DATABASE</code> or <code>TABLE</code> objects.</p>
+<p><code>ALTER</code> allows us to modify an existing table.</p>
+<p>We can add data to a table using <code>INSERT</code>.</p>
+<pre class="postgresql"><code>INSERT INTO Customer (id, first_name, last_name)
+VALUES (15, ‘John’, ‘Cena)</code></pre>
+<p>If the primary key already exists for a row, we will receive an error when trying to insert. We can use <code>UPDATE</code> to <strong>overwrite</strong> existing rows.</p>
+<p>The <code>UPSERT</code> command is a combination of the two: INSERT the data if it does not already exist, otherwise UPDATE it.</p>
+<p>We can use <code>DELETE</code> to remove rows from the table.</p>
+<p>We can use <code>DROP</code> to delete an entire table or database. <strong>Use wisely!</strong></p>
 </section>
 <section id="references" class="level1">
 <h1>References</h1>
 <ul>
-<li>https://datalemur.com/sql-tutorial</li>
+<li><a href="https://datalemur.com/sql-tutorial">Data Lemur</a></li>
 <li><a href="https://www.datacamp.com/tutorial/sql-order-of-execution">SQL Order of Execution</a></li>
+<li><a href="https://stackoverflow.com/questions/2404565/what-is-the-difference-between-partition-by-and-group-by">PARTITION BY vs GROUP BY</a></li>
 </ul>
 
 
