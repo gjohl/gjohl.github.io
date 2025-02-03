@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Gurpreet Johl">
-<meta name="dcterms.date" content="2025-01-31">
+<meta name="dcterms.date" content="2025-02-02">
 <meta name="description" content="Snowflake? Snow Problem.">
 
 <title>Gurpreet Johl - Snowflake: SnowPro Core</title>
@@ -156,7 +156,7 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">January 31, 2025</p>
+        <p class="date">February 2, 2025</p>
       </div>
     </div>
     
@@ -852,6 +852,7 @@ FROM TABLE(VALIDATE(table_name, JOB_ID =&gt; ‘_last’))</code></pre>
 FROM (SELECT col1, col2 FROM table_name)</code></pre>
 <p>We can pass a <code>FILE_FORMAT</code> object and <code>HEADER</code> args.</p>
 <p>We can also specify the <strong>prefix</strong> or <strong>suffix</strong> for each file. By default the prefix is data_ and the suffix is _0, _1, etc.</p>
+<pre><code>COPY INTO stage_name/myprefix</code></pre>
 <p>This is the default behaviour to <strong>split the output into multiple files</strong> once <code>MAX_FILE_SIZE</code> is reached, setting an upper limit on the output. The <code>SINGLE</code> parameter can be passed to override this, to force the unloading task to keep the output to a single file without splitting.</p>
 <p>If unloading to an <em>internal stage</em>, to get the data on your local machine use SnowSQL to run a GET command on the internal stage after unloading.</p>
 <p>You can then use the <code>REMOVE</code> command to delete from the internal stage.</p>
