@@ -184,319 +184,483 @@ This depends on data **ingress vs egress**.
 
 
 ## 2.7. Storage Monitoring
-<TODO FROM HERE>
 
-Individual table storage. 
+We can monitor storage for *individual tables*.
 
-Show tables
-(stats for table storage and properties)
+`SHOW TABLES` gives general table storage stats and properties.
 
-(Detailed views)
-TABLE_STORAGE_METRICS view in INFORMATION_SCHEMA
+We get more detailed views with `TABLE_STORAGE_METRICS`.
+We can run this against the information schema or the account storage.
+These split the sizes into active bytes, time travel bytes and failsafe bytes.
 
-TABLE_STORAGE_METRICS view in ACCOUNT_USAGE
+For the information schema metrics:
+```
+SELECT * FROM DB_NAME.INFORMATION_SCHEMA.TABLE_STORAGE_METRICS;
+```
 
-Can also look at the admin -> usage screen in the snowflake UI
+For the account admin metrics, this needs to use the correct account admin role `USE ROLE ACCOUNTADMIN`.
+```
+SELECT * FROM SNOWFLAKE.ACCOUNT_USAGE.TABLE_STORAGE_METRICS;
+```
+
+We can also look at the `Admin -> Usage` screen in the Snowflake GUI.
 
 
-## Resource monitors 
-Control and monitor credit usage of individual warehouses and entire account
+## 2.8. Resource Monitors
 
-We can set limits of credits used per period, eg max number of credits that can be spent per month. 
+Resource monitors help us **control and monitor credit usage** of individual warehouses and the entire account.
 
-We can set actions based on when a % of the credit limit is reached. Notify, suspend and notify (but continue running tasks that have already started), or suspend immediately (aborting any running queries) and notify. 
-These percentages can be >100%. 
+We can set a **credit quota** which limit the credits used per period. For example, the maximim number of credits that can be spent per month. 
 
-Hands on:
-Can use the usage tab in the account admin role in the snowsight UI under Admin -> Usage. 
+We can set **actions** based on when a percentage of the credit limit is reached. These percentages can be >100%. 
+There are three options for the choice of action:
 
-Can select a warehouse then filter on different dimensions. Distinguish storage vs compute vs data transfer costs. 
+- Notify
+- Suspend and notify (but continue running tasks that have already started)
+- Suspend immediately (aborting any running queries) and notify.
+
+We set this using the Usage tab in the ACCOUNTADMIN role in the snowsight UI under `Admin -> Usage`.
+Other roles can be granted MONITOR and MODIFY privileges.
+
+We can select a warehouse then filter on different dimensions, for example, distinguishing storage vs compute vs data transfer costs. 
 
 To set up a new resource monitor, we give it:
-- name 
-- credit quota - how many credits to limit to
-- monitor type - specific warehouse, group of warehouses, or overall account
-- schedule
+
+- Name 
+- Credit quota: how many credits to limit to
+- Monitor type: specific warehouse, group of warehouses, or overall account
+- Schedule
 - Actions
 
 
-## Warehouses and multi clustering. 
-There are different types and sizes of warehouse and they can be multi clustered. 
-Types: standard and snowpark-optimised
-Size: XS to XXL. Snowpark type is only M or bigger and consumes 50% more credits
+## 2.9. Warehouses and Multi Clustering
+### 2.9.1. Warehouse Properties
+There are different *types* and *sizes* of warehouse and they can be *multi-clustered*. 
 
-Multi clustering is good for more queries, ie more concurrent users. 
+**Types**: standard and snowpark-optimised (for memeory-intensive tasks like ML)
+
+**Size**: XS to XXL. Snowpark type is only M or bigger and consumes 50% more credits
+
+**Multi-clustering** is good for more queries, i.e. more concurrent users. 
 We scale horizontally so there are multiple small warehouses rather than one big one. 
-They can be in maximised mode (set size) or autoscaled mode (number of nodes scales between predefined min and max)
+They can be in **maximised mode** (set size) or **autoscaled mode** (number of nodes scales between predefined min and max)
 
-The autoscaler decides to add warehouses based on the queue, according to the scaling policy. 
-Standard - favours starting extra clusters. Starts a new cluster as soon as there is a query queued. Cluster shuts down after 2 to 3 successful checks - the load on the least used node could be redistributed to other nodes. 
-Economy - favours conserving credits. Starts a new cluster once the workload for the cluster would keep it running for > 6 mins. Cluster shuts down after 5-6 successful checks. 
+The *autoscaler* decides to add warehouses based on the queue, according to the **scaling policy**.
 
-Hands on. 
-Need account role to be account admin, security admin or sys admin. 
+- Standard
+    - Favours starting extra clusters. 
+    - Starts a new cluster **as soon as there is a query queued**. 
+    - Cluster shuts down after 2 to 3 successful checks. A "check" is when the load on the least used node could be redistributed to other nodes.
+- Economy 
+    - Favours **conserving credits**.
+    - Starts a new cluster once the workload for the cluster would keep it **running for > 6 mins**. 
+    - Cluster shuts down after 5-6 successful checks. 
 
-Warehouse can be created through UI or SQL. 
+### 2.9.2. Creating a Warehouse
+To create a warehouse, we need to use the ACCOUNTADMIN, SECURTIYADMIN or SYSADMIN role.
 
-Create warehouse my_wh
-With 
-Warehouse_size = small
-Min_cluster_count = 1
-Max_cluster_count = 3
+Warehouses can either be created through UI or SQL. 
 
-Can also alter or drop a warehouse. 
+```
+CREATE WAREHOUSE my_wh
+WITH
+WAREHOUSE_SIZE = XSMALL
+MIN_CLUSTER_COUNT = 1
+MAX_CLUSTER_COUNT = 3
+AUTO_RESUME = TRUE
+AUTO_SUSPEND = 300
+COMMENT = 'This is the first warehouse'
+```
 
+We can also `ALTER` or `DROP` a warehouse in SQL, just like we normally would with `DROP TABLE`.
 
-## Snowflake objects. 
-Hierarchy of objects. 
-An organisation can have multiple accounts. These accounts might be by cloud region or department. 
-Within each account we have multiple account objects: users, roles, databases, warehouses, other objects. 
-Databases can have multiple schemas. 
-Schemas can have multiples UDFs, views, tables, stages, other objects 
-
-
-## SnowSQL. 
-Used to connect to Snowflake via the command line. We can execute queries, load and unload data. 
-
-Needs to be installed on your local machine. 
-
-
-# 3. Data Loading / Unloading
-SECTION 3: loading and unloading data 
-
-Stages. 
-Stages are locations used to store data. From the stage, say an S3 bucket, we can load data from a stage into a database. 
-Likewise, we can unload data from the database to the stage (S3 bucket)
-
-Stages can be internal (managed by snowflake) or external (managed by your cloud provider, eg AWS S3)
-
-Internal stage. 
-We upload data into an internal stage using the PUT command. By default compressed with gzip and encrypted. 
-We load it into the database using the COPY INTO command. 
-We can also unload using the COPY INTO command by varying the destination. 
-
-There are 3 types of stage:
-- user stage. Can only be accessed by one user. Every user has one by default and it cannot be altered or dropped. Accessed with @~
-- table stage. Can only be accessed by one table. Cannot be altered or dropped. Use this to load to a specific table. Accessed with @%
-- Named stage. CREATE STAGE to create your own. This is then just like any other database object, so you can modify it or grant privileges. Most commonly used. Accessed with @
-
-Use cases:
-- we have a file on our local system that we want to load into snowflake but we don’t have an external cloud provider set up. 
+```
+DROP WAREHOUSE my_wh;
+```
 
 
-External stage. 
-Connect to external cloud provider such as S3 bucket. 
-CREATE STAGE stagename url=…
-like with named internal stage. 
-This creates a snowflake object that we can modify and grant privileges to. 
+## 2.10. Snowflake Objects
 
-We can add credentials argument but this would store them in plain text. A better practice is to pass a storage_integration arg that points to credentials. 
+There is a hierarchy of objects in Snowflake.
 
-We can also specify the file_format. 
-
-Commands for stages:
-- List - list all files
-- copy into - load or unload data
-- Select - query
-- Desc - describe
+```{mermaid}
+flowchart TD
 
 
-Copy into. 
-This can bulk load or unload data. A warehouse is needed. Data transfer costs may apply if moving across regions or cloud providers. 
-
-Load:
-Copy into table_name from stage_name
-
-Can specify a file or list of files with the files arg:
-files = …
-We can also use the pattern arg to match a file pattern with wildcards, eg order*.csv
-
-Unload:
-Copy into stage_name from table_name
-
-Can specify a file format with file_format arg, or pass a reusable file format object 
-A range of file formats are supported including: csv, json, parquet, orc, avro, xml
+  A(Organisation) --> B1(Account 1)
+  A(Organisation) --> B2(Account 2)
 
 
-File format. 
+  B1 --> C1(Users)
+  B1 --> C2(Roles)
+  B1 --> C3(Databases)
+  B1 --> C4(Warehouses)
+  B1 --> C5(Other account objects)
+  
+  C3 --> D1(Schemas)
+
+  D1 --> E1(UDFs)
+  D1 --> E2(Views)
+  D1 --> E3(Tables)
+  D1 --> E4(Stages)
+  D1 --> E5(Other database objects)
+```
+
+
+An **organisation** (managed by ORGADMIN) can have multiple **accounts** (each managed by am ACCOUNTADMIN). 
+These accounts might be by cloud region or department. 
+
+Within each **account** we have multiple account objects: **users, roles, databases, warehouses, other objects**. 
+
+**Databases** can have multiple **schemas**.
+
+**Schemas** can have multiples **UDFs, views, tables, stages, other objects**. 
+
+
+## 2.11. SnowSQL
+
+SnowSQL is used to connect to Snowflake via the **command line**. 
+It needs to be installed on your local machine. 
+
+We can execute queries, load and unload data, etc.
+
+
+# 3. Loading and Unloading Data
+
+## 3.1. Stages
+Stages are **locations used to store data**. 
+
+From the stage, say an S3 bucket, we can **load** data from stage -> database. 
+Likewise, we can **unload** data from database -> stage (S3 bucket).
+
+Stages can be **internal** (managed by Snowflake) or **external** (managed by your cloud provider, eg AWS S3).
+
+### 3.1.1. Internal Stage
+
+An internal stage is managed by Snowflake.
+
+We **upload data into an internal stage** using the `PUT` command. 
+By default, files are compressed with gzip and encrypted. 
+
+We **load** it into the database using the `COPY INTO` command. 
+We can also **unload** using the `COPY INTO` command by varying the destination. 
+
+There are three types of stage:
+
+- User stage
+    - Can only be accessed by **one user**
+    - Every user has one by default
+    - Cannot be altered or dropped
+    - Accessed with `@~`
+- Table stage
+    - Can only be accessed by **one table**
+    - Cannot be altered or dropped
+    - Use this to load to a specific table
+    - Accessed with `@%`
+- Named stage
+    - `CREATE STAGE` to create your own
+    - This is then just like any other database object, so you can modify it or grant privileges
+    - Most commonly used stage
+    - Accessed with `@`
+
+A typical use case for an internal stage is when we have a file on our local system that we want to load into Snowflake, 
+but we don’t have an external cloud provider set up. 
+
+
+### 3.1.2. External Stage
+An external stage connects to an external cloud provider, such as an S3 bucket. 
+
+We create it with the `CREATE STAGE` command as with an internal stage.
+This creates a Snowflake object that we can modify and grant privileges to. 
+```
+CREATE STAGE stage_name 
+  URL='s3://bucket/path/'
+```
+
+We *can* add `CREDENTIALS` argument but this would store them in plain text. 
+A better practice is to pass a `STORAGE_INTEGRATION` argument that points to credentials. 
+
+We can also specify the `FILE_FORMAT`. 
+
+
+### 3.1.3. Commands For Stages
+Some of the most common commands for stages:
+
+- `LIST`
+    - List all files (and additional properties) in the stage.
+- `COPY INTO`
+    - Load data into the stage, or unload data from the stage.
+- `SELECT` 
+    - Query from stage
+- `DESC`
+    - Describe the stage. Shows the default values or arguments.
+
+
+## 3.2. COPY INTO 
+This can **bulk load or unload data**. 
+
+A *warehouse is needed*. Data transfer costs may apply if moving across regions or cloud providers. 
+
+### 3.2.1. Loading Data
+Load data from a stage to a table with:
+```
+COPY INTO table_name 
+FROM stage_name
+```
+
+We can specify a file or list of files with the `FILES` argument.
+
+Supported file formats are:
+
+- csv (default)
+- json
+- avro
+- orc
+- parquet
+- xml
+
+We can also use the `PATTERN` argument to match a file pattern with wildcards, e.g. `order*.csv`
+
+
+### 3.2.2. Unloading Data
+Unloading data from the table to a stage uses the same syntax:
+```
+COPY INTO stage_name 
+FROM table_name
+```
+
+As with loading, we can specify a file format with the `FILE_FORMAT` arg, or pass a reusable `FILE_FORMAT` object.
+```
+COPY INTO stage_name 
+FROM table_name
+FILE_FORMAT = ( FORMAT_NAME = 'file_format_name' |
+                TYPE = CSV )
+```
+
+
+## 3.3. File Format
 If the file format is not specified, it defaults to csv. 
 You can see this and other default values by describing the stage with:
-Desc stage stage_name
+```
+DESC STAGE stage_name
+```
 
-We can overrule the defaults by specifying file_format arg in the copy into command. 
+We can overrule the defaults by specifying `FILE_FORMAT` argument in the `COPY INTO` command. 
 
 A better practice is to use the file_format arg to pass a file_format object such as
-file_format = (TYPE = CSV)
+```
+FILE_FORMAT = (TYPE = CSV)
+```
 
 We create this object with
+```
 CREATE FILE FORMAT file_format_name
 TYPE = CSV
 FIELD_DELIMITER = ‘,’
 SKIP_HEADER = 1
+```
 
-We write this file format to a table like manage_db
+We write this file format to a table like `manage_db`.
 Then we can reuse it in multiple places when creating the stage or table, loading or unloading data, etc. 
 
 
-Insert and update. 
-Inserts are the same as standard SQL:
+## 3.4. Insert and Update 
+**Insert** is the same as standard SQL:
+```
 INSERT INTO table_name
-VALUES (
-)
+VALUES (1, 0.5, 'string')
+```
 
-To only insert specific columns:
-
+To only insert *specific columns*:
+```
 INSERT INTO table_name (col1, col2)
-VALUES (
-)
+VALUES (1, 0.5)
+```
 
-INSERT OVERWRITE will truncate any existing data and insert only the given values. 
+`INSERT OVERWRITE` will **truncate any existing data** and insert **only** the given values.
+**Use with caution!**
+Any previous data is dropped, the table with only have the rows in this command.
 
-UPDATE also works like standard SQL:
+**Update** also works like standard SQL:
+```
 UPDATE table_name
 SET col1=10
 WHERE col1=1
+```
 
-TRUNCATE removes all of the values in the table
+`TRUNCATE` removes all of the values in the table.
 
-DROP removes the entire table object and its contents. 
-
-
-Storage integration object. 
-Stores a generated identity for external cloud storage. We create it as a snowflake object which constrains allowed location and grant permissions to it in AWS, Azure etc. 
+`DROP` removes the entire table object and its contents. 
 
 
-Snowpipe. 
-The discussion so far has focused on bulk loading, ie manual loading of a batch of data. 
+## 3.5. Storage Integration Object
+This object stores a **generated identity for external cloud storage**. 
 
-Snowpipe is used for continuous data loading. 
+We create it as a Snowflake object which constrains the allowed location and grant permissions to it in AWS, Azure etc. 
 
-A pipe is a snowflake object. It loads data immediately when a file appears in blob storage. It triggers a predefined copy command. This is useful when data needs to be available immediately. 
 
-Snowpipe uses serverless features rather than warehouses. 
+## 3.6. Snowpipe
+The discussion so far has focused on **bulk loading**, i.e. manual loading of a batch of data. 
 
-When files are uploaded to an S3 bucket, it sends an event notification to a serverless process which executes the copy command into the snowflake database. 
+Snowpipe is used for **continuous data loading**. 
 
+A **pipe** is a Snowflake object. 
+It *loads data immediately when a file appears in blob storage*. 
+It triggers a predefined `COPY` command. 
+This is useful **when data needs to be available immediately**. 
+
+Snowpipe uses **serverless** features rather than warehouses. 
+
+When files are uploaded to an S3 bucket, it sends an event notification to a serverless process which executes the copy command into the Snowflake database. 
+
+```
 CREATE PIPE pipe_name
 AUTO_INGEST = TRUE
 INGESTION = notification integration from cloud storage 
 COMMENT = string
 AS COPY INTO table_name
 FROM stage_name
+```
 
-Snowpipe can be triggered by cloud messages or REST API. Cloud messages are for external stages only with that cloud provider. Rest api can be internal or external stage. 
+Snowpipe can be triggered by **cloud messages** or **REST API**. 
+Cloud messages are for external stages only with that cloud provider. 
+REST API can be internal or external stage. 
 
-Cost is based on per second per core of the serverless process. 
-Time depends on size and number of files. 
-Ideal file size is between 100-250 MB. 
+- **Cost** is based on "per second per core" of the serverless process. 
+- **Time** depends on size and number of files. 
+- **Ideal file size** is between 100-250 MB. 
 
 Snowflake stores metadata about the file loading. 
 Old history is retained for 14 days. 
 The location of the pipe is stored in a schema in the database. 
-The schedule can be paused or resumed by altering the pipe. 
+
+The **schedule can be paused or resumed** by altering the pipe. 
+```
 ALTER PIPE pipe_name
 SET PIPE_EXECUTION_PAUSED = True
+```
 
 
+## 3.7. Copy Options
 
-Copy options. 
+These are arguments we can pass to `COPY INTO` for loading and unloading. 
+Some options only apply to loading and do not apply to unloading. 
 
-These are arguments we can pass to COPY INTO for loading and unloading. Some options only apply to loading and do not apply to unloading. 
-
-They are properties of the stage object, so if not defined it will fall back to these default values. 
-
-The options:
-
-ON_ERROR. 
-String. 
-
-Only for data loading. 
-
-Continue - continue loading file if errors are found
-SKIP_FILE - skip loading this file if errors are found. This is the default for Snowpipe. 
-SKIP_FILE_<num> - skip if >= num errors are found (absolute)
-SKIP_FILE_<pct>% - skip if >= pct errors are found (percentage)
-ABORT_STATEMENT - abort loading if an error is found. This is the default for bulk load. 
+They are *properties of the stage object*, so if the arguments are not passed Snowflake will fall back to these default values. 
 
 
-SIZE_LIMIT. 
-Int. 
-Maximum cumulative size, in bytes to load. Once this amount of data has been loaded, skip any remaining files. 
+### 3.7.1. ON_ERROR
 
-PURGE. 
-Bool. 
-Remove files from the stage after they have been loaded. 
-Default is False. 
-
-MATCH_BY_COLUMN_NAME. 
-String. 
-Load semi structured data by matching field names. 
-
-CASE_SENSITIVE
-CASE _INSENSITIVE
-NONE - default
+- **Data Type**: String
+- **Description**: Only for data loading. How to handle errors in files.
+- **Possible Values**:
+    - `CONTINUE` - Continue loading file if errors are found.
+    - `SKIP_FILE` - Skip loading this file if errors are found. This is the **default for Snowpipe**. 
+    - `SKIP_FILE_<num>` - Skip if `>= num` errors are found (absolute).
+    - `SKIP_FILE_<pct>%` - Skip if `>= pct` errors are found (percentage).
+    - `ABORT_STATEMENT` - Abort loading if an error is found. This is the **default for bulk load**. 
 
 
-ENFORCE_LENGTH. 
-Bool.  
-if we have a varchar(10) field, how should we handle data that is too long?
+### 3.7.2. SIZE_LIMIT
 
-TRUE - raise an error. Default. 
-FALSE - automatically truncate strings. 
-
-TRUNCATECOLUMNS is an alternative arg that does the OPPOSITE. 
+- **Data Type**: Int
+- **Description**: Maximum *cumulative size*, in bytes, to load. Once this amount of data has been loaded, skip any remaining files. 
+- **Possible Values**: Int bytes.
 
 
-FORCE. 
-Bool. 
+### 3.7.3. PURGE
 
-If we have loaded this file before, should we load it again?
-
-FALSE by default. 
-
-
-LOAD_UNCERTAIN_FILES. 
-Bool. 
-Should we load files if the load status is unknown?
-
-FALSE by default. 
+- **Data Type**: Bool
+- **Description**: Remove files from the stage after they have been loaded. 
+- **Possible Values**: `FALSE` (default) | `TRUE`
 
 
-VALIDATION_MODE. 
-String. 
-Validate the data instead of actually loading it. 
+### 3.7.4. MATCH_BY_COLUMN_NAME
 
-RETURN_N_ROWS - validate the first N rows and returns them (like a select statement would). If there is one or more errors in those rows, raise the first. 
-RETURN_ERRORS - return all errors in the file. 
-
-
-VALIDATE. 
-Validates the files loaded in a previous COPY INTO. Returns a list of errors from that bulk load. This is a table function. 
-
-SELECT * FROM TABLE(VALIDATE(table_name, job_id => ‘_last’))
-
-Can pass a query ID instead of _last, which uses the last run. 
+- **Data Type**: String
+- **Description**: Load semi structured data by matching field names. 
+- **Possible Values**: `NONE` (default) | `CASE_SENSITIVE` | `CASE_INSENSITIVE`
 
 
-Unloading. 
+### 3.7.5. ENFORCE_LENGTH
+
+- **Data Type**: Bool
+- **Description**: If we have a varchar(10) field, how should we handle data that is too long?
+- **Possible Values**:
+    - `TRUE` (default) - Raise an error 
+    - `FALSE` - Automatically truncate strings
+
+`TRUNCATECOLUMNS` is an alternative arg that does the **opposite**. 
+
+
+### 3.7.6. FORCE
+
+- **Data Type**: Bool
+- **Description**: If we have loaded this file before, should we load it again?
+- **Possible Values**: `False` (default) | `TRUE`
+
+
+### 3.7.7. LOAD_UNCERTAIN_FILES
+
+- **Data Type**: Bool
+- **Description**: Should we load files if the load status is unknown?
+- **Possible Values**: `False` (default) | `TRUE`
+
+
+### 3.7.8. VALIDATION_MODE
+
+- **Data Type**: String
+- **Description**: Validate the data instead of actually loading it. 
+- **Possible Values**: 
+    - `RETURN_N_ROWS` - Validate the first N rows and returns them (like a SELECT statement would). If there is one or more errors in those rows, raise the first. 
+    - `RETURN_ERRORS` - Return all errors in the file.
+
+
+## 3.8. VALIDATE
+The `VALIDATE` function validates the files loaded in a **previous COPY INTO**. 
+
+Returns a list of errors from that bulk load. This is a *table function*, which means it returns multiple rows. 
+
+```
+SELECT * 
+FROM TABLE(VALIDATE(table_name, JOB_ID => ‘_last’))
+```
+
+We can pass a query ID instead of _last to use a specific job run rather than the last run. 
+
+
+## 3.9. Unloading
+The syntax for unloading data from a table into a stage is the same as loading, we just swap the source and target.
+
+
+```
 COPY INTO stage_name FROM table_name
+```
 
-We can unload specific rows or columns by using a SELECT statement:
+We can unload specific rows or columns by using a `SELECT` statement:
 
+```
 COPY INTO stage_name 
 FROM (SELECT col1, col2 FROM table_name)
+```
 
-We can pass a FILE_FORMAT object and HEADER args. 
+We can pass a `FILE_FORMAT` object and `HEADER` args. 
 
-We can also specify the prefix for each file. By default the prefix is data_ and the suffix is _0, _1, etc. 
-This is the default behaviour to split the output into multiple files once `MAX_FILE_SIZE` is reached, setting an upper limit on the output.
+We can also specify the **prefix** or **suffix** for each file. 
+By default the prefix is data_ and the suffix is _0, _1, etc. 
+
+```
+COPY INTO stage_name/myprefix
+```
+
+
+This is the default behaviour to **split the output into multiple files** once `MAX_FILE_SIZE` is reached, setting an upper limit on the output.
 The `SINGLE` parameter can be passed to override this, to force the unloading task to keep the output to a single file without splitting.
 
-COPY INTO stage_name/myprefix
 
-If unloading to an internal stage, to get the data on your local machine use SnowSQL to run a GET command on the internal stage after unloading. 
+If unloading to an *internal stage*, to get the data on your local machine use SnowSQL to run a GET command on the internal stage after unloading. 
 
-You can then use the REMOVE command to delete from the internal stage. 
+You can then use the `REMOVE` command to delete from the internal stage. 
 
 
 # 4. Data Transformation
