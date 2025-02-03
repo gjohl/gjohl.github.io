@@ -1,0 +1,690 @@
+---
+title: "Snowflake: SnowPro Core"
+description: "Snowflake? Snow Problem."
+date: "2025-02-02"
+# image: "deep_learning_model.png"
+categories: [Software, DataEngineering]
+---
+
+
+# 1. Overview
+
+The **Snowsight** interface is the GUI through which we interact with Snowflake.
+
+When querying a Snowflake table, a **fully qualified table name** means `database_name + schema_name + table_name`.
+For example, "DERIVED_DB.PUBLIC.TRADES_DATA"
+
+**Worksheets** are associated with a **role**.
+
+A **warehouse** is needed for **compute** to execute a query.
+
+Snowflake is a "self-managed cloud data platform".
+It is cloud only. No on premise option. 
+
+"Self-managed" service means:
+
+- No hardware 
+- No software 
+- No maintenance 
+
+"Data platform" means it can function as:
+
+- Data warehouse
+- Data lake - mix of structured and semi structured data
+- Data science - use  yourpreferred language via *Snowpark*
+
+
+
+# 2. Snowflake Architecture 
+
+## 2.1. Multi-cluster Shared Disk
+In general, there are two approaches to designing a dsitributed data / compute platform: shared-disk and shared-nothing.
+
+**Shared-disk** uses *central data storage* connected to *multiple compute nodes*. 
+
+- Pros: simple, easy data management since their is only one database/disk
+- Cons: limited scalability (bottleneck of the central disk), single point of failure
+
+**Shared-nothing** keeps *each node independent*. Each node is a *separate processor, memory and disk*. 
+
+- Pros: scalability, availability 
+- Cons: complicated, expensive 
+
+Snowflake uses a **hybrid approach**: “multi-cluster shared-data”. 
+
+- There is a *single data repository like shared-disk*. 
+- There are *multiple clusters or nodes* that store a **portion** of the data **locally**, like shared-nothing. 
+
+This combines the pros of both: simplicity and scalability.
+
+
+## 2.2. Layers of Snowflake
+There are three distinct layers of Snowflake:
+
+1. Database storage
+    a. Compressed columnar storage. 
+    b. This is stored as blobs in AWS, Azure, GCP etc. 
+    c. **Snowflake abstracts this away** so we just interact with it like a table. 
+    d. This is optimised for OLAP (analytical purposes) which is **read-heavy**, rather than OLTP which is write-heavy.
+2. Compute 
+    a. “The **muscle** of the system”.
+    b. Query processing.
+    c. Queries are processed using **“virtual warehouses”**. These are massive parallel processing compute clusters, e.g. EC2 on AWS.
+3. Cloud services
+    a. “The **brain** of the system”.
+    b. Collection of services to manage and coordinate components, e.g. the S3 and EC2 instances used in the other two layers. 
+    c. The cloud services layer also runs on a compute instance of the cloud provider and is *completely handled by Snowflake*. 
+    d. This layer handles: **authentication, access control, metadata management, infrastructure management, query parsing and optimisation**. The query **execution** happens in the compute layer.
+
+
+
+## 2.3. Loading Data into Snowflake
+
+This is covered more extensivelyt in its own section, but this sub-section serves as a brief introduction.
+
+The usual SQL commands can be used to create databases and tables. 
+```
+CREATE DATABASE myfirstdb
+ALTER DATABASE myfirstdb RENAME firstdb
+CREATE TABLE loan_payments (
+    col1 string,
+    col2 string,
+);
+```
+
+We can specify a database to use with the `USE DATABASE` command to switch the active database.
+This avoids having to use the *fully qualified table name* everywhere. 
+```
+USE DATABASE firstdb
+
+COPY INTO loan_payments
+FROM s3/… -- The URL to copy from
+file_format = (delimiter = “,”,
+               skip rows=1,
+               type=csv);
+```
+
+
+## 2.4. Snowflake Editions
+The different Snowflake editions vary by *features and pricing*.
+The feature matrix is available on the [Snowflake docs](https://docs.snowflake.com/en/user-guide/intro-editions).
+
+- Standard
+    - Complete DWH, automatic data encryption, support for standard and special data types, time travel 1 day, disaster recovery for 7 days beyond time travel, network policies, federated auth and SSO, 24/7 support
+- Enterprise
+    - Multi cluster warehouse, time travel 90 days, materialised views, search optimisation, column-level security, 24 hour early access to new releases
+- Business critical
+    - Additional security features such as customer managed encryption, support for data specific regulation, database failover and fallback
+- Virtual private
+    - Dedicated virtual servers and warehouse, dedicated metadata store. Isolated from all other snowflake accounts. 
+
+
+## 2.5. Compute Costs 
+### 2.5.1. Overview of Cost Categories
+Compute costs and storage costs are decoupled and can be scaled separately. "Pay for what you need". 
+
+- **Active warehouses**
+    - Used for standard query processing. 
+    - Billed per second (minimum 1 minute).
+    - Depends on *size of warehouse, time and number of warehouses*.
+- **Cloud services**
+    - Behind-the-scenes cloud service tasks.
+    - *Only charged if >10% of warehouse consumption*, which is not the case for most customers.
+- **Serverless**
+    - Used for *search optimisation* and *Snowpipe*.
+    - This is compute that is managed by snowflake, e.g. event-based processing.
+
+These are charged in **Snowflake credits**. 
+
+### 2.5.2. Calculating Number of Credits Consumed- 
+
+The warehouses consume the following number of credits per hour:
+
+| Warehouse Size | Number of Credits |
+|----------------|-------------------|
+| XS             | 1                 |
+|S               | 2                 |
+|M               | 4                 |
+|L               | 8                 |
+|XL              | 16                |
+|4XL             | 128               |
+
+**Credits cost different amounts per edition.**
+It also depends on the *cloud provider* (AWS) and *region* (US-East-1).
+Indicative costs for AWS US-East-1 are:
+
+| Edition             | $ / Credit |
+|---------------------|------------|
+| Standard            | 2          |
+| Enterprise          | 3          |
+| Business Critical   | 4          |
+
+
+## 2.6 Storage and Data Costs
+### 2.6.1. Storage Types and Costs
+Monthly storage costs are based on **average storage used per month**.
+Also depends on **cloud provider and region**.
+Cost is calculated **AFTER Snowflake’s data compression**.
+
+There are two options for storage pricing:
+
+- **On demand storage**: Pay for what you use.
+- **Capacity storage**: Pay upfront for defined capacity. 
+
+Typically start with on demand until we understand our actual usage, then shift to capacity storage once this is stable.
+
+### 2.6.2. Transfer Costs
+This depends on data **ingress vs egress**.
+
+- **Data IN is free**
+    - Snowflake wants to remove friction to getting your data in. 
+- **Data OUT is charged**
+    - Snowflake wants to add friction to leaving. 
+    - Depends on *cloud provider and region*. **In-region transfers are free**. Cross-region or cross-providers are charged. 
+
+
+## 2.7. Storage Monitoring
+
+We can monitor storage for *individual tables*.
+
+`SHOW TABLES` gives general table storage stats and properties.
+
+We get more detailed views with `TABLE_STORAGE_METRICS`.
+We can run this against the information schema or the account storage.
+These split the sizes into active bytes, time travel bytes and failsafe bytes.
+
+For the information schema metrics:
+```
+SELECT * FROM DB_NAME.INFORMATION_SCHEMA.TABLE_STORAGE_METRICS;
+```
+
+For the account admin metrics, this needs to use the correct account admin role `USE ROLE ACCOUNTADMIN`.
+```
+SELECT * FROM SNOWFLAKE.ACCOUNT_USAGE.TABLE_STORAGE_METRICS;
+```
+
+We can also look at the `Admin -> Usage` screen in the Snowflake GUI.
+
+
+## 2.8. Resource Monitors
+
+Resource monitors help us **control and monitor credit usage** of individual warehouses and the entire account.
+
+We can set a **credit quota** which limit the credits used per period. For example, the maximim number of credits that can be spent per month. 
+
+We can set **actions** based on when a percentage of the credit limit is reached. These percentages can be >100%. 
+There are three options for the choice of action:
+
+- Notify
+- Suspend and notify (but continue running tasks that have already started)
+- Suspend immediately (aborting any running queries) and notify.
+
+We set this using the Usage tab in the ACCOUNTADMIN role in the snowsight UI under `Admin -> Usage`.
+Other roles can be granted MONITOR and MODIFY privileges.
+
+We can select a warehouse then filter on different dimensions, for example, distinguishing storage vs compute vs data transfer costs. 
+
+To set up a new resource monitor, we give it:
+
+- Name 
+- Credit quota: how many credits to limit to
+- Monitor type: specific warehouse, group of warehouses, or overall account
+- Schedule
+- Actions
+
+
+## 2.9. Warehouses and Multi Clustering
+### 2.9.1. Warehouse Properties
+There are different *types* and *sizes* of warehouse and they can be *multi-clustered*. 
+
+**Types**: standard and snowpark-optimised (for memeory-intensive tasks like ML)
+
+**Size**: XS to XXL. Snowpark type is only M or bigger and consumes 50% more credits
+
+**Multi-clustering** is good for more queries, i.e. more concurrent users. 
+We scale horizontally so there are multiple small warehouses rather than one big one. 
+They can be in **maximised mode** (set size) or **autoscaled mode** (number of nodes scales between predefined min and max)
+
+The *autoscaler* decides to add warehouses based on the queue, according to the **scaling policy**.
+
+- Standard
+    - Favours starting extra clusters. 
+    - Starts a new cluster **as soon as there is a query queued**. 
+    - Cluster shuts down after 2 to 3 successful checks. A "check" is when the load on the least used node could be redistributed to other nodes.
+- Economy 
+    - Favours **conserving credits**.
+    - Starts a new cluster once the workload for the cluster would keep it **running for > 6 mins**. 
+    - Cluster shuts down after 5-6 successful checks. 
+
+### 2.9.2. Creating a Warehouse
+To create a warehouse, we need to use the ACCOUNTADMIN, SECURTIYADMIN or SYSADMIN role.
+
+Warehouses can either be created through UI or SQL. 
+
+```
+CREATE WAREHOUSE my_wh
+WITH
+WAREHOUSE_SIZE = XSMALL
+MIN_CLUSTER_COUNT = 1
+MAX_CLUSTER_COUNT = 3
+AUTO_RESUME = TRUE
+AUTO_SUSPEND = 300
+COMMENT = 'This is the first warehouse'
+```
+
+We can also `ALTER` or `DROP` a warehouse in SQL, just like we normally would with `DROP TABLE`.
+
+```
+DROP WAREHOUSE my_wh;
+```
+
+
+## 2.10. Snowflake Objects
+
+There is a hierarchy of objects in Snowflake.
+
+```{mermaid}
+flowchart TD
+
+
+  A(Organisation) --> B1(Account 1)
+  A(Organisation) --> B2(Account 2)
+
+
+  B1 --> C1(Users)
+  B1 --> C2(Roles)
+  B1 --> C3(Databases)
+  B1 --> C4(Warehouses)
+  B1 --> C5(Other account objects)
+  
+  C3 --> D1(Schemas)
+
+  D1 --> E1(UDFs)
+  D1 --> E2(Views)
+  D1 --> E3(Tables)
+  D1 --> E4(Stages)
+  D1 --> E5(Other database objects)
+```
+
+
+An **organisation** (managed by ORGADMIN) can have multiple **accounts** (each managed by am ACCOUNTADMIN). 
+These accounts might be by cloud region or department. 
+
+Within each **account** we have multiple account objects: **users, roles, databases, warehouses, other objects**. 
+
+**Databases** can have multiple **schemas**.
+
+**Schemas** can have multiples **UDFs, views, tables, stages, other objects**. 
+
+
+## 2.11. SnowSQL
+
+SnowSQL is used to connect to Snowflake via the **command line**. 
+It needs to be installed on your local machine. 
+
+We can execute queries, load and unload data, etc.
+
+
+# 3. Loading and Unloading Data
+
+## 3.1. Stages
+Stages are **locations used to store data**. 
+
+From the stage, say an S3 bucket, we can **load** data from stage -> database. 
+Likewise, we can **unload** data from database -> stage (S3 bucket).
+
+Stages can be **internal** (managed by Snowflake) or **external** (managed by your cloud provider, eg AWS S3).
+
+### 3.1.1. Internal Stage
+
+An internal stage is managed by Snowflake.
+
+We **upload data into an internal stage** using the `PUT` command. 
+By default, files are compressed with gzip and encrypted. 
+
+We **load** it into the database using the `COPY INTO` command. 
+We can also **unload** using the `COPY INTO` command by varying the destination. 
+
+There are three types of stage:
+
+- User stage
+    - Can only be accessed by **one user**
+    - Every user has one by default
+    - Cannot be altered or dropped
+    - Accessed with `@~`
+- Table stage
+    - Can only be accessed by **one table**
+    - Cannot be altered or dropped
+    - Use this to load to a specific table
+    - Accessed with `@%`
+- Named stage
+    - `CREATE STAGE` to create your own
+    - This is then just like any other database object, so you can modify it or grant privileges
+    - Most commonly used stage
+    - Accessed with `@`
+
+A typical use case for an internal stage is when we have a file on our local system that we want to load into Snowflake, 
+but we don’t have an external cloud provider set up. 
+
+
+### 3.1.2. External Stage
+An external stage connects to an external cloud provider, such as an S3 bucket. 
+
+We create it with the `CREATE STAGE` command as with an internal stage.
+This creates a Snowflake object that we can modify and grant privileges to. 
+```
+CREATE STAGE stage_name 
+  URL='s3://bucket/path/'
+```
+
+We *can* add `CREDENTIALS` argument but this would store them in plain text. 
+A better practice is to pass a `STORAGE_INTEGRATION` argument that points to credentials. 
+
+We can also specify the `FILE_FORMAT`. 
+
+
+### 3.1.3. Commands For Stages
+Some of the most common commands for stages:
+
+- `LIST`
+    - List all files (and additional properties) in the stage.
+- `COPY INTO`
+    - Load data into the stage, or unload data from the stage.
+- `SELECT` 
+    - Query from stage
+- `DESC`
+    - Describe the stage. Shows the default values or arguments.
+
+
+## 3.2. COPY INTO 
+This can **bulk load or unload data**. 
+
+A *warehouse is needed*. Data transfer costs may apply if moving across regions or cloud providers. 
+
+### 3.2.1. Loading Data
+Load data from a stage to a table with:
+```
+COPY INTO table_name 
+FROM stage_name
+```
+
+We can specify a file or list of files with the `FILES` argument.
+
+Supported file formats are:
+
+- csv (default)
+- json
+- avro
+- orc
+- parquet
+- xml
+
+We can also use the `PATTERN` argument to match a file pattern with wildcards, e.g. `order*.csv`
+
+
+### 3.2.2. Unloading Data
+Unloading data from the table to a stage uses the same syntax:
+```
+COPY INTO stage_name 
+FROM table_name
+```
+
+As with loading, we can specify a file format with the `FILE_FORMAT` arg, or pass a reusable `FILE_FORMAT` object.
+```
+COPY INTO stage_name 
+FROM table_name
+FILE_FORMAT = ( FORMAT_NAME = 'file_format_name' |
+                TYPE = CSV )
+```
+
+
+## 3.3. File Format
+If the file format is not specified, it defaults to csv. 
+You can see this and other default values by describing the stage with:
+```
+DESC STAGE stage_name
+```
+
+We can overrule the defaults by specifying `FILE_FORMAT` argument in the `COPY INTO` command. 
+
+A better practice is to use the file_format arg to pass a file_format object such as
+```
+FILE_FORMAT = (TYPE = CSV)
+```
+
+We create this object with
+```
+CREATE FILE FORMAT file_format_name
+TYPE = CSV
+FIELD_DELIMITER = ‘,’
+SKIP_HEADER = 1
+```
+
+We write this file format to a table like `manage_db`.
+Then we can reuse it in multiple places when creating the stage or table, loading or unloading data, etc. 
+
+
+## 3.4. Insert and Update 
+**Insert** is the same as standard SQL:
+```
+INSERT INTO table_name
+VALUES (1, 0.5, 'string')
+```
+
+To only insert *specific columns*:
+```
+INSERT INTO table_name (col1, col2)
+VALUES (1, 0.5)
+```
+
+`INSERT OVERWRITE` will **truncate any existing data** and insert **only** the given values.
+**Use with caution!**
+Any previous data is dropped, the table with only have the rows in this command.
+
+**Update** also works like standard SQL:
+```
+UPDATE table_name
+SET col1=10
+WHERE col1=1
+```
+
+`TRUNCATE` removes all of the values in the table.
+
+`DROP` removes the entire table object and its contents. 
+
+
+## 3.5. Storage Integration Object
+This object stores a **generated identity for external cloud storage**. 
+
+We create it as a Snowflake object which constrains the allowed location and grant permissions to it in AWS, Azure etc. 
+
+
+## 3.6. Snowpipe
+The discussion so far has focused on **bulk loading**, i.e. manual loading of a batch of data. 
+
+Snowpipe is used for **continuous data loading**. 
+
+A **pipe** is a Snowflake object. 
+It *loads data immediately when a file appears in blob storage*. 
+It triggers a predefined `COPY` command. 
+This is useful **when data needs to be available immediately**. 
+
+Snowpipe uses **serverless** features rather than warehouses. 
+
+When files are uploaded to an S3 bucket, it sends an event notification to a serverless process which executes the copy command into the Snowflake database. 
+
+```
+CREATE PIPE pipe_name
+AUTO_INGEST = TRUE
+INGESTION = notification integration from cloud storage 
+COMMENT = string
+AS COPY INTO table_name
+FROM stage_name
+```
+
+Snowpipe can be triggered by **cloud messages** or **REST API**. 
+Cloud messages are for external stages only with that cloud provider. 
+REST API can be internal or external stage. 
+
+- **Cost** is based on "per second per core" of the serverless process. 
+- **Time** depends on size and number of files. 
+- **Ideal file size** is between 100-250 MB. 
+
+Snowflake stores metadata about the file loading. 
+Old history is retained for 14 days. 
+The location of the pipe is stored in a schema in the database. 
+
+The **schedule can be paused or resumed** by altering the pipe. 
+```
+ALTER PIPE pipe_name
+SET PIPE_EXECUTION_PAUSED = True
+```
+
+
+## 3.7. Copy Options
+
+These are arguments we can pass to `COPY INTO` for loading and unloading. 
+Some options only apply to loading and do not apply to unloading. 
+
+They are *properties of the stage object*, so if the arguments are not passed Snowflake will fall back to these default values. 
+
+
+### 3.7.1. ON_ERROR
+
+- **Data Type**: String
+- **Description**: Only for data loading. How to handle errors in files.
+- **Possible Values**:
+    - `CONTINUE` - Continue loading file if errors are found.
+    - `SKIP_FILE` - Skip loading this file if errors are found. This is the **default for Snowpipe**. 
+    - `SKIP_FILE_<num>` - Skip if `>= num` errors are found (absolute).
+    - `SKIP_FILE_<pct>%` - Skip if `>= pct` errors are found (percentage).
+    - `ABORT_STATEMENT` - Abort loading if an error is found. This is the **default for bulk load**. 
+
+
+### 3.7.2. SIZE_LIMIT
+
+- **Data Type**: Int
+- **Description**: Maximum *cumulative size*, in bytes, to load. Once this amount of data has been loaded, skip any remaining files. 
+- **Possible Values**: Int bytes.
+
+
+### 3.7.3. PURGE
+
+- **Data Type**: Bool
+- **Description**: Remove files from the stage after they have been loaded. 
+- **Possible Values**: `FALSE` (default) | `TRUE`
+
+
+### 3.7.4. MATCH_BY_COLUMN_NAME
+
+- **Data Type**: String
+- **Description**: Load semi structured data by matching field names. 
+- **Possible Values**: `NONE` (default) | `CASE_SENSITIVE` | `CASE_INSENSITIVE`
+
+
+### 3.7.5. ENFORCE_LENGTH
+
+- **Data Type**: Bool
+- **Description**: If we have a varchar(10) field, how should we handle data that is too long?
+- **Possible Values**:
+    - `TRUE` (default) - Raise an error 
+    - `FALSE` - Automatically truncate strings
+
+`TRUNCATECOLUMNS` is an alternative arg that does the **opposite**. 
+
+
+### 3.7.6. FORCE
+
+- **Data Type**: Bool
+- **Description**: If we have loaded this file before, should we load it again?
+- **Possible Values**: `False` (default) | `TRUE`
+
+
+### 3.7.7. LOAD_UNCERTAIN_FILES
+
+- **Data Type**: Bool
+- **Description**: Should we load files if the load status is unknown?
+- **Possible Values**: `False` (default) | `TRUE`
+
+
+### 3.7.8. VALIDATION_MODE
+
+- **Data Type**: String
+- **Description**: Validate the data instead of actually loading it. 
+- **Possible Values**: 
+    - `RETURN_N_ROWS` - Validate the first N rows and returns them (like a SELECT statement would). If there is one or more errors in those rows, raise the first. 
+    - `RETURN_ERRORS` - Return all errors in the file.
+
+
+## 3.8. VALIDATE
+The `VALIDATE` function validates the files loaded in a **previous COPY INTO**. 
+
+Returns a list of errors from that bulk load. This is a *table function*, which means it returns multiple rows. 
+
+```
+SELECT * 
+FROM TABLE(VALIDATE(table_name, JOB_ID => ‘_last’))
+```
+
+We can pass a query ID instead of _last to use a specific job run rather than the last run. 
+
+
+## 3.9. Unloading
+The syntax for unloading data from a table into a stage is the same as loading, we just swap the source and target.
+
+
+```
+COPY INTO stage_name FROM table_name
+```
+
+We can unload specific rows or columns by using a `SELECT` statement:
+
+```
+COPY INTO stage_name 
+FROM (SELECT col1, col2 FROM table_name)
+```
+
+We can pass a `FILE_FORMAT` object and `HEADER` args. 
+
+We can also specify the **prefix** or **suffix** for each file. 
+By default the prefix is data_ and the suffix is _0, _1, etc. 
+
+```
+COPY INTO stage_name/myprefix
+```
+
+
+This is the default behaviour to **split the output into multiple files** once `MAX_FILE_SIZE` is reached, setting an upper limit on the output.
+The `SINGLE` parameter can be passed to override this, to force the unloading task to keep the output to a single file without splitting.
+
+
+If unloading to an *internal stage*, to get the data on your local machine use SnowSQL to run a GET command on the internal stage after unloading. 
+
+You can then use the `REMOVE` command to delete from the internal stage. 
+
+
+# 4. Data Transformation
+
+
+# 5. Snowflake Tools and Connectors
+
+
+
+# 6. Continuous Data Protection
+
+
+
+# 7. Zero-Copy Cloning and Sharing
+
+
+# 8. Account and Security
+
+
+# 9. Performance Concepts
+
+
+
+# References
+
+- ["Snowflake Certification: SnowPro Core COF-C02 Exam Prep" Udemy course](https://www.udemy.com/course/snowflake-certification-snowpro-core-exam-prep)
+- [Snowflake feature matrix](https://docs.snowflake.com/en/user-guide/intro-editions)
