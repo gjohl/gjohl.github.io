@@ -31,13 +31,11 @@ It is cloud only. No on premise option.
 
 - Data warehouse
 - Data lake - mix of structured and semi structured data
-- Data science - use  yourpreferred language via *Snowpark*
-
+- Data science - use your preferred language via *Snowpark*
 
 
 # 2. Snowflake Architecture 
-
-## 2.1. Multi-cluster Shared Disk
+## 2.1. Multi-Cluster Shared Disk
 In general, there are two approaches to designing a dsitributed data / compute platform: shared-disk and shared-nothing.
 
 **Shared-disk** uses *central data storage* connected to *multiple compute nodes*. 
@@ -664,6 +662,314 @@ You can then use the `REMOVE` command to delete from the internal stage.
 
 
 # 4. Data Transformation
+## 4.1. Transformations and Functions
+
+We can specify transformations in the `SELECT` statement of the `COPY` command. 
+
+This can simplify ETL pipelines when performing simple transformations such as: column reordering, casting data types, removing columns, truncating strings to a certain length.
+We can also use a subset of SQL functions inside the COPY command. Supports most standard SQL functions defined in SQL:1999.
+
+Snowflake does **not** support more complex SQL inside the COPY command, such as  FLATTEN, aggregations, GROUP BY, filtering with WHERE, JOINs.
+
+Supported functions:
+
+- Scalar functions. Return one value per row. E.g. `DAYNAME`
+- Aggregate functions. Return one value per group / table. E.g. `MAX`.
+- Window functions. Aggregate functions that return one value per row. E.g. `SELECT ORDER_ID, SUBCATEGORY, MAX(amount) OVER (PARTITION BY SUBCATEGORY) FROM ORDERS;`
+- Table functions. Return multiple rows per input row. E.g. `SELECT * FROM TABLE(VALIDATE(table_name, JOB_ID => ‘_last’))`
+- System functions. Control and information functions. E.g. `SYSTEM$CANCEL_ALL_QUERIES`
+- UDFs. User-defined functions.
+- External functions. Stored and executed outside of Snowflake.
+
+
+## 4.2. Estimation Functions
+
+Exact calculations on large tables can be very compute-intensive or memory-intensive.
+Sometimes an estimate is good enough.
+
+Snowflake has some algorithms implemented out of the box that can give useful estimates with fewer resources.
+
+
+### 4.2.1. Number of Distinct Values - `HLL()`
+HyperLogLog algorithm. 
+
+Average error is ~1.6%.
+
+Replace
+```
+COUNT(DISTINCT (col1, col2, ...))
+```
+
+with
+```
+HLL(col1, col2, ...)
+```
+
+or 
+```
+APPROX_COUNT_DISTINCT (col1, col2, ...)
+```
+
+
+### 4.2.2. Frequent Values - `APPROX_TOP_K()`
+Estimate the most frequent values and their frequencies.
+Space-saving algorithm.
+
+Use the following command. 
+The `k` argument is optional and defaults to 1.
+The `counters` argument is optional and specifies the maximum number of distinct values to track. If using this, we should use `counters >> k`.
+
+```
+APPROX_TOP_K (col1, k[optional], counters[optional])
+```
+
+
+### 4.2.3. Percentile Values - `APPROX_PERCENTILE()`
+t-Digest algorithm.
+
+```
+APPROX_PERCENTILE (col1, percentile)
+```
+
+
+### 4.2.4. Similarity of Two or More Data Sets - `MINHASH & APPROXIMATE_SIMILARITY()`
+The full calculation uses the Jaccard similarity cofficient. This returns a value between 0 and 1 indicating similarity.
+$$
+J(A, B) = |(A \cap B)| / |A \cup B|
+$$
+
+The approximation is a two-step process that uses the MinHash algorithm to hash each table, then the `APPROXIMATE_SIMILARITY` function to estimate $J(A, B)$.
+
+The argument `k` in MINHASH is the number of hash functions to use. Higher `k` is more accurate but slower. We can pass individual column names instead oif `*`.
+```
+SELECT MINHASH(k, *) AS mh FROM table_name;
+```
+
+The full approximation command is:
+```
+SELECT APPROXIMATE_SIMILARITY(mh)
+FROM (
+    SELECT MINHASH(100, *) AS mh FROM mhtab1
+    UNION ALL
+    SELECT MINHASH(100, *) AS mh FROM mhtab2
+);
+```
+
+
+## 4.3. User-Defined Functions (UDF)
+These are one of several ways of extending functionality with additional functions. 
+
+(The other approaches are stored procedures and external functions, which are covered in the next sections.)
+
+UDFs support the following languages: **SQL, Python, Java, JavaScript**
+
+### 4.3.1. Defining a UDF
+We can define a SQL UDF using `create function`.
+
+```
+CREATE FUNCTION add_two(n int)
+returns int
+    AS
+    $$
+    n+2
+    $$;
+```
+
+Defining a UDF in Python is similar, we just need to specify the `language` and some other options.
+
+```
+CREATE FUNCTION add_two(n int)
+returns int
+language Python
+runtime_version =‘3.8’
+handler = ‘addtwo’ 
+    AS
+    $$
+    def add_two(n):
+        return n+2
+    $$;
+```
+
+### 4.3.2. Using a UDF
+We just call the UDF from SnowSQL, for example
+
+```
+SELECT add_two(3);
+```
+
+### 4.3.3. Function Properties
+Functions can be:
+
+- **Scalar functions**: Return *one output row* per input row. 
+- **Tabular functions**: Return a *table* per input row. 
+
+Functions are *schema-level* objects in Snowflake. 
+We can see them under `Schema.Public.Functions`.
+
+We can manage access and grant privileges to functions, just like any other Snowflake object. 
+
+
+## 4.4. Stored Procedures 
+
+Another way of extending functionality, like UDFs. 
+
+**UDF vs stored procedures**:
+- UDF is typically used to **calculate** a value. It *needs to return a value*. No need to have access to the objects referenced in the function. 
+- A stored procedure is typically used for **database operations** like INSERT, UPDATE, etc. It *doesn’t need to return a value*. 
+
+Can rely on the *caller's or the owner's access rights*. 
+
+Procedures are *securable objects* like functions, so we can grant access to them. 
+
+Supported languages:
+
+- Snowflake scripting - Snowflake SQL + procedural logic
+- JavaScript 
+- Snowpark API - Python, Scala, Java
+
+
+### 4.4.1. Creating a Stored Procedure
+```
+CREATE PROCEDURE find_min(n1 int, n2 int)
+returns int
+language sql
+    AS
+    BEGIN
+    IF (n1 < n2)
+        THEN RETURN n1;
+        ELSE RETURN n2;
+    END IF;
+    END;
+```
+
+Stored procedures can be run with the caller’s rights or the user’s rights. This is defined with the stored procedure. 
+By default, they run as *owner* but we can override this with:
+```
+execute as caller
+```
+
+
+### 4.4.2. Calling a Stored Procedure
+```
+CALL find_min(5,7)
+```
+
+We can reference **dynamic values**, such as variables in the user's sessions, in stored procedures.
+- If *argument* is referenced in SQL, use `:argname`
+- If an object such as a table is referenced, use `IDENTIFIER(:table_name)`
+
+
+## 4.5. External Functions
+These are user-defined functions that are **stored and executed outside of Snowflake**.
+Remotely executed code is referred to as a “remote service”.
+
+This means it can reference third-party libraries, services and data. 
+
+Examples of external API integrations are: AWS lambda function, Microsoft Azure function, HTTPS server. 
+
+```
+CREATE EXTERNAL FUNCTION my_func(string_col VAR_CHAR)
+returns variant
+api_integration = azure_external_api_integration
+AS 'https://url/goes/here'
+```
+
+Security-related information is stored in an API integration. 
+This is a schema-level object, so it is securable and can be granted access to .
+
+Advantages:
+
+- Can use other languages 
+- Access 3rd-party libraries
+- Can be called from elsewhere, not just Snowflake, so we can have one central repository. 
+
+Limitations:
+
+- Only scalar functions
+- Slower performance - overhead of external functions
+- Not shareable
+
+
+## 4.6. Secure UDFs and Procedures
+
+We may want to hide certain information such as the function definition, 
+or prevent users from seeing underlying data. 
+
+We just use the `SECURE` keyword. 
+
+```
+CREATE SECURE FUNCTION ...
+```
+
+Disadvantages:
+- Lower query performance. The optimiser exposes some security risks, so this is locked down which restricts the optimisation options available therefore impacting performance lock this down the optimisations are restricted. 
+
+We should use it for sensitive data, otherwise the performance trade-off isn’t worthwhile. 
+
+
+## 4.7. Sequences
+Sequences are typically used for `DEFAULT` values in `CREATE TABLE` statements. 
+Sequences are **not** guaranteed to be *gap-free*. 
+
+Sequences are *securable objects* that we can grant privileges to.
+
+```
+CREATE SEQUENCE my_seq
+START = 1
+INCREMENT = 1
+```
+
+Both `START` and `INCREMENT` default to 1.
+
+We invoke a sequence with `my_seq.nextval`. For example:
+
+```
+CREATE TABLE my_table(
+    id int DEFAULT my_seq.nextval,
+    first_name varchar
+    last_name varchar
+);
+
+INSERT INTO my_table(first_name, last_name)
+VALUES ('John', 'Cena'), ('Dwayne', 'Johnson'),('Steve','Austin');
+```
+
+
+## 4.8. Semi-structured Data
+
+Semi-structured data has **no fixed schema**, but contains *tags/labels* and has a *nested structure*. 
+
+This is in contrast to structured data like a table. 
+Or unstructured data which is a free-for-all. 
+
+**Supported formats: json, xml, parquet, orc, avro**
+
+Snowflake deals with unstructured data using 3 different data types:
+
+- Object - think of this in the JavaScript sense, i.e. key:value pairs like a dictionary
+- Array
+- Variant - this can store data of any other type, including arrays and objects. Native support for semi-structured data.  
+
+We typically let Snowflake convert semi-structured data into a *hierarchy of arrays and objects* within a **variant object**. 
+
+Nulls and non-native strings like dates are *cast to strings* within a variant. 
+
+Variant can store up to **16 MB per row**. 
+If the data exceeds this, we will need to restructure or split the input. 
+
+The standard “ELT” approach (Extract, Load, Transform) for semi-structured data is to load the data as is, then transform it later once we’ve eyeballed it. 
+This is a tweak of the classic ETL approach. 
+
+We often need to `FLATTEN` the data.
+
+### 4.8.2. Querying Semi-structured Data
+
+
+
+### 4.8.3. Flatten Hierarchical Data
+
+
+### 4.8.4. Insert JSON Data
 
 
 # 5. Snowflake Tools and Connectors

@@ -73,6 +73,35 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../site_libs/quarto-diagram/mermaid-init.js"></script>
 <link href="../../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../../styles.css">
 </head>
@@ -175,7 +204,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">1. Overview</a></li>
   <li><a href="#snowflake-architecture" id="toc-snowflake-architecture" class="nav-link" data-scroll-target="#snowflake-architecture">2. Snowflake Architecture</a>
   <ul class="collapse">
-  <li><a href="#multi-cluster-shared-disk" id="toc-multi-cluster-shared-disk" class="nav-link" data-scroll-target="#multi-cluster-shared-disk">2.1. Multi-cluster Shared Disk</a></li>
+  <li><a href="#multi-cluster-shared-disk" id="toc-multi-cluster-shared-disk" class="nav-link" data-scroll-target="#multi-cluster-shared-disk">2.1. Multi-Cluster Shared Disk</a></li>
   <li><a href="#layers-of-snowflake" id="toc-layers-of-snowflake" class="nav-link" data-scroll-target="#layers-of-snowflake">2.2. Layers of Snowflake</a></li>
   <li><a href="#loading-data-into-snowflake" id="toc-loading-data-into-snowflake" class="nav-link" data-scroll-target="#loading-data-into-snowflake">2.3. Loading Data into Snowflake</a></li>
   <li><a href="#snowflake-editions" id="toc-snowflake-editions" class="nav-link" data-scroll-target="#snowflake-editions">2.4. Snowflake Editions</a></li>
@@ -230,7 +259,37 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#validate" id="toc-validate" class="nav-link" data-scroll-target="#validate">3.8. VALIDATE</a></li>
   <li><a href="#unloading" id="toc-unloading" class="nav-link" data-scroll-target="#unloading">3.9. Unloading</a></li>
   </ul></li>
-  <li><a href="#data-transformation" id="toc-data-transformation" class="nav-link" data-scroll-target="#data-transformation">4. Data Transformation</a></li>
+  <li><a href="#data-transformation" id="toc-data-transformation" class="nav-link" data-scroll-target="#data-transformation">4. Data Transformation</a>
+  <ul class="collapse">
+  <li><a href="#transformations-and-functions" id="toc-transformations-and-functions" class="nav-link" data-scroll-target="#transformations-and-functions">4.1. Transformations and Functions</a></li>
+  <li><a href="#estimation-functions" id="toc-estimation-functions" class="nav-link" data-scroll-target="#estimation-functions">4.2. Estimation Functions</a>
+  <ul class="collapse">
+  <li><a href="#number-of-distinct-values---hll" id="toc-number-of-distinct-values---hll" class="nav-link" data-scroll-target="#number-of-distinct-values---hll">4.2.1. Number of Distinct Values - <code>HLL()</code></a></li>
+  <li><a href="#frequent-values---approx_top_k" id="toc-frequent-values---approx_top_k" class="nav-link" data-scroll-target="#frequent-values---approx_top_k">4.2.2. Frequent Values - <code>APPROX_TOP_K()</code></a></li>
+  <li><a href="#percentile-values---approx_percentile" id="toc-percentile-values---approx_percentile" class="nav-link" data-scroll-target="#percentile-values---approx_percentile">4.2.3. Percentile Values - <code>APPROX_PERCENTILE()</code></a></li>
+  <li><a href="#similarity-of-two-or-more-data-sets---minhash-approximate_similarity" id="toc-similarity-of-two-or-more-data-sets---minhash-approximate_similarity" class="nav-link" data-scroll-target="#similarity-of-two-or-more-data-sets---minhash-approximate_similarity">4.2.4. Similarity of Two or More Data Sets - <code>MINHASH &amp; APPROXIMATE_SIMILARITY()</code></a></li>
+  </ul></li>
+  <li><a href="#user-defined-functions-udf" id="toc-user-defined-functions-udf" class="nav-link" data-scroll-target="#user-defined-functions-udf">4.3. User-Defined Functions (UDF)</a>
+  <ul class="collapse">
+  <li><a href="#defining-a-udf" id="toc-defining-a-udf" class="nav-link" data-scroll-target="#defining-a-udf">4.3.1. Defining a UDF</a></li>
+  <li><a href="#using-a-udf" id="toc-using-a-udf" class="nav-link" data-scroll-target="#using-a-udf">4.3.2. Using a UDF</a></li>
+  <li><a href="#function-properties" id="toc-function-properties" class="nav-link" data-scroll-target="#function-properties">4.3.3. Function Properties</a></li>
+  </ul></li>
+  <li><a href="#stored-procedures" id="toc-stored-procedures" class="nav-link" data-scroll-target="#stored-procedures">4.4. Stored Procedures</a>
+  <ul class="collapse">
+  <li><a href="#creating-a-stored-procedure" id="toc-creating-a-stored-procedure" class="nav-link" data-scroll-target="#creating-a-stored-procedure">4.4.1. Creating a Stored Procedure</a></li>
+  <li><a href="#calling-a-stored-procedure" id="toc-calling-a-stored-procedure" class="nav-link" data-scroll-target="#calling-a-stored-procedure">4.4.2. Calling a Stored Procedure</a></li>
+  </ul></li>
+  <li><a href="#external-functions" id="toc-external-functions" class="nav-link" data-scroll-target="#external-functions">4.5. External Functions</a></li>
+  <li><a href="#secure-udfs-and-procedures" id="toc-secure-udfs-and-procedures" class="nav-link" data-scroll-target="#secure-udfs-and-procedures">4.6. Secure UDFs and Procedures</a></li>
+  <li><a href="#sequences" id="toc-sequences" class="nav-link" data-scroll-target="#sequences">4.7. Sequences</a></li>
+  <li><a href="#semi-structured-data" id="toc-semi-structured-data" class="nav-link" data-scroll-target="#semi-structured-data">4.8. Semi-structured Data</a>
+  <ul class="collapse">
+  <li><a href="#querying-semi-structured-data" id="toc-querying-semi-structured-data" class="nav-link" data-scroll-target="#querying-semi-structured-data">4.8.2. Querying Semi-structured Data</a></li>
+  <li><a href="#flatten-hierarchical-data" id="toc-flatten-hierarchical-data" class="nav-link" data-scroll-target="#flatten-hierarchical-data">4.8.3. Flatten Hierarchical Data</a></li>
+  <li><a href="#insert-json-data" id="toc-insert-json-data" class="nav-link" data-scroll-target="#insert-json-data">4.8.4. Insert JSON Data</a></li>
+  </ul></li>
+  </ul></li>
   <li><a href="#snowflake-tools-and-connectors" id="toc-snowflake-tools-and-connectors" class="nav-link" data-scroll-target="#snowflake-tools-and-connectors">5. Snowflake Tools and Connectors</a></li>
   <li><a href="#continuous-data-protection" id="toc-continuous-data-protection" class="nav-link" data-scroll-target="#continuous-data-protection">6. Continuous Data Protection</a></li>
   <li><a href="#zero-copy-cloning-and-sharing" id="toc-zero-copy-cloning-and-sharing" class="nav-link" data-scroll-target="#zero-copy-cloning-and-sharing">7. Zero-Copy Cloning and Sharing</a></li>
@@ -264,13 +323,13 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li>Data warehouse</li>
 <li>Data lake - mix of structured and semi structured data</li>
-<li>Data science - use yourpreferred language via <em>Snowpark</em></li>
+<li>Data science - use your preferred language via <em>Snowpark</em></li>
 </ul>
 </section>
 <section id="snowflake-architecture" class="level1">
 <h1>2. Snowflake Architecture</h1>
 <section id="multi-cluster-shared-disk" class="level2">
-<h2 class="anchored" data-anchor-id="multi-cluster-shared-disk">2.1. Multi-cluster Shared Disk</h2>
+<h2 class="anchored" data-anchor-id="multi-cluster-shared-disk">2.1. Multi-Cluster Shared Disk</h2>
 <p>In general, there are two approaches to designing a dsitributed data / compute platform: shared-disk and shared-nothing.</p>
 <p><strong>Shared-disk</strong> uses <em>central data storage</em> connected to <em>multiple compute nodes</em>.</p>
 <ul>
@@ -860,6 +919,215 @@ FROM (SELECT col1, col2 FROM table_name)</code></pre>
 </section>
 <section id="data-transformation" class="level1">
 <h1>4. Data Transformation</h1>
+<section id="transformations-and-functions" class="level2">
+<h2 class="anchored" data-anchor-id="transformations-and-functions">4.1. Transformations and Functions</h2>
+<p>We can specify transformations in the <code>SELECT</code> statement of the <code>COPY</code> command.</p>
+<p>This can simplify ETL pipelines when performing simple transformations such as: column reordering, casting data types, removing columns, truncating strings to a certain length. We can also use a subset of SQL functions inside the COPY command. Supports most standard SQL functions defined in SQL:1999.</p>
+<p>Snowflake does <strong>not</strong> support more complex SQL inside the COPY command, such as FLATTEN, aggregations, GROUP BY, filtering with WHERE, JOINs.</p>
+<p>Supported functions:</p>
+<ul>
+<li>Scalar functions. Return one value per row. E.g. <code>DAYNAME</code></li>
+<li>Aggregate functions. Return one value per group / table. E.g. <code>MAX</code>.</li>
+<li>Window functions. Aggregate functions that return one value per row. E.g. <code>SELECT ORDER_ID, SUBCATEGORY, MAX(amount) OVER (PARTITION BY SUBCATEGORY) FROM ORDERS;</code></li>
+<li>Table functions. Return multiple rows per input row. E.g. <code>SELECT * FROM TABLE(VALIDATE(table_name, JOB_ID =&gt; ‘_last’))</code></li>
+<li>System functions. Control and information functions. E.g. <code>SYSTEM$CANCEL_ALL_QUERIES</code></li>
+<li>UDFs. User-defined functions.</li>
+<li>External functions. Stored and executed outside of Snowflake.</li>
+</ul>
+</section>
+<section id="estimation-functions" class="level2">
+<h2 class="anchored" data-anchor-id="estimation-functions">4.2. Estimation Functions</h2>
+<p>Exact calculations on large tables can be very compute-intensive or memory-intensive. Sometimes an estimate is good enough.</p>
+<p>Snowflake has some algorithms implemented out of the box that can give useful estimates with fewer resources.</p>
+<section id="number-of-distinct-values---hll" class="level3">
+<h3 class="anchored" data-anchor-id="number-of-distinct-values---hll">4.2.1. Number of Distinct Values - <code>HLL()</code></h3>
+<p>HyperLogLog algorithm.</p>
+<p>Average error is ~1.6%.</p>
+<p>Replace</p>
+<pre><code>COUNT(DISTINCT (col1, col2, ...))</code></pre>
+<p>with</p>
+<pre><code>HLL(col1, col2, ...)</code></pre>
+<p>or</p>
+<pre><code>APPROX_COUNT_DISTINCT (col1, col2, ...)</code></pre>
+</section>
+<section id="frequent-values---approx_top_k" class="level3">
+<h3 class="anchored" data-anchor-id="frequent-values---approx_top_k">4.2.2. Frequent Values - <code>APPROX_TOP_K()</code></h3>
+<p>Estimate the most frequent values and their frequencies. Space-saving algorithm.</p>
+<p>Use the following command. The <code>k</code> argument is optional and defaults to 1. The <code>counters</code> argument is optional and specifies the maximum number of distinct values to track. If using this, we should use <code>counters &gt;&gt; k</code>.</p>
+<pre><code>APPROX_TOP_K (col1, k[optional], counters[optional])</code></pre>
+</section>
+<section id="percentile-values---approx_percentile" class="level3">
+<h3 class="anchored" data-anchor-id="percentile-values---approx_percentile">4.2.3. Percentile Values - <code>APPROX_PERCENTILE()</code></h3>
+<p>t-Digest algorithm.</p>
+<pre><code>APPROX_PERCENTILE (col1, percentile)</code></pre>
+</section>
+<section id="similarity-of-two-or-more-data-sets---minhash-approximate_similarity" class="level3">
+<h3 class="anchored" data-anchor-id="similarity-of-two-or-more-data-sets---minhash-approximate_similarity">4.2.4. Similarity of Two or More Data Sets - <code>MINHASH &amp; APPROXIMATE_SIMILARITY()</code></h3>
+<p>The full calculation uses the Jaccard similarity cofficient. This returns a value between 0 and 1 indicating similarity. <span class="math display">\[
+J(A, B) = |(A \cap B)| / |A \cup B|
+\]</span></p>
+<p>The approximation is a two-step process that uses the MinHash algorithm to hash each table, then the <code>APPROXIMATE_SIMILARITY</code> function to estimate <span class="math inline">\(J(A, B)\)</span>.</p>
+<p>The argument <code>k</code> in MINHASH is the number of hash functions to use. Higher <code>k</code> is more accurate but slower. We can pass individual column names instead oif <code>*</code>.</p>
+<pre><code>SELECT MINHASH(k, *) AS mh FROM table_name;</code></pre>
+<p>The full approximation command is:</p>
+<pre><code>SELECT APPROXIMATE_SIMILARITY(mh)
+FROM (
+    SELECT MINHASH(100, *) AS mh FROM mhtab1
+    UNION ALL
+    SELECT MINHASH(100, *) AS mh FROM mhtab2
+);</code></pre>
+</section>
+</section>
+<section id="user-defined-functions-udf" class="level2">
+<h2 class="anchored" data-anchor-id="user-defined-functions-udf">4.3. User-Defined Functions (UDF)</h2>
+<p>These are one of several ways of extending functionality with additional functions.</p>
+<p>(The other approaches are stored procedures and external functions, which are covered in the next sections.)</p>
+<p>UDFs support the following languages: <strong>SQL, Python, Java, JavaScript</strong></p>
+<section id="defining-a-udf" class="level3">
+<h3 class="anchored" data-anchor-id="defining-a-udf">4.3.1. Defining a UDF</h3>
+<p>We can define a SQL UDF using <code>create function</code>.</p>
+<pre><code>CREATE FUNCTION add_two(n int)
+returns int
+    AS
+    $$
+    n+2
+    $$;</code></pre>
+<p>Defining a UDF in Python is similar, we just need to specify the <code>language</code> and some other options.</p>
+<pre><code>CREATE FUNCTION add_two(n int)
+returns int
+language Python
+runtime_version =‘3.8’
+handler = ‘addtwo’ 
+    AS
+    $$
+    def add_two(n):
+        return n+2
+    $$;</code></pre>
+</section>
+<section id="using-a-udf" class="level3">
+<h3 class="anchored" data-anchor-id="using-a-udf">4.3.2. Using a UDF</h3>
+<p>We just call the UDF from SnowSQL, for example</p>
+<pre><code>SELECT add_two(3);</code></pre>
+</section>
+<section id="function-properties" class="level3">
+<h3 class="anchored" data-anchor-id="function-properties">4.3.3. Function Properties</h3>
+<p>Functions can be:</p>
+<ul>
+<li><strong>Scalar functions</strong>: Return <em>one output row</em> per input row.</li>
+<li><strong>Tabular functions</strong>: Return a <em>table</em> per input row.</li>
+</ul>
+<p>Functions are <em>schema-level</em> objects in Snowflake. We can see them under <code>Schema.Public.Functions</code>.</p>
+<p>We can manage access and grant privileges to functions, just like any other Snowflake object.</p>
+</section>
+</section>
+<section id="stored-procedures" class="level2">
+<h2 class="anchored" data-anchor-id="stored-procedures">4.4. Stored Procedures</h2>
+<p>Another way of extending functionality, like UDFs.</p>
+<p><strong>UDF vs stored procedures</strong>: - UDF is typically used to <strong>calculate</strong> a value. It <em>needs to return a value</em>. No need to have access to the objects referenced in the function. - A stored procedure is typically used for <strong>database operations</strong> like INSERT, UPDATE, etc. It <em>doesn’t need to return a value</em>.</p>
+<p>Can rely on the <em>caller’s or the owner’s access rights</em>.</p>
+<p>Procedures are <em>securable objects</em> like functions, so we can grant access to them.</p>
+<p>Supported languages:</p>
+<ul>
+<li>Snowflake scripting - Snowflake SQL + procedural logic</li>
+<li>JavaScript</li>
+<li>Snowpark API - Python, Scala, Java</li>
+</ul>
+<section id="creating-a-stored-procedure" class="level3">
+<h3 class="anchored" data-anchor-id="creating-a-stored-procedure">4.4.1. Creating a Stored Procedure</h3>
+<pre><code>CREATE PROCEDURE find_min(n1 int, n2 int)
+returns int
+language sql
+    AS
+    BEGIN
+    IF (n1 &lt; n2)
+        THEN RETURN n1;
+        ELSE RETURN n2;
+    END IF;
+    END;</code></pre>
+<p>Stored procedures can be run with the caller’s rights or the user’s rights. This is defined with the stored procedure. By default, they run as <em>owner</em> but we can override this with:</p>
+<pre><code>execute as caller</code></pre>
+</section>
+<section id="calling-a-stored-procedure" class="level3">
+<h3 class="anchored" data-anchor-id="calling-a-stored-procedure">4.4.2. Calling a Stored Procedure</h3>
+<pre><code>CALL find_min(5,7)</code></pre>
+<p>We can reference <strong>dynamic values</strong>, such as variables in the user’s sessions, in stored procedures. - If <em>argument</em> is referenced in SQL, use <code>:argname</code> - If an object such as a table is referenced, use <code>IDENTIFIER(:table_name)</code></p>
+</section>
+</section>
+<section id="external-functions" class="level2">
+<h2 class="anchored" data-anchor-id="external-functions">4.5. External Functions</h2>
+<p>These are user-defined functions that are <strong>stored and executed outside of Snowflake</strong>. Remotely executed code is referred to as a “remote service”.</p>
+<p>This means it can reference third-party libraries, services and data.</p>
+<p>Examples of external API integrations are: AWS lambda function, Microsoft Azure function, HTTPS server.</p>
+<pre><code>CREATE EXTERNAL FUNCTION my_func(string_col VAR_CHAR)
+returns variant
+api_integration = azure_external_api_integration
+AS 'https://url/goes/here'</code></pre>
+<p>Security-related information is stored in an API integration. This is a schema-level object, so it is securable and can be granted access to .</p>
+<p>Advantages:</p>
+<ul>
+<li>Can use other languages</li>
+<li>Access 3rd-party libraries</li>
+<li>Can be called from elsewhere, not just Snowflake, so we can have one central repository.</li>
+</ul>
+<p>Limitations:</p>
+<ul>
+<li>Only scalar functions</li>
+<li>Slower performance - overhead of external functions</li>
+<li>Not shareable</li>
+</ul>
+</section>
+<section id="secure-udfs-and-procedures" class="level2">
+<h2 class="anchored" data-anchor-id="secure-udfs-and-procedures">4.6. Secure UDFs and Procedures</h2>
+<p>We may want to hide certain information such as the function definition, or prevent users from seeing underlying data.</p>
+<p>We just use the <code>SECURE</code> keyword.</p>
+<pre><code>CREATE SECURE FUNCTION ...</code></pre>
+<p>Disadvantages: - Lower query performance. The optimiser exposes some security risks, so this is locked down which restricts the optimisation options available therefore impacting performance lock this down the optimisations are restricted.</p>
+<p>We should use it for sensitive data, otherwise the performance trade-off isn’t worthwhile.</p>
+</section>
+<section id="sequences" class="level2">
+<h2 class="anchored" data-anchor-id="sequences">4.7. Sequences</h2>
+<p>Sequences are typically used for <code>DEFAULT</code> values in <code>CREATE TABLE</code> statements. Sequences are <strong>not</strong> guaranteed to be <em>gap-free</em>.</p>
+<p>Sequences are <em>securable objects</em> that we can grant privileges to.</p>
+<pre><code>CREATE SEQUENCE my_seq
+START = 1
+INCREMENT = 1</code></pre>
+<p>Both <code>START</code> and <code>INCREMENT</code> default to 1.</p>
+<p>We invoke a sequence with <code>my_seq.nextval</code>. For example:</p>
+<pre><code>CREATE TABLE my_table(
+    id int DEFAULT my_seq.nextval,
+    first_name varchar
+    last_name varchar
+);
+
+INSERT INTO my_table(first_name, last_name)
+VALUES ('John', 'Cena'), ('Dwayne', 'Johnson'),('Steve','Austin');</code></pre>
+</section>
+<section id="semi-structured-data" class="level2">
+<h2 class="anchored" data-anchor-id="semi-structured-data">4.8. Semi-structured Data</h2>
+<p>Semi-structured data has <strong>no fixed schema</strong>, but contains <em>tags/labels</em> and has a <em>nested structure</em>.</p>
+<p>This is in contrast to structured data like a table. Or unstructured data which is a free-for-all.</p>
+<p><strong>Supported formats: json, xml, parquet, orc, avro</strong></p>
+<p>Snowflake deals with unstructured data using 3 different data types:</p>
+<ul>
+<li>Object - think of this in the JavaScript sense, i.e.&nbsp;key:value pairs like a dictionary</li>
+<li>Array</li>
+<li>Variant - this can store data of any other type, including arrays and objects. Native support for semi-structured data.</li>
+</ul>
+<p>We typically let Snowflake convert semi-structured data into a <em>hierarchy of arrays and objects</em> within a <strong>variant object</strong>.</p>
+<p>Nulls and non-native strings like dates are <em>cast to strings</em> within a variant.</p>
+<p>Variant can store up to <strong>16 MB per row</strong>. If the data exceeds this, we will need to restructure or split the input.</p>
+<p>The standard “ELT” approach (Extract, Load, Transform) for semi-structured data is to load the data as is, then transform it later once we’ve eyeballed it. This is a tweak of the classic ETL approach.</p>
+<p>We often need to <code>FLATTEN</code> the data.</p>
+<section id="querying-semi-structured-data" class="level3">
+<h3 class="anchored" data-anchor-id="querying-semi-structured-data">4.8.2. Querying Semi-structured Data</h3>
+</section>
+<section id="flatten-hierarchical-data" class="level3">
+<h3 class="anchored" data-anchor-id="flatten-hierarchical-data">4.8.3. Flatten Hierarchical Data</h3>
+</section>
+<section id="insert-json-data" class="level3">
+<h3 class="anchored" data-anchor-id="insert-json-data">4.8.4. Insert JSON Data</h3>
+</section>
+</section>
 </section>
 <section id="snowflake-tools-and-connectors" class="level1">
 <h1>5. Snowflake Tools and Connectors</h1>
