@@ -936,7 +936,7 @@ VALUES ('John', 'Cena'), ('Dwayne', 'Johnson'),('Steve','Austin');
 
 
 ## 4.8. Semi-structured Data
-
+### 4.8.1. What is Semi-structured Data?
 Semi-structured data has **no fixed schema**, but contains *tags/labels* and has a *nested structure*. 
 
 This is in contrast to structured data like a table. 
@@ -946,7 +946,7 @@ Or unstructured data which is a free-for-all.
 
 Snowflake deals with unstructured data using 3 different data types:
 
-- Object - think of this in the JavaScript sense, i.e. key:value pairs like a dictionary
+- Object - think of this in the JavaScript sense, i.e. key:value pairs
 - Array
 - Variant - this can store data of any other type, including arrays and objects. Native support for semi-structured data.  
 
@@ -961,6 +961,7 @@ The standard “ELT” approach (Extract, Load, Transform) for semi-structured d
 This is a tweak of the classic ETL approach. 
 
 We often need to `FLATTEN` the data.
+
 
 ### 4.8.2. Querying Semi-structured Data
 

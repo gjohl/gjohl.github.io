@@ -285,6 +285,7 @@ window.Quarto = {
   <li><a href="#sequences" id="toc-sequences" class="nav-link" data-scroll-target="#sequences">4.7. Sequences</a></li>
   <li><a href="#semi-structured-data" id="toc-semi-structured-data" class="nav-link" data-scroll-target="#semi-structured-data">4.8. Semi-structured Data</a>
   <ul class="collapse">
+  <li><a href="#what-is-semi-structured-data" id="toc-what-is-semi-structured-data" class="nav-link" data-scroll-target="#what-is-semi-structured-data">4.8.1. What is Semi-structured Data?</a></li>
   <li><a href="#querying-semi-structured-data" id="toc-querying-semi-structured-data" class="nav-link" data-scroll-target="#querying-semi-structured-data">4.8.2. Querying Semi-structured Data</a></li>
   <li><a href="#flatten-hierarchical-data" id="toc-flatten-hierarchical-data" class="nav-link" data-scroll-target="#flatten-hierarchical-data">4.8.3. Flatten Hierarchical Data</a></li>
   <li><a href="#insert-json-data" id="toc-insert-json-data" class="nav-link" data-scroll-target="#insert-json-data">4.8.4. Insert JSON Data</a></li>
@@ -1104,12 +1105,14 @@ VALUES ('John', 'Cena'), ('Dwayne', 'Johnson'),('Steve','Austin');</code></pre>
 </section>
 <section id="semi-structured-data" class="level2">
 <h2 class="anchored" data-anchor-id="semi-structured-data">4.8. Semi-structured Data</h2>
+<section id="what-is-semi-structured-data" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-semi-structured-data">4.8.1. What is Semi-structured Data?</h3>
 <p>Semi-structured data has <strong>no fixed schema</strong>, but contains <em>tags/labels</em> and has a <em>nested structure</em>.</p>
 <p>This is in contrast to structured data like a table. Or unstructured data which is a free-for-all.</p>
 <p><strong>Supported formats: json, xml, parquet, orc, avro</strong></p>
 <p>Snowflake deals with unstructured data using 3 different data types:</p>
 <ul>
-<li>Object - think of this in the JavaScript sense, i.e.&nbsp;key:value pairs like a dictionary</li>
+<li>Object - think of this in the JavaScript sense, i.e.&nbsp;key:value pairs</li>
 <li>Array</li>
 <li>Variant - this can store data of any other type, including arrays and objects. Native support for semi-structured data.</li>
 </ul>
@@ -1118,6 +1121,7 @@ VALUES ('John', 'Cena'), ('Dwayne', 'Johnson'),('Steve','Austin');</code></pre>
 <p>Variant can store up to <strong>16 MB per row</strong>. If the data exceeds this, we will need to restructure or split the input.</p>
 <p>The standard “ELT” approach (Extract, Load, Transform) for semi-structured data is to load the data as is, then transform it later once we’ve eyeballed it. This is a tweak of the classic ETL approach.</p>
 <p>We often need to <code>FLATTEN</code> the data.</p>
+</section>
 <section id="querying-semi-structured-data" class="level3">
 <h3 class="anchored" data-anchor-id="querying-semi-structured-data">4.8.2. Querying Semi-structured Data</h3>
 </section>
