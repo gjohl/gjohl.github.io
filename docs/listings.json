@@ -2,7 +2,6 @@
   {
     "listing": "/blog.html",
     "items": [
-      "/posts/ml/timeseries/notes.html",
       "/posts/software/snowflake/snowpro_notes.html",
       "/posts/software/sql/notes.html",
       "/posts/software/ddia/chapter1/lesson.html",
