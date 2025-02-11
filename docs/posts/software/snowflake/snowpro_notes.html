@@ -290,10 +290,30 @@ window.Quarto = {
   <li><a href="#flatten-hierarchical-data" id="toc-flatten-hierarchical-data" class="nav-link" data-scroll-target="#flatten-hierarchical-data">4.8.3. Flatten Hierarchical Data</a></li>
   <li><a href="#insert-json-data" id="toc-insert-json-data" class="nav-link" data-scroll-target="#insert-json-data">4.8.4. Insert JSON Data</a></li>
   </ul></li>
+  <li><a href="#unstructured-data" id="toc-unstructured-data" class="nav-link" data-scroll-target="#unstructured-data">4.9. Unstructured Data</a></li>
+  <li><a href="#data-sampling" id="toc-data-sampling" class="nav-link" data-scroll-target="#data-sampling">4.10. Data Sampling</a></li>
+  <li><a href="#tasks" id="toc-tasks" class="nav-link" data-scroll-target="#tasks">4.11. Tasks</a></li>
+  <li><a href="#streams" id="toc-streams" class="nav-link" data-scroll-target="#streams">4.12. Streams</a></li>
   </ul></li>
-  <li><a href="#snowflake-tools-and-connectors" id="toc-snowflake-tools-and-connectors" class="nav-link" data-scroll-target="#snowflake-tools-and-connectors">5. Snowflake Tools and Connectors</a></li>
-  <li><a href="#continuous-data-protection" id="toc-continuous-data-protection" class="nav-link" data-scroll-target="#continuous-data-protection">6. Continuous Data Protection</a></li>
-  <li><a href="#zero-copy-cloning-and-sharing" id="toc-zero-copy-cloning-and-sharing" class="nav-link" data-scroll-target="#zero-copy-cloning-and-sharing">7. Zero-Copy Cloning and Sharing</a></li>
+  <li><a href="#snowflake-tools-and-connectors" id="toc-snowflake-tools-and-connectors" class="nav-link" data-scroll-target="#snowflake-tools-and-connectors">5. Snowflake Tools and Connectors</a>
+  <ul class="collapse">
+  <li><a href="#connectors-and-drivers" id="toc-connectors-and-drivers" class="nav-link" data-scroll-target="#connectors-and-drivers">5.1. Connectors and Drivers</a></li>
+  <li><a href="#snowflake-scripting" id="toc-snowflake-scripting" class="nav-link" data-scroll-target="#snowflake-scripting">5.2. Snowflake Scripting</a></li>
+  <li><a href="#snowpark" id="toc-snowpark" class="nav-link" data-scroll-target="#snowpark">5.3. Snowpark</a></li>
+  </ul></li>
+  <li><a href="#continuous-data-protection" id="toc-continuous-data-protection" class="nav-link" data-scroll-target="#continuous-data-protection">6. Continuous Data Protection</a>
+  <ul class="collapse">
+  <li><a href="#time-travel" id="toc-time-travel" class="nav-link" data-scroll-target="#time-travel">6.1. Time Travel</a></li>
+  <li><a href="#retention-period" id="toc-retention-period" class="nav-link" data-scroll-target="#retention-period">Retention Period</a></li>
+  <li><a href="#fail-safe" id="toc-fail-safe" class="nav-link" data-scroll-target="#fail-safe">Fail Safe</a></li>
+  <li><a href="#storage-costs" id="toc-storage-costs" class="nav-link" data-scroll-target="#storage-costs">Storage costs</a></li>
+  <li><a href="#table-types" id="toc-table-types" class="nav-link" data-scroll-target="#table-types">Table types</a></li>
+  </ul></li>
+  <li><a href="#zero-copy-cloning-and-sharing" id="toc-zero-copy-cloning-and-sharing" class="nav-link" data-scroll-target="#zero-copy-cloning-and-sharing">7. Zero-Copy Cloning and Sharing</a>
+  <ul class="collapse">
+  <li><a href="#zero-copy-cloning" id="toc-zero-copy-cloning" class="nav-link" data-scroll-target="#zero-copy-cloning">Zero Copy Cloning</a></li>
+  <li><a href="#privileges." id="toc-privileges." class="nav-link" data-scroll-target="#privileges.">Privileges.</a></li>
+  </ul></li>
   <li><a href="#account-and-security" id="toc-account-and-security" class="nav-link" data-scroll-target="#account-and-security">8. Account and Security</a></li>
   <li><a href="#performance-concepts" id="toc-performance-concepts" class="nav-link" data-scroll-target="#performance-concepts">9. Performance Concepts</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
@@ -1124,6 +1144,22 @@ VALUES ('John', 'Cena'), ('Dwayne', 'Johnson'),('Steve','Austin');</code></pre>
 </section>
 <section id="querying-semi-structured-data" class="level3">
 <h3 class="anchored" data-anchor-id="querying-semi-structured-data">4.8.2. Querying Semi-structured Data</h3>
+<p>To access elements of a <code>VARIANT</code> column, we use a <code>:</code>.</p>
+<p>For example, if the <code>raw_column</code> column has a top-level key of <code>heading1</code>, we can query:</p>
+<pre><code>SELECT raw_column:heading1
+FROM table_with_variant</code></pre>
+<p>We can also refer to columns by their position. So to access the first column:</p>
+<pre><code>SELECT $1:heading1
+FROM table_with_variant</code></pre>
+<p>To access <strong>nested</strong> elements, use <code>.</code>:</p>
+<pre><code>SELECT raw_column:heading1.subheading2
+FROM table_with_variant</code></pre>
+<p>If there is an array, we can <strong>access elements of the array</strong> with <code>[index]</code>. Arrays are 0-indexed, so to access the first element:</p>
+<pre><code>SELECT raw_column:heading1.subheading2.array_field[0]
+FROM table_with_variant</code></pre>
+<p>We may also need to <strong>cast the types</strong> of the element with <code>::</code></p>
+<pre><code>SELECT raw_column:heading1.subheading2.array_field[0]::VARCHAR
+FROM table_with_variant</code></pre>
 </section>
 <section id="flatten-hierarchical-data" class="level3">
 <h3 class="anchored" data-anchor-id="flatten-hierarchical-data">4.8.3. Flatten Hierarchical Data</h3>
@@ -1132,15 +1168,148 @@ VALUES ('John', 'Cena'), ('Dwayne', 'Johnson'),('Steve','Austin');</code></pre>
 <h3 class="anchored" data-anchor-id="insert-json-data">4.8.4. Insert JSON Data</h3>
 </section>
 </section>
+<section id="unstructured-data" class="level2">
+<h2 class="anchored" data-anchor-id="unstructured-data">4.9. Unstructured Data</h2>
+</section>
+<section id="data-sampling" class="level2">
+<h2 class="anchored" data-anchor-id="data-sampling">4.10. Data Sampling</h2>
+</section>
+<section id="tasks" class="level2">
+<h2 class="anchored" data-anchor-id="tasks">4.11. Tasks</h2>
+</section>
+<section id="streams" class="level2">
+<h2 class="anchored" data-anchor-id="streams">4.12. Streams</h2>
+</section>
 </section>
 <section id="snowflake-tools-and-connectors" class="level1">
 <h1>5. Snowflake Tools and Connectors</h1>
+<section id="connectors-and-drivers" class="level2">
+<h2 class="anchored" data-anchor-id="connectors-and-drivers">5.1. Connectors and Drivers</h2>
+<p>Snowflake provides two interfaces:</p>
+<ul>
+<li>Snowsight web UI</li>
+<li>SnowSQL command line tool</li>
+</ul>
+<p>Drivers:</p>
+<ul>
+<li>Go</li>
+<li>JDBC</li>
+<li>.NET</li>
+<li>node.js</li>
+<li>ODBC</li>
+<li>PHP</li>
+<li>Python</li>
+</ul>
+<p>Connectors:</p>
+<ul>
+<li>Python</li>
+<li>Kafka</li>
+<li>Spark</li>
+</ul>
+<p><strong>Partner Connect</strong> allows us to create a trial account for third-party add-ons to Snowflake and integrate them with Snowflake.</p>
+<p>They span many different categories and tools - BI, CI/CD, etc.</p>
+</section>
+<section id="snowflake-scripting" class="level2">
+<h2 class="anchored" data-anchor-id="snowflake-scripting">5.2. Snowflake Scripting</h2>
+<p>Mostly used in stored procedures but can also be used for writing procedural code outside of this.</p>
+<p>We can use@ if, case, for, repeat, while, loop</p>
+<p>This is written in a <strong>“block”</strong>:</p>
+<pre><code>DECLARE
+BEGIN 
+EXCEPTION
+END</code></pre>
+<p><code>DECLARE</code> and <code>EXCEPTION</code> are optional.</p>
+<p>This is available in Snowsight. The classic UI or SnowSQL requires <code>$$</code> around the block.</p>
+<p><strong>Objects</strong> created in the block are <em>available outside</em> of it too. <strong>Variables</strong> created in the block can only be used <em>inside</em> it.</p>
+<p>This is a similar syntax, but different from <strong>transactions</strong> which use <code>BEGIN</code> and <code>END</code>.</p>
+</section>
+<section id="snowpark" class="level2">
+<h2 class="anchored" data-anchor-id="snowpark">5.3. Snowpark</h2>
+<p>Snowpark API provides support for three programming languages: <em>Python, Java, Scala</em>.</p>
+<p>Python code <strong>converts to SQL</strong> which then queries Snowflake with serverless Snowflake engine.</p>
+<p>This means there is <strong>no need to move data outside of Snowflake</strong>.</p>
+<p>Benefits:</p>
+<ul>
+<li>Lazy evaluation</li>
+<li>Pushdown - query is executed in Snowflake rather than unloading all data outside of Snowflake and then transforming</li>
+<li>UDFs can be defined inline</li>
+</ul>
+</section>
 </section>
 <section id="continuous-data-protection" class="level1">
 <h1>6. Continuous Data Protection</h1>
+<section id="time-travel" class="level2">
+<h2 class="anchored" data-anchor-id="time-travel">6.1. Time Travel</h2>
+<p>Data protection lifecycle. Current data storage -&gt; Time travel -&gt; Fail safe</p>
+<p>What if someone drops a database or table accidentally? We need a backup to recover data. Time travel enables accessing historical data.</p>
+<p>We can: - query deleted or updated data - Restore dropped tables, schemas and databases - Create clones of tables, schemas and databases from a previous date</p>
+<p>Time travel SQL query within a retention period. The AT keyword allows us to time travel.</p>
+<p>SELECT * FROM table AT (TIMESTAMP &gt;= timestamp)</p>
+<p>Or use offset in seconds. So for 10 minutes:</p>
+<p>SELECT * FROM table AT (OFFSET &gt;= 10*60)</p>
+<p>Alternatively we can use BEFORE, where query ID is the ID where we messed things up :</p>
+<p>SELECT * FROM table BEFORE (STATEMENT&gt;= query_id)</p>
+<p>Go to Activity -&gt; Query History in the Snowsight UI to get the right query ID.</p>
+<p>It is best practice to recover to an intermediate backup table first to confirm the recovered version is correct. Use CREATE OR REPLACE TABLE table_name_backup</p>
+<p>Recover objects. UNDROP TABLE table_name</p>
+<p>Same for SCHEMA or DATABASE.</p>
+<p>Considerations. UNDROP fails if an object with the same name already exists. We need ownership privileges to UNDROP an object.</p>
+<p>When working with time zones, it can be helpful to change the time zone to match your local time. This only affects the current session, not the whole account.<br>
+ALTER SESSION SET TIMEZONE = ‘UTC’</p>
+</section>
+<section id="retention-period" class="level2">
+<h2 class="anchored" data-anchor-id="retention-period">Retention Period</h2>
+<p>Retention period is the number of days for which historical data is preserved. Determines how far back we can time travel.</p>
+<p>Configurable for table, schema, database or account.</p>
+<p>The default DATA_RETENTION_TIME_IN_DAYS=1 If we want to disable time travel, we can set this to 0.</p>
+<p>We can set this when we create a table or alter is for an existing table ALTER TABLE table_name ( SET DATA_RETENTION_TIME_IN_DAYS=2)</p>
+<p>We can set a minimum value at the account level ALTER ACCOUNT SET MIN_ DATA_RETENTION_TIME_IN_DAYS=3</p>
+<p>The account type determines the maximum retention period. Standard - 1 Enterprise or higher - 90</p>
+</section>
+<section id="fail-safe" class="level2">
+<h2 class="anchored" data-anchor-id="fail-safe">Fail Safe</h2>
+<p>This is for recovery beyond time travel. This is not configurable and set to 7 days beyond time travel period for permanent tables.</p>
+<p>This is for disaster recovery. We as users cannot access this data. We have to contact Snowflake support to restore it for us.</p>
+</section>
+<section id="storage-costs" class="level2">
+<h2 class="anchored" data-anchor-id="storage-costs">Storage costs</h2>
+<p>Time travel and fail safe contribute to storage costs. You only pay for what is modified. You can see the breakdown in the Admin -&gt; Usage tab.</p>
+<p>You can see how much storage is being used with</p>
+<p>SELECT * FROM SNOWFLAKE_ACCOUNT_USAGE.TABLE_STORAGE_METRICS</p>
+</section>
+<section id="table-types" class="level2">
+<h2 class="anchored" data-anchor-id="table-types">Table types</h2>
+<p>Permanent - CREATE TABLE. 0-90 days time travel + fail safe. Persist until dropped.</p>
+<p>Transient - CREATE TRANSIENT TABLE. 0 or 1 day time travel. No fail safe. Persist until dropped. For large tables that do not need to be protected.</p>
+<p>Temporary - CREATE TEMPORARY TABLE. 0 or 1 day time travel. No fail safe. Only in session - deleted after the worksheet is closed. Non-permanent data just for this session.</p>
+<p>These types are also available for other Snowflake objects: tables, stages, schema, database. If a database is transient, so are all of its objects.</p>
+<p>Temporary table names do not clash with permanent or transient tables. Temporary table takes precedence in the session and hides the others with the same name.</p>
+<p>It is not possible to change the type of an existing object.</p>
+</section>
 </section>
 <section id="zero-copy-cloning-and-sharing" class="level1">
 <h1>7. Zero-Copy Cloning and Sharing</h1>
+<section id="zero-copy-cloning" class="level2">
+<h2 class="anchored" data-anchor-id="zero-copy-cloning">Zero Copy Cloning</h2>
+<p>Makes it easy to copy an existing object.</p>
+<p>For example</p>
+<p>CREATE TABLE table_name CLONE table_source</p>
+<p>We can clone (almost*) any object: database, schema, table, stream, file format, sequence, task, stage, pipe</p>
+<p>*the exceptions are pipes which can only be cloned if referencing an external stage, and stages which cannot be cloned for named internal stages. When we clone a database or schema, all of its child objects are also cloned.</p>
+<p>Copy diagram at 3:20</p>
+<p>It’s called a zero copy clone because it does not actually copy the data at clone time. It is a metadata operation (occurring in the cloud service layer).</p>
+<p>The “copy” is a snapshot of the “original”. Both reference the same underlying micro partitions in block storage. Think of it like pass by reference rather than pass by value.</p>
+<p>When modifying the “copy” Snowflake only stored the deltas, not the entire database again. The “original” and “copy” can be modified independently without affecting the other.</p>
+<p>Can be used to create backups for dev work.</p>
+</section>
+<section id="privileges." class="level2">
+<h2 class="anchored" data-anchor-id="privileges.">Privileges.</h2>
+<p>The privileges of the CHILD objects are inherited from the clone source, but the cloned object itself (ie the cloned database or schema) are NOT inherited, they need to be specified separately by the administrator.</p>
+<p>The privileges required to clone an object depends on the object: - table - SELECT privileges - Pipe, stream, task - OWNER privileges - All other objects - USAGE privileges</p>
+<p>When we clone a table, its load history metadata is NOT copied. This means loaded data can be loaded again without causing a metadata clash.</p>
+<p>We can clone from a time travel version of a table:</p>
+<p>CREATE TABLE table_new CLONE table_source BEFORE (TIMESTAMP &gt;= ‘2025-01-31 08:00:00’)</p>
+</section>
 </section>
 <section id="account-and-security" class="level1">
 <h1>8. Account and Security</h1>
