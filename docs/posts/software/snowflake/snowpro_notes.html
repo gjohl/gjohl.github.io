@@ -304,10 +304,11 @@ window.Quarto = {
   <li><a href="#continuous-data-protection" id="toc-continuous-data-protection" class="nav-link" data-scroll-target="#continuous-data-protection">6. Continuous Data Protection</a>
   <ul class="collapse">
   <li><a href="#time-travel" id="toc-time-travel" class="nav-link" data-scroll-target="#time-travel">6.1. Time Travel</a></li>
-  <li><a href="#retention-period" id="toc-retention-period" class="nav-link" data-scroll-target="#retention-period">Retention Period</a></li>
-  <li><a href="#fail-safe" id="toc-fail-safe" class="nav-link" data-scroll-target="#fail-safe">Fail Safe</a></li>
-  <li><a href="#storage-costs" id="toc-storage-costs" class="nav-link" data-scroll-target="#storage-costs">Storage costs</a></li>
-  <li><a href="#table-types" id="toc-table-types" class="nav-link" data-scroll-target="#table-types">Table types</a></li>
+  <li><a href="#undrop" id="toc-undrop" class="nav-link" data-scroll-target="#undrop">6.2. UNDROP</a></li>
+  <li><a href="#retention-period" id="toc-retention-period" class="nav-link" data-scroll-target="#retention-period">6.3. Retention Period</a></li>
+  <li><a href="#fail-safe" id="toc-fail-safe" class="nav-link" data-scroll-target="#fail-safe">6.4. Fail Safe</a></li>
+  <li><a href="#storage-costs" id="toc-storage-costs" class="nav-link" data-scroll-target="#storage-costs">6.5. Storage Costs</a></li>
+  <li><a href="#table-types" id="toc-table-types" class="nav-link" data-scroll-target="#table-types">6.6. Table Types</a></li>
   </ul></li>
   <li><a href="#zero-copy-cloning-and-sharing" id="toc-zero-copy-cloning-and-sharing" class="nav-link" data-scroll-target="#zero-copy-cloning-and-sharing">7. Zero-Copy Cloning and Sharing</a>
   <ul class="collapse">
@@ -1238,53 +1239,141 @@ END</code></pre>
 </section>
 <section id="continuous-data-protection" class="level1">
 <h1>6. Continuous Data Protection</h1>
+<p>This section covers the data protection lifecycle. From most accessible to least accessible:</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+
+
+  A(Current data storage) --&gt; B(Time travel) --&gt; C(Fail safe)
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 <section id="time-travel" class="level2">
 <h2 class="anchored" data-anchor-id="time-travel">6.1. Time Travel</h2>
-<p>Data protection lifecycle. Current data storage -&gt; Time travel -&gt; Fail safe</p>
-<p>What if someone drops a database or table accidentally? We need a backup to recover data. Time travel enables accessing historical data.</p>
-<p>We can: - query deleted or updated data - Restore dropped tables, schemas and databases - Create clones of tables, schemas and databases from a previous date</p>
-<p>Time travel SQL query within a retention period. The AT keyword allows us to time travel.</p>
-<p>SELECT * FROM table AT (TIMESTAMP &gt;= timestamp)</p>
-<p>Or use offset in seconds. So for 10 minutes:</p>
-<p>SELECT * FROM table AT (OFFSET &gt;= 10*60)</p>
-<p>Alternatively we can use BEFORE, where query ID is the ID where we messed things up :</p>
-<p>SELECT * FROM table BEFORE (STATEMENT&gt;= query_id)</p>
-<p>Go to Activity -&gt; Query History in the Snowsight UI to get the right query ID.</p>
-<p>It is best practice to recover to an intermediate backup table first to confirm the recovered version is correct. Use CREATE OR REPLACE TABLE table_name_backup</p>
-<p>Recover objects. UNDROP TABLE table_name</p>
-<p>Same for SCHEMA or DATABASE.</p>
-<p>Considerations. UNDROP fails if an object with the same name already exists. We need ownership privileges to UNDROP an object.</p>
-<p>When working with time zones, it can be helpful to change the time zone to match your local time. This only affects the current session, not the whole account.<br>
-ALTER SESSION SET TIMEZONE = ‘UTC’</p>
+<p>What if someone drops a database or table accidentally? We need a <strong>backup to recover data</strong>. <em>Time travel</em> enables accessing historical data.</p>
+<p>We can:</p>
+<ul>
+<li>Query data that has been deleted or updated</li>
+<li>Restore dropped tables, schemas and databases</li>
+<li>Create clones of tables, schemas and databases from a previous date</li>
+</ul>
+<p>We can use a SQL query to access time travel data within a retention period. The <code>AT</code> keyword allows us to time travel.</p>
+<pre><code>SELECT * 
+FROM table
+AT (TIMESTAMP &gt;= timestamp)</code></pre>
+<p>Or use <code>OFFSET</code> in seconds. So for 10 minutes:</p>
+<pre><code>SELECT * 
+FROM table 
+AT (OFFSET &gt;= 10*60)</code></pre>
+<p>Alternatively we can use <code>BEFORE</code>, where <em>query_ID</em> is the ID where we messed things up:</p>
+<pre><code>SELECT * 
+FROM table 
+BEFORE (STATEMENT&gt;= query_id)</code></pre>
+<p>Go to <code>Activity -&gt; Query History</code> in the Snowsight UI to get the correct query ID.</p>
+<p>It is best practice to <strong>recover to an intermediate backup table first</strong> to confirm the recovered version is correct. E.g.</p>
+<pre><code>CREATE OR REPLACE TABLE table_name_backup
+FROM table
+AT (TIMESTAMP &gt;= timestamp)</code></pre>
+</section>
+<section id="undrop" class="level2">
+<h2 class="anchored" data-anchor-id="undrop">6.2. UNDROP</h2>
+<p>We can use the <code>UNDROP</code> keyword to recover objects.</p>
+<pre><code>UNDROP TABLE table_name</code></pre>
+<p>Same for <code>SCHEMA</code> or <code>DATABASE</code>.</p>
+<p>Considerations.</p>
+<ul>
+<li>UNDROP fails if an object with the <strong>same name already exists</strong>.</li>
+<li>We need <strong>ownership privileges</strong> to UNDROP an object.</li>
+</ul>
+<p>When working with time zones, it can be helpful to change the time zone to match your local time. This only affects the current session, not the whole account.</p>
+<pre><code>ALTER SESSION SET TIMEZONE = 'UTC'</code></pre>
 </section>
 <section id="retention-period" class="level2">
-<h2 class="anchored" data-anchor-id="retention-period">Retention Period</h2>
-<p>Retention period is the number of days for which historical data is preserved. Determines how far back we can time travel.</p>
-<p>Configurable for table, schema, database or account.</p>
-<p>The default DATA_RETENTION_TIME_IN_DAYS=1 If we want to disable time travel, we can set this to 0.</p>
-<p>We can set this when we create a table or alter is for an existing table ALTER TABLE table_name ( SET DATA_RETENTION_TIME_IN_DAYS=2)</p>
-<p>We can set a minimum value at the account level ALTER ACCOUNT SET MIN_ DATA_RETENTION_TIME_IN_DAYS=3</p>
-<p>The account type determines the maximum retention period. Standard - 1 Enterprise or higher - 90</p>
+<h2 class="anchored" data-anchor-id="retention-period">6.3. Retention Period</h2>
+<p>Retention period is the number of days for which historical data is preserved. This determines how far back we can time travel.</p>
+<p>The retention period is configurable for table, schema, database or account.</p>
+<p>The default <code>DATA_RETENTION_TIME_IN_DAYS=1</code>. If we want to disable time travel, we can set this to 0.</p>
+<p>We can set this when we create a table, or alter it for an existing table:</p>
+<pre><code>ALTER TABLE table_name (
+    SET DATA_RETENTION_TIME_IN_DAYS=2
+)</code></pre>
+<p>We can set a <em>minimum value</em> at the account level:</p>
+<pre><code>ALTER ACCOUNT SET 
+MIN_ DATA_RETENTION_TIME_IN_DAYS=3</code></pre>
+<p>The <strong>account type determines the maximum retention period</strong>:</p>
+<ul>
+<li>Standard: up to 1 day</li>
+<li>Enterprise or higher: up to 90 days</li>
+</ul>
 </section>
 <section id="fail-safe" class="level2">
-<h2 class="anchored" data-anchor-id="fail-safe">Fail Safe</h2>
-<p>This is for recovery beyond time travel. This is not configurable and set to 7 days beyond time travel period for permanent tables.</p>
-<p>This is for disaster recovery. We as users cannot access this data. We have to contact Snowflake support to restore it for us.</p>
+<h2 class="anchored" data-anchor-id="fail-safe">6.4. Fail Safe</h2>
+<p>This is for <strong>disaster recovery</strong> beyond time travel. This is not configurable and set to 7 days beyond time travel period for permanent tables.</p>
+<p>We as <strong>users cannot access this data</strong>. We have to <strong>contact Snowflake support</strong> to restore it for us.</p>
 </section>
 <section id="storage-costs" class="level2">
-<h2 class="anchored" data-anchor-id="storage-costs">Storage costs</h2>
-<p>Time travel and fail safe contribute to storage costs. You only pay for what is modified. You can see the breakdown in the Admin -&gt; Usage tab.</p>
-<p>You can see how much storage is being used with</p>
-<p>SELECT * FROM SNOWFLAKE_ACCOUNT_USAGE.TABLE_STORAGE_METRICS</p>
+<h2 class="anchored" data-anchor-id="storage-costs">6.5. Storage Costs</h2>
+<p>Time travel and fail safe contribute to storage costs. You only pay for what is modified.</p>
+<p>You can see the breakdown in the <code>Admin -&gt; Usage</code> tab of the UI.</p>
+<p>You can see how much storage is being used with:</p>
+<pre><code>SELECT * 
+FROM SNOWFLAKE_ACCOUNT_USAGE.TABLE_STORAGE_METRICS</code></pre>
 </section>
 <section id="table-types" class="level2">
-<h2 class="anchored" data-anchor-id="table-types">Table types</h2>
-<p>Permanent - CREATE TABLE. 0-90 days time travel + fail safe. Persist until dropped.</p>
-<p>Transient - CREATE TRANSIENT TABLE. 0 or 1 day time travel. No fail safe. Persist until dropped. For large tables that do not need to be protected.</p>
-<p>Temporary - CREATE TEMPORARY TABLE. 0 or 1 day time travel. No fail safe. Only in session - deleted after the worksheet is closed. Non-permanent data just for this session.</p>
-<p>These types are also available for other Snowflake objects: tables, stages, schema, database. If a database is transient, so are all of its objects.</p>
-<p>Temporary table names do not clash with permanent or transient tables. Temporary table takes precedence in the session and hides the others with the same name.</p>
-<p>It is not possible to change the type of an existing object.</p>
+<h2 class="anchored" data-anchor-id="table-types">6.6. Table Types</h2>
+<p>The following table summarises the differences between the 3 types of table.</p>
+<table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 12%">
+<col style="width: 16%">
+<col style="width: 5%">
+<col style="width: 58%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Table Type</th>
+<th>Command</th>
+<th>Time Travel Retention Period</th>
+<th>Fail Safe</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Permanent</td>
+<td>CREATE TABLE</td>
+<td>0-90</td>
+<td>Y</td>
+<td>Standard tables. Persist data until dropped.</td>
+</tr>
+<tr class="even">
+<td>Transient</td>
+<td>CREATE TRANSIENT TABLE</td>
+<td>0-1</td>
+<td>N</td>
+<td>For large tables that do not need to be protected. Persist data until dropped.</td>
+</tr>
+<tr class="odd">
+<td>Temporary</td>
+<td>CREATE TEMPORARY TABLE</td>
+<td>0-1</td>
+<td>N</td>
+<td>Non-permanent data just for this session.Only in session - data is deleted after the worksheet is closed.</td>
+</tr>
+</tbody>
+</table>
+<p>These types are <strong>also available for other Snowflake objects</strong>: tables, stages, schema, database.</p>
+<p>If a <strong>database</strong> is transient, <strong>so are all of its objects</strong>.</p>
+<p><strong>Temporary table names</strong> do not clash with permanent or transient tables. The temporary table name takes precedence in the session and hides the others with the same name.</p>
+<p>It is <strong>not possible to change the type</strong> of an existing object.</p>
 </section>
 </section>
 <section id="zero-copy-cloning-and-sharing" class="level1">
