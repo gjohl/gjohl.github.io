@@ -100,7 +100,7 @@ Also:
 
 - Recommendation/Ranking/Prediction
 - Computer vision
-    - Acquire, process, analyse iamges
+    - Acquire, process, analyse images
     - Tracking
     - Pose estimation
     - Compression
