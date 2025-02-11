@@ -1094,7 +1094,6 @@ From most accessible to least accessible:
 ```{mermaid}
 flowchart LR
 
-
   A(Current data storage) --> B(Time travel) --> C(Fail safe)
 ```
 
@@ -1237,46 +1236,62 @@ It is **not possible to change the type** of an existing object.
 
 # 7. Zero-Copy Cloning and Sharing
 
-## Zero Copy Cloning
+## 7.1. Zero Copy Cloning
 
-Makes it easy to copy an existing object. 
+Zero copy cloning makes it easy to **copy an existing object** in a **storage-efficient** way. 
 
-For example 
-
+For example:
+```
 CREATE TABLE table_name
 CLONE table_source
+```
 
-We can clone (almost*) any object: database, schema, table, stream, file format, sequence, task, stage, pipe
+We can clone almost* any object: database, schema, table, stream, file format, sequence, task, stage, pipe.
 
-*the exceptions are pipes which can only be cloned if referencing an external stage, and stages which cannot be cloned for named internal stages. 
-When we clone a database or schema, all of its child objects are also cloned. 
-
-Copy diagram at 3:20
-
-It’s called a zero copy clone because it does not actually copy the data at clone time. It is a metadata operation (occurring in the cloud service layer). 
-
-The “copy” is a snapshot of the “original”. Both reference the same underlying micro partitions in block storage. Think of it like pass by reference rather than pass by value. 
-
-When modifying the “copy” Snowflake only stored the deltas, not the entire database again. The “original” and “copy” can be modified independently without affecting the other. 
-
-Can be used to create backups for dev work. 
-
-## Privileges. 
-The privileges of the CHILD objects are inherited from the clone source, but the cloned object itself (ie the cloned database or schema) are NOT inherited, they need to be specified separately by the administrator. 
+> *the exceptions are:
+>
+> - **pipes** which can only be cloned if referencing an **external stage**
+> -  **stages** which cannot be cloned for **named internal stages**
 
 
-The privileges required to clone an object depends on the object:
-- table - SELECT privileges 
-- Pipe, stream, task - OWNER privileges 
-- All other objects - USAGE privileges 
+When we clone a database or schema, **all of its child objects are also cloned**. 
 
-When we clone a table, its load history metadata is NOT copied. This means loaded data can be loaded again without causing a metadata clash. 
+![Zero Copy Clone](zero_copy_clone.png)
 
-We can clone from a time travel version of a table: 
+It’s called a "zero copy clone" because it *does not actually copy the data at clone time*. 
+It is a **metadata operation** occurring in the cloud service layer. 
 
+The “copy” is a snapshot of the “original”. 
+**Both reference the same underlying micro-partitions** in block storage. 
+Think of it like pass-by-reference rather than pass-by-value. 
+
+When modifying the “copy” **Snowflake only stores the deltas**, not the entire database again. 
+The “original” and “copy” can be **modified independently** without affecting the other. 
+
+A typical use case is to create backups for dev work. 
+
+We can clone from a time travel version of a table:
+```
 CREATE TABLE table_new
 CLONE table_source
 BEFORE (TIMESTAMP >= ‘2025-01-31 08:00:00’)
+```
+
+
+## 7.2. Privileges
+
+The **privileges of the CHILD objects are inherited from the clone source**, but the **privileges of the cloned object itself are NOT inherited** (i.e. the cloned database or schema). They need to be specified separately by the administrator. 
+
+The privileges required to clone an object depends on the object:
+
+- Table: SELECT privileges 
+- Pipe, stream, task: OWNER privileges 
+- All other objects: USAGE privileges 
+
+When we clone a table, its **load history metadata is NOT copied**. 
+This means loaded data can be loaded again without causing a metadata clash. 
+
+
 
 # 8. Account and Security
 

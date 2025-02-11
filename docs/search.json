@@ -2572,8 +2572,8 @@
     "objectID": "posts/software/snowflake/snowpro_notes.html#zero-copy-cloning",
     "href": "posts/software/snowflake/snowpro_notes.html#zero-copy-cloning",
     "title": "Snowflake: SnowPro Core",
-    "section": "Zero Copy Cloning",
-    "text": "Zero Copy Cloning\nMakes it easy to copy an existing object.\nFor example\nCREATE TABLE table_name CLONE table_source\nWe can clone (almost*) any object: database, schema, table, stream, file format, sequence, task, stage, pipe\n*the exceptions are pipes which can only be cloned if referencing an external stage, and stages which cannot be cloned for named internal stages. When we clone a database or schema, all of its child objects are also cloned.\nCopy diagram at 3:20\nIt’s called a zero copy clone because it does not actually copy the data at clone time. It is a metadata operation (occurring in the cloud service layer).\nThe “copy” is a snapshot of the “original”. Both reference the same underlying micro partitions in block storage. Think of it like pass by reference rather than pass by value.\nWhen modifying the “copy” Snowflake only stored the deltas, not the entire database again. The “original” and “copy” can be modified independently without affecting the other.\nCan be used to create backups for dev work."
+    "section": "7.1. Zero Copy Cloning",
+    "text": "7.1. Zero Copy Cloning\nZero copy cloning makes it easy to copy an existing object in a storage-efficient way.\nFor example:\nCREATE TABLE table_name\nCLONE table_source\nWe can clone almost* any object: database, schema, table, stream, file format, sequence, task, stage, pipe.\n\n*the exceptions are:\n\npipes which can only be cloned if referencing an external stage\nstages which cannot be cloned for named internal stages\n\n\nWhen we clone a database or schema, all of its child objects are also cloned.\n\n\n\nZero Copy Clone\n\n\nIt’s called a “zero copy clone” because it does not actually copy the data at clone time. It is a metadata operation occurring in the cloud service layer.\nThe “copy” is a snapshot of the “original”. Both reference the same underlying micro-partitions in block storage. Think of it like pass-by-reference rather than pass-by-value.\nWhen modifying the “copy” Snowflake only stores the deltas, not the entire database again. The “original” and “copy” can be modified independently without affecting the other.\nA typical use case is to create backups for dev work.\nWe can clone from a time travel version of a table:\nCREATE TABLE table_new\nCLONE table_source\nBEFORE (TIMESTAMP &gt;= ‘2025-01-31 08:00:00’)"
   },
   {
     "objectID": "posts/software/snowflake/snowpro_notes.html#privileges.",
@@ -2595,5 +2595,12 @@
     "title": "Snowflake: SnowPro Core",
     "section": "6.2. UNDROP",
     "text": "6.2. UNDROP\nWe can use the UNDROP keyword to recover objects.\nUNDROP TABLE table_name\nSame for SCHEMA or DATABASE.\nConsiderations.\n\nUNDROP fails if an object with the same name already exists.\nWe need ownership privileges to UNDROP an object.\n\nWhen working with time zones, it can be helpful to change the time zone to match your local time. This only affects the current session, not the whole account.\nALTER SESSION SET TIMEZONE = 'UTC'"
+  },
+  {
+    "objectID": "posts/software/snowflake/snowpro_notes.html#privileges",
+    "href": "posts/software/snowflake/snowpro_notes.html#privileges",
+    "title": "Snowflake: SnowPro Core",
+    "section": "7.2. Privileges",
+    "text": "7.2. Privileges\nThe privileges of the CHILD objects are inherited from the clone source, but the privileges of the cloned object itself are NOT inherited (i.e. the cloned database or schema). They need to be specified separately by the administrator.\nThe privileges required to clone an object depends on the object:\n\nTable: SELECT privileges\nPipe, stream, task: OWNER privileges\nAll other objects: USAGE privileges\n\nWhen we clone a table, its load history metadata is NOT copied. This means loaded data can be loaded again without causing a metadata clash."
   }
 ]

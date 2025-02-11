@@ -312,8 +312,8 @@ window.Quarto = {
   </ul></li>
   <li><a href="#zero-copy-cloning-and-sharing" id="toc-zero-copy-cloning-and-sharing" class="nav-link" data-scroll-target="#zero-copy-cloning-and-sharing">7. Zero-Copy Cloning and Sharing</a>
   <ul class="collapse">
-  <li><a href="#zero-copy-cloning" id="toc-zero-copy-cloning" class="nav-link" data-scroll-target="#zero-copy-cloning">Zero Copy Cloning</a></li>
-  <li><a href="#privileges." id="toc-privileges." class="nav-link" data-scroll-target="#privileges.">Privileges.</a></li>
+  <li><a href="#zero-copy-cloning" id="toc-zero-copy-cloning" class="nav-link" data-scroll-target="#zero-copy-cloning">7.1. Zero Copy Cloning</a></li>
+  <li><a href="#privileges" id="toc-privileges" class="nav-link" data-scroll-target="#privileges">7.2. Privileges</a></li>
   </ul></li>
   <li><a href="#account-and-security" id="toc-account-and-security" class="nav-link" data-scroll-target="#account-and-security">8. Account and Security</a></li>
   <li><a href="#performance-concepts" id="toc-performance-concepts" class="nav-link" data-scroll-target="#performance-concepts">9. Performance Concepts</a></li>
@@ -1247,7 +1247,6 @@ END</code></pre>
 <div>
 <pre class="mermaid mermaid-js">flowchart LR
 
-
   A(Current data storage) --&gt; B(Time travel) --&gt; C(Fail safe)
 </pre>
 </div>
@@ -1379,25 +1378,45 @@ FROM SNOWFLAKE_ACCOUNT_USAGE.TABLE_STORAGE_METRICS</code></pre>
 <section id="zero-copy-cloning-and-sharing" class="level1">
 <h1>7. Zero-Copy Cloning and Sharing</h1>
 <section id="zero-copy-cloning" class="level2">
-<h2 class="anchored" data-anchor-id="zero-copy-cloning">Zero Copy Cloning</h2>
-<p>Makes it easy to copy an existing object.</p>
-<p>For example</p>
-<p>CREATE TABLE table_name CLONE table_source</p>
-<p>We can clone (almost*) any object: database, schema, table, stream, file format, sequence, task, stage, pipe</p>
-<p>*the exceptions are pipes which can only be cloned if referencing an external stage, and stages which cannot be cloned for named internal stages. When we clone a database or schema, all of its child objects are also cloned.</p>
-<p>Copy diagram at 3:20</p>
-<p>It’s called a zero copy clone because it does not actually copy the data at clone time. It is a metadata operation (occurring in the cloud service layer).</p>
-<p>The “copy” is a snapshot of the “original”. Both reference the same underlying micro partitions in block storage. Think of it like pass by reference rather than pass by value.</p>
-<p>When modifying the “copy” Snowflake only stored the deltas, not the entire database again. The “original” and “copy” can be modified independently without affecting the other.</p>
-<p>Can be used to create backups for dev work.</p>
-</section>
-<section id="privileges." class="level2">
-<h2 class="anchored" data-anchor-id="privileges.">Privileges.</h2>
-<p>The privileges of the CHILD objects are inherited from the clone source, but the cloned object itself (ie the cloned database or schema) are NOT inherited, they need to be specified separately by the administrator.</p>
-<p>The privileges required to clone an object depends on the object: - table - SELECT privileges - Pipe, stream, task - OWNER privileges - All other objects - USAGE privileges</p>
-<p>When we clone a table, its load history metadata is NOT copied. This means loaded data can be loaded again without causing a metadata clash.</p>
+<h2 class="anchored" data-anchor-id="zero-copy-cloning">7.1. Zero Copy Cloning</h2>
+<p>Zero copy cloning makes it easy to <strong>copy an existing object</strong> in a <strong>storage-efficient</strong> way.</p>
+<p>For example:</p>
+<pre><code>CREATE TABLE table_name
+CLONE table_source</code></pre>
+<p>We can clone almost* any object: database, schema, table, stream, file format, sequence, task, stage, pipe.</p>
+<blockquote class="blockquote">
+<p>*the exceptions are:</p>
+<ul>
+<li><strong>pipes</strong> which can only be cloned if referencing an <strong>external stage</strong></li>
+<li><strong>stages</strong> which cannot be cloned for <strong>named internal stages</strong></li>
+</ul>
+</blockquote>
+<p>When we clone a database or schema, <strong>all of its child objects are also cloned</strong>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="zero_copy_clone.png" class="img-fluid figure-img"></p>
+<figcaption>Zero Copy Clone</figcaption>
+</figure>
+</div>
+<p>It’s called a “zero copy clone” because it <em>does not actually copy the data at clone time</em>. It is a <strong>metadata operation</strong> occurring in the cloud service layer.</p>
+<p>The “copy” is a snapshot of the “original”. <strong>Both reference the same underlying micro-partitions</strong> in block storage. Think of it like pass-by-reference rather than pass-by-value.</p>
+<p>When modifying the “copy” <strong>Snowflake only stores the deltas</strong>, not the entire database again. The “original” and “copy” can be <strong>modified independently</strong> without affecting the other.</p>
+<p>A typical use case is to create backups for dev work.</p>
 <p>We can clone from a time travel version of a table:</p>
-<p>CREATE TABLE table_new CLONE table_source BEFORE (TIMESTAMP &gt;= ‘2025-01-31 08:00:00’)</p>
+<pre><code>CREATE TABLE table_new
+CLONE table_source
+BEFORE (TIMESTAMP &gt;= ‘2025-01-31 08:00:00’)</code></pre>
+</section>
+<section id="privileges" class="level2">
+<h2 class="anchored" data-anchor-id="privileges">7.2. Privileges</h2>
+<p>The <strong>privileges of the CHILD objects are inherited from the clone source</strong>, but the <strong>privileges of the cloned object itself are NOT inherited</strong> (i.e.&nbsp;the cloned database or schema). They need to be specified separately by the administrator.</p>
+<p>The privileges required to clone an object depends on the object:</p>
+<ul>
+<li>Table: SELECT privileges</li>
+<li>Pipe, stream, task: OWNER privileges</li>
+<li>All other objects: USAGE privileges</li>
+</ul>
+<p>When we clone a table, its <strong>load history metadata is NOT copied</strong>. This means loaded data can be loaded again without causing a metadata clash.</p>
 </section>
 </section>
 <section id="account-and-security" class="level1">
