@@ -314,6 +314,13 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#zero-copy-cloning" id="toc-zero-copy-cloning" class="nav-link" data-scroll-target="#zero-copy-cloning">7.1. Zero Copy Cloning</a></li>
   <li><a href="#privileges" id="toc-privileges" class="nav-link" data-scroll-target="#privileges">7.2. Privileges</a></li>
+  <li><a href="#data-sharing" id="toc-data-sharing" class="nav-link" data-scroll-target="#data-sharing">7.3. Data Sharing</a>
+  <ul class="collapse">
+  <li><a href="#what-is-a-data-share" id="toc-what-is-a-data-share" class="nav-link" data-scroll-target="#what-is-a-data-share">7.3.1. What is a Data Share?</a></li>
+  <li><a href="#how-to-set-up-a-data-share" id="toc-how-to-set-up-a-data-share" class="nav-link" data-scroll-target="#how-to-set-up-a-data-share">7.3.2. How to Set Up a Data Share</a></li>
+  <li><a href="#what-can-be-shared" id="toc-what-can-be-shared" class="nav-link" data-scroll-target="#what-can-be-shared">7.3.3. What Can Be Shared</a></li>
+  </ul></li>
+  <li><a href="#database-replication" id="toc-database-replication" class="nav-link" data-scroll-target="#database-replication">7.4. Database Replication</a></li>
   </ul></li>
   <li><a href="#account-and-security" id="toc-account-and-security" class="nav-link" data-scroll-target="#account-and-security">8. Account and Security</a></li>
   <li><a href="#performance-concepts" id="toc-performance-concepts" class="nav-link" data-scroll-target="#performance-concepts">9. Performance Concepts</a></li>
@@ -1110,6 +1117,7 @@ AS 'https://url/goes/here'</code></pre>
 <h2 class="anchored" data-anchor-id="sequences">4.7. Sequences</h2>
 <p>Sequences are typically used for <code>DEFAULT</code> values in <code>CREATE TABLE</code> statements. Sequences are <strong>not</strong> guaranteed to be <em>gap-free</em>.</p>
 <p>Sequences are <em>securable objects</em> that we can grant privileges to.</p>
+<p>It is a <strong>schema object</strong> like: Functions, Stored Procedures, Tables, File Formats, Stages, Stored Procedures, UDFs, Views, and Materialized Views.</p>
 <pre><code>CREATE SEQUENCE my_seq
 START = 1
 INCREMENT = 1</code></pre>
@@ -1305,7 +1313,7 @@ AT (TIMESTAMP &gt;= timestamp)</code></pre>
 )</code></pre>
 <p>We can set a <em>minimum value</em> at the account level:</p>
 <pre><code>ALTER ACCOUNT SET 
-MIN_ DATA_RETENTION_TIME_IN_DAYS=3</code></pre>
+MIN_DATA_RETENTION_TIME_IN_DAYS=3</code></pre>
 <p>The <strong>account type determines the maximum retention period</strong>:</p>
 <ul>
 <li>Standard: up to 1 day</li>
@@ -1409,7 +1417,7 @@ BEFORE (TIMESTAMP &gt;= ‘2025-01-31 08:00:00’)</code></pre>
 </section>
 <section id="privileges" class="level2">
 <h2 class="anchored" data-anchor-id="privileges">7.2. Privileges</h2>
-<p>The <strong>privileges of the CHILD objects are inherited from the clone source</strong>, but the <strong>privileges of the cloned object itself are NOT inherited</strong> (i.e.&nbsp;the cloned database or schema). They need to be specified separately by the administrator.</p>
+<p>The <strong>privileges of the CHILD objects are inherited from the clone source</strong> if it is a container like a table or schema. But the <strong>privileges of the cloned object itself are NOT inherited</strong>. They need to be specified separately by the administrator.</p>
 <p>The privileges required to clone an object depends on the object:</p>
 <ul>
 <li>Table: SELECT privileges</li>
@@ -1417,6 +1425,88 @@ BEFORE (TIMESTAMP &gt;= ‘2025-01-31 08:00:00’)</code></pre>
 <li>All other objects: USAGE privileges</li>
 </ul>
 <p>When we clone a table, its <strong>load history metadata is NOT copied</strong>. This means loaded data can be loaded again without causing a metadata clash.</p>
+</section>
+<section id="data-sharing" class="level2">
+<h2 class="anchored" data-anchor-id="data-sharing">7.3. Data Sharing</h2>
+<section id="what-is-a-data-share" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-a-data-share">7.3.1. What is a Data Share?</h3>
+<p>Data sharing can usually be quite complicated; managing multiple extracts of a common database and ensuring they are in sync.</p>
+<p>Snowflake separates storage vs compute. This allows us to <strong>share data without actually making a copy of it</strong>. As with zero copy cloning, this is a metadata operation, so uses the cloud service layer.</p>
+<p>We grant access to the storage, and the customer provides their own compute resources.</p>
+<p>This is available for all Snowflake pricing tiers.</p>
+<p>In a one-way data share, Account 1 is the provider and Account 2 is the Consumer. Account 2 has a read-only view of the shared data. The <strong>provider is billed for the storage</strong>, whereas the <strong>consumer is billed for the compute</strong> costs of their queries.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="data_sharing_provider_consumer.png" class="img-fluid figure-img"></p>
+<figcaption>Data Sharing One Way</figcaption>
+</figure>
+</div>
+<p>An account can be simultaneously both a provider and consumer of data. You can even do this within the same account.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="data_sharing_two_way.png" class="img-fluid figure-img"></p>
+<figcaption>Data Sharing Two Way</figcaption>
+</figure>
+</div>
+<p>A share contains a <strong>single database</strong>. We can add <em>multiple accounts</em> to a share.</p>
+</section>
+<section id="how-to-set-up-a-data-share" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-set-up-a-data-share">7.3.2. How to Set Up a Data Share</h3>
+<p>To set up a data share we need to:</p>
+<ol type="1">
+<li>Create the share - requires <code>ACCOUNTADMIN</code> role or <code>CREATE SHARE</code> privileges.</li>
+</ol>
+<pre><code>CREATE SHARE my_share;</code></pre>
+<ol start="2" type="1">
+<li>Grant privileges to the share</li>
+</ol>
+<pre><code>GRANT USAGE ON DATABASE my_db TO_SHARE my_share;
+GRANT USAGE ON SCHEMA my_schema.my_db TO_SHARE my_share;
+GRANT SELECT ON TABLE my_table.my_schema.my_db TO_SHARE my_share;</code></pre>
+<ol start="3" type="1">
+<li>Add consumer accounts</li>
+</ol>
+<pre><code>ALTER SHARE my_share ADD ACCOUNT = accountid123;</code></pre>
+<ol start="4" type="1">
+<li>The consumer imports the share - requires <code>ACCOUNTADMIN</code> role, or <code>IMPORE SHARE</code> &amp; <code>CREATE TABLE</code> privileges</li>
+</ol>
+<pre><code>CREATE DATABASE new_db FROM SHARE my_share;</code></pre>
+</section>
+<section id="what-can-be-shared" class="level3">
+<h3 class="anchored" data-anchor-id="what-can-be-shared">7.3.3. What Can Be Shared</h3>
+<p>We can share: tables, external tables, secure views, secure materialised views, secure UDFs.</p>
+<p>The share itself is a container containing one database, against which we can grant usage on scehma(s) and grant privileges to object(s). We can have one or more accounts that we grant access to.</p>
+<p>It is a <em>best practice</em> to create <strong>secure views</strong> to avoid revealing unintended data. With an unsecured view, the user can see the command used to create the table, which could reveal the internal table used to create the view, columns not exposed to the user, aliases, etc.</p>
+<p>Snowflake will raise an error if trying to grant privileges to a <strong>standard view</strong>; they cannot be shared.</p>
+<p>If sharing data with a lower tier Snowflake account, by default it won’t let you add a consumer account. We can override this by specifying <code>SHARE_RESTRICTIONS=false</code>.</p>
+<pre><code>ALTER SHARE my_share 
+ADD ACCOUNT accountid123
+SHARE_RESTRICTIONS = false;</code></pre>
+</section>
+</section>
+<section id="database-replication" class="level2">
+<h2 class="anchored" data-anchor-id="database-replication">7.4. Database Replication</h2>
+<p>Data shares are only possible within the same region and the same cloud provider.</p>
+<p>Database replication allows us to <strong>share data across different regions or on different cloud providers</strong>. It replicates a database between accounts within the same organisation. Also called <em>“cross-region sharing”</em>. This is available at all price tiers.</p>
+<p>This incurs <strong>data transfer costs</strong> because it <strong>does</strong> actually copy the data across to a different location. The data and objects therefore need to be synchronised periodically.</p>
+<p>The provider is referred to as the <strong>primary database</strong> and the consumer is the <strong>secondary database</strong> or a <strong>read-only replica</strong>.</p>
+<p>To set up database replication we need to:</p>
+<ol type="1">
+<li>Enable this at the account level with the ORGADMIN role.</li>
+</ol>
+<pre><code>SELECT system$global_account_set_parameter(org_name.account_name), 'ENABLE_ACCOUNT_DATABASSE_REPLICATION', 'true');</code></pre>
+<ol start="2" type="1">
+<li>Promote a local database to <strong>primary database</strong> with ACCOUNTADMIN role.</li>
+</ol>
+<pre><code>ALTER DATABASE my_db ENABLE REPLICATION TO ACCOUNTS myorg.account2, myorg.account3;</code></pre>
+<ol start="3" type="1">
+<li><strong>Create a replica</strong> in the consumer account.</li>
+</ol>
+<pre><code>CREATE DATABASE my_db AS REPLICA OF myorg.account1.my_db</code></pre>
+<ol start="4" type="1">
+<li><strong>Refresh</strong> the database periodically. Ownership privileges are needed. We may want to set up a task to run this periodically.</li>
+</ol>
+<pre><code>ALTER DATABASE my_db REFRESH;</code></pre>
 </section>
 </section>
 <section id="account-and-security" class="level1">

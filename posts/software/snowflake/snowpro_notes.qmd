@@ -1280,8 +1280,9 @@ BEFORE (TIMESTAMP >= ‘2025-01-31 08:00:00’)
 
 
 ## 7.2. Privileges
-
-The **privileges of the CHILD objects are inherited from the clone source**, but the **privileges of the cloned object itself are NOT inherited** (i.e. the cloned database or schema). They need to be specified separately by the administrator. 
+The **privileges of the CHILD objects are inherited from the clone source** if it is a container like a table or schema.
+But the **privileges of the cloned object itself are NOT inherited**. 
+They need to be specified separately by the administrator. 
 
 The privileges required to clone an object depends on the object:
 
@@ -1294,6 +1295,110 @@ This means loaded data can be loaded again without causing a metadata clash.
 
 
 ## 7.3. Data Sharing
+### 7.3.1. What is a Data Share?
+Data sharing can usually be quite complicated; managing multiple extracts of a common database and ensuring they are in sync.
+
+Snowflake separates storage vs compute. This allows us to **share data without actually making a copy of it**. As with zero copy cloning, this is a metadata operation, so uses the cloud service layer.
+
+We grant access to the storage, and the customer provides their own compute resources.
+
+This is available for all Snowflake pricing tiers.
+
+In a one-way data share, Account 1 is the provider and Account 2 is the Consumer. Account 2 has a read-only view of the shared data.
+The **provider is billed for the storage**, whereas the **consumer is billed for the compute** costs of their queries.
+
+![Data Sharing One Way](data_sharing_provider_consumer.png)
+
+An account can be simultaneously both a provider and consumer of data. You can even do this within the same account.
+
+![Data Sharing Two Way](data_sharing_two_way.png)
+
+
+A share contains a **single database**. We can add *multiple accounts* to a share.
+
+
+### 7.3.2. How to Set Up a Data Share
+To set up a data share we need to:
+
+(1) Create the share -  requires `ACCOUNTADMIN` role or `CREATE SHARE` privileges.
+```
+CREATE SHARE my_share;
+```
+
+(2) Grant privileges to the share
+```
+GRANT USAGE ON DATABASE my_db TO_SHARE my_share;
+GRANT USAGE ON SCHEMA my_schema.my_db TO_SHARE my_share;
+GRANT SELECT ON TABLE my_table.my_schema.my_db TO_SHARE my_share;
+```
+
+(3) Add consumer accounts
+```
+ALTER SHARE my_share ADD ACCOUNT = accountid123;
+```
+
+(4) The consumer imports the share - requires `ACCOUNTADMIN` role, or `IMPORE SHARE` & `CREATE TABLE` privileges
+```
+CREATE DATABASE new_db FROM SHARE my_share;
+```
+
+
+### 7.3.3. What Can Be Shared
+
+We can share: tables, external tables, secure views, secure materialised views, secure UDFs.
+
+The share itself is a container containing one database, against which we can grant usage on scehma(s) and grant privileges to object(s).
+We can have one or more accounts that we grant access to.
+
+It is a *best practice* to create **secure views** to avoid revealing unintended data. 
+With an unsecured view, the user can see the command used to create the table, which could reveal the internal table used to create the view, columns not exposed to the user, aliases, etc.
+
+Snowflake will raise an error if trying to grant privileges to a **standard view**; they cannot be shared.
+
+If sharing data with a lower tier Snowflake account, by default it won't let you add a consumer account.
+We can override this by specifying `SHARE_RESTRICTIONS=false`.
+
+```
+ALTER SHARE my_share 
+ADD ACCOUNT accountid123
+SHARE_RESTRICTIONS = false;
+```
+
+
+## 7.4. Database Replication
+Data shares are only possible within the same region and the same cloud provider.
+
+Database replication allows us to **share data across different regions or on different cloud providers**.
+It replicates a database between accounts within the same organisation.
+Also called *"cross-region sharing"*. This is available at all price tiers.
+
+This incurs **data transfer costs** because it **does** actually copy the data across to a different location.
+The data and objects therefore need to be synchronised periodically.
+
+The provider is referred to as the **primary database** and the consumer is the **secondary database** or a **read-only replica**.
+
+To set up database replication we need to:
+
+(1) Enable this at the account level with the ORGADMIN role.
+```
+SELECT system$global_account_set_parameter(org_name.account_name), 'ENABLE_ACCOUNT_DATABASSE_REPLICATION', 'true');
+```
+
+(2) Promote a local database to **primary database** with ACCOUNTADMIN role.
+```
+ALTER DATABASE my_db ENABLE REPLICATION TO ACCOUNTS myorg.account2, myorg.account3;
+```
+
+(3) **Create a replica** in the consumer account.
+```
+CREATE DATABASE my_db AS REPLICA OF myorg.account1.my_db
+```
+
+(4) **Refresh** the database periodically. Ownership privileges are needed. We may want to set up a task to run this periodically.
+```
+ALTER DATABASE my_db REFRESH;
+```
+
 
 # 8. Account and Security
 
