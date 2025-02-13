@@ -1,6 +1,6 @@
 ---
 title: "Time Series Analysis"
-description: "Snowflake? Snow Problem."
+description: "Time well spent"
 date: "2025-02-07"
 # image: "deep_learning_model.png"
 categories: [Engineering, Timeseries]
@@ -8,4 +8,108 @@ draft: true
 ---
 
 
-# 1. Overview
+# 1. Time Series Properties
+
+## Considerations for Time Series Data
+
+Forward-looking bias. Train/test split can't shuffle.
+Irregular sampling. Informative sampling.
+
+
+## Trend
+https://www.kaggle.com/code/ryanholbrook/trend
+
+## Seasonality
+https://www.kaggle.com/code/ryanholbrook/seasonality
+
+Cycles https://www.kaggle.com/code/ryanholbrook/time-series-as-features
+
+
+## Fourier Transforms
+https://www.kaggle.com/code/ryanholbrook/seasonality
+
+Periodogram
+FFT
+
+
+
+## Stationarity
+
+
+
+
+## Correlations and Autocorrelations
+### Correlation
+### Autocorrelation
+Serial dependence https://www.kaggle.com/code/ryanholbrook/time-series-as-features
+Lag plots (same link as above)
+
+### Partial Autocorrelation
+
+
+#  2. Feature Engineering
+## Nulls
+
+
+## Lags
+
+
+## Time step
+
+
+## Regime Change
+- Split into different models per regime
+- Indicator variable for regime
+- Some models explicitly model this, e.g. Hidden Markov Models
+
+
+## Hybrid Models
+https://www.kaggle.com/code/ryanholbrook/hybrid-models
+
+Model the time series as components
+`series = trend + seasons + cycles + error`
+
+
+# 3. Forecasting
+https://www.kaggle.com/code/ryanholbrook/forecasting-with-machine-learning
+
+
+# 4. Classical Statistical Models
+
+## Linear Models
+https://www.kaggle.com/code/ryanholbrook/linear-regression-with-time-series
+
+## AR
+
+## MA
+
+
+## ARIMA
+
+
+## VAR
+
+
+# 5. Traditional ML Models
+
+## Random Forests
+
+
+## Gradient Boosted Trees
+
+##
+
+
+# 6. Deep Learning
+
+## RNNS, LSTMs, GRUs
+
+## Transformers
+
+## Foundational Models
+
+
+
+# References
+
+- https://www.kaggle.com/learn/time-series

@@ -8,7 +8,7 @@
 
 <meta name="author" content="Gurpreet Johl">
 <meta name="dcterms.date" content="2025-02-07">
-<meta name="description" content="Snowflake? Snow Problem.">
+<meta name="description" content="Time well spent">
 
 <title>Gurpreet Johl - Time Series Analysis</title>
 <style>
@@ -130,7 +130,7 @@ ul.task-list li input[type="checkbox"] {
       <h1 class="title">Time Series Analysis</h1>
                   <div>
         <div class="description">
-          Snowflake? Snow Problem.
+          Time well spent
         </div>
       </div>
                           <div class="quarto-categories">
@@ -169,7 +169,50 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">1. Overview</a></li>
+  <li><a href="#time-series-properties" id="toc-time-series-properties" class="nav-link active" data-scroll-target="#time-series-properties">1. Time Series Properties</a>
+  <ul class="collapse">
+  <li><a href="#considerations-for-time-series-data" id="toc-considerations-for-time-series-data" class="nav-link" data-scroll-target="#considerations-for-time-series-data">Considerations for Time Series Data</a></li>
+  <li><a href="#trend" id="toc-trend" class="nav-link" data-scroll-target="#trend">Trend</a></li>
+  <li><a href="#seasonality" id="toc-seasonality" class="nav-link" data-scroll-target="#seasonality">Seasonality</a></li>
+  <li><a href="#fourier-transforms" id="toc-fourier-transforms" class="nav-link" data-scroll-target="#fourier-transforms">Fourier Transforms</a></li>
+  <li><a href="#stationarity" id="toc-stationarity" class="nav-link" data-scroll-target="#stationarity">Stationarity</a></li>
+  <li><a href="#correlations-and-autocorrelations" id="toc-correlations-and-autocorrelations" class="nav-link" data-scroll-target="#correlations-and-autocorrelations">Correlations and Autocorrelations</a>
+  <ul class="collapse">
+  <li><a href="#correlation" id="toc-correlation" class="nav-link" data-scroll-target="#correlation">Correlation</a></li>
+  <li><a href="#autocorrelation" id="toc-autocorrelation" class="nav-link" data-scroll-target="#autocorrelation">Autocorrelation</a></li>
+  <li><a href="#partial-autocorrelation" id="toc-partial-autocorrelation" class="nav-link" data-scroll-target="#partial-autocorrelation">Partial Autocorrelation</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#feature-engineering" id="toc-feature-engineering" class="nav-link" data-scroll-target="#feature-engineering">2. Feature Engineering</a>
+  <ul class="collapse">
+  <li><a href="#nulls" id="toc-nulls" class="nav-link" data-scroll-target="#nulls">Nulls</a></li>
+  <li><a href="#lags" id="toc-lags" class="nav-link" data-scroll-target="#lags">Lags</a></li>
+  <li><a href="#time-step" id="toc-time-step" class="nav-link" data-scroll-target="#time-step">Time step</a></li>
+  <li><a href="#regime-change" id="toc-regime-change" class="nav-link" data-scroll-target="#regime-change">Regime Change</a></li>
+  <li><a href="#hybrid-models" id="toc-hybrid-models" class="nav-link" data-scroll-target="#hybrid-models">Hybrid Models</a></li>
+  </ul></li>
+  <li><a href="#forecasting" id="toc-forecasting" class="nav-link" data-scroll-target="#forecasting">3. Forecasting</a></li>
+  <li><a href="#classical-statistical-models" id="toc-classical-statistical-models" class="nav-link" data-scroll-target="#classical-statistical-models">4. Classical Statistical Models</a>
+  <ul class="collapse">
+  <li><a href="#linear-models" id="toc-linear-models" class="nav-link" data-scroll-target="#linear-models">Linear Models</a></li>
+  <li><a href="#ar" id="toc-ar" class="nav-link" data-scroll-target="#ar">AR</a></li>
+  <li><a href="#ma" id="toc-ma" class="nav-link" data-scroll-target="#ma">MA</a></li>
+  <li><a href="#arima" id="toc-arima" class="nav-link" data-scroll-target="#arima">ARIMA</a></li>
+  <li><a href="#var" id="toc-var" class="nav-link" data-scroll-target="#var">VAR</a></li>
+  </ul></li>
+  <li><a href="#traditional-ml-models" id="toc-traditional-ml-models" class="nav-link" data-scroll-target="#traditional-ml-models">5. Traditional ML Models</a>
+  <ul class="collapse">
+  <li><a href="#random-forests" id="toc-random-forests" class="nav-link" data-scroll-target="#random-forests">Random Forests</a></li>
+  <li><a href="#gradient-boosted-trees" id="toc-gradient-boosted-trees" class="nav-link" data-scroll-target="#gradient-boosted-trees">Gradient Boosted Trees</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
+  </ul></li>
+  <li><a href="#deep-learning" id="toc-deep-learning" class="nav-link" data-scroll-target="#deep-learning">6. Deep Learning</a>
+  <ul class="collapse">
+  <li><a href="#rnns-lstms-grus" id="toc-rnns-lstms-grus" class="nav-link" data-scroll-target="#rnns-lstms-grus">RNNS, LSTMs, GRUs</a></li>
+  <li><a href="#transformers" id="toc-transformers" class="nav-link" data-scroll-target="#transformers">Transformers</a></li>
+  <li><a href="#foundational-models" id="toc-foundational-models" class="nav-link" data-scroll-target="#foundational-models">Foundational Models</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
     </div>
@@ -180,8 +223,120 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="overview" class="level1">
-<h1>1. Overview</h1>
+<section id="time-series-properties" class="level1">
+<h1>1. Time Series Properties</h1>
+<section id="considerations-for-time-series-data" class="level2">
+<h2 class="anchored" data-anchor-id="considerations-for-time-series-data">Considerations for Time Series Data</h2>
+<p>Forward-looking bias. Train/test split can’t shuffle. Irregular sampling. Informative sampling.</p>
+</section>
+<section id="trend" class="level2">
+<h2 class="anchored" data-anchor-id="trend">Trend</h2>
+<p>https://www.kaggle.com/code/ryanholbrook/trend</p>
+</section>
+<section id="seasonality" class="level2">
+<h2 class="anchored" data-anchor-id="seasonality">Seasonality</h2>
+<p>https://www.kaggle.com/code/ryanholbrook/seasonality</p>
+<p>Cycles https://www.kaggle.com/code/ryanholbrook/time-series-as-features</p>
+</section>
+<section id="fourier-transforms" class="level2">
+<h2 class="anchored" data-anchor-id="fourier-transforms">Fourier Transforms</h2>
+<p>https://www.kaggle.com/code/ryanholbrook/seasonality</p>
+<p>Periodogram FFT</p>
+</section>
+<section id="stationarity" class="level2">
+<h2 class="anchored" data-anchor-id="stationarity">Stationarity</h2>
+</section>
+<section id="correlations-and-autocorrelations" class="level2">
+<h2 class="anchored" data-anchor-id="correlations-and-autocorrelations">Correlations and Autocorrelations</h2>
+<section id="correlation" class="level3">
+<h3 class="anchored" data-anchor-id="correlation">Correlation</h3>
+</section>
+<section id="autocorrelation" class="level3">
+<h3 class="anchored" data-anchor-id="autocorrelation">Autocorrelation</h3>
+<p>Serial dependence https://www.kaggle.com/code/ryanholbrook/time-series-as-features Lag plots (same link as above)</p>
+</section>
+<section id="partial-autocorrelation" class="level3">
+<h3 class="anchored" data-anchor-id="partial-autocorrelation">Partial Autocorrelation</h3>
+</section>
+</section>
+</section>
+<section id="feature-engineering" class="level1">
+<h1>2. Feature Engineering</h1>
+<section id="nulls" class="level2">
+<h2 class="anchored" data-anchor-id="nulls">Nulls</h2>
+</section>
+<section id="lags" class="level2">
+<h2 class="anchored" data-anchor-id="lags">Lags</h2>
+</section>
+<section id="time-step" class="level2">
+<h2 class="anchored" data-anchor-id="time-step">Time step</h2>
+</section>
+<section id="regime-change" class="level2">
+<h2 class="anchored" data-anchor-id="regime-change">Regime Change</h2>
+<ul>
+<li>Split into different models per regime</li>
+<li>Indicator variable for regime</li>
+<li>Some models explicitly model this, e.g.&nbsp;Hidden Markov Models</li>
+</ul>
+</section>
+<section id="hybrid-models" class="level2">
+<h2 class="anchored" data-anchor-id="hybrid-models">Hybrid Models</h2>
+<p>https://www.kaggle.com/code/ryanholbrook/hybrid-models</p>
+<p>Model the time series as components <code>series = trend + seasons + cycles + error</code></p>
+</section>
+</section>
+<section id="forecasting" class="level1">
+<h1>3. Forecasting</h1>
+<p>https://www.kaggle.com/code/ryanholbrook/forecasting-with-machine-learning</p>
+</section>
+<section id="classical-statistical-models" class="level1">
+<h1>4. Classical Statistical Models</h1>
+<section id="linear-models" class="level2">
+<h2 class="anchored" data-anchor-id="linear-models">Linear Models</h2>
+<p>https://www.kaggle.com/code/ryanholbrook/linear-regression-with-time-series</p>
+</section>
+<section id="ar" class="level2">
+<h2 class="anchored" data-anchor-id="ar">AR</h2>
+</section>
+<section id="ma" class="level2">
+<h2 class="anchored" data-anchor-id="ma">MA</h2>
+</section>
+<section id="arima" class="level2">
+<h2 class="anchored" data-anchor-id="arima">ARIMA</h2>
+</section>
+<section id="var" class="level2">
+<h2 class="anchored" data-anchor-id="var">VAR</h2>
+</section>
+</section>
+<section id="traditional-ml-models" class="level1">
+<h1>5. Traditional ML Models</h1>
+<section id="random-forests" class="level2">
+<h2 class="anchored" data-anchor-id="random-forests">Random Forests</h2>
+</section>
+<section id="gradient-boosted-trees" class="level2">
+<h2 class="anchored" data-anchor-id="gradient-boosted-trees">Gradient Boosted Trees</h2>
+</section>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"></h2>
+</section>
+</section>
+<section id="deep-learning" class="level1">
+<h1>6. Deep Learning</h1>
+<section id="rnns-lstms-grus" class="level2">
+<h2 class="anchored" data-anchor-id="rnns-lstms-grus">RNNS, LSTMs, GRUs</h2>
+</section>
+<section id="transformers" class="level2">
+<h2 class="anchored" data-anchor-id="transformers">Transformers</h2>
+</section>
+<section id="foundational-models" class="level2">
+<h2 class="anchored" data-anchor-id="foundational-models">Foundational Models</h2>
+</section>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<ul>
+<li>https://www.kaggle.com/learn/time-series</li>
+</ul>
 
 
 </section>
