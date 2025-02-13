@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Gurpreet Johl">
-<meta name="dcterms.date" content="2025-02-11">
+<meta name="dcterms.date" content="2025-02-13">
 <meta name="description" content="Snowflake? Snow Problem.">
 
 <title>Gurpreet Johl - Snowflake: SnowPro Core</title>
@@ -185,7 +185,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">February 11, 2025</p>
+        <p class="date">February 13, 2025</p>
       </div>
     </div>
     
@@ -290,7 +290,11 @@ window.Quarto = {
   <li><a href="#flatten-hierarchical-data" id="toc-flatten-hierarchical-data" class="nav-link" data-scroll-target="#flatten-hierarchical-data">4.8.3. Flatten Hierarchical Data</a></li>
   <li><a href="#insert-json-data" id="toc-insert-json-data" class="nav-link" data-scroll-target="#insert-json-data">4.8.4. Insert JSON Data</a></li>
   </ul></li>
-  <li><a href="#unstructured-data" id="toc-unstructured-data" class="nav-link" data-scroll-target="#unstructured-data">4.9. Unstructured Data</a></li>
+  <li><a href="#unstructured-data" id="toc-unstructured-data" class="nav-link" data-scroll-target="#unstructured-data">4.9. Unstructured Data</a>
+  <ul class="collapse">
+  <li><a href="#file-urls" id="toc-file-urls" class="nav-link" data-scroll-target="#file-urls">4.9.1. File URLs</a></li>
+  <li><a href="#directory-tables" id="toc-directory-tables" class="nav-link" data-scroll-target="#directory-tables">4.9.2. Directory Tables</a></li>
+  </ul></li>
   <li><a href="#data-sampling" id="toc-data-sampling" class="nav-link" data-scroll-target="#data-sampling">4.10. Data Sampling</a></li>
   <li><a href="#tasks" id="toc-tasks" class="nav-link" data-scroll-target="#tasks">4.11. Tasks</a></li>
   <li><a href="#streams" id="toc-streams" class="nav-link" data-scroll-target="#streams">4.12. Streams</a></li>
@@ -1147,7 +1151,7 @@ VALUES ('John', 'Cena'), ('Dwayne', 'Johnson'),('Steve','Austin');</code></pre>
 </ul>
 <p>We typically let Snowflake convert semi-structured data into a <em>hierarchy of arrays and objects</em> within a <strong>variant object</strong>.</p>
 <p>Nulls and non-native strings like dates are <em>cast to strings</em> within a variant.</p>
-<p>Variant can store up to <strong>16 MB per row</strong>. If the data exceeds this, we will need to restructure or split the input.</p>
+<p>Variant can store up to <strong>16 MB uncompressed per row</strong>. If the data exceeds this, we will need to restructure or split the input.</p>
 <p>The standard “ELT” approach (Extract, Load, Transform) for semi-structured data is to load the data as is, then transform it later once we’ve eyeballed it. This is a tweak of the classic ETL approach.</p>
 <p>We often need to <code>FLATTEN</code> the data.</p>
 </section>
@@ -1172,13 +1176,100 @@ FROM table_with_variant</code></pre>
 </section>
 <section id="flatten-hierarchical-data" class="level3">
 <h3 class="anchored" data-anchor-id="flatten-hierarchical-data">4.8.3. Flatten Hierarchical Data</h3>
+<p>We may want to flatten the hierarchies within semi-structured datainto a relational table. We do this with the <code>FLATTEN</code> table function.</p>
+<pre><code>FLATTEN(INPUT =&gt; &lt;expression&gt;)</code></pre>
+<p>Note that <code>FLATTEN</code> cannot be used inside a <code>COPY</code> command.</p>
+<p>We can use it alongside the other keys of the data. For example:</p>
+<pre><code>SELECT
+    RAW_FILE:id,
+    RAW_FILE:first_name,
+    VALUE as prev_company  -- this is the flatten array
+FROM 
+    MY_DB.PUBLIC.JSON_RAW_TABLE,
+    TABLE(FLATTEN(input =&gt; RAW_FILE:previous_companies))</code></pre>
+<p>There is an implicit lateral join between the table and the flattened table function result set. We can make this explicit using the <code>LATERAL FLATTEN</code> keywords. The result is the same.</p>
 </section>
 <section id="insert-json-data" class="level3">
 <h3 class="anchored" data-anchor-id="insert-json-data">4.8.4. Insert JSON Data</h3>
+<p>We use the <code>PARSE_JSON</code> function to import JSON data.</p>
+<pre><code>SELECT PARSE_JSON(' { "key1": "value1", "key2": "value2" } ');</code></pre>
+<p>When inserting <code>variant</code> data, we don’t use <code>INSERT VALUES</code>, we use a <code>SELECT</code> statement.</p>
+<pre><code>INSERT INTO semi_structured_table_name
+SELECT PARSE_JSON(' { "key1": "value1", "key2": "value2" } ');</code></pre>
 </section>
 </section>
 <section id="unstructured-data" class="level2">
 <h2 class="anchored" data-anchor-id="unstructured-data">4.9. Unstructured Data</h2>
+<p>Unstructured data is any data which does not fit in a pre-defined data model. E.g. video files, audio files, documents.</p>
+<p>Snowflake handles unstructured data using <strong>file URLs</strong>.</p>
+<p>Snowflake supports the following for both internal and external stages:</p>
+<ol type="1">
+<li>Access through URL in cloud storage</li>
+<li>Share file access URLs</li>
+</ol>
+<section id="file-urls" class="level3">
+<h3 class="anchored" data-anchor-id="file-urls">4.9.1. File URLs</h3>
+<p>There are three types of URL we can share:</p>
+<table class="table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 42%">
+<col style="width: 33%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>URL Type</th>
+<th>Use Case</th>
+<th>Expiry</th>
+<th>Command to Return URL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Scoped URL</td>
+<td>Encoded URL with <strong>temporary access</strong> to a <em>file</em> but not the <em>stage</em>.</td>
+<td>Expires when results cache expires (currently 24 hours)</td>
+<td><code>BUILD_SCOPED_FILE_URL</code></td>
+</tr>
+<tr class="even">
+<td>File URL</td>
+<td>Permits <strong>prolonged access</strong> to a specified file.</td>
+<td>Does not expire.</td>
+<td><code>BUILD_STAGE_FILE_URL</code></td>
+</tr>
+<tr class="odd">
+<td>Pre-signed URL</td>
+<td>HTTPS URL used to access a file via a web browser.</td>
+<td>Configurable expiration time for access token.</td>
+<td><code>GET_PRESIGNED_URL</code></td>
+</tr>
+</tbody>
+</table>
+<p>For example, run the following SQL file function to create a scope URL:</p>
+<pre><code>SELECT BUILD_SCOPED_FILE_URL(@stage_azure, 'Logo.png')</code></pre>
+<p>For a pre-signed URL, we also set the expiry time in seconds.</p>
+<pre><code>SELECT GET_PRESIGNED_URL(@stage_azure, 'Logo.png', 60)</code></pre>
+</section>
+<section id="directory-tables" class="level3">
+<h3 class="anchored" data-anchor-id="directory-tables">4.9.2. Directory Tables</h3>
+<p>A directory table <strong>stores metadata of staged files</strong>.</p>
+<p>This is layered on a stage, rather than being a separate table object in a database.</p>
+<p>It can be queried, with sufficient privileges on the stage, to retrieve file URLs to access files on the stage.</p>
+<p>It <strong>needs to be enabled</strong> as it is not by default. We either do this in the <code>CREATE STAGE</code> command with</p>
+<pre><code>CREATE STAGE stage_azure
+URL = &lt;'url'&gt;
+STORAGE_INTEGRATION = integration
+DIRECTORY = (ENABLE = TRUE)</code></pre>
+<p>or <code>ALTER</code> an existing stage:</p>
+<pre><code>ALTER STAGE stage_azure
+SET DIRECTORY = (ENABLE = TRUE)</code></pre>
+<p>We query this directory with:</p>
+<pre><code>SELECT * FROM DIRECTORY(@stage_azure)</code></pre>
+<p>The first time querying, so will not see any results. The directory needs to be <em>manually populated</em> with:</p>
+<pre><code>ALTER STAGE stage_azure REFRESH</code></pre>
+<p>We may want to use the cloud provider’s event notification to set up an automatic refresh.</p>
+</section>
 </section>
 <section id="data-sampling" class="level2">
 <h2 class="anchored" data-anchor-id="data-sampling">4.10. Data Sampling</h2>

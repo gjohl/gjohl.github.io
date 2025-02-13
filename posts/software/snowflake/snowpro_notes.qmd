@@ -1,7 +1,7 @@
 ---
 title: "Snowflake: SnowPro Core"
 description: "Snowflake? Snow Problem."
-date: "2025-02-11"
+date: "2025-02-13"
 # image: "deep_learning_model.png"
 categories: [Software, DataEngineering]
 ---
@@ -956,7 +956,7 @@ We typically let Snowflake convert semi-structured data into a *hierarchy of arr
 
 Nulls and non-native strings like dates are *cast to strings* within a variant. 
 
-Variant can store up to **16 MB per row**. 
+Variant can store up to **16 MB uncompressed per row**. 
 If the data exceeds this, we will need to restructure or split the input. 
 
 The standard “ELT” approach (Extract, Load, Transform) for semi-structured data is to load the data as is, then transform it later once we’ve eyeballed it. 
@@ -1001,12 +1001,108 @@ FROM table_with_variant
 
 
 ### 4.8.3. Flatten Hierarchical Data
+We may want to flatten the hierarchies within semi-structured datainto a relational table.
+We do this with the `FLATTEN` table function.
+
+```
+FLATTEN(INPUT => <expression>)
+```
+
+Note that `FLATTEN` cannot be used inside a `COPY` command.
+
+We can use it alongside the other keys of the data. For example:
+```
+SELECT
+    RAW_FILE:id,
+    RAW_FILE:first_name,
+    VALUE as prev_company  -- this is the flatten array
+FROM 
+    MY_DB.PUBLIC.JSON_RAW_TABLE,
+    TABLE(FLATTEN(input => RAW_FILE:previous_companies))
+```
+
+There is an implicit lateral join between the table and the flattened table function result set.
+We can make this explicit using the `LATERAL FLATTEN` keywords. The result is the same.
 
 
 ### 4.8.4. Insert JSON Data
 
+We use the `PARSE_JSON` function to import JSON data.
+```
+SELECT PARSE_JSON(' { "key1": "value1", "key2": "value2" } ');
+```
+
+When inserting `variant` data, we don't use `INSERT VALUES`, we use a `SELECT` statement.
+```
+INSERT INTO semi_structured_table_name
+SELECT PARSE_JSON(' { "key1": "value1", "key2": "value2" } ');
+```
 
 ## 4.9. Unstructured Data
+Unstructured data is any data which does not fit in a pre-defined data model.
+E.g. video files, audio files, documents.
+
+Snowflake handles unstructured data using **file URLs**.
+
+Snowflake supports the following for both internal and external stages:
+
+1. Access through URL in cloud storage
+2. Share file access URLs
+
+
+### 4.9.1. File URLs
+There are three types of URL we can share:
+
+| URL Type       | Use Case                                                               | Expiry                                                  | Command to Return URL   |
+|----------------|------------------------------------------------------------------------|---------------------------------------------------------|-------------------------|
+| Scoped URL     | Encoded URL with **temporary access** to a *file* but not the *stage*. | Expires when results cache expires (currently 24 hours) | `BUILD_SCOPED_FILE_URL` |
+| File URL       | Permits **prolonged access** to a specified file.                      | Does not expire.                                        | `BUILD_STAGE_FILE_URL`  |
+| Pre-signed URL | HTTPS URL used to access a file via a web browser.                     | Configurable expiration time for access token.          | `GET_PRESIGNED_URL`     |
+
+
+For example, run the following SQL file function to create a scope URL:
+```
+SELECT BUILD_SCOPED_FILE_URL(@stage_azure, 'Logo.png')
+```
+
+For a pre-signed URL, we also set the expiry time in seconds.
+```
+SELECT GET_PRESIGNED_URL(@stage_azure, 'Logo.png', 60)
+```
+
+### 4.9.2. Directory Tables
+A directory table **stores metadata of staged files**.
+
+This is layered on a stage, rather than being a separate table object in a database.
+
+It can be queried, with sufficient privileges on the stage, to retrieve file URLs to access files on the stage.
+
+It **needs to be enabled** as it is not by default. We either do this in the `CREATE STAGE` command with 
+```
+CREATE STAGE stage_azure
+URL = <'url'>
+STORAGE_INTEGRATION = integration
+DIRECTORY = (ENABLE = TRUE)
+```
+
+or `ALTER` an existing stage:
+```
+ALTER STAGE stage_azure
+SET DIRECTORY = (ENABLE = TRUE)
+```
+
+We query this directory with:
+```
+SELECT * FROM DIRECTORY(@stage_azure)
+```
+
+The first time querying, so will not see any results. 
+The directory needs to be *manually populated* with:
+```
+ALTER STAGE stage_azure REFRESH
+```
+
+We may want to use the cloud provider's event notification to set up an automatic refresh.
 
 
 ## 4.10. Data Sampling
