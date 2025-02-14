@@ -497,6 +497,41 @@
     "text": "4. Further Topics in Graph Theory\n\nTarjan’s strongly connected components algorithm\nTopological sort\nFloyd-Warshall algorithms\nBellman-Ford algorithm\nGraph coloring\nMin-cut max-flow"
   },
   {
+    "objectID": "posts/ml/timeseries/timeseries.html",
+    "href": "posts/ml/timeseries/timeseries.html",
+    "title": "Time Series Analysis",
+    "section": "",
+    "text": "Time series data has certain properties that make it different from other tabular or sequential data:\n\nOrdering is important: The order of data points is important so you need to be wary of information leakage. For example, unless you really know what you’re doing and have a good reason, you probably shouldn’t shuffle your train/test split.\nLook-ahead bias: Related to the above. We often want to forecast future data points, so we need to make sure our model is not inadvertently looking ahead.\nIrregular sampling: The data is not always at regular intervals. for example, tick-level financial data or heart beats in medical data.\nInformative sampling: The presence/timing of a sample contains information in and of itself. For example, more ticks in a short time window indicates more trading activity, or more heart beats in a time period indicates unusual activity. Resampling to a regular interval risks losing this information.\n\n\n\n\nA time series may exhibit a trend over time. That is to say, it’s rolling average is monotonically increasing/decreasing.\nWe can model this with a simple linear relationship w.r.t. time \\(t\\): \\[\ntarget = a t + b\n\\]\nIf the trend is non-linear, we can transform the time variable so we can still apply linear models. For example, if we think the trend is quadratic with time, we can pass \\(t\\) and \\(t^2\\) as independent variables to a linear model: \\[\ntarget = a t^2 + b t + c\n\\]\nWe may want to split the trend and residual components of the data and model them separately. If the residuals are stations (more on this later) then there are more models that would be applicable.\nA moving average term can be useful to eyeball changes in trend.\n\nplot_ma_df = df[['BTCUSD']].copy()\nplot_ma_df['100_day_MA'] = plot_ma_df['BTCUSD'].rolling(100).mean()\n\nplot_ma_df.plot()\n\n                                                \n\n\n\n\n\nSeasonality is when there are regular, periodic changes in the mean of a time series. They often happen at “human-interpretable” intervals, e.g. daily, weekly, monthly, etc.\nA seasonal plot can help identify such seasonality. If we suspect day-of-week seasonality, we can plot the day of week vs target value to see if there is a common behaviour.\nThis time series doesn’t actually exhibit any strong seasonality, but let’s see how we’d check.\n\nplot_seasonal_df = df[['BTCUSD']].copy()\nplot_seasonal_df['day_of_week'] = plot_seasonal_df.index.dayofweek\n\nplot_seasonal_df.tail(50).set_index('day_of_week').plot()\n\n                                                \n\n\nSeasonal indicators are binary features that represent the seasonality level of interest.\nFor example, if we believed there was weekly seasonality, we could one-hot encode each day of the week as a feature.\n\nplot_seasonal_df['Monday'] = (plot_seasonal_df['day_of_week'] == 0) * 1.\nplot_seasonal_df['Tuesday'] = (plot_seasonal_df['day_of_week'] == 1) * 1.\nplot_seasonal_df['Wednesday'] = (plot_seasonal_df['day_of_week'] == 2) * 1.\nplot_seasonal_df['Thursday'] = (plot_seasonal_df['day_of_week'] == 3) * 1.\nplot_seasonal_df['Friday'] = (plot_seasonal_df['day_of_week'] == 4) * 1.\nplot_seasonal_df['Saturday'] = (plot_seasonal_df['day_of_week'] == 5) * 1.\n\nplot_seasonal_df\n\n\n\n\n\n\n\n\nBTCUSD\nday_of_week\nMonday\nTuesday\nWednesday\nThursday\nFriday\nSaturday\n\n\ntimestamp\n\n\n\n\n\n\n\n\n\n\n\n\n2018-01-01\n13657.200195\n0\n1.0\n0.0\n0.0\n0.0\n0.0\n0.0\n\n\n2018-01-02\n14982.099609\n1\n0.0\n1.0\n0.0\n0.0\n0.0\n0.0\n\n\n2018-01-03\n15201.000000\n2\n0.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n2018-01-04\n15599.200195\n3\n0.0\n0.0\n0.0\n1.0\n0.0\n0.0\n\n\n2018-01-05\n17429.500000\n4\n0.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n...\n...\n...\n...\n...\n...\n...\n...\n...\n\n\n2023-07-05\n30514.166016\n2\n0.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n2023-07-06\n29909.337891\n3\n0.0\n0.0\n0.0\n1.0\n0.0\n0.0\n\n\n2023-07-07\n30342.265625\n4\n0.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n2023-07-08\n30292.541016\n5\n0.0\n0.0\n0.0\n0.0\n0.0\n1.0\n\n\n2023-07-09\n30280.958984\n6\n0.0\n0.0\n0.0\n0.0\n0.0\n0.0\n\n\n\n\n2016 rows × 8 columns\n\n\n\nWe can decompose a timeseries into trend + seasonal + residual components.\n\nfrom statsmodels.tsa.seasonal import seasonal_decompose\n\ndecomp = seasonal_decompose(df['BTCUSD'], model='additive', filt=None, period=None, two_sided=False, extrapolate_trend=0)\nfig = decomp.plot()\n\n\n\n\n\n\n\n\nFourier analysis can be useful in determining frequencies of seasonality. More on this later.\nIn brief, we can plot the periodogram to determine the strength of different frequencies.\n\n# From https://www.kaggle.com/code/ryanholbrook/seasonality\ndef plot_periodogram(ts, detrend='linear', ax=None):\n    from scipy.signal import periodogram\n    fs = pd.Timedelta(\"365D\") / pd.Timedelta(\"1D\")\n    freqencies, spectrum = periodogram(\n        ts,\n        fs=fs,\n        detrend=detrend,\n        window=\"boxcar\",\n        scaling='spectrum',\n    )\n    if ax is None:\n        _, ax = plt.subplots()\n    ax.step(freqencies, spectrum, color=\"purple\")\n    ax.set_xscale(\"log\")\n    ax.set_xticks([1, 2, 4, 6, 12, 26, 52, 104])\n    ax.set_xticklabels(\n        [\n            \"Annual (1)\",\n            \"Semiannual (2)\",\n            \"Quarterly (4)\",\n            \"Bimonthly (6)\",\n            \"Monthly (12)\",\n            \"Biweekly (26)\",\n            \"Weekly (52)\",\n            \"Semiweekly (104)\",\n        ],\n        rotation=30,\n    )\n    ax.ticklabel_format(axis=\"y\", style=\"sci\", scilimits=(0, 0))\n    ax.set_ylabel(\"Variance\")\n    ax.set_title(\"Periodogram\")\n    return ax\n\n\nplot_periodogram(df['BTCUSD'])\n\n\n\n\n\n\n\n\n\n\n\n\nA stationary time series is one whose properties do not depend on the time at which the series is observed\n\nFrom Forecasting: Principles and Practice\nIn other words, the mean and variance do not change over time.\nIn the context of financial time series, it is often the case that price is non-stationary, but returns (the lag-1 difference) is stationary.\nThe Augmented Dickey-Fuller test provides a test statistic to quantify stationarity. \nUsing the BTCUSD time series as an example, the price series is definitely not stationary. We can see this from a plot, but the ADF test corroborates this with a p-value of 0.58.\n\nfrom statsmodels.tsa.stattools import adfuller\n\nadf_test = adfuller(df['BTCUSD'])\nadf_results = {\n    \"ADF Statistic\": adf_test[0],\n    \"p-value\": adf_test[1],\n    \"Critical Values\": adf_test[4],\n}\n\nadf_results\n\n{'ADF Statistic': -1.4058608330365159,\n 'p-value': 0.5794631585252685,\n 'Critical Values': {'1%': -3.4336386745240652,\n  '5%': -2.8629927557359443,\n  '10%': -2.5675433856598793}}\n\n\nNext we take the differences. This is stationary, with a tiny p-value.\n\nbtc_rets = df['BTCUSD'].diff().dropna()\n\nadf_test = adfuller(btc_rets)\nadf_results = {\n    \"ADF Statistic\": adf_test[0],\n    \"p-value\": adf_test[1],\n    \"Critical Values\": adf_test[4],\n}\n\nadf_results\n\n{'ADF Statistic': -7.742323245600769,\n 'p-value': 1.0538877703747789e-11,\n 'Critical Values': {'1%': -3.433643643742798,\n  '5%': -2.862994949652858,\n  '10%': -2.5675445538118042}}"
+  },
+  {
+    "objectID": "posts/ml/timeseries/timeseries.html#considerations-for-time-series-data",
+    "href": "posts/ml/timeseries/timeseries.html#considerations-for-time-series-data",
+    "title": "Time Series Analysis",
+    "section": "",
+    "text": "Time series data has certain properties that make it different from other tabular or sequential data:\n\nOrdering is important: The order of data points is important so you need to be wary of information leakage. For example, unless you really know what you’re doing and have a good reason, you probably shouldn’t shuffle your train/test split.\nLook-ahead bias: Related to the above. We often want to forecast future data points, so we need to make sure our model is not inadvertently looking ahead.\nIrregular sampling: The data is not always at regular intervals. for example, tick-level financial data or heart beats in medical data.\nInformative sampling: The presence/timing of a sample contains information in and of itself. For example, more ticks in a short time window indicates more trading activity, or more heart beats in a time period indicates unusual activity. Resampling to a regular interval risks losing this information."
+  },
+  {
+    "objectID": "posts/ml/timeseries/timeseries.html#trend",
+    "href": "posts/ml/timeseries/timeseries.html#trend",
+    "title": "Time Series Analysis",
+    "section": "",
+    "text": "A time series may exhibit a trend over time. That is to say, it’s rolling average is monotonically increasing/decreasing.\nWe can model this with a simple linear relationship w.r.t. time \\(t\\): \\[\ntarget = a t + b\n\\]\nIf the trend is non-linear, we can transform the time variable so we can still apply linear models. For example, if we think the trend is quadratic with time, we can pass \\(t\\) and \\(t^2\\) as independent variables to a linear model: \\[\ntarget = a t^2 + b t + c\n\\]\nWe may want to split the trend and residual components of the data and model them separately. If the residuals are stations (more on this later) then there are more models that would be applicable.\nA moving average term can be useful to eyeball changes in trend.\n\nplot_ma_df = df[['BTCUSD']].copy()\nplot_ma_df['100_day_MA'] = plot_ma_df['BTCUSD'].rolling(100).mean()\n\nplot_ma_df.plot()"
+  },
+  {
+    "objectID": "posts/ml/timeseries/timeseries.html#seasonality",
+    "href": "posts/ml/timeseries/timeseries.html#seasonality",
+    "title": "Time Series Analysis",
+    "section": "",
+    "text": "Seasonality is when there are regular, periodic changes in the mean of a time series. They often happen at “human-interpretable” intervals, e.g. daily, weekly, monthly, etc.\nA seasonal plot can help identify such seasonality. If we suspect day-of-week seasonality, we can plot the day of week vs target value to see if there is a common behaviour.\nThis time series doesn’t actually exhibit any strong seasonality, but let’s see how we’d check.\n\nplot_seasonal_df = df[['BTCUSD']].copy()\nplot_seasonal_df['day_of_week'] = plot_seasonal_df.index.dayofweek\n\nplot_seasonal_df.tail(50).set_index('day_of_week').plot()\n\n                                                \n\n\nSeasonal indicators are binary features that represent the seasonality level of interest.\nFor example, if we believed there was weekly seasonality, we could one-hot encode each day of the week as a feature.\n\nplot_seasonal_df['Monday'] = (plot_seasonal_df['day_of_week'] == 0) * 1.\nplot_seasonal_df['Tuesday'] = (plot_seasonal_df['day_of_week'] == 1) * 1.\nplot_seasonal_df['Wednesday'] = (plot_seasonal_df['day_of_week'] == 2) * 1.\nplot_seasonal_df['Thursday'] = (plot_seasonal_df['day_of_week'] == 3) * 1.\nplot_seasonal_df['Friday'] = (plot_seasonal_df['day_of_week'] == 4) * 1.\nplot_seasonal_df['Saturday'] = (plot_seasonal_df['day_of_week'] == 5) * 1.\n\nplot_seasonal_df\n\n\n\n\n\n\n\n\nBTCUSD\nday_of_week\nMonday\nTuesday\nWednesday\nThursday\nFriday\nSaturday\n\n\ntimestamp\n\n\n\n\n\n\n\n\n\n\n\n\n2018-01-01\n13657.200195\n0\n1.0\n0.0\n0.0\n0.0\n0.0\n0.0\n\n\n2018-01-02\n14982.099609\n1\n0.0\n1.0\n0.0\n0.0\n0.0\n0.0\n\n\n2018-01-03\n15201.000000\n2\n0.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n2018-01-04\n15599.200195\n3\n0.0\n0.0\n0.0\n1.0\n0.0\n0.0\n\n\n2018-01-05\n17429.500000\n4\n0.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n...\n...\n...\n...\n...\n...\n...\n...\n...\n\n\n2023-07-05\n30514.166016\n2\n0.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n2023-07-06\n29909.337891\n3\n0.0\n0.0\n0.0\n1.0\n0.0\n0.0\n\n\n2023-07-07\n30342.265625\n4\n0.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n2023-07-08\n30292.541016\n5\n0.0\n0.0\n0.0\n0.0\n0.0\n1.0\n\n\n2023-07-09\n30280.958984\n6\n0.0\n0.0\n0.0\n0.0\n0.0\n0.0\n\n\n\n\n2016 rows × 8 columns\n\n\n\nWe can decompose a timeseries into trend + seasonal + residual components.\n\nfrom statsmodels.tsa.seasonal import seasonal_decompose\n\ndecomp = seasonal_decompose(df['BTCUSD'], model='additive', filt=None, period=None, two_sided=False, extrapolate_trend=0)\nfig = decomp.plot()\n\n\n\n\n\n\n\n\nFourier analysis can be useful in determining frequencies of seasonality. More on this later.\nIn brief, we can plot the periodogram to determine the strength of different frequencies.\n\n# From https://www.kaggle.com/code/ryanholbrook/seasonality\ndef plot_periodogram(ts, detrend='linear', ax=None):\n    from scipy.signal import periodogram\n    fs = pd.Timedelta(\"365D\") / pd.Timedelta(\"1D\")\n    freqencies, spectrum = periodogram(\n        ts,\n        fs=fs,\n        detrend=detrend,\n        window=\"boxcar\",\n        scaling='spectrum',\n    )\n    if ax is None:\n        _, ax = plt.subplots()\n    ax.step(freqencies, spectrum, color=\"purple\")\n    ax.set_xscale(\"log\")\n    ax.set_xticks([1, 2, 4, 6, 12, 26, 52, 104])\n    ax.set_xticklabels(\n        [\n            \"Annual (1)\",\n            \"Semiannual (2)\",\n            \"Quarterly (4)\",\n            \"Bimonthly (6)\",\n            \"Monthly (12)\",\n            \"Biweekly (26)\",\n            \"Weekly (52)\",\n            \"Semiweekly (104)\",\n        ],\n        rotation=30,\n    )\n    ax.ticklabel_format(axis=\"y\", style=\"sci\", scilimits=(0, 0))\n    ax.set_ylabel(\"Variance\")\n    ax.set_title(\"Periodogram\")\n    return ax\n\n\nplot_periodogram(df['BTCUSD'])"
+  },
+  {
+    "objectID": "posts/ml/timeseries/timeseries.html#stationarity",
+    "href": "posts/ml/timeseries/timeseries.html#stationarity",
+    "title": "Time Series Analysis",
+    "section": "",
+    "text": "A stationary time series is one whose properties do not depend on the time at which the series is observed\n\nFrom Forecasting: Principles and Practice\nIn other words, the mean and variance do not change over time.\nIn the context of financial time series, it is often the case that price is non-stationary, but returns (the lag-1 difference) is stationary.\nThe Augmented Dickey-Fuller test provides a test statistic to quantify stationarity. \nUsing the BTCUSD time series as an example, the price series is definitely not stationary. We can see this from a plot, but the ADF test corroborates this with a p-value of 0.58.\n\nfrom statsmodels.tsa.stattools import adfuller\n\nadf_test = adfuller(df['BTCUSD'])\nadf_results = {\n    \"ADF Statistic\": adf_test[0],\n    \"p-value\": adf_test[1],\n    \"Critical Values\": adf_test[4],\n}\n\nadf_results\n\n{'ADF Statistic': -1.4058608330365159,\n 'p-value': 0.5794631585252685,\n 'Critical Values': {'1%': -3.4336386745240652,\n  '5%': -2.8629927557359443,\n  '10%': -2.5675433856598793}}\n\n\nNext we take the differences. This is stationary, with a tiny p-value.\n\nbtc_rets = df['BTCUSD'].diff().dropna()\n\nadf_test = adfuller(btc_rets)\nadf_results = {\n    \"ADF Statistic\": adf_test[0],\n    \"p-value\": adf_test[1],\n    \"Critical Values\": adf_test[4],\n}\n\nadf_results\n\n{'ADF Statistic': -7.742323245600769,\n 'p-value': 1.0538877703747789e-11,\n 'Critical Values': {'1%': -3.433643643742798,\n  '5%': -2.862994949652858,\n  '10%': -2.5675445538118042}}"
+  },
+  {
     "objectID": "posts/software/sql/notes.html",
     "href": "posts/software/sql/notes.html",
     "title": "SQL",
@@ -2560,159 +2595,5 @@
     "title": "Series: Generative AI",
     "section": "",
     "text": "Generative AI: GANs\n\n\n\n\n\n\nAI\n\n\nEngineering\n\n\nGenerativeAI\n\n\nGAN\n\n\n\nPart 4: Generative Adversarial Networks\n\n\n\n\n\nApr 10, 2024\n\n\n11 min\n\n\n\n\n\n\n\n\n\n\n\n\nGenerative AI: VAEs\n\n\n\n\n\n\nAI\n\n\nEngineering\n\n\nGenerativeAI\n\n\nVAE\n\n\n\nPart 3: Variational Autoencoders\n\n\n\n\n\nMar 6, 2024\n\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nGenerative AI: Deep Learning Foundations\n\n\n\n\n\n\nAI\n\n\nEngineering\n\n\nGenerativeAI\n\n\n\nPart 2: The Building Blocks for Generative AI\n\n\n\n\n\nFeb 26, 2024\n\n\n6 min\n\n\n\n\n\n\n\n\n\n\n\n\nGenerative AI: Intro\n\n\n\n\n\n\nAI\n\n\nEngineering\n\n\nGenerativeAI\n\n\n\nPart 1: Introduction to Generative AI\n\n\n\n\n\nFeb 19, 2024\n\n\n5 min\n\n\n\n\n\n\nNo matching items\n\n Back to top"
-  },
-  {
-    "objectID": "posts/ml/timeseries/timeseries.html",
-    "href": "posts/ml/timeseries/timeseries.html",
-    "title": "Time Series Analysis",
-    "section": "",
-    "text": "Time series data has certain properties that make it different from other tabular or sequential data:\n\nOrdering is important: The order of data points is important so you need to be wary of information leakage. For example, unless you really know what you’re doing and have a good reason, you probably shouldn’t shuffle your train/test split.\nLook-ahead bias: Related to the above. We often want to forecast future data points, so we need to make sure our model is not inadvertently looking ahead.\nIrregular sampling: The data is not always at regular intervals. for example, tick-level financial data or heart beats in medical data.\nInformative sampling: The presence/timing of a sample contains information in and of itself. For example, more ticks in a short time window indicates more trading activity, or more heart beats in a time period indicates unusual activity. Resampling to a regular interval risks losing this information.\n\n\n\n\nA time series may exhibit a trend over time. That is to say, it’s rolling average is monotonically increasing/decreasing.\nWe can model this with a simple linear relationship w.r.t. time \\(t\\): \\[\ntarget = a t + b\n\\]\nIf the trend is non-linear, we can transform the time variable so we can still apply linear models. For example, if we think the trend is quadratic with time, we can pass \\(t\\) and \\(t^2\\) as independent variables to a linear model: \\[\ntarget = a t^2 + b t + c\n\\]\nWe may want to split the trend and residual components of the data and model them separately. If the residuals are stations (more on this later) then there are more models that would be applicable.\nA moving average term can be useful to eyeball changes in trend.\n\nplot_ma_df = df[['BTCUSD']].copy()\nplot_ma_df['100_day_MA'] = plot_ma_df['BTCUSD'].rolling(100).mean()\n\nplot_ma_df.plot()\n\n                                                \n\n\n\n\n\nSeasonality is when there are regular, periodic changes in the mean of a time series. They often happen at “human-interpretable” intervals, e.g. daily, weekly, monthly, etc.\nA seasonal plot can help identify such seasonality. If we suspect day-of-week seasonality, we can plot the day of week vs target value to see if there is a common behaviour.\nThis time series doesn’t actually exhibit any strong seasonality, but let’s see how we’d check.\n\nplot_seasonal_df = df[['BTCUSD']].copy()\nplot_seasonal_df['day_of_week'] = plot_seasonal_df.index.dayofweek\n\nplot_seasonal_df.tail(50).set_index('day_of_week').plot()\n\n                                                \n\n\nSeasonal indicators are binary features that represent the seasonality level of interest.\nFor example, if we believed there was weekly seasonality, we could one-hot encode each day of the week as a feature.\n\nplot_seasonal_df['Monday'] = (plot_seasonal_df['day_of_week'] == 0) * 1.\nplot_seasonal_df['Tuesday'] = (plot_seasonal_df['day_of_week'] == 1) * 1.\nplot_seasonal_df['Wednesday'] = (plot_seasonal_df['day_of_week'] == 2) * 1.\nplot_seasonal_df['Thursday'] = (plot_seasonal_df['day_of_week'] == 3) * 1.\nplot_seasonal_df['Friday'] = (plot_seasonal_df['day_of_week'] == 4) * 1.\nplot_seasonal_df['Saturday'] = (plot_seasonal_df['day_of_week'] == 5) * 1.\n\nplot_seasonal_df\n\n\n\n\n\n\n\n\nBTCUSD\nday_of_week\nMonday\nTuesday\nWednesday\nThursday\nFriday\nSaturday\n\n\ntimestamp\n\n\n\n\n\n\n\n\n\n\n\n\n2018-01-01\n13657.200195\n0\n1.0\n0.0\n0.0\n0.0\n0.0\n0.0\n\n\n2018-01-02\n14982.099609\n1\n0.0\n1.0\n0.0\n0.0\n0.0\n0.0\n\n\n2018-01-03\n15201.000000\n2\n0.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n2018-01-04\n15599.200195\n3\n0.0\n0.0\n0.0\n1.0\n0.0\n0.0\n\n\n2018-01-05\n17429.500000\n4\n0.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n...\n...\n...\n...\n...\n...\n...\n...\n...\n\n\n2023-07-05\n30514.166016\n2\n0.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n2023-07-06\n29909.337891\n3\n0.0\n0.0\n0.0\n1.0\n0.0\n0.0\n\n\n2023-07-07\n30342.265625\n4\n0.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n2023-07-08\n30292.541016\n5\n0.0\n0.0\n0.0\n0.0\n0.0\n1.0\n\n\n2023-07-09\n30280.958984\n6\n0.0\n0.0\n0.0\n0.0\n0.0\n0.0\n\n\n\n\n2016 rows × 8 columns\n\n\n\nWe can decompose a timeseries into trend + seasonal + residual components.\n\nfrom statsmodels.tsa.seasonal import seasonal_decompose\n\ndecomp = seasonal_decompose(df['BTCUSD'], model='additive', filt=None, period=None, two_sided=False, extrapolate_trend=0)\nfig = decomp.plot()\n\n\n\n\n\n\n\n\nFourier analysis can be useful in determining frequencies of seasonality. More on this later.\nIn brief, we can plot the periodogram to determine the strength of different frequencies.\n\n# From https://www.kaggle.com/code/ryanholbrook/seasonality\ndef plot_periodogram(ts, detrend='linear', ax=None):\n    from scipy.signal import periodogram\n    fs = pd.Timedelta(\"365D\") / pd.Timedelta(\"1D\")\n    freqencies, spectrum = periodogram(\n        ts,\n        fs=fs,\n        detrend=detrend,\n        window=\"boxcar\",\n        scaling='spectrum',\n    )\n    if ax is None:\n        _, ax = plt.subplots()\n    ax.step(freqencies, spectrum, color=\"purple\")\n    ax.set_xscale(\"log\")\n    ax.set_xticks([1, 2, 4, 6, 12, 26, 52, 104])\n    ax.set_xticklabels(\n        [\n            \"Annual (1)\",\n            \"Semiannual (2)\",\n            \"Quarterly (4)\",\n            \"Bimonthly (6)\",\n            \"Monthly (12)\",\n            \"Biweekly (26)\",\n            \"Weekly (52)\",\n            \"Semiweekly (104)\",\n        ],\n        rotation=30,\n    )\n    ax.ticklabel_format(axis=\"y\", style=\"sci\", scilimits=(0, 0))\n    ax.set_ylabel(\"Variance\")\n    ax.set_title(\"Periodogram\")\n    return ax\n\n\nplot_periodogram(df['BTCUSD'])\n\n\n\n\n\n\n\n\n\n\n\n\nA stationary time series is one whose properties do not depend on the time at which the series is observed\n\nFrom Forecasting: Principles and Practice\nIn other words, the mean and variance do not change over time.\nIn the context of financial time series, it is often the case that price is non-stationary, but returns (the lag-1 difference) is stationary.\nThe Augmented Dickey-Fuller test provides a test statistic to quantify stationarity. \nUsing the BTCUSD time series as an example, the price series is definitely not stationary. We can see this from a plot, but the ADF test corroborates this with a p-value of 0.58.\n\nfrom statsmodels.tsa.stattools import adfuller\n\nadf_test = adfuller(df['BTCUSD'])\nadf_results = {\n    \"ADF Statistic\": adf_test[0],\n    \"p-value\": adf_test[1],\n    \"Critical Values\": adf_test[4],\n}\n\nadf_results\n\n{'ADF Statistic': -1.4058608330365159,\n 'p-value': 0.5794631585252685,\n 'Critical Values': {'1%': -3.4336386745240652,\n  '5%': -2.8629927557359443,\n  '10%': -2.5675433856598793}}\n\n\nNext we take the differences. This is stationary, with a tiny p-value.\n\nbtc_rets = df['BTCUSD'].diff().dropna()\n\nadf_test = adfuller(btc_rets)\nadf_results = {\n    \"ADF Statistic\": adf_test[0],\n    \"p-value\": adf_test[1],\n    \"Critical Values\": adf_test[4],\n}\n\nadf_results\n\n{'ADF Statistic': -7.742323245600769,\n 'p-value': 1.0538877703747789e-11,\n 'Critical Values': {'1%': -3.433643643742798,\n  '5%': -2.862994949652858,\n  '10%': -2.5675445538118042}}"
-  },
-  {
-    "objectID": "posts/ml/timeseries/timeseries.html#considerations-for-time-series-data",
-    "href": "posts/ml/timeseries/timeseries.html#considerations-for-time-series-data",
-    "title": "Time Series Analysis",
-    "section": "",
-    "text": "Time series data has certain properties that make it different from other tabular or sequential data:\n\nOrdering is important: The order of data points is important so you need to be wary of information leakage. For example, unless you really know what you’re doing and have a good reason, you probably shouldn’t shuffle your train/test split.\nLook-ahead bias: Related to the above. We often want to forecast future data points, so we need to make sure our model is not inadvertently looking ahead.\nIrregular sampling: The data is not always at regular intervals. for example, tick-level financial data or heart beats in medical data.\nInformative sampling: The presence/timing of a sample contains information in and of itself. For example, more ticks in a short time window indicates more trading activity, or more heart beats in a time period indicates unusual activity. Resampling to a regular interval risks losing this information."
-  },
-  {
-    "objectID": "posts/ml/timeseries/timeseries.html#trend",
-    "href": "posts/ml/timeseries/timeseries.html#trend",
-    "title": "Time Series Analysis",
-    "section": "",
-    "text": "A time series may exhibit a trend over time. That is to say, it’s rolling average is monotonically increasing/decreasing.\nWe can model this with a simple linear relationship w.r.t. time \\(t\\): \\[\ntarget = a t + b\n\\]\nIf the trend is non-linear, we can transform the time variable so we can still apply linear models. For example, if we think the trend is quadratic with time, we can pass \\(t\\) and \\(t^2\\) as independent variables to a linear model: \\[\ntarget = a t^2 + b t + c\n\\]\nWe may want to split the trend and residual components of the data and model them separately. If the residuals are stations (more on this later) then there are more models that would be applicable.\nA moving average term can be useful to eyeball changes in trend.\n\nplot_ma_df = df[['BTCUSD']].copy()\nplot_ma_df['100_day_MA'] = plot_ma_df['BTCUSD'].rolling(100).mean()\n\nplot_ma_df.plot()"
-  },
-  {
-    "objectID": "posts/ml/timeseries/timeseries.html#seasonality",
-    "href": "posts/ml/timeseries/timeseries.html#seasonality",
-    "title": "Time Series Analysis",
-    "section": "",
-    "text": "Seasonality is when there are regular, periodic changes in the mean of a time series. They often happen at “human-interpretable” intervals, e.g. daily, weekly, monthly, etc.\nA seasonal plot can help identify such seasonality. If we suspect day-of-week seasonality, we can plot the day of week vs target value to see if there is a common behaviour.\nThis time series doesn’t actually exhibit any strong seasonality, but let’s see how we’d check.\n\nplot_seasonal_df = df[['BTCUSD']].copy()\nplot_seasonal_df['day_of_week'] = plot_seasonal_df.index.dayofweek\n\nplot_seasonal_df.tail(50).set_index('day_of_week').plot()\n\n                                                \n\n\nSeasonal indicators are binary features that represent the seasonality level of interest.\nFor example, if we believed there was weekly seasonality, we could one-hot encode each day of the week as a feature.\n\nplot_seasonal_df['Monday'] = (plot_seasonal_df['day_of_week'] == 0) * 1.\nplot_seasonal_df['Tuesday'] = (plot_seasonal_df['day_of_week'] == 1) * 1.\nplot_seasonal_df['Wednesday'] = (plot_seasonal_df['day_of_week'] == 2) * 1.\nplot_seasonal_df['Thursday'] = (plot_seasonal_df['day_of_week'] == 3) * 1.\nplot_seasonal_df['Friday'] = (plot_seasonal_df['day_of_week'] == 4) * 1.\nplot_seasonal_df['Saturday'] = (plot_seasonal_df['day_of_week'] == 5) * 1.\n\nplot_seasonal_df\n\n\n\n\n\n\n\n\nBTCUSD\nday_of_week\nMonday\nTuesday\nWednesday\nThursday\nFriday\nSaturday\n\n\ntimestamp\n\n\n\n\n\n\n\n\n\n\n\n\n2018-01-01\n13657.200195\n0\n1.0\n0.0\n0.0\n0.0\n0.0\n0.0\n\n\n2018-01-02\n14982.099609\n1\n0.0\n1.0\n0.0\n0.0\n0.0\n0.0\n\n\n2018-01-03\n15201.000000\n2\n0.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n2018-01-04\n15599.200195\n3\n0.0\n0.0\n0.0\n1.0\n0.0\n0.0\n\n\n2018-01-05\n17429.500000\n4\n0.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n...\n...\n...\n...\n...\n...\n...\n...\n...\n\n\n2023-07-05\n30514.166016\n2\n0.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n2023-07-06\n29909.337891\n3\n0.0\n0.0\n0.0\n1.0\n0.0\n0.0\n\n\n2023-07-07\n30342.265625\n4\n0.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n2023-07-08\n30292.541016\n5\n0.0\n0.0\n0.0\n0.0\n0.0\n1.0\n\n\n2023-07-09\n30280.958984\n6\n0.0\n0.0\n0.0\n0.0\n0.0\n0.0\n\n\n\n\n2016 rows × 8 columns\n\n\n\nWe can decompose a timeseries into trend + seasonal + residual components.\n\nfrom statsmodels.tsa.seasonal import seasonal_decompose\n\ndecomp = seasonal_decompose(df['BTCUSD'], model='additive', filt=None, period=None, two_sided=False, extrapolate_trend=0)\nfig = decomp.plot()\n\n\n\n\n\n\n\n\nFourier analysis can be useful in determining frequencies of seasonality. More on this later.\nIn brief, we can plot the periodogram to determine the strength of different frequencies.\n\n# From https://www.kaggle.com/code/ryanholbrook/seasonality\ndef plot_periodogram(ts, detrend='linear', ax=None):\n    from scipy.signal import periodogram\n    fs = pd.Timedelta(\"365D\") / pd.Timedelta(\"1D\")\n    freqencies, spectrum = periodogram(\n        ts,\n        fs=fs,\n        detrend=detrend,\n        window=\"boxcar\",\n        scaling='spectrum',\n    )\n    if ax is None:\n        _, ax = plt.subplots()\n    ax.step(freqencies, spectrum, color=\"purple\")\n    ax.set_xscale(\"log\")\n    ax.set_xticks([1, 2, 4, 6, 12, 26, 52, 104])\n    ax.set_xticklabels(\n        [\n            \"Annual (1)\",\n            \"Semiannual (2)\",\n            \"Quarterly (4)\",\n            \"Bimonthly (6)\",\n            \"Monthly (12)\",\n            \"Biweekly (26)\",\n            \"Weekly (52)\",\n            \"Semiweekly (104)\",\n        ],\n        rotation=30,\n    )\n    ax.ticklabel_format(axis=\"y\", style=\"sci\", scilimits=(0, 0))\n    ax.set_ylabel(\"Variance\")\n    ax.set_title(\"Periodogram\")\n    return ax\n\n\nplot_periodogram(df['BTCUSD'])"
-  },
-  {
-    "objectID": "posts/ml/timeseries/timeseries.html#fourier-transforms",
-    "href": "posts/ml/timeseries/timeseries.html#fourier-transforms",
-    "title": "Time Series Analysis",
-    "section": "",
-    "text": "https://www.kaggle.com/code/ryanholbrook/seasonality\nPeriodogram FFT"
-  },
-  {
-    "objectID": "posts/ml/timeseries/timeseries.html#correlations-and-autocorrelations",
-    "href": "posts/ml/timeseries/timeseries.html#correlations-and-autocorrelations",
-    "title": "Time Series Analysis",
-    "section": "",
-    "text": "Serial dependence https://www.kaggle.com/code/ryanholbrook/time-series-as-features Lag plots (same link as above)"
-  },
-  {
-    "objectID": "posts/ml/timeseries/timeseries.html#nulls",
-    "href": "posts/ml/timeseries/timeseries.html#nulls",
-    "title": "Time Series Analysis",
-    "section": "Nulls",
-    "text": "Nulls"
-  },
-  {
-    "objectID": "posts/ml/timeseries/timeseries.html#lags",
-    "href": "posts/ml/timeseries/timeseries.html#lags",
-    "title": "Time Series Analysis",
-    "section": "Lags",
-    "text": "Lags"
-  },
-  {
-    "objectID": "posts/ml/timeseries/timeseries.html#time-step",
-    "href": "posts/ml/timeseries/timeseries.html#time-step",
-    "title": "Time Series Analysis",
-    "section": "Time step",
-    "text": "Time step"
-  },
-  {
-    "objectID": "posts/ml/timeseries/timeseries.html#regime-change",
-    "href": "posts/ml/timeseries/timeseries.html#regime-change",
-    "title": "Time Series Analysis",
-    "section": "Regime Change",
-    "text": "Regime Change\n\nSplit into different models per regime\nIndicator variable for regime\nSome models explicitly model this, e.g. Hidden Markov Models"
-  },
-  {
-    "objectID": "posts/ml/timeseries/timeseries.html#hybrid-models",
-    "href": "posts/ml/timeseries/timeseries.html#hybrid-models",
-    "title": "Time Series Analysis",
-    "section": "Hybrid Models",
-    "text": "Hybrid Models\nhttps://www.kaggle.com/code/ryanholbrook/hybrid-models\nModel the time series as components series = trend + seasons + cycles + error"
-  },
-  {
-    "objectID": "posts/ml/timeseries/timeseries.html#linear-models",
-    "href": "posts/ml/timeseries/timeseries.html#linear-models",
-    "title": "Time Series Analysis",
-    "section": "Linear Models",
-    "text": "Linear Models\nhttps://www.kaggle.com/code/ryanholbrook/linear-regression-with-time-series"
-  },
-  {
-    "objectID": "posts/ml/timeseries/timeseries.html#ar",
-    "href": "posts/ml/timeseries/timeseries.html#ar",
-    "title": "Time Series Analysis",
-    "section": "AR",
-    "text": "AR"
-  },
-  {
-    "objectID": "posts/ml/timeseries/timeseries.html#ma",
-    "href": "posts/ml/timeseries/timeseries.html#ma",
-    "title": "Time Series Analysis",
-    "section": "MA",
-    "text": "MA"
-  },
-  {
-    "objectID": "posts/ml/timeseries/timeseries.html#arima",
-    "href": "posts/ml/timeseries/timeseries.html#arima",
-    "title": "Time Series Analysis",
-    "section": "ARIMA",
-    "text": "ARIMA"
-  },
-  {
-    "objectID": "posts/ml/timeseries/timeseries.html#var",
-    "href": "posts/ml/timeseries/timeseries.html#var",
-    "title": "Time Series Analysis",
-    "section": "VAR",
-    "text": "VAR"
-  },
-  {
-    "objectID": "posts/ml/timeseries/timeseries.html#random-forests",
-    "href": "posts/ml/timeseries/timeseries.html#random-forests",
-    "title": "Time Series Analysis",
-    "section": "Random Forests",
-    "text": "Random Forests"
-  },
-  {
-    "objectID": "posts/ml/timeseries/timeseries.html#gradient-boosted-trees",
-    "href": "posts/ml/timeseries/timeseries.html#gradient-boosted-trees",
-    "title": "Time Series Analysis",
-    "section": "Gradient Boosted Trees",
-    "text": "Gradient Boosted Trees"
-  },
-  {
-    "objectID": "posts/ml/timeseries/timeseries.html#rnns-lstms-grus",
-    "href": "posts/ml/timeseries/timeseries.html#rnns-lstms-grus",
-    "title": "Time Series Analysis",
-    "section": "RNNS, LSTMs, GRUs",
-    "text": "RNNS, LSTMs, GRUs"
-  },
-  {
-    "objectID": "posts/ml/timeseries/timeseries.html#transformers",
-    "href": "posts/ml/timeseries/timeseries.html#transformers",
-    "title": "Time Series Analysis",
-    "section": "Transformers",
-    "text": "Transformers"
-  },
-  {
-    "objectID": "posts/ml/timeseries/timeseries.html#foundational-models",
-    "href": "posts/ml/timeseries/timeseries.html#foundational-models",
-    "title": "Time Series Analysis",
-    "section": "Foundational Models",
-    "text": "Foundational Models"
-  },
-  {
-    "objectID": "posts/ml/timeseries/timeseries.html#stationarity",
-    "href": "posts/ml/timeseries/timeseries.html#stationarity",
-    "title": "Time Series Analysis",
-    "section": "",
-    "text": "A stationary time series is one whose properties do not depend on the time at which the series is observed\n\nFrom Forecasting: Principles and Practice\nIn other words, the mean and variance do not change over time.\nIn the context of financial time series, it is often the case that price is non-stationary, but returns (the lag-1 difference) is stationary.\nThe Augmented Dickey-Fuller test provides a test statistic to quantify stationarity. \nUsing the BTCUSD time series as an example, the price series is definitely not stationary. We can see this from a plot, but the ADF test corroborates this with a p-value of 0.58.\n\nfrom statsmodels.tsa.stattools import adfuller\n\nadf_test = adfuller(df['BTCUSD'])\nadf_results = {\n    \"ADF Statistic\": adf_test[0],\n    \"p-value\": adf_test[1],\n    \"Critical Values\": adf_test[4],\n}\n\nadf_results\n\n{'ADF Statistic': -1.4058608330365159,\n 'p-value': 0.5794631585252685,\n 'Critical Values': {'1%': -3.4336386745240652,\n  '5%': -2.8629927557359443,\n  '10%': -2.5675433856598793}}\n\n\nNext we take the differences. This is stationary, with a tiny p-value.\n\nbtc_rets = df['BTCUSD'].diff().dropna()\n\nadf_test = adfuller(btc_rets)\nadf_results = {\n    \"ADF Statistic\": adf_test[0],\n    \"p-value\": adf_test[1],\n    \"Critical Values\": adf_test[4],\n}\n\nadf_results\n\n{'ADF Statistic': -7.742323245600769,\n 'p-value': 1.0538877703747789e-11,\n 'Critical Values': {'1%': -3.433643643742798,\n  '5%': -2.862994949652858,\n  '10%': -2.5675445538118042}}"
   }
 ]
