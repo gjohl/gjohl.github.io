@@ -1273,12 +1273,104 @@ SET DIRECTORY = (ENABLE = TRUE)</code></pre>
 </section>
 <section id="data-sampling" class="level2">
 <h2 class="anchored" data-anchor-id="data-sampling">4.10. Data Sampling</h2>
+<p>When developing views and queries against large databases, it may take a lot of time/compute to query against the entire database, making it slow to iterate. So we often want to work with a smaller subset of the data.</p>
+<p>Use cases:</p>
+<ul>
+<li>Query development</li>
+<li>Data analysis, estimates</li>
+</ul>
+<p>There are two sampling methods:</p>
+<ol type="1">
+<li>The <code>ROW</code> / <code>BERNOULLI</code> method (both keywords give identical results). The following command will sample 10% of rows. We can optionally add a <code>SEED(69)</code> argument to get reproducible results.</li>
+</ol>
+<pre><code>SELECT * FROM table
+SAMPLE ROW(10)
+SEED(69)</code></pre>
+<ol start="2" type="1">
+<li>The <code>BLOCK</code> / <code>SYSTEM</code> method</li>
+</ol>
+<pre><code>SELECT * FROM table
+SAMPLE BLOCK(10)
+SEED(69)</code></pre>
+<p>Comparison of row vs block sampling:</p>
+<table class="table">
+<colgroup>
+<col style="width: 35%">
+<col style="width: 64%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><code>ROW</code></th>
+<th><code>BLOCK</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Every <strong>row</strong> has probability <span class="math inline">\(p\)</span> of being chosen</td>
+<td>Every <strong>block</strong> (i.e.&nbsp;micro partition in block storage) has probability <span class="math inline">\(p\)</span> of being chosen</td>
+</tr>
+<tr class="even">
+<td>More randomness</td>
+<td>More efficient processing</td>
+</tr>
+<tr class="odd">
+<td>Better for smaller tables</td>
+<td>Better for larger tables</td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="tasks" class="level2">
 <h2 class="anchored" data-anchor-id="tasks">4.11. Tasks</h2>
+<p>Tasks are used to <strong>schedule</strong> the execution of SQL statements or stored procedures. The are <em>schema-level objects</em>, so can be cloned.</p>
+<p>They are often combined with <em>streams</em> to set up continuous ETL workflows.</p>
+<pre><code>CREATE TASK my_task
+    WAREHOUSE = my_wh
+    SCHEDULE = '15 MINUTE'
+    AS
+    INSERT INTO my_table(time_col) VALUES (CURRENT_TIMESTAMP);</code></pre>
+<p>If we omit the <code>WAREHOUSE</code> argument, the task will run using Snowflake-managed compute.</p>
+<p>The task is <strong>run</strong> using the privileges of the <strong>task owner</strong>.</p>
+<p>To create a new task we need the following privileges: <code>EXECUTE MANAGED TASK</code> on <strong>account</strong>, <code>CREATE TASK</code> on <strong>schema</strong> and <code>USAGE</code> on <strong>warehouse</strong>.</p>
+<p>To start/stop a task, we use the following commands. We always need to RESUME a task the first time we use it after creating it.</p>
+<pre><code>ALTER TASK my_task RESUME;
+ALTER TASK my_task SUSPEND;</code></pre>
+<p>As well as setting up individual tasks, we can set up a <strong>DAG</strong> of interconnected tasks. We specify the dependencies using the <code>AFTER</code> keyword. DAGs are limited to 1000 tasks in total and 100 child tasks for a single node.</p>
+<pre><code>CREATE TASK my_task_b
+    WAREHOUSE = my_wh
+    AFTER mytask_a
+    AS
+    ...</code></pre>
 </section>
 <section id="streams" class="level2">
 <h2 class="anchored" data-anchor-id="streams">4.12. Streams</h2>
+<p>A stream is an object which <em>records Data Manipulation Language (DML) changes made to a table</em>. This is <strong>change data capture</strong>. It is a schema-level object and can be cloned. The stream will be cloned when a database is cloned.</p>
+<p>If a stream is set up on a table, <strong>the stream will record any inserts, deletes, updates to the table</strong>. We can then query the stream to see what has changed.</p>
+<p>To <strong>create a stream</strong>:</p>
+<pre><code>CREATE STREAM my_stream
+ON TABLE my_table;</code></pre>
+<p>We can <strong>query from the stream</strong>. This will return any changed rows along with three metadata columns: <code>METADATA$ACTION</code>, <code>METADATA$ISUPDATE</code>, <code>METADATA$ROW_ID</code>.</p>
+<pre><code>SELECT * FROM my_stream;</code></pre>
+<p><strong>Consuming</strong> a stream means we query its contents and <strong>then empty it</strong>. This is a typical use case in ETL work flows where we want to monitor for deltas and update another table. We do this by inserting into a target table from the stream:</p>
+<pre><code>INSERT INTO target_table
+    SELECT col1, col2
+    FROM my_stream;</code></pre>
+<p>Three types of stream:</p>
+<ul>
+<li><strong>Standard</strong>: Insert, update, delete.</li>
+<li><strong>Append-only</strong>: Insert. Does <strong>not</strong> apply to external tables, only standard tables, directory tables, views.</li>
+<li><strong>Insert-only</strong>: Insert. Only applies to <em>external tables</em>.</li>
+</ul>
+<p>A stream becomes <strong>stale</strong> when the offset is outside the data retention period of the table, i.e.&nbsp;unconsumed records in the stream are lost.</p>
+<p>This determines how frequently a stream should be consumed. The <code>STALE_AFTER</code> column of <code>DESCRIBE STREAM</code> or <code>SHOW STREAMS</code> indicated when the stream is predicted to go stale.</p>
+<p>A stream <strong>extends the data retention period</strong> of the source table to 14 days by default. This is true for all snowflake editions. This is the <code>MAX_DATA_EXTENION_TIME_IN_DAYS</code> variable which defaults to 14 and can be increased to 90.</p>
+<p>To <strong>trigger a task when a stream has data</strong> using <code>WHEN SYSTEM$STREAM_HAS_DATA</code>. For example:</p>
+<pre><code>CREATE TASK my_task
+    WAREHOUSE = my_wh
+    SCHEDULE = '15 MINUTE'
+    WHEN SYSTEM$STREAM_HAS_DATA('my_stream')
+    AS
+    INSERT INTO my_table(time_col) VALUES (CURRENT_TIMESTAMP);</code></pre>
 </section>
 </section>
 <section id="snowflake-tools-and-connectors" class="level1">

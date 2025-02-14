@@ -1107,12 +1107,132 @@ We may want to use the cloud provider's event notification to set up an automati
 
 ## 4.10. Data Sampling
 
+When developing views and queries against large databases, it may take a lot of time/compute to query against the entire database, making it slow to iterate. 
+So we often want to work with a smaller subset of the data.
+
+
+Use cases:
+
+- Query development
+- Data analysis, estimates
+
+There are two sampling methods: 
+
+(1) The `ROW` / `BERNOULLI` method (both keywords give identical results). 
+The following command will sample 10% of rows. 
+We can optionally add a `SEED(69)` argument to get reproducible results.
+
+```
+SELECT * FROM table
+SAMPLE ROW(10)
+SEED(69)
+```
+
+(2) The `BLOCK` / `SYSTEM` method
+```
+SELECT * FROM table
+SAMPLE BLOCK(10)
+SEED(69)
+```
+
+Comparison of row vs block sampling:
+
+| `ROW`                                             | `BLOCK`                                                                                      |
+|---------------------------------------------------|----------------------------------------------------------------------------------------------|
+| Every **row** has probability $p$ of being chosen | Every  **block** (i.e. micro partition in block storage) has probability $p$ of being chosen |
+| More randomness                                   | More efficient processing                                                                    |
+| Better for smaller tables                         | Better for larger tables                                                                     |
+
 
 ## 4.11. Tasks
+
+Tasks are used to **schedule** the execution of SQL statements or stored procedures.
+The are *schema-level objects*, so can be cloned.
+
+They are often combined with *streams* to set up continuous ETL workflows.
+
+```
+CREATE TASK my_task
+    WAREHOUSE = my_wh
+    SCHEDULE = '15 MINUTE'
+    AS
+    INSERT INTO my_table(time_col) VALUES (CURRENT_TIMESTAMP);
+```
+
+If we omit the `WAREHOUSE` argument, the task will run using Snowflake-managed compute.
+
+The task is **run** using the privileges of the **task owner**.
+
+To create  a new task we need the following privileges: `EXECUTE MANAGED TASK` on **account**, `CREATE TASK` on **schema** and `USAGE` on **warehouse**.
+
+To start/stop a task, we use the following commands. We always need to RESUME a task the first time we use it after creating it.
+```
+ALTER TASK my_task RESUME;
+ALTER TASK my_task SUSPEND;
+```
+
+As well as setting up individual tasks, we can set up a **DAG** of interconnected tasks. We specify the dependencies using the `AFTER` keyword.
+DAGs are limited to 1000 tasks in total and 100 child tasks for a single node.
+```
+CREATE TASK my_task_b
+    WAREHOUSE = my_wh
+    AFTER mytask_a
+    AS
+    ...
+```
 
 
 ## 4.12. Streams
 
+A stream is an object which *records Data Manipulation Language (DML) changes made to a table*. This is **change data capture**.
+It is a schema-level object and can be cloned. The stream will be cloned when a database is cloned.
+
+If a stream is set up on a table, **the stream will record any inserts, deletes, updates to the table**. 
+We can then query the stream to see what has changed.
+
+To **create a stream**:
+```
+CREATE STREAM my_stream
+ON TABLE my_table;
+```
+
+We can **query from the stream**. This will return any changed rows along with three metadata columns: `METADATA$ACTION`, `METADATA$ISUPDATE`, `METADATA$ROW_ID`.
+```
+SELECT * FROM my_stream;
+```
+
+**Consuming** a stream means we query its contents and **then empty it**.
+This is a typical use case in ETL work flows where we want to monitor for deltas and update another table.
+We do this by inserting into a target table from the stream:
+```
+INSERT INTO target_table
+    SELECT col1, col2
+    FROM my_stream;
+```
+
+Three types of stream:
+
+- **Standard**: Insert, update, delete.
+- **Append-only**: Insert. Does **not** apply to external tables, only standard tables, directory tables, views.
+- **Insert-only**: Insert. Only applies to *external tables*.
+
+A stream becomes **stale** when the offset is outside the data retention period of the table, i.e. unconsumed records in the stream are lost.
+
+This determines how frequently a stream should be consumed.
+The `STALE_AFTER` column of `DESCRIBE STREAM` or `SHOW STREAMS` indicated when the stream is predicted to go stale.
+
+A stream **extends the data retention period** of the source table to 14 days by default. This is true for all snowflake editions.
+This is the `MAX_DATA_EXTENION_TIME_IN_DAYS` variable which defaults to 14 and can be increased to 90.
+
+To **trigger a task when a stream has data** using `WHEN SYSTEM$STREAM_HAS_DATA`. For example:
+```
+CREATE TASK my_task
+    WAREHOUSE = my_wh
+    SCHEDULE = '15 MINUTE'
+    WHEN SYSTEM$STREAM_HAS_DATA('my_stream')
+    AS
+    INSERT INTO my_table(time_col) VALUES (CURRENT_TIMESTAMP);
+```
 
 
 # 5. Snowflake Tools and Connectors
