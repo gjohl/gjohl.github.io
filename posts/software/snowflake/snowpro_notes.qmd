@@ -1618,6 +1618,335 @@ ALTER DATABASE my_db REFRESH;
 
 # 8. Account and Security
 
+## 8.1. Access Control
+
+There are two approaches to access control:
+
+1. Discretionary Access Control (DAC)
+    - Each object has an owner. That owner can grant access to the object. 
+2. Role-based Access Control (RBAC)
+    - **Privileges** are assigned to **objects**. Those privileges can be granted to **roles**. These roles can be assigned to **users**. 
+
+We do not assign privileges directly to users. 
+
+```{mermaid}
+flowchart LR
+
+A(Object) --> B(Privilege) --> C(Role) --> D(User)
+```
+
+
+Key concepts:
+
+- **Securable object**: An object that access can be granted to. Access is denied unless explicitly granted. 
+- **Privilege**: A defined level of access.
+- **Role**: The entity to which privileges are granted. Roles can be assigned to users or other roles. We can create a *hierarchy of roles*. 
+- **User**: The identity associated with a person or program. 
+
+We can `GRANT` privileges to a role:
+```
+GRANT my_privilege
+ON my_object 
+TO my_role
+```
+
+And `GRANT` a role to a user.
+```
+GRANT my_role
+TO user_id
+```
+
+We can also grant access to **all** tables in a schema:
+```
+GRANT SELECT
+ON ALL TABLES IN SCHEMA MARKETING_SALES
+TO ROLE MARKETING_ADMIN
+```
+
+And also all *future* tables too:
+```
+GRANT SELECT
+ON FUTURE TABLES IN SCHEMA MARKETING_SALES
+TO ROLE MARKETING_ADMIN
+```
+
+We can `REVOKE` privileges in the same way:
+```
+REVOKE privilege
+ON object
+FROM role
+```
+
+
+## 8.2. Roles
+A role is an **entity that we assign privileges to**. 
+
+Roles are then assigned to users. Multiple roles can be assigned to each user. 
+
+We need to **grant access to all parent objects**. 
+So if we want to grant SELECT access to a table, we also need to grant USAGE access to the parent schema and database. 
+
+Every object is **owned by one single role**. Ownership can be transferred. 
+
+The `SHOW ROLES` command shows all available roles. 
+
+There is a "current role" used in every session. 
+`USE ROLE` can be used in Snowflake worksheets or tasks. 
+
+
+### 8.2.1. System-Defined Roles 
+These roles can’t be dropped.
+Additional privileges can be added to the roles, but not revoked. 
+
+The roles inherit from parent roles in the hierarchy.
+
+It is best practice for **custom roles to inherit from the SYSADMIN role**. 
+
+
+- `ORGADMIN` 
+    - Manage actions at the organisation level.
+    - Create and view accounts. 
+- `ACCOUNTADMIN`
+    - Top-level in hierarchy. 
+    - Should only be grant to a limited number of users as it is the **most powerful**. It can **manage all objects** in the account. 
+    - We can create reader accounts and shares. Modify account level parameters including billing and resource monitors. 
+    - Contains SECURITYADMIN AND SYSADMIN roles. 
+- `SECURITYADMIN` 
+    - Manage any object grants *globally*. 
+    - `MANAGE GRANTS` privilege. 
+    - Create, monitor and manage users and roles. 
+    - Inherits from USERADMIN. The difference with USERADMIN is SECURITYADMIN can manage grants GLOBALLY. 
+- `SYSADMIN` 
+    - Manages objects - it can create warehouses, databases and other objects. 
+    - **All custom roles should be assigned to SYSADMIN** so that *SYSADMIN always remains a superset of all other roles* and can manage any object by them. 
+- `USERADMIN` 
+    - For user and role management. 
+    - `CREATE USER` and `CREATE ROLE` privileges. 
+- `PUBLIC` 
+    - Automatically granted by default. 
+    - Granted when no access control is needed. Objects can be owned but are **available to everyone**. 
+- `CUSTOM` 
+    - Can be created by USERADMIN or higher. 
+    - CREATE ROLE privilege. Should be assigned to SYSADMIN so that they can still manage all objects created by the custom role. Custom roles can be created by the database owner. 
+
+
+### 8.2.2. Hierarchy of Roles
+There is a **hierarchy of roles**. 
+```{mermaid}
+flowchart BT
+
+F(PUBLIC) --> E(USERADMIN) --> D(SECURITYADMIN) --> A(ACCOUNTADMIN)
+C1(Custom Role 1) --> B(SYSADMIN) --> A(ACCOUNTADMIN) 
+C3(Custom Role 3) --> C2(Custom Role 2) --> B(SYSADMIN)
+```
+
+This is similar to the hierarchy of *objects* that we’ve seen before. 
+
+
+## 8.3. Privileges 
+
+Privileges define **granular level of access to an object**. 
+
+We can `GRANT` and `REVOKE` privileges. The owner of an object can manage its privileges. The `SECURITYADMIN` role has the **global** `MANAGE GRANTS` privilege, so can manage privileges on **any** object. 
+
+We can see all privileges in the Snowflake docs. 
+
+Some of the important ones below. 
+
+Global privileges:
+
+- CREATE SHARE
+- IMPORT SHARE
+- APPLY MASKING POLICY
+
+Virtual warehouse:
+
+- MODIFY - E.g. resizing
+- MONITOR - View executed queries 
+- OPERATE - Suspend or resume
+- USAGE - Use the warehouse to execute queries 
+- OWNERSHIP - Full control over the warehouse. Only one role can be an owner. 
+- ALL - All privileges *except ownership*
+
+
+Databases:
+
+- MODIFY - `ALTER` properties of the database 
+- MONITOR - Use the `DESCRIBE` command
+- USAGE - Query the database and execute `SHOW DATABASES` command
+- REFERENCE_USAGE - Use an object (usually secured view) to reference another object in a different database 
+- OWNERSHIP - Full control
+- ALL - Everything except ownership 
+- CREATE SCHEMA
+
+Stages:
+
+- READ - Only for **internal** stages. Use GET, LIST, COPY INTO commands
+- WRITE - Only for **internal** stages. Use PUT, REMOVE, COPY INTO commands
+- USAGE - Only for **external** stages. Equivalent of read and write. 
+- ALL
+- OWNERSHIP
+
+Tables:
+
+- SELECT
+- INSERT
+- UPDATE
+- DELETE
+- TRUNCATED
+- DELETE
+- ALL
+- OWNERSHIP
+
+
+We can see the grants of a role with:
+```
+SHOW GRANTS TO ROLE MARKETING_ADMIN
+```
+
+We can see which users are assigned to a role with
+```
+SHOW GRANTS OF ROLE MARKETING_ADMIN
+```
+
+## 8.4. Authentication 
+Authentication is **proving that you are who you say you are**. 
+
+Snowflake uses **Multi-Factor Authentication (MFA)**. 
+This is powered by Duo, managed by Snowflake. 
+MFA is available for all Snowflake editions and is supported by all Snowflake interfaces: web UI, SnowSQL, ODBC and JDBC, Python connectors. 
+
+Enabled by default for accounts but **requires users to enroll**. Strongly recommended to use MFA for `ACCOUNTADMIN`.
+
+The `SECURITYADMIN` or `ACCOUNTADMIN` roles can disable MFA for a user. 
+
+We can enable MFA *token caching* to reduce the number of prompts. This needs to be enabled; it isn’t by default. 
+It makes the MFA token valid for 4 hours. 
+Available for ODBC driver, JDBC driver and Python connector. 
+
+
+## 8.5. SSO
+
+Federated authentication enables users to login via Single Sign-On (SSO). 
+
+The federated environment has two components:
+
+1. **Service provider**: Snowflake
+2. **External identity provider**: Maintains credentials and authenticates users. Native support for Okta and Microsoft AD FS. Most SAML 2.0 compliant vendors are supported. 
+
+Workflow for Snowflake-initiated login:
+
+1. User navigates to web UI
+2. Choose login via configured Identity Provider (IdP)
+3. Authenticate via IdP credentials 
+4. IdP sends a SAML response to Snowflake
+5. Snowflake opens a new session
+
+Workflow for IdP-initiated login:
+
+1. User navigates to IdP
+2. Authenticate via IdP credentials 
+3. Select Snowflake as an application 
+4. IdP sends a SAML response to Snowflake
+5. Snowflake opens a new session
+
+IdP has SCIM support. This is an open standard for automating user provisioning. 
+We can create a user in the IdP and this provisions the user in Snowflake. 
+
+
+## 8.6. Key-Pair Authentication 
+
+Enhanced security as an alternative to basic username and password. 
+
+**User has a public key and a private key**. This is the key-pair. 
+Minimum key size is 2048-bit RSA key-pair. 
+
+Setting this up:
+
+1. Generate private key
+2. Generate public key
+3. Store keys locally
+4. Assign public key to user. See command below. 
+5. Configure client to use key-pair authentication 
+
+We can set the public key for a user with:
+```
+ALTER USER my_user SET
+RSA_PUBLIC_KEY 'Fuak_shakfjsb';
+```
+
+## 8.7. Column-level Security
+
+Column-level security **masks data in tables and views** enforced on columns. 
+
+This is an *enterprise edition* feature. 
+
+
+### 8.7.1. Dynamic Data Masking
+
+With “dynamic data masking” the unmasked data is stored in the database, then depending on the role querying the data it is **masked at runtime**. 
+
+We can **define a masking policy** with:
+```
+CREATE MASKING POLICY my_policy
+AS (col1 varchar) RETURNS varchar ->
+    CASE
+    WHEN CURRENT ROLE IN (role_name)
+    THEN col1
+    ELSE “##-##”
+    END;
+```
+
+We **apply a masking policy** with:
+```
+ALTER TABLE my_table MODIFY COLUMN phone;
+```
+
+We can **remove the policy** with:
+```
+UNSET MASKING POLICY my_policy;
+```
+
+
+## 8.8. External Tokenisation 
+Data is tokenised. 
+
+The benefit is the **analytical value is preserved**; we can still group the data and draw conclusions, it’s just **anonymised**. Sensitive data is protected. 
+
+The tokenisation happens in a pre-load step and the *detokenisation happens at query runtime*. 
+
+
+## 8.9. Row-level Security
+Row access policies allow us to determine **which rows are visible to which users**.
+
+This is only available in the *enterprise edition*. 
+
+Rows are **filtered at runtime** on a given condition *based on user or role*.
+
+**Define the policy** with:
+```
+CREATE ROW ACCESS POLICY my_policy
+AS (col1 varchar) returns Boolean ->
+	CASE
+	WHEN current_role() = 'EXAMPLE_ROLE'
+	AND col1 = 'value1' THEN true
+	ELSE false
+	END;
+```
+
+**Apply the policy** with:
+```
+ALTER TABLE my_table ADD ROW POLICY my_policy
+ON (col1);
+```
+
+
+## 8.10. Network Policies
+
+
+## 8.11. Data Encryption
+
+
 
 # 9. Performance Concepts
 

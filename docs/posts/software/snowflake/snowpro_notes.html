@@ -326,7 +326,27 @@ window.Quarto = {
   </ul></li>
   <li><a href="#database-replication" id="toc-database-replication" class="nav-link" data-scroll-target="#database-replication">7.4. Database Replication</a></li>
   </ul></li>
-  <li><a href="#account-and-security" id="toc-account-and-security" class="nav-link" data-scroll-target="#account-and-security">8. Account and Security</a></li>
+  <li><a href="#account-and-security" id="toc-account-and-security" class="nav-link" data-scroll-target="#account-and-security">8. Account and Security</a>
+  <ul class="collapse">
+  <li><a href="#access-control" id="toc-access-control" class="nav-link" data-scroll-target="#access-control">8.1. Access Control</a></li>
+  <li><a href="#roles" id="toc-roles" class="nav-link" data-scroll-target="#roles">8.2. Roles</a>
+  <ul class="collapse">
+  <li><a href="#system-defined-roles" id="toc-system-defined-roles" class="nav-link" data-scroll-target="#system-defined-roles">8.2.1. System-Defined Roles</a></li>
+  <li><a href="#hierarchy-of-roles" id="toc-hierarchy-of-roles" class="nav-link" data-scroll-target="#hierarchy-of-roles">8.2.2. Hierarchy of Roles</a></li>
+  </ul></li>
+  <li><a href="#privileges-1" id="toc-privileges-1" class="nav-link" data-scroll-target="#privileges-1">8.3. Privileges</a></li>
+  <li><a href="#authentication" id="toc-authentication" class="nav-link" data-scroll-target="#authentication">8.4. Authentication</a></li>
+  <li><a href="#sso" id="toc-sso" class="nav-link" data-scroll-target="#sso">8.5. SSO</a></li>
+  <li><a href="#key-pair-authentication" id="toc-key-pair-authentication" class="nav-link" data-scroll-target="#key-pair-authentication">8.6. Key-Pair Authentication</a></li>
+  <li><a href="#column-level-security" id="toc-column-level-security" class="nav-link" data-scroll-target="#column-level-security">8.7. Column-level Security</a>
+  <ul class="collapse">
+  <li><a href="#dynamic-data-masking" id="toc-dynamic-data-masking" class="nav-link" data-scroll-target="#dynamic-data-masking">8.7.1. Dynamic Data Masking</a></li>
+  </ul></li>
+  <li><a href="#external-tokenisation" id="toc-external-tokenisation" class="nav-link" data-scroll-target="#external-tokenisation">8.8. External Tokenisation</a></li>
+  <li><a href="#row-level-security" id="toc-row-level-security" class="nav-link" data-scroll-target="#row-level-security">8.9. Row-level Security</a></li>
+  <li><a href="#network-policies" id="toc-network-policies" class="nav-link" data-scroll-target="#network-policies">8.10. Network Policies</a></li>
+  <li><a href="#data-encryption" id="toc-data-encryption" class="nav-link" data-scroll-target="#data-encryption">8.11. Data Encryption</a></li>
+  </ul></li>
   <li><a href="#performance-concepts" id="toc-performance-concepts" class="nav-link" data-scroll-target="#performance-concepts">9. Performance Concepts</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
@@ -1694,6 +1714,293 @@ SHARE_RESTRICTIONS = false;</code></pre>
 </section>
 <section id="account-and-security" class="level1">
 <h1>8. Account and Security</h1>
+<section id="access-control" class="level2">
+<h2 class="anchored" data-anchor-id="access-control">8.1. Access Control</h2>
+<p>There are two approaches to access control:</p>
+<ol type="1">
+<li>Discretionary Access Control (DAC)
+<ul>
+<li>Each object has an owner. That owner can grant access to the object.</li>
+</ul></li>
+<li>Role-based Access Control (RBAC)
+<ul>
+<li><strong>Privileges</strong> are assigned to <strong>objects</strong>. Those privileges can be granted to <strong>roles</strong>. These roles can be assigned to <strong>users</strong>.</li>
+</ul></li>
+</ol>
+<p>We do not assign privileges directly to users.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+
+A(Object) --&gt; B(Privilege) --&gt; C(Role) --&gt; D(User)
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>Key concepts:</p>
+<ul>
+<li><strong>Securable object</strong>: An object that access can be granted to. Access is denied unless explicitly granted.</li>
+<li><strong>Privilege</strong>: A defined level of access.</li>
+<li><strong>Role</strong>: The entity to which privileges are granted. Roles can be assigned to users or other roles. We can create a <em>hierarchy of roles</em>.</li>
+<li><strong>User</strong>: The identity associated with a person or program.</li>
+</ul>
+<p>We can <code>GRANT</code> privileges to a role:</p>
+<pre><code>GRANT my_privilege
+ON my_object 
+TO my_role</code></pre>
+<p>And <code>GRANT</code> a role to a user.</p>
+<pre><code>GRANT my_role
+TO user_id</code></pre>
+<p>We can also grant access to <strong>all</strong> tables in a schema:</p>
+<pre><code>GRANT SELECT
+ON ALL TABLES IN SCHEMA MARKETING_SALES
+TO ROLE MARKETING_ADMIN</code></pre>
+<p>And also all <em>future</em> tables too:</p>
+<pre><code>GRANT SELECT
+ON FUTURE TABLES IN SCHEMA MARKETING_SALES
+TO ROLE MARKETING_ADMIN</code></pre>
+<p>We can <code>REVOKE</code> privileges in the same way:</p>
+<pre><code>REVOKE privilege
+ON object
+FROM role</code></pre>
+</section>
+<section id="roles" class="level2">
+<h2 class="anchored" data-anchor-id="roles">8.2. Roles</h2>
+<p>A role is an <strong>entity that we assign privileges to</strong>.</p>
+<p>Roles are then assigned to users. Multiple roles can be assigned to each user.</p>
+<p>We need to <strong>grant access to all parent objects</strong>. So if we want to grant SELECT access to a table, we also need to grant USAGE access to the parent schema and database.</p>
+<p>Every object is <strong>owned by one single role</strong>. Ownership can be transferred.</p>
+<p>The <code>SHOW ROLES</code> command shows all available roles.</p>
+<p>There is a “current role” used in every session. <code>USE ROLE</code> can be used in Snowflake worksheets or tasks.</p>
+<section id="system-defined-roles" class="level3">
+<h3 class="anchored" data-anchor-id="system-defined-roles">8.2.1. System-Defined Roles</h3>
+<p>These roles can’t be dropped. Additional privileges can be added to the roles, but not revoked.</p>
+<p>The roles inherit from parent roles in the hierarchy.</p>
+<p>It is best practice for <strong>custom roles to inherit from the SYSADMIN role</strong>.</p>
+<ul>
+<li><code>ORGADMIN</code>
+<ul>
+<li>Manage actions at the organisation level.</li>
+<li>Create and view accounts.</li>
+</ul></li>
+<li><code>ACCOUNTADMIN</code>
+<ul>
+<li>Top-level in hierarchy.</li>
+<li>Should only be grant to a limited number of users as it is the <strong>most powerful</strong>. It can <strong>manage all objects</strong> in the account.</li>
+<li>We can create reader accounts and shares. Modify account level parameters including billing and resource monitors.</li>
+<li>Contains SECURITYADMIN AND SYSADMIN roles.</li>
+</ul></li>
+<li><code>SECURITYADMIN</code>
+<ul>
+<li>Manage any object grants <em>globally</em>.</li>
+<li><code>MANAGE GRANTS</code> privilege.</li>
+<li>Create, monitor and manage users and roles.</li>
+<li>Inherits from USERADMIN. The difference with USERADMIN is SECURITYADMIN can manage grants GLOBALLY.</li>
+</ul></li>
+<li><code>SYSADMIN</code>
+<ul>
+<li>Manages objects - it can create warehouses, databases and other objects.</li>
+<li><strong>All custom roles should be assigned to SYSADMIN</strong> so that <em>SYSADMIN always remains a superset of all other roles</em> and can manage any object by them.</li>
+</ul></li>
+<li><code>USERADMIN</code>
+<ul>
+<li>For user and role management.</li>
+<li><code>CREATE USER</code> and <code>CREATE ROLE</code> privileges.</li>
+</ul></li>
+<li><code>PUBLIC</code>
+<ul>
+<li>Automatically granted by default.</li>
+<li>Granted when no access control is needed. Objects can be owned but are <strong>available to everyone</strong>.</li>
+</ul></li>
+<li><code>CUSTOM</code>
+<ul>
+<li>Can be created by USERADMIN or higher.</li>
+<li>CREATE ROLE privilege. Should be assigned to SYSADMIN so that they can still manage all objects created by the custom role. Custom roles can be created by the database owner.</li>
+</ul></li>
+</ul>
+</section>
+<section id="hierarchy-of-roles" class="level3">
+<h3 class="anchored" data-anchor-id="hierarchy-of-roles">8.2.2. Hierarchy of Roles</h3>
+<p>There is a <strong>hierarchy of roles</strong>.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart BT
+
+F(PUBLIC) --&gt; E(USERADMIN) --&gt; D(SECURITYADMIN) --&gt; A(ACCOUNTADMIN)
+C1(Custom Role 1) --&gt; B(SYSADMIN) --&gt; A(ACCOUNTADMIN) 
+C3(Custom Role 3) --&gt; C2(Custom Role 2) --&gt; B(SYSADMIN)
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>This is similar to the hierarchy of <em>objects</em> that we’ve seen before.</p>
+</section>
+</section>
+<section id="privileges-1" class="level2">
+<h2 class="anchored" data-anchor-id="privileges-1">8.3. Privileges</h2>
+<p>Privileges define <strong>granular level of access to an object</strong>.</p>
+<p>We can <code>GRANT</code> and <code>REVOKE</code> privileges. The owner of an object can manage its privileges. The <code>SECURITYADMIN</code> role has the <strong>global</strong> <code>MANAGE GRANTS</code> privilege, so can manage privileges on <strong>any</strong> object.</p>
+<p>We can see all privileges in the Snowflake docs.</p>
+<p>Some of the important ones below.</p>
+<p>Global privileges:</p>
+<ul>
+<li>CREATE SHARE</li>
+<li>IMPORT SHARE</li>
+<li>APPLY MASKING POLICY</li>
+</ul>
+<p>Virtual warehouse:</p>
+<ul>
+<li>MODIFY - E.g. resizing</li>
+<li>MONITOR - View executed queries</li>
+<li>OPERATE - Suspend or resume</li>
+<li>USAGE - Use the warehouse to execute queries</li>
+<li>OWNERSHIP - Full control over the warehouse. Only one role can be an owner.</li>
+<li>ALL - All privileges <em>except ownership</em></li>
+</ul>
+<p>Databases:</p>
+<ul>
+<li>MODIFY - <code>ALTER</code> properties of the database</li>
+<li>MONITOR - Use the <code>DESCRIBE</code> command</li>
+<li>USAGE - Query the database and execute <code>SHOW DATABASES</code> command</li>
+<li>REFERENCE_USAGE - Use an object (usually secured view) to reference another object in a different database</li>
+<li>OWNERSHIP - Full control</li>
+<li>ALL - Everything except ownership</li>
+<li>CREATE SCHEMA</li>
+</ul>
+<p>Stages:</p>
+<ul>
+<li>READ - Only for <strong>internal</strong> stages. Use GET, LIST, COPY INTO commands</li>
+<li>WRITE - Only for <strong>internal</strong> stages. Use PUT, REMOVE, COPY INTO commands</li>
+<li>USAGE - Only for <strong>external</strong> stages. Equivalent of read and write.</li>
+<li>ALL</li>
+<li>OWNERSHIP</li>
+</ul>
+<p>Tables:</p>
+<ul>
+<li>SELECT</li>
+<li>INSERT</li>
+<li>UPDATE</li>
+<li>DELETE</li>
+<li>TRUNCATED</li>
+<li>DELETE</li>
+<li>ALL</li>
+<li>OWNERSHIP</li>
+</ul>
+<p>We can see the grants of a role with:</p>
+<pre><code>SHOW GRANTS TO ROLE MARKETING_ADMIN</code></pre>
+<p>We can see which users are assigned to a role with</p>
+<pre><code>SHOW GRANTS OF ROLE MARKETING_ADMIN</code></pre>
+</section>
+<section id="authentication" class="level2">
+<h2 class="anchored" data-anchor-id="authentication">8.4. Authentication</h2>
+<p>Authentication is <strong>proving that you are who you say you are</strong>.</p>
+<p>Snowflake uses <strong>Multi-Factor Authentication (MFA)</strong>. This is powered by Duo, managed by Snowflake. MFA is available for all Snowflake editions and is supported by all Snowflake interfaces: web UI, SnowSQL, ODBC and JDBC, Python connectors.</p>
+<p>Enabled by default for accounts but <strong>requires users to enroll</strong>. Strongly recommended to use MFA for <code>ACCOUNTADMIN</code>.</p>
+<p>The <code>SECURITYADMIN</code> or <code>ACCOUNTADMIN</code> roles can disable MFA for a user.</p>
+<p>We can enable MFA <em>token caching</em> to reduce the number of prompts. This needs to be enabled; it isn’t by default. It makes the MFA token valid for 4 hours. Available for ODBC driver, JDBC driver and Python connector.</p>
+</section>
+<section id="sso" class="level2">
+<h2 class="anchored" data-anchor-id="sso">8.5. SSO</h2>
+<p>Federated authentication enables users to login via Single Sign-On (SSO).</p>
+<p>The federated environment has two components:</p>
+<ol type="1">
+<li><strong>Service provider</strong>: Snowflake</li>
+<li><strong>External identity provider</strong>: Maintains credentials and authenticates users. Native support for Okta and Microsoft AD FS. Most SAML 2.0 compliant vendors are supported.</li>
+</ol>
+<p>Workflow for Snowflake-initiated login:</p>
+<ol type="1">
+<li>User navigates to web UI</li>
+<li>Choose login via configured Identity Provider (IdP)</li>
+<li>Authenticate via IdP credentials</li>
+<li>IdP sends a SAML response to Snowflake</li>
+<li>Snowflake opens a new session</li>
+</ol>
+<p>Workflow for IdP-initiated login:</p>
+<ol type="1">
+<li>User navigates to IdP</li>
+<li>Authenticate via IdP credentials</li>
+<li>Select Snowflake as an application</li>
+<li>IdP sends a SAML response to Snowflake</li>
+<li>Snowflake opens a new session</li>
+</ol>
+<p>IdP has SCIM support. This is an open standard for automating user provisioning. We can create a user in the IdP and this provisions the user in Snowflake.</p>
+</section>
+<section id="key-pair-authentication" class="level2">
+<h2 class="anchored" data-anchor-id="key-pair-authentication">8.6. Key-Pair Authentication</h2>
+<p>Enhanced security as an alternative to basic username and password.</p>
+<p><strong>User has a public key and a private key</strong>. This is the key-pair. Minimum key size is 2048-bit RSA key-pair.</p>
+<p>Setting this up:</p>
+<ol type="1">
+<li>Generate private key</li>
+<li>Generate public key</li>
+<li>Store keys locally</li>
+<li>Assign public key to user. See command below.</li>
+<li>Configure client to use key-pair authentication</li>
+</ol>
+<p>We can set the public key for a user with:</p>
+<pre><code>ALTER USER my_user SET
+RSA_PUBLIC_KEY 'Fuak_shakfjsb';</code></pre>
+</section>
+<section id="column-level-security" class="level2">
+<h2 class="anchored" data-anchor-id="column-level-security">8.7. Column-level Security</h2>
+<p>Column-level security <strong>masks data in tables and views</strong> enforced on columns.</p>
+<p>This is an <em>enterprise edition</em> feature.</p>
+<section id="dynamic-data-masking" class="level3">
+<h3 class="anchored" data-anchor-id="dynamic-data-masking">8.7.1. Dynamic Data Masking</h3>
+<p>With “dynamic data masking” the unmasked data is stored in the database, then depending on the role querying the data it is <strong>masked at runtime</strong>.</p>
+<p>We can <strong>define a masking policy</strong> with:</p>
+<pre><code>CREATE MASKING POLICY my_policy
+AS (col1 varchar) RETURNS varchar -&gt;
+    CASE
+    WHEN CURRENT ROLE IN (role_name)
+    THEN col1
+    ELSE “##-##”
+    END;</code></pre>
+<p>We <strong>apply a masking policy</strong> with:</p>
+<pre><code>ALTER TABLE my_table MODIFY COLUMN phone;</code></pre>
+<p>We can <strong>remove the policy</strong> with:</p>
+<pre><code>UNSET MASKING POLICY my_policy;</code></pre>
+</section>
+</section>
+<section id="external-tokenisation" class="level2">
+<h2 class="anchored" data-anchor-id="external-tokenisation">8.8. External Tokenisation</h2>
+<p>Data is tokenised.</p>
+<p>The benefit is the <strong>analytical value is preserved</strong>; we can still group the data and draw conclusions, it’s just <strong>anonymised</strong>. Sensitive data is protected.</p>
+<p>The tokenisation happens in a pre-load step and the <em>detokenisation happens at query runtime</em>.</p>
+</section>
+<section id="row-level-security" class="level2">
+<h2 class="anchored" data-anchor-id="row-level-security">8.9. Row-level Security</h2>
+<p>Row access policies allow us to determine <strong>which rows are visible to which users</strong>.</p>
+<p>This is only available in the <em>enterprise edition</em>.</p>
+<p>Rows are <strong>filtered at runtime</strong> on a given condition <em>based on user or role</em>.</p>
+<p><strong>Define the policy</strong> with:</p>
+<pre><code>CREATE ROW ACCESS POLICY my_policy
+AS (col1 varchar) returns Boolean -&gt;
+    CASE
+    WHEN current_role() = 'EXAMPLE_ROLE'
+    AND col1 = 'value1' THEN true
+    ELSE false
+    END;</code></pre>
+<p><strong>Apply the policy</strong> with:</p>
+<pre><code>ALTER TABLE my_table ADD ROW POLICY my_policy
+ON (col1);</code></pre>
+</section>
+<section id="network-policies" class="level2">
+<h2 class="anchored" data-anchor-id="network-policies">8.10. Network Policies</h2>
+</section>
+<section id="data-encryption" class="level2">
+<h2 class="anchored" data-anchor-id="data-encryption">8.11. Data Encryption</h2>
+</section>
 </section>
 <section id="performance-concepts" class="level1">
 <h1>9. Performance Concepts</h1>
