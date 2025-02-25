@@ -1159,7 +1159,7 @@
     "href": "posts/software/snowflake/snowpro_notes.html",
     "title": "Snowflake: SnowPro Core",
     "section": "",
-    "text": "The Snowsight interface is the GUI through which we interact with Snowflake.\nWhen querying a Snowflake table, a fully qualified table name means database_name + schema_name + table_name. For example, “DERIVED_DB.PUBLIC.TRADES_DATA”\nWorksheets are associated with a role.\nA warehouse is needed for compute to execute a query.\nSnowflake is a “self-managed cloud data platform”. It is cloud only. No on premise option.\n“Self-managed” service means:\n\nNo hardware\nNo software\nNo maintenance\n\n“Data platform” means it can function as:\n\nData warehouse\nData lake - mix of structured and semi structured data\nData science - use your preferred language via Snowpark"
+    "text": "The Snowsight interface is the GUI through which we interact with Snowflake.\nWhen querying a Snowflake table, a fully qualified table name means database_name + schema_name + table_name. For example, “DERIVED_DB.PUBLIC.TRADES_DATA”\nWorksheets are associated with a role.\nA warehouse is needed for compute to execute a query.\nSnowflake is a “self-managed cloud data platform”. It is cloud only. No on-premise option.\n“Self-managed” service means:\n\nNo hardware\nNo software\nNo maintenance\n\n“Data platform” means it can function as:\n\nData warehouse\nData lake - mix of structured and semi structured data\nData science - use your preferred language via Snowpark"
   },
   {
     "objectID": "posts/software/snowflake/snowpro_notes.html#multi-cluster-shared-disk",
@@ -1180,7 +1180,7 @@
     "href": "posts/software/snowflake/snowpro_notes.html#loading-data-into-snowflake",
     "title": "Snowflake: SnowPro Core",
     "section": "2.3. Loading Data into Snowflake",
-    "text": "2.3. Loading Data into Snowflake\nThis is covered more extensivelyt in its own section, but this sub-section serves as a brief introduction.\nThe usual SQL commands can be used to create databases and tables.\nCREATE DATABASE myfirstdb\nALTER DATABASE myfirstdb RENAME firstdb\nCREATE TABLE loan_payments (\n    col1 string,\n    col2 string,\n);\nWe can specify a database to use with the USE DATABASE command to switch the active database. This avoids having to use the fully qualified table name everywhere.\nUSE DATABASE firstdb\n\nCOPY INTO loan_payments\nFROM s3/… -- The URL to copy from\nfile_format = (delimiter = “,”,\n               skip rows=1,\n               type=csv);"
+    "text": "2.3. Loading Data into Snowflake\nThis is covered more extensively in its own section, but this sub-section serves as a brief introduction.\nThe usual SQL commands can be used to create databases and tables.\nCREATE DATABASE myfirstdb\nALTER DATABASE myfirstdb RENAME firstdb\nCREATE TABLE loan_payments (\n    col1 string,\n    col2 string,\n);\nWe can specify a database to use with the USE DATABASE command to switch the active database. This avoids having to use the fully qualified table name everywhere.\nUSE DATABASE firstdb\n\nCOPY INTO loan_payments\nFROM s3/… -- The URL to copy from\nfile_format = (delimiter = “,”,\n               skip rows=1,\n               type=csv);"
   },
   {
     "objectID": "posts/software/snowflake/snowpro_notes.html#snowflake-editions",
@@ -1475,6 +1475,111 @@
     "title": "Snowflake: SnowPro Core",
     "section": "7.4. Database Replication",
     "text": "7.4. Database Replication\nData shares are only possible within the same region and the same cloud provider.\nDatabase replication allows us to share data across different regions or on different cloud providers. It replicates a database between accounts within the same organisation. Also called “cross-region sharing”. This is available at all price tiers.\nThis incurs data transfer costs because it does actually copy the data across to a different location. The data and objects therefore need to be synchronised periodically.\nThe provider is referred to as the primary database and the consumer is the secondary database or a read-only replica.\nTo set up database replication we need to:\n\nEnable this at the account level with the ORGADMIN role.\n\nSELECT system$global_account_set_parameter(org_name.account_name), 'ENABLE_ACCOUNT_DATABASSE_REPLICATION', 'true');\n\nPromote a local database to primary database with ACCOUNTADMIN role.\n\nALTER DATABASE my_db ENABLE REPLICATION TO ACCOUNTS myorg.account2, myorg.account3;\n\nCreate a replica in the consumer account.\n\nCREATE DATABASE my_db AS REPLICA OF myorg.account1.my_db\n\nRefresh the database periodically. Ownership privileges are needed. We may want to set up a task to run this periodically.\n\nALTER DATABASE my_db REFRESH;"
+  },
+  {
+    "objectID": "posts/software/snowflake/snowpro_notes.html#access-control",
+    "href": "posts/software/snowflake/snowpro_notes.html#access-control",
+    "title": "Snowflake: SnowPro Core",
+    "section": "8.1. Access Control",
+    "text": "8.1. Access Control\nThere are two approaches to access control:\n\nDiscretionary Access Control (DAC)\n\nEach object has an owner. That owner can grant access to the object.\n\nRole-based Access Control (RBAC)\n\nPrivileges are assigned to objects. Those privileges can be granted to roles. These roles can be assigned to users.\n\n\nWe do not assign privileges directly to users.\n\n\n\n\n\nflowchart LR\n\nA(Object) --&gt; B(Privilege) --&gt; C(Role) --&gt; D(User)\n\n\n\n\n\n\nKey concepts:\n\nSecurable object: An object that access can be granted to. Access is denied unless explicitly granted.\nPrivilege: A defined level of access.\nRole: The entity to which privileges are granted. Roles can be assigned to users or other roles. We can create a hierarchy of roles.\nUser: The identity associated with a person or program.\n\nWe can GRANT privileges to a role:\nGRANT my_privilege\nON my_object \nTO my_role\nAnd GRANT a role to a user.\nGRANT my_role\nTO user_id\nWe can also grant access to all tables in a schema:\nGRANT SELECT\nON ALL TABLES IN SCHEMA MARKETING_SALES\nTO ROLE MARKETING_ADMIN\nAnd also all future tables too:\nGRANT SELECT\nON FUTURE TABLES IN SCHEMA MARKETING_SALES\nTO ROLE MARKETING_ADMIN\nWe can REVOKE privileges in the same way:\nREVOKE privilege\nON object\nFROM role"
+  },
+  {
+    "objectID": "posts/software/snowflake/snowpro_notes.html#roles",
+    "href": "posts/software/snowflake/snowpro_notes.html#roles",
+    "title": "Snowflake: SnowPro Core",
+    "section": "8.2. Roles",
+    "text": "8.2. Roles\nA role is an entity that we assign privileges to.\nRoles are then assigned to users. Multiple roles can be assigned to each user.\nWe need to grant access to all parent objects. So if we want to grant SELECT access to a table, we also need to grant USAGE access to the parent schema and database.\nEvery object is owned by one single role. Ownership can be transferred.\nThe SHOW ROLES command shows all available roles.\nThere is a “current role” used in every session. USE ROLE can be used in Snowflake worksheets or tasks.\n\n8.2.1. System-Defined Roles\nThese roles can’t be dropped. Additional privileges can be added to the roles, but not revoked.\nThe roles inherit from parent roles in the hierarchy.\nIt is best practice for custom roles to inherit from the SYSADMIN role.\n\nORGADMIN\n\nManage actions at the organisation level.\nCreate and view accounts.\n\nACCOUNTADMIN\n\nTop-level in hierarchy.\nShould only be grant to a limited number of users as it is the most powerful. It can manage all objects in the account.\nWe can create reader accounts and shares. Modify account level parameters including billing and resource monitors.\nContains SECURITYADMIN AND SYSADMIN roles.\n\nSECURITYADMIN\n\nManage any object grants globally.\nMANAGE GRANTS privilege.\nCreate, monitor and manage users and roles.\nInherits from USERADMIN. The difference with USERADMIN is SECURITYADMIN can manage grants GLOBALLY.\n\nSYSADMIN\n\nManages objects - it can create warehouses, databases and other objects.\nAll custom roles should be assigned to SYSADMIN so that SYSADMIN always remains a superset of all other roles and can manage any object by them.\n\nUSERADMIN\n\nFor user and role management.\nCREATE USER and CREATE ROLE privileges.\n\nPUBLIC\n\nAutomatically granted by default.\nGranted when no access control is needed. Objects can be owned but are available to everyone.\n\nCUSTOM\n\nCan be created by USERADMIN or higher.\nCREATE ROLE privilege. Should be assigned to SYSADMIN so that they can still manage all objects created by the custom role. Custom roles can be created by the database owner.\n\n\n\n\n8.2.2. Hierarchy of Roles\nThere is a hierarchy of roles.\n\n\n\n\n\nflowchart BT\n\nF(PUBLIC) --&gt; E(USERADMIN) --&gt; D(SECURITYADMIN) --&gt; A(ACCOUNTADMIN)\nC1(Custom Role 1) --&gt; B(SYSADMIN) --&gt; A(ACCOUNTADMIN) \nC3(Custom Role 3) --&gt; C2(Custom Role 2) --&gt; B(SYSADMIN)\n\n\n\n\n\n\nThis is similar to the hierarchy of objects that we’ve seen before in Section 2.10."
+  },
+  {
+    "objectID": "posts/software/snowflake/snowpro_notes.html#privileges-1",
+    "href": "posts/software/snowflake/snowpro_notes.html#privileges-1",
+    "title": "Snowflake: SnowPro Core",
+    "section": "8.3. Privileges",
+    "text": "8.3. Privileges\nPrivileges define granular level of access to an object.\nWe can GRANT and REVOKE privileges. The owner of an object can manage its privileges. The SECURITYADMIN role has the global MANAGE GRANTS privilege, so can manage privileges on any object.\nWe can see all privileges in the Snowflake docs.\nSome of the important ones below.\nGlobal privileges:\n\nCREATE SHARE\nIMPORT SHARE\nAPPLY MASKING POLICY\n\nVirtual warehouse:\n\nMODIFY - E.g. resizing\nMONITOR - View executed queries\nOPERATE - Suspend or resume\nUSAGE - Use the warehouse to execute queries\nOWNERSHIP - Full control over the warehouse. Only one role can be an owner.\nALL - All privileges except ownership\n\nDatabases:\n\nMODIFY - ALTER properties of the database\nMONITOR - Use the DESCRIBE command\nUSAGE - Query the database and execute SHOW DATABASES command\nREFERENCE_USAGE - Use an object (usually secured view) to reference another object in a different database\nOWNERSHIP - Full control\nALL - Everything except ownership\nCREATE SCHEMA\n\nStages:\n\nREAD - Only for internal stages. Use GET, LIST, COPY INTO commands\nWRITE - Only for internal stages. Use PUT, REMOVE, COPY INTO commands\nUSAGE - Only for external stages. Equivalent of read and write.\nALL\nOWNERSHIP\n\nTables:\n\nSELECT\nINSERT\nUPDATE\nDELETE\nTRUNCATED\nDELETE\nALL\nOWNERSHIP\n\nWe can see the grants of a role with:\nSHOW GRANTS TO ROLE MARKETING_ADMIN\nWe can see which users are assigned to a role with\nSHOW GRANTS OF ROLE MARKETING_ADMIN"
+  },
+  {
+    "objectID": "posts/software/snowflake/snowpro_notes.html#authentication",
+    "href": "posts/software/snowflake/snowpro_notes.html#authentication",
+    "title": "Snowflake: SnowPro Core",
+    "section": "8.4. Authentication",
+    "text": "8.4. Authentication\nAuthentication is proving that you are who you say you are.\nSnowflake uses Multi-Factor Authentication (MFA). This is powered by Duo, managed by Snowflake. MFA is available for all Snowflake editions and is supported by all Snowflake interfaces: web UI, SnowSQL, ODBC and JDBC, Python connectors.\nEnabled by default for accounts but requires users to enroll. Strongly recommended to use MFA for ACCOUNTADMIN.\nThe SECURITYADMIN or ACCOUNTADMIN roles can disable MFA for a user.\nWe can enable MFA token caching to reduce the number of prompts. This needs to be enabled; it isn’t by default. It makes the MFA token valid for 4 hours. Available for ODBC driver, JDBC driver and Python connector."
+  },
+  {
+    "objectID": "posts/software/snowflake/snowpro_notes.html#sso",
+    "href": "posts/software/snowflake/snowpro_notes.html#sso",
+    "title": "Snowflake: SnowPro Core",
+    "section": "8.5. SSO",
+    "text": "8.5. SSO\nFederated authentication enables users to login via Single Sign-On (SSO).\nThe federated environment has two components:\n\nService provider: Snowflake\nExternal identity provider: Maintains credentials and authenticates users. Native support for Okta and Microsoft AD FS. Most SAML 2.0 compliant vendors are supported.\n\nWorkflow for Snowflake-initiated login:\n\nUser navigates to web UI\nChoose login via configured Identity Provider (IdP)\nAuthenticate via IdP credentials\nIdP sends a SAML response to Snowflake\nSnowflake opens a new session\n\nWorkflow for IdP-initiated login:\n\nUser navigates to IdP\nAuthenticate via IdP credentials\nSelect Snowflake as an application\nIdP sends a SAML response to Snowflake\nSnowflake opens a new session\n\nIdP has SCIM support. This is an open standard for automating user provisioning. We can create a user in the IdP and this provisions the user in Snowflake."
+  },
+  {
+    "objectID": "posts/software/snowflake/snowpro_notes.html#key-pair-authentication",
+    "href": "posts/software/snowflake/snowpro_notes.html#key-pair-authentication",
+    "title": "Snowflake: SnowPro Core",
+    "section": "8.6. Key-Pair Authentication",
+    "text": "8.6. Key-Pair Authentication\nEnhanced security as an alternative to basic username and password.\nUser has a public key and a private key. This is the key-pair. Minimum key size is 2048-bit RSA key-pair.\nSetting this up:\n\nGenerate private key\nGenerate public key\nStore keys locally\nAssign public key to user. See command below.\nConfigure client to use key-pair authentication\n\nWe can set the public key for a user with:\nALTER USER my_user SET\nRSA_PUBLIC_KEY 'Fuak_shakfjsb';"
+  },
+  {
+    "objectID": "posts/software/snowflake/snowpro_notes.html#column-level-security",
+    "href": "posts/software/snowflake/snowpro_notes.html#column-level-security",
+    "title": "Snowflake: SnowPro Core",
+    "section": "8.7. Column-level Security",
+    "text": "8.7. Column-level Security\nColumn-level security masks data in tables and views enforced on columns.\nThis is an enterprise edition feature.\n\n8.7.1. Dynamic Data Masking\nWith “dynamic data masking” the unmasked data is stored in the database, then depending on the role querying the data it is masked at runtime.\nWe can define a masking policy with:\nCREATE MASKING POLICY my_policy\nAS (col1 varchar) RETURNS varchar -&gt;\n    CASE\n    WHEN CURRENT ROLE IN (role_name)\n    THEN col1\n    ELSE “##-##”\n    END;\nWe apply a masking policy with:\nALTER TABLE my_table MODIFY COLUMN phone;\nWe can remove the policy with:\nUNSET MASKING POLICY my_policy;"
+  },
+  {
+    "objectID": "posts/software/snowflake/snowpro_notes.html#external-tokenisation",
+    "href": "posts/software/snowflake/snowpro_notes.html#external-tokenisation",
+    "title": "Snowflake: SnowPro Core",
+    "section": "8.8. External Tokenisation",
+    "text": "8.8. External Tokenisation\nData is tokenised.\nThe benefit is the analytical value is preserved; we can still group the data and draw conclusions, it’s just anonymised. Sensitive data is protected.\nThe tokenisation happens in a pre-load step and the detokenisation happens at query runtime."
+  },
+  {
+    "objectID": "posts/software/snowflake/snowpro_notes.html#row-level-security",
+    "href": "posts/software/snowflake/snowpro_notes.html#row-level-security",
+    "title": "Snowflake: SnowPro Core",
+    "section": "8.9. Row-level Security",
+    "text": "8.9. Row-level Security\nRow access policies allow us to determine which rows are visible to which users.\nThis is only available in the enterprise edition.\nRows are filtered at runtime on a given condition based on user or role.\nDefine the policy with:\nCREATE ROW ACCESS POLICY my_policy\nAS (col1 varchar) returns Boolean -&gt;\n    CASE\n    WHEN current_role() = 'EXAMPLE_ROLE'\n    AND col1 = 'value1' THEN true\n    ELSE false\n    END;\nApply the policy with:\nALTER TABLE my_table ADD ROW POLICY my_policy\nON (col1);"
+  },
+  {
+    "objectID": "posts/software/snowflake/snowpro_notes.html#network-policies",
+    "href": "posts/software/snowflake/snowpro_notes.html#network-policies",
+    "title": "Snowflake: SnowPro Core",
+    "section": "8.10. Network Policies",
+    "text": "8.10. Network Policies\nNetwork policies allow us to restrict access to accounts based on the user’s IP address. We can also specify ranges of addresses.\nThis is available in all Snowflake editions.\nWe can either whitelist or blacklist IP addresses. If an address is in both, the blacklist takes precedence and the IP address is blocked.\nTo create a network policy we need the SECURITYADMIN role since this has the global CREATE NETWORK POLICY privilege.\nCREATE NETWORK POLICY my_network_policy\nALLOWED_IP_LIST = ('192.168.1.95', '192.168.1.113'),\nBLOCKED_IP_LIST = ('192.168.1.95')  -- Blacklist takes precedence\nTo apply this to an account, we again need the SECURITYADMIN role. This is a bit of an exception because this is a change to the account but we don’t need to be ACCOUNTADMIN.\nALTER ACCOUNT SET NETWORK_POLICY;\nWe can also alter a USER instead of an ACCOUNT if we have ownership of the user and the network policy."
+  },
+  {
+    "objectID": "posts/software/snowflake/snowpro_notes.html#data-encryption",
+    "href": "posts/software/snowflake/snowpro_notes.html#data-encryption",
+    "title": "Snowflake: SnowPro Core",
+    "section": "8.11. Data Encryption",
+    "text": "8.11. Data Encryption\nAll data is encrypted at rest and in transit.\nThis is in all editions and happens automatically by default.\n\n8.11.1. Encryption at Rest\nRelevant to data in tables and internal stages. AES 256-bit encryption managed by Snowflake.\nNew keys are generated for new data every 30 days. Data generated with the old key will still use that old key. Old keys are preserved as long as there is still data that uses them; if not they are destroyed.\nWe can manually enable a feature to re-key all data every year. This is in the enterprise edition.\n\n\n8.11.2. Data in Transit\nThis is relevant for all Snowflake interfaces: WebUI, SnowSQL, JDBc, ODBC, Python Connector. TLS 1.2 end-to-end encryption.\n\n\n8.11.3. Other Encryption Features\nWe can additionally enable client-side encryption in external stages.\n“Tri-secret secure” enables customers to use their own keys. It is a business-critical edition feature. There is a composite master key which combines this customer-managed key with a Snowflake-managed key."
+  },
+  {
+    "objectID": "posts/software/snowflake/snowpro_notes.html#account-usage-and-information-schema",
+    "href": "posts/software/snowflake/snowpro_notes.html#account-usage-and-information-schema",
+    "title": "Snowflake: SnowPro Core",
+    "section": "8.12. Account Usage and Information Schema",
+    "text": "8.12. Account Usage and Information Schema\nThese are functions we can use to query object metadata and historical data usage.\nThe ACCOUNT_USAGE schema is available in the SNOWFLAKE database, which is a shared database available to all accounts. The ACCOUNTADMIN can see everything. There are object metadata views like COLUMNS, and historical usage data views like COPY_HISTORY. The data is not real-time; there is a lag of 45 mins to 3 hours depending on the view. Retention period is 365 days. This does include dropped objects so can include a DELETED column.\nREADER_ACCOUNT_USAGE lets us query object metadata and historical usage data for reader accounts. It is more limited.\nThe INFORMATION_SCHEMA is a default schema available in all databases. This is read-only data about the parent database and account-level information. The output depends on which privileges you have. There is a lot of data returned so it can return messages saying to filter the query down. Shorter retention period: 7 days to 6 months. This is real-time, there is no delay. Does not include dropped objects."
+  },
+  {
+    "objectID": "posts/software/snowflake/snowpro_notes.html#release-process",
+    "href": "posts/software/snowflake/snowpro_notes.html#release-process",
+    "title": "Snowflake: SnowPro Core",
+    "section": "8.13. Release Process",
+    "text": "8.13. Release Process\nReleases are weekly with no downtime.\n\nFull releases: New features, enhancements, fixes, behaviour changes\n\nBehaviour changes are monthly (i.e. every 4 weekly releases)\n\nPatch releases: Bugfixes\n\nSnowflake operate a three stage release approach:\n\nDay 1: early access for enterprise accounts who request this\nDay 1/2: regular access for standard accounts\nDay 2: final access for enterprise or higher accounts"
+  },
+  {
+    "objectID": "posts/software/snowflake/snowpro_notes.html#query-profile",
+    "href": "posts/software/snowflake/snowpro_notes.html#query-profile",
+    "title": "Snowflake: SnowPro Core",
+    "section": "9.1. Query Profile",
+    "text": "9.1. Query Profile\nThis is a graphical representation of the query execution. This helps us understand the components of the query and optimise its performance.\n\n9.1.1. Accessing Query History\nThere are three ways to view the query history:\n\nIn Snowsight. This is in the Activity -&gt; Query History tab, or the Query tab in a worksheet for the most recent query.\nInformation schema\n\nSELECT * FROM TABLE(INFORMATION_SCHEMA.QUERY_HISTORY())\nORDER BY START_TIME;\n\nAccount usage schema\n\nSELECT * FROM SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY;\n\n\n9.1.2. The Graphical Representation of a Query\nThe “Operator Tree” is a graphical representation of the “Operator Types”, which are components of query processing. We can also see the data flow, i.e. the number of records processed. The is also a percentage on each node indicating the percentage of overall execution time.\nThe “Profile Overview” tab gives details of the total time taken. The “Statistics” tab shows number of bytes scanned, percentage from cache, number of paritions scan.\n\n\n9.1.3. Data Spilling\nIt also shows “data spilling”, when the data does not fit in memory and is therefore written to the local storage disk. This is called “spilling to disk”. If the local storage is filled, the data is further spilled to remote cloud storage. This is called “spilling to cloud”.\nTo reduce spilling, we can either run a smaller query or use a bigger warehouse."
+  },
+  {
+    "objectID": "posts/software/snowflake/snowpro_notes.html#caching",
+    "href": "posts/software/snowflake/snowpro_notes.html#caching",
+    "title": "Snowflake: SnowPro Core",
+    "section": "9.2. Caching",
+    "text": "9.2. Caching\nThere are three mechanisms for caching:\n\nResult cache\nData cache\nMetadata cache\n\nIf the data is not in a cache, it is retrieved from storage, i.e. the remote disk.\n\n9.2.1. Result Cache\nStores the results of a query. This happens in the cloud service layer.\nThe result is very fast and avoids re-execution.\nThis can only happen if:\n\nThe table data and micro-partitions have not changed,\nThe query does not use UDFs or enternal functions\nSufficient privileges and results are still available (cache is valid for 24 hours)\n\nResult caching is enabled by default, but can be disabled using the USE_CACHED_RESULT parameter.\nThe result cache is purged after 24 hours. If the query is re-run, it resets the purge timer, up to a maximum of 31 days.\n\n\n9.2.2. Data Cache\nThe local SSD disk of the virtual warehouse. This cannot be shared with other warehouses.\nIt improves the performance of subsequent queries which use the same underlying data. We can therefore improve performance and costs by using the same warehouse for queries on similar data.\nThe data cache is purged if the warehouse is suspended or resized.\n\n\n9.2.3. Metadata cache\nStores statistics for tables and columns in the cloud services layer.\nThis is also known as the “metadata store”. The virtual private Snowflake edition allows for a dedicated metadata store.\nThe metadata cache stores results about the data, such as range of values in a micro-partition, count rows, count distinct values, max/min values. We can then query these without using the virtual warehouse.\nThis is used for functions like DESCRIBE and other system-defined functions."
   },
   {
     "objectID": "posts/business/pitching/pitching.html",
@@ -2595,138 +2700,5 @@
     "title": "Series: Generative AI",
     "section": "",
     "text": "Generative AI: GANs\n\n\n\n\n\n\nAI\n\n\nEngineering\n\n\nGenerativeAI\n\n\nGAN\n\n\n\nPart 4: Generative Adversarial Networks\n\n\n\n\n\nApr 10, 2024\n\n\n11 min\n\n\n\n\n\n\n\n\n\n\n\n\nGenerative AI: VAEs\n\n\n\n\n\n\nAI\n\n\nEngineering\n\n\nGenerativeAI\n\n\nVAE\n\n\n\nPart 3: Variational Autoencoders\n\n\n\n\n\nMar 6, 2024\n\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nGenerative AI: Deep Learning Foundations\n\n\n\n\n\n\nAI\n\n\nEngineering\n\n\nGenerativeAI\n\n\n\nPart 2: The Building Blocks for Generative AI\n\n\n\n\n\nFeb 26, 2024\n\n\n6 min\n\n\n\n\n\n\n\n\n\n\n\n\nGenerative AI: Intro\n\n\n\n\n\n\nAI\n\n\nEngineering\n\n\nGenerativeAI\n\n\n\nPart 1: Introduction to Generative AI\n\n\n\n\n\nFeb 19, 2024\n\n\n5 min\n\n\n\n\n\n\nNo matching items\n\n Back to top"
-  },
-  {
-    "objectID": "posts/software/snowflake/snowpro_notes.html#access-control",
-    "href": "posts/software/snowflake/snowpro_notes.html#access-control",
-    "title": "Snowflake: SnowPro Core",
-    "section": "8.1. Access Control",
-    "text": "8.1. Access Control\nThere are two approaches to access control:\n\nDiscretionary Access Control (DAC)\n\nEach object has an owner. That owner can grant access to the object.\n\nRole-based Access Control (RBAC)\n\nPrivileges are assigned to objects. Those privileges can be granted to roles. These roles can be assigned to users.\n\n\nWe do not assign privileges directly to users.\n\n\n\n\n\nflowchart LR\n\nA(Object) --&gt; B(Privilege) --&gt; C(Role) --&gt; D(User)\n\n\n\n\n\n\nKey concepts:\n\nSecurable object: An object that access can be granted to. Access is denied unless explicitly granted.\nPrivilege: A defined level of access.\nRole: The entity to which privileges are granted. Roles can be assigned to users or other roles. We can create a hierarchy of roles.\nUser: The identity associated with a person or program.\n\nWe can GRANT privileges to a role:\nGRANT my_privilege\nON my_object \nTO my_role\nAnd GRANT a role to a user.\nGRANT my_role\nTO user_id\nWe can also grant access to all tables in a schema:\nGRANT SELECT\nON ALL TABLES IN SCHEMA MARKETING_SALES\nTO ROLE MARKETING_ADMIN\nAnd also all future tables too:\nGRANT SELECT\nON FUTURE TABLES IN SCHEMA MARKETING_SALES\nTO ROLE MARKETING_ADMIN\nWe can REVOKE privileges in the same way:\nREVOKE privilege\nON object\nFROM role"
-  },
-  {
-    "objectID": "posts/software/snowflake/snowpro_notes.html#roles",
-    "href": "posts/software/snowflake/snowpro_notes.html#roles",
-    "title": "Snowflake: SnowPro Core",
-    "section": "8.2. Roles",
-    "text": "8.2. Roles\nA role is an entity that we assign privileges to.\nRoles are then assigned to users. Multiple roles can be assigned to each user.\nWe need to grant access to all parent objects. So if we want to grant SELECT access to a table, we also need to grant USAGE access to the parent schema and database.\nEvery object is owned by one single role. Ownership can be transferred.\nThe SHOW ROLES command shows all available roles.\nThere is a “current role” used in every session. USE ROLE can be used in Snowflake worksheets or tasks.\n\n8.2.1. System-Defined Roles\nThese roles can’t be dropped. Additional privileges can be added to the roles, but not revoked.\nThe roles inherit from parent roles in the hierarchy.\nIt is best practice for custom roles to inherit from the SYSADMIN role.\n\nORGADMIN\n\nManage actions at the organisation level.\nCreate and view accounts.\n\nACCOUNTADMIN\n\nTop-level in hierarchy.\nShould only be grant to a limited number of users as it is the most powerful. It can manage all objects in the account.\nWe can create reader accounts and shares. Modify account level parameters including billing and resource monitors.\nContains SECURITYADMIN AND SYSADMIN roles.\n\nSECURITYADMIN\n\nManage any object grants globally.\nMANAGE GRANTS privilege.\nCreate, monitor and manage users and roles.\nInherits from USERADMIN. The difference with USERADMIN is SECURITYADMIN can manage grants GLOBALLY.\n\nSYSADMIN\n\nManages objects - it can create warehouses, databases and other objects.\nAll custom roles should be assigned to SYSADMIN so that SYSADMIN always remains a superset of all other roles and can manage any object by them.\n\nUSERADMIN\n\nFor user and role management.\nCREATE USER and CREATE ROLE privileges.\n\nPUBLIC\n\nAutomatically granted by default.\nGranted when no access control is needed. Objects can be owned but are available to everyone.\n\nCUSTOM\n\nCan be created by USERADMIN or higher.\nCREATE ROLE privilege. Should be assigned to SYSADMIN so that they can still manage all objects created by the custom role. Custom roles can be created by the database owner.\n\n\n\n\n8.2.2. Hierarchy of Roles\nThere is a hierarchy of roles.\n\n\n\n\n\nflowchart BT\n\nF(PUBLIC) --&gt; E(USERADMIN) --&gt; D(SECURITYADMIN) --&gt; A(ACCOUNTADMIN)\nC1(Custom Role 1) --&gt; B(SYSADMIN) --&gt; A(ACCOUNTADMIN) \nC3(Custom Role 3) --&gt; C2(Custom Role 2) --&gt; B(SYSADMIN)\n\n\n\n\n\n\nThis is similar to the hierarchy of objects that we’ve seen before."
-  },
-  {
-    "objectID": "posts/software/snowflake/snowpro_notes.html#privileges-1",
-    "href": "posts/software/snowflake/snowpro_notes.html#privileges-1",
-    "title": "Snowflake: SnowPro Core",
-    "section": "8.3. Privileges",
-    "text": "8.3. Privileges\nPrivileges define granular level of access to an object.\nWe can GRANT and REVOKE privileges. The owner of an object can manage its privileges. The SECURITYADMIN role has the global MANAGE GRANTS privilege, so can manage privileges on any object.\nWe can see all privileges in the Snowflake docs.\nSome of the important ones below.\nGlobal privileges:\n\nCREATE SHARE\nIMPORT SHARE\nAPPLY MASKING POLICY\n\nVirtual warehouse:\n\nMODIFY - E.g. resizing\nMONITOR - View executed queries\nOPERATE - Suspend or resume\nUSAGE - Use the warehouse to execute queries\nOWNERSHIP - Full control over the warehouse. Only one role can be an owner.\nALL - All privileges except ownership\n\nDatabases:\n\nMODIFY - ALTER properties of the database\nMONITOR - Use the DESCRIBE command\nUSAGE - Query the database and execute SHOW DATABASES command\nREFERENCE_USAGE - Use an object (usually secured view) to reference another object in a different database\nOWNERSHIP - Full control\nALL - Everything except ownership\nCREATE SCHEMA\n\nStages:\n\nREAD - Only for internal stages. Use GET, LIST, COPY INTO commands\nWRITE - Only for internal stages. Use PUT, REMOVE, COPY INTO commands\nUSAGE - Only for external stages. Equivalent of read and write.\nALL\nOWNERSHIP\n\nTables:\n\nSELECT\nINSERT\nUPDATE\nDELETE\nTRUNCATED\nDELETE\nALL\nOWNERSHIP\n\nWe can see the grants of a role with:\nSHOW GRANTS TO ROLE MARKETING_ADMIN\nWe can see which users are assigned to a role with\nSHOW GRANTS OF ROLE MARKETING_ADMIN"
-  },
-  {
-    "objectID": "posts/software/snowflake/snowpro_notes.html#authentication",
-    "href": "posts/software/snowflake/snowpro_notes.html#authentication",
-    "title": "Snowflake: SnowPro Core",
-    "section": "8.4. Authentication",
-    "text": "8.4. Authentication\nAuthentication is proving that you are who you say you are.\nSnowflake uses Multi-Factor Authentication (MFA). This is powered by Duo, managed by Snowflake. MFA is available for all Snowflake editions and is supported by all Snowflake interfaces: web UI, SnowSQL, ODBC and JDBC, Python connectors.\nEnabled by default for accounts but requires users to enroll. Strongly recommended to use MFA for ACCOUNTADMIN.\nThe SECURITYADMIN or ACCOUNTADMIN roles can disable MFA for a user.\nWe can enable MFA token caching to reduce the number of prompts. This needs to be enabled; it isn’t by default. It makes the MFA token valid for 4 hours. Available for ODBC driver, JDBC driver and Python connector."
-  },
-  {
-    "objectID": "posts/software/snowflake/snowpro_notes.html#sso",
-    "href": "posts/software/snowflake/snowpro_notes.html#sso",
-    "title": "Snowflake: SnowPro Core",
-    "section": "8.5. SSO",
-    "text": "8.5. SSO\nFederated authentication enables users to login via Single Sign-On (SSO).\nThe federated environment has two components:\n\nService provider: Snowflake\nExternal identity provider: Maintains credentials and authenticates users. Native support for Okta and Microsoft AD FS. Most SAML 2.0 compliant vendors are supported.\n\nWorkflow for Snowflake-initiated login:\n\nUser navigates to web UI\nChoose login via configured Identity Provider (IdP)\nAuthenticate via IdP credentials\nIdP sends a SAML response to Snowflake\nSnowflake opens a new session\n\nWorkflow for IdP-initiated login:\n\nUser navigates to IdP\nAuthenticate via IdP credentials\nSelect Snowflake as an application\nIdP sends a SAML response to Snowflake\nSnowflake opens a new session\n\nIdP has SCIM support. This is an open standard for automating user provisioning. We can create a user in the IdP and this provisions the user in Snowflake."
-  },
-  {
-    "objectID": "posts/software/snowflake/snowpro_notes.html#key-pair-authentication",
-    "href": "posts/software/snowflake/snowpro_notes.html#key-pair-authentication",
-    "title": "Snowflake: SnowPro Core",
-    "section": "8.6. Key-Pair Authentication",
-    "text": "8.6. Key-Pair Authentication\nEnhanced security as an alternative to basic username and password.\nUser has a public key and a private key. This is the key-pair. Minimum key size is 2048-bit RSA key-pair.\nSetting this up:\n\nGenerate private key\nGenerate public key\nStore keys locally\nAssign public key to user. See command below.\nConfigure client to use key-pair authentication\n\nWe can set the public key for a user with:\nALTER USER my_user SET\nRSA_PUBLIC_KEY 'Fuak_shakfjsb';"
-  },
-  {
-    "objectID": "posts/software/snowflake/snowpro_notes.html#column-level-security",
-    "href": "posts/software/snowflake/snowpro_notes.html#column-level-security",
-    "title": "Snowflake: SnowPro Core",
-    "section": "8.7. Column-level Security",
-    "text": "8.7. Column-level Security\nColumn-level security masks data in tables and views enforced on columns.\nThis is an enterprise edition feature.\n\n8.7.1. Dynamic Data Masking\nWith “dynamic data masking” the unmasked data is stored in the database, then depending on the role querying the data it is masked at runtime.\nWe can define a masking policy with:\nCREATE MASKING POLICY my_policy\nAS (col1 varchar) RETURNS varchar -&gt;\n    CASE\n    WHEN CURRENT ROLE IN (role_name)\n    THEN col1\n    ELSE “##-##”\n    END;\nWe apply a masking policy with:\nALTER TABLE my_table MODIFY COLUMN phone;\nWe can remove the policy with:\nUNSET MASKING POLICY my_policy;"
-  },
-  {
-    "objectID": "posts/software/snowflake/snowpro_notes.html#row-level-security.",
-    "href": "posts/software/snowflake/snowpro_notes.html#row-level-security.",
-    "title": "Snowflake: SnowPro Core",
-    "section": "Row level security.",
-    "text": "Row level security.\nRow access policies allow us to determine which rows are visible to which users. This is only available in the enterprise edition.\nRows are filtered at runtime on a given condition based on user or role.\nDefine the policy with:\nCREATE ROW ACCESS POLICY my_policy\nAS (col1 varchar) -&gt; returns Boolean -&gt;\n    CASE\n    WHEN current_role() = ‘EXAMPLE_ROLE’ \n    AND col1 = ‘value1’ THEN true\n    ELSE false\n    END;\nApply the policy with:\nALTER TABLE my_table ADD ROW POLICY my_policy\nON (col1);"
-  },
-  {
-    "objectID": "posts/software/snowflake/snowpro_notes.html#network-policies",
-    "href": "posts/software/snowflake/snowpro_notes.html#network-policies",
-    "title": "Snowflake: SnowPro Core",
-    "section": "8.10. Network Policies",
-    "text": "8.10. Network Policies\nNetwork policies allow us to restrict access to accounts based on the user’s IP address. We can also specify ranges of addresses.\nThis is available in all Snowflake editions.\nWe can either whitelist or blacklist IP addresses. If an address is in both, the blacklist takes precedence and the IP address is blocked.\nTo create a network policy we need the SECURITYADMIN role since this has the global CREATE NETWORK POLICY privilege.\nCREATE NETWORK POLICY my_network_policy\nALLOWED_IP_LIST = ('192.168.1.95', '192.168.1.113'),\nBLOCKED_IP_LIST = ('192.168.1.95')  -- Blacklist takes precedence\nTo apply this to an account, we again need the SECURITYADMIN role. This is a bit of an exception because this is a change to the account but we don’t need to be ACCOUNTADMIN.\nALTER ACCOUNT SET NETWORK_POLICY;\nWe can also alter a USER instead of an ACCOUNT if we have ownership of the user and the network policy."
-  },
-  {
-    "objectID": "posts/software/snowflake/snowpro_notes.html#data-encryption",
-    "href": "posts/software/snowflake/snowpro_notes.html#data-encryption",
-    "title": "Snowflake: SnowPro Core",
-    "section": "8.11. Data Encryption",
-    "text": "8.11. Data Encryption\nAll data is encrypted at rest and in transit.\nThis is in all editions and happens automatically by default.\n\n8.11.1. Encryption at Rest\nRelevant to data in tables and internal stages. AES 256-bit encryption managed by Snowflake.\nNew keys are generated for new data every 30 days. Data generated with the old key will still use that old key. Old keys are preserved as long as there is still data that uses them; if not they are destroyed.\nWe can manually enable a feature to re-key all data every year. This is in the enterprise edition.\n\n\n8.11.2. Data in Transit\nThis is relevant for all Snowflake interfaces: WebUI, SnowSQL, JDBc, ODBC, Python Connector. TLS 1.2 end-to-end encryption.\n\n\n8.11.3. Other Encryption Features\nWe can additionally enable client-side encryption in external stages.\n“Tri-secret secure” enables customers to use their own keys. It is a business-critical edition feature. There is a composite master key which combines this customer-managed key with a Snowflake-managed key."
-  },
-  {
-    "objectID": "posts/software/snowflake/snowpro_notes.html#row-level-security",
-    "href": "posts/software/snowflake/snowpro_notes.html#row-level-security",
-    "title": "Snowflake: SnowPro Core",
-    "section": "8.9. Row-level Security",
-    "text": "8.9. Row-level Security\nRow access policies allow us to determine which rows are visible to which users.\nThis is only available in the enterprise edition.\nRows are filtered at runtime on a given condition based on user or role.\nDefine the policy with:\nCREATE ROW ACCESS POLICY my_policy\nAS (col1 varchar) returns Boolean -&gt;\n    CASE\n    WHEN current_role() = 'EXAMPLE_ROLE'\n    AND col1 = 'value1' THEN true\n    ELSE false\n    END;\nApply the policy with:\nALTER TABLE my_table ADD ROW POLICY my_policy\nON (col1);"
-  },
-  {
-    "objectID": "posts/software/snowflake/snowpro_notes.html#external-tokenisation",
-    "href": "posts/software/snowflake/snowpro_notes.html#external-tokenisation",
-    "title": "Snowflake: SnowPro Core",
-    "section": "8.8. External Tokenisation",
-    "text": "8.8. External Tokenisation\nData is tokenised.\nThe benefit is the analytical value is preserved; we can still group the data and draw conclusions, it’s just anonymised. Sensitive data is protected.\nThe tokenisation happens in a pre-load step and the detokenisation happens at query runtime."
-  },
-  {
-    "objectID": "posts/software/snowflake/snowpro_notes.html#network-policies-1",
-    "href": "posts/software/snowflake/snowpro_notes.html#network-policies-1",
-    "title": "Snowflake: SnowPro Core",
-    "section": "Network Policies",
-    "text": "Network Policies"
-  },
-  {
-    "objectID": "posts/software/snowflake/snowpro_notes.html#data-encryption-1",
-    "href": "posts/software/snowflake/snowpro_notes.html#data-encryption-1",
-    "title": "Snowflake: SnowPro Core",
-    "section": "Data Encryption",
-    "text": "Data Encryption\nAll data is encrypted at rest and in transit.\nThis is in all editions and happens automatically by default.\n\nEncryption at rest\nRelevant to data in tables and internal stages.\nAES 256-bit encryption managed by Snowflake. New keys are generated for new data every 30 days. Data generated with the old key will still use that old key. Old keys are preserved as long as there is still data that uses them; if not they are destroyed.\nWe can manually enable a feature to re-key all data every year. This is in enterprise edition.\n\n\nData in Transit\nThis is relevant for all Snowflake interfaces: WebUI, SnowSQL, JDBc, ODBC, Python Connector.\nTLS 1.2 end-to-end encryption.\nWe can additionally enable client-side encryption in external stages.\n“Tri-secret secure” enables customers to use their own keys. It is a business critical edition feature. There is a composite master key which combines this customer-managed key with a Snowflake-managed key."
-  },
-  {
-    "objectID": "posts/software/snowflake/snowpro_notes.html#account-usage-and-information-schema",
-    "href": "posts/software/snowflake/snowpro_notes.html#account-usage-and-information-schema",
-    "title": "Snowflake: SnowPro Core",
-    "section": "8.12. Account Usage and Information Schema",
-    "text": "8.12. Account Usage and Information Schema\nThese are functions we can use to query object metadata and historical data usage.\nThe ACCOUNT_USAGE schema is available in the SNOWFLAKE database, which is a shared database available to all accounts. The ACCOUNTADMIN can see everything. There are object metadata views like COLUMNS, and historical usage data views like COPY_HISTORY. The data is not real-time; there is a lag of 45 mins to 3 hours depending on the view. Retention period is 365 days. This does include dropped objects so can include a DELETED column.\nREADER_ACCOUNT_USAGE lets us query object metadata and historical usage data for reader accounts. It is more limited.\nThe INFORMATION_SCHEMA is a default schema available in all databases. This is read-only data about the parent database and account-level information. The output depends on which privileges you have. There is a lot of data returned so it can return messages saying to filter the query down. Shorter retention period: 7 days to 6 months. This is real-time, there is no delay. Does not include dropped objects."
-  },
-  {
-    "objectID": "posts/software/snowflake/snowpro_notes.html#release-process",
-    "href": "posts/software/snowflake/snowpro_notes.html#release-process",
-    "title": "Snowflake: SnowPro Core",
-    "section": "8.13. Release Process",
-    "text": "8.13. Release Process\nReleases are weekly with no downtime.\n\nFull releases: New features, enhancements, fixes, behaviour changes\n\nBehaviour changes are monthly (i.e. every 4 weekly releases)\n\nPatch releases: Bugfixes\n\nSnowflake operate a three stage release approach:\n\nDay 1: early access for enterprise accounts who request this\nDay 1/2: regular access for standard accounts\nDay 2: final access for enterprise or higher accounts"
-  },
-  {
-    "objectID": "posts/software/snowflake/snowpro_notes.html#query-profile",
-    "href": "posts/software/snowflake/snowpro_notes.html#query-profile",
-    "title": "Snowflake: SnowPro Core",
-    "section": "9.1. Query Profile",
-    "text": "9.1. Query Profile\nThis is a graphical representation of the query execution. This helps us understand the components of the query and optimise its performance.\n\n9.1.1. Accessing Query History\nThere are three ways to view the query history:\n\nIn Snowsight. This is in the Activity -&gt; Query History tab, or the Query tab in a worksheet for the most recent query.\nInformation schema\n\nSELECT * FROM TABLE(INFORMATION_SCHEMA.QUERY_HISTORY())\nORDER BY START_TIME;\n\nAccount usage schema\n\nSELECT * FROM SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY;\n\n\n9.1.2. The Graphical Representation of a Query\nThe “Operator Tree” is a graphical representation of the “Operator Types”, which are components of query processing. We can also see the data flow, i.e. the number of records processed. The is also a percentage on each node indicating the percentage of overall execution time.\nThe “Profile Overview” tab gives details of the total time taken. The “Statistics” tab shows number of bytes scanned, percentage from cache, number of paritions scan.\n\n\n9.1.3. Data Spilling\nIt also shows “data spilling”, when the data does not fit in memory and is therefore written to the local storage disk. This is called “spilling to disk”. If the local storage is filled, the data is further spilled to remote cloud storage. This is called “spilling to cloud”.\nTo reduce spilling, we can either run a smaller query or use a bigger warehouse."
-  },
-  {
-    "objectID": "posts/software/snowflake/snowpro_notes.html#cach8ng",
-    "href": "posts/software/snowflake/snowpro_notes.html#cach8ng",
-    "title": "Snowflake: SnowPro Core",
-    "section": "9.2. Cach8ng",
-    "text": "9.2. Cach8ng"
-  },
-  {
-    "objectID": "posts/software/snowflake/snowpro_notes.html#caching",
-    "href": "posts/software/snowflake/snowpro_notes.html#caching",
-    "title": "Snowflake: SnowPro Core",
-    "section": "9.2. Caching",
-    "text": "9.2. Caching\nThere are three mechanisms for caching:\n\nResult cache\nData cache\nMetadata cache\n\nIf the data is not in a cache, it is retrieved from storage, i.e. the remote disk.\n\n9.2.1. Result Cache\nStores the results of a query. This happens in the cloud service layer.\nThe result is very fast and avoids re-execution.\nThis can only happen if:\n\nThe table data and micro-partitions have not changed,\nThe query does not use UDFs or enternal functions\nSufficient privileges and results are still available (cache is valid for 24 hours)\n\nResult caching is enabled by default, but can be disabled using the USE_CACHED_RESULT parameter.\nThe result cache is purged after 24 hours. If the query is re-run, it resets the purge timer, up to a maximum of 31 days.\n\n\n9.2.2. Data Cache\nThe local SSD disk of the virtual warehouse. This cannot be shared with other warehouses.\nIt improves the performance of subsequent queries which use the same underlying data. We can therefore improve performance and costs by using the same warehouse for queries on similar data.\nThe data cache is purged if the warehouse is suspended or resized.\n\n\n9.2.3. Metadata cache\nStores statistics for tables and columns in the cloud services layer.\nThis is also known as the “metadata store”. The virtual private Snowflake edition allows for a dedicated metadata store.\nThe metadata cache stores results about the data, such as range of values in a micro-partition, count rows, count distinct values, max/min values. We can then query these without using the virtual warehouse.\nThis is used for functions like DESCRIBE and other system-defined functions."
   }
 ]

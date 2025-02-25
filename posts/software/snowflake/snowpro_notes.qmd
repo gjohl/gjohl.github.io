@@ -19,7 +19,7 @@ For example, "DERIVED_DB.PUBLIC.TRADES_DATA"
 A **warehouse** is needed for **compute** to execute a query.
 
 Snowflake is a "self-managed cloud data platform".
-It is cloud only. No on premise option. 
+It is cloud only. No on-premise option. 
 
 "Self-managed" service means:
 
@@ -78,7 +78,7 @@ There are three distinct layers of Snowflake:
 
 ## 2.3. Loading Data into Snowflake
 
-This is covered more extensivelyt in its own section, but this sub-section serves as a brief introduction.
+This is covered more extensively in its own section, but this sub-section serves as a brief introduction.
 
 The usual SQL commands can be used to create databases and tables. 
 ```
@@ -1740,7 +1740,7 @@ C1(Custom Role 1) --> B(SYSADMIN) --> A(ACCOUNTADMIN)
 C3(Custom Role 3) --> C2(Custom Role 2) --> B(SYSADMIN)
 ```
 
-This is similar to the hierarchy of *objects* that we’ve seen before. 
+This is similar to the hierarchy of *objects* that we’ve seen before in Section 2.10.
 
 
 ## 8.3. Privileges 
