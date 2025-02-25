@@ -345,7 +345,14 @@ window.Quarto = {
   <li><a href="#external-tokenisation" id="toc-external-tokenisation" class="nav-link" data-scroll-target="#external-tokenisation">8.8. External Tokenisation</a></li>
   <li><a href="#row-level-security" id="toc-row-level-security" class="nav-link" data-scroll-target="#row-level-security">8.9. Row-level Security</a></li>
   <li><a href="#network-policies" id="toc-network-policies" class="nav-link" data-scroll-target="#network-policies">8.10. Network Policies</a></li>
-  <li><a href="#data-encryption" id="toc-data-encryption" class="nav-link" data-scroll-target="#data-encryption">8.11. Data Encryption</a></li>
+  <li><a href="#data-encryption" id="toc-data-encryption" class="nav-link" data-scroll-target="#data-encryption">8.11. Data Encryption</a>
+  <ul class="collapse">
+  <li><a href="#encryption-at-rest" id="toc-encryption-at-rest" class="nav-link" data-scroll-target="#encryption-at-rest">8.11.1. Encryption at Rest</a></li>
+  <li><a href="#data-in-transit" id="toc-data-in-transit" class="nav-link" data-scroll-target="#data-in-transit">8.11.2. Data in Transit</a></li>
+  <li><a href="#other-encryption-features" id="toc-other-encryption-features" class="nav-link" data-scroll-target="#other-encryption-features">8.11.3. Other Encryption Features</a></li>
+  </ul></li>
+  <li><a href="#account-usage-and-information-schema" id="toc-account-usage-and-information-schema" class="nav-link" data-scroll-target="#account-usage-and-information-schema">8.12. Account Usage and Information Schema</a></li>
+  <li><a href="#release-process" id="toc-release-process" class="nav-link" data-scroll-target="#release-process">8.13. Release Process</a></li>
   </ul></li>
   <li><a href="#performance-concepts" id="toc-performance-concepts" class="nav-link" data-scroll-target="#performance-concepts">9. Performance Concepts</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
@@ -1997,9 +2004,60 @@ ON (col1);</code></pre>
 </section>
 <section id="network-policies" class="level2">
 <h2 class="anchored" data-anchor-id="network-policies">8.10. Network Policies</h2>
+<p>Network policies allow us to <strong>restrict access to accounts based on the user’s IP address</strong>. We can also specify ranges of addresses.</p>
+<p>This is available in all Snowflake editions.</p>
+<p>We can either <strong>whitelist or blacklist</strong> IP addresses. If an address is in <em>both</em>, the blacklist takes precedence and the IP address is blocked.</p>
+<p>To create a network policy we need the <code>SECURITYADMIN</code> role since this has the global <code>CREATE NETWORK POLICY</code> privilege.</p>
+<pre><code>CREATE NETWORK POLICY my_network_policy
+ALLOWED_IP_LIST = ('192.168.1.95', '192.168.1.113'),
+BLOCKED_IP_LIST = ('192.168.1.95')  -- Blacklist takes precedence</code></pre>
+<p>To apply this to an account, we again need the SECURITYADMIN role. This is a bit of an exception because this is a change to the <em>account</em> but we don’t need to be <em>ACCOUNTADMIN</em>.</p>
+<pre><code>ALTER ACCOUNT SET NETWORK_POLICY;</code></pre>
+<p>We can also alter a <em>USER</em> instead of an <em>ACCOUNT</em> if we have ownership of the user and the network policy.</p>
 </section>
 <section id="data-encryption" class="level2">
 <h2 class="anchored" data-anchor-id="data-encryption">8.11. Data Encryption</h2>
+<p>All data is <strong>encrypted at rest and in transit</strong>.</p>
+<p>This is in all editions and happens automatically by default.</p>
+<section id="encryption-at-rest" class="level3">
+<h3 class="anchored" data-anchor-id="encryption-at-rest">8.11.1. Encryption at Rest</h3>
+<p>Relevant to data in tables and internal stages. AES 256-bit encryption managed by Snowflake.</p>
+<p>New keys are generated for new data every 30 days. Data generated with the old key will still use that old key. Old keys are preserved as long as there is still data that uses them; if not they are destroyed.</p>
+<p>We can manually enable a feature to re-key all data every year. This is in enterprise edition.</p>
+</section>
+<section id="data-in-transit" class="level3">
+<h3 class="anchored" data-anchor-id="data-in-transit">8.11.2. Data in Transit</h3>
+<p>This is relevant for all Snowflake interfaces: WebUI, SnowSQL, JDBc, ODBC, Python Connector. TLS 1.2 end-to-end encryption.</p>
+</section>
+<section id="other-encryption-features" class="level3">
+<h3 class="anchored" data-anchor-id="other-encryption-features">8.11.3. Other Encryption Features</h3>
+<p>We can additionally enable <strong>client-side encryption</strong> in external stages.</p>
+<p><strong>“Tri-secret secure”</strong> enables customers to use their own keys. It is a <em>business-critical</em> edition feature. There is a <strong>composite master key</strong> which combines this customer-managed key with a Snowflake-managed key.</p>
+</section>
+</section>
+<section id="account-usage-and-information-schema" class="level2">
+<h2 class="anchored" data-anchor-id="account-usage-and-information-schema">8.12. Account Usage and Information Schema</h2>
+<p>These are functions we can use to <strong>query object metadata and historical data usage</strong>.</p>
+<p>The <code>ACCOUNT_USAGE</code> schema is available in the <code>SNOWFLAKE</code> database, which is a shared database available to all accounts. The ACCOUNTADMIN can see everything. There are <strong>object metadata views</strong> like <code>COLUMNS</code>, and <strong>historical usage data views</strong> like <code>COPY_HISTORY</code>. The data is <strong>not real-time</strong>; there is a lag of 45 mins to 3 hours depending on the view. <strong>Retention period is 365 days</strong>. This does <strong>include dropped objects</strong> so can include a DELETED column.</p>
+<p><code>READER_ACCOUNT_USAGE</code> lets us query object metadata and historical usage data for reader accounts. It is more limited.</p>
+<p>The <code>INFORMATION_SCHEMA</code> is a default schema available in all databases. This is read-only data about the parent database and account-level information. The output depends on which privileges you have. There is a lot of data returned so it can return messages saying to filter the query down. <strong>Shorter retention period</strong>: 7 days to 6 months. This is <strong>real-time</strong>, there is no delay. <strong>Does not include dropped objects</strong>.</p>
+</section>
+<section id="release-process" class="level2">
+<h2 class="anchored" data-anchor-id="release-process">8.13. Release Process</h2>
+<p>Releases are weekly with no downtime.</p>
+<ul>
+<li>Full releases: New features, enhancements, fixes, behaviour changes
+<ul>
+<li>Behaviour changes are monthly (i.e.&nbsp;every 4 weekly releases)</li>
+</ul></li>
+<li>Patch releases: Bugfixes</li>
+</ul>
+<p>Snowflake operate a three stage release approach:</p>
+<ul>
+<li>Day 1: early access for enterprise accounts who request this</li>
+<li>Day 1/2: regular access for standard accounts</li>
+<li>Day 2: final access for enterprise or higher accounts</li>
+</ul>
 </section>
 </section>
 <section id="performance-concepts" class="level1">

@@ -1942,10 +1942,94 @@ ON (col1);
 
 
 ## 8.10. Network Policies
+Network policies allow us to **restrict access to accounts based on the user’s IP address**. 
+We can also specify ranges of addresses. 
+
+This is available in all Snowflake editions. 
+
+We can either **whitelist or blacklist** IP addresses. 
+If an address is in *both*, the blacklist takes precedence and the IP address is blocked. 
+
+To create a network policy we need the `SECURITYADMIN` role since this has the global `CREATE NETWORK POLICY` privilege. 
+
+```
+CREATE NETWORK POLICY my_network_policy
+ALLOWED_IP_LIST = ('192.168.1.95', '192.168.1.113'),
+BLOCKED_IP_LIST = ('192.168.1.95')  -- Blacklist takes precedence
+```
+
+To apply this to an account, we again need the SECURITYADMIN role. 
+This is a bit of an exception because this is a change to the *account* but we don’t need to be *ACCOUNTADMIN*. 
+
+```
+ALTER ACCOUNT SET NETWORK_POLICY;
+```
+
+We can also alter a *USER* instead of an *ACCOUNT* if we have ownership of the user and the network policy. 
 
 
 ## 8.11. Data Encryption
 
+All data is **encrypted at rest and in transit**. 
+
+This is in all editions and happens automatically by default. 
+
+
+### 8.11.1. Encryption at Rest
+Relevant to data in tables and internal stages.
+AES 256-bit encryption managed by Snowflake. 
+
+New keys are generated for new data every 30 days. Data generated with the old key will still use that old key. 
+Old keys are preserved as long as there is still data that uses them; if not they are destroyed. 
+
+We can manually enable a feature to re-key all data every year. This is in enterprise edition. 
+
+
+### 8.11.2. Data in Transit
+This is relevant for all Snowflake interfaces: WebUI, SnowSQL, JDBc, ODBC, Python Connector. 
+TLS 1.2 end-to-end encryption. 
+
+
+### 8.11.3. Other Encryption Features
+We can additionally enable **client-side encryption** in external stages. 
+
+**"Tri-secret secure"** enables customers to use their own keys. 
+It is a *business-critical* edition feature. 
+There is a **composite master key** which combines this customer-managed key with a Snowflake-managed key. 
+
+
+## 8.12. Account Usage and Information Schema
+These are functions we can use to **query object metadata and historical data usage**. 
+
+
+The `ACCOUNT_USAGE` schema is available in the `SNOWFLAKE` database, which is a shared database available to all accounts. The ACCOUNTADMIN can see everything. 
+There are **object metadata views** like `COLUMNS`, and **historical usage data views** like `COPY_HISTORY`. 
+The data is **not real-time**; there is a lag of 45 mins to 3 hours depending on the view. 
+**Retention period is 365 days**. 
+This does **include dropped objects** so can include a DELETED column. 
+
+`READER_ACCOUNT_USAGE` lets us query object metadata and historical usage data for reader accounts. It is more limited. 
+
+The `INFORMATION_SCHEMA` is a default schema available in all databases. 
+This is read-only data about the parent database and account-level information. 
+The output depends on which privileges you have. 
+There is a lot of data returned so it can return messages saying to filter the query down. 
+**Shorter retention period**: 7 days to 6 months. This is **real-time**, there is no delay. 
+**Does not include dropped objects**. 
+
+
+## 8.13. Release Process
+Releases are weekly with no downtime. 
+
+- Full releases: New features, enhancements, fixes, behaviour changes
+    - Behaviour changes are monthly (i.e. every 4 weekly releases)
+- Patch releases: Bugfixes
+
+Snowflake operate a three stage release approach:
+
+- Day 1: early access for enterprise accounts who request this
+- Day 1/2: regular access for standard accounts
+- Day 2: final access for enterprise or higher accounts
 
 
 # 9. Performance Concepts
