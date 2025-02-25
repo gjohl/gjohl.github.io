@@ -1982,7 +1982,7 @@ AES 256-bit encryption managed by Snowflake.
 New keys are generated for new data every 30 days. Data generated with the old key will still use that old key. 
 Old keys are preserved as long as there is still data that uses them; if not they are destroyed. 
 
-We can manually enable a feature to re-key all data every year. This is in enterprise edition. 
+We can manually enable a feature to **re-key all data every year**. This is in the enterprise edition. 
 
 
 ### 8.11.2. Data in Transit
@@ -2034,6 +2034,87 @@ Snowflake operate a three stage release approach:
 
 # 9. Performance Concepts
 
+## 9.1. Query Profile
+This is a **graphical representation of the query execution**.
+This helps us understand the components of the query and optimise its performance.
+
+### 9.1.1. Accessing Query History
+
+There are three ways to view the query history:
+
+(1) In **Snowsight**. This is in the `Activity -> Query History` tab, or the Query tab in a worksheet for the most recent query.
+
+(2) **Information schema**
+```
+SELECT * FROM TABLE(INFORMATION_SCHEMA.QUERY_HISTORY())
+ORDER BY START_TIME;
+```
+(3) **Account usage schema**
+```
+SELECT * FROM SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY;
+```
+
+### 9.1.2. The Graphical Representation of a Query
+The "Operator Tree" is a graphical representation of the "Operator Types", which are components of query processing.
+We can also see the data flow, i.e. the number of records processed.
+The is also a percentage on each node indicating the percentage of overall execution time.
+
+The "Profile Overview" tab gives details of the total time taken.
+The "Statistics" tab shows number of bytes scanned, percentage from cache, number of paritions scan.
+
+### 9.1.3. Data Spilling
+It also shows **"data spilling"**, when the data does not fit in memory and is therefore written to the local storage disk. This is called "spilling to disk".
+If the local storage is filled, the data is further spilled to *remote cloud storage*. This is called "spilling to cloud".
+
+To **reduce spilling**, we can either run a smaller query or use a bigger warehouse.
+
+
+## 9.2. Caching
+
+There are three mechanisms for caching:
+
+1. Result cache
+2. Data cache
+3. Metadata cache
+
+If the data is not in a cache, it is retrieved from storage, i.e. the remote disk.
+
+### 9.2.1. Result Cache
+Stores the results of a query. 
+This happens in the *cloud service layer*.
+
+The result is very fast and avoids re-execution.
+
+This can only happen if: 
+
+(1) The table data and micro-partitions have not changed, 
+(2) The query does not use UDFs or enternal functions
+(3) Sufficient privileges and results are still available (cache is valid for 24 hours)
+
+Result caching is **enabled by default**, but can be disabled using the `USE_CACHED_RESULT` parameter.
+
+The result cache is **purged after 24 hours**. If the query is re-run, it resets the purge timer, up to a maximum of 31 days.
+
+
+### 9.2.2. Data Cache
+The local SSD disk of the virtual warehouse.
+This cannot be shared with other warehouses.
+
+It improves the performance of subsequent queries which use the same underlying data.
+We can therefore improve performance and costs by using the same warehouse for queries on similar data.
+
+The data cache is purged if the warehouse is suspended or resized.
+
+
+### 9.2.3. Metadata cache
+Stores statistics for tables and columns in the *cloud services layer*.
+
+This is also known as the "metadata store". The virtual private Snowflake edition allows for a dedicated metadata store.
+
+The metadata cache stores results about the data, such as range of values in a micro-partition, count rows, count distinct values, max/min values.
+We can then query these without using the virtual warehouse.
+
+This is used for functions like `DESCRIBE` and other system-defined functions.
 
 
 # References

@@ -354,7 +354,21 @@ window.Quarto = {
   <li><a href="#account-usage-and-information-schema" id="toc-account-usage-and-information-schema" class="nav-link" data-scroll-target="#account-usage-and-information-schema">8.12. Account Usage and Information Schema</a></li>
   <li><a href="#release-process" id="toc-release-process" class="nav-link" data-scroll-target="#release-process">8.13. Release Process</a></li>
   </ul></li>
-  <li><a href="#performance-concepts" id="toc-performance-concepts" class="nav-link" data-scroll-target="#performance-concepts">9. Performance Concepts</a></li>
+  <li><a href="#performance-concepts" id="toc-performance-concepts" class="nav-link" data-scroll-target="#performance-concepts">9. Performance Concepts</a>
+  <ul class="collapse">
+  <li><a href="#query-profile" id="toc-query-profile" class="nav-link" data-scroll-target="#query-profile">9.1. Query Profile</a>
+  <ul class="collapse">
+  <li><a href="#accessing-query-history" id="toc-accessing-query-history" class="nav-link" data-scroll-target="#accessing-query-history">9.1.1. Accessing Query History</a></li>
+  <li><a href="#the-graphical-representation-of-a-query" id="toc-the-graphical-representation-of-a-query" class="nav-link" data-scroll-target="#the-graphical-representation-of-a-query">9.1.2. The Graphical Representation of a Query</a></li>
+  <li><a href="#data-spilling" id="toc-data-spilling" class="nav-link" data-scroll-target="#data-spilling">9.1.3. Data Spilling</a></li>
+  </ul></li>
+  <li><a href="#caching" id="toc-caching" class="nav-link" data-scroll-target="#caching">9.2. Caching</a>
+  <ul class="collapse">
+  <li><a href="#result-cache" id="toc-result-cache" class="nav-link" data-scroll-target="#result-cache">9.2.1. Result Cache</a></li>
+  <li><a href="#data-cache" id="toc-data-cache" class="nav-link" data-scroll-target="#data-cache">9.2.2. Data Cache</a></li>
+  <li><a href="#metadata-cache" id="toc-metadata-cache" class="nav-link" data-scroll-target="#metadata-cache">9.2.3. Metadata cache</a></li>
+  </ul></li>
+  </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
@@ -2023,7 +2037,7 @@ BLOCKED_IP_LIST = ('192.168.1.95')  -- Blacklist takes precedence</code></pre>
 <h3 class="anchored" data-anchor-id="encryption-at-rest">8.11.1. Encryption at Rest</h3>
 <p>Relevant to data in tables and internal stages. AES 256-bit encryption managed by Snowflake.</p>
 <p>New keys are generated for new data every 30 days. Data generated with the old key will still use that old key. Old keys are preserved as long as there is still data that uses them; if not they are destroyed.</p>
-<p>We can manually enable a feature to re-key all data every year. This is in enterprise edition.</p>
+<p>We can manually enable a feature to <strong>re-key all data every year</strong>. This is in the enterprise edition.</p>
 </section>
 <section id="data-in-transit" class="level3">
 <h3 class="anchored" data-anchor-id="data-in-transit">8.11.2. Data in Transit</h3>
@@ -2062,6 +2076,70 @@ BLOCKED_IP_LIST = ('192.168.1.95')  -- Blacklist takes precedence</code></pre>
 </section>
 <section id="performance-concepts" class="level1">
 <h1>9. Performance Concepts</h1>
+<section id="query-profile" class="level2">
+<h2 class="anchored" data-anchor-id="query-profile">9.1. Query Profile</h2>
+<p>This is a <strong>graphical representation of the query execution</strong>. This helps us understand the components of the query and optimise its performance.</p>
+<section id="accessing-query-history" class="level3">
+<h3 class="anchored" data-anchor-id="accessing-query-history">9.1.1. Accessing Query History</h3>
+<p>There are three ways to view the query history:</p>
+<ol type="1">
+<li><p>In <strong>Snowsight</strong>. This is in the <code>Activity -&gt; Query History</code> tab, or the Query tab in a worksheet for the most recent query.</p></li>
+<li><p><strong>Information schema</strong></p></li>
+</ol>
+<pre><code>SELECT * FROM TABLE(INFORMATION_SCHEMA.QUERY_HISTORY())
+ORDER BY START_TIME;</code></pre>
+<ol start="3" type="1">
+<li><strong>Account usage schema</strong></li>
+</ol>
+<pre><code>SELECT * FROM SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY;</code></pre>
+</section>
+<section id="the-graphical-representation-of-a-query" class="level3">
+<h3 class="anchored" data-anchor-id="the-graphical-representation-of-a-query">9.1.2. The Graphical Representation of a Query</h3>
+<p>The “Operator Tree” is a graphical representation of the “Operator Types”, which are components of query processing. We can also see the data flow, i.e.&nbsp;the number of records processed. The is also a percentage on each node indicating the percentage of overall execution time.</p>
+<p>The “Profile Overview” tab gives details of the total time taken. The “Statistics” tab shows number of bytes scanned, percentage from cache, number of paritions scan.</p>
+</section>
+<section id="data-spilling" class="level3">
+<h3 class="anchored" data-anchor-id="data-spilling">9.1.3. Data Spilling</h3>
+<p>It also shows <strong>“data spilling”</strong>, when the data does not fit in memory and is therefore written to the local storage disk. This is called “spilling to disk”. If the local storage is filled, the data is further spilled to <em>remote cloud storage</em>. This is called “spilling to cloud”.</p>
+<p>To <strong>reduce spilling</strong>, we can either run a smaller query or use a bigger warehouse.</p>
+</section>
+</section>
+<section id="caching" class="level2">
+<h2 class="anchored" data-anchor-id="caching">9.2. Caching</h2>
+<p>There are three mechanisms for caching:</p>
+<ol type="1">
+<li>Result cache</li>
+<li>Data cache</li>
+<li>Metadata cache</li>
+</ol>
+<p>If the data is not in a cache, it is retrieved from storage, i.e.&nbsp;the remote disk.</p>
+<section id="result-cache" class="level3">
+<h3 class="anchored" data-anchor-id="result-cache">9.2.1. Result Cache</h3>
+<p>Stores the results of a query. This happens in the <em>cloud service layer</em>.</p>
+<p>The result is very fast and avoids re-execution.</p>
+<p>This can only happen if:</p>
+<ol type="1">
+<li>The table data and micro-partitions have not changed,</li>
+<li>The query does not use UDFs or enternal functions</li>
+<li>Sufficient privileges and results are still available (cache is valid for 24 hours)</li>
+</ol>
+<p>Result caching is <strong>enabled by default</strong>, but can be disabled using the <code>USE_CACHED_RESULT</code> parameter.</p>
+<p>The result cache is <strong>purged after 24 hours</strong>. If the query is re-run, it resets the purge timer, up to a maximum of 31 days.</p>
+</section>
+<section id="data-cache" class="level3">
+<h3 class="anchored" data-anchor-id="data-cache">9.2.2. Data Cache</h3>
+<p>The local SSD disk of the virtual warehouse. This cannot be shared with other warehouses.</p>
+<p>It improves the performance of subsequent queries which use the same underlying data. We can therefore improve performance and costs by using the same warehouse for queries on similar data.</p>
+<p>The data cache is purged if the warehouse is suspended or resized.</p>
+</section>
+<section id="metadata-cache" class="level3">
+<h3 class="anchored" data-anchor-id="metadata-cache">9.2.3. Metadata cache</h3>
+<p>Stores statistics for tables and columns in the <em>cloud services layer</em>.</p>
+<p>This is also known as the “metadata store”. The virtual private Snowflake edition allows for a dedicated metadata store.</p>
+<p>The metadata cache stores results about the data, such as range of values in a micro-partition, count rows, count distinct values, max/min values. We can then query these without using the virtual warehouse.</p>
+<p>This is used for functions like <code>DESCRIBE</code> and other system-defined functions.</p>
+</section>
+</section>
 </section>
 <section id="references" class="level1">
 <h1>References</h1>
