@@ -19,7 +19,7 @@ For example, "DERIVED_DB.PUBLIC.TRADES_DATA"
 A **warehouse** is needed for **compute** to execute a query.
 
 Snowflake is a "self-managed cloud data platform".
-It is cloud only. No on premise option. 
+It is cloud only. No on-premise option. 
 
 "Self-managed" service means:
 
@@ -78,7 +78,7 @@ There are three distinct layers of Snowflake:
 
 ## 2.3. Loading Data into Snowflake
 
-This is covered more extensivelyt in its own section, but this sub-section serves as a brief introduction.
+This is covered more extensively in its own section, but this sub-section serves as a brief introduction.
 
 The usual SQL commands can be used to create databases and tables. 
 ```
@@ -1618,9 +1618,503 @@ ALTER DATABASE my_db REFRESH;
 
 # 8. Account and Security
 
+## 8.1. Access Control
+
+There are two approaches to access control:
+
+1. Discretionary Access Control (DAC)
+    - Each object has an owner. That owner can grant access to the object. 
+2. Role-based Access Control (RBAC)
+    - **Privileges** are assigned to **objects**. Those privileges can be granted to **roles**. These roles can be assigned to **users**. 
+
+We do not assign privileges directly to users. 
+
+```{mermaid}
+flowchart LR
+
+A(Object) --> B(Privilege) --> C(Role) --> D(User)
+```
+
+
+Key concepts:
+
+- **Securable object**: An object that access can be granted to. Access is denied unless explicitly granted. 
+- **Privilege**: A defined level of access.
+- **Role**: The entity to which privileges are granted. Roles can be assigned to users or other roles. We can create a *hierarchy of roles*. 
+- **User**: The identity associated with a person or program. 
+
+We can `GRANT` privileges to a role:
+```
+GRANT my_privilege
+ON my_object 
+TO my_role
+```
+
+And `GRANT` a role to a user.
+```
+GRANT my_role
+TO user_id
+```
+
+We can also grant access to **all** tables in a schema:
+```
+GRANT SELECT
+ON ALL TABLES IN SCHEMA MARKETING_SALES
+TO ROLE MARKETING_ADMIN
+```
+
+And also all *future* tables too:
+```
+GRANT SELECT
+ON FUTURE TABLES IN SCHEMA MARKETING_SALES
+TO ROLE MARKETING_ADMIN
+```
+
+We can `REVOKE` privileges in the same way:
+```
+REVOKE privilege
+ON object
+FROM role
+```
+
+
+## 8.2. Roles
+A role is an **entity that we assign privileges to**. 
+
+Roles are then assigned to users. Multiple roles can be assigned to each user. 
+
+We need to **grant access to all parent objects**. 
+So if we want to grant SELECT access to a table, we also need to grant USAGE access to the parent schema and database. 
+
+Every object is **owned by one single role**. Ownership can be transferred. 
+
+The `SHOW ROLES` command shows all available roles. 
+
+There is a "current role" used in every session. 
+`USE ROLE` can be used in Snowflake worksheets or tasks. 
+
+
+### 8.2.1. System-Defined Roles 
+These roles can’t be dropped.
+Additional privileges can be added to the roles, but not revoked. 
+
+The roles inherit from parent roles in the hierarchy.
+
+It is best practice for **custom roles to inherit from the SYSADMIN role**. 
+
+
+- `ORGADMIN` 
+    - Manage actions at the organisation level.
+    - Create and view accounts. 
+- `ACCOUNTADMIN`
+    - Top-level in hierarchy. 
+    - Should only be grant to a limited number of users as it is the **most powerful**. It can **manage all objects** in the account. 
+    - We can create reader accounts and shares. Modify account level parameters including billing and resource monitors. 
+    - Contains SECURITYADMIN AND SYSADMIN roles. 
+- `SECURITYADMIN` 
+    - Manage any object grants *globally*. 
+    - `MANAGE GRANTS` privilege. 
+    - Create, monitor and manage users and roles. 
+    - Inherits from USERADMIN. The difference with USERADMIN is SECURITYADMIN can manage grants GLOBALLY. 
+- `SYSADMIN` 
+    - Manages objects - it can create warehouses, databases and other objects. 
+    - **All custom roles should be assigned to SYSADMIN** so that *SYSADMIN always remains a superset of all other roles* and can manage any object by them. 
+- `USERADMIN` 
+    - For user and role management. 
+    - `CREATE USER` and `CREATE ROLE` privileges. 
+- `PUBLIC` 
+    - Automatically granted by default. 
+    - Granted when no access control is needed. Objects can be owned but are **available to everyone**. 
+- `CUSTOM` 
+    - Can be created by USERADMIN or higher. 
+    - CREATE ROLE privilege. Should be assigned to SYSADMIN so that they can still manage all objects created by the custom role. Custom roles can be created by the database owner. 
+
+
+### 8.2.2. Hierarchy of Roles
+There is a **hierarchy of roles**. 
+```{mermaid}
+flowchart BT
+
+F(PUBLIC) --> E(USERADMIN) --> D(SECURITYADMIN) --> A(ACCOUNTADMIN)
+C1(Custom Role 1) --> B(SYSADMIN) --> A(ACCOUNTADMIN) 
+C3(Custom Role 3) --> C2(Custom Role 2) --> B(SYSADMIN)
+```
+
+This is similar to the hierarchy of *objects* that we’ve seen before in Section 2.10.
+
+
+## 8.3. Privileges 
+
+Privileges define **granular level of access to an object**. 
+
+We can `GRANT` and `REVOKE` privileges. The owner of an object can manage its privileges. The `SECURITYADMIN` role has the **global** `MANAGE GRANTS` privilege, so can manage privileges on **any** object. 
+
+We can see all privileges in the Snowflake docs. 
+
+Some of the important ones below. 
+
+Global privileges:
+
+- CREATE SHARE
+- IMPORT SHARE
+- APPLY MASKING POLICY
+
+Virtual warehouse:
+
+- MODIFY - E.g. resizing
+- MONITOR - View executed queries 
+- OPERATE - Suspend or resume
+- USAGE - Use the warehouse to execute queries 
+- OWNERSHIP - Full control over the warehouse. Only one role can be an owner. 
+- ALL - All privileges *except ownership*
+
+
+Databases:
+
+- MODIFY - `ALTER` properties of the database 
+- MONITOR - Use the `DESCRIBE` command
+- USAGE - Query the database and execute `SHOW DATABASES` command
+- REFERENCE_USAGE - Use an object (usually secured view) to reference another object in a different database 
+- OWNERSHIP - Full control
+- ALL - Everything except ownership 
+- CREATE SCHEMA
+
+Stages:
+
+- READ - Only for **internal** stages. Use GET, LIST, COPY INTO commands
+- WRITE - Only for **internal** stages. Use PUT, REMOVE, COPY INTO commands
+- USAGE - Only for **external** stages. Equivalent of read and write. 
+- ALL
+- OWNERSHIP
+
+Tables:
+
+- SELECT
+- INSERT
+- UPDATE
+- DELETE
+- TRUNCATED
+- DELETE
+- ALL
+- OWNERSHIP
+
+
+We can see the grants of a role with:
+```
+SHOW GRANTS TO ROLE MARKETING_ADMIN
+```
+
+We can see which users are assigned to a role with
+```
+SHOW GRANTS OF ROLE MARKETING_ADMIN
+```
+
+## 8.4. Authentication 
+Authentication is **proving that you are who you say you are**. 
+
+Snowflake uses **Multi-Factor Authentication (MFA)**. 
+This is powered by Duo, managed by Snowflake. 
+MFA is available for all Snowflake editions and is supported by all Snowflake interfaces: web UI, SnowSQL, ODBC and JDBC, Python connectors. 
+
+Enabled by default for accounts but **requires users to enroll**. Strongly recommended to use MFA for `ACCOUNTADMIN`.
+
+The `SECURITYADMIN` or `ACCOUNTADMIN` roles can disable MFA for a user. 
+
+We can enable MFA *token caching* to reduce the number of prompts. This needs to be enabled; it isn’t by default. 
+It makes the MFA token valid for 4 hours. 
+Available for ODBC driver, JDBC driver and Python connector. 
+
+
+## 8.5. SSO
+
+Federated authentication enables users to login via Single Sign-On (SSO). 
+
+The federated environment has two components:
+
+1. **Service provider**: Snowflake
+2. **External identity provider**: Maintains credentials and authenticates users. Native support for Okta and Microsoft AD FS. Most SAML 2.0 compliant vendors are supported. 
+
+Workflow for Snowflake-initiated login:
+
+1. User navigates to web UI
+2. Choose login via configured Identity Provider (IdP)
+3. Authenticate via IdP credentials 
+4. IdP sends a SAML response to Snowflake
+5. Snowflake opens a new session
+
+Workflow for IdP-initiated login:
+
+1. User navigates to IdP
+2. Authenticate via IdP credentials 
+3. Select Snowflake as an application 
+4. IdP sends a SAML response to Snowflake
+5. Snowflake opens a new session
+
+IdP has SCIM support. This is an open standard for automating user provisioning. 
+We can create a user in the IdP and this provisions the user in Snowflake. 
+
+
+## 8.6. Key-Pair Authentication 
+
+Enhanced security as an alternative to basic username and password. 
+
+**User has a public key and a private key**. This is the key-pair. 
+Minimum key size is 2048-bit RSA key-pair. 
+
+Setting this up:
+
+1. Generate private key
+2. Generate public key
+3. Store keys locally
+4. Assign public key to user. See command below. 
+5. Configure client to use key-pair authentication 
+
+We can set the public key for a user with:
+```
+ALTER USER my_user SET
+RSA_PUBLIC_KEY 'Fuak_shakfjsb';
+```
+
+## 8.7. Column-level Security
+
+Column-level security **masks data in tables and views** enforced on columns. 
+
+This is an *enterprise edition* feature. 
+
+
+### 8.7.1. Dynamic Data Masking
+
+With “dynamic data masking” the unmasked data is stored in the database, then depending on the role querying the data it is **masked at runtime**. 
+
+We can **define a masking policy** with:
+```
+CREATE MASKING POLICY my_policy
+AS (col1 varchar) RETURNS varchar ->
+    CASE
+    WHEN CURRENT ROLE IN (role_name)
+    THEN col1
+    ELSE “##-##”
+    END;
+```
+
+We **apply a masking policy** with:
+```
+ALTER TABLE my_table MODIFY COLUMN phone;
+```
+
+We can **remove the policy** with:
+```
+UNSET MASKING POLICY my_policy;
+```
+
+
+## 8.8. External Tokenisation 
+Data is tokenised. 
+
+The benefit is the **analytical value is preserved**; we can still group the data and draw conclusions, it’s just **anonymised**. Sensitive data is protected. 
+
+The tokenisation happens in a pre-load step and the *detokenisation happens at query runtime*. 
+
+
+## 8.9. Row-level Security
+Row access policies allow us to determine **which rows are visible to which users**.
+
+This is only available in the *enterprise edition*. 
+
+Rows are **filtered at runtime** on a given condition *based on user or role*.
+
+**Define the policy** with:
+```
+CREATE ROW ACCESS POLICY my_policy
+AS (col1 varchar) returns Boolean ->
+	CASE
+	WHEN current_role() = 'EXAMPLE_ROLE'
+	AND col1 = 'value1' THEN true
+	ELSE false
+	END;
+```
+
+**Apply the policy** with:
+```
+ALTER TABLE my_table ADD ROW POLICY my_policy
+ON (col1);
+```
+
+
+## 8.10. Network Policies
+Network policies allow us to **restrict access to accounts based on the user’s IP address**. 
+We can also specify ranges of addresses. 
+
+This is available in all Snowflake editions. 
+
+We can either **whitelist or blacklist** IP addresses. 
+If an address is in *both*, the blacklist takes precedence and the IP address is blocked. 
+
+To create a network policy we need the `SECURITYADMIN` role since this has the global `CREATE NETWORK POLICY` privilege. 
+
+```
+CREATE NETWORK POLICY my_network_policy
+ALLOWED_IP_LIST = ('192.168.1.95', '192.168.1.113'),
+BLOCKED_IP_LIST = ('192.168.1.95')  -- Blacklist takes precedence
+```
+
+To apply this to an account, we again need the SECURITYADMIN role. 
+This is a bit of an exception because this is a change to the *account* but we don’t need to be *ACCOUNTADMIN*. 
+
+```
+ALTER ACCOUNT SET NETWORK_POLICY;
+```
+
+We can also alter a *USER* instead of an *ACCOUNT* if we have ownership of the user and the network policy. 
+
+
+## 8.11. Data Encryption
+
+All data is **encrypted at rest and in transit**. 
+
+This is in all editions and happens automatically by default. 
+
+
+### 8.11.1. Encryption at Rest
+Relevant to data in tables and internal stages.
+AES 256-bit encryption managed by Snowflake. 
+
+New keys are generated for new data every 30 days. Data generated with the old key will still use that old key. 
+Old keys are preserved as long as there is still data that uses them; if not they are destroyed. 
+
+We can manually enable a feature to **re-key all data every year**. This is in the enterprise edition. 
+
+
+### 8.11.2. Data in Transit
+This is relevant for all Snowflake interfaces: WebUI, SnowSQL, JDBc, ODBC, Python Connector. 
+TLS 1.2 end-to-end encryption. 
+
+
+### 8.11.3. Other Encryption Features
+We can additionally enable **client-side encryption** in external stages. 
+
+**"Tri-secret secure"** enables customers to use their own keys. 
+It is a *business-critical* edition feature. 
+There is a **composite master key** which combines this customer-managed key with a Snowflake-managed key. 
+
+
+## 8.12. Account Usage and Information Schema
+These are functions we can use to **query object metadata and historical data usage**. 
+
+
+The `ACCOUNT_USAGE` schema is available in the `SNOWFLAKE` database, which is a shared database available to all accounts. The ACCOUNTADMIN can see everything. 
+There are **object metadata views** like `COLUMNS`, and **historical usage data views** like `COPY_HISTORY`. 
+The data is **not real-time**; there is a lag of 45 mins to 3 hours depending on the view. 
+**Retention period is 365 days**. 
+This does **include dropped objects** so can include a DELETED column. 
+
+`READER_ACCOUNT_USAGE` lets us query object metadata and historical usage data for reader accounts. It is more limited. 
+
+The `INFORMATION_SCHEMA` is a default schema available in all databases. 
+This is read-only data about the parent database and account-level information. 
+The output depends on which privileges you have. 
+There is a lot of data returned so it can return messages saying to filter the query down. 
+**Shorter retention period**: 7 days to 6 months. This is **real-time**, there is no delay. 
+**Does not include dropped objects**. 
+
+
+## 8.13. Release Process
+Releases are weekly with no downtime. 
+
+- Full releases: New features, enhancements, fixes, behaviour changes
+    - Behaviour changes are monthly (i.e. every 4 weekly releases)
+- Patch releases: Bugfixes
+
+Snowflake operate a three stage release approach:
+
+- Day 1: early access for enterprise accounts who request this
+- Day 1/2: regular access for standard accounts
+- Day 2: final access for enterprise or higher accounts
+
 
 # 9. Performance Concepts
 
+## 9.1. Query Profile
+This is a **graphical representation of the query execution**.
+This helps us understand the components of the query and optimise its performance.
+
+### 9.1.1. Accessing Query History
+
+There are three ways to view the query history:
+
+(1) In **Snowsight**. This is in the `Activity -> Query History` tab, or the Query tab in a worksheet for the most recent query.
+
+(2) **Information schema**
+```
+SELECT * FROM TABLE(INFORMATION_SCHEMA.QUERY_HISTORY())
+ORDER BY START_TIME;
+```
+(3) **Account usage schema**
+```
+SELECT * FROM SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY;
+```
+
+### 9.1.2. The Graphical Representation of a Query
+The "Operator Tree" is a graphical representation of the "Operator Types", which are components of query processing.
+We can also see the data flow, i.e. the number of records processed.
+The is also a percentage on each node indicating the percentage of overall execution time.
+
+The "Profile Overview" tab gives details of the total time taken.
+The "Statistics" tab shows number of bytes scanned, percentage from cache, number of paritions scan.
+
+### 9.1.3. Data Spilling
+It also shows **"data spilling"**, when the data does not fit in memory and is therefore written to the local storage disk. This is called "spilling to disk".
+If the local storage is filled, the data is further spilled to *remote cloud storage*. This is called "spilling to cloud".
+
+To **reduce spilling**, we can either run a smaller query or use a bigger warehouse.
+
+
+## 9.2. Caching
+
+There are three mechanisms for caching:
+
+1. Result cache
+2. Data cache
+3. Metadata cache
+
+If the data is not in a cache, it is retrieved from storage, i.e. the remote disk.
+
+### 9.2.1. Result Cache
+Stores the results of a query. 
+This happens in the *cloud service layer*.
+
+The result is very fast and avoids re-execution.
+
+This can only happen if: 
+
+(1) The table data and micro-partitions have not changed, 
+(2) The query does not use UDFs or enternal functions
+(3) Sufficient privileges and results are still available (cache is valid for 24 hours)
+
+Result caching is **enabled by default**, but can be disabled using the `USE_CACHED_RESULT` parameter.
+
+The result cache is **purged after 24 hours**. If the query is re-run, it resets the purge timer, up to a maximum of 31 days.
+
+
+### 9.2.2. Data Cache
+The local SSD disk of the virtual warehouse.
+This cannot be shared with other warehouses.
+
+It improves the performance of subsequent queries which use the same underlying data.
+We can therefore improve performance and costs by using the same warehouse for queries on similar data.
+
+The data cache is purged if the warehouse is suspended or resized.
+
+
+### 9.2.3. Metadata cache
+Stores statistics for tables and columns in the *cloud services layer*.
+
+This is also known as the "metadata store". The virtual private Snowflake edition allows for a dedicated metadata store.
+
+The metadata cache stores results about the data, such as range of values in a micro-partition, count rows, count distinct values, max/min values.
+We can then query these without using the virtual warehouse.
+
+This is used for functions like `DESCRIBE` and other system-defined functions.
 
 
 # References
