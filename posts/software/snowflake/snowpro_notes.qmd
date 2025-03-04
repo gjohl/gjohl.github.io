@@ -2215,6 +2215,19 @@ DROP CLUSTER KEY;
 ```
 
 
+### 9.3.5. Systems Functions for Clustering
+
+For info on clustering on a table, we can run this command to get a json result.
+```
+SYSTEM$CLUSTERING_INFORMATION('my_table', '(col1, col3)')
+```
+
+This contains info on:
+total_partition_count, total_constant_partition_count, average_overlaps, average_depth, partition_depth_histogram.
+The notes key contains Snowflake info/warning messages, such as when a clustering key has high cardinality.
+
+
+
 # References
 
 - ["Snowflake Certification: SnowPro Core COF-C02 Exam Prep" Udemy course](https://www.udemy.com/course/snowflake-certification-snowpro-core-exam-prep)
