@@ -2117,6 +2117,117 @@ We can then query these without using the virtual warehouse.
 This is used for functions like `DESCRIBE` and other system-defined functions.
 
 
+## 9.3. Micro Partitions
+
+The data is cloud storage is stored in micro partitions. 
+
+These are chunks of data, usually about 50-500MB in uncompressed size (although they are compressed by Snowflake). 
+The most efficient compression algorithm for each micro partition is used independently. 
+
+This is specific to Snowflake’s architecture. 
+
+Data is stored in a columnar form. We can improve read queries by **only selecting required columns**. 
+
+Micro partitions are **immutable** - they cannot be changed once created. 
+New data will be stored in new micro partitions, so the *partitions depend on the order of insertion*. 
+
+
+### 9.3.1. Partition Pruning
+Micro partitions allow for very granular **partition pruning**. 
+When we run a query on a table, we can *eliminate unnecessary partitions*. 
+
+Snowflake stores metadata per micro partition. E.g. range of values, number of distinct values, and other properties for query optimisation.
+
+Snowflake optimises queries by using the metadata to determine if a micro partition needs to be read, so it can avoid reading all of the data.
+
+
+### 9.3.2. Clustering Keys
+**Clustering keys** let us influence how the data is partitioned. 
+This helps improve query performance by *improving partition pruning*.
+Grouping similar rows in micro-partitions also generally *improves column compression*.
+
+Clustering a table on a specific column redistributes the data in the micro-partitions. 
+
+Snowflake stored metadata about the micro-partitions in a table: 
+
+- **Number of micro-partitions**
+- **Overlapping micro-partitions**: Number of partitions with overlapping values
+- **Clustering depth**: Average depth of overlapping columns for a specific column
+
+A table with micro-partitions that are optimal are said to be in a **"constant state"**.
+
+
+### 9.3.3. Reclustering
+Reclustering does not update immediately, it happens during *periodic reclustering*.
+
+Once we define the clustering keys, Snowflake handles the **automatic reclustering** in the cloud services layer (serverless).
+This only adjusts the micro-partitions that would benefit from reclustering.
+
+New partitions are created and the old partitions *marked as* deleted. They are not immediately deleted, they remain accessible for the time travel period, which incurs storage costs.
+
+This incurs **costs**:
+
+- Serverless costs: Credit consumption of reclustering
+- Storage costs: Old partitions are maintained for time travel
+
+Clustering is therefore *not appropriate for every table*. It depends on the use case; does the usage (and improved query performance) justify the cost?
+
+
+The columns which would benefit most from clustering:
+
+- Large number of micro-partitions
+    - In the extreme case, if a table only had one micro-partition there would be no point pruning or reclustering.
+- Frequently used in WHERE, JOIN, ORDER BY
+- Goldilocks amount of cardinality
+    - If there are only a small number of possible values, e.g. True/False, then pruning would not be very effective
+    - If there are too many unique values, e.g. timestamps, then there would not be an efficient grouping of values within a micro-partition
+
+
+### 9.3.4. Defining Clustering Keys
+
+A cluster key can be added at any time.
+
+When clustering on multiple columns, it is best practice to cluster on the lowest cardinality first and go in order of increasing cardinality.
+In the example below, col1 has fewer unique values than col5.
+
+Defining a clustering key:
+```
+ALTER TABLE table_name 
+CLUSTER BY (col1, col5);
+```
+
+We can use expressions in the clustering key. A common use case is converting timestamps to dates.
+```
+ALTER TABLE table_name 
+CLUSTER BY (DATE(timestamp));
+```
+
+We can also define the clustering key at the point of creating the table.
+```
+CREATE TABLE table_name
+CLUSTER BY (col1, col5);
+```
+
+We can remove clustering keys with:
+```
+ALTER TABLE table_name 
+DROP CLUSTER KEY;
+```
+
+
+### 9.3.5. Systems Functions for Clustering
+
+For info on clustering on a table, we can run this command to get a json result.
+```
+SYSTEM$CLUSTERING_INFORMATION('my_table', '(col1, col3)')
+```
+
+This contains info on:
+total_partition_count, total_constant_partition_count, average_overlaps, average_depth, partition_depth_histogram.
+The notes key contains Snowflake info/warning messages, such as when a clustering key has high cardinality.
+
+
+
 # References
 
 - ["Snowflake Certification: SnowPro Core COF-C02 Exam Prep" Udemy course](https://www.udemy.com/course/snowflake-certification-snowpro-core-exam-prep)
