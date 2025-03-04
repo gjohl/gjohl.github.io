@@ -2223,9 +2223,102 @@ SYSTEM$CLUSTERING_INFORMATION('my_table', '(col1, col3)')
 ```
 
 This contains info on:
-total_partition_count, total_constant_partition_count, average_overlaps, average_depth, partition_depth_histogram.
-The notes key contains Snowflake info/warning messages, such as when a clustering key has high cardinality.
+`total_partition_count, total_constant_partition_count, average_overlaps, average_depth, partition_depth_histogram`.
 
+The `notes` key contains Snowflake info/warning messages, such as when a clustering key has high cardinality.
+
+
+## 9.4. Search Optimization Service
+
+This can improve performance of lookup and analytical **queries that use many predicates for filtering**.
+
+It does this by adding a **search access path**.
+
+The queries that benefit most from this are:
+
+- Selective point lookup: return very few rows
+- Equality or IN predicates
+- Substring and regex searches
+- Selective geospatial functions
+
+This is in the enterprise edition. 
+It is maintained by Snowflake once setup for a table.
+It runs in the cloud service layer, so **incurs serverless costs** and additional **storage costs**.
+
+We can add this to a table with the following command. We need either OWNERSHIP privileges on the table or the `ADD SEARCH OPTIMIZATION` privilege on the schema.
+```
+ALTER TABLE mytable
+ADD SEARCH OPTIMIZATION;
+```
+
+Adding it to the entire table is equivalent to specifying `ON EQUALITY(*)`. 
+We can be more specific about the columns we optimise:
+```
+ALTER TABLE mytable
+ADD SEARCH OPTIMIZATION ON GEO(mycol);
+```
+
+We can remove search optimization with
+```
+ALTER TABLE mytable
+DROP SEARCH OPTIMIZATION;
+```
+
+
+## 9.5. Materialised Views
+These can **improve performance issues of views**.
+This is useful for complex queries that are run frequently.
+
+Available in enterprise edition.
+
+We would typically create a regular view for a frequently run query.
+If this is compute-intensive, we can create **a materialised view which pre-computes the result and stores it in a physical table**.
+
+This differs to a regular Snowflake table because the underlying data may change.
+The materialised view is updated automatically by Snowflake using the cloud storage layer. This incurs *serverless costs and additional storage costs*.
+
+It is best practice to start small with materialised views and incrementally use more. Resource monitors can't control Snowflake-managed warehouses.
+
+
+We can see info on materialized views using:
+```
+SELECT * FROM TABLE(INFORMATION_SCHEMA.MATERIALIZED_VIEW_REFRESH_HISTORY());
+```
+
+To create a materialised view:
+```
+CREATE MATERIALIZED VIEW V_1 AS
+    SELECT * FROM table1 WHERE c1=200;
+```
+
+Constraints on materialised views:
+
+- Only query 1 table - no joins or self-joins
+- Can't query other views or materialized views
+- No window functions, UDFs or HAVING clauses
+- Some aggregate functions aren't allowed
+
+A typical use case is for queries on **external tables** which can be slow.
+
+We can pause and resume materialized views. This will stop automatic updates to save credit consumption.
+```
+ALTER MATERIALIZED VIEW v_1 SUSPEND;
+ALTER MATERIALIZED VIEW v_1 RESUME;
+```
+
+We can drop materialized views that we no longer need.
+```
+DROP MATERIALIZED VIEW v_1;
+```
+
+
+## 9.6. Warehouse Considerations
+Warehouses can be altered to improve performance.
+
+- **Resizing**: Warehouses can be resized when queries are running, but the new warehouse size will only affect future queries. The warehouse can also be resized when the warehouse is suspended.
+- **Scale up** for more complex queries. 
+- **Scale out** for more frequent queries. We may want to enable auto-scaling to automate this.
+- **Dedicated warehouse**: Isolate workload of specific users/team. Helpful to direct specific type of workload to a particular warehouse. Best practice to enable auto-suspend and auto-resume on dedicated warehouses.
 
 
 # References
