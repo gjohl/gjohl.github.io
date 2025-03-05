@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Gurpreet Johl">
-<meta name="dcterms.date" content="2025-02-13">
+<meta name="dcterms.date" content="2025-03-04">
 <meta name="description" content="Snowflake? Snow Problem.">
 
 <title>Gurpreet Johl - Snowflake: SnowPro Core</title>
@@ -185,7 +185,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">February 13, 2025</p>
+        <p class="date">March 4, 2025</p>
       </div>
     </div>
     
@@ -368,6 +368,17 @@ window.Quarto = {
   <li><a href="#data-cache" id="toc-data-cache" class="nav-link" data-scroll-target="#data-cache">9.2.2. Data Cache</a></li>
   <li><a href="#metadata-cache" id="toc-metadata-cache" class="nav-link" data-scroll-target="#metadata-cache">9.2.3. Metadata cache</a></li>
   </ul></li>
+  <li><a href="#micro-partitions" id="toc-micro-partitions" class="nav-link" data-scroll-target="#micro-partitions">9.3. Micro Partitions</a>
+  <ul class="collapse">
+  <li><a href="#partition-pruning" id="toc-partition-pruning" class="nav-link" data-scroll-target="#partition-pruning">9.3.1. Partition Pruning</a></li>
+  <li><a href="#clustering-keys" id="toc-clustering-keys" class="nav-link" data-scroll-target="#clustering-keys">9.3.2. Clustering Keys</a></li>
+  <li><a href="#reclustering" id="toc-reclustering" class="nav-link" data-scroll-target="#reclustering">9.3.3. Reclustering</a></li>
+  <li><a href="#defining-clustering-keys" id="toc-defining-clustering-keys" class="nav-link" data-scroll-target="#defining-clustering-keys">9.3.4. Defining Clustering Keys</a></li>
+  <li><a href="#systems-functions-for-clustering" id="toc-systems-functions-for-clustering" class="nav-link" data-scroll-target="#systems-functions-for-clustering">9.3.5. Systems Functions for Clustering</a></li>
+  </ul></li>
+  <li><a href="#search-optimization-service" id="toc-search-optimization-service" class="nav-link" data-scroll-target="#search-optimization-service">9.4. Search Optimization Service</a></li>
+  <li><a href="#materialised-views" id="toc-materialised-views" class="nav-link" data-scroll-target="#materialised-views">9.5. Materialised Views</a></li>
+  <li><a href="#warehouse-considerations" id="toc-warehouse-considerations" class="nav-link" data-scroll-target="#warehouse-considerations">9.6. Warehouse Considerations</a></li>
   </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
@@ -2139,6 +2150,139 @@ ORDER BY START_TIME;</code></pre>
 <p>The metadata cache stores results about the data, such as range of values in a micro-partition, count rows, count distinct values, max/min values. We can then query these without using the virtual warehouse.</p>
 <p>This is used for functions like <code>DESCRIBE</code> and other system-defined functions.</p>
 </section>
+</section>
+<section id="micro-partitions" class="level2">
+<h2 class="anchored" data-anchor-id="micro-partitions">9.3. Micro Partitions</h2>
+<p>The data is cloud storage is stored in micro partitions.</p>
+<p>These are chunks of data, usually about 50-500MB in uncompressed size (although they are compressed by Snowflake). The most efficient compression algorithm for each micro partition is used independently.</p>
+<p>This is specific to Snowflake’s architecture.</p>
+<p>Data is stored in a columnar form. We can improve read queries by <strong>only selecting required columns</strong>.</p>
+<p>Micro partitions are <strong>immutable</strong> - they cannot be changed once created. New data will be stored in new micro partitions, so the <em>partitions depend on the order of insertion</em>.</p>
+<section id="partition-pruning" class="level3">
+<h3 class="anchored" data-anchor-id="partition-pruning">9.3.1. Partition Pruning</h3>
+<p>Micro partitions allow for very granular <strong>partition pruning</strong>. When we run a query on a table, we can <em>eliminate unnecessary partitions</em>.</p>
+<p>Snowflake stores metadata per micro partition. E.g. range of values, number of distinct values, and other properties for query optimisation.</p>
+<p>Snowflake optimises queries by using the metadata to determine if a micro partition needs to be read, so it can avoid reading all of the data.</p>
+</section>
+<section id="clustering-keys" class="level3">
+<h3 class="anchored" data-anchor-id="clustering-keys">9.3.2. Clustering Keys</h3>
+<p><strong>Clustering keys</strong> let us influence how the data is partitioned. This helps improve query performance by <em>improving partition pruning</em>. Grouping similar rows in micro-partitions also generally <em>improves column compression</em>.</p>
+<p>Clustering a table on a specific column redistributes the data in the micro-partitions.</p>
+<p>Snowflake stored metadata about the micro-partitions in a table:</p>
+<ul>
+<li><strong>Number of micro-partitions</strong></li>
+<li><strong>Overlapping micro-partitions</strong>: Number of partitions with overlapping values</li>
+<li><strong>Clustering depth</strong>: Average depth of overlapping columns for a specific column</li>
+</ul>
+<p>A table with micro-partitions that are optimal are said to be in a <strong>“constant state”</strong>.</p>
+</section>
+<section id="reclustering" class="level3">
+<h3 class="anchored" data-anchor-id="reclustering">9.3.3. Reclustering</h3>
+<p>Reclustering does not update immediately, it happens during <em>periodic reclustering</em>.</p>
+<p>Once we define the clustering keys, Snowflake handles the <strong>automatic reclustering</strong> in the cloud services layer (serverless). This only adjusts the micro-partitions that would benefit from reclustering.</p>
+<p>New partitions are created and the old partitions <em>marked as</em> deleted. They are not immediately deleted, they remain accessible for the time travel period, which incurs storage costs.</p>
+<p>This incurs <strong>costs</strong>:</p>
+<ul>
+<li>Serverless costs: Credit consumption of reclustering</li>
+<li>Storage costs: Old partitions are maintained for time travel</li>
+</ul>
+<p>Clustering is therefore <em>not appropriate for every table</em>. It depends on the use case; does the usage (and improved query performance) justify the cost?</p>
+<p>The columns which would benefit most from clustering:</p>
+<ul>
+<li>Large number of micro-partitions
+<ul>
+<li>In the extreme case, if a table only had one micro-partition there would be no point pruning or reclustering.</li>
+</ul></li>
+<li>Frequently used in WHERE, JOIN, ORDER BY</li>
+<li>Goldilocks amount of cardinality
+<ul>
+<li>If there are only a small number of possible values, e.g.&nbsp;True/False, then pruning would not be very effective</li>
+<li>If there are too many unique values, e.g.&nbsp;timestamps, then there would not be an efficient grouping of values within a micro-partition</li>
+</ul></li>
+</ul>
+</section>
+<section id="defining-clustering-keys" class="level3">
+<h3 class="anchored" data-anchor-id="defining-clustering-keys">9.3.4. Defining Clustering Keys</h3>
+<p>A cluster key can be added at any time.</p>
+<p>When clustering on multiple columns, it is best practice to cluster on the lowest cardinality first and go in order of increasing cardinality. In the example below, col1 has fewer unique values than col5.</p>
+<p>Defining a clustering key:</p>
+<pre><code>ALTER TABLE table_name 
+CLUSTER BY (col1, col5);</code></pre>
+<p>We can use expressions in the clustering key. A common use case is converting timestamps to dates.</p>
+<pre><code>ALTER TABLE table_name 
+CLUSTER BY (DATE(timestamp));</code></pre>
+<p>We can also define the clustering key at the point of creating the table.</p>
+<pre><code>CREATE TABLE table_name
+CLUSTER BY (col1, col5);</code></pre>
+<p>We can remove clustering keys with:</p>
+<pre><code>ALTER TABLE table_name 
+DROP CLUSTER KEY;</code></pre>
+</section>
+<section id="systems-functions-for-clustering" class="level3">
+<h3 class="anchored" data-anchor-id="systems-functions-for-clustering">9.3.5. Systems Functions for Clustering</h3>
+<p>For info on clustering on a table, we can run this command to get a json result.</p>
+<pre><code>SYSTEM$CLUSTERING_INFORMATION('my_table', '(col1, col3)')</code></pre>
+<p>This contains info on: <code>total_partition_count, total_constant_partition_count, average_overlaps, average_depth, partition_depth_histogram</code>.</p>
+<p>The <code>notes</code> key contains Snowflake info/warning messages, such as when a clustering key has high cardinality.</p>
+</section>
+</section>
+<section id="search-optimization-service" class="level2">
+<h2 class="anchored" data-anchor-id="search-optimization-service">9.4. Search Optimization Service</h2>
+<p>This can improve performance of lookup and analytical <strong>queries that use many predicates for filtering</strong>.</p>
+<p>It does this by adding a <strong>search access path</strong>.</p>
+<p>The queries that benefit most from this are:</p>
+<ul>
+<li>Selective point lookup: return very few rows</li>
+<li>Equality or IN predicates</li>
+<li>Substring and regex searches</li>
+<li>Selective geospatial functions</li>
+</ul>
+<p>This is in the enterprise edition. It is maintained by Snowflake once setup for a table. It runs in the cloud service layer, so <strong>incurs serverless costs</strong> and additional <strong>storage costs</strong>.</p>
+<p>We can add this to a table with the following command. We need either OWNERSHIP privileges on the table or the <code>ADD SEARCH OPTIMIZATION</code> privilege on the schema.</p>
+<pre><code>ALTER TABLE mytable
+ADD SEARCH OPTIMIZATION;</code></pre>
+<p>Adding it to the entire table is equivalent to specifying <code>ON EQUALITY(*)</code>. We can be more specific about the columns we optimise:</p>
+<pre><code>ALTER TABLE mytable
+ADD SEARCH OPTIMIZATION ON GEO(mycol);</code></pre>
+<p>We can remove search optimization with</p>
+<pre><code>ALTER TABLE mytable
+DROP SEARCH OPTIMIZATION;</code></pre>
+</section>
+<section id="materialised-views" class="level2">
+<h2 class="anchored" data-anchor-id="materialised-views">9.5. Materialised Views</h2>
+<p>These can <strong>improve performance issues of views</strong>. This is useful for complex queries that are run frequently.</p>
+<p>Available in enterprise edition.</p>
+<p>We would typically create a regular view for a frequently run query. If this is compute-intensive, we can create <strong>a materialised view which pre-computes the result and stores it in a physical table</strong>.</p>
+<p>This differs to a regular Snowflake table because the underlying data may change. The materialised view is updated automatically by Snowflake using the cloud storage layer. This incurs <em>serverless costs and additional storage costs</em>.</p>
+<p>It is best practice to start small with materialised views and incrementally use more. Resource monitors can’t control Snowflake-managed warehouses.</p>
+<p>We can see info on materialized views using:</p>
+<pre><code>SELECT * FROM TABLE(INFORMATION_SCHEMA.MATERIALIZED_VIEW_REFRESH_HISTORY());</code></pre>
+<p>To create a materialised view:</p>
+<pre><code>CREATE MATERIALIZED VIEW V_1 AS
+    SELECT * FROM table1 WHERE c1=200;</code></pre>
+<p>Constraints on materialised views:</p>
+<ul>
+<li>Only query 1 table - no joins or self-joins</li>
+<li>Can’t query other views or materialized views</li>
+<li>No window functions, UDFs or HAVING clauses</li>
+<li>Some aggregate functions aren’t allowed</li>
+</ul>
+<p>A typical use case is for queries on <strong>external tables</strong> which can be slow.</p>
+<p>We can pause and resume materialized views. This will stop automatic updates to save credit consumption.</p>
+<pre><code>ALTER MATERIALIZED VIEW v_1 SUSPEND;
+ALTER MATERIALIZED VIEW v_1 RESUME;</code></pre>
+<p>We can drop materialized views that we no longer need.</p>
+<pre><code>DROP MATERIALIZED VIEW v_1;</code></pre>
+</section>
+<section id="warehouse-considerations" class="level2">
+<h2 class="anchored" data-anchor-id="warehouse-considerations">9.6. Warehouse Considerations</h2>
+<p>Warehouses can be altered to improve performance.</p>
+<ul>
+<li><strong>Resizing</strong>: Warehouses can be resized when queries are running, but the new warehouse size will only affect future queries. The warehouse can also be resized when the warehouse is suspended.</li>
+<li><strong>Scale up</strong> for more complex queries.</li>
+<li><strong>Scale out</strong> for more frequent queries. We may want to enable auto-scaling to automate this.</li>
+<li><strong>Dedicated warehouse</strong>: Isolate workload of specific users/team. Helpful to direct specific type of workload to a particular warehouse. Best practice to enable auto-suspend and auto-resume on dedicated warehouses.</li>
+</ul>
 </section>
 </section>
 <section id="references" class="level1">
