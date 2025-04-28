@@ -227,7 +227,7 @@ The **Instance Details** tab tells you the Instance ID, public IP address (to ac
 
 We can **stop** an instance to keep the storage state of the attached EBS volume but without incurring any more EC2 costs. The public IP address might change it stopping and starting. The private IP address stays the same. 
 
-Allternatively, we can **terminate** it completely. 
+Alternatively, we can **terminate** it completely. 
 
 
 ## 3.3. EC2 Instance Types
