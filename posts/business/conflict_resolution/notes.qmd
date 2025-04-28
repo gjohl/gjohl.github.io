@@ -1,119 +1,134 @@
 ---
 title: "Conflict Resolution"
 description: "SAA-C03"
-date: "2025-03-20"
-# image: "deep_learning_model.png"
+date: "2025-04-28"
 categories: [Business, Leadership]
 ---
 
-# Understanding conflict
-Distinction between disagreement and unhealthy conflict. Disagreement isn’t a bad thing!
+# 1. Understanding Conflict
+There is a distinction between healthy confilct (e.g. a disagreement) and unhealthy conflict. Disagreement isn’t inherently a bad thing!
 
-Relationships break down when people see conflicts as win/lose (“I’m so assertive and everyone needs to do what’s best for me”) or lose/win (“I’m so scared of conflict that I’ll people please to avoid it”). Eventually, both lead to lose/lose situations as parties retaliate in their own ways. 
+Relationships break down when people see conflicts as **win/lose** (“I’m so assertive and everyone needs to do what’s best for me”) or **lose/win** (“I’m so scared of conflict that I’ll people please to avoid it”). 
+Eventually, both lead to **lose/lose** situations as parties retaliate in their own ways. 
 
 Conflicts should be seen as opportunities for win/win. 
 
 
-## Phases of conflict
-Harmony, discomfort, disagreement, discord, polarisation, disintegration. 
+## 1.1. Phases of Escalation
 
-## Building trust
+1. **Harmony**. Things are peaceful. Differences of opinion may happen, but they're handled quickly and effectively.
+2. **Discomfort**. You're becoming aware in differences of values, ideas, needs, roles, goals, personalities, etc.
+3. **Disagreement**. Disagreements begin to feel more emotional. You feel vulnerable and threatened when there are differences of opinion.
+4. **Discord**. You have tried unsuccessfully to work through disagreements, and now tensions are rising. You gather evidence to prove why you are right and they are wrong. Talking does not help as you are both trying to prove the other wrong.
+5. **Polarisation**. Emotions are high and objectivity is lost. This is unhealthy conflict. A change of tactics is required to resolve conflict, otherwise the party with more power/authority will impose their will on others.
+6. **Disintegration**. Point of no return. The relationship has broken down and is beyond repair.
+
+
+## 1.2. Building Trust
 Trust is like a barometer of the health of a relationship. 
 
-Trust is a necessary but not sufficient condition of a healthy relationship. Having trust doesn’t mean conflicts will never occur, but they are less likely to turn toxic and more likely to be handled in good faith. 
+Trust is a necessary but not sufficient condition of a healthy relationship. 
+Having *trust doesn’t mean conflicts will never occur*, but they are *less likely to turn toxic* and more likely to be handled in good faith. 
 
-- Act from personal values
-- Make and keep commitments
-- Seek to improve
+- Act from personal values.
+- Make and keep commitments.
+- Seek to improve.
 - Accept accountability. Apologise. 
-- Be curious and interested in others
-- Praise in public
+- Be curious and interested in others.
+- Praise in public.
 - Listen to others and seek their input. Ensure all people have airtime. 
-- Seek solutions that are important to others, not just yourself
+- Seek solutions that are important to others, not just yourself.
 
-“We go fast when we walk alone. We go far when we walk together.”
-
-
-# Styles of Communication 
-
-“Communication is the largest single factor in determining the kinds of relationships an individual has with others and what happens to him in the world around him”
+> “We go fast when we walk alone. We go far when we walk together.”
 
 
-<draw this graph>
+# 2. Styles of Communication 
 
-X-axis - empathy - low to high concern for others
-Y-axis - assertiveness - concern for self
-
-Styles of communication:
-Bottom left - avoid
-Bottom right - accommodate 
-Top left - dominate 
-Top right - collaborate
+> “Communication is the largest single factor in determining the kinds of relationships an individual has with others and what happens to him in the world around him”
 
 
+## 2.1. The Four Styles
+We can categorise communication styles with respect to **empathy** (concern for others) vs **assertiveness** (concern for self).
 
-Patterns of communicating and handling conflict:
-1. Dominate / Accommodate - can work where one party is indifferent. The risk is the accommodator becomes resentful 
-2. Avoid / Avoid - can be harmonious but by avoiding the lows they avoid the highs
-3. Dominate / Dominate - lots of arguments, neither person listening or responding 
-4. Dominate / Avoid - one person in control, the other indifferent 
-5. Accommodate / Accommodate - both parties defer to each other, more concerned about the other’s needs, not concerned / used to getting what they personally want. 
+![Four styles of communication](CommunicationStyles.png)
 
-When is each style desirable?
+This gives rise to four communication styles:
+
+- **Dominators**. High assertiveness, low empathy. During conflict they handle their emotions by
+defending, arguing, lecturing, blaming, or attacking. Dominators don’t like to be wrong and
+they don’t like to lose. Their strategy is to convince, control or coerce other people.
+- **Accommodators**. Low assertiveness, high empathy. Accommodators tend to put the opinions, needs and feelings  of others ahead of their own; they are generally polite, easy to get along with, non-judgmental, and more self-aware than dominators or avoiders. During conflict, they defer to others and even give in. Over time, accommodators can grow resentful that their needs are unmet and act out in passive-aggressive ways.
+- **Avoiders**. Low assertivenss, low empathy. They are usually easy going, independent, rational and
+emotionally detached. If things get tense, they try to pretend that everything is okay; their strategy is to leave issues alone and hope that they will go away. They suppress their feelings, use humor, rationalize and minimize. Because they have a hard time dealing with emotional issues, their relationships aren’t as
+deep; they don’t disclose their true selves to other people but seek to play it safe. 
+- **Collaborators**. High assertiveness, high empathy. They are able to share their own point of
+view, needs and so on but are also able to show empathy for the views and needs of others, responding in
+ways that allow all parties to “win.” 
+
+
+Collaboration is what we aim for. In a healthy relationship, people are able to assert their own needs and opinions. Yet they are also sensitive to the needs and feelings of others. Understanding this balance is the essence of good communication, a healthy relationship, and the ability to resolve conflict productively. 
+
+
+## 2.2. Common Combinations of Commincation Styles and Handling Conflicts
+
+1. **Dominate / Accommodate**. Can work where one party is indifferent. The risk is the accommodator becomes resentful.
+2. **Avoid / Avoid**. Can be temporarily harmonious but by avoiding the lows they avoid the highs.
+3. **Dominate / Dominate**. Lots of arguments, neither person listening or responding.
+4. **Dominate / Avoid**. One person in control, the other indifferent.
+5. **Accommodate / Accommodate**. Both parties defer to each other, more concerned about the other’s needs, not concerned about or used to getting what they personally want. 
+
+## 2.3. When is Each Style Desirable?
+
 Nobody is “always” one style. It depends on the situation at hand and the other party involved. 
 
-- Dominate: when there is an emergency requiring decisive action, when protecting ourselves from others taking advantage, when our values are being violated
-- Accommodate: when preserving the relationship is more important than the issue at hand, when you need to buy time to respond, when you may be wrong or others may have better ideas, you want to give the other person a “win”
-- Avoid: when an issue seems trivial or unimportant, when the timing isn’t right, when the issue is outside of your control, when relationship damage outweighs the benefits of action
+Generally **collaboration** is ideal, but in certain scenarios we may fall into other styles:
+
+- **Dominate**: when there is an emergency requiring decisive action, when protecting ourselves from others taking advantage, when our values are being violated.
+- **Accommodate**: when preserving the relationship is more important than the issue at hand, when you need to buy time to respond, when you may be wrong or others may have better ideas, you want to give the other person a “win”.
+- **Avoid**: when an issue seems trivial or unimportant, when the timing isn’t right, when the issue is outside of your control, when relationship damage outweighs the benefits of action.
 
 
-# From Conflict to Collaboration 
+# 3. From Conflict to Collaboration 
 
-Collaboration becomes crucial as the topic of communication becomes sensitive, important or as conflict is escalating. 
+## 3.1. Dialogue
+Collaboration becomes crucial as the topic of communication becomes sensitive or important, or as conflict is escalating. 
 
-Collaboration is the only style that can address high stakes issues effectively. We succeed together or we fail together. 
+Collaboration is the only style that can address high stakes issues effectively. *We succeed together or we fail together.* 
 
-Dialogue is crucial for collaboration. 
+**Dialogue** is crucial for collaboration.
 Dialogue is defined as:
-“A participative process of communication in which people listen to understand each other’s point of view and then agree upon options to solve problems or resolve their disagreements”
 
-Argument vs dialogue
-<Table>
-Concerned with self 
-Concerned with self and others
+> “A participative process of communication in which people listen to understand each other’s point of view and then agree upon options to solve problems or resolve their disagreements”
 
-Adversarial 
-Unity
+There a key distinctions between arguments and dialogue.
 
-Intent to win
-Intent to learn and explore
-
-Listen to respond
-Listen to understand 
-
-Polarised positions
-Many sides
+| Argument                 | Dialogue                       |
+|--------------------------|--------------------------------|
+| Concerned with self      | Concerned with self and others |
+| Adversarial              | Unity                          |
+| Intent to win            | Intent to learn and explore    |
+| Listen to respond        | Listen to understand           |
+| Polarised positions      | Many sides                     |
+| Oversimplify issues      | View nuances and complexities  |
+| Right vs wrong           | Discovery                      |
+| Look for confirming data | Look for enlightenment         |
 
 
-Oversimplify issues
-View nuances and complexities
+## 3.2. Conflict Resolution Model
 
-Right vs wrong
-Discovery 
+There is usually a **trigger** for a conflict. 
 
-Look for confirming data
-Look for enlightenment 
+The intensity of the trigger depends on: 
 
+- Relationship context and culture - is there trust and goodwill?
+- The phases of escalation 
 
-## Conflict Resolution Model
-
-There is usually a trigger for a conflict. 
-The intensity of the trigger depends on: relationship context and culture (is there trust and goodwill?); the phases of escalation 
-
-<Copy flowchart from video>
+![Conflict resolution model](ConflictResolutionModel.png)
 
 
-## Collusion: The Opposite of Conflict Management 
+# 4. Approaching Dialoague
+
+## 4.1. Collusion: The Opposite of Conflict Management 
 
 Conflict: A circular and mutually reinforcing negative interaction 
 
@@ -386,3 +401,7 @@ Peace is not the absence of conflict. It’s the ability to handle conflict by p
 
 Every conflict we face can have a positive or negative potential. The choice is not up to our opponents but to us, and our willingness to face conflicts and work through them. 
 
+
+# References
+
+- [Cnflict Resolution Udemy course](https://www.udemy.com/course/become-a-master-at-resolving-conflict-at-home-or-work/learn/lecture/16070684#overview)
