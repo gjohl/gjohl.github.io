@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/software/aws/aws_saa_notes.html",
       "/posts/ml/hands_on_llm/chapter7/lesson.html",
       "/posts/software/snowflake/snowpro_notes.html",
       "/posts/ml/timeseries/timeseries.html",

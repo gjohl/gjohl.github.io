@@ -1,0 +1,260 @@
+---
+title: "AWS Solutions Architect"
+description: "SAA-C03"
+date: "2025-03-20"
+# image: "deep_learning_model.png"
+categories: [DataEngineering, Engineering, Software]
+---
+
+# 1. Getting Started
+## 1.1. AWS Global Infrastructure 
+**Regions** are geographic locations, e.g. europe-west-3, us-east-1, etc.
+
+How should we choose a region?
+
+- Compliance - data governance rules may require data within a certain location
+- Proximity to reduce latency
+- Available services vary by region
+- Pricing varies by region
+
+
+Each region can have multiple **Availability Zones**. 
+There are usually between 3 and 6, e.g. ap-southeast-2a, ap-southeast-2b and ap-southeast-2c.
+
+Each AZ contains multiple **data centers** with redundant power, networking and connectivity. 
+
+There are multiple **Edge Locations/Points of Presence**; 400 locations around the world. 
+
+
+## 1.2. Tour of the Console
+Some services are *global*: IAM, Route 53, CloudFront, WAF
+
+Most are *region-scoped*: EC2, Elastic Beanstalk, Lambda, Rekognition
+
+The **region selector** is in the top right. 
+The **service selector** in top left, or alternatively use search bar. 
+
+
+## 1.3. AWS Billing
+Click on **Billing and Cost Management** in the top right of the screen. 
+
+This needs to first be activated for administrator IAM users. 
+From the root account: 
+`Account (top right) -> IAM user and role access to billing information -> tick the Activate IAM Access checkbox`. 
+
+- **Bills** tab - You can see bills per service and per region. 
+- **Free Tier** tab - Check what the free tier quotas are, and your current and forecasted usage.
+- **Budgets** tab - set a budget. `Use a template -> Zero spend budget -> Budget name and email recipients`. This will alert as soon as you spend any money. There is also a monthly cost budget for regular reporting. 
+
+
+# 2. IAM
+
+## 2.1. Overview
+Identity and access management. 
+This is a *global* service. 
+
+The root account is created by default. 
+It shouldn’t be used or shared; just use it to create users. 
+
+**Users** are people within the org and can be grouped. 
+**Groups** cannot contain other groups. A user can belong to multiple groups (or none, but this is generally not best practice). 
+
+
+## 2.2. Permissions
+Users or groups can be assigned **policies** which are specified as a JSON document. 
+
+**Least privilege principle** means you shouldn’t give a user more permissions than they need. 
+
+
+## 2.3. Creating Users and Groups
+In the IAM dashboard, there is a `Users` tab. 
+
+There is a `Create User` button. We give them a user name and can choose a password (or autogenerate a password if this is for another user). 
+
+Then we can add permissions directly, or create a group and add the user. 
+
+To **create a group**, specify the name and permissions policy. 
+
+**Tags** are optional key-value pairs we can add to assign custom metadata to different resources. 
+
+We can also create an **account alias** in IAM to simplify the account sign in, rather than having to remember the account ID. 
+
+When signing in to the AWS console, you can choose to log in as root user or IAM user. 
+
+
+## 2.4. IAM Policies
+
+Policies can be **attached to groups**, or assigned as **inline policies** to a specific user. Groups are best practice. 
+
+Components of JSON document:
+
+- Version: Policy language version (date)
+- Id: Identifier for the policy
+- Statement: Specifies the permissions 
+
+
+Each statement consists of:
+
+- Sid: Optional identifier for the statement 
+- Effect: “Allow” or “Deny”
+- Principal: The account/user/role that this policy applies to
+- Action: List of actions that this policy allows or denies 
+- Resource: What the actions apply to, eg a bucket
+- Condition: Optional, conditions when this policy should apply
+
+“*” is a wildcard that matches anything. 
+
+
+## 2.5. MFA
+
+**Password policy** can have different settings: minimum length, specific characters, password expiration, prevent password re-use. 
+
+**Multi-factor authentication** requires the password you *know* and the device you *own* to log in.  
+A hacker needs both to compromise the account. 
+
+MFA devices:
+
+- Virtual MFA devices - Google Authenticator, Authy. Support for multiple tokens on a single device. 
+- Universal 2nd Factor Security Key (U2F) - eg YubiKey. Support for multiple root and IAM users on a single security key.  
+- Hardware key fob MFA device
+- Hardware key fob MFA device for AWS GovCloud
+
+
+## 2.6. Access Keys
+There are 3 approaches to access AWS:
+
+- Management console (web UI) - password + MFA
+- Command line interface (CLI) - access keys
+- Software Developer Kit (SDK) - access keys
+
+Access keys are generated through the console and managed by the user. 
+**Access Key ID** is like a username. 
+**Secret access key** is like a password. 
+Do not share access keys. 
+
+AWS CLI gives programmatic access to public APIs of AWS. It is open source. 
+Configure access keys in the CLI using `aws configure`.
+
+AWS SDK is for language-specific APIs. 
+
+
+## 2.7. AWS CloudShell
+
+Access using the **terminal icon** in the toolbar next to the search bar. 
+
+This is an alternative to using your own terminal to access the AWS CLI. It is a cloud-based terminal. 
+
+You can pass `--region` to a command to run in a region other than the region selected in the AWS console. 
+
+CloudShell has a file system attached so we can upload and download files. 
+
+
+## 2.8. IAM Roles for Services
+
+Some AWS services can perform actions on your behalf. To do so, they need the correct permissions, which we can grant with an IAM role. 
+
+For example, EC2 instance roles, Lambda Function roles, CloudFormation roles. 
+
+In IAM, select Roles. Choose AWS Service and select the use case, e.g. EC2. Then we attach a permissions policy, such as IAMReadOnlyAccess. 
+
+
+## 2.9. IAM Security Tools
+
+- **IAM Credentials Report**. Account-level report on all users and their credentials. 
+- **IAM Access Advisor**. User-level report on the service permissions granted to a user and when they were last accessed. This can help to see unused permissions to enforce principle of least privilege. This is in the *Access Advisor* tab under Users in IAM. 
+
+
+## 2.10 IAM Guidelines and Best Practices 
+
+- Don’t use root account except for account set up
+- One physical user = One AWS user 
+- Assign users to groups and assign permissions to groups
+- Create a strong password policy and use MFA
+- Use Roles to give permissions to AWS services
+- Use Access Keys for programmatic access via CLI and SDK
+- Audit permissions using credentials report and access advisor 
+- Never share IAM users or access keys
+
+
+## 2.11. Summary
+
+- **Users** map to a physical user 
+- **Groups** contain users. They can’t contain other groups. 
+- **Policies** are JSON documents denoting the permissions for a user / group
+- **Roles** grant permissions for AWS services like EC2 instances
+- **Security** use MFA and password policy
+- **Programmatic** use of services via CLI or SDK. **Access keys** manage permissions for these. 
+- **Audit** usage via credentials report or access advisor
+
+
+# 3. EC2
+
+## 3.1. EC2 Overview
+**Elastic Compute Cloud** used for infrastructure-as-a-service.
+
+Encompasses a few different use cases:
+
+- Renting virtual machines (EC2)
+- Storing data on virtual drives (EBS)
+- Distributing load across machines (ELB)
+- Scaling services using an auto-scaling group (ASG)
+
+Sizing and configuration options:
+
+- OS
+- CPU
+- RAM
+- Storage - This can be network-attached (EBS and EFS) or hardware (EC2 Instance Store)
+- Network Card - Speed of card and IP address
+- Firewall rules - Security group
+- Bootstrap script - Configure a script to run at first launch using and EC2 User Data script. This runs as the root user so has sudo access. 
+
+There are different instance types that have different combinations of the configuration options above. 
+
+
+## 3.2. Creating an EC2 Instance
+
+1. Specify a “name” tag for the instance and any other optional tags. 
+2. Choose a base image. OS. 
+3. Choose an instance type. 
+4. Key pair. This is optional and allows you to ssh into your instance. 
+5. Configure network settings. Public IP address, checkboxes to allow ssh access, http access 
+6. Configure storage amount and type. *Delete on termination* is an important selection to delete the EBS volume once the corresponding EC2 instance is terminated. 
+7. The “user data” box allows us to pass a bootstrap shell script.
+8. Check the summary and click Launch Instance. 
+
+The **Instance Details** tab tells you the Instance ID, public IP address (to access from the internet) and the private IP address (to access from within AWS). 
+
+We can **stop** an instance to keep the storage state of the attached EBS volume but without incurring any more EC2 costs. The public IP address might change it stopping and starting. The private IP address stays the same. 
+
+Alternatively, we can **terminate** it completely. 
+
+
+## 3.3. EC2 Instance Types
+
+There are several families of instances: general purpose, compute-optimised, memory-optimised, accelerated computing, storage-optimised.
+
+See the [AWS website](https://aws.amazon.com/ec2/instance-types/) for an overview of all instances. 
+There is also a handy comparison website [here](https://instances.vantage.sh/).
+
+The naming convention is:
+$$
+m5.large
+$$
+
+- `m` is the instance class
+- `5` is the generation (AWS releases new versions over time)
+- `large` is the size within the class
+
+The use cases for  each of the instance types:
+
+- **General purpose** is for generic workloads like web servers. Balance between compute, memory and networking. 
+- **Compute-optimized** instances for tasks that require good processors, such as batch processing, HPC, scientific modelling. 
+- **Memory-optimized** instances for large RAM, e.g. in-memory databases and big unstructured data processing. 
+- **Storage-optimised** instances for tasks that require reading and writing a lot of data from lcoal storage, e.g. high-frequnecy transaction processing, cache for in-memory databases, data warehouse.
+
+
+
+# References
+
+- [Stephane Maarek "Ultimate AWS Certified Solutions Architect Associate 2025" Udemy course](https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03)

@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.549">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Gurpreet Johl">
+<meta name="dcterms.date" content="2025-03-20">
+<meta name="description" content="SAA-C03">
+
+<title>Gurpreet Johl - AWS Solutions Architect</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Gurpreet Johl</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../blog.html"> 
+<span class="menu-text">Notes</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/gjohl"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/gurpreetjohl"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/gurpreetjohl"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">AWS Solutions Architect</h1>
+                  <div>
+        <div class="description">
+          SAA-C03
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">DataEngineering</div>
+                <div class="quarto-category">Engineering</div>
+                <div class="quarto-category">Software</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Gurpreet Johl </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 20, 2025</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#getting-started" id="toc-getting-started" class="nav-link active" data-scroll-target="#getting-started">1. Getting Started</a>
+  <ul class="collapse">
+  <li><a href="#aws-global-infrastructure" id="toc-aws-global-infrastructure" class="nav-link" data-scroll-target="#aws-global-infrastructure">1.1. AWS Global Infrastructure</a></li>
+  <li><a href="#tour-of-the-console" id="toc-tour-of-the-console" class="nav-link" data-scroll-target="#tour-of-the-console">1.2. Tour of the Console</a></li>
+  <li><a href="#aws-billing" id="toc-aws-billing" class="nav-link" data-scroll-target="#aws-billing">1.3. AWS Billing</a></li>
+  </ul></li>
+  <li><a href="#iam" id="toc-iam" class="nav-link" data-scroll-target="#iam">2. IAM</a>
+  <ul class="collapse">
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">2.1. Overview</a></li>
+  <li><a href="#permissions" id="toc-permissions" class="nav-link" data-scroll-target="#permissions">2.2. Permissions</a></li>
+  <li><a href="#creating-users-and-groups" id="toc-creating-users-and-groups" class="nav-link" data-scroll-target="#creating-users-and-groups">2.3. Creating Users and Groups</a></li>
+  <li><a href="#iam-policies" id="toc-iam-policies" class="nav-link" data-scroll-target="#iam-policies">2.4. IAM Policies</a></li>
+  <li><a href="#mfa" id="toc-mfa" class="nav-link" data-scroll-target="#mfa">2.5. MFA</a></li>
+  <li><a href="#access-keys" id="toc-access-keys" class="nav-link" data-scroll-target="#access-keys">2.6. Access Keys</a></li>
+  <li><a href="#aws-cloudshell" id="toc-aws-cloudshell" class="nav-link" data-scroll-target="#aws-cloudshell">2.7. AWS CloudShell</a></li>
+  <li><a href="#iam-roles-for-services" id="toc-iam-roles-for-services" class="nav-link" data-scroll-target="#iam-roles-for-services">2.8. IAM Roles for Services</a></li>
+  <li><a href="#iam-security-tools" id="toc-iam-security-tools" class="nav-link" data-scroll-target="#iam-security-tools">2.9. IAM Security Tools</a></li>
+  <li><a href="#iam-guidelines-and-best-practices" id="toc-iam-guidelines-and-best-practices" class="nav-link" data-scroll-target="#iam-guidelines-and-best-practices">2.10 IAM Guidelines and Best Practices</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">2.11. Summary</a></li>
+  </ul></li>
+  <li><a href="#ec2" id="toc-ec2" class="nav-link" data-scroll-target="#ec2">3. EC2</a>
+  <ul class="collapse">
+  <li><a href="#ec2-overview" id="toc-ec2-overview" class="nav-link" data-scroll-target="#ec2-overview">3.1. EC2 Overview</a></li>
+  <li><a href="#creating-an-ec2-instance" id="toc-creating-an-ec2-instance" class="nav-link" data-scroll-target="#creating-an-ec2-instance">3.2. Creating an EC2 Instance</a></li>
+  <li><a href="#ec2-instance-types" id="toc-ec2-instance-types" class="nav-link" data-scroll-target="#ec2-instance-types">3.3. EC2 Instance Types</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<section id="getting-started" class="level1">
+<h1>1. Getting Started</h1>
+<section id="aws-global-infrastructure" class="level2">
+<h2 class="anchored" data-anchor-id="aws-global-infrastructure">1.1. AWS Global Infrastructure</h2>
+<p><strong>Regions</strong> are geographic locations, e.g.&nbsp;europe-west-3, us-east-1, etc.</p>
+<p>How should we choose a region?</p>
+<ul>
+<li>Compliance - data governance rules may require data within a certain location</li>
+<li>Proximity to reduce latency</li>
+<li>Available services vary by region</li>
+<li>Pricing varies by region</li>
+</ul>
+<p>Each region can have multiple <strong>Availability Zones</strong>. There are usually between 3 and 6, e.g.&nbsp;ap-southeast-2a, ap-southeast-2b and ap-southeast-2c.</p>
+<p>Each AZ contains multiple <strong>data centers</strong> with redundant power, networking and connectivity.</p>
+<p>There are multiple <strong>Edge Locations/Points of Presence</strong>; 400 locations around the world.</p>
+</section>
+<section id="tour-of-the-console" class="level2">
+<h2 class="anchored" data-anchor-id="tour-of-the-console">1.2. Tour of the Console</h2>
+<p>Some services are <em>global</em>: IAM, Route 53, CloudFront, WAF</p>
+<p>Most are <em>region-scoped</em>: EC2, Elastic Beanstalk, Lambda, Rekognition</p>
+<p>The <strong>region selector</strong> is in the top right. The <strong>service selector</strong> in top left, or alternatively use search bar.</p>
+</section>
+<section id="aws-billing" class="level2">
+<h2 class="anchored" data-anchor-id="aws-billing">1.3. AWS Billing</h2>
+<p>Click on <strong>Billing and Cost Management</strong> in the top right of the screen.</p>
+<p>This needs to first be activated for administrator IAM users. From the root account: <code>Account (top right) -&gt; IAM user and role access to billing information -&gt; tick the Activate IAM Access checkbox</code>.</p>
+<ul>
+<li><strong>Bills</strong> tab - You can see bills per service and per region.</li>
+<li><strong>Free Tier</strong> tab - Check what the free tier quotas are, and your current and forecasted usage.</li>
+<li><strong>Budgets</strong> tab - set a budget. <code>Use a template -&gt; Zero spend budget -&gt; Budget name and email recipients</code>. This will alert as soon as you spend any money. There is also a monthly cost budget for regular reporting.</li>
+</ul>
+</section>
+</section>
+<section id="iam" class="level1">
+<h1>2. IAM</h1>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">2.1. Overview</h2>
+<p>Identity and access management. This is a <em>global</em> service.</p>
+<p>The root account is created by default. It shouldn’t be used or shared; just use it to create users.</p>
+<p><strong>Users</strong> are people within the org and can be grouped. <strong>Groups</strong> cannot contain other groups. A user can belong to multiple groups (or none, but this is generally not best practice).</p>
+</section>
+<section id="permissions" class="level2">
+<h2 class="anchored" data-anchor-id="permissions">2.2. Permissions</h2>
+<p>Users or groups can be assigned <strong>policies</strong> which are specified as a JSON document.</p>
+<p><strong>Least privilege principle</strong> means you shouldn’t give a user more permissions than they need.</p>
+</section>
+<section id="creating-users-and-groups" class="level2">
+<h2 class="anchored" data-anchor-id="creating-users-and-groups">2.3. Creating Users and Groups</h2>
+<p>In the IAM dashboard, there is a <code>Users</code> tab.</p>
+<p>There is a <code>Create User</code> button. We give them a user name and can choose a password (or autogenerate a password if this is for another user).</p>
+<p>Then we can add permissions directly, or create a group and add the user.</p>
+<p>To <strong>create a group</strong>, specify the name and permissions policy.</p>
+<p><strong>Tags</strong> are optional key-value pairs we can add to assign custom metadata to different resources.</p>
+<p>We can also create an <strong>account alias</strong> in IAM to simplify the account sign in, rather than having to remember the account ID.</p>
+<p>When signing in to the AWS console, you can choose to log in as root user or IAM user.</p>
+</section>
+<section id="iam-policies" class="level2">
+<h2 class="anchored" data-anchor-id="iam-policies">2.4. IAM Policies</h2>
+<p>Policies can be <strong>attached to groups</strong>, or assigned as <strong>inline policies</strong> to a specific user. Groups are best practice.</p>
+<p>Components of JSON document:</p>
+<ul>
+<li>Version: Policy language version (date)</li>
+<li>Id: Identifier for the policy</li>
+<li>Statement: Specifies the permissions</li>
+</ul>
+<p>Each statement consists of:</p>
+<ul>
+<li>Sid: Optional identifier for the statement</li>
+<li>Effect: “Allow” or “Deny”</li>
+<li>Principal: The account/user/role that this policy applies to</li>
+<li>Action: List of actions that this policy allows or denies</li>
+<li>Resource: What the actions apply to, eg a bucket</li>
+<li>Condition: Optional, conditions when this policy should apply</li>
+</ul>
+<p>“*” is a wildcard that matches anything.</p>
+</section>
+<section id="mfa" class="level2">
+<h2 class="anchored" data-anchor-id="mfa">2.5. MFA</h2>
+<p><strong>Password policy</strong> can have different settings: minimum length, specific characters, password expiration, prevent password re-use.</p>
+<p><strong>Multi-factor authentication</strong> requires the password you <em>know</em> and the device you <em>own</em> to log in.<br>
+A hacker needs both to compromise the account.</p>
+<p>MFA devices:</p>
+<ul>
+<li>Virtual MFA devices - Google Authenticator, Authy. Support for multiple tokens on a single device.</li>
+<li>Universal 2nd Factor Security Key (U2F) - eg YubiKey. Support for multiple root and IAM users on a single security key.<br>
+</li>
+<li>Hardware key fob MFA device</li>
+<li>Hardware key fob MFA device for AWS GovCloud</li>
+</ul>
+</section>
+<section id="access-keys" class="level2">
+<h2 class="anchored" data-anchor-id="access-keys">2.6. Access Keys</h2>
+<p>There are 3 approaches to access AWS:</p>
+<ul>
+<li>Management console (web UI) - password + MFA</li>
+<li>Command line interface (CLI) - access keys</li>
+<li>Software Developer Kit (SDK) - access keys</li>
+</ul>
+<p>Access keys are generated through the console and managed by the user. <strong>Access Key ID</strong> is like a username. <strong>Secret access key</strong> is like a password. Do not share access keys.</p>
+<p>AWS CLI gives programmatic access to public APIs of AWS. It is open source. Configure access keys in the CLI using <code>aws configure</code>.</p>
+<p>AWS SDK is for language-specific APIs.</p>
+</section>
+<section id="aws-cloudshell" class="level2">
+<h2 class="anchored" data-anchor-id="aws-cloudshell">2.7. AWS CloudShell</h2>
+<p>Access using the <strong>terminal icon</strong> in the toolbar next to the search bar.</p>
+<p>This is an alternative to using your own terminal to access the AWS CLI. It is a cloud-based terminal.</p>
+<p>You can pass <code>--region</code> to a command to run in a region other than the region selected in the AWS console.</p>
+<p>CloudShell has a file system attached so we can upload and download files.</p>
+</section>
+<section id="iam-roles-for-services" class="level2">
+<h2 class="anchored" data-anchor-id="iam-roles-for-services">2.8. IAM Roles for Services</h2>
+<p>Some AWS services can perform actions on your behalf. To do so, they need the correct permissions, which we can grant with an IAM role.</p>
+<p>For example, EC2 instance roles, Lambda Function roles, CloudFormation roles.</p>
+<p>In IAM, select Roles. Choose AWS Service and select the use case, e.g.&nbsp;EC2. Then we attach a permissions policy, such as IAMReadOnlyAccess.</p>
+</section>
+<section id="iam-security-tools" class="level2">
+<h2 class="anchored" data-anchor-id="iam-security-tools">2.9. IAM Security Tools</h2>
+<ul>
+<li><strong>IAM Credentials Report</strong>. Account-level report on all users and their credentials.</li>
+<li><strong>IAM Access Advisor</strong>. User-level report on the service permissions granted to a user and when they were last accessed. This can help to see unused permissions to enforce principle of least privilege. This is in the <em>Access Advisor</em> tab under Users in IAM.</li>
+</ul>
+</section>
+<section id="iam-guidelines-and-best-practices" class="level2">
+<h2 class="anchored" data-anchor-id="iam-guidelines-and-best-practices">2.10 IAM Guidelines and Best Practices</h2>
+<ul>
+<li>Don’t use root account except for account set up</li>
+<li>One physical user = One AWS user</li>
+<li>Assign users to groups and assign permissions to groups</li>
+<li>Create a strong password policy and use MFA</li>
+<li>Use Roles to give permissions to AWS services</li>
+<li>Use Access Keys for programmatic access via CLI and SDK</li>
+<li>Audit permissions using credentials report and access advisor</li>
+<li>Never share IAM users or access keys</li>
+</ul>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">2.11. Summary</h2>
+<ul>
+<li><strong>Users</strong> map to a physical user</li>
+<li><strong>Groups</strong> contain users. They can’t contain other groups.</li>
+<li><strong>Policies</strong> are JSON documents denoting the permissions for a user / group</li>
+<li><strong>Roles</strong> grant permissions for AWS services like EC2 instances</li>
+<li><strong>Security</strong> use MFA and password policy</li>
+<li><strong>Programmatic</strong> use of services via CLI or SDK. <strong>Access keys</strong> manage permissions for these.</li>
+<li><strong>Audit</strong> usage via credentials report or access advisor</li>
+</ul>
+</section>
+</section>
+<section id="ec2" class="level1">
+<h1>3. EC2</h1>
+<section id="ec2-overview" class="level2">
+<h2 class="anchored" data-anchor-id="ec2-overview">3.1. EC2 Overview</h2>
+<p><strong>Elastic Compute Cloud</strong> used for infrastructure-as-a-service.</p>
+<p>Encompasses a few different use cases:</p>
+<ul>
+<li>Renting virtual machines (EC2)</li>
+<li>Storing data on virtual drives (EBS)</li>
+<li>Distributing load across machines (ELB)</li>
+<li>Scaling services using an auto-scaling group (ASG)</li>
+</ul>
+<p>Sizing and configuration options:</p>
+<ul>
+<li>OS</li>
+<li>CPU</li>
+<li>RAM</li>
+<li>Storage - This can be network-attached (EBS and EFS) or hardware (EC2 Instance Store)</li>
+<li>Network Card - Speed of card and IP address</li>
+<li>Firewall rules - Security group</li>
+<li>Bootstrap script - Configure a script to run at first launch using and EC2 User Data script. This runs as the root user so has sudo access.</li>
+</ul>
+<p>There are different instance types that have different combinations of the configuration options above.</p>
+</section>
+<section id="creating-an-ec2-instance" class="level2">
+<h2 class="anchored" data-anchor-id="creating-an-ec2-instance">3.2. Creating an EC2 Instance</h2>
+<ol type="1">
+<li>Specify a “name” tag for the instance and any other optional tags.</li>
+<li>Choose a base image. OS.</li>
+<li>Choose an instance type.</li>
+<li>Key pair. This is optional and allows you to ssh into your instance.</li>
+<li>Configure network settings. Public IP address, checkboxes to allow ssh access, http access</li>
+<li>Configure storage amount and type. <em>Delete on termination</em> is an important selection to delete the EBS volume once the corresponding EC2 instance is terminated.</li>
+<li>The “user data” box allows us to pass a bootstrap shell script.</li>
+<li>Check the summary and click Launch Instance.</li>
+</ol>
+<p>The <strong>Instance Details</strong> tab tells you the Instance ID, public IP address (to access from the internet) and the private IP address (to access from within AWS).</p>
+<p>We can <strong>stop</strong> an instance to keep the storage state of the attached EBS volume but without incurring any more EC2 costs. The public IP address might change it stopping and starting. The private IP address stays the same.</p>
+<p>Alternatively, we can <strong>terminate</strong> it completely.</p>
+</section>
+<section id="ec2-instance-types" class="level2">
+<h2 class="anchored" data-anchor-id="ec2-instance-types">3.3. EC2 Instance Types</h2>
+<p>There are several families of instances: general purpose, compute-optimised, memory-optimised, accelerated computing, storage-optimised.</p>
+<p>See the <a href="https://aws.amazon.com/ec2/instance-types/">AWS website</a> for an overview of all instances. There is also a handy comparison website <a href="https://instances.vantage.sh/">here</a>.</p>
+<p>The naming convention is: <span class="math display">\[
+m5.large
+\]</span></p>
+<ul>
+<li><code>m</code> is the instance class</li>
+<li><code>5</code> is the generation (AWS releases new versions over time)</li>
+<li><code>large</code> is the size within the class</li>
+</ul>
+<p>The use cases for each of the instance types:</p>
+<ul>
+<li><strong>General purpose</strong> is for generic workloads like web servers. Balance between compute, memory and networking.</li>
+<li><strong>Compute-optimized</strong> instances for tasks that require good processors, such as batch processing, HPC, scientific modelling.</li>
+<li><strong>Memory-optimized</strong> instances for large RAM, e.g.&nbsp;in-memory databases and big unstructured data processing.</li>
+<li><strong>Storage-optimised</strong> instances for tasks that require reading and writing a lot of data from lcoal storage, e.g.&nbsp;high-frequnecy transaction processing, cache for in-memory databases, data warehouse.</li>
+</ul>
+</section>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<ul>
+<li><a href="https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03">Stephane Maarek “Ultimate AWS Certified Solutions Architect Associate 2025” Udemy course</a></li>
+</ul>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

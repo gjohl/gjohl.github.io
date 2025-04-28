@@ -6,10 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2022-01-12">
-<meta name="description" content="Next-generation robo advisor">
+<meta name="author" content="Gurpreet Johl">
+<meta name="dcterms.date" content="2025-03-06">
+<meta name="description" content="Part 8: RAG Time">
 
-<title>Gurpreet Johl - TradeIntel</title>
+<title>Gurpreet Johl - Hands-On LLMs: Semantic Search and Retrieval-Augmented Generation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,28 +23,59 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../">
+<script src="../../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -73,17 +105,17 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../../../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../index.html">
+    <a class="navbar-brand" href="../../../../index.html">
     <span class="navbar-title">Gurpreet Johl</span>
     </a>
   </div>
@@ -94,11 +126,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../projects.html"> 
+    <a class="nav-link" href="../../../../projects.html"> 
 <span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../blog.html"> 
+    <a class="nav-link" href="../../../../blog.html"> 
 <span class="menu-text">Notes</span></a>
   </li>  
 </ul>
@@ -126,54 +158,122 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Hands-On LLMs: Semantic Search and Retrieval-Augmented Generation</h1>
+                  <div>
+        <div class="description">
+          Part 8: RAG Time
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">AI</div>
+                <div class="quarto-category">Engineering</div>
+                <div class="quarto-category">GenerativeAI</div>
+                <div class="quarto-category">LLM</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Gurpreet Johl </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 6, 2025</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
-<!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">TradeIntel</h1>
-  <div class="quarto-categories">
-    <div class="quarto-category">Trading</div>
-    <div class="quarto-category">App</div>
-  </div>
-  </div>
-
-<div>
-  <div class="description">
-    Next-generation robo advisor
-  </div>
-</div>
-
-
-<div class="quarto-title-meta">
-
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">January 12, 2022</p>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#semantic-search-and-retrieval-augmented-generation" id="toc-semantic-search-and-retrieval-augmented-generation" class="nav-link active" data-scroll-target="#semantic-search-and-retrieval-augmented-generation">Semantic Search and Retrieval-Augmented Generation</a></li>
+  <li><a href="#applications-of-semantic-search" id="toc-applications-of-semantic-search" class="nav-link" data-scroll-target="#applications-of-semantic-search">1. Applications of Semantic Search</a></li>
+  <li><a href="#dense-retrieval" id="toc-dense-retrieval" class="nav-link" data-scroll-target="#dense-retrieval">2. Dense Retrieval</a></li>
+  <li><a href="#todo-from-page-323" id="toc-todo-from-page-323" class="nav-link" data-scroll-target="#todo-from-page-323">TODO: from page 323</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
     </div>
-  </div>
-  
-    
-  </div>
-  
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
-</header>
 
 
-<p><img src="trade-intel-splash-cropped.png" height="200"></p>
-<p>This is a robo-advisor app to give tailored stock portfolio recommendations.</p>
-<p>The user can input high-level preferences like their risk tolerance, industry preferences, and how closely they would like to follow the broader market. We then perform a portfolio optimisation process to recommend a robust portfolio based on those criteria.</p>
-<p>This is available on the <a href="https://apps.apple.com/gb/app/tradeintel/id1570837417">App Store</a></p>
-<p><a href="trade-intel-example.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="trade-intel-example.jpeg" height="500"></a></p>
+
+<section id="semantic-search-and-retrieval-augmented-generation" class="level1">
+<h1>Semantic Search and Retrieval-Augmented Generation</h1>
+</section>
+<section id="applications-of-semantic-search" class="level1">
+<h1>1. Applications of Semantic Search</h1>
+<p><strong>Semantic search</strong> is when we want to retrieve results that have a similar <strong>meaning</strong> to our query.</p>
+<p>Contrast this with <em>keyword search</em>, where we retrieve results that have the same <strong>words</strong> as our query.</p>
+<p>As an example, say our query is “dog”. A keyword search might retrieve results related to dogs, hot dogs, and dogging. Whereas a semantic search would results related to dogs, chihuahuas, dachshunds and puppies.</p>
+<p>Semantic search is helpful in the contexts of:</p>
+<ul>
+<li><strong>Dense retrieval</strong> - where we want to retrieve a small number of relevant documents from a large corpus based on the nearest neighbours in embedding space.</li>
+<li><strong>Re-ranking</strong> - where we already have a list of results from another step in the pipelines (e.g.&nbsp;keyword search) and want to re-order the results based on relevance.</li>
+<li><strong>Retrieval-Augmented Generation (RAG)</strong>, where a user’s prompt to an LLM is used to determine related documents, and those documents are fed to the LLM to generate an improved response.</li>
+</ul>
+</section>
+<section id="dense-retrieval" class="level1">
+<h1>2. Dense Retrieval</h1>
+<p>When we create an embedding for a document, we are essnetially creating a vector that in some way encodes its meaning. Each dimension corresponds to some aspect of the document. We can think of N-dimensional embedding vectors as points in N-dimensional space.</p>
+<p>Points which are close together are similar in some way, and points which are far apart are different.</p>
+<p>This is the premise behind semantic search systems. We <strong>embed the query</strong>, then find the <strong>documents which are the nearest neighbors</strong> to the query in the embedding space. These are our search results as they should be similar in meaning.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="query_embedding.png" class="img-fluid figure-img"></p>
+<figcaption>Query embedding</figcaption>
+</figure>
+</div>
+<p>Some points worth noting on this nearest neighbours approach:</p>
+<ul>
+<li>We may want to apply a minimum threshold to the similarity score to account for cases when there are no relevant documents in the corpus.</li>
+<li>Queries and their answers aren’t always semantically similar. This is why language models need ot be trained on question-answer pairs.</li>
+</ul>
+<p>The steps to create a dense retrieval system are:</p>
+<ol type="1">
+<li>Collect and pre-process the text data.</li>
+<li><strong>Chunk</strong> it into <em>documents</em></li>
+<li>Create <strong>embeddings</strong> for each document</li>
+<li>Build a search index</li>
+<li>Search for results (nearest neighbours)</li>
+</ol>
+</section>
+<section id="todo-from-page-323" class="level1">
+<h1>TODO: from page 323</h1>
+<div id="cell-4" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> faiss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<ul>
+<li>Chapter 8 of Hands-On Large Language Models by Jay Alammar &amp; Marten Grootendoorst</li>
+</ul>
 
 
+</section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -564,31 +664,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","closeEffect":"zoom","selector":".lightbox","openEffect":"zoom","loop":false});
-window.onload = () => {
-  lightboxQuarto.on('slide_before_load', (data) => {
-    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-    const href = trigger.getAttribute('href');
-    if (href !== null) {
-      const imgEl = window.document.querySelector(`a[href="${href}"] img`);
-      if (imgEl !== null) {
-        const srcAttr = imgEl.getAttribute("src");
-        if (srcAttr && srcAttr.startsWith("data:")) {
-          slideConfig.href = srcAttr;
-        }
-      }
-    } 
-  });
-
-  lightboxQuarto.on('slide_after_load', (data) => {
-    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-    if (window.Quarto?.typesetMath) {
-      window.Quarto.typesetMath(slideNode);
-    }
-  });
-
-};
-          </script>
 
 
 
