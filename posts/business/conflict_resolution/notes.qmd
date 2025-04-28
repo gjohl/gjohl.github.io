@@ -1,7 +1,8 @@
 ---
 title: "Conflict Resolution"
-description: "SAA-C03"
+description: "Cheaper Than Real Therapy"
 date: "2025-04-28"
+image: ConflictResolutionModel.png
 categories: [Business, Leadership]
 ---
 
@@ -67,6 +68,8 @@ ways that allow all parties to “win.”
 
 
 Collaboration is what we aim for. In a healthy relationship, people are able to assert their own needs and opinions. Yet they are also sensitive to the needs and feelings of others. Understanding this balance is the essence of good communication, a healthy relationship, and the ability to resolve conflict productively. 
+
+An additional thought on this: does the "self" in "concern for self" expand and contract depending on the situation? If somebody acts more or less assertively whne around others, is that because the sense of self expands to include others in the group? Like a mama bear being more assertive to protect her baby, because her sense of self now includes the baby; she will be more assertive for "mama + baby" than she would have been for "mama" alone. Similarly when people behave differently when their spouse is around.
 
 
 ## 2.2. Common Combinations of Commincation Styles and Handling Conflicts
