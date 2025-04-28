@@ -130,60 +130,59 @@ The intensity of the trigger depends on:
 
 ## 4.1. Collusion: The Opposite of Conflict Management 
 
-Conflict: A circular and mutually reinforcing negative interaction 
+Conflict can be thought of as "a circular and mutually reinforcing negative interaction".
 
-<Diagram>
-Person A:
-Interpretation-> feelings -> behaviour
-
-Person B:
-Interpretation-> feelings -> behaviour
-
-
-You are not responding to the behaviour of the other person, but your interpretation of their behaviour. 
-
+You are not responding to the **behaviour** of the other person, but your **interpretation of their behaviour**. 
 We judge ourselves by our intentions and others by their actions. 
 
-You need to break out of the collusive cycle to resolve conflict. Be curious about the other person’s interpretation. “The third story”. 
+![Collusion model](CollusionModel.png)
+
+
+You need to break out of the collusive cycle to resolve conflict. 
+Be curious about the other person’s interpretation: “the third story” in between yours and theirs.
+
 Dialogue is key to breaking collusion, but you first need to be willing to challenge your interpretation. 
 
 
-## Adopting the Right Mindset: Responsibility 
+## 4.2. Adopting the Right Mindset
+
+### 4.2.1. Responsibility 
 
 1. Look at your contribution during collusion. It takes two to collude, and even if you’re not fully at fault, it’s rare that you’re 0% at fault. Can you take accountability for the negative parts you are responsible for?
 2. Take responsibility for yourself. See the collusion diagram - You can’t control the other person’s interpretations, feelings or behaviours. But you can control your own. The other person doesn’t cause you to behave a certain way; they may be a trigger, but they cannot cause it, that takes away your personal power. 
 3. Think through three stories: yours, theirs, and the “third story” of a neutral observer. 
 
 
-## Adopting the Right Mindset: Dealing with Feelings
+### 4.2.2. Dealing with Feelings
+
 “Avoiding feelings” doesn’t work because they will always leak in to discussions through tone of voice, facial expressions etc. It also makes it difficult to listen to others when focusing so hard on repressing emotions. 
 
-Feelings are a symptom of conflict. Unfulfilled needs are the cause. You wouldn’t ignore an obvious physical symptom like a tumour, so don’t ignore feelings. 
+**Feelings are a symptom of conflict. Unfulfilled needs are the cause.** You wouldn’t ignore an obvious physical symptom like a tumour, so don’t ignore feelings. 
 
 Label your own feelings. All are valid, don’t judge them as good or bad. 
 Then you can understand your needs and which of these are not being met. 
 
-Four ways that one can respond to negative messages:
+There are four possible ways that one could respond to negative messages:
 
 1. Take the message personally and accept it
 2. Defend yourself and retaliate
-3. Become more aware of your own feelings and needs
+3. Become more aware of **your own** feelings and needs
 4. Understand the **other person’s** feelings and needs
 
-Option 4 is the best approach. 3 can be useful too. 1 and 2 are harmful. 
+Option 4 is the best approach. Option 3 can be useful too. Options 1 and 2 are harmful. 
 
-When sharing feelings, it is important to do so without judging or blaming. Start statements with “I” rather than “you”. 
+When sharing feelings, it is important to do so without judging or blaming. 
+**Start statements with “I” rather than “you”.**
 
 
-## Adopting the Right Mindset: Committing to Outcomes
+### 4.2.3. Committing to Outcomes
 
-Examine your trust paradigm. Do you see people as adversaries or allies? The point isn’t to assume bad people don’t exist; some people are untrustworthy. But do you start from an assumption of mistrust or trust? Guilty until proven innocent or innocent until proven guilty?
+Examine your trust paradigm. Do you see people as adversaries or allies? The point isn’t to assume bad people don’t exist; some people *are* untrustworthy. But do you start from an assumption of mistrust or trust? Guilty until proven innocent or innocent until proven guilty?
 
 The majority of disputes you have aren’t down to malice. 
 
 We have a tendency to assign negative emotions to others and positive to ourselves. 
 Trust begets trust. 
-
 
 Commit to collaboration. 
 Disagreements should focus on issues, not relationships. 
@@ -191,13 +190,13 @@ Disagreements should focus on issues, not relationships.
 
 Be clear about the outcomes you desire during negotiations. 
 This doesn’t mean have a stubborn outcome in mind that you aren’t willing to budge from. 
-Rather the outcome is to collaborate on a win-win result. 
+Rather, the outcome is to collaborate on a win-win result. 
 
 
-## Who Should Initiate Dialogue
+## 4.3. Who Should Initiate Dialogue
 A common misconception is that it should be the person with greater authority. 
 
-It can be anyone with a vested interest in the outcome and some ability to influence the outcome. 
+It can be **anyone with a vested interest in the outcome and some ability to influence the outcome**. 
 
 You may also want to weigh the risk vs reward. Some conversations might not be worth having. 
 
@@ -205,15 +204,17 @@ Times when it may be best to not initiate:
 
 - You’re upset and want to vent
 - The true conflict is internal - you’re actually angry about something else
-- The other person has no desire to resolve the conflict, and you don’t have the power to change their mind. 
+- The other person has no desire to resolve the conflict, and you don’t have the power to change their mind 
 - There is a power/authority imbalance
+
 
 Four considerations when deciding whether to enter into dialogue:
 
-1. Impact. Short-term and long-term consequences 
-2. Risk. Are you putting the relationship at risk by bringing up a topic? What could you potentially lose? What are the best, worst and most likely outcomes?
-3. Reward. What do you have to gain by resolving this conflict?
-4. Confident. How confident are you in initiating and facilitating dialogue?
+1. **Impact**. Short-term and long-term consequences 
+2. **Risk**. Are you putting the relationship at risk by bringing up a topic? What could you potentially lose? What are the best, worst and most likely outcomes?
+3. **Reward**. What do you have to gain by resolving this conflict?
+4. **Confidence**. How confident are you in initiating and facilitating dialogue?
+
 
 Not every conflict can be resolved:
 
@@ -221,187 +222,270 @@ Not every conflict can be resolved:
 - Some problems have no solutions. 
 
 
-# Phases of Conflict
+# 5. Phases of Conflict Resolution
 
 There are three objectives:
 
 1. Create an atmosphere of unity, mutual respect and goodwill
-2. Build a pool of shared understanding. Shared understanding is a precursor to problem solving; it means ensuring we all have the same background knowledge and shared perspective. We each come into a conversation with valid but limited perspective. Sharing our understanding gives us a better view of reality. 
+2. Build a **pool of shared understanding**. Shared understanding is a precursor to problem solving; it means ensuring we all have the same background knowledge and shared perspective. We each come into a conversation with valid but limited perspective. Sharing our understanding gives us a better view of reality. 
 3. Solve a problem.  
 
 
-<Summary of the phases below and steps in each in lesson 32 handout. >
+In brief, the phases of dialogue (or conflict resolution) are:
 
-## Preparation 
+1. Preparation
+    a. Understand the conflict resolution model and principles
+    b. Work through your own thoughts and feelings
+    c. Evaluate your commitment to collaboration
+2. Initiation
+    a. Initiate dialogue with a "leveling statement"
+    b. Clarify your intent and/or concerns
+    c. State your commitment to collaboration
+3. Exploration
+    a. Inquire about others' points of view
+    b. Advocate for your own point of view
+    c. Repeat the cycle of inquiry and advocacy until you have built a shared pool of understanding
+4. Collaboration 
+    a. Identify what is important to each person
+    b. Brainstorm options that will meet everyone's needs
+    c. Agree upon final solutions/actions
+
+
+## 5.1. Preparation 
 
 Putting yourself in the right frame of mind and deciding how to initiate dialogue. 
 
 Step back from conflict, even if only briefly. 
 
-1. Review the course rationally: nature of conflict, 4 communication styles, phases of escalation, collusion diagram and conflict resolution steps. 
+1. Review these course materials rationally: nature of conflict, four communication styles, phases of escalation, collusion diagram and conflict resolution steps. 
 2. Work through your thoughts and feelings. 
-3. Evaluate your commitment to collaboration.  
+3. Evaluate your commitment to collaboration by answering the questions below.
+
+
+Evaluating your commitment to collaboration:
+
 - What is your intent going in to this conversation? Is it to solve a problem, or to win, or to punish someone, or to survive an encounter?
 - Am I willing to show respect (in language, tone, demeanour)?
 - Am I committed to collaboration and win-win outcomes?
-- Am I willing to take responsibility rather than blame others 
-- Am I seeking shared understanding rather than trying to build my own case 
+- Am I willing to take responsibility rather than blame others?
+- Am I seeking shared understanding rather than trying to build my own case?
 - Am I willing to be curious about the other party and understand their point of view?
 - Can I listen and draw the other out?
 - Am I concerned for us rather than just me?
 - Am I willing to take the time necessary to arrive at a good outcome?
 
 
-## Invitation
+## 5.2. Invitation
 
-Inviting the other to problem solve together. 
+Inviting the other person to problem solve together. 
+
 Initiating the dialogue in a way that makes the other party feel safe sharing, thereby increasing the chances of a positive outcome. 
-
 Safety, respect and openness.  Allies not adversaries. 
 
-96% of the time, if a conversation starts poorly, it will end poorly. 
+**96% of the time, if a conversation starts poorly, it will end poorly.**
 
-1. Use a soft start up. This doesn’t mean you should beat around the bush, but it means avoiding criticism, contempt and accusations. “There’s something important that I’d like to get your thoughts on”, “I’d like to share something that I’ve been thinking about lately”, “I’d like to know your point of view about…”
-2. Show respect. You can disagree but still be respectful. 
-3. Avoid blame. Start with “I” rather than “you”; you own your feelings but you’re not responsible for the actions of others. 
-4. Use repair attempts. This is throughout the conversation, not just at the start. Try to de-escalate and defuse tension. Listen more if the other is getting defensive, acknowledge or apologise for mistakes, restate your intent to collaborate, recognise something good about the other or concede a point they’re making, light humour. Don’t get so caught up in this issue that your ignore HOW you’re communicating. 
-
-The following sub sections are important skills for invitation. 
+1. Use a **soft start up**. This doesn’t mean you should beat around the bush, but it means avoiding criticism, contempt and accusations. 
+2. **Show respect**. You can disagree but still be respectful. 
+3. **Avoid blame**. Start with “I” rather than “you”; you own your feelings but you’re not responsible for the actions of others. 
+4. Use **repair attempts**. This is throughout the conversation, not just at the start. Try to de-escalate and defuse tension. Listen more if the other is getting defensive, acknowledge or apologise for mistakes, restate your intent to collaborate, recognise something good about the other or concede a point they’re making, light humour. **Don’t get so caught up in this issue that your ignore HOW you’re communicating**. 
 
 
-### Leveling
+The following sub-sections discuss some important skills for invitation. 
+
+
+### 5.2.1. Soft Start Up
+
+Some examples of a soft start up to invite dialogue:
+
+> “There’s something important that I’d like to get your thoughts on”
+>
+> “I’d like to share something that I’ve been thinking about lately”
+>
+> “I’d like to know your point of view about…”
+
+
+### 5.2.2. Leveling
 Creating a climate for dialogue in which everybody knows they will be treated in a fair way. 
 
 Leveling statements are usually short and should include:
-1. State a concern without blame or hostility
-2. Express a desire to understand the other person’s point of view
-3. Let them know you want to work things out together
+
+1. **State a concern** without blame or hostility
+2. Express a **desire to understand the other person’s point of view**
+3. Let them know **you want to work things out together**
 
 
-### clarifying your intent
-Point out what you do and do not intend. Start with the don’t. 
-“I don’t intend to place blame. I do intend to get back to a good working relationship.”
+### 5.2.3. Clarifying Your Intent
 
-### clarifying your concerns
-Highlight any concerns about entering into dialogue at the beginning. “I don’t want you to think our relationship will be harmed by bringing this up”
+Point out what you do and do not intend. **Start with the don’t.**
+
+> “I don’t intend to place blame. I do intend to get back to a good working relationship.”
+
+### 5.2.4. Clarifying Your Concerns
+Highlight any concerns about entering into dialogue at the beginning. 
+
+> “I don’t want you to think our relationship will be harmed by bringing this up.”
 
 
-### Stating your commitment to collaboration
+### 5.2.5. Stating Your Commitment to Collaboration
 
-“My intent is to be helpful and not divisive”. 
+> “My intent is to be helpful and not divisive”. 
 
 
-## Exploration
+## 5.3. Exploration
 
-Develop a shared understanding of everybody’s perspective BEFORE we try to solve the problem. Problem solving happens in the next step, this step is purely informational. 
+Develop a shared understanding of everybody’s perspective **before** we try to solve the problem. Problem solving happens in the next step, this step is **purely informational**. 
+
+**Exploration is a feedback loop of inquiry and advocacy**. 
 
 
 Goals:
+
 - Identify and understand the assumptions and perceptions of all parties
 - To search for complete view of reality
 
 Two heads are better than one. No single person is smarter than everybody. 
-
-Research shows groups come to better decisions than individuals IF they draw everybody’s opinions out and don’t fall victim to groupthink. 
+Research shows groups come to better decisions than individuals **if** they draw everybody’s opinions out and don’t fall victim to groupthink. 
 
 
 Potential mistakes in this phase:
 
 - Trying to persuade or coerce others to your point of view
-- Moving to problem solving too quickly
+- Moving on to problem solving too quickly
 
 
-The skills of exploration. 
-Exploration is a feedback loop of inquiry and advocacy. Start with inquiry to demonstrate your intentions to listen and build trust. 
+### 5.3.1. Inquiry
+Inquiry is **"encouraging others to disclose their point of view then listening with empathy"**.
 
-Inquiry: encouraging others to disclose their point of view then listening with empathy.
-“What’s the situation as you see it?”
-“How do you see things?”
-“What are your thoughts?”
+Start with inquiry to demonstrate your intentions to listen and build trust. 
 
-This is active not passive. Ask follow on questions to draw them out. Acknowledge their point of view which is not the same as conceding or agreeing to it. 
-“Here’s how it looks from your point of view”
+Examples:
+
+> “What’s the situation as you see it?”
+>
+> “How do you see things?”
+>
+> “What are your thoughts?”
+
+This is **active not passive**. 
+Ask follow-on questions to draw them out. 
+**Acknowledge** their point of view which is **not the same as conceding or agreeing** to it. 
+
+
+> “Here’s how it looks from your point of view”
 
 Keys to inquiry:
+
 - Non-judgement
 - Suspend your own point of view
 - Be open and willing to learn
 - Keep the responsibility on the speaker
 
+
 Four skills of inquiry:
-1. Inviting. A statement that shows your willingness to listen. “What’s your POV?”, “Could you tell me more?”, “How do you see this differently?”
-2. Clarifying. Asking questions that invite the speaker to expand. “What was your interpretation of that comment?”, “Can you share more what you mean by that?”, “What did you feel when that occurred?”. Don’t overdo it or it begins to feel like an interrogation. 
-3. Empathy. Understand the deeper meaning, not just the words. 
-4. Priming. Making statements that represent your best guess when the other person shuts down or is struggling to articulate themselves. “I would guess that you’re opposed to what we’ve been discussing”
+
+1. **Inviting**. A statement that shows your willingness to listen. 
+
+    > “What’s your POV?”
+    > 
+    > “Could you tell me more?”
+    >
+    > “How do you see this differently?”
+2. **Clarifying**. Asking questions that invite the speaker to expand. Don’t overdo it or it begins to feel like an interrogation. 
+
+    > “What was your interpretation of that comment?”
+    > 
+    > “Can you share more what you mean by that?”
+    >
+    > “What did you feel when that occurred?”. 
+3. **Empathy**. Understand the deeper meaning, not just the words. 
+4. **Priming**. Making statements that represent your best guess when the other person shuts down or is struggling to articulate themselves. 
+    
+    > “I would guess that you’re opposed to what we’ve been discussing”
 
 
-Advocacy: disclosing your own point of view. Clearly but not dogmatically. Willingness to be influenced. 
-“This is the situation as I see it”
-“These are my thoughts”
+### 5.3.2. Advocacy
+Advocacy is **"disclosing your own point of view"**. 
 
-It can be help to do this in two parts: “this is my point of view and this is how I arrived at it”
+Do this clearly but not dogmatically; show a willingness to be influenced. 
+
+> “This is the situation as I see it”
+>
+> “These are my thoughts”
+
+
+It can be help to do this in two parts: 
+
+> “This is my point of view and this is how I arrived at it”
 
 1. Get right to the point. Don’t be vague or ramble. 
-2. Be willing to share your feelings
+2. Be willing to share your feelings.
 3. Advocate non-dogmatically. Share your opinion and be aware that there may be other valid opinions. 
-4. Encourage commentary 
-
-Usually, inquiry is the more important skill over advocacy because people need to be drawn out and made to feel safe. The exception is when dealing with dominators. Here, it is important to acknowledge their point but focus on assertively advocating your own point. You may even need to say “Can you let me know you understand what I’m saying?” or “Can you repeat back to me what I’m saying?”
-
-Immediacy: commenting on the process of communicating. This is often necessary when you have done your best to understand the other’s point of view but they are unwilling to reciprocate. “Can we get back to the issue? It feels like the conversation has become hostile”
+4. Encourage commentary.
 
 
-### Ground rules
+Usually, *inquiry is the more important skill over advocacy because people need to be drawn out* and made to feel safe. The exception is when dealing with *dominators*. Here, it is important to acknowledge their point but focus on assertively advocating your own point. You may even need to say “Can you let me know you understand what I’m saying?” or “Can you repeat back to me what I’m saying?”
+
+
+### 5.3.3. Immediacy
+Immediacy is **commenting on the process of communicating**. 
+
+This is often necessary when you have done your best to understand the other’s point of view but they are unwilling to reciprocate. 
+
+> “Can we get back to the issue? It feels like the conversation has become hostile”
+
+
+### 5.3.4. Ground Rules
 Particularly helpful with groups. 
 
 - Stay with the topic at hand and have one conversation at a time
-- Seek what is right not who is right
+- Seek **what** is right not **who** is right
 - Seek involvement from all members 
 - Share opinions honestly with the intent to be constructive 
 - Share feedback with the intent of helpfulness, even when it is difficult to give
 - Be open-minded to receive feedback, even when it is difficult to hear
-- If you disagree with the majority of the group, you have a responsibility to: (1) make sure you understand others’ POV, (2) explain your POV, (3) suggest alternative ideas that will work as well or better
+- If you disagree with the majority of the group, you have a responsibility to: 
+    1. Make sure you understand others’ point of view
+    2. Explain your own point of view
+    3. Suggest alternative ideas that will work as well or better
 - Keep disagreements in the group
 - What happens in the room stays in the room, aside from follow up actions and decisions 
 - Be patient with the process
 - Try to have fun, keep a sense of humour
 
 
+## 5.4. Collaboration 
 
-## Collaboration 
-
-Working together to find a win-win solution that solves everybody’s needs. 
+Working together to **find a win-win solution that solves everybody’s needs**. 
 
 In some cases we don’t even need the collaboration step. The shared understanding built in the exploration phase is enough to “clear the air” and no more action is needed. 
 
 Three steps to achieve solutions during collaboration:
 
-1. Identify what is important to each party. Unmet needs are at the heart of conflict. People don’t fight over solutions, they fight over their needs. These needs may have been identified in the exploration phase, but it’s worth getting each party to explicitly state their needs in their own words so they can be confident that these will be considered in any proposed solution. “What is most important to you as we search for a solution?”, “What needs do you have that need to be met in order to know that we’ve solved the problem”
-2. Brainstorm alternatives. Just list the options, you’re not settling on any single option yet. 
+1. **Identify what is important to each party**. *Unmet needs are at the heart of conflict*. People don’t fight over solutions, they fight over their needs. These needs may have been identified in the exploration phase, but it’s worth getting each party to explicitly state their needs in their own words so they can be confident that these will be considered in any proposed solution. “What is most important to you as we search for a solution?”, “What needs do you have that need to be met in order to know that we’ve solved the problem”
+2. **Brainstorm alternatives**. Just list the options, you’re not settling on any single option yet. See rules for brainstorming below.
+3. **Come up with actions or solutions**. Consensus is often helpful at this point. This is *not the same as unanimity*. **Consensus means that everyone has contributed to the process of brainstorming solutions. Everyone can support the final solution even if it wasn’t their idea or their first choice.** The decisions made by the group may well be different than those made if one person had been in complete control, and this is ok (and actively encouraged). 
+
 
 
 Rules for brainstorming:
 
-- Make sure everyone understand the desired outcome
-- Each person shares ideas. Can be round robin or spontaneously
-- One thought expressed at a time
-- No criticism of any ideas
-- Outrageous ideas encouraged
-- No discussion of the relative merits of ideas, only to clarify its meaning
-- Build on each other’s ideas 
-
-3. Come up with actions or solutions. Consensus is often helpful at this point. This is not the same as unanimity. Consensus means that everyone has contributed to the process of brainstorming solutions. Everyone can support the final solution even if it wasn’t their idea or their first choice. The decisions made by the group may well be different than those made if one person had been in complete control, and this is ok (and actively encouraged). 
+- Make sure everyone understand the desired outcome.
+- Each person shares ideas. Can be round robin or spontaneously.
+- One thought expressed at a time.
+- No criticism of any ideas.
+- Outrageous ideas encouraged.
+- No discussion of the relative merits of ideas, only to clarify its meaning.
+- Build on each other’s ideas.
 
 
-## Conclusion
+# 6. Conclusion
+Some parting thoughts:
 
-The quality of our relationships is a function of the quality of our communication. 
-
-Peace is not the absence of conflict. It’s the ability to handle conflict by peaceful means. 
-
-Every conflict we face can have a positive or negative potential. The choice is not up to our opponents but to us, and our willingness to face conflicts and work through them. 
+- The quality of our relationships is a function of the quality of our communication. 
+- Peace is not the absence of conflict. It’s the ability to handle conflict by peaceful means. 
+- Every conflict we face can have a positive or negative potential. The choice is not up to our opponents but to us, and our willingness to face conflicts and work through them. 
 
 
 # References
 
-- [Cnflict Resolution Udemy course](https://www.udemy.com/course/become-a-master-at-resolving-conflict-at-home-or-work/learn/lecture/16070684#overview)
+- [Conflict Resolution Udemy course](https://www.udemy.com/course/become-a-master-at-resolving-conflict-at-home-or-work/learn/lecture/16070684#overview)
