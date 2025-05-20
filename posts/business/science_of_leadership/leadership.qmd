@@ -6,30 +6,43 @@ date: "2025-05-20"
 categories: [Business, Leadership]
 ---
 
-# Our Brain
-The four “parts” of the brain. 
+# 1. Our Brain
+There are four “parts” of the brain:
 
-## Reptilian Brain
+1. Reptilian brain
+2. Paleolimbic brain
+3. Neolimbic brain
+4. Prefrontal brain
+
+
+## 1.1. Reptilian Brain
 Also called the “primitive brain”. 
-Responsible for survival instincts; only concerned with individual self, not others. When the reptilian brainis active, we feel stressed.
+Responsible for survival instincts; only **concerned with individual self, not others**. When the reptilian brain is active, we feel *stressed*.
 
 Name comes from the (erroneous) belief that this comes from reptilian ancestors, whereas it actually goes back even further likely to a common ancestor of all vertebrates. 
 
-Controls the three possible responses to a threat:
+Controls the **three possible responses to a threat**:
 
 - Flight
 - Fight
 - Freeze
 
-In the modern world, this survival instinct kicks in when we experience stress or anxiety, even if it is not life threatening. 
+In the modern world, this survival instinct kicks in when we experience stress or anxiety, even if it is not life threatening. As a response to stress, these amifest as:
 
-As a response to stress, “flight” manifests as anxiety and fidgeting, “fight” as aggression/anger, and “freeze” as helplessness. 
+- **Flight** -  Anxiety and fidgeting.
+- **Fight** - Aggression and anger
+- **Freeze** - Helplessness.
+
+We can recognise the **reptilian brain being active** when people behave in one of the three **stress responses**. 
 
 
-## Paleolimbic Brain
+## 1.2. Paleolimbic Brain
  
-Responsible for the survival of the group. Stems from the herd behaviour of early mammals; living together maximises survival but this social set up requires regulating. The paleolimbic brain defines the position of the individual within the wider group. This manifests as self confidence and trust. 
+Responsible for the **survival of the group**. Stems from the herd behaviour of early mammals; living together maximises survival but this social set up requires regulating. 
 
+The paleolimbic brain **defines the position of the individual within the wider group**. This manifests as *self-confidence and trust*. 
+
+<!-- TODO GJ -->
 <Draw graph>
 X-axis is trust. 
 Y-axis is self confidence. 
@@ -37,50 +50,49 @@ Y-axis is self confidence.
 Assertiveness at the centre. 
 Marginality at the far left, axiality at the far right. 
 Dominance at the top, submissiveness at the bottom. 
+<!-- Graph here -->
 
 
-“Too much” self confidence becomes a belief that one is entitled to more than others. 
+- **Dominance** isn’t just being brash; dominant people can be charming and nice, but this is a *manipulation tactic* and not genuine. Others are *evaluated in terms of their usefulness* to the dominant person. “Too much” self-confidence becomes a belief that one is *entitled* to more than others. In the extreme case, this leads to Narcissistic Personality Disorder.
+- **Submissive** people believe *all of their successes are due to luck* and *anything that goes wrong is their fault*. This is in contrast to dominant people, who will take credit for all success and blame others for all failures. In its most extreme form, submissiveness leads to melancholic depression. 
+- **Marginal** people have *no trust* in anything or anyone. Conspiracy nuts. 
+- **Axial** people have too much trust in others to the point of gullibility. Becomes mystical delirium in its most extreme form. 
 
-Dominance isn’t just being brash; dominant people can be charming and nice, but this is a manipulation tactic and not genuine. Others are evaluated in terms of their usefulness to the dominant person. In the extreme case, this leads to Narcissistic Personality Disorder. 
-
-Submissive people believe all of their successes are due to luck and anything that goes wrong is their fault. This is in contrast to dominant people, who will take credit for all success and blame others for all failures. In its most extreme form, submissiveness leads to melancholic depression. 
-
-
-Marginal people have no trust in anything or anyone. Conspiracy nuts. 
-
-Axial people have too much trust in others to the point of gullibility. Becomes mystical delirium in its most extreme form. 
-
-The paleolimbic brain can change but only very slowly. The exception is traumatic events, which can quickly shift the paleolimbic brain “downwards”, but there are never quick shifts “upwards”. 
-
-We can recognise the reptilian brain being active when people behave in one of the three stress responses. 
-
-We can recognise the paleolimbic brain being active when people behave territorially. 
-
-Dominant behaviour is the most problematic. But the paleolimbic brain is cowardly. It is rare in nature that power struggles are actually fights tot the death. After encountering some resistance, the dominant type will back off. 
+Dominant behaviour is the most problematic. But *the paleolimbic brain is cowardly*. It is rare in nature that power struggles are actually fights to the death. **After encountering some resistance**, the dominant type will back off. 
 
 
-## Neolimbic Brain
+The *paleolimbic brain can change but only very slowly*. 
+The exception is **traumatic events**, which can quickly shift the paleolimbic brain “downwards”, but there are never quick shifts “upwards”. 
 
-Responsible for our intrinsic and extrinsic motivations; our likes and dislikes. Where our memory resides. Usually “in charge” for routine tasks and uses the minimum attention span required to achieve them. Our “standby mode”. 
+We can recognise the **paleolimbic brain being active** when people behave **territorially**. 
+
+
+## 1.3. Neolimbic Brain
+
+Responsible for our **intrinsic and extrinsic motivations**; our likes and dislikes. 
+
+Where our *memory* resides. Usually **“in charge” for routine tasks** and uses the minimum attention span required to achieve them; our **“standby mode”**. 
+
 
 Three layers of motivation:
 
-1. Intrinsic motivation. This is fixed, and is a result of genes and very early experiences. This remains fixed from 3 months old for the rest of our lives. Intrinsic motivations give us energy and joy. 
-2. Extrinsic motivations. These continuously evolve for our whole lives. Likes and dislikes. They cost us energy and will fade if they don’t succeed. Extrinsic motivations push us to do what others expect of us, adhere to social pressures. Irritations and prejudices stem from here. Intrinsic motivations will last, but extrinsic motivations will fade away. 
-3. Obsessions. A passion that has gone beyond a tipping point. We are often blind to our obsessions. 
+1. **Intrinsic motivation**. This is *fixed*, and is a result of genes and very early experiences. This remains fixed from 3 months old for the rest of our lives. *Intrinsic motivations give us energy and joy.* 
+2. **Extrinsic motivations**. These continuously *evolve for our whole lives*. Likes and dislikes. They *cost us energy* and will fade if we don’t succeed. Extrinsic motivations push us to do what others expect of us, adhere to *social pressures*. Irritations and prejudices stem from here. Intrinsic motivations will last, but extrinsic motivations will fade away. 
+3. **Obsessions**. A passion that has gone beyond a tipping point. We are often blind to our obsessions. 
 
 
-## Prefrontal Brain
+## 1.4. Prefrontal Brain
 
-This is unique to humans; ours is far bigger than any other animal. It is suited for adaptation and creativity in unknown and complex situations. 
+This is unique to humans; ours is far bigger than any other animal. It is suited for **adaptation and creativity in unknown and complex situations**. 
 
-Neolimbic brain handles the well-known and simple tasks. It is not able to see further than our previous experiences. Prefrontal brain handles the new, unknown and complex tasks. 
+Neolimbic brain handles the well-known and simple tasks. It is not able to see further than our previous experiences. Prefrontal brain handles the *new, unknown and complex* tasks. 
 
-Or at least it *should* kick in for these new situations. Often creativity is limited because the neolimbic brain kicks in, meaning we can’t see any possibilities which we haven’t already experienced. 
+Or at least it **should** kick in for these new situations. Often creativity is limited because the neolimbic brain kicks in, meaning we can’t see any possibilities which we haven’t already experienced. 
 
-# Brain-based Leadership Styles
 
-## Reptilian Leader
+# 2. Brain-based Leadership Styles
+
+## 2.1. Reptilian Leader
 
 Led by stress. Reactive, constantly in survival mode.
 
