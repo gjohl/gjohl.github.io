@@ -155,103 +155,42 @@ Think of this like the software that comes pre-installed in our brains.
 
 There are two sets of programs that get activated depending on the context:
 
-- Survival instincts
-- Personality
+1. Survival instincts
+2. Personality
 
 
-## Survival Instincts 
+## 3.1. Survival Instincts 
 
-There are only really two scenarios from a survival point of view: facing danger and safe. 
+There are *only really two scenarios* from a survival point of view: **facing danger** and **safe**. 
 
-### Facing Danger
+### 3.1.1. Facing Danger
 When facing danger, there are the three familiar stress responses: fight, flight or freeze. 
 
-Stress is jokingly referred to as a “visually transmitted disease”. Research shows that seeing someone stressed is enough to make us stressed. From an evolutionary standpoint, if another person in the tribe has identified a danger then we should also be more vigilant. 
+Stress is jokingly referred to as a “visually transmitted disease”. Research shows that **seeing someone stressed is enough to make us stressed**. From an evolutionary standpoint, *if another person in the tribe has identified a danger then we should also be more vigilant*. 
 
-We should be extra conscious as leaders that we a reducing the stress around us, not just picking it up and amplifying it. 
+We should be extra conscious as leaders that we are **reducing the stress around us, not just picking it up and amplifying it**. 
 
-Sometimes we are unknowingly the threat, causing stress among the team, particularly as a dominant boss. An example of this is setting deadlines; naively this is used to give the team some momentum. Brain research shows it actually limits our thinking and leads to worse decision making. A tight deadline increases stress levels causing the reptilian brain to engage, when ideally we would be using the prefrontal cortex. The more stressful the deadline, the less open we are to alternative approaches. Putting extra pressure on a team is counterproductive; the three stress responses are fight (aggression), flight (confusion) or freeze (demoralisation). 
+Sometimes **we are unknowingly the threat**, causing stress among the team, particularly as a dominant boss. 
+An example of this is **setting deadlines**; naively this is used to give the team some momentum. Brain research shows it actually *limits our thinking and leads to worse decision making*. 
 
-
-### Relational Stress Management
-A person may move between these stress modes over time but it is helpful to recognise which mode they are in and address it accordingly. 
-
-
-Flight/flee. 
-The signs:
-- hand and feet. contained movement: Fidgeting, nail biting, leg shaking, tapping, fiddling
-- eye movement and avoiding eye contact. Looking for an escape route. 
-- Fast breathing and sweating
-
-How not to handle it:
-- telling them to calm down doesn’t help. This will be interpreted as a further restriction of their options, causing them to panic more. 
-- don’t ask closed questions (yes or no). Their answers will most likely be evasive (I don’t know)
-- Do not shout or threaten. Reminding them of the negative consequences or deadlines makes things worse. 
-- Judging and moralising. 
-
-How to handle it:
-- ask open questions. This helps remind them that they are free to choose and do have options. If they are having trouble organising their thoughts you can suggest some options. 
-- de-dramatise and use humour. Put the situation into perspective. 
-- Invite them to take a walk with you. Their instinct is to flee and this gives them the option of doing that. 
+A tight deadline increases stress levels causing the reptilian brain to engage, when ideally we would be using the prefrontal cortex. The *more stressful the deadline, the less open we are to alternative approaches*. Putting extra pressure on a team is counterproductive; the **three stress responses are fight (aggression), flight (confusion) or freeze (demoralisation)**. 
 
 
-Fight. 
-The signs:
-- standing tall
-- Raising their voice 
-- Eyes squinting to focus on “the enemy”
-- Neck and jaw clench
+### 3.1.2. Safe
+When safe, there are two considerations: **avoid danger** and **avoid starvation**. 
 
-
-Don’t:
-- don’t overpower them by yelling harder. The fight will escalate. 
-- Don’t undermine their authority. Don’t interrupt or laugh at them 
-- Don’t annoy them. They will be impatient so being slow will anger them
-
-Do:
-- Listen without interruption or resistance. It takes two to fight so if you don’t engage the fight won’t happen. 
-- Take responsibility, don’t make excuses. If you weren’t to blame you can say “I’m sorry if what I did made you feel that way. That wasn’t my intention”. “If I were you I’d be angry too”. 
-- Offer solutions
-
-Pick your battles. Some fights aren’t worth having. 
-
-
-Freeze. 
-The signs:
-- they literally stop moving: drop their jaw or put hands in front of their mouth. This stops the arrival of oxygen to the lungs in an attempt to slow the heart rate. 
-- Shoulders and head hang
-- Eyes looking down
-- Cover face with hands
-- Lower their voice
-- Talk slower and use smaller sentences and words. 
-- Sighs and maybe even tears. 
-
-Don’t:
-- don’t shake them up, tell them to get a grip etc. The frozen person doesn’t want to be autonomous. 
-
-Do:
-- understand their POV
-- Mirror their pose
-- respect their silence and give them space
-- Define small objectives together
-
-To get them out of their reptilian brain mode we need to take away the perceived danger. In freeze mode, this means offering them shelter. 
-
-
-### Safe
-When safe, there are two considerations: avoid danger, avoid starvation. 
-
-Avoid danger. 
-We are hardwired to avoid danger. People with “reckless genes” tend to remove themselves from the gene pool so there is an evolutionary bias towards avoiding danger. “Successful people are simply those with successful habits”. 
+#### Avoid danger
+We are hard-wired to avoid danger. People with “reckless genes” tend to remove themselves from the gene pool so there is an **evolutionary bias towards avoiding danger**. “Successful people are simply those with successful habits”. 
 
 This manifests as:
 
-- Resistance to change. To get people to embrace change you have to deactivate their reptilian brain, take away the perceived danger. Activate their limbic system by making them think for themselves; give them info and let them reach the conclusion. 
-- Lack of initiative. Address this by taking away the danger, assure them that no one will be in trouble for bad ideas. A “flop meeting” where everybody shares things that have gone wrong. Reward initiative taking with money, attention, etc. 
-- Need for repetition. Repetition tells our brain that something is true, not just an outlier. “It takes 5 (repetitions) to stay alive”. 
-- Herding. A good survival strategy is to eat things that we’ve seen others eat so that we know it’s safe. This is still true in “non-survival” settings. Social proof is powerful. Start with willing early adopters, then point to their success when getting others on board. 
+- **Resistance to change**. To get people to embrace change you have to **deactivate their reptilian brain, take away the perceived danger**. Activate their limbic system by making them think for themselves; *give them info and let them reach the conclusion*. 
+- **Lack of initiative**. Address this by **taking away the danger**, assure them that *no one will be in trouble for bad ideas*. A “flop meeting” where everybody shares things that have gone wrong. *Reward initiative taking* with money, attention, etc. 
+- **Need for repetition**. Repetition tells our brain that *something is true, not just an outlier*. “It takes 5 (repetitions) to stay alive”. 
+- **Herding**. A good survival strategy is to eat things that we’ve seen others eat so that we know it’s safe. This is still true in “non-survival” settings. **Social proof is powerful**. *Start with willing early adopters*, then point to their success when getting others on board. 
 
-How to handle change as a manager:
+
+**How to handle change** as a manager:
  
 - Be on their side
 - Reward initiative taking
@@ -259,23 +198,110 @@ How to handle change as a manager:
 - Create momentum through early adopters 
 
 
-Avoid starvation. 
-We have an inbuilt need to feel safe from the fluctuations in food supply from a bad hunt or bad harvest. Studies show the modern day equivalent is with money. 
+#### Avoid starvation
+We have an in-built need to feel safe from the fluctuations in food supply from a bad hunt or bad harvest. Studies show **the modern day equivalent is with money**. 
 
-Money is a double edged sword. Not enough salary means people are forced into submissiveness, activating the paleolimbic brain and resulting in frustration and resentment. 
-Too much money has the opposite effect; still activating the paleolimbic brain but forcing them into dominance, creating greedy, entitled people. 
+Money is a double edged sword. Not enough salary means people are *forced into submissiveness*, activating the paleolimbic brain and resulting in frustration and resentment. 
+Too much money has the opposite effect; still activating the paleolimbic brain but *forcing them into dominance*, creating greedy, entitled people. 
 
-### Personality
+
+## 3.2. Personality
 Personality profiles are an outdated practice based on Jung’s work. 
 
-Personality depends on many factors: genetics determine some part of it, but which genes get activated depend on our environment, how much attention we received as a child, etc. Nature and nurture. 
+Personality depends on many factors: genetics determine some part of it, but *which genes get activated depend on our environment*, how much attention we received as a child, etc. **Nature and nurture.**
 
-Intrinsic or primary motivations. Doing the activity gives us energy; we get joy from the act of doing it regardless of results; these are lifelong activities that we enjoy. 
+**Intrinsic/primary motivations**. Doing the activity gives us energy; we get joy from the act of doing it regardless of results. These are lifelong activities that we enjoy. 
 
 Refer back to the 8 neolimbic leader archetypes. 
 
 
-# Our prior experience 
+## 3.3. Relational Stress Management
+
+A person may move between these stress modes over time when in the "facing danger" frame of mind, but it is helpful to **recognise which mode they are in and address it accordingly**. 
+
+
+### 3.3.1. Flight / Flee
+
+The **signs**:
+
+- **Hands and feet** -  Contained movements: Fidgeting, nail biting, leg shaking, tapping, fiddling.
+- **Eyes** - Erratic eye movement and avoiding eye contact. *Looking for an escape route.* 
+- Fast **breathing** and **sweating**.
+
+
+How **not** to handle it:
+
+- **Telling them to calm down** doesn’t help. This will be interpreted as a *further restriction of their options*, causing them to panic more. 
+- Don’t ask **closed questions** ("yes" or "no"). Their answers will most likely be *evasive* ("I don’t know").
+- Do not **shout or threaten**. Reminding them of the negative consequences or deadlines makes things worse. 
+- **Judging** and moralising.
+
+
+How to **handle it**:
+
+- Ask **open questions**. This helps *remind them that they are free to choose and do have options*. If they are having trouble organising their thoughts you can *suggest some options*. 
+- De-dramatise and use **humour**. Put the situation into perspective. 
+- Invite them to **take a walk** with you. Their instinct is to flee and this *gives them the option* of doing that. 
+
+
+### 3.3.2. Fight
+
+The **signs**:
+
+- **Stance** - Standing tall
+- **Voice** - Raising their voice 
+- **Eyes** - Squinting to focus on “the enemy”
+- Neck and **jaw clench**
+
+
+How **not** to handle it:
+
+- **Don’t overpower** them by yelling harder. The fight will *escalate*. 
+- **Don’t undermine** their authority. Don’t *interrupt or laugh* at them.
+- **Don’t annoy them**. They will be impatient so *being slow will anger them*.
+
+
+How to **handle it**:
+
+- **Listen without interruption** or resistance. It takes two to fight so if you don’t engage the fight won’t happen. 
+- Take **responsibility**, don’t make excuses. If you weren’t to blame you can say “I’m sorry if what I did made you feel that way. That wasn’t my intention”. “If I were you I’d be angry too”. 
+- Offer **solutions**
+
+
+> "You don't have to attend every argument you're invited to".
+
+Pick your battles. **Some fights aren’t worth having.** 
+
+
+### 3.3.3. Freeze
+
+The **signs**:
+
+- **Movement** - They literally stop moving; they drop their jaw or put hands in front of their mouth. This stops the arrival of oxygen to the lungs in an *attempt to slow the heart rate*. 
+- **Shoulders** and head hang
+- **Eyes** - Looking down
+- **Cover face** with hands
+- **Voice** - Lower their voice
+- **Speech** - Talk slower and use smaller sentences and words. 
+- **Sighs** and maybe even tears. 
+
+
+How **not** to handle it:
+
+- Don’t shake them up, tell them to get a grip etc. The frozen person *doesn’t want to be autonomous*. 
+
+
+How to **handle it**:
+
+- **Understand** their POV
+- **Mirror** their pose
+- Respect their **silence** and give them **space**
+- Define small objectives **together**
+
+To get them out of their reptilian brain mode we need to take away the perceived danger. In freeze mode, this means offering them shelter. 
+
+
+# 4. Our prior experience 
 
 We explore our extrinsic motivations and how the expectations of others influences what we do. 
 
@@ -392,7 +418,7 @@ How to handle workaholism in an employee?
 - “Blow hot and cold” - we value and appreciate you, but we also prioritise balance and want to place a clear limit. 
 
 
-# Our environment / context
+# 5. Our Environment / Context
 
 The social environment (the people) is one of the most important factors in influencing our behaviour. Mimetism is embedded in our evolution; we have “mirror neurons” which make us experience in our brains the things we see others do. Lead by example. The mirror neurons mean we also have group emotions; when one person is treated badly, we all feel bad. 
 
