@@ -92,68 +92,64 @@ Or at least it **should** kick in for these new situations. Often creativity is 
 
 # 2. Brain-based Leadership Styles
 
+::: {.callout-tip title="Dominance != Leadership"}
+- **Leadership** is mostly *a neolimbic activity*, relying on experience and good judgment in "standby mode" for the sake of the *wider group*.
+- **Dominance** is a *paleolimbic activity*, and only seeks the good of the *individual*.
+:::
+
 ## 2.1. Reptilian Leader
 
-Led by stress. Reactive, constantly in survival mode.
+**Led by stress**. Reactive, constantly in survival mode.
 
 We can think of 3 sub-categories of reptilian leader based on their typical threat response:
 
-- Fight. Aggressive
-- Flight. Chaotic.
-- Freeze. Terrified, never making decisions.
+- **Fight** - Aggressive
+- **Flight** - Chaotic.
+- **Freeze** - Terrified, never making decisions.
 
 
-## Paleolimbic leader 
+## 2.2. Paleolimbic Leader 
 
-Manipulative. Deceitful. Power games. They are territorial.
+They are **territorial**. Manipulative, deceitful, power games. 
 
-We can think of 4 sub-categories of paleolimbic leader based on trust vs assertiveness.
+We can think of 4 sub-categories of paleolimbic leader based on **trust vs assertiveness**:
 
-- Dominant. Rule through fear, initiates aggression, shouts, intimidates and publicly humiliates.
-- Marginal. Paranoid. Don't trust anyone so micromanage.
-- Axial. No boundaries. Wants to be everybody's friend.
-- Submissive. Exchanges favours to bargain for things. Takes responsibility for every failure. Often does the work of his team, not because of a lack of trust like a marginal leader, but because they lack the skills to rally the team or impose their views.
+- **Dominant**. Rule through fear, initiates *aggression*, shouts, intimidates and publicly humiliates.
+- **Marginal**. Paranoid. Don't trust anyone so *micromanage*.
+- **Axial**. No boundaries. Wants to be *everybody's friend*.
+- **Submissive**. Exchanges favours to *bargain for things*. Takes responsibility for every failure. Often does the work of his team, not because of a lack of trust like a marginal leader, but because they lack the skills to rally the team or impose their views.
 
-Nobody is always one single type. A common combination is for a leader to be dominant with their team but submissive to their boss. Scheme and manipulate.
+*Nobody is always one single type*. A common combination is for a leader to be dominant with their team but submissive to their boss. Scheme and manipulate.
 
 
-## Neolimbic Leader
+## 2.3. Neolimbic Leader
 
 Authentic.
 
 Sub-categories:
 
-- Philosopher. Optimistic, curious, seek consent. Performs well in stressful environments where they have a calming influence on the team.
-- Innovator. Innovation, abstract, theoretical, interdisciplinary. Respectful and empowering for their team. Perform well in research environments.
-- Animator. Change, strong sensations.High energy and playful. Perform well in consulting where the constant change of environment is a draw. 
-- Administrator. Admin and safety, planning. Love procedures and process.
-- Strategist. People management. Mediate and actively solve problems. Support their team. Excel in HR, middle management, logistics and planning. 
-- Competitor. Fighting and conquest. Hands on. Status driven. Perform well in sales and short term projects. 
-- Participative. Sharing and caring. Leadership with kindness, where everyone is important. Perform well in HR, coaching. 
-- Supportive. Selfless. Demanding towards themselves and tolerant towards others. Perform well in back office or customer service. 
+- **Philosopher**. Optimistic, curious, seek consent. Performs well in stressful environments where they have a calming influence on the team.
+- **Innovator**. Innovation, abstract, theoretical, interdisciplinary. Respectful and empowering for their team. Perform well in research environments.
+- **Animator**. Change, strong sensations. High energy and playful. Perform well in consulting where the constant change of environment is a draw.
+- **Administrator**. Admin and safety, planning. Love procedures and process.
+- **Strategist**. People management. Mediate and actively solve problems. Support their team. Excel in HR, middle management, logistics and planning.
+- **Competitor**. Fighting and conquest. Hands on. Status driven. Perform well in sales and short-term projects. 
+- **Participative**. Sharing and caring. Leadership with kindness, where everyone is important. Perform well in HR, coaching. 
+- **Supportive**. Selfless. Demanding towards themselves and tolerant towards others. Perform well in back office or customer service. 
 
-In practice, we are all some combination of 2-4 of these archetypes. 
+In practice, we are all *some combination of 2-4 of these archetypes*. 
 
 
-## Prefrontal Leader
+## 2.4. Prefrontal Leader
 
 Calm, serene, curious.
 
-Able to adapt and handle complex situations.
+Able to **adapt and handle complex situations**.
 
-Favours reflection over rushing decisions. Listens to the team without caving ot peer pressure.
-
-
-## Leadership vs Dominance 
-
-Leadership is mostly a neolimbic activity, relying on experience and good judgment in "standby mode" for the sake of the wider group.
-
-Dominance is a paleolimbic activity, and only seeks the good of the individual.
-
-Dominance != Leadership
+Favours *reflection over rushing* decisions. Listens to the team without caving to peer pressure.
 
 
-# Our Genetic Programming
+# 3. Our Genetic Programming
 
 Think of this like the software that comes pre-installed in our brains. 
 
