@@ -2,7 +2,6 @@
 title: "Science of Leadership"
 description: "Nerds in Charge"
 date: "2025-05-21"
-# image: ConflictResolutionModel.png
 categories: [Business, Leadership]
 ---
 
