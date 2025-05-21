@@ -1,7 +1,7 @@
 ---
 title: "Science of Leadership"
 description: "Nerds in Charge"
-date: "2025-05-20"
+date: "2025-05-21"
 # image: ConflictResolutionModel.png
 categories: [Business, Leadership]
 ---
@@ -27,7 +27,7 @@ Controls the **three possible responses to a threat**:
 - Fight
 - Freeze
 
-In the modern world, this survival instinct kicks in when we experience stress or anxiety, even if it is not life threatening. As a response to stress, these amifest as:
+In the modern world, this survival instinct kicks in when we experience stress or anxiety, even if it is not life threatening. As a response to stress, these manifest as:
 
 - **Flight** -  Anxiety and fidgeting.
 - **Fight** - Aggression and anger
@@ -42,15 +42,7 @@ Responsible for the **survival of the group**. Stems from the herd behaviour of 
 
 The paleolimbic brain **defines the position of the individual within the wider group**. This manifests as *self-confidence and trust*. 
 
-<!-- TODO GJ -->
-<Draw graph>
-X-axis is trust. 
-Y-axis is self confidence. 
-
-Assertiveness at the centre. 
-Marginality at the far left, axiality at the far right. 
-Dominance at the top, submissiveness at the bottom. 
-<!-- Graph here -->
+![Trust vs Self-Confidence](TrustVsSelfConfidence.png)
 
 
 - **Dominance** isn’t just being brash; dominant people can be charming and nice, but this is a *manipulation tactic* and not genuine. Others are *evaluated in terms of their usefulness* to the dominant person. “Too much” self-confidence becomes a belief that one is *entitled* to more than others. In the extreme case, this leads to Narcissistic Personality Disorder.
@@ -518,9 +510,11 @@ Conditions:
 - Expectations are linked to *how managers see themselves*.
 - Young people are most impacted. 
 
-<!-- TODO GJ -->
-Motivation (y axis) vs probability of success (x-axis). Upside down parabola, motivation peaks when p(success)=0.5 - too easy or too hard are both demotivating. 
-<!-- Graph here -->
+
+Motivation peaks when `P(success) = 0.5` - too easy or too hard are both demotivating. 
+
+![Strength of Motivation vs Probability of Success](MotivationVsSuccess.png)
+
 
 Conclusions:
 
