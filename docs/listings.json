@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/business/science_of_leadership/leadership.html",
       "/posts/business/conflict_resolution/notes.html",
       "/posts/software/aws/aws_saa_notes.html",
       "/posts/ml/hands_on_llm/chapter7/lesson.html",
