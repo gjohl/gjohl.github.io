@@ -1,7 +1,7 @@
 ---
 title: "Science of Leadership"
 description: "Nerds in Charge"
-date: "2025-05-21"
+date: "2025-05-20"
 categories: [Business, Leadership]
 ---
 
