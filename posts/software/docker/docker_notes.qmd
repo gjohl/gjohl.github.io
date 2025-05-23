@@ -462,6 +462,77 @@ docker run <image_name>
 Docker image and container [cheat sheet](Cheat-Sheet-Images-Containers.pdf)
 
 
+# 3. Managing Data in Containers
+
+## 3.1. Different Categories of Data
+
+- **Application**. Code and environment. Added to the image in the build phase. This is read-only and stored in *images*. 
+- **Temporary application data**. Fetched or produced by the container, e.g. data input by a user of a web server. Stored in memory or temporary files. Read and write, but only temporary, so stored in *containers*. 
+- **Permanent application data**. Fetched or produced in the running container, e.g. user account data. These are stored in files or a database which we want to persist even if the container stops or is removed. Read and write permanent data, so store in *volumes*.
+
+
+The container has its own file system, which is lost when the container is **removed** (not when the container is stopped). This means the *temporary data is lost* when the container is removed. 
+
+This is a problem as we need to rebuild the image and start a new container whenever we make a code change. 
+
+Volumes solve this problem. 
+
+
+## 3.2. Volumes
+
+Volumes are folders on the **host** machines which are *mounted* (made available) into containers. A container can read and write to a volume. 
+
+The `COPY` command in a Dockerfile is just a one-time snapshot. A volume syncs the data between the two; if either the container or the host machine updates the data then it is reflected in the other. 
+
+This allows us to **persist** data if a container shuts down or is removed. 
+
+
+## 3.3. How to Add a Volume
+
+The `VOLUME` instruction can be used in a `Dockerfile`. It takes an array of the path(s) inside the container to map to volumes.
+
+```bash
+VOLUME [ “/app/feedback” ]
+```
+
+Note that we do not specify a path on the host machine to map to. Docker abstracts this away from us; we never know the location on our host machine, we only interact with it via `docker volumes`. More on this later.
+
+
+## 3.4. Types of External Data Storage
+
+There are two types: volumes (managed by Docker) and bind mounts (managed by you). 
+
+### 3.4.1. Volumes
+
+Volumes are managed by Docker. They can be **anonymous** or **named**. 
+
+In either case, Docker sets up a folder on your host machine in an unknown location which is accessed via the ‘docker volume’ command. This maps to the internal directory in the container. 
+
+Anonymous volumes are removed when the container is removed. This might not be very helpful for our use cases if we want to persist data. 
+
+This is where *named volumes* should be used. Named volumes _do_ survive the container being removed. They are useful for data which should be persisted but which you don’t need to edit directly, as it can only be accessed via `docker volumes`.
+
+We can’t create named volumes inside the docker image, it needs to be create when we run the container using the `-v` flag. 
+```bash
+docker run -v <volume_name>:<path/in/container>
+```
+
+We can delete volumes with:
+```bash
+docker volume rm <volume_name>
+```
+
+Or 
+```bash
+docker volume prune
+```
+
+### 3.4.2. Bind Mounts
+
+Bind mounts are managed by you. 
+
+
+
 # References
 
 - "Docker & Kubernetes: The Practical Guide" [Udemy course](https://www.udemy.com/course/docker-kubernetes-the-practical-guide/)
