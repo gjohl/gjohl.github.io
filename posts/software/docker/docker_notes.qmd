@@ -6,109 +6,113 @@ categories: [Software, Engineering, DataEngineering]
 ---
 
 
-# Getting started
+# 1. Docker Overview
 
-## What is Docker?
+## 1.1. What is Docker?
 
-A tool for creating and managing containers. 
+Docker is a tool for **creating and managing containers**. 
 
-A container is a standardised unit of software - a package of code and the dependencies required to run the code. The same container always yields the exact same application and execution behaviour. 
+A container is a **standardised unit of software** - a package of code and the dependencies required to run the code. The same container always yields the exact same application and execution behaviour. 
 
 Support for containers is built into all modern operating systems. Docker simplifies the creation and management of containers. Containers are a general idea, Docker is just the de facto standard tool for dealing with containers. 
 
 
-## Why use Containers?
+## 1.2. Why Use Containers?
 
 Why would we want independent, standardised, standalone applications packages?
 
 - We may have different dev vs prod environments. We want to build and test in the same way. 
-- Multiple developers keeping their development environments in sync with each other
-- Clashing tools and versions between projects
+- Multiple developers keeping their development environments in sync with each other.
+- Clashing tools and versions between projects.
 
 
-## Virtual Machines vs Docker Containers
+## 1.3. Virtual Machines vs Docker Containers
 
-With a VM, we have our operating system, then a VM with virtual OS, libraries and dependencies, then our own app. 
+With a virtual machine (VM), we have:
 
-There is a big overhead with this, because we recreate **everything** including the (virtual) OS every time we want a new VM. This wastes a lot of storage and tends to be slow. 
+- Our operating system
+- A VM with virtual OS
+- Libraries and dependencies
+- Our own app
 
-This does allow separated environments which environment-specific configurations which can be shared and reproduced. 
+This does allow separated environments which environment-specific configurations which can be shared and reproduced. However, it involves a lot of duplication, can be slow with long boot times and reproducing on another server is possible but can be tricky. 
 
-However, it involves a lot of duplication, can be slow with long boot times and reproducing on another server is possible but can be tricky. 
+There is a big overhead with VMs, because we recreate **everything** including the (virtual) OS every time we want a new VM. This wastes a lot of storage and tends to be slow. 
 
 
-VM layer diagram:
+A container is a lightweight solution to the same problem. The Docker Engine interfaces with the OS, and the container sits on top of the Docker engine. This means each container only needs to contain its own code + data, it doesn't need to reproduce the OS or any additional utlities.
 
-- VM - App, libraries, virtual OS
 - OS
-
-
-Container diagram
-
-- Container - App, libraries
-- Docker engine 
 - OS built-in container support
-- OS
+- Docker engine 
+- Container - App, libraries
 
 
-Container pros:
+The benefits of a container compared to a VM:
 
 - Low impact on OS, minimal storage usage
 - Sharing and rebuilding is easy
 - Encapsulate apps and environments rather than whole machines 
 
 
-## Docker Setup
+## 1.4. Docker Setup
 
-Depends on OS. Check the docs. 
+The specific steps depend on the OS, so check the [docs](https://docs.docker.com/get-started/).
 
-For Linux, install docker engine. 
-For Mac and Windows, install Docker Desktop (or Docker Toolbox if requirements not met)
+For Linux, install Docker Engine. 
+For Mac and Windows, install Docker Desktop (or Docker Toolbox if requirements not met).
 
-Docker playground is helpful to try things out in a browser with no installation required. 
-https://labs.play-with-docker.com/
+[Docker playground](https://labs.play-with-docker.com/) is helpful to try things out in a browser with no installation required. 
 
-Docker hub is a centralised repository that lets us share containers. 
+[Docker Hub](https://hub.docker.com/) (my second favourite `*hub.com` on the internet*) is a centralised repository that lets us share containers. 
 
 Docker compose and Kubernetes help manage multi-container apps. 
 
 
-## Overview of a Container
+\* *Number one is **git**hub, you dirty dog.*
 
-The Dockerfile file (no extension) contains the list of commands to create our image
 
-To build the container run this in a terminal in the same directory as the Dockerfile:
+## 1.5. Overview of a Container
+
+The `Dockerfile` file (no extension) contains the list of commands to create our image.
+
+To **build** the container run this in a terminal in the same directory as the Dockerfile:
+```bash
 docker build .
+```
 
-To run the container:
-
+To **run** the container:
+```bash
 docker run <image_id>
+```
 
-Optionally, if we want to expose port 3000 inside the container to the outside world, run:
-
+Optionally, if we want to **expose** port 3000 inside the container to the outside world, run:
+```bash
 docker run -p 3000:3000 <image_id>
+```
 
-
-Other useful commands.
-List running containers:
+Some other useful basic commands are **listing** running containers:
+```bash
 docker ps -a
+```
 
-Stop a container:
+And **stopping** a container:
+```bash
 docker stop <container_name>
+```
 
 
+# 2. Images and Containers
 
-# Images and Containers
+## 2.1. Image vs Container
+A **container** is a running “unit of software”. 
+An **image** is the blueprint for the container. 
+
+So we can define an image then create containers running in multiple places. 
+The image contains the *code and environment*, the container is the *running app*. 
 
 
-## Image vs Container
-A container is a running “unit of software”. 
-
-An image is the blueprint for the container. So we can define an image and create containers running in multiple places. 
-
-The image contains the code and environment, the container is the running app. 
-
-## Using Prebuilt Images
+## 2.2. Using Prebuilt Images
 
 We can either use a prebuilt image or one that we’ve created ourselves. 
 
