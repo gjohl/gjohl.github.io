@@ -3,7 +3,6 @@ title: "Docker"
 description: "Docker? I Hardly Know 'Er"
 date: "2025-05-25"
 categories: [Software, Engineering, DataEngineering]
-code-block-background: true
 ---
 
 
