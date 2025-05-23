@@ -1,0 +1,537 @@
+---
+title: "Docker"
+description: "Docker? I Hardly Know 'Er"
+date: "2025-05-25"
+categories: [Software, Engineering, DataEngineering]
+---
+
+
+# 1. Docker Overview
+
+## 1.1. What is Docker?
+
+Docker is a tool for **creating and managing containers**. 
+
+A container is a **standardised unit of software** - a package of code and the dependencies required to run the code. The same container always yields the exact same application and execution behaviour. 
+
+Support for containers is built into all modern operating systems. Docker simplifies the creation and management of containers. Containers are a general idea, Docker is just the de facto standard tool for dealing with containers. 
+
+
+## 1.2. Why Use Containers?
+
+Why would we want independent, standardised, standalone applications packages?
+
+- We may have different dev vs prod environments. We want to build and test in the same way. 
+- Multiple developers keeping their development environments in sync with each other.
+- Clashing tools and versions between projects.
+
+
+## 1.3. Virtual Machines vs Docker Containers
+
+With a virtual machine (VM), we have:
+
+- Our operating system
+- A VM with virtual OS
+- Libraries and dependencies
+- Our own app
+
+This does allow separated environments which environment-specific configurations which can be shared and reproduced. However, it involves a lot of duplication, can be slow with long boot times and reproducing on another server is possible but can be tricky. 
+
+There is a big overhead with VMs, because we recreate **everything** including the (virtual) OS every time we want a new VM. This wastes a lot of storage and tends to be slow. 
+
+
+A container is a lightweight solution to the same problem. The Docker Engine interfaces with the OS, and the container sits on top of the Docker engine. This means each container only needs to contain its own code + data, it doesn't need to reproduce the OS or any additional utlities.
+
+- OS
+- OS built-in container support
+- Docker engine 
+- Container - App, libraries
+
+
+The benefits of a container compared to a VM:
+
+- Low impact on OS, minimal storage usage
+- Sharing and rebuilding is easy
+- Encapsulate apps and environments rather than whole machines 
+
+
+## 1.4. Docker Setup
+
+The specific steps depend on the OS, so check the [docs](https://docs.docker.com/get-started/).
+
+For Linux, install Docker Engine. 
+For Mac and Windows, install Docker Desktop (or Docker Toolbox if requirements not met).
+
+[Docker playground](https://labs.play-with-docker.com/) is helpful to try things out in a browser with no installation required. 
+
+[Docker Hub](https://hub.docker.com/) (my second favourite `*hub.com` on the internet*) is a centralised repository that lets us share containers. 
+
+Docker compose and Kubernetes help manage multi-container apps. 
+
+
+\* *Number one is **git**hub, you dirty dog.*
+
+
+## 1.5. Overview of a Container
+
+The `Dockerfile` file (no extension) contains the list of commands to create our image.
+
+To **build** the container run this in a terminal in the same directory as the Dockerfile:
+```bash
+docker build .
+```
+
+To **run** the container:
+```bash
+docker run <image_id>
+```
+
+Optionally, if we want to **expose** port 3000 inside the container to the outside world, run:
+```bash
+docker run -p 3000:3000 <image_id>
+```
+
+Some other useful basic commands are **listing** running containers:
+```bash
+docker ps -a
+```
+
+And **stopping** a container:
+```bash
+docker stop <container_name>
+```
+
+
+# 2. Images and Containers
+
+## 2.1. Image vs Container
+A **container** is a running “unit of software”. 
+An **image** is the blueprint for the container. 
+
+So we can define an image then create containers running in multiple places. 
+The image contains the *code and environment*, the container is the *running app*. 
+
+
+## 2.2. Using Prebuilt Images
+
+We can either use a prebuilt image or one that we’ve created ourselves. 
+
+Docker Hub is useful for finding and sharing prebuilt images. 
+
+To **run a prebuilt image** from docker hub, `node` in this case, run this in a terminal:
+```bash
+docker run node
+```
+
+This will automatically `pull` the prebuilt node image if it hasn’t already been pulled, then run it. 
+
+By default, the container is isolated, but we can run it in **interactive mode** if we want to use the REPL. 
+```bash
+docker run -it node
+```
+
+We can use `exec` to interact with the shell terminal of an *already running container*:
+```bash
+docker exec -it <container_name> sh
+```
+
+
+## 2.3. Building Our Own Image
+
+We can build our own images; typically these will layer on top of other prebuilt images.
+The `Dockerfile` file configures the image. 
+
+We typically start with `FROM` to build on some base image, either on your local system or on DockerHub. 
+```dockerfile
+FROM node
+```
+
+We then want to tell Docker which files on the local machine should go in the image. Often we want to `COPY` the contents of the current directory to the container file system, for example in a directory called app. 
+```dockerfile
+COPY . /app
+```
+
+The `WORKDIR` command tells docker that any subsequent commands we `RUN` should run from this directory. 
+So instead of the above copy with absolute filepath, we could do:
+```dockerfile
+WORKDIR /app
+COPY . .
+```
+
+We then want to `RUN` a command inside the image, for example, to install dependencies. 
+```dockerfile
+RUN npm install
+```
+
+The command instruction, `CMD`, specifies code to execute when the **container** is started. Contrast this with **image**** is created. 
+An example of the distinction is starting a server, which we do in the container. 
+The syntax is a bit odd, instead of `CMD node server.js` we need to pass the command as an array of strings. 
+```dockerfile
+CMD [“node”, “server.js”]
+```
+
+If you don’t specify a `CMD`, the `CMD` of the base image will be executed. It should be the **last** instruction in a Dockerfile. 
+
+The web server listens on a particular port, say port 80. The container is isolated, so we need to `EXPOSE` the port.
+```dockerfile
+EXPOSE 80
+```
+
+This is best practice to *explicitly declare any used ports*, but it is **optional** and does not actually make the port available. For this, we need to specify the port with the `-p` flag when creating the container with `docker run`. See the next section. 
+
+
+## 2.4. Running a Container Based On Our Image
+
+We have a complete Dockerfile, next we need to `build` the image. 
+In a terminal in the same directory as the `Dockerfile`, run:
+```bash
+docker build .
+```
+
+This outputs an **image ID**. We can then `run` this image. This blocks the terminal. 
+```bash
+docker run <image_id>
+```
+
+We need the “publish” `-p` flag to make the port in the container accessible. 
+Say we want to access the application through a local port 3000, and we are accessing the internal port 80 inside the container. 
+```bash
+docker run -p 3000:80 <image_id>
+```
+
+We can then see our app if we visit `localhost:3000` in a browser. 
+
+
+## 2.5. Images Are Read-Only
+
+If we are changing the code inside the image, we need to *build the image again* and then *run a new container* from the new image. 
+
+The contents of an image are set at the build step and cannot be altered afterwards. 
+
+
+## 2.6. Understanding Image Layers
+
+Images are **layer-based**. This means that if there is a change to the image and the image is rebuilt, it will cache previous layers and if the layer is unchanged, it will use the cached layer. It will *only recreate layers where there was a change* (and all subsequent layers). 
+
+This means we can optimise our Dockerfile by copying code which changes frequently near the end, and code which is relatively static, like dependencies, should go earlier. 
+So when we have a code change, we don’t need to reinstall everything. 
+
+
+## 2.7. Managing Images and Containers
+The following commands are useful when managing images and containers.
+
+Images:
+
+- Tag: `-t`
+- List: `docker images`
+- Analyse: `docker image inspect <image_id>`
+- Remove: `docker rmi  <image_id>`; `docker prune`
+
+
+Containers:
+
+- Name: `-—name`
+- List: `docker ps`
+- Remove: `docker rm`
+
+
+## 2.8. Stopping and Restarting Containers
+
+Start a new container with `docker run`. 
+
+If nothing in our image has changed, we may just want to restart a previously run container:
+```bash
+docker start <container_name>
+```
+
+
+## 2.9. Attached and Detached Containers
+
+An **attached** container is running and blocks the terminal. For example, when we use `docker run`. Attached simply means we are “listening” to the output of the container, which can be helpful if we want to look at the logs. 
+
+A **detached** container is running but runs in the background without blocking the terminal. For example, when we run `docker start`.
+
+We can configure whether to run in attached or detached mode. The `-d` flag runs in detached mode:
+```sh
+docker run -d <image_id>
+```
+
+The `-a` flag runs in attached mode:
+```sh
+docker start -a <container_name>
+```
+
+We can attach ourselves to a detached container using:
+```sh
+docker attach <container_name>
+```
+
+To see the log history, we can use
+```sh
+docker logs <container_name>
+```
+
+We can run this in “follow” mode with the `-f` flag to print the logs and keep listening (i.e. attach to the container)
+```sh
+docker logs -f <container_name>
+```
+
+
+## 2.10 Interactive Mode
+
+If we have an application that requires **user input**, or we just want to see what’s going on inside the container, we can run in interactive mode. 
+
+We do this with the interactive flag `-i`. This keeps STDIN open even if not attached. This is analogous to how the attach flag `-a` keeps STDOUT open. 
+
+We usually combine this with the TTY flag `-t`. This allocates a pseudo-TTY, which exposes a terminal we can use. 
+```sh
+docker run -it <image_id>
+```
+
+
+## 2.11. Deleting Containers
+
+We can list all containers with:
+```sh
+docker ps
+```
+
+We can remove containers with:
+```bash
+docker rm <container_name>
+```
+
+We can pass multiple containers to remove separated by a space. 
+
+
+We can’t remove a running container, so we need to stop it first:
+```bash
+docker stop <container_name>
+```
+
+We can remove ALL stopped containers with
+```bash
+docker container prune
+```
+
+
+## 2.12 Deleting Images
+
+Analogously to containers, we can list images with:
+```bash
+docker images 
+```
+
+We remove images with:
+```
+docker rmi <image_id>
+```
+
+We can pass multiple images to remove separated by a space. 
+
+We can’t remove images which are being used by containers, even if that container is stopped. The *container needs to be removed first* before the image can be removed. 
+
+We can remove all *unused* images with:
+```bash
+docker image prune
+```
+
+This will remove all **untagged** images. 
+To also remove tagged images we need the `-a` flag 
+```bash
+docker image prune -a
+```
+
+We can pass the `--rm` flag to the docker run command to automatically remove the container once stopped.
+
+
+## 2.12 Inspecting Images
+
+We can understand more about an image by inspecting it:
+```bash
+docker image inspect <image_id>
+```
+
+This tells us:
+
+- ID
+- Creation date
+- Config such as ports, entry point, interactive, etc
+- Docker version
+- OS
+- Layers
+
+
+## 2.13 Copying Files Into and From a Running Container
+
+We can copy files in and out of a running container with the `cp` command. 
+
+To copy a file into a container:
+```bash
+docker cp <source file or folder> <container_name>:/<path in container>
+```
+
+To copy out of a container, just swap the order of the arguments:
+```bash
+docker cp <container_name>:/<path in container> <source file or folder>
+```
+
+This allows us to add config or data to a running container, or copy results or logs out of the container. 
+
+
+## 2.14. Names and Tags
+
+We can add `--name` and `--tag` in the `docker run` command to specify our own name and tag for a container. 
+
+For images, when we execute docker build we can specify a tag with `--tag` or `-t`. Image tags consist of `name:tag` e.g. `python:3.11` or `node:latest`.
+
+
+## 2.15. Sharing Images 
+### 2.15.1. Registries
+Everyone who has an image can create a container from it; we are sharing images not containers.
+
+We could share the source code and Dockerfile to allow somebody to build the image themselves. 
+
+Alternatively, we can just share the built image. No build is required and we don’t need to share the full source code. 
+
+We can share in:
+
+- Docker Hub
+- Any private registry 
+
+
+### 2.15.2. Push
+We can `push` to and `pull` from the registry with the following commands. By default these refer to Docker Hub. 
+```bash
+docker push <image_name>
+docker pull <image_name>
+```
+
+We pass `host:name` rather than just an image name if we want to push or pull from a **private** registry.
+
+Steps:
+
+1. Create the image in Docker Hub. 
+2. Create an image on our local machine with the same image name.
+3. Push with the `docker push` command above.
+
+We can re-tag an existing image with:
+```bash
+docker tag <old_image_name> <new_image_name>
+```
+
+This *clones* the image; the old name still exists. 
+
+
+We need to `login` to be able to push to a docker hub repo:
+```bash
+docker login 
+```
+
+We can also `logout` with:
+```bash
+docker logout
+```
+
+### 2.15.3. Pull
+
+```bash
+docker pull <image_name>
+```
+
+This will pull the latest version by default. You can specify a tag to override this. 
+
+We can execute `run` and it will automatically download the image if you don’t already have it locally. 
+If you do have it locally, you might have an out of date version and docker run won’t tell you this. 
+```bash
+docker run <image_name>
+```
+
+## 2.16. Summary
+
+- Images (blueprints) vs Containers (the running instance of the app).
+- Images can be pulled or built. 
+- The Dockerfile configures the image when building our own images. 
+- Images are built in layers. 
+- We can run containers from an image, and configure some helpful flags when running. 
+- We can manage containers: list, remove, stop, start
+- We can manage images: list, remove, push, pull
+
+
+Docker image and container [cheat sheet](Cheat-Sheet-Images-Containers.pdf)
+
+
+# 3. Managing Data in Containers
+
+## 3.1. Different Categories of Data
+
+- **Application**. Code and environment. Added to the image in the build phase. This is read-only and stored in *images*. 
+- **Temporary application data**. Fetched or produced by the container, e.g. data input by a user of a web server. Stored in memory or temporary files. Read and write, but only temporary, so stored in *containers*. 
+- **Permanent application data**. Fetched or produced in the running container, e.g. user account data. These are stored in files or a database which we want to persist even if the container stops or is removed. Read and write permanent data, so store in *volumes*.
+
+
+The container has its own file system, which is lost when the container is **removed** (not when the container is stopped). This means the *temporary data is lost* when the container is removed. 
+
+This is a problem as we need to rebuild the image and start a new container whenever we make a code change. 
+
+Volumes solve this problem. 
+
+
+## 3.2. Volumes
+
+Volumes are folders on the **host** machines which are *mounted* (made available) into containers. A container can read and write to a volume. 
+
+The `COPY` command in a Dockerfile is just a one-time snapshot. A volume syncs the data between the two; if either the container or the host machine updates the data then it is reflected in the other. 
+
+This allows us to **persist** data if a container shuts down or is removed. 
+
+
+## 3.3. How to Add a Volume
+
+The `VOLUME` instruction can be used in a `Dockerfile`. It takes an array of the path(s) inside the container to map to volumes.
+
+```bash
+VOLUME [ “/app/feedback” ]
+```
+
+Note that we do not specify a path on the host machine to map to. Docker abstracts this away from us; we never know the location on our host machine, we only interact with it via `docker volumes`. More on this later.
+
+
+## 3.4. Types of External Data Storage
+
+There are two types: volumes (managed by Docker) and bind mounts (managed by you). 
+
+### 3.4.1. Volumes
+
+Volumes are managed by Docker. They can be **anonymous** or **named**. 
+
+In either case, Docker sets up a folder on your host machine in an unknown location which is accessed via the ‘docker volume’ command. This maps to the internal directory in the container. 
+
+Anonymous volumes are removed when the container is removed. This might not be very helpful for our use cases if we want to persist data. 
+
+This is where *named volumes* should be used. Named volumes _do_ survive the container being removed. They are useful for data which should be persisted but which you don’t need to edit directly, as it can only be accessed via `docker volumes`.
+
+We can’t create named volumes inside the docker image, it needs to be create when we run the container using the `-v` flag. 
+```bash
+docker run -v <volume_name>:<path/in/container>
+```
+
+We can delete volumes with:
+```bash
+docker volume rm <volume_name>
+```
+
+Or 
+```bash
+docker volume prune
+```
+
+### 3.4.2. Bind Mounts
+
+Bind mounts are managed by you. 
+
+
+
+# References
+
+- "Docker & Kubernetes: The Practical Guide" [Udemy course](https://www.udemy.com/course/docker-kubernetes-the-practical-guide/)
