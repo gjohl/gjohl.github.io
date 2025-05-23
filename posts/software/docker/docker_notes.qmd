@@ -1,0 +1,396 @@
+---
+title: "Docker"
+description: "Docker? I Hardly Know 'Er"
+date: "2025-05-25"
+categories: [Software, Engineering, DataEngineering]
+---
+
+
+# Getting started
+
+## What is Docker?
+
+A tool for creating and managing containers. 
+
+A container is a standardised unit of software - a package of code and the dependencies required to run the code. The same container always yields the exact same application and execution behaviour. 
+
+Support for containers is built into all modern operating systems. Docker simplifies the creation and management of containers. Containers are a general idea, Docker is just the de facto standard tool for dealing with containers. 
+
+
+## Why use Containers?
+
+Why would we want independent, standardised, standalone applications packages?
+
+- We may have different dev vs prod environments. We want to build and test in the same way. 
+- Multiple developers keeping their development environments in sync with each other
+- Clashing tools and versions between projects
+
+
+## Virtual Machines vs Docker Containers
+
+With a VM, we have our operating system, then a VM with virtual OS, libraries and dependencies, then our own app. 
+
+There is a big overhead with this, because we recreate **everything** including the (virtual) OS every time we want a new VM. This wastes a lot of storage and tends to be slow. 
+
+This does allow separated environments which environment-specific configurations which can be shared and reproduced. 
+
+However, it involves a lot of duplication, can be slow with long boot times and reproducing on another server is possible but can be tricky. 
+
+
+VM layer diagram:
+
+- VM - App, libraries, virtual OS
+- OS
+
+
+Container diagram
+
+- Container - App, libraries
+- Docker engine 
+- OS built-in container support
+- OS
+
+
+Container pros:
+
+- Low impact on OS, minimal storage usage
+- Sharing and rebuilding is easy
+- Encapsulate apps and environments rather than whole machines 
+
+
+## Docker Setup
+
+Depends on OS. Check the docs. 
+
+For Linux, install docker engine. 
+For Mac and Windows, install Docker Desktop (or Docker Toolbox if requirements not met)
+
+Docker playground is helpful to try things out in a browser with no installation required. 
+https://labs.play-with-docker.com/
+
+Docker hub is a centralised repository that lets us share containers. 
+
+Docker compose and Kubernetes help manage multi-container apps. 
+
+
+## Overview of a Container
+
+The Dockerfile file (no extension) contains the list of commands to create our image
+
+To build the container run this in a terminal in the same directory as the Dockerfile:
+docker build .
+
+To run the container:
+
+docker run <image_id>
+
+Optionally, if we want to expose port 3000 inside the container to the outside world, run:
+
+docker run -p 3000:3000 <image_id>
+
+
+Other useful commands.
+List running containers:
+docker ps -a
+
+Stop a container:
+docker stop <container_name>
+
+
+
+# Images and Containers
+
+
+## Image vs Container
+A container is a running “unit of software”. 
+
+An image is the blueprint for the container. So we can define an image and create containers running in multiple places. 
+
+The image contains the code and environment, the container is the running app. 
+
+## Using Prebuilt Images
+
+We can either use a prebuilt image or one that we’ve created ourselves. 
+
+Docker hub is useful for finding and sharing prebuilt images. 
+
+To run a prebuilt image from docker hub, run this in a terminal. This will pull the prebuilt node image if it hasn’t already been pulled, then run it. 
+
+docker run node
+
+By default, the container is isolated, but we can run it in interactive mode if we want to use the REPL. 
+
+docker run -it node
+
+
+We can use exec to interact with the shell terminal of an already running container:
+
+docker exec -it <container_name> sh
+
+
+## Building our own image Dockerfile
+
+Our own images can build on prebuilt images. The Dockerfile file configures the image. 
+
+We typically start with FROM to build on some base image, either on your local system or on DockerHub. 
+
+FROM node
+
+We then want to tell Docker which files on the local machine should go in the image. Often we want to COPY the contents of the current directory to the container file system, for example in a directory called app. 
+
+COPY . /app
+
+The WORKDIR command tells docker that any subsequent commands we RUN should run from this directory. So instead of the above copy with absolute filepath, we could do
+
+WORKDIR /app
+COPY . .
+
+We then want to RUN a command inside the image, for example, to install dependencies. 
+
+RUN npm install
+
+
+The command instruction CMD specifies code to execute when the CONTAINER is started. Contrast this with RUN which is code to execute when the IMAGE is created. An example of the distinction is starting a server, which we do in the container. 
+The syntax is a bit odd, instead of ‘CMD node server.js’ we need to pass the command as an array of strings. 
+
+CMD [“node”, “server.js”]
+
+If you don’t specify a CMD, the CMD of the base image will be executed. It should be the **last** instruction in a Dockerfile. 
+
+
+The web server listens on a particular port, say port 80. The container is isolated, so we need to EXPOSE the port.
+
+EXPOSE 80
+
+
+This is best practice to explicitly state any used ports, but it is optional and does not actually make the port available. For this, we need to specify the port when creating the container with docker run with the -p flag; see the next section. 
+
+
+
+## Running a container based on our image
+
+We have a complete Dockerfile, next we need to BUILD the image. In a terminal in the same directory as the Dockerfile:
+
+docker build .
+
+This outputs an image ID. We can then run this image. This blocks the terminal. 
+
+docker run <image_id>
+
+We need the “publish” -p flag to make the port in the container accessible. Say we want to access the application through a local port 3000, and we are accessing the internal port 80 inside the container. 
+
+docker run -p 3000:80 <image_id>
+
+We can then see our app if we visit localhost/3000 in a browser. 
+
+
+## Images are Read-Only
+
+If we are changing the code inside the image, we need to build the image again and then run a new container from the new image. 
+
+The contents of an image are set at the build step and cannot be altered thereafter. 
+
+
+## Understanding image layers
+
+Images are layer-based. This means that if there is a change to the image and the image is rebuilt, it will cache previous layers and if the layer is unchanged, it will use the cached layer. It will only recreate layers where there was a change (and all subsequent layers). 
+
+This means we can optimise our Dockerfile by copying code which changes frequently near the end, and code which is relatively static, like dependencies, earlier. So when we have a code change, we don’t need to reinstall everything. 
+
+
+## Managing images and containers
+
+Images:
+
+- Tag: -t
+- List: docker images
+- Analyse: docker image inspect
+- Remove: docker rmi; docker prune 
+
+Containers:
+
+- Name: —name
+- List: docker ps
+- Remove: docker rm
+
+
+## Stopping and restarting containers
+
+docker run starts a new container. 
+
+If nothing in our image has changed, we may just need to restart a previously run container. 
+
+docker start <container_name>
+
+
+## Attached and Detached Containers
+
+An attached container is running and blocks the terminal. For example, when we use docker run. Attached simply means we are “listening” to the output of the container, which can be helpful if we want to look at the logs. 
+
+A detached container is running but runs in the background without blocking the terminal. For example, when we run docker start. 
+
+We can configure whether to run in attached or detached mode. The -d flag runs in detached mode 
+docker run -d <image_id>
+
+The -a flag runs in attached mode
+docker start -a <container_name>
+
+
+We can attach to a detached container using
+docker attach <container_name>
+
+To see the log history, we can use
+docker logs <container_name>
+
+We can run this in “follow” mode to print the logs and keep listening (ie attach to the container)
+
+docker logs -f <container_name>
+
+
+## Interactive Mode
+
+If we have an application that requires user input, or we just want to see what’s going on inside the container, we can run in interactive mode. 
+
+We do this with the interactive flag -i. This keeps STDIN open even if not attached. This is analogous to how the attach flag -a keeps STDOUT open. 
+
+We usually combine this with the TTY flag -t. This allocates a pseudo-TTY, which exposes a terminal we can use. 
+
+docker run -it <image_id>
+
+
+## Deleting containers
+We can list all containers with
+docker ps
+
+We can remove containers with 
+docker rm <container_name>
+
+We can pass multiple containers to remove separated by a space. 
+
+
+We can’t remove a running container, so we need to stop it first
+docker stop <container_name>
+
+We can remove ALL stopped containers with
+docker container prune
+
+
+## Deleting images
+
+Analogously to containers, we can list images with
+docker images 
+
+
+We remove images with
+docker rmi <image_id>
+
+We can pass multiple images to remove separated by a space. 
+
+We can’t remove images which are being used by containers, even if that container is stopped. The container needs to be removed first before the image can be removed. 
+
+We can remove all unused images with
+docker image prune
+
+This will remove all untagged images. To also remove tagged images we need the -a flag 
+
+docker image prune -a
+
+
+We can pass the - -rm flag to the docker run command to automatically remove the container once stopped. 
+
+
+## Inspecting Images
+
+We can understand more about an image by inspecting it
+docker image inspect <image_id>
+
+This tells us:
+
+- ID
+- Creation date
+- Config like ports, entry point, interactive etc
+- Docker version
+- OS
+- Layers
+
+
+## Copying files into and from a running container
+
+We can copy files in and out of a running container with the cp command. To copy a file into a container:
+
+docker cp <source file or folder> <container_name>:/<path in container>
+
+
+To copy out of a container, just swap the order of the arguments. 
+
+This allows us to add config or data to a running container. Or copy results or logs out of the container. 
+
+
+## Names and Tags
+
+We can add - - name and - - tag in the docker run command to specify our own name and tag to a container. 
+
+For images, when we execute docker build we can specify a tag with - - tag or -t. Image tags consist of name:tag eg Python:3.11
+
+
+## Sharing images 
+### Registries
+Everyone who has an image can create a container from it. So we are sharing images not containers. 
+
+We could share the source code and Dockerfile to allow somebody to build the image themselves. 
+
+
+We can also share the built image. No build is required and we don’t need to share the full source code. 
+
+
+We can share in:
+
+- Docker Hub
+- Any private registry 
+
+
+### Push
+We can push and pull from the registry with the following commands. By default these refer to Docker Hub. 
+docker push <image_name>
+docker pull <image_name>
+
+We pass host:name rather than just an image name if we want to push or pull from a private registry. 
+
+We need to create the image in Docker Hub. Then we create an image on our local machine with the same image name. Then we can push with the command above. 
+
+We can re-tag an existing image with
+docker tag <old image name> <new image name>
+
+This clones the image; the old name still exists. 
+
+We need to login to be able to push to a docker hub repo. 
+docker login 
+
+We can also logout with
+docker logout
+
+### Pull
+docker pull <image_name>
+
+This will pull the latest version by default. You can specify a tag to override this. 
+
+We can execute run and it will automatically download the image if you don’t already have it locally. If you do have it locally, you might have an out of date version and docker run won’t tell you this. 
+docker run <image_name>
+
+
+## Summary
+
+Images (blueprints) vs Containers (the running instance of the app)
+
+Images can be pulled or built. 
+
+The Dockerfile configures the image when building our own images. 
+Images are built in layers. 
+
+We can run containers from an image, and configure some helpful flags when running. 
+
+We can manage containers: list, remove, stop, start
+And images: list, remove, push, pull
+
+
+<Attach cheat sheet from lesson 42>
