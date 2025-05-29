@@ -104,6 +104,8 @@ docker stop <container_name>
 
 # 2. Images and Containers
 
+Docker image and container [cheat sheet](Cheat-Sheet-Images-Containers.pdf).
+
 ## 2.1. Image vs Container
 A **container** is a running “unit of software”. 
 An **image** is the blueprint for the container. 
@@ -458,10 +460,10 @@ docker run <image_name>
 - We can manage images: list, remove, push, pull
 
 
-Docker image and container [cheat sheet](Cheat-Sheet-Images-Containers.pdf)
-
-
 # 3. Managing Data in Containers
+
+Docker volumes [cheat sheet](Cheat-Sheet-Data-Volumes.pdf).
+
 
 ## 3.1. Different Categories of Data
 
@@ -526,11 +528,158 @@ Or
 docker volume prune
 ```
 
-### 3.4.2. Bind Mounts
+### 3.4.2 Bind Mounts
 
-Bind mounts are managed by you. 
+Bind mounts are managed by you, by defining a path on your host machine. 
+They are good for persistent **editable** data. 
+
+We set the bind mount up when we run a *container*, not when we build an *image*. 
+Wrap the path in quotes in case it path has special characters or spaces. 
+```bash
+docker run -v “<absolute/path/on/host/machine>:<path/in/container>” 
+```
+
+You can also use shortcuts to current working directory:
+```bash
+-v $(pwd):/app
+```
+
+You need to ensure docker has access to the folder you’re sharing. 
+In the docker preferences UI, check `Resources->File Sharing` contains the folder (or parent folder) that you want to mount. 
 
 
+## 3.5. Combining and Merging Different Volumes
+
+We can have:
+- Data copied in the image build step (with the `COPY` command)
+- Volumes - named and anonymous 
+- Bind mounts
+
+If two or more of these refer to the **same path** in the container, the one with the **longer file path** (more specific) wins. 
+
+This can be helpful when, for example, we want a node project with "hot reload". 
+
+1. In the image build step, copy the repo and npm install the dependencies
+2. When running the container, bind mount the repo with the host machine. BUT this would overwrite the node modules folder in the repo, undoing the npm install step and meaning we have no third party libraries. 
+3. Also mount an (anonymous) volume specifically for the node modules folder. Since this is a more specific file path, it takes priority and will not be overwritten by the bind mount. 
+
+This is a fairly common pattern in a variety of use cases. Use anonymous volumes with a specific path to prevent that folder being overwritten.
+
+
+## 3.6. Restarting Web Servers
+
+If you make a change to server code and want to restart the web server, it might not be trivial to do so. 
+
+You can stop and restart the container. This at least saves the trouble of rebuilding. 
+
+Or in node, you can add the `nodemon` package as a dependency, which watches for changes to the server code and restarts the server when required. 
+
+There may be other similar approaches for other languages and use cases besides web servers, but this type of thing is something to be aware of. 
+
+
+## 3.7. Read-Only Volumes
+
+By default, volumes are *read-write*. 
+We may want to make a volume **read-only**, which we can do with an additional colon after the volume name.
+This applies to the folder and all sub-folders. 
+
+```bash
+-v “bind/mount/path:path/in/container:ro”
+```
+
+If we want a specific subfolder to be writable, we can do a similar trick like we did with the anonymous volume, where we specify a second more specific volume that allows read/write access. 
+
+
+## 3.8. Managing Docker Volumes
+
+Volumes can be **listed** with:
+```bash
+docker volume ls
+```
+
+Bind mounts do not appear here, as they are self-managed. 
+
+You can also **create** a volume directly with 
+```bash
+docker volume create <volume_name>
+```
+
+See information on a volume, including the mount point where the data actually is stored on the host machine, with the `inspect` command:
+```
+docker volume inspect 
+```
+
+**Remove** volumes with:
+```bash
+docker volume rm <volume_name>
+docker volume prune
+```
+
+## 3.9. dockerignore file
+
+We can use a `.dockerignore` file to specify folders and files to ignore. 
+
+This is similar in principle to a `.gitignore` file. 
+
+
+# 4. Arguments and Environment Variables
+
+Docker supports build-time arguments (`ARG`) and run-time environment variables (`ENV`). 
+
+You typically should put `ARG` and `ENV` in one of the **later image layers**, as they are likely to change which requires rebuilding all subsequent layers. 
+
+
+## 4.1. Environment Variables
+
+Environment variables are **variables that can be set in the Dockerfile or on docker run**. 
+They are available inside the Dockerfile **and** in application code. 
+
+Insider the Dockerfile:
+
+```dockerfile
+ENV <VARIABLE_NAME> <default value>
+ENV PORT 80
+EXPOSE $PORT
+```
+
+When we use environment variables in the Dockerfile, preface them with a `$` to indicate that they are variable names not literal names. 
+
+We can use them in code too. The syntax depends on the language. In node, for example, it is `process.env.PORT`.
+
+Then when we run the container with an environment variable passed
+
+```bash
+docker run —env PORT=8000
+```
+
+If we have multiple environment variables, pass each with a `--env` or `-e` flag followed by the `key=value` pair. 
+
+
+We can create an **environment file** with all environment variables and values in.
+This is helpful if we have lots of variables to keep track of. 
+Say we have a file called `.env`, we can pass this to docker run with:
+
+```bash
+docker run --env-file ./.env
+```
+
+
+
+## 4.2. Arguments
+
+Arguments are variables that can be passed to the `docker build` command to be used inside the Dockerfile. It is not accessible to CMD or any application code. 
+
+In the Dockerfile, declare arguments with `ARG`, then use them prefixed with a `$`:
+```dockerfile
+ARG DEFAULT_PORT=80
+
+ENV PORT $DEFAULT_PORT
+```
+
+To overwrite the argument value in the build command:
+```bash
+docker build —build-arg DEFAULT_PORT=69
+```
 
 # References
 
