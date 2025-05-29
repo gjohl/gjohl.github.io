@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/software/docker/docker_notes.html",
       "/posts/business/executive_presence/presence.html",
       "/posts/business/science_of_leadership/leadership.html",
       "/posts/business/conflict_resolution/notes.html",
