@@ -778,6 +778,340 @@ Docker owns the entire environment in which it runs. When it sees an outgoing re
 The source code isn’t changed. The translation only happens for outbound requests from inside the container / network. 
 
 
+# 6. Docker Compose
+
+Docker Compose [cheat sheet](Cheat-Sheet-Docker-Compose.pdf).
+
+
+## 6.1. What Problem Does Docker Compose Solve?
+We have seen that we can create multiple containers and add them to the same network to allow them to communicate. 
+
+This is a bit inconvenient though, because we need to build/pull multiple images and run all of the containers with very specific commands in order to publish the correct ports, add the required volumes, put the containers in the correct network, etc. 
+
+**Docker Compose** is a convenience tool to automate the setup of multiple containers. This way, we can start and stop a multi-container application with a single command. 
+
+Docker Compose allows us to replace multiple docker build and docker run commands with **one configuration file** containing the orchestration steps. This lets us automate the set up of multiple images and containers.
+
+We still need Dockerfile files for each of the custom images. 
+
+Docker Compose is *not* suited for managing multiple containers on **different** host machines. 
+
+
+## 6.2. Writing a Docker Compose File
+We specify all of the details relevant to our containers such as: 
+
+- Published ports
+- Environment variables
+- Volumes
+- Networks
+
+The configuration file is named `docker-compose.yaml`.
+
+
+By default in Docker Compose:
+
+- When a container stops it is removed, so we don’t need to add the `--rm` flag since it is implicitly added. 
+- All containers are added to the same network automatically. 
+- If we reference the same named volumes in different services, that volume will be shared so different services can read/write the same volume. 
+
+We specify each of our `services` (essentially containers). 
+If we want to build a custom image and then use it, we use the `build` key. Any `args` we pass to the build command can be specified under it. If one container requires another to be running first, we can specify the `depends_on` key.
+
+There are Docker Compose equivalent of flags like the interactive flag `-i` -> `stdin_open: true`, and TTY `-t- -> `tty: true`.
+
+If we have a bind mount, we can specify it under `volumes` with the relative path from the `docker-compose.yml` file. This is easier than outside of docker compose where we needed the absolute path.
+    
+
+```dockerfile
+version: “3.8”
+services: 
+
+  backend:
+    # Build a custom image then use it
+    build: 
+      context: ./backend
+      # Specify any args passed to the Dockerfile
+      args:
+        arg-name-1: 69
+    ports: 
+      - “3000:3000”
+    volumes:
+      # Relative path to bind mount
+      - ./backend:/app
+    depends_on:
+      # The backend service required `db` to be running first
+      - db
+
+  frontend:
+  # The equivalent of interactive mode (-i and -t flags)
+    stdin_open: true
+    tty: true
+
+  db:
+    image: “mongo”  # can be an image from DockerHub, private repo or local machine
+    volumes:
+      - data:data/db  # This is the same URL as it is outside of docker compose 
+    environment:
+      ENV_VAR_KEY: “env-var-value”
+    env_file:  # Instead of environment 
+    - ./relative/path/from/compose/file
+    networks:
+    # By default, every container in the compose file is added to the same network automatically, so we often don’t need to specify a network here unless we want something non-standard 
+    - any-custom-networks
+  <any other user-selected names for containers>
+
+# Any named volumes used above need to be specified here as a top-level key 
+volumes:
+  # Just the name of the volume as a key, with no value. 
+  # This syntax lets docker know this is a named volume.
+  data:
+```
+
+
+## 6.3. Docker Compose Up and Down
+
+From the same directory as the `docker-compose.yml` file, run this in a terminal to **start** the containers:
+```bash
+docker-compose up
+```
+
+As before, we can run in detached mode with the `-d` flag. 
+
+
+By default, Docker will use the images locally if it finds them there. We can force Docker to rebuild all images instead with the `--build` flag. We can also **just** build images without starting containers with
+```bash
+docker-compose build
+```
+
+
+We can **stop** all services with:
+```bash
+docker-compose down
+```
+
+This does not delete volumes though, unless you add the `-v` flag. 
+
+
+## 6.4. Container Names
+
+We specify the **service** names in our `docker-compose.yml` file. 
+
+The **container** names will be:
+```
+<project-directory-name>_<service-name>_1
+```
+
+You can explicitly set the container name with the `container_name` key under the corresponding service in the `docker-compose.yml` file. 
+
+
+## 6.5. Single Container Applications 
+
+The main benefit of Docker Compose is for multi-container applications. 
+
+But you can, and might prefer to, use it for a single container application. It makes it easier to keep track of long commands and different steps required to build an image and run a container with specific flags. 
+
+
+# 7. Utility Containers
+
+The most common use case for Docker is application containers. They contain an environment and your application code. 
+
+“Utility containers” only contain an environment. 
+
+
+## 7.1. Why Would We Need Utility Containers?
+
+In some cases, we need some software installed to create a project before we can then dockerize it. 
+
+As an example, if we have a node project we typically run ‘npm init’ to populate the `package.json` file with the package details and dependencies which allows us to run the application. And then we can dockerize that application. 
+
+But that would require us to have node and npm installed on our host machine, defeating the purpose of running it in a container. 
+
+
+## 7.2. Running Commands in Containers
+
+We can run containers in interactive mode with:
+```bash
+docker run -it node
+```
+
+
+We can execute any command, not just limited to the `CMD` command defined in the image, using ‘exec’. Say, for example, we want to run `npm init` inside a running container:
+```bash
+docker exec -it <container_name> npm init
+```
+
+This allows us to run additional commands without interrupting the main process. A use case of this is if we have a web server running and want to check its logs. 
+
+
+We can also pass a command to `docker run` to override the default CMD command:
+```bash
+docker run -it node npm init
+```
+
+## 7.3. Building a Utility Container
+
+We can just have a minimal Dockerfile without any CMD:
+
+```dockerfile
+FROM node:14-alpine
+WORKDIR /app
+```
+
+We can build our utility image, let's call it `node-util`, from the Dockerfile as usual:
+```bash
+docker build -t node-util .
+```
+
+Then we can run it in *interactive mode* with a *bind mount* to our project directory on the host machine, and execute `npm init` to create the `package.json` on our host machine 
+```bash
+docker run -it -v /absolute/path/to/project:/app node-util npm init
+```
+
+So it’s as if we’ve got node on our machine, but it’s actually running in Docker. 
+
+
+## 7.4. Using ENTRYPOINT
+
+We can use entry point if we want to **restrict** the set of commands that can be run in interactive mode. 
+
+It looks similar to CMD, but the difference is any commands that we specify in docker run or docker exec will be **appended** to the ENTRYPOINT, rather than **replacing** the CMD. 
+
+For example, if we only want to allow npm commands, in our Dockerfile we can add:
+```dockerfile
+ENTRYPOINT [ “npm” ]
+```
+
+Then when we rebuild the image and run:
+```bash
+docker run -it -v /absolute/path/to/project:/app node-util init
+```
+
+This will execute `npm init` - the `init` command we passed is appended to the `npm` entry point. 
+
+
+## 7.5. Docker Compose with Utility Containers
+
+We’ll often want to use `docker-compose` for utility containers because it encapsulates all of the logic around bind mounts, volumes and other optional flags to the build and run commands that we would typically use for utility containers. 
+
+The same logic to run arbitrary commands applies to containers created using docker-compose, just with some slightly different syntax. 
+
+If we are running a service called `npm-service` with an npm entry point:
+```bash
+docker-compose run npm-service init
+```
+
+Note that a container started in this way will not automatically remove itself when executing `docker-compose down` unlike the usual behaviour. We can pass the usual `--rm` flag if we want that behaviour. 
+
+
+To execute commands in already running containers:
+```
+docker-compose exec npm-service init
+```
+
+
+## 7.6. A Note on File Permissions
+
+On Linux, Docker runs as the *root user*, so any files created by the utility container will have the root user as its owner. This might cause some issues in certain cases, so be aware of this if seeing any funky behaviour on Linux. 
+
+On Mac and Windows, Docker runs inside a virtual machine, so this issue doesn’t occur. 
+
+
+# 8. Deployment
+
+Containers are ideal for deploying to other machines since the main selling point is self-contained, reproducible environments. 
+
+## 8.1. Production Considerations
+
+Some potential differences between production and dev environments:
+
+- Don’t use bind mounts in production. 
+  - They are convenient for dev environments where we want instant updates without restarting the container. In production, we want the source code in the image, not on the remote machine. So we use `COPY` rather than bind mounts. We can do this easily by always `COPY`ing the source code in the Dockerfile so it is built into the image, then in dev we add the bind mount for the source code when we **run** the container. 
+- Containerised apps might need different steps in dev vs prod. 
+  - E.g. React apps that need a build step rather than a preview in dev. 
+- Multi-container projects might need to be split across multiple remote machines. 
+- Trade-off between control and responsibility
+  - Managed solutions vs self-managed.
+
+
+## 8.2. A (Minimal) Self-Managed Deployment
+
+Using AWS as our cloud provider, these are the main steps to deploy:
+
+1. Create an EC2 instance, VPC and security group.
+2. Configure the security group to expose any required ports.
+3. Connect to the instance via `ssh`. 
+4. Install Docker.
+5. `pull` the image and `run` the container. 
+
+
+### 8.2.1 Creating the EC2 Instance
+
+Most of the default settings in the EC2 wizard can be left as is. 
+It’s easiest to use the Amazon Linux image. 
+
+Ensure a **VPC** is selected, and that you **download the key-pair** to allow you to ssh into the instance later. 
+
+
+### 8.2.2. Connecting to the Instance
+
+Select the instance from the EC2 dashboard and select the connection method (SSH client). 
+This wizard will show the steps required to connect. 
+
+From your bash terminal on your local machine in the same directory as your key file, run:
+```bash
+chmod 400 key-file-name.pem
+ssh -i “key-file-name.pem” ec2.url.goes.here
+```
+
+### 8.2.3. Configure the Security Group
+
+By default in EC2, the only way to connect to the instance is via ssh. We can change this to allow accessing it via the IP address. 
+
+In the EC2 dashboard, find the instance and go to `Security Groups`. Change the `Inbound Rules` to allow http connections from `source=anywhere`.
+
+
+### 8.2.4. Install Docker
+
+We can use `amazon-linux-extras` to install packages if we are using the Amazon Linux image for our EC2 instance.
+Otherwise, just use the standard package manager for your OS.
+
+
+In the ssh terminal:
+```bash
+sudo yum update -y
+sudo amazon-linux-extras install docker 
+sudo service docker start
+```
+
+
+### 8.2.5. Pull the Image and Run the Container
+
+Now we can run Docker commands, so we can pull the image we want and run the container. Assuming our image exists on Docker Hub or some private repository, we can pull the image and run a container as usual:
+```bash
+docker pull <image_name>
+docker run <image_name>
+```
+
+We can find the IP address of our instance in the EC2 dashboard, then visit this in a browser to use our application.
+
+
+### 8.2.6. The (Dis)advantages of Self-Managed
+
+The approach in this minimal example was to set up everything ourselves, i.e. self-managed. 
+
+This means we own, and are responsible for, every element: the security, managing networks and firewalls, ensuring packages are up to date, selecting the right size of instance, etc. 
+
+This can be an advantage if we have the skills in the team to cover all of these disparate areas. If not, we may want to choose a managed approach. 
+
+
+## 8.3. A (Minimal) Managed Deployment
+
+There are many different managed Docker solutions. Elastic Container Service (ECS) is Amazon’s offering. 
+
+Note that with any managed provider, you won’t be using Docker commands directly and will have to work within that provider’s specific “rules”.
+
+
+
 # References
 
 - "Docker & Kubernetes: The Practical Guide" [Udemy course](https://www.udemy.com/course/docker-kubernetes-the-practical-guide/)
