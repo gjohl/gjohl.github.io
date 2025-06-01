@@ -1,74 +1,90 @@
 ---
 title: "Neuroscience for Parents"
-description: "Nerds Raising Nerds"
+description: "Baby Brain"
 date: "2025-06-01"
 categories: [Learning, Parenting]
 ---
 
-# Introduction
-We contribute in two ways to our children: their genes (nature) and their environment (nurture) which determines which of their genes activate. 
 
-Being a parent physically changes our brain and limits neurogenesis. The brain of pregnant women shrinks during pregnancy (and expands back to normal size afterwards. 
+# 0. Introduction
+We contribute in two ways to our children: 
 
-The brain of a neglected child is physically different from a healthy child. 
+1. Their genes (nature) 
+2. Their environment (nurture) which determines which of their genes activate. 
 
-Studies show that couples with kids are less happy than couples without kids. But once the kids move out, couples that had kids are happier. It’s worth it in the long run!
+Some assorted facts and thoughts on neuroscience applied to parenting:
 
+- Being a parent physically changes our brain and limits neurogenesis. The brain of pregnant women shrinks during pregnancy (and expands back to normal size afterwards). 
+- The brain of a neglected child is *physically* different from a healthy child. 
+- Studies show that couples with kids are less happy than couples without kids. But once the kids move out, couples that had kids are happier. It’s worth it in the long run!
+- **Kids are not mini-adults** and we shouldn’t treat them as if they were. Their brains are physically different with more grey matter. 
 
-Kids are not mini-adults and we shouldn’t treat them as if they were. Their brains are physically different with more grey matter. 
-
-The course largely follows the Neurocognitive and Behavioural Approach (NBA). 
-
-
-# Reptilian Brain
-
-This “primitive brain” is responsible for our survival instincts: the fight/flight/freeze response. Specifically our “individual” survival. 
-
-The name comes from the “erroneous” belief that this part of the brain has its root in a reptilian ancestor. It actually likely goes back even further to a common ancestor of all vertebrates including amphibians and fish, as they all have this brain structure. 
-
-The reptilian brain still kicks in in our modern world when there aren’t so many life and death situations. This is stress, and the survival instincts lead to our stress responses:
-
-- Fight - aggression 
-- Flight - anxiety
-- Freeze - helplessness
+The course largely follows the **Neurocognitive and Behavioural Approach** (NBA). 
 
 
-## The Reptilian Baby
+There are four “parts” of the brain:
 
-When a baby is born, it is not a blank slate. It’s actually the opposite, a baby has far more neural connections than an adult, and over the first 3 months of its life it deletes connections based on its environment. 
+1. Reptilian brain
+2. Paleolimbic brain
+3. Neolimbic brain
+4. Prefrontal brain
+
+
+# 1. Reptilian Brain
+
+## 1.1. Its Function
+This “primitive brain” is responsible for our survival instincts: the fight/flight/freeze response. Specifically our **individual survival**.
+
+
+The name comes from the (erroneous) belief that this part of the brain has its root in a reptilian ancestor. It actually likely goes back even further to a common ancestor of all vertebrates including amphibians and fish, as they all have this brain structure. 
+
+The reptilian brain still kicks in in our modern world when there aren’t so many life and death situations. This is stress, and the survival instincts lead to our **stress responses**:
+
+- Fight - Aggression 
+- Flight - Anxiety
+- Freeze - Helplessness
+
+
+## 1.2. The Reptilian Baby
+
+When a baby is born, it is not a blank slate. It’s actually the opposite, a baby has far *more* neural connections than an adult, and over the first 3 months of its life it *deletes* connections based on its environment. 
+
 
 Babies can only cry to communicate, so a baby’s cry could be any one of the three stress responses:
 
-- Fight - I’m hungry, give me food
-- Flight - I’m wet, get me out of here
-- Freeze - where’s daddy gone?
+- Fight: "I’m hungry, give me food"
+- Flight: "I’m wet, get me out of here"
+- Freeze: "Where’s daddy gone?"
 
-Our response needs to be appropriate for the stress type. Comforting a baby will work well for a freeze response, but if they’re in fight mode the best thing to do is address the root cause and feed them, otherwise they will just cry harder. 
 
-At this early stage when the baby is driven purely by the survival instincts of the reptilian brain, it is best to give the baby what they want. 
+Our response needs to be appropriate for the stress type. Comforting a baby will work well for a "freeze" response, but if they’re in "fight" mode the best thing to do is address the root cause and feed them, otherwise they will just cry harder. 
 
-Events can be especially traumatic for children because their prefrontal brain, which would help work through emotions and trauma, isn’t developed yet and doesn’t fully mature until 24 years old. 
+At this early stage when the baby is driven purely by the survival instincts of the reptilian brain, it is best to **give the baby what they want**. 
+
+Events can be **especially traumatic for children** because their prefrontal brain, which would help work through emotions and trauma, isn’t developed yet and doesn’t fully mature until 24 years old. 
 
 How can you recognise when the reptilian brain is active? They are in one of the three stress responses:
 
-- Flee - movement and avoiding confrontation, avoiding eye contact
-- Fight - tension in jaws, arms and legs, stamping feet
-- Freeze - tears or apathy
+- Fight - Tension in jaws, arms and legs, stamping feet
+- Flee - Movement and avoiding confrontation, avoiding eye contact
+- Freeze - Tears or apathy
 
 
 How to deal with each stress response?
 
-In all cases, show them that you are on their side. Ask them if they want a hug and if they say no assure them that a hug is still an option later. Hugs release oxytocin, good for bonding and stress relief. 
+In all cases, **show them that you are on their side**. Ask them if they want a hug and if they say no assure them that a hug is still an option later. Hugs release oxytocin, good for bonding and stress relief. 
 
-- Flee - give them options, show them you are on their side
-- Fight - empathise with their outrage. Acknowledge their feelings if you are the cause of their anger. 
-- Give support and sympathy. 
+- Fight - Empathise with their outrage. Acknowledge their feelings if you are the cause of their anger. 
+- Flee - Give them options, show them you are on their side.
+- Freeze - Give support and sympathy. 
 
 
 When the reptilian brain is active, hug them and give them what they want. But don’t do this if the paleolimbic brain is active. 
 
 
-## Movement
+## 1.3. Movement
+
+> Kids aren’t made to sit still!
 
 The reptilian brain may be more accurately referred to as the “primal brain”. It handles many fundamental tasks including breathing, heart rate, sleep and movement. 
 
@@ -76,12 +92,10 @@ The point of the brain is to coordinate movement. Organisms which are alive but 
 
 The cerebellum is 10% of the brain’s volume but has 50% of the neurons, and is responsible for balance, muscle tone and coordination. 
 
-> Kids aren’t made to sit still!
-
 Climbing trees is ridiculously good for your brain. Some studies show it can boost working memory by 50%. 
 
 
-## Food
+## 1.4. Food
 
 Hunger and thirst are handled by the primal brain, specifically the hypothalamus. 
 
@@ -89,43 +103,46 @@ Our brain is 2% of our body’s mass but 20% of its energy intake.
 
 The brain grows at a rate of 250k nerve cells per minute during pregnancy. In the first 90 days a newborn baby’s brain goes from 33% to 55% of an adult’s brain size. 
 
-The amount of omega 3 in breast milk is the strongest predictor of test performance; more than income or schools. 
+The amount of Omega-3 in breast milk is the strongest predictor of test performance; more than income or schools. 
 
 Alcohol dramatically slows down neurogenesis. 
 
 Sugar slows down neurogenesis and gives kids a dopamine hit, messing with their rewards structure. It also leads to memory deficiency and cognitive deficiency, and impaired impulsive control. 
 
 
-## Sleep 
+## 1.5. Sleep 
 
 Very important. 
 
-The brain of adolescents goes through a maturation process from the back of the brain to the front called myelination which strengthens the existing connections. 
+The brain of adolescents goes through a maturation process from the back of the brain to the front called *myelination* which strengthens the existing connections. 
 
 Lack of sleep impacts academic performance in two ways:
 
-- inability to focus in school
+- Inability to focus in school
 - Memory consolidation happens during sleep 
 
 It can also make us more aggressive; studies have shown a lack of sleep increases the size of our amygdala, the centre for fear and aggression. 
 
-Rituals are important for sleep:
 
-- bath
+**Rituals** are important for sleep:
+
+- Bath
 - Story
 - Consistent bedtime
 
-Regularity is as important as number of hours of sleep. You can’t just make up the sleep debt at the weekend. 
+**Regularity** is as important as number of hours of sleep. You can’t just make up the sleep debt at the weekend. 
 
-Possible confounding factor - the same self discipline required for academic success is required for good sleep hygiene. 
-
-
-“Cosleeping is bad” is a myth. We are the only mammals that don’t cosleep regularly. The myth that they will grow up to have attachment issues is the opposite; children who cosleep grow up to have a secure attachment. The knowledge that they have a safe haven with their parents gives them the confidence to venture out and explore. 
+A possible confounding factor: the same self discipline required for academic success is required for good sleep hygiene. 
 
 
-# Paleolimbic Brain
+“Co-sleeping is bad” is a myth. We are the only mammals that don’t co-sleep regularly. The myth that they will grow up to have attachment issues is false. Actually the opposite is true: children who co-sleep grow up to have a secure attachment. The knowledge that they have a safe haven with their parents gives them the confidence to venture out and explore. 
 
-Responsible for survival of the **group**. Living together maximises chances of survival of the group, but this social life needs to be regulated. 
+
+# 2. Paleolimbic Brain
+
+## 2.1. Its Function
+
+Responsible for **survival of the group**. Living together maximises chances of survival of the group, but this social life needs to be regulated. 
 
 The paleolimbic brain defines the position of the individual within the group. 
 
@@ -134,112 +151,119 @@ There are two key dimensions to this:
 1. Self-confidence
 2. Trust in others
 
-<x-y plot of this>
+![Trust vs Self-Confidence](TrustVsSelfConfidence.png)
+
+- **Dominance** isn’t just being brash; dominant people can be charming and nice, but this is a *manipulation tactic* and not genuine. Others are *evaluated in terms of their usefulness* to the dominant person. “Too much” self-confidence becomes a belief that one is *entitled* to more than others. In the extreme case, this leads to Narcissistic Personality Disorder.
+- **Submissive** people believe *all of their successes are due to luck* and *anything that goes wrong is their fault*. This is in contrast to dominant people, who will take credit for all success and blame others for all failures. In its most extreme form, submissiveness leads to melancholic depression. 
+- **Marginal** people have *no trust* in anything or anyone. Conspiracy nuts. 
+- **Axial** people have too much trust in others to the point of gullibility. Becomes mystical delirium in its most extreme form. 
 
 
-## The Parental Instinct
+## 2.2. The Parental Instinct
 
-70% of a brain growth happens after birth. Babies are helpless and we have evolved to treat their survival like our own. 
+70% of our brain growth happens after birth. Babies are helpless and we have evolved to treat their survival like our own. 
 
 There is a “switch” in the limbic amygdala, which is responsible for territorial power games, that is activated when we have children. 
-
 It causes us to be territorial about our kids. 
 
 When it is active, there is no use trying to be rational, the person needs to calm down before being able to reason. 
 
 
-## The Paleolimbic Toddler
+## 2.3. The Paleolimbic Toddler
 
-The paleolimbic brain kicks in around 2-2.5 years old. They enter the socialisation phase; younger than this they play “next to each other” but alone, but at this stage they actually engage with each other. 
+The paleolimbic brain kicks in around **2-2.5 years old**. They enter the socialisation phase; younger than this they play “next to each other” but alone, but at this stage they actually engage with each other. 
 
-Whenever they turn into a “gremlin” that’s the paleolimbic brain in action. You can’t placate the paleolimbic brain like you do with the reptilian brain. Instead you need to assert yourself and explanations are wasted as the paleolimbic brain won’t see reason, only territoriality. 
+Whenever they turn into a “gremlin” that’s the paleolimbic brain in action. You can’t placate the paleolimbic brain like you do with the reptilian brain. Instead you need to **assert yourself**. Explanations are wasted as the paleolimbic brain won’t see reason, only territoriality. 
 
-Pick your battles and let your child win sometimes. This is important for their self esteem. 
+Pick your battles and **let your child win sometimes**. This is important for their self-esteem. 
 
 
-## Self Confidence 
-For the 10 years around 2-12 years old we start identifying our sense of self worth and trust towards others. After this age, our level of self confidence is relatively fixed, and can only change slowly. 
+## 2.4. Self-Confidence 
 
-Discipline is crucial in this stage, but extremes in either direction can be harmful. No discipline means they learn that they can do whatever they want and use others as objects and tools to further their desires. Manipulative people, dominant. 
-Too much discipline limits their exploration and teaches them they can’t do things alone and are not worthy of the trust of others. Submissive people. 
+For the 10 years around **2-12 years old** we start identifying our sense of self-worth and trust towards others. After this age, **our level of self-confidence is relatively fixed**, and can only change slowly. 
 
-Define a framework within which your child can explore, but with rules about what happens when they stray out of bounds. “Don’t point a gun if you’re not ready to shoot”. If you threaten a punishment but don’t actually follow through with it, the child’s brain sees the absence of a punishment as a reward and so this reinforces bad behaviour. 
+Discipline is crucial in this stage, but extremes in either direction can be harmful:
+
+- **No discipline** means they learn that they can do whatever they want and use others as objects and tools to further their desires. This creates manipulative, dominant people. 
+- **Too much discipline** limits their exploration and teaches them they can’t do things alone and are not worthy of the trust of others. This creates submissive people. 
+
+**Define a framework within which your child can explore**, but **with rules** about what happens when they stray out of bounds. “Don’t point a gun if you’re not ready to shoot”. If you threaten a punishment but don’t actually follow through with it, the child’s brain sees the absence of a punishment as a reward and so this reinforces bad behaviour. 
 
 The child will fluctuate over these years. Just because they act dominant one day doesn’t mean you’ve raised a bully; they’re exploring their bounds and fluctuating their levels of self-confidence. 
 
 
-## Beat the Bully
+## 2.5. Beat the Bully
 
 Bullying is dominant paleolimbic behaviour. It relies on intimidation, so if the intimidation stops the cycle breaks. 
 
-Teach the victim to stand up tall and say “no no no” when their boundaries are being breached by the bully. 
+Teach the victim to stand up tall and say “No. No. No.” when their boundaries are being breached by the bully. 
 
 
-## Submissive, Introvert, Shy
+## 2.6. Submissive vs Introvert vs Shy
 
-These are not the same. 
-
-Submissive - paleolimbic brain. About obedience. Should be avoided. 
-Let them connect. 
-
-Introversion - neolimbic brain. This is a character trait. 
-Focus on what your child is good at. 
-
-Shyness - fear, reptilian brain. 
-Show them how to make friends. Invite potential friends over and make the introduction for them. Then ask the other child questions about themselves in front of your kid and let them observe. Read stories about overcoming shyness. Don’t tease or criticise the shyness. 
+These are very different behaviours but often interpreted as similar.
 
 
-## Why we should teach kids to trust us
+| Behaviour      | Brain region responsible | Root cause                 | How to handle it?                                                                                                                                                                                                                                                            |
+|----------------|--------------------------|----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Submissiveness | Paleolimbic              | This is about obedience.   | We should try to avoid submissiveness and let them connect.                                                                                                                                                                                                                  |
+| Introversion   | Neolimbic                | This is a character trait. | Focus on what your child is good at.                                                                                                                                                                                                                                         |
+| Shyness        | Reptilian                | This is a fear response.   | Show them how to make friends. Invite potential friends over and make the introduction for them. Then ask the other child questions about themselves in front of your kid and let them observe. Read stories about overcoming shyness. Don’t tease or criticise the shyness. |
 
-The marshmallow test. The ability to delay gratification is one of the strongest predictors of success. 
 
-Delaying gratification is about more than just pure willpower. It is about how our world view was shaped in our early years. 
+## 2.7. Teach Kids to Trust Us
 
-If the world is seen as hostile, we will take short term gains as we don’t trust in future rewards. If we see the world as stable and trustworthy, we are more willing to defer rewards for better future rewards. 
+The Marshmallow Test: The ability to **delay gratification** is one of the strongest predictors of success. 
+
+Delaying gratification is about more than just pure *willpower*. It is about how **our world view** was shaped in our early years. 
+
+If the world is seen as hostile, we will take short-term gains as we don’t trust in future rewards. If we see the world as stable and trustworthy, we are more willing to defer rewards for better future rewards. 
 
 To encourage this:
 
-- when you promise something, make sure you deliver
-- If they want something, make them earn it (by cleaning their room etc)
-- When you warn them of something, follow through, there needs to be consequences
+- When you promise something, make sure you deliver
+- If they want something, make them earn it (by cleaning their room, etc)
+- When you warn them of something, follow through. There needs to be consequences.
 
 Teach them that action leads to reaction, both positive and negative. 
 
 
-## Social Pain
+## 2.8. Social Pain
 
-Oxytocin is the hormone responsible for bonding, but it also leads to the “us vs them” mentality. In reinforced in-groups and out-groups. 
+Oxytocin is the hormone responsible for bonding, but it also leads to the “us vs them” mentality. It reinforces in-groups and out-groups. 
 
-From an evolutionary point of view, it was much safer to be part of the tribe, and rejection could even mean death. This is why rejection still hurts so much in modern society, it is deeply ingrained. Brain scans show that rejection can have a similar brain response as physical pain. There is an overlap in the neural pathways. 
+From an evolutionary point of view, it was much *safer to be part of the tribe*, and rejection could even mean death. This is why rejection still hurts so much in modern society, it is deeply ingrained. Brain scans show that **rejection can have a similar brain response as physical pain**. There is an overlap in the neural pathways. 
 
-Adolescents need to discover their own clan, this is a crucial part of their development. But a side effect of this is that we as parents are now in the “out group” as they form a new in group with friends. 
+Adolescents need to discover their own clan, this is a crucial part of their development. But a side effect of this is that we as parents are now in the “out-group” as they form a new in-group with friends. 
 
 
-# Neolimbic brain
+# 3. Neolimbic Brain
+
+## 3.1. Its Function
 
 Responsible for our memory and motivations. Usually runs the show when we are on autopilot, handling situations we’ve experienced before. It uses the minimum amount of energy for routine tasks to allow us to multitask. 
 
+
 Three layers of motivation:
 
-1. Intrinsic motivation - Fixed by the time we are 3 months old. Things we enjoy that give us energy. This leads to us having 2-4 of the “personality types” detailed below. 
-2. Extrinsic motivations - Our likes and dislikes. These change over time. They cost us energy and will fade if we don’t see success. Extrinsic motivations push us to do what others expect of us. The motivation boost from a substantial salary raise only lasts 3-6 months. 
-3. Obsessions - A passion that has gone beyond a tipping point. We will never be satisfied, this is the root of addiction. Not just the usual suspects of drugs, alcohol etc but also workaholism. 
+1. **Intrinsic motivations**. Fixed by the time we are 3 months old. Things we enjoy that give us energy. This leads to us having 2-4 of the “personality types” detailed below. 
+2. **Extrinsic motivations**. Our likes and dislikes. These change over time. They cost us energy and will fade if we don’t see success. Extrinsic motivations push us to do what others expect of us. The motivation boost from a substantial salary raise only lasts 3-6 months. 
+3. **Obsessions**. A passion that has gone beyond a tipping point. We will never be satisfied, this is the root of addiction. Not just the usual suspects of drugs, alcohol, etc but also workaholism, retail therapy. 
 
 
-## Expectations
+## 3.2. Expectations
+### 3.2.1. The Pygmalion Effect
 
-The Pygmalion Effect. How we think about others will influence how they will perform. A self-fulfilling prophecy. People will conform to the expectations of them. 
+How we think about others will influence how they will perform. A self-fulfilling prophecy. People will conform to the expectations of them. 
 
 There have been many studies that illustrate this effect. One example is where teachers were given a list of the “high potential” students at the start of the school year, but explicitly told not to show any preferences. The students were assessed at the end of the year and those high potential students would score the highest. But that initial list of high potential students was **random**. The teacher’s higher expectations resulted in higher outcomes. 
 
-
-The flip side of the Pygmalion Effect is the Gollem Effect. Negative expectations lead to negative outcomes. 
-
+The flip side of the Pygmalion Effect is the *Gollem Effect*. Negative expectations lead to negative outcomes. 
 
 Even when we try to hide our preferences from a child, they are very good at picking up on them. 
 
 
-How demanding should we be? 
+### 3.2.2. How Demanding Should We Be?
 
 - Too high expectations causes them to be insecure, relying on external recognition/validation and have attachment issues. 
 - Too low expectations causes them to conform to these low expectations and underachieve. 
@@ -249,18 +273,18 @@ Focus on **effort not results**. Be demanding on effort and forgiving on results
 Otherwise, the risk is they will learn that if they don’t get results then they are not worthy of our love. 
 
 
-How high should we put the bar?
+### 3.2.3. How High Should We Put the Bar?
 
 Discuss this with the child and set up the rules together. Challenge them to exceed their own expectations. 
 
-<Graph of probability of success vs motivation >
+![Motivation vs Probability of Success](MotivationVsSuccess.png)
 
 Part of our job as the parent is to gauge their ability and set goals accordingly so that they have a probability of success in the sweet spot. Not so low that there is no change of succeeding, and not so high that the task is trivial. 
 
 
-## Punishments 
+## 3.3. Punishments 
 
-Operant conditioning: through our punishments and rewards we shape the personality of our kids. 
+**Operant conditioning**: Through our punishments and rewards we shape the personality of our kids. 
 
 This is a lifelong thing, it doesn’t stop in childhood. 
 
@@ -270,16 +294,22 @@ If you say “I’m counting to three” then you have to actually do something 
 
 Types of punishment: timeouts, grounding, confiscate a toy. 
 
-Physical punishment is always detrimental. It reinforces the world view that “I am bigger and stronger than you, therefore I can force you to do what I want”. Can they hit smaller kids at school? Or grow up and hit smaller adults (especially women)? Or is the lesson that only adults can hit kids? Not a great lesson to teach them. 
+Physical punishment is **always** detrimental. It reinforces the world view that “I am bigger and stronger than you, therefore I can force you to do what I want”. Not a great lesson to teach them. Can they hit smaller kids at school? Or grow up and hit smaller adults (especially women)? Or is the lesson that only adults can hit kids? 
+
 
 How to punish:
 
-1. Consequences have to be clear and accepted. You can even let them decide - “You know you’re not supposed to hit and that was naughty. What do you think the consequence of that should be?” You can always disagree with their proposed punishment, but it at least makes them think rationally about their behaviour which disengages the reptilian brain that might have caused their behaviour in the first place. 
-2. Transgressions should **always** have consequences. You can’t let them off the hook. From the brain’s perspective, a lack of punishment where it was anticipated is perceived the same as a reward; you get a dopamine hit. This encourages the behaviour. Forcing consequences helps them establish a stable world view and value system. 
-3. No drama. You don’t need to shout or get angry. Just calmly and directly enforce the consequences. 
+1. Consequences have to be clear and accepted. 
+  - You can even let them decide - “You know you’re not supposed to hit and that was naughty. What do you think the consequence of that should be?” 
+  - You can always disagree with their proposed punishment, but it at least makes them think rationally about their behaviour which disengages the reptilian brain that might have caused their behaviour in the first place. 
+2. Transgressions should **always** have consequences. 
+  - You can’t let them off the hook. From the brain’s perspective, a lack of punishment where it was anticipated is perceived the same as a reward; you get a dopamine hit. This encourages the behaviour. 
+  - Forcing consequences helps them establish a stable world view and value system. 
+3. No drama. 
+  - You don’t need to shout or get angry. Just calmly and directly enforce the consequences. 
 
 
-## Parenting Styles
+## 3.4. Parenting Styles
 
 Childhood is a lab where kids are able to experiment without having to experience the full consequences that they would as an adult. This experimentation is crucial for their development. They need to experience things for themselves, both positive and negative. 
 
