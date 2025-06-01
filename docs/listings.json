@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/learning/neuroscience_for_parents/neuroscience.html",
       "/posts/software/docker/docker_notes.html",
       "/posts/business/executive_presence/presence.html",
       "/posts/business/science_of_leadership/leadership.html",
