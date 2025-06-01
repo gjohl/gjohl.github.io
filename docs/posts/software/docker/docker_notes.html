@@ -270,6 +270,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#network-drivers" id="toc-network-drivers" class="nav-link" data-scroll-target="#network-drivers">5.3. Network Drivers</a></li>
   <li><a href="#how-docker-resolves-ip-addresses" id="toc-how-docker-resolves-ip-addresses" class="nav-link" data-scroll-target="#how-docker-resolves-ip-addresses">5.4. How Docker Resolves IP Addresses</a></li>
   </ul></li>
+  <li><a href="#docker-compose" id="toc-docker-compose" class="nav-link" data-scroll-target="#docker-compose">6. Docker Compose</a>
+  <ul class="collapse">
+  <li><a href="#what-problem-does-docker-compose-solve" id="toc-what-problem-does-docker-compose-solve" class="nav-link" data-scroll-target="#what-problem-does-docker-compose-solve">6.1. What Problem Does Docker Compose Solve?</a></li>
+  <li><a href="#writing-a-docker-compose-file" id="toc-writing-a-docker-compose-file" class="nav-link" data-scroll-target="#writing-a-docker-compose-file">6.2. Writing a Docker Compose File</a></li>
+  <li><a href="#docker-compose-up-and-down" id="toc-docker-compose-up-and-down" class="nav-link" data-scroll-target="#docker-compose-up-and-down">6.3. Docker Compose Up and Down</a></li>
+  <li><a href="#container-names" id="toc-container-names" class="nav-link" data-scroll-target="#container-names">6.4. Container Names</a></li>
+  <li><a href="#single-container-applications" id="toc-single-container-applications" class="nav-link" data-scroll-target="#single-container-applications">6.5. Single Container Applications</a></li>
+  </ul></li>
+  <li><a href="#utility-containers" id="toc-utility-containers" class="nav-link" data-scroll-target="#utility-containers">7. Utility Containers</a>
+  <ul class="collapse">
+  <li><a href="#why-would-we-need-utility-containers" id="toc-why-would-we-need-utility-containers" class="nav-link" data-scroll-target="#why-would-we-need-utility-containers">7.1. Why Would We Need Utility Containers?</a></li>
+  <li><a href="#running-commands-in-containers" id="toc-running-commands-in-containers" class="nav-link" data-scroll-target="#running-commands-in-containers">7.2. Running Commands in Containers</a></li>
+  <li><a href="#building-a-utility-container" id="toc-building-a-utility-container" class="nav-link" data-scroll-target="#building-a-utility-container">7.3. Building a Utility Container</a></li>
+  <li><a href="#using-entrypoint" id="toc-using-entrypoint" class="nav-link" data-scroll-target="#using-entrypoint">7.4. Using ENTRYPOINT</a></li>
+  <li><a href="#docker-compose-with-utility-containers" id="toc-docker-compose-with-utility-containers" class="nav-link" data-scroll-target="#docker-compose-with-utility-containers">7.5. Docker Compose with Utility Containers</a></li>
+  <li><a href="#a-note-on-file-permissions" id="toc-a-note-on-file-permissions" class="nav-link" data-scroll-target="#a-note-on-file-permissions">7.6. A Note on File Permissions</a></li>
+  </ul></li>
+  <li><a href="#deployment" id="toc-deployment" class="nav-link" data-scroll-target="#deployment">8. Deployment</a>
+  <ul class="collapse">
+  <li><a href="#production-considerations" id="toc-production-considerations" class="nav-link" data-scroll-target="#production-considerations">8.1. Production Considerations</a></li>
+  <li><a href="#a-minimal-self-managed-deployment" id="toc-a-minimal-self-managed-deployment" class="nav-link" data-scroll-target="#a-minimal-self-managed-deployment">8.2. A (Minimal) Self-Managed Deployment</a>
+  <ul class="collapse">
+  <li><a href="#creating-the-ec2-instance" id="toc-creating-the-ec2-instance" class="nav-link" data-scroll-target="#creating-the-ec2-instance">8.2.1 Creating the EC2 Instance</a></li>
+  <li><a href="#connecting-to-the-instance" id="toc-connecting-to-the-instance" class="nav-link" data-scroll-target="#connecting-to-the-instance">8.2.2. Connecting to the Instance</a></li>
+  <li><a href="#configure-the-security-group" id="toc-configure-the-security-group" class="nav-link" data-scroll-target="#configure-the-security-group">8.2.3. Configure the Security Group</a></li>
+  <li><a href="#install-docker" id="toc-install-docker" class="nav-link" data-scroll-target="#install-docker">8.2.4. Install Docker</a></li>
+  <li><a href="#pull-the-image-and-run-the-container" id="toc-pull-the-image-and-run-the-container" class="nav-link" data-scroll-target="#pull-the-image-and-run-the-container">8.2.5. Pull the Image and Run the Container</a></li>
+  <li><a href="#the-disadvantages-of-self-managed" id="toc-the-disadvantages-of-self-managed" class="nav-link" data-scroll-target="#the-disadvantages-of-self-managed">8.2.6. The (Dis)advantages of Self-Managed</a></li>
+  </ul></li>
+  <li><a href="#a-minimal-managed-deployment" id="toc-a-minimal-managed-deployment" class="nav-link" data-scroll-target="#a-minimal-managed-deployment">8.3. A (Minimal) Managed Deployment</a></li>
+  </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
@@ -749,6 +780,238 @@ host.docker.internal
 container-name</code></pre>
 <p>Docker owns the entire environment in which it runs. When it sees an outgoing request with one of the “translatable” names, it will replace that placeholder in the URL with the relevant IP address.</p>
 <p>The source code isn’t changed. The translation only happens for outbound requests from inside the container / network.</p>
+</section>
+</section>
+<section id="docker-compose" class="level1">
+<h1>6. Docker Compose</h1>
+<p>Docker Compose <a href="Cheat-Sheet-Docker-Compose.pdf">cheat sheet</a>.</p>
+<section id="what-problem-does-docker-compose-solve" class="level2">
+<h2 class="anchored" data-anchor-id="what-problem-does-docker-compose-solve">6.1. What Problem Does Docker Compose Solve?</h2>
+<p>We have seen that we can create multiple containers and add them to the same network to allow them to communicate.</p>
+<p>This is a bit inconvenient though, because we need to build/pull multiple images and run all of the containers with very specific commands in order to publish the correct ports, add the required volumes, put the containers in the correct network, etc.</p>
+<p><strong>Docker Compose</strong> is a convenience tool to automate the setup of multiple containers. This way, we can start and stop a multi-container application with a single command.</p>
+<p>Docker Compose allows us to replace multiple docker build and docker run commands with <strong>one configuration file</strong> containing the orchestration steps. This lets us automate the set up of multiple images and containers.</p>
+<p>We still need Dockerfile files for each of the custom images.</p>
+<p>Docker Compose is <em>not</em> suited for managing multiple containers on <strong>different</strong> host machines.</p>
+</section>
+<section id="writing-a-docker-compose-file" class="level2">
+<h2 class="anchored" data-anchor-id="writing-a-docker-compose-file">6.2. Writing a Docker Compose File</h2>
+<p>We specify all of the details relevant to our containers such as:</p>
+<ul>
+<li>Published ports</li>
+<li>Environment variables</li>
+<li>Volumes</li>
+<li>Networks</li>
+</ul>
+<p>The configuration file is named <code>docker-compose.yaml</code>.</p>
+<p>By default in Docker Compose:</p>
+<ul>
+<li>When a container stops it is removed, so we don’t need to add the <code>--rm</code> flag since it is implicitly added.</li>
+<li>All containers are added to the same network automatically.</li>
+<li>If we reference the same named volumes in different services, that volume will be shared so different services can read/write the same volume.</li>
+</ul>
+<p>We specify each of our <code>services</code> (essentially containers). If we want to build a custom image and then use it, we use the <code>build</code> key. Any <code>args</code> we pass to the build command can be specified under it. If one container requires another to be running first, we can specify the <code>depends_on</code> key.</p>
+<p>There are Docker Compose equivalent of flags like the interactive flag <code>-i</code> -&gt; <code>stdin_open: true</code>, and TTY <code>-t- -&gt;</code>tty: true`.</p>
+<p>If we have a bind mount, we can specify it under <code>volumes</code> with the relative path from the <code>docker-compose.yml</code> file. This is easier than outside of docker compose where we needed the absolute path.</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode dockerfile code-with-copy"><code class="sourceCode dockerfile"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>version: “3.8”</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>services: </span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>  backend:</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Build a custom image then use it</span></span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>    build: </span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>      context: ./backend</span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Specify any args passed to the Dockerfile</span></span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>      args:</span>
+<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a>        arg-name-1: 69</span>
+<span id="cb62-11"><a href="#cb62-11" aria-hidden="true" tabindex="-1"></a>    ports: </span>
+<span id="cb62-12"><a href="#cb62-12" aria-hidden="true" tabindex="-1"></a>      - “3000:3000”</span>
+<span id="cb62-13"><a href="#cb62-13" aria-hidden="true" tabindex="-1"></a>    volumes:</span>
+<span id="cb62-14"><a href="#cb62-14" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Relative path to bind mount</span></span>
+<span id="cb62-15"><a href="#cb62-15" aria-hidden="true" tabindex="-1"></a>      - ./backend:/app</span>
+<span id="cb62-16"><a href="#cb62-16" aria-hidden="true" tabindex="-1"></a>    depends_on:</span>
+<span id="cb62-17"><a href="#cb62-17" aria-hidden="true" tabindex="-1"></a>      <span class="co"># The backend service required `db` to be running first</span></span>
+<span id="cb62-18"><a href="#cb62-18" aria-hidden="true" tabindex="-1"></a>      - db</span>
+<span id="cb62-19"><a href="#cb62-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-20"><a href="#cb62-20" aria-hidden="true" tabindex="-1"></a>  frontend:</span>
+<span id="cb62-21"><a href="#cb62-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># The equivalent of interactive mode (-i and -t flags)</span></span>
+<span id="cb62-22"><a href="#cb62-22" aria-hidden="true" tabindex="-1"></a>    stdin_open: true</span>
+<span id="cb62-23"><a href="#cb62-23" aria-hidden="true" tabindex="-1"></a>    tty: true</span>
+<span id="cb62-24"><a href="#cb62-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-25"><a href="#cb62-25" aria-hidden="true" tabindex="-1"></a>  db:</span>
+<span id="cb62-26"><a href="#cb62-26" aria-hidden="true" tabindex="-1"></a>    image: “mongo”  <span class="co"># can be an image from DockerHub, private repo or local machine</span></span>
+<span id="cb62-27"><a href="#cb62-27" aria-hidden="true" tabindex="-1"></a>    volumes:</span>
+<span id="cb62-28"><a href="#cb62-28" aria-hidden="true" tabindex="-1"></a>      - data:data/db  <span class="co"># This is the same URL as it is outside of docker compose </span></span>
+<span id="cb62-29"><a href="#cb62-29" aria-hidden="true" tabindex="-1"></a>    environment:</span>
+<span id="cb62-30"><a href="#cb62-30" aria-hidden="true" tabindex="-1"></a>      ENV_VAR_KEY: “env-var-value”</span>
+<span id="cb62-31"><a href="#cb62-31" aria-hidden="true" tabindex="-1"></a>    env_file:  <span class="co"># Instead of environment </span></span>
+<span id="cb62-32"><a href="#cb62-32" aria-hidden="true" tabindex="-1"></a>    - ./relative/path/from/compose/file</span>
+<span id="cb62-33"><a href="#cb62-33" aria-hidden="true" tabindex="-1"></a>    networks:</span>
+<span id="cb62-34"><a href="#cb62-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># By default, every container in the compose file is added to the same network automatically, so we often don’t need to specify a network here unless we want something non-standard </span></span>
+<span id="cb62-35"><a href="#cb62-35" aria-hidden="true" tabindex="-1"></a>    - any-custom-networks</span>
+<span id="cb62-36"><a href="#cb62-36" aria-hidden="true" tabindex="-1"></a>  &lt;any other user-selected names for containers&gt;</span>
+<span id="cb62-37"><a href="#cb62-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-38"><a href="#cb62-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Any named volumes used above need to be specified here as a top-level key </span></span>
+<span id="cb62-39"><a href="#cb62-39" aria-hidden="true" tabindex="-1"></a>volumes:</span>
+<span id="cb62-40"><a href="#cb62-40" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Just the name of the volume as a key, with no value. </span></span>
+<span id="cb62-41"><a href="#cb62-41" aria-hidden="true" tabindex="-1"></a>  <span class="co"># This syntax lets docker know this is a named volume.</span></span>
+<span id="cb62-42"><a href="#cb62-42" aria-hidden="true" tabindex="-1"></a>  data:</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="docker-compose-up-and-down" class="level2">
+<h2 class="anchored" data-anchor-id="docker-compose-up-and-down">6.3. Docker Compose Up and Down</h2>
+<p>From the same directory as the <code>docker-compose.yml</code> file, run this in a terminal to <strong>start</strong> the containers:</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker-compose</span> up</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As before, we can run in detached mode with the <code>-d</code> flag.</p>
+<p>By default, Docker will use the images locally if it finds them there. We can force Docker to rebuild all images instead with the <code>--build</code> flag. We can also <strong>just</strong> build images without starting containers with</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker-compose</span> build</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can <strong>stop</strong> all services with:</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker-compose</span> down</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This does not delete volumes though, unless you add the <code>-v</code> flag.</p>
+</section>
+<section id="container-names" class="level2">
+<h2 class="anchored" data-anchor-id="container-names">6.4. Container Names</h2>
+<p>We specify the <strong>service</strong> names in our <code>docker-compose.yml</code> file.</p>
+<p>The <strong>container</strong> names will be:</p>
+<pre><code>&lt;project-directory-name&gt;_&lt;service-name&gt;_1</code></pre>
+<p>You can explicitly set the container name with the <code>container_name</code> key under the corresponding service in the <code>docker-compose.yml</code> file.</p>
+</section>
+<section id="single-container-applications" class="level2">
+<h2 class="anchored" data-anchor-id="single-container-applications">6.5. Single Container Applications</h2>
+<p>The main benefit of Docker Compose is for multi-container applications.</p>
+<p>But you can, and might prefer to, use it for a single container application. It makes it easier to keep track of long commands and different steps required to build an image and run a container with specific flags.</p>
+</section>
+</section>
+<section id="utility-containers" class="level1">
+<h1>7. Utility Containers</h1>
+<p>The most common use case for Docker is application containers. They contain an environment and your application code.</p>
+<p>“Utility containers” only contain an environment.</p>
+<section id="why-would-we-need-utility-containers" class="level2">
+<h2 class="anchored" data-anchor-id="why-would-we-need-utility-containers">7.1. Why Would We Need Utility Containers?</h2>
+<p>In some cases, we need some software installed to create a project before we can then dockerize it.</p>
+<p>As an example, if we have a node project we typically run ‘npm init’ to populate the <code>package.json</code> file with the package details and dependencies which allows us to run the application. And then we can dockerize that application.</p>
+<p>But that would require us to have node and npm installed on our host machine, defeating the purpose of running it in a container.</p>
+</section>
+<section id="running-commands-in-containers" class="level2">
+<h2 class="anchored" data-anchor-id="running-commands-in-containers">7.2. Running Commands in Containers</h2>
+<p>We can run containers in interactive mode with:</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-it</span> node</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can execute any command, not just limited to the <code>CMD</code> command defined in the image, using ‘exec’. Say, for example, we want to run <code>npm init</code> inside a running container:</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> exec <span class="at">-it</span> <span class="op">&lt;</span>container_name<span class="op">&gt;</span> npm init</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This allows us to run additional commands without interrupting the main process. A use case of this is if we have a web server running and want to check its logs.</p>
+<p>We can also pass a command to <code>docker run</code> to override the default CMD command:</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-it</span> node npm init</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="building-a-utility-container" class="level2">
+<h2 class="anchored" data-anchor-id="building-a-utility-container">7.3. Building a Utility Container</h2>
+<p>We can just have a minimal Dockerfile without any CMD:</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode dockerfile code-with-copy"><code class="sourceCode dockerfile"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> node:14-alpine</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="kw">WORKDIR</span> /app</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can build our utility image, let’s call it <code>node-util</code>, from the Dockerfile as usual:</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> build <span class="at">-t</span> node-util .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then we can run it in <em>interactive mode</em> with a <em>bind mount</em> to our project directory on the host machine, and execute <code>npm init</code> to create the <code>package.json</code> on our host machine</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-it</span> <span class="at">-v</span> /absolute/path/to/project:/app node-util npm init</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>So it’s as if we’ve got node on our machine, but it’s actually running in Docker.</p>
+</section>
+<section id="using-entrypoint" class="level2">
+<h2 class="anchored" data-anchor-id="using-entrypoint">7.4. Using ENTRYPOINT</h2>
+<p>We can use entry point if we want to <strong>restrict</strong> the set of commands that can be run in interactive mode.</p>
+<p>It looks similar to CMD, but the difference is any commands that we specify in docker run or docker exec will be <strong>appended</strong> to the ENTRYPOINT, rather than <strong>replacing</strong> the CMD.</p>
+<p>For example, if we only want to allow npm commands, in our Dockerfile we can add:</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode dockerfile code-with-copy"><code class="sourceCode dockerfile"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="kw">ENTRYPOINT</span> [ “npm” ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then when we rebuild the image and run:</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-it</span> <span class="at">-v</span> /absolute/path/to/project:/app node-util init</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will execute <code>npm init</code> - the <code>init</code> command we passed is appended to the <code>npm</code> entry point.</p>
+</section>
+<section id="docker-compose-with-utility-containers" class="level2">
+<h2 class="anchored" data-anchor-id="docker-compose-with-utility-containers">7.5. Docker Compose with Utility Containers</h2>
+<p>We’ll often want to use <code>docker-compose</code> for utility containers because it encapsulates all of the logic around bind mounts, volumes and other optional flags to the build and run commands that we would typically use for utility containers.</p>
+<p>The same logic to run arbitrary commands applies to containers created using docker-compose, just with some slightly different syntax.</p>
+<p>If we are running a service called <code>npm-service</code> with an npm entry point:</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker-compose</span> run npm-service init</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Note that a container started in this way will not automatically remove itself when executing <code>docker-compose down</code> unlike the usual behaviour. We can pass the usual <code>--rm</code> flag if we want that behaviour.</p>
+<p>To execute commands in already running containers:</p>
+<pre><code>docker-compose exec npm-service init</code></pre>
+</section>
+<section id="a-note-on-file-permissions" class="level2">
+<h2 class="anchored" data-anchor-id="a-note-on-file-permissions">7.6. A Note on File Permissions</h2>
+<p>On Linux, Docker runs as the <em>root user</em>, so any files created by the utility container will have the root user as its owner. This might cause some issues in certain cases, so be aware of this if seeing any funky behaviour on Linux.</p>
+<p>On Mac and Windows, Docker runs inside a virtual machine, so this issue doesn’t occur.</p>
+</section>
+</section>
+<section id="deployment" class="level1">
+<h1>8. Deployment</h1>
+<p>Containers are ideal for deploying to other machines since the main selling point is self-contained, reproducible environments.</p>
+<section id="production-considerations" class="level2">
+<h2 class="anchored" data-anchor-id="production-considerations">8.1. Production Considerations</h2>
+<p>Some potential differences between production and dev environments:</p>
+<ul>
+<li>Don’t use bind mounts in production.
+<ul>
+<li>They are convenient for dev environments where we want instant updates without restarting the container. In production, we want the source code in the image, not on the remote machine. So we use <code>COPY</code> rather than bind mounts. We can do this easily by always <code>COPY</code>ing the source code in the Dockerfile so it is built into the image, then in dev we add the bind mount for the source code when we <strong>run</strong> the container.</li>
+</ul></li>
+<li>Containerised apps might need different steps in dev vs prod.
+<ul>
+<li>E.g. React apps that need a build step rather than a preview in dev.</li>
+</ul></li>
+<li>Multi-container projects might need to be split across multiple remote machines.</li>
+<li>Trade-off between control and responsibility
+<ul>
+<li>Managed solutions vs self-managed.</li>
+</ul></li>
+</ul>
+</section>
+<section id="a-minimal-self-managed-deployment" class="level2">
+<h2 class="anchored" data-anchor-id="a-minimal-self-managed-deployment">8.2. A (Minimal) Self-Managed Deployment</h2>
+<p>Using AWS as our cloud provider, these are the main steps to deploy:</p>
+<ol type="1">
+<li>Create an EC2 instance, VPC and security group.</li>
+<li>Configure the security group to expose any required ports.</li>
+<li>Connect to the instance via <code>ssh</code>.</li>
+<li>Install Docker.</li>
+<li><code>pull</code> the image and <code>run</code> the container.</li>
+</ol>
+<section id="creating-the-ec2-instance" class="level3">
+<h3 class="anchored" data-anchor-id="creating-the-ec2-instance">8.2.1 Creating the EC2 Instance</h3>
+<p>Most of the default settings in the EC2 wizard can be left as is. It’s easiest to use the Amazon Linux image.</p>
+<p>Ensure a <strong>VPC</strong> is selected, and that you <strong>download the key-pair</strong> to allow you to ssh into the instance later.</p>
+</section>
+<section id="connecting-to-the-instance" class="level3">
+<h3 class="anchored" data-anchor-id="connecting-to-the-instance">8.2.2. Connecting to the Instance</h3>
+<p>Select the instance from the EC2 dashboard and select the connection method (SSH client). This wizard will show the steps required to connect.</p>
+<p>From your bash terminal on your local machine in the same directory as your key file, run:</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> 400 key-file-name.pem</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="at">-i</span> “key-file-name.pem” ec2.url.goes.here</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="configure-the-security-group" class="level3">
+<h3 class="anchored" data-anchor-id="configure-the-security-group">8.2.3. Configure the Security Group</h3>
+<p>By default in EC2, the only way to connect to the instance is via ssh. We can change this to allow accessing it via the IP address.</p>
+<p>In the EC2 dashboard, find the instance and go to <code>Security Groups</code>. Change the <code>Inbound Rules</code> to allow http connections from <code>source=anywhere</code>.</p>
+</section>
+<section id="install-docker" class="level3">
+<h3 class="anchored" data-anchor-id="install-docker">8.2.4. Install Docker</h3>
+<p>We can use <code>amazon-linux-extras</code> to install packages if we are using the Amazon Linux image for our EC2 instance. Otherwise, just use the standard package manager for your OS.</p>
+<p>In the ssh terminal:</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> yum update <span class="at">-y</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> amazon-linux-extras install docker </span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> service docker start</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="pull-the-image-and-run-the-container" class="level3">
+<h3 class="anchored" data-anchor-id="pull-the-image-and-run-the-container">8.2.5. Pull the Image and Run the Container</h3>
+<p>Now we can run Docker commands, so we can pull the image we want and run the container. Assuming our image exists on Docker Hub or some private repository, we can pull the image and run a container as usual:</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> pull <span class="op">&lt;</span>image_name<span class="op">&gt;</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="op">&lt;</span>image_name<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can find the IP address of our instance in the EC2 dashboard, then visit this in a browser to use our application.</p>
+</section>
+<section id="the-disadvantages-of-self-managed" class="level3">
+<h3 class="anchored" data-anchor-id="the-disadvantages-of-self-managed">8.2.6. The (Dis)advantages of Self-Managed</h3>
+<p>The approach in this minimal example was to set up everything ourselves, i.e.&nbsp;self-managed.</p>
+<p>This means we own, and are responsible for, every element: the security, managing networks and firewalls, ensuring packages are up to date, selecting the right size of instance, etc.</p>
+<p>This can be an advantage if we have the skills in the team to cover all of these disparate areas. If not, we may want to choose a managed approach.</p>
+</section>
+</section>
+<section id="a-minimal-managed-deployment" class="level2">
+<h2 class="anchored" data-anchor-id="a-minimal-managed-deployment">8.3. A (Minimal) Managed Deployment</h2>
+<p>There are many different managed Docker solutions. Elastic Container Service (ECS) is Amazon’s offering.</p>
+<p>Note that with any managed provider, you won’t be using Docker commands directly and will have to work within that provider’s specific “rules”.</p>
 </section>
 </section>
 <section id="references" class="level1">
