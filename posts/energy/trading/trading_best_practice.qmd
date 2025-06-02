@@ -1,0 +1,8 @@
+---
+title: "Trading Best Practice"
+description: "Basics"
+date: "2025-06-02"
+categories: [Energy, Finance]
+draft: true
+---
+
