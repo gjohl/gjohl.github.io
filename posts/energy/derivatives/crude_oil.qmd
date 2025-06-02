@@ -1,0 +1,187 @@
+---
+title: "Derivatives: Crude Oil"
+description: "Basics"
+date: "2025-06-01"
+categories: [Energy, Finance]
+draft: true
+---
+
+
+This E-Learning course covers:
+
+What is trading and why companies trade
+Explains some trading terms such as long/short, bullish/bearish
+What is a crude oil derivative
+What the difference between forwards, futures, swaps and options are
+How they are connected, EFP, EFS
+How a futures exchange works
+
+
+# The Basics of Trading
+
+Trading: The act of buying or selling goods or services in exchange for something... typically money.
+
+Long and short. 
+Long = Buy now, sell later. You are "bullish".
+Short = Sell now, buy later. You are "bearish".
+
+Bids are the buyers, offers are the sellers.
+
+
+# Derivatives
+
+A derivative is a tradeable financial instrument that derives its value from an underlying market.
+The derivative itself is essentially a paper contract that governs the terms of the transaction, including things like quality, delivery point, payment terms, force majeure provisions, credit arrangements, etc.
+
+All derivative commodity contracts essentially share the same purpose, allowing the holder to lock in the price of a commodity today for delivery in the future.
+
+Different derivatives include:
+
+- Forwards
+- Futures
+- Swaps
+- Options
+
+
+## Forwards
+
+A forward contract is a customised contract between two parties to buy and sell an asset at a specified price on a future date.
+
+While their OTC nature makes it easier to customise terms, the lack of a centralised clearinghouse also gives rise to a higher degree of credit risk. A forward involves physical delivery. They tend to trade in the underlying units of the commodity, so for Crude Oil, this would be barrels (bbls).
+
+- Physical delivery
+- Less regulation than futures
+- Non–standard contracts
+- Not anonymous
+- Credit Risk
+- Voice/electronic/email – Brokers used
+- Opaque
+
+Trading arrangements need to be made with each counterparty to be able to trade with them.
+
+
+## Futures
+
+A futures contract is very similar to a forward contract. It is a legal agreement, made on a futures exchange, to buy or sell a particular commodity at a predetermined price at a specified time in the future. 
+
+Futures contracts are standardised to facilitate trading on a futures exchange and, depending on the underlying asset being traded, detail the quality and quantity of the commodity. As such, futures trade in Lots where one Lot equates to a predetermined quantity of the underlying commodity, as set by the exchange. For Crude Oil futures, one lot = 1000 bbls.
+
+The contract will specify what happens at the expiration of each futures contract.
+
+As the clearinghouse acts as a central counterparty to the trades, the risk of default is far lower. Also, the "marking-to-market" and margining process results in the value of the contract being settled daily rather than at the end of the term, as with forwards. The fact that the Exchange asks only for an initial margin when positions are opened and then a variation margin as the value of the position changes makes futures particularly attractive to hedge funds and banks. As they are not obliged to pay for the full notional value of the trade upfront, only a proportion of it, they can, therefore, use more leverage.
+
+- Regulated
+- Standardised contracts
+- Anonymous
+- No credit risk
+- Electronic/open outcry
+- You can trade directly with the exchange, although brokers can also be used
+- Transparent
+
+
+Trading arrangements only need to be made with the **exchange** to be able to trade with all other users of the exchange.
+
+Futures contracts are liabilities, as opposed to the obligation to make or take delivery imposed by a forward contract. As such, a net futures trading position of zero means you have no obligation to make or take delivery from anyone.
+
+As an exmaple, say you are simultaneuously long 1000 bbls of crude and short 1000 bbls of crude. If using futures, your net position is 0, so there is no obligation to make or take delivery. If using forwards, you would not be able to net the position between the different counterparties, so you would take delivery of the crude and then make delivery.
+
+
+### Are Futures and Forwards Interchangeable? 
+
+It depends.
+
+In European natural gas markets, futures and forwards are fungible. As they are both physically deliverable, you can buy futures for a specific location and contract period, sell this as a forward and use one to fulfil the obligations of the other.
+
+This is not the case with Brent futures and forwards (called "BFOE(T)") as the futures are cash-settled whilst the forward is physically deliverable (and somewhat complicated!). 
+
+A trader can often use an EFP ("Exchange for Physical") to turn futures positions into forward physical positions. An exchange for physical (EFP) is a private agreement between two parties to exchange a futures position for the underlying actuals. This transaction can be used to open a futures position, close a futures position or switch a futures position for the underlying commodity. 
+
+When two parties have agreed to an EFP, which is done privately, they then register the transaction with the relevant Exchange. The volume of any EFP is always published by the Exchange in its daily reports, but the price at which the EFP was agreed is not. To an extent, this is irrelevant, providing the price agreed for the futures and the price agreed for the physical are the same or similar.
+
+
+## Swaps
+
+A swap is a contract where two sides of the deal agree to exchange cash flows, which are dependent on the price of an underlying commodity. You buy one leg of a swap and simultaneously sell the other or vice versa. Swaps are purely financial instruments.
+
+A commodity swap consists of a floating-leg component and a fixed-leg component. The floating-leg component is tied to the future market price of the underlying commodity or agreed-upon commodity index, while the fixed-leg component is specified in the contract.
+
+No physical delivery takes place. The swap has a specified "pricing out" period - the period over which the floating priced element 'fixes' - this is different for each swap.
+
+Steps of an example swap:
+
+1. **Buy the swap.** One thousand barrels of the July Dubai swap for 95 dollars on 3rd June.
+2. **Mark to market.** The value of the swap changes over time. By the end of June, the value of the July Dubai swap has increased to $96.5/bbl, resulting in an MTM (mark-to-market) profit of $1.5/bbl for the trader.
+3. **Pricing out of the swap.** If the swap is held into the pricing period (1st-31st July), then pricing will begin. (Note that the trader can sell the swap before this to lock in their profit/loss.) This is the floating priced element of the swap. The swap will finally settle at the close of business on 31st July. In this example, the average of all the settlement prices published during July is $95.45/bbl, so as the swap was originally bought for $95/bbl, the final P&L is $0.45/bbl.
+
+The exposure is constant during the mark-to-market period - 1000 bbls. 
+During the pricing period, the exposure gradually drops from 1000 bbls at the start of the pricing period to 0 at the end.
+
+Swaps can be traded in the OTC marketplace and on a regulated exchange.
+
+- Financially settled
+- Swaps a price known today with an unknown price set in the future
+- Often used for hedging
+- Could be used for speculation as long as trading occurs before the settlement of the floating element, as these effectively offset, and you have just left buying/selling a fixed price. 
+
+
+## Options
+
+An options contract is an agreement between two parties to facilitate a potential transaction on an underlying security, maybe a future or a physical asset, at a pre-set price, referred to as the strike price, before the expiration date.
+
+The two types of contracts are **call** (the right to buy) and **put** (the right to sell) options.
+
+- Could be traded OTC or on a regulated exchange, depending on the underlying commodity used.
+- Gives the holder the right but not the obligation to buy or sell the underlying at the strike price at or before an expiry date. 
+- A **premium** is paid for the right to have the option.
+- The amount you have to pay depends on the volatility of the underlying instrument and the time to expiry of the option.
+
+
+# How do traders use derivatives?
+
+Very broadly, there are three categories of trading activity:
+
+1. Hedging
+2. Arbitrage
+3. Speculation
+
+
+## Hedging 
+
+Passing price risk to somebody else by agreeing on the price before future delivery and, therefore, removing commodity price volatility. This is achieved by taking an equal and offsetting derivative position to the physically deliverable quantity in the traded market.
+
+Hedging gives price certainty and downside protection but removes upside potential.
+
+
+## Arbitrage
+
+Arbitrage is the exploitation of price variation, whether that be geographical, using transport, or time, using storage.
+
+If, as a trader, you purchase a commodity in location A and can sell it in location B for more than the cost of transporting it between the two locations, you get to keep the difference.
+Capturing that difference (or profit) often involves placing hedges using derivatives to remove price risk on physical purchases and sales.
+
+
+## Speculation
+
+Creating price risk by initiating a position in the market or keeping hold of a position and choosing to be exposed to the value of something increasing or decreasing in value. One of the easiest ways to initiate a position is to buy or sell a derivative.
+
+Speculation in Commodity markets traditionally involved buying something if you thought it was going up in price or selling it if you thought the price would drop. 
+We often refer to these types of trades as "flat price trading." What we mean by this is that we are speculating on the outright or "flat" price of the commodity.
+
+
+### The evolution of flat price trading 
+
+Historically, commodity markets were predominantly driven by the forces of supply and demand and traded mainly by the same players who handled the production and consumption of the commodity. They are generally very volatile.
+
+In 1995, the daily volume of paper trading was broadly equivalent to physical consumption. Now, the average daily trading volume of crude oil futures and options, driven by exchange-traded funds, options traders, risk parity traders, speculators, etc., equates to 2 billion barrels/day. That is 20 times the daily world oil demand. 
+
+As a result, factors unrelated to physical supply and demand are increasingly driving crude oil prices. This makes flat price trading very difficult. How do you determine what the market will do if you can't rely on fundamentals? And how do you cope with such big swings in price if you are wrong?
+
+
+### Alternatives to Flat Price Trading
+
+Other ways to trade volatile markets:
+
+- Technical trading doesn't use supply and demand analysis.
+- Options allow traders to limit risk by just paying out a premium. However, costs can be very high in a volatile market.
+- Spreads are a tool that reduces risk and allows traders to still bet on their fundamental view of the market.
+
