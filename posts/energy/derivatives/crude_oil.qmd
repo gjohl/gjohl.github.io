@@ -1,5 +1,5 @@
 ---
-title: "Derivatives: Crude Oil"
+title: "Derivatives: Crude Oil and Natural Gas"
 description: "Basics"
 date: "2025-06-01"
 categories: [Energy, Finance]
@@ -43,6 +43,12 @@ Different derivatives include:
 - Options
 
 
+There are two types of commodity trade: 
+
+- **Physical**. Traders buy and sell a physical quantity of a commodity.  In addition to price and quantity, the deal will likely include a delivery date, delivery location, and a specification or quality that the delivery must meet.
+- **Paper**. Traders buy and sell "paper" products that are often financially settled but always relate to an underlying physical market. A paper contract usually defines things in advance, such as what is being traded and the settlement details. So, the deal may just involve price and quantity.
+
+
 ## Forwards
 
 A forward contract is a customised contract between two parties to buy and sell an asset at a specified price on a future date.
@@ -64,11 +70,19 @@ Trading arrangements need to be made with each counterparty to be able to trade 
 
 A futures contract is very similar to a forward contract. It is a legal agreement, made on a futures exchange, to buy or sell a particular commodity at a predetermined price at a specified time in the future. 
 
-Futures contracts are standardised to facilitate trading on a futures exchange and, depending on the underlying asset being traded, detail the quality and quantity of the commodity. As such, futures trade in Lots where one Lot equates to a predetermined quantity of the underlying commodity, as set by the exchange. For Crude Oil futures, one lot = 1000 bbls.
+Futures contracts are standardised to facilitate trading on a futures exchange and, depending on the underlying asset being traded, detail the quality and quantity of the commodity. As such, futures trade in **Lots** where one Lot equates to a predetermined quantity of the underlying commodity, as set by the exchange. 
 
-The contract will specify what happens at the expiration of each futures contract.
+Some exmaple lot sizes:
 
-As the clearinghouse acts as a central counterparty to the trades, the risk of default is far lower. Also, the "marking-to-market" and margining process results in the value of the contract being settled daily rather than at the end of the term, as with forwards. The fact that the Exchange asks only for an initial margin when positions are opened and then a variation margin as the value of the position changes makes futures particularly attractive to hedge funds and banks. As they are not obliged to pay for the full notional value of the trade upfront, only a proportion of it, they can, therefore, use more leverage.
+- Crude Oil futures: 1 lot = 1000 bbls
+- TTF: 1 lot - 1MW
+- NBP: 1 lot = 1000 therms/day
+- JKM: 1 lot = 10000 mmbtus
+- Henry Hub (HH): 1 lot = 10000 mmbtus (on NYMEX) or 2500 mmbtus (on ICE).
+
+The contract will specify what happens at the expiration of each futures contract. They amy be physically or financially settled.
+
+As the clearinghouse acts as a central counterparty to the trades, the risk of default is far lower. Also, the "marking-to-market" and margining process results in the value of the contract being settled daily rather than at the end of the term, as with forwards. The fact that the Exchange asks only for an initial margin when positions are opened and then a variation margin as the value of the position changes makes futures particularly attractive to hedge funds and banks. As they are not obliged to pay for the full notional value of the trade upfront, only a proportion of it, they can, therefore, use more leverage. As a rough guide, the initial margin is approximately 5%–8% of the total notional value of the trade.
 
 - Regulated
 - Standardised contracts
@@ -107,7 +121,17 @@ A commodity swap consists of a floating-leg component and a fixed-leg component.
 
 No physical delivery takes place. The swap has a specified "pricing out" period - the period over which the floating priced element 'fixes' - this is different for each swap.
 
-Steps of an example swap:
+
+### Price Reporting Agencies
+
+Price Reporting Agencies (PRAs) such as Platts, Argus, and Heren play a pivotal role in the gas markets.
+
+Price reporting agencies provide daily analysis and commentary on events that impact the particular market they report on. They fulfil an important role in assessing and publishing the prices of over-the-counter (OTC) contracts so that market participants know where they are valued. They publish set methodologies for their assessment process. 
+
+As an exmaple, see the attached [Argus Media Methodology](argus-european-natural-gas.pdf).
+
+
+### The Mechanics of a Swap
 
 1. **Buy the swap.** One thousand barrels of the July Dubai swap for 95 dollars on 3rd June.
 2. **Mark to market.** The value of the swap changes over time. By the end of June, the value of the July Dubai swap has increased to $96.5/bbl, resulting in an MTM (mark-to-market) profit of $1.5/bbl for the trader.
@@ -185,3 +209,53 @@ Other ways to trade volatile markets:
 - Options allow traders to limit risk by just paying out a premium. However, costs can be very high in a volatile market.
 - Spreads are a tool that reduces risk and allows traders to still bet on their fundamental view of the market.
 
+
+
+## Specifics of Natural Gas Markets
+
+The evolution of natural gas markets is a fascinating journey. Initially, each nation developed its gas supply network, with a single entity in charge of natural gas delivery through a regulated, price-controlled mechanism. However, as markets became deregulated and third parties were given access to supply infrastructure, a new era began. A traded spot market emerged, leading to the development of various trading contracts called derivatives, which became necessary for longer-term price risk management.
+
+The establishment of a single delivery point for natural gas within a region is a game-changer. Without it, you end up in a fractured market with a few buyers and sellers quoting prices for many different places. However, a single delivery point leads to increased liquidity (more people trading), better price transparency, and more people trading,
+
+The "hubs" represent a single delivery location for natural gas, simplifying the trading process and enhancing market efficiency.
+
+
+### Henry Hub
+The most famous, and one of the first, was Henry Hub in the United States. It is a single delivery point established by CME as a benchmark. 
+[This video](https://www.youtube.com/watch?v=XAJcrk0RmYs) is a helpful quick overview.
+
+Over time, the popularity of the futures contract soared, and Henry Hub became the benchmark for all natural gas in the US, with other delivery locations trading at a differential to it.
+
+
+### Notional Delivery Points
+
+Hubs do not have to be physical points—the end of a pipeline or the intersection of many pipelines—but can be "notional" points, not physical delivery points.
+
+During the early stages of the UK gas trading market (the mid-1990s), much spot trading was concluded at the 'Beach', one of the five main terminals where the gas lands and is metered before entering the transmission network, where the National Grid operates. Much like in the US, this resulted in a fragmented traded market.
+
+The gas trading market experienced a significant shift with the implementation of the Uniform Network Code. This regulatory framework played a crucial role in establishing an entry-exit system for booking and paying for transmission capacity. The National Balancing Point (NBP), a key component of the original network code, served as the balancing point for all shippers, requiring them to manage their gas flows. The pivotal role of the NBP in the market's structure is evident in its name, underscoring its importance in the industry's evolution.
+
+The NBP was never intended to be a trading hub, but the way the network code was drafted allowed for the organic development of trading. The NBP encompasses the entire national transmission system, as gas remains at the NBP from the moment it enters the system until it exits.
+
+The TTF (Title Transfer Facility) trading hub in the Netherlands, much like the NBP, is a virtual hub nestled within a transmission system.
+
+Both the UK and TTF trading hubs effectively represent the whole of the gas transmission systems in those countries. Once gas enters the system, it is at the NBP or TTF until it exits.
+
+
+### Units and Currencies
+
+As gas markets are regional in nature and developed largely independently of one another, multiple units of measure and different currencies are used.
+
+Standard trading units of measure include therms, mwhs, and mmbtu.
+
+
+### European Gas Hubs
+
+| Country     | Hub | Long Name                 | Trading Units | Pricing     | Churn Ratio |
+|-------------|-----|---------------------------|---------------|-------------|-------------|
+| UK          | NBP | National Balancing Point  | therms/day    | pence/therm | 10-15       |
+| Italy       | PSV | Punto di Scambio Virtuale | MW            | EUR/MW      | 5           |
+| Germany     | THE | Trading Hub Europe        | MW            | EUR/MWh     | 10          |
+| Netherlands | TTF | Title Transfer Facility   | MW            | EUR/MWh     | 15-25       |
+| France      | PEG | Point d'Échange de Gaz    | MWh/day       | EUR/MWh     | 8           |
+| Belgium     | ZTP | Zeebrugge Trading Point   | MW            | EUR/MWh     | 10          |
