@@ -1,0 +1,162 @@
+---
+title: "Price Exposures"
+description: "Crude"
+date: "2025-06-27"
+categories: [Energy, Finance]
+draft: true
+---
+
+# What is physical trading?
+
+Physical trading is the process of trading physical volumes or quantities of oil rather than derivatives. 
+
+There are four main ways in which a trader can become involved in the buying and selling a physical cargo:
+
+- OTC trading
+- Futures settlement
+- Forward contract trading
+- Exchange For Physical (EFP)
+
+
+## Physical delivery terms
+
+The list below outlines some of the key terms, known as Incoterms, that the International Chamber of Commerce (ICC) publishes:
+
+- FOB (Free on board) - Title and risk of the oil pass to the buyer as the oil passes the inlet manifold of the vessel. The seller's obligation is to provide the contractual product and a safe berth for the vessel. The buyer's obligation is to present a vessel to load the contractual quantity within the contractual time period (laydays).
+- C+F (Cost & freight) - Title and risk of the oil pass to the buyer as the oil passes the vessel's inlet manifold. The seller's obligation is to provide the contractual product and deliver the product onboard a vessel, acceptable to the buyer, to a discharge port nominated by the buyer within the contractual terms. The buyer's obligation is to provide a safe berth for the vessel and take delivery of the oil.
+- CIF (Cost, insurance & freight) - Title and risk of the oil typically pass to the buyer as the oil passes the vessel's inlet manifold, but it may be contractually agreed otherwise, e.g., a specific location, a point in time. The seller's obligation is to provide the contractual product, insure it, and deliver the product on board a vessel acceptable to the buyer to a discharge port nominated by the buyer within the contractual terms. The buyer's obligation is to provide a safe berth for the vessel and take delivery of the oil.
+- EXS, CIFO, CIFD (Ex-ship, CIF outturn, CIF delivered) -  Title and risk of the oil pass to the buyer as the oil passes the vessel's outlet manifold. The seller's obligation is to provide the contractual product at a safe berth on a vessel acceptable to the buyer within the agreed timeframe. The buyer's obligation is to provide a safe berth and take delivery of the discharged quantity of product.
+
+The simplest way to trade is to buy and sell on the same terms, e.g., FOB/FOB or EXS/EXS. In such cases, title passes between the buyer and seller in the blink of an eye. If the terms differ, this can necessitate chartering a vessel, having title to oil on a vessel, and being exposed to cargo losses.
+
+
+# Physical trading of crude oil
+
+Crude oil is produced and exported from a limited number of countries and terminals that are well-known to the market. 
+
+Some crude oil grades are derived from specific oil fields, but many are a blend of several oil fields, all feeding into a common transport system, e.g., Brent blend.
+
+Since crude oil is a global commodity, geopolitics and global supply and demand frequently impact its price more than local issues.
+
+
+## Factors influencing supply
+
+Generally, a producer will attempt to run at 100% in order to achieve the greatest revenue as quickly as possible. However, certain factors may cause this not to be the case.
+
+- OPEC - OPEC member countries produce about 30% of the world's crude oil. Equally important to global prices, OPEC's oil exports represent about 60% of the total petroleum traded internationally. Ultimately, it is a cartel that aims to manage the supply of oil in an effort to set the price on the world market.
+- Production lifecycle: When oil fields start producing, production invariably increases quickly, plateaus, and then declines rapidly, e.g., in the North Sea fields.
+- Maintenance: Equipment must be maintained or replaced, which can impact short-term production.
+- Unexpected disruptions: War, terrorism, accidents, and equipment failure. These unexpected events are likely to lead to significant price disruptions.
+- Sanctions: These can limit the ability of a nation to export/sell its crude oil internationally.
+
+
+Note that when an oil field is discovered, it can take many years until it comes into production. Therefore, news of an oil field discovery is unlikely to impact the crude oil market price in the short term.
+
+
+
+## Factors influencing demand
+
+- Refining margins: A refinery will generally run at 100% if the refining margin exceeds variable costs. If not, it will reduce throughput (and therefore crude oil demand) to the lowest level it can without running the risk of shutting down refining units; for example, it may only run at 30% of capacity.
+- Quality of crude oil availability: There will be occasions when the market demands a particular product or product quality, which will feed into a refinery's crude selection. A refinery trading team will constantly try to buy the crude oil that produces the highest refinery margin.
+- Planned maintenance/turnarounds: Refineries will typically undergo major maintenance periods in the summer to prepare for increased winter demand. These are generally known to the market in advance and 'priced in'.
+- Unplanned outages: Equipment failure can lower the demand for crude oil as refinery throughput falls. The market would not have anticipated this, and it might temporarily cause prices to drop. A major incident, such as a fire or explosion, can have a sustained impact on crude and product prices.
+- Economic growth: This has led to an exponential growth in hydrocarbon demand. Conversely, when economic growth is predicted to be low, the demand for and, therefore, the price of crude oil will typically fall.
+- Alternative fuels: Particularly in the transport industry.
+
+
+## Crude oil quality
+
+Crude quality is relatively stable. If the quality is expected to change, then the crude oil producer will usually signal this to the market well in advance. Of course, a field can still suffer a sudden supply disruption and impact the overall blend quality in the short term.
+
+Some contracts may include an escalation/de-escalation price clause to allow for density or sulphur content changes. However, in most cases, the contract merely contains the phrase "of normal export quality."
+
+Each crude oil blend is defined based on two criteria:
+
+- Density - light vs heavy
+- Sulphur - sweet vs sour
+
+
+One would expect the most valuable crude oils to be light and sweet and the least valuable to be heavy and sour.
+
+
+## Contractual Considerations
+
+As the quality and load location for each crude oil is 'known' by the traders, the majority of the negotiation will focus on the quantity, pricing formula, laydays, and delivery terms.
+
+- The quantity will be the net quantity with an operational tolerance, e.g., +/- 5%. Net quantity excludes bottoms, sediment, and water (B. S. & W), which is analysed at the load and/or discharge port.
+- The pricing formula will normally be a floating price of $ per net US barrel to be fixed around load or discharge by reference to a Price Reporting Agency (PRA) quotation such as Platts or Argus.
+- The laydays typically consist of 1, 2 or 3 day, date range. There can also be a wider range of dates to be narrowed by the seller at an agreed-upon point in the future.
+- Delivery terms will be negotiated.
+
+
+The general terms and conditions and applicable law will generally be those of the producing nation.
+
+
+# Pricing of physical cargoes
+
+There are two leading global oil price reporting agencies (PRA): S&P Global Platts and Argus Media. They each have a slightly different methodology for assessing the daily market value of the majority of crude oil, refined products, and biofuels traded.
+
+## S&P Global Platts
+
+The Platts MOC "market on close" process requires that companies declare their intention to post bids or offers before a cut-off point in the afternoon, 30 to 45 minutes before the market closes, depending on the commodity. During those final minutes, buyers and sellers can adjust their prices per the Platts guidelines, but new participants cannot post bids and offers.
+
+However, companies that have not submitted bids or offers may choose to accept a bid or an offer posted through the MOC process. This makes the number of potential buyers and sellers far larger than the number of companies that have posted bids and offers. There are also MOC guidelines that apply to specific commodities. These guidelines, detailed in Platts’ methodology documents and published on Platts(opens in a new tab), relate to various factors such as product specification, location, cargo size, and delivery terms.
+
+The "Platts window” is the term market participants use to refer to the 30 to 45-minute period before the market closes when Platts no longer accepts new bids or offers in the price assessment process. This is typically the time when the market is most active.
+
+## Argus Media
+
+Argus do not have such a rigid MOC process. Argus uses the trading period they deem most appropriate, in consultation with industry, to capture spot liquidity, including daily transactional average methodologies.
+
+Argus assesses some clean product markets as a basis differential to the ICE Low Sulphur Gas Oil and Brent settlement prices to arrive at fixed prices because the futures settlement price is a representative futures price reference. To be included in the assessment process, deals must meet their methodology's minimum volume, delivery, timing, and specification requirements.
+
+
+## Pricing Periods of Floating Price Deals
+
+Physical cargoes are usually traded on a floating price basis, i.e., a formula is negotiated, typically referring to a price reporting agency quotation (Platts or Argus) over several days in the future. This future pricing period for European cargoes would typically be 5 days around the Bill of Lading (BL) or Completion of Discharge (COD) date. However, it can also be anything the traders agree upon. Other common examples of global cargo pricing periods are a calendar month, one single day (usually BL date), or any "deemed" set of dates (for example, March 10th to 14th, inclusive).
+
+- 5 days around BL or COD. This is popular in Europe because it spreads risk and exposure over the 5 days closest to the load or discharge of the cargo. The trader can plan their hedging in advance and any extreme prices are smoothed out by taking the 5-day average. However, because the pricing period will change if the load or discharge is, for example, delayed, this pricing period can lead to sudden changes in pricing exposure.
+- Deemed Pricing. One solution to the problem of delays in load/discharge is for the buyer and seller to agree to deem the pricing dates in advance. So for example, rather than "5 days around BL," the actual dates are fixed, say 10–14 March. This retains the benefits of 5-day pricing without the risk of the dates changing. Some traders don't like to deem prices, as they think the pricing should move with load/discharge to truly reflect the value of the cargo.
+- Month Average. A pricing period of a calendar month, either the month of load/discharge or a deemed month, spreads risk out even more, with a small regular pricing exposure every day of the month. However, the final price is only loosely related to when the cargo loaded or discharged, which some traders don't like. In addition, if the cargo loading date does slip from one month to the next, this can lead to large exposure and hedging errors.
+- Single Day Pricing. Pricing a cargo on one day, usually the day of loading, exposes the trader to that day's price. If the market spikes on that day, the purchase price will be higher than the day before and after. This risk can be hedged away, but trying to hedge a full cargo on one day's settlement can be difficult if paper liquidity is poor. Most traders would prefer to avoid one day pricing if possible.
+
+
+### How does 5 day pricing work?
+
+The traders will agree on a formula for identifying the 5 days for pricing. The most common 5 day pricing formula in Europe is 2-1-2 around BL. This means the 5 days will comprise the bill of lading date, the 2 days before, and the 2 days after.
+
+Another popular pricing formula is 0-0-5 after COD.
+
+PRAs such as Platts and Argus only publish prices on weekdays and don't publish prices on most public holidays. So the pricing formula and contract must clearly state what happens if the key date (usually BL or COD) falls on a non-publication date. 
+In the case of many product deals, if the bill of lading date is a non-publication day (e.g., Saturday, Sunday, public holiday), then only four days will be used instead of five: not the BL date itself, but the two published days immediately before and the two published days immediately after (2-0-2).
+
+
+## Benchmarks
+
+Each price reporting agency report includes key assessments or benchmarks against which any cargo can be valued.
+To qualify and be accepted as a benchmark, there are some criteria to be met:
+
+- Liquidity.
+- Significant cargo size.
+- Price Transparency.
+- Consistent quality.
+- Exists within a stable legal and political environment.
+
+The most important crude oil benchmark is North Sea Dated Brent ("Dated"), against which around two-thirds of the world's exports are priced.
+
+
+# Differential trading
+
+Where the trading strategy is to back-to-back the terms (e.g., FOB/FOB) and the benchmarks (e.g., Dated/Dated) or where it's possible to hedge exposure to the benchmark effectively, then the trader is merely exposed to the grade differential, which is the trader's area of expertise. There is no mechanism to hedge the grade differential. 
+
+If demand increases relative to supply, the grade differential will increase.
+If supply increases relative to demand, the grade differential will decrease.
+
+
+## Liquidity
+
+The liquidity of physical cargoes is far less than that of futures contracts, and it is advisable to take care when building large positions in a particular physical grade. A trader can scale in and out of physical positions in the same way that a paper trader will scale in and out of futures positions.
+
+There is only likely to be one such cargo available in the market. Therefore, when trading physical crude oil and wanting to go short, it is often better to sell a cargo with a wide date range that can be narrowed at a later date once a suitable cargo has been procured or to sell with the option of nominating from a list of mutually acceptable crude grades.
+
+If a trader is long a physical cargo, they can store the product, arbitrage it to another location, or possibly process it in the trader's refining system.
