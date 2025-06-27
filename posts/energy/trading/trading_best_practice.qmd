@@ -6,3 +6,68 @@ categories: [Energy, Finance]
 draft: true
 ---
 
+
+# What is Risk?
+
+"Risk" usually means our likelihood of losing money due to something happening that we didn't anticipate.
+
+There are different types of risk:
+
+- Price risk. The risk of financial loss as a result of changes in market conditions.
+- Credit risk. The risk of financial loss resulting from a counterpart's inability to uphold its contractual obligations in accordance with the terms of their agreements.
+- Operational risk. The risk of financial loss from inadequate or failed systems, whether internal or external controls or external events.
+- Reputational risk. The risk of loss resulting from damages to a company's reputation, such as lost revenue, increased operating, capital, or regulatory costs, or destruction of shareholder value.
+
+
+# Managing Risk
+
+- Fundamental analysis - supply and demand, news
+- Technicals - stop losses, profit targets, support and resistance, trends and channels, retracements
+- Trading 
+
+
+# Measuring Risk
+
+Mark-to-market (MTM) is a way of valuing open positions to reflect current market value.
+
+There will be trading limitations concerning value-at-risk (VaR), net volume, and period traded at either a trader or a book level.
+
+P&L is made up of:
+
+- New deals (current value of deals executed on the day)
+- MTM (current value of the existing position)
+- FX P&L (depending on the reporting currency, there may be foreign exchange exposure created by fluctuations in the exchange rates)
+
+## VaR
+
+Value-at-risk (VaR) is a risk metric. Statistically, it is the 'amount at risk of being lost from a position under usual market conditions over a given holding period, at a particular level of confidence'.
+
+The most common confidence levels used are 90%, 95% and 99%. 
+
+If a trader breaches their VaR limit, they will be asked to adjust their position as soon as possible to bring it back under their VaR limit.
+
+Factors that impact VaR:
+
+- A sustained period of high volatility can also cause higher overall VaR numbers going forward; the impact of this is dependent on the methodology used. This will be discussed in more detail later.
+- The higher the confidence level used, the higher the VaR; the energy industry standard seems to be 99% confidence.
+- The holding period affects VaR. The longer the holding period, the higher the VaR. In commodity trading, a one day VaR seems to be the standard.
+
+
+Methods to calculate VaR:
+
+- Historical: This uses historical data of past returns and organises it from low to high, and the point is chosen depending on the confidence level.
+- Variance Covariance: This method is based on the normal distribution, whereby the probability of outcomes is calculated, and a standard distribution graph is created based on the data. The value is then calculated depending on the standard deviation. This is the easiest and clearest method. It does, however, assume a normal distribution, which may not be true for the market and certainly not accurate long term.
+- Monte Carlo Simulation: This method creates many simulations to calculate VaR and is a sampling procedure. Each simulation has different random inputs: volume, price, and correlation coefficient. It is assumed the market behaves randomly. Of all the models mentioned, this is probably the most realistic, and it allows for the simulations to be adjusted to reflect changing markets and assumptions. However, this can be a very complex and time-consuming process. This method relies on a computer to run the simulations rather than a spreadsheet and is only as good as its inputs.
+
+
+Limitations of VaR:
+
+- VaR does not give any indication of maximum loss. With 99% confidence, there is no prediction of how much could be lost 1% of the time (this could be up to 3 trading days a year). These high-impact, low-probability events are sometimes referred to as 'Black Swan' events.
+- The VaR model is only as good as its inputs.
+- For companies that trade a combination of commodities, equities, bonds, etc., a companywide VaR can be a complex task, especially concerning commodity correlations.
+
+# Other Types of Risk
+
+- OPERATIONAL risk: human error/interference, system failures, process issues.
+- CREDIT risk: counterparty obligation not met.
+- LIQUIDITY risk: unable to trade quickly without moving the market price.
