@@ -1,7 +1,7 @@
 ---
 title: "Docker"
 description: "Docker? I Hardly Know 'Er"
-date: "2025-05-25"
+date: "2025-06-05"
 categories: [Software, Engineering, DataEngineering]
 ---
 
@@ -1110,6 +1110,133 @@ There are many different managed Docker solutions. Elastic Container Service (EC
 
 Note that with any managed provider, you won’t be using Docker commands directly and will have to work within that provider’s specific “rules”.
 
+
+ECS has 4 main concepts: clusters, services, tasks, containers. 
+
+
+### 8.3.1. Container
+In the ECS dashboard, we use the wizard to define details like container name, image name, port mappings, etc. This essentially determines how ECS will run the docker run command later. 
+
+There are also options for logging (via CloudWatch). 
+
+
+### 8.3.2. Task
+
+The blueprint for your application - how AWS should launch your container. Not how it should execute docker run, but **how the server that Docker runs on should be configured**. 
+
+You can run the container on **EC2 or Fargate**. Fargate is serverless, and will start and stop an instance when a request is received. Contrast this with an EC2 instance which is always running whether it is handling requests or not. 
+
+
+### 8.3.3. Service
+
+How the task should be executed. We can define security groups and load balancers here. 
+
+
+### 8.3.4. Cluster
+
+Overall **network in which our services run**. If we have multiple containers in one application, we can run them on the same cluster. 
+
+
+### 8.3.5. Updating Managed Images
+
+We can build a new image and push it to our remote repository. If we have an ECS instance running, we can force it to pick up the new version of the image in the ECS dashboard. 
+```
+ECS -> Clusters -> Default 
+-> Tasks -> Task Definition (of the task you want to update) 
+-> Create New Revision -> Actions: Update Service
+```
+This creates a new task but will pull the latest image. 
+
+
+## 8.4. Multi-Container Deployments
+
+Docker Compose was helpful for multi-container applications running on our local machine, but it is less useful for deployments. 
+
+- We may want to specify how much CPU each service has. 
+- We may want each service running on different machines
+- If using a managed service, that provider may require details beyond what is in the docker-compose file
+
+If you run all containers in the same task in ECS, you can communicate between containers using `localhost` because they will all be run on the same machine. 
+
+### 8.4.1. Load Balancer
+We can add a load balancer when launching the service. This should be an ‘internet-facing’ **Application Load Balancer (ALB)**. You may need to create one manually if you did not specify the load balancer in the initial set up wizard. It should use the same VPC as your service. 
+Configure the security groups and configure routing with Target type=IP. Change the health check path to a valid URL which should return a 200 status code when pinged. 
+
+
+### 8.4.2. Stable IP Address
+
+We can use the DNS name to send requests to, rather than the public IP address (which can change as services are stopped and started). 
+
+
+## 8.5. EFS Volumes
+
+If we restart a task, for example when updating a service, the volumes attached to it will be lost. 
+
+Elastic File System (EFS) volumes are **persistent storage**. 
+
+We can add these in the Volumes section of the ECS wizard. It should be in the same VPC as used for ECS. Under Network Access, we need to add a new security group with inbound rule Type=NFS and source as the security group used for the service. 
+
+This will allow the services to communicate with EFS. 
+
+
+## 8.6. Database Containers
+
+You can manage your own database containers, but:
+
+- Scaling and managing availability can be challenging. Ensuring consistency between all running containers
+- Performance can be bad during traffic spikes
+- Backups and security can be challenging 
+
+
+For these reasons, you may prefer a managed database solution like AWS RDS, MongoDB Atlas, etc. 
+
+
+### 8.6.1. Managed Database
+
+When we use a cloud-based managed database, we may want to have different dev and prod environments. 
+
+One option would be to have two different databases, one for dev and one for prod. We can set an environment variable like DB_NAME so that we can overwrite the connection URL with the dev/prod version when we run the containers that connect to it. 
+
+
+An alternative would be to use a container in dev and the cloud-version in prod. We just need to be careful that we use the image version of, say, MongoDB, that corresponds to the cloud version. Otherwise the dev and prod versions might not be compatible. 
+
+
+## 8.6.2. Build-Only Containers
+
+In some applications, for example React apps, we use something like npm run preview in a dev environment which allows us to hit reload. 
+
+But in production we build first, which compiles an optimised file. 
+```
+npm run build
+npm run start
+```
+
+So we may want different Dockerfiles for dev and prod. We can name the files to distinguish, e.g. `Dockerfile.prod`, then when we run docker build we pass the `-f` flag to specify the file name (by default it looks for Dockerfile with no extension). 
+
+**Multi-stage builds** allow us to use one Dockerfile to run multiple build steps or “stages”. Stages can copy the contents from each other. You can either build the complete image or select individual stages. 
+
+With multi-stage builds, we need to use `RUN` instead of `CMD`. 
+
+We may want a different base image for different stages of the build. 
+We can use another `FROM` statement to create a new stage. **Each `FROM` statement in a file effectively delineates each stage**. 
+
+We can `COPY` between stages by passing the `--from` flag with the stage name. 
+E.g.
+
+```
+FROM node as build_stage
+
+…
+
+FROM nginx as server_stage
+
+COPY --from=build /path/in/build/stage /path/in/server/stage
+```
+
+We can set the build target to only build specific stages by using the `--target` flag, referring to the alias names we gave the stages in the Dockerfile. 
+```
+docker build --target build_stage .
+```
 
 
 # References

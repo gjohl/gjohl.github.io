@@ -1,7 +1,7 @@
 ---
 title: "AWS Solutions Architect"
 description: "SAA-C03"
-date: "2025-03-20"
+date: "2025-07-18"
 # image: "deep_learning_model.png"
 categories: [DataEngineering, Engineering, Software]
 ---
