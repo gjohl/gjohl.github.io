@@ -341,17 +341,18 @@ spec:
 
 ### 3.1.2. The `hostPath` Volume Type
 
-The `hostPath` volume type creates a folder on the host machine. It is a bit like a bind mount in Docker. We could use it if we wanted to share some existing data. 
+The `hostPath` volume type creates a folder on the host machine. It is a bit **like a bind mount** in Docker. We could use it if we wanted to share some existing data. 
 
 The host path volume is node-specific, so won’t share data across replicas on different machines. 
 
 
-### CSI Volume Type
+### 3.1.3. The `CSI` Volume Type
 
-The Container Storage Interface (CSI) volume type is a generic interface that different cloud providers are compatible with. Different cloud providers then integrate with this, so we can plug into AWS, GCP, Azure etc, or build our own integration. 
+The Container Storage Interface (CSI) volume type is a **generic interface that different cloud providers are compatible with**. 
+Different cloud providers then integrate with this, so we can plug into AWS, GCP, Azure etc, or build our own integration. 
 
 
-## Persistent Volumes
+## 3.2. Persistent Volumes
 
 The previous volume types do not scale to multiple pods. If we replicate our pods over multiple machines, they won’t share data. “Normal” volumes are node-independent but not pod-independent. The data is lost if the whole node is removed. 
 
@@ -359,14 +360,14 @@ Persistent volumes are pod-independent and node-independent. This is appropriate
 
 The storage is not on the nodes, it is in the cloud storage. 
 
-<add diagram from lecture 213 6:37>
+![Persistent Volumes and Claims](PersistentVolumes.png)
 
 
-### Defining a persistent volume 
+### 3.2.1 Defining a Persistent Volume 
 
-In a new file, say pv.yaml, we can define the persistent volume. 
+In a new file, say `pv.yaml`, we can define the persistent volume. 
 
-
+```yml
 apiVersion: c1
 kind: PersistentVolume
 metadata:
@@ -386,13 +387,13 @@ spec:
   hostPath:
     path: /data
     type: DirectoryOrCreate
+```
 
+### 3.2.2. Creating a Persistent Volume Claim
 
-### Creating a Persistent Volume Claim
+We configure a claim in a new yaml file, then we can assign this claim to a pod so that it claims the persistent volumes. 
 
-We configure a claim in a new yaml file, then we can assign this to a pod so that it claims the persistent volumes. 
-
-
+```yml
 apiVersion: v1
 kind: PersistentVolume
 metadata: 
@@ -408,57 +409,58 @@ spec:
   resources:
     requests:
       storage: 1Gi
+```
 
-
-We can then assign this claim to a pod under the volumes key of the pod spec:
-
+We can then **assign this claim to a pod** under the volumes key of the pod spec:
+```
   volumes:
   - name: my-persistent-volume 
      persistentVolumeClaim: 
        claimName: my-pv-claim
+```
 
-
-Then we can use kubectl to apply each of the updated yaml files to our cluster. 
+Then we can use `kubectl` to `apply` each of the updated yaml files to our cluster. 
 
 We can see the persistent volumes and claims currently running by using:
+```bash
 kubectl get pv
 kubectl get pvc
+```
 
 
-
-## Environment Variables
-
+## 3.3. Environment Variables
+### 3.3.1. Using Environment Variables
 Under the container key of a pod specification, you can add an env key with a list of key-value pairs. 
 
-
+```yml
 containers:
   env:
     - name: STORY_FOLDER
        value: “story”
-
+```
 
 You can then use this env variable in your app. 
 
 
-### Using an environment file
+### 3.3.2. Using an Environment File
 
-We can store environment variables in another yaml file of kind ConfigMap. This can then be reused across multiple pods and deployments. 
-
-
-In a file environment.yaml
+We can store environment variables in another yaml file of kind `ConfigMap`. This can then be reused across multiple pods and deployments. 
 
 
+In a file `environment.yaml`:
+
+```yml
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: data-store-env
 data:
   folder: “story”
+```
 
+Then we can point to that file in our `deployment.yaml` file. 
 
-Then we can point to that file in our deployment yaml file. 
-
-
+```yml
 containers:
   env:
     - name: STORY_FOLDER
@@ -468,15 +470,106 @@ containers:
            name: data-store-env
            # Which key to we want to pull out of the env file to use as the STORY_FOLDER value?
            key: folder
-
+```
 
 See this blog post for storing secrets: https://phoenixnap.com/kb/kubernetes-secrets
 
 
+# 4. Networking
 
+## 4.1. Pod-Internal Communication
+
+For containers in the same pod, we can use `localhost` to communicate between the pods. 
+We need to expose the port of the container when creating the Dockerfile. 
+This is similar to internal communication between containers when using docker compose. 
+
+
+## 4.2. Pod-to-Pod Communication 
+
+### 4.2.1. Using IP address
+
+For pods in the same cluster, we can create a service with `type=ClusterIP`. 
+We would need to get the IP address of the service and use this in our code. Kubernetes has a convenient environment variable to save the leg work here. 
+If we have a service called "auth-service", for example, it will automatically create an environment variable called `AUTH_SERVICE_SERVICE_HOST`. So we can use this in place of the IP address in our code. 
+
+
+### 4.2.2 Using DNS
+
+You can also pass the name of the service as the URL. We also need to suffix it with the namespace, which is “default” by default. 
+
+E.g. `auth-service.default`
+
+This is automatically generated by Kubernetes. 
+
+
+### 4.2.3 Best Practices
+
+You should normally have **different containers in different pods**, unless they are very tightly coupled together. 
+
+So we need to create a service per pod to allow them to communicate. The **DNS approach is the most common** method, rather than the IP address environment variable. 
+
+
+## 4.3. Communicating with the Outside World
+
+Create a service with `type=LoadBalancer`.
+
+
+# 5. Kubernetes Deployments
+
+## 5.1. Deployment Options
+There are several approaches:
+
+1. Deploy on your own data centre
+2. Deploy manually on a cloud provider. Tools like `kops` can help make this more straightforward. 
+3. Use a managed service from a cloud provider like AWS EKS.
+
+
+## 5.2. AWS EKS
+This is **Elastic Kubernetes Service**. It is analogous to how we used Elastic Container Service (ECS) when using plain Docker containers. 
+
+We use the UI to create an EKS cluster. 
+
+- We need to give EKS **permissions** to create new resources, e.g. EC2 instances, EFS storage, etc. 
+In IAM, create a new role with appropriate permissions. 
+- We also need to create a **network** for our EKS cluster. We can do this using a template in CloudFormation. 
+
+
+On our computer from which we issue `kubectl` commands, we want it to be able to talk to the EKS cluster. Whether using EKS or not, this is configured in a config file on your machine located at 
+`User/.kube/config`
+
+You can update this to speak to EKS. The most straightforward way to update this is using the AWS CLI. We’ll need to create an access key in IAM for this. 
+
+Run `aws configure` to set up the CLI to be able to make changes on your machine.  
+
+Then run 
+```bash
+aws eks --region us-east-2 update-kubeconfig --name my-cluster-name
+```
+
+### 5.2.1. Add Worker Nodes
+
+In the EKS console, click Add Node Group. 
+We again need to assign an appropriate role to these worker nodes so that they can write log files, connect to other services, etc. 
+
+We attach an IAM role for this. Relevant policies are EKSWorkerNode, CNI_Policy, EC2ContainerRegistryPolicy 
+
+
+### 5.2.2. Adding a Volume
+
+We can add EFS storage as a volume. We make the persistent volume `type=CSI`. 
+
+There are third party libraries that make the interface easier to deal with, e.g. `aws-efs-csi-driver` is an open source package to make it simple to deal with. 
+If using this, you will also need to add a section to your volume's config.yaml to define the new storage class that this provides. The snippet can be copied from the driver’s repo. 
+
+In the EC2 section, create a security group that has inbound NFS connections allowed with the IPv4 CIDR of our VPC. 
+
+Now in EFS, we can click Create File System. Make sure it’s in the same VPC. Under customise, remove the default security groups and add the new security groups created previously. 
+
+Then the usual K8s process of creating a persistent volume config, a claim config, and assigning the claim to a pod. 
 
 
 # References
 
 - "Docker & Kubernetes: The Practical Guide" [Udemy course](https://www.udemy.com/course/docker-kubernetes-the-practical-guide/)
 - [Architecture diagram](https://kubernetes.io/docs/concepts/architecture/)
+- [Storing secrets](https://phoenixnap.com/kb/kubernetes-secrets)
