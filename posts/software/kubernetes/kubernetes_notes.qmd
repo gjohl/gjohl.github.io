@@ -93,6 +93,385 @@ There is also a `Cloud-Controller-Manager` which is the same thing but for a spe
 **Services** are a group of pods with a unique IP address that can interact with the outside world.
 
 
+# 2. Kubernetes in Action
+
+## 2.1. Interacting with a Deployment Object
+`Minikube` is a tool to make it easy to **run Kubernetes locally**, by running a cluster in a VM on your local machine. 
+
+You will need the `kubectl` tool installed. **This gives commands to the master node, which in turn controls the worker nodes**. 
+Think of it like the president commanding the general to command his soldiers to attack. 
+
+
+Kubernetes works with Objects: `pods, deployments, services, volumes`, etc. 
+Objects can be created **imperatively or declaratively**. 
+
+
+A pod has a cluster-internal IP address by default. Containers within a pod can communicate with each other via localhost. 
+
+Pods are ephemeral. When they are started, stopped or replaced, any local data is lost. Just like containers, which makes sense because they are just a thin wrapper around a container. 
+
+
+The `Deployment` object is **what we interact with as users**, not pods directly. 
+You generally create a Deployment object which defines the desired target state. Then K8s will create the required pods and other objects. 
+Deployments can be paused, deleted and rolled back. 
+They can also be scaled (and auto-scaled). 
+
+
+On local machine, we send commands to the cluster. We create a deployment object with `kubectl create`. The image we specify needs to exist on the cluster, not the local machine that we are sending commands from. The image should be in a registry like DockerHub. 
+```bash
+kubectl create deployment my-first-kube - -image=repo/my-docker-image
+```
+
+We can see the status of the deployment with:
+```bash
+kubectl get deployments
+```
+We can see the status of pods with:
+```bash
+kubectl get pods
+```
+
+If we’re running locally, we can see our deployment with:
+```bash
+minikube dashboard
+```
+
+We can expose pods to the cluster or externally using a `Service` object. Pods have an internal IP address, but **Services have a static IP address** we can use to externally access it from anywhere. 
+
+We create a service by exposing a deployment:
+```bash
+kubectl expose deployment my-first-kube --type=LoadBalancer --port=8080
+```
+
+We can see the service with:
+```bash
+kubectl get services
+```
+Expose an external IP address when running locally with:
+```bash
+minikube service my-first-kube
+```
+
+To manually scale a deployment object, we can set the number of replicas we want. We can scale up and down by setting the number of replicas higher or lower than it currently is. 
+```bash
+kubectl scale deployment/my-first-kube --replicas=3
+```
+
+## 2.2. Updating Deployments
+We can update the image in a deployment object by setting the new image. The new image should have a more recent tag, as this will trigger Kubernetes to download the newer image. 
+```bash
+kubectl set image deployments/my-first-kube old-image-name=repo/new-image-name
+```
+
+We can check the status of the updated deployment with:
+```bash
+kubectl rollout status deployment/my-first-kube
+```
+
+To undo the latest deployment:
+```bash
+kubectl rollout undo deployment/my-first-kube
+```
+
+We can see the rollout history with:
+```bash
+kubectl rollout history deployment/my-first-kube
+```
+
+This will give a list of revisions. We can see details for a particular revision, say the 2nd revision, with:
+```bash
+kubectl rollout history deployment/my-first-kube --revision=2
+```
+
+If we want to revert to a specific revision:
+```bash
+kubectl rollout undo deployment/my-first-kube - -to-revision=2
+```
+
+
+## 2.3. Imperative vs Declarative Approach 
+
+The **imperative approach** so far requires entering commands into the command line in the correct order. 
+The **declarative approach** allows us to define the configuration which can then be reused. 
+
+It is analogous to how we could create docker containers in the command line (imperative), or define a docker-compose.yml file with all of the configuration and simply run this (declarative). 
+
+Once we have the configuration file defined, we just need to run:
+```bash
+kubectl apply -f config.yaml
+```
+
+This applies the config file to the connected cluster. 
+If we change the config file, we can run the command again and Kubernetes will make the appropriate changes to get to the target state. 
+
+
+
+## 2.4. Kubernetes Config Files
+These are the config files used in the declarative approach.
+
+### 2.4.1. Defining a Deployment Object
+```yml
+apiVersion: apps/v1  # See K8sdocs for the latest version
+kind: Deployment
+metadata:
+  name: my-second-app
+spec:
+  replicas: 3
+  # A selector is needed to specify which pods should be controlled by this deployment
+  selector:
+    matchLabels: 
+      app: second-app
+      tier: backend
+    # As an alternative to matching labels, we can also match on an expression. 
+    # Key is still referring to the key of a label
+    # Operator can be In, NotIn, Exist, DoesNotExist
+    matchExpressions:
+      - {key: app, operator: In, values: [second-app, first-app]}
+    
+  template:  
+    # Define the pod object. 
+    # The template of a Deployment always defines a Pod, so you don’t need to (and can’t) specify kind: Pod
+    metadata:
+      labels:
+        # Key:Value can be whatever you like. It is used for the Deployment selector to identify the pod
+        app: second-app
+        tier: backend
+    spec:
+      containers:
+      # List of containers
+        - name: container1
+           image: repo/my-image-name:latest
+           # We can define a specific path and frequency for Kubernetes to check if this container is alive 
+           livenessProbe: 
+             httpGet:
+               path: /some/specific/path
+               port: 8080
+           periodSeconds: 10
+           initialDelaySeconds: 5
+```
+
+### 2.4.2. Defining a Service Object
+```yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+spec:
+  selector: 
+    app: second-app
+  ports:
+    - protocol : TCP
+       port: 80
+       target port: 8080
+  type: LoadBalancer
+```
+
+We apply the config the same way, with `kubectl apply`. 
+
+
+We can delete all of the resources that were created by a particular config file using
+```bash
+kubectl delete -f=deployment.yaml 
+```
+
+We can also delete by label. You should pass the kinds of objects (e.g. deployments, services) that you want to delete. 
+```
+kubectl delete deployments -l key=value
+```
+
+### 2.4.3. Multiple Configs
+
+If you have multiple configurations, such as a Service and a Deployment, you can put them all in one file. Just separate each section with three dashes `---`
+
+The objects will be created top to bottom. 
+It’s best practice to put the service before the deployment since it references the pods created later. The service will “watch” for any pods created which match its selector. 
+
+
+Some other parameters of the deployment config that may be helpful:
+
+- `imagePullPolicy` - we can set this to always pull the latest image, even if we don’t explicitly specify a tag. 
+- `livenessProbe` - how Kubernetes should check the health of the container. Is there a specific path to send a request to?
+
+
+# 3. Managing Data and Volumes
+
+We are still working with containers in Kubernetes, so the concept of Docker volumes is still relevant. 
+It is still solving the same problem, namely that we want persisted data to survive a container stoppage or restart. 
+
+But Kubernetes manages our containers for us, so we can’t manually add a volume in the same way we did with Docker. 
+We need a Kubernetes-specific way to add volumes. 
+
+
+## 3.1. Kubernetes Volumes
+
+Kubernetes supports a variety of types/drivers of volumes: local volumes (on nodes) or cloud-provider specific volumes. 
+This is extra functionality added by Kubernetes, not supported by plain Docker. 
+
+The lifetime of the volume depends on the lifetime of its pod. The volume survives **container** restarts, but not **pod** deletion. 
+
+We **define the volumes inside the pod specificatio**n in the yaml file. 
+We also need to specify which containers are linked to which pods using the `volumeMounts` key. 
+
+
+### 3.1.1. The `emptyDir` Volume Type
+
+The `emptyDir` volume type creates a new empty directory when the pod starts. 
+It keeps the directory alive as long as the pod is alive. Containers can write to this directory. It will survive container restarts but not pod restarts. 
+
+
+Under the `spec` key:
+```yml
+spec:
+  containers:
+    - name
+       …
+       volumeMounts:
+         - mountPath: /app/story
+            name: story-volume
+  volumes:
+  - name: my-first-volume 
+     # We specify the TYPE of volume 
+     emptyDir: {}
+     # We create a host path volume at a specific location on the host machine. Create the directory if it doesn’t already exist
+     hostPath: 
+       path: /data
+       type: DirectoryOrCreate
+```
+
+
+### 3.1.2. The `hostPath` Volume Type
+
+The `hostPath` volume type creates a folder on the host machine. It is a bit like a bind mount in Docker. We could use it if we wanted to share some existing data. 
+
+The host path volume is node-specific, so won’t share data across replicas on different machines. 
+
+
+### CSI Volume Type
+
+The Container Storage Interface (CSI) volume type is a generic interface that different cloud providers are compatible with. Different cloud providers then integrate with this, so we can plug into AWS, GCP, Azure etc, or build our own integration. 
+
+
+## Persistent Volumes
+
+The previous volume types do not scale to multiple pods. If we replicate our pods over multiple machines, they won’t share data. “Normal” volumes are node-independent but not pod-independent. The data is lost if the whole node is removed. 
+
+Persistent volumes are pod-independent and node-independent. This is appropriate for long-term data. The volume is detached from the pod, including being detached from the pod lifecycle. We define the persistent volumes once, and can then use it across multiple deployments. The data will survive the pod or node being removed. 
+
+The storage is not on the nodes, it is in the cloud storage. 
+
+<add diagram from lecture 213 6:37>
+
+
+### Defining a persistent volume 
+
+In a new file, say pv.yaml, we can define the persistent volume. 
+
+
+apiVersion: c1
+kind: PersistentVolume
+metadata:
+  name: my-pv
+spec:
+  capacity:
+    storage: 4Gi
+  # We can use block storage or file system storage 
+  volumeMode: Filesystem
+  # Kubernetes lets you define different storage classes, but by default gives you the standard class
+  storageClassName: standard
+  # How many nodes (one or many) can claim this volume, and can they write or only read?
+  accessModes:
+    - ReadWriteOnce
+    - ReadOnlyMany
+    - ReadWriteMany
+  hostPath:
+    path: /data
+    type: DirectoryOrCreate
+
+
+### Creating a Persistent Volume Claim
+
+We configure a claim in a new yaml file, then we can assign this to a pod so that it claims the persistent volumes. 
+
+
+apiVersion: v1
+kind: PersistentVolume
+metadata: 
+  name: my-pv-claim
+spec:
+  # Static provisioning is when we specify the exact volume to claim by name
+  # We can also do dynamic provisioning where we specify the required properties of the volume and Kubernetes will find an appropriate volume in our cluster
+  volumeName: my-pv
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: standard
+  # How much storage will this claim use?
+  resources:
+    requests:
+      storage: 1Gi
+
+
+We can then assign this claim to a pod under the volumes key of the pod spec:
+
+  volumes:
+  - name: my-persistent-volume 
+     persistentVolumeClaim: 
+       claimName: my-pv-claim
+
+
+Then we can use kubectl to apply each of the updated yaml files to our cluster. 
+
+We can see the persistent volumes and claims currently running by using:
+kubectl get pv
+kubectl get pvc
+
+
+
+## Environment Variables
+
+Under the container key of a pod specification, you can add an env key with a list of key-value pairs. 
+
+
+containers:
+  env:
+    - name: STORY_FOLDER
+       value: “story”
+
+
+You can then use this env variable in your app. 
+
+
+### Using an environment file
+
+We can store environment variables in another yaml file of kind ConfigMap. This can then be reused across multiple pods and deployments. 
+
+
+In a file environment.yaml
+
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: data-store-env
+data:
+  folder: “story”
+
+
+Then we can point to that file in our deployment yaml file. 
+
+
+containers:
+  env:
+    - name: STORY_FOLDER
+       # We can refer to a ConfigMap
+       valueFrom:
+         configMapKeyRef:
+           name: data-store-env
+           # Which key to we want to pull out of the env file to use as the STORY_FOLDER value?
+           key: folder
+
+
+See this blog post for storing secrets: https://phoenixnap.com/kb/kubernetes-secrets
+
 
 
 
