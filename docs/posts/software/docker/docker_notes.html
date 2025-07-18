@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Gurpreet Johl">
-<meta name="dcterms.date" content="2025-05-25">
+<meta name="dcterms.date" content="2025-06-05">
 <meta name="description" content="Docker? I Hardly Know ’Er">
 
 <title>Gurpreet Johl - Docker</title>
@@ -188,7 +188,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">May 25, 2025</p>
+        <p class="date">June 5, 2025</p>
       </div>
     </div>
     
@@ -299,7 +299,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#pull-the-image-and-run-the-container" id="toc-pull-the-image-and-run-the-container" class="nav-link" data-scroll-target="#pull-the-image-and-run-the-container">8.2.5. Pull the Image and Run the Container</a></li>
   <li><a href="#the-disadvantages-of-self-managed" id="toc-the-disadvantages-of-self-managed" class="nav-link" data-scroll-target="#the-disadvantages-of-self-managed">8.2.6. The (Dis)advantages of Self-Managed</a></li>
   </ul></li>
-  <li><a href="#a-minimal-managed-deployment" id="toc-a-minimal-managed-deployment" class="nav-link" data-scroll-target="#a-minimal-managed-deployment">8.3. A (Minimal) Managed Deployment</a></li>
+  <li><a href="#a-minimal-managed-deployment" id="toc-a-minimal-managed-deployment" class="nav-link" data-scroll-target="#a-minimal-managed-deployment">8.3. A (Minimal) Managed Deployment</a>
+  <ul class="collapse">
+  <li><a href="#container" id="toc-container" class="nav-link" data-scroll-target="#container">8.3.1. Container</a></li>
+  <li><a href="#task" id="toc-task" class="nav-link" data-scroll-target="#task">8.3.2. Task</a></li>
+  <li><a href="#service" id="toc-service" class="nav-link" data-scroll-target="#service">8.3.3. Service</a></li>
+  <li><a href="#cluster" id="toc-cluster" class="nav-link" data-scroll-target="#cluster">8.3.4. Cluster</a></li>
+  <li><a href="#updating-managed-images" id="toc-updating-managed-images" class="nav-link" data-scroll-target="#updating-managed-images">8.3.5. Updating Managed Images</a></li>
+  </ul></li>
+  <li><a href="#multi-container-deployments" id="toc-multi-container-deployments" class="nav-link" data-scroll-target="#multi-container-deployments">8.4. Multi-Container Deployments</a>
+  <ul class="collapse">
+  <li><a href="#load-balancer" id="toc-load-balancer" class="nav-link" data-scroll-target="#load-balancer">8.4.1. Load Balancer</a></li>
+  <li><a href="#stable-ip-address" id="toc-stable-ip-address" class="nav-link" data-scroll-target="#stable-ip-address">8.4.2. Stable IP Address</a></li>
+  </ul></li>
+  <li><a href="#efs-volumes" id="toc-efs-volumes" class="nav-link" data-scroll-target="#efs-volumes">8.5. EFS Volumes</a></li>
+  <li><a href="#database-containers" id="toc-database-containers" class="nav-link" data-scroll-target="#database-containers">8.6. Database Containers</a>
+  <ul class="collapse">
+  <li><a href="#managed-database" id="toc-managed-database" class="nav-link" data-scroll-target="#managed-database">8.6.1. Managed Database</a></li>
+  </ul></li>
+  <li><a href="#build-only-containers" id="toc-build-only-containers" class="nav-link" data-scroll-target="#build-only-containers">8.6.2. Build-Only Containers</a></li>
   </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
@@ -1012,6 +1030,95 @@ container-name</code></pre>
 <h2 class="anchored" data-anchor-id="a-minimal-managed-deployment">8.3. A (Minimal) Managed Deployment</h2>
 <p>There are many different managed Docker solutions. Elastic Container Service (ECS) is Amazon’s offering.</p>
 <p>Note that with any managed provider, you won’t be using Docker commands directly and will have to work within that provider’s specific “rules”.</p>
+<p>ECS has 4 main concepts: clusters, services, tasks, containers.</p>
+<section id="container" class="level3">
+<h3 class="anchored" data-anchor-id="container">8.3.1. Container</h3>
+<p>In the ECS dashboard, we use the wizard to define details like container name, image name, port mappings, etc. This essentially determines how ECS will run the docker run command later.</p>
+<p>There are also options for logging (via CloudWatch).</p>
+</section>
+<section id="task" class="level3">
+<h3 class="anchored" data-anchor-id="task">8.3.2. Task</h3>
+<p>The blueprint for your application - how AWS should launch your container. Not how it should execute docker run, but <strong>how the server that Docker runs on should be configured</strong>.</p>
+<p>You can run the container on <strong>EC2 or Fargate</strong>. Fargate is serverless, and will start and stop an instance when a request is received. Contrast this with an EC2 instance which is always running whether it is handling requests or not.</p>
+</section>
+<section id="service" class="level3">
+<h3 class="anchored" data-anchor-id="service">8.3.3. Service</h3>
+<p>How the task should be executed. We can define security groups and load balancers here.</p>
+</section>
+<section id="cluster" class="level3">
+<h3 class="anchored" data-anchor-id="cluster">8.3.4. Cluster</h3>
+<p>Overall <strong>network in which our services run</strong>. If we have multiple containers in one application, we can run them on the same cluster.</p>
+</section>
+<section id="updating-managed-images" class="level3">
+<h3 class="anchored" data-anchor-id="updating-managed-images">8.3.5. Updating Managed Images</h3>
+<p>We can build a new image and push it to our remote repository. If we have an ECS instance running, we can force it to pick up the new version of the image in the ECS dashboard.</p>
+<pre><code>ECS -&gt; Clusters -&gt; Default 
+-&gt; Tasks -&gt; Task Definition (of the task you want to update) 
+-&gt; Create New Revision -&gt; Actions: Update Service</code></pre>
+<p>This creates a new task but will pull the latest image.</p>
+</section>
+</section>
+<section id="multi-container-deployments" class="level2">
+<h2 class="anchored" data-anchor-id="multi-container-deployments">8.4. Multi-Container Deployments</h2>
+<p>Docker Compose was helpful for multi-container applications running on our local machine, but it is less useful for deployments.</p>
+<ul>
+<li>We may want to specify how much CPU each service has.</li>
+<li>We may want each service running on different machines</li>
+<li>If using a managed service, that provider may require details beyond what is in the docker-compose file</li>
+</ul>
+<p>If you run all containers in the same task in ECS, you can communicate between containers using <code>localhost</code> because they will all be run on the same machine.</p>
+<section id="load-balancer" class="level3">
+<h3 class="anchored" data-anchor-id="load-balancer">8.4.1. Load Balancer</h3>
+<p>We can add a load balancer when launching the service. This should be an ‘internet-facing’ <strong>Application Load Balancer (ALB)</strong>. You may need to create one manually if you did not specify the load balancer in the initial set up wizard. It should use the same VPC as your service. Configure the security groups and configure routing with Target type=IP. Change the health check path to a valid URL which should return a 200 status code when pinged.</p>
+</section>
+<section id="stable-ip-address" class="level3">
+<h3 class="anchored" data-anchor-id="stable-ip-address">8.4.2. Stable IP Address</h3>
+<p>We can use the DNS name to send requests to, rather than the public IP address (which can change as services are stopped and started).</p>
+</section>
+</section>
+<section id="efs-volumes" class="level2">
+<h2 class="anchored" data-anchor-id="efs-volumes">8.5. EFS Volumes</h2>
+<p>If we restart a task, for example when updating a service, the volumes attached to it will be lost.</p>
+<p>Elastic File System (EFS) volumes are <strong>persistent storage</strong>.</p>
+<p>We can add these in the Volumes section of the ECS wizard. It should be in the same VPC as used for ECS. Under Network Access, we need to add a new security group with inbound rule Type=NFS and source as the security group used for the service.</p>
+<p>This will allow the services to communicate with EFS.</p>
+</section>
+<section id="database-containers" class="level2">
+<h2 class="anchored" data-anchor-id="database-containers">8.6. Database Containers</h2>
+<p>You can manage your own database containers, but:</p>
+<ul>
+<li>Scaling and managing availability can be challenging. Ensuring consistency between all running containers</li>
+<li>Performance can be bad during traffic spikes</li>
+<li>Backups and security can be challenging</li>
+</ul>
+<p>For these reasons, you may prefer a managed database solution like AWS RDS, MongoDB Atlas, etc.</p>
+<section id="managed-database" class="level3">
+<h3 class="anchored" data-anchor-id="managed-database">8.6.1. Managed Database</h3>
+<p>When we use a cloud-based managed database, we may want to have different dev and prod environments.</p>
+<p>One option would be to have two different databases, one for dev and one for prod. We can set an environment variable like DB_NAME so that we can overwrite the connection URL with the dev/prod version when we run the containers that connect to it.</p>
+<p>An alternative would be to use a container in dev and the cloud-version in prod. We just need to be careful that we use the image version of, say, MongoDB, that corresponds to the cloud version. Otherwise the dev and prod versions might not be compatible.</p>
+</section>
+</section>
+<section id="build-only-containers" class="level2">
+<h2 class="anchored" data-anchor-id="build-only-containers">8.6.2. Build-Only Containers</h2>
+<p>In some applications, for example React apps, we use something like npm run preview in a dev environment which allows us to hit reload.</p>
+<p>But in production we build first, which compiles an optimised file.</p>
+<pre><code>npm run build
+npm run start</code></pre>
+<p>So we may want different Dockerfiles for dev and prod. We can name the files to distinguish, e.g.&nbsp;<code>Dockerfile.prod</code>, then when we run docker build we pass the <code>-f</code> flag to specify the file name (by default it looks for Dockerfile with no extension).</p>
+<p><strong>Multi-stage builds</strong> allow us to use one Dockerfile to run multiple build steps or “stages”. Stages can copy the contents from each other. You can either build the complete image or select individual stages.</p>
+<p>With multi-stage builds, we need to use <code>RUN</code> instead of <code>CMD</code>.</p>
+<p>We may want a different base image for different stages of the build. We can use another <code>FROM</code> statement to create a new stage. <strong>Each <code>FROM</code> statement in a file effectively delineates each stage</strong>.</p>
+<p>We can <code>COPY</code> between stages by passing the <code>--from</code> flag with the stage name. E.g.</p>
+<pre><code>FROM node as build_stage
+
+…
+
+FROM nginx as server_stage
+
+COPY --from=build /path/in/build/stage /path/in/server/stage</code></pre>
+<p>We can set the build target to only build specific stages by using the <code>--target</code> flag, referring to the alias names we gave the stages in the Dockerfile.</p>
+<pre><code>docker build --target build_stage .</code></pre>
 </section>
 </section>
 <section id="references" class="level1">

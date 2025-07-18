@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.549">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Gurpreet Johl">
+<meta name="dcterms.date" content="2025-07-10">
+<meta name="description" content="What the hell is this? Some kind of kube?">
+
+<title>Gurpreet Johl - Kubernetes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Gurpreet Johl</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../blog.html"> 
+<span class="menu-text">Notes</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/gjohl"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/gurpreetjohl"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/gurpreetjohl"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Kubernetes</h1>
+                  <div>
+        <div class="description">
+          What the hell is this? Some kind of kube?
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">Software</div>
+                <div class="quarto-category">Engineering</div>
+                <div class="quarto-category">DataEngineering</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Gurpreet Johl </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">July 10, 2025</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#kubernetes-introduction" id="toc-kubernetes-introduction" class="nav-link active" data-scroll-target="#kubernetes-introduction">1. Kubernetes Introduction</a>
+  <ul class="collapse">
+  <li><a href="#why-do-we-need-kubernetes" id="toc-why-do-we-need-kubernetes" class="nav-link" data-scroll-target="#why-do-we-need-kubernetes">1.1. Why do we need Kubernetes?</a></li>
+  <li><a href="#what-is-kubernetes" id="toc-what-is-kubernetes" class="nav-link" data-scroll-target="#what-is-kubernetes">1.2. What is Kubernetes?</a></li>
+  <li><a href="#cluster-architecture-and-concepts" id="toc-cluster-architecture-and-concepts" class="nav-link" data-scroll-target="#cluster-architecture-and-concepts">1.3. Cluster Architecture and Concepts</a></li>
+  <li><a href="#worker-nodes" id="toc-worker-nodes" class="nav-link" data-scroll-target="#worker-nodes">1.4. Worker nodes</a></li>
+  <li><a href="#master-node" id="toc-master-node" class="nav-link" data-scroll-target="#master-node">1.5. Master node</a></li>
+  </ul></li>
+  <li><a href="#kubernetes-in-action" id="toc-kubernetes-in-action" class="nav-link" data-scroll-target="#kubernetes-in-action">2. Kubernetes in Action</a>
+  <ul class="collapse">
+  <li><a href="#interacting-with-a-deployment-object" id="toc-interacting-with-a-deployment-object" class="nav-link" data-scroll-target="#interacting-with-a-deployment-object">2.1. Interacting with a Deployment Object</a></li>
+  <li><a href="#updating-deployments" id="toc-updating-deployments" class="nav-link" data-scroll-target="#updating-deployments">2.2. Updating Deployments</a></li>
+  <li><a href="#imperative-vs-declarative-approach" id="toc-imperative-vs-declarative-approach" class="nav-link" data-scroll-target="#imperative-vs-declarative-approach">2.3. Imperative vs Declarative Approach</a></li>
+  <li><a href="#kubernetes-config-files" id="toc-kubernetes-config-files" class="nav-link" data-scroll-target="#kubernetes-config-files">2.4. Kubernetes Config Files</a>
+  <ul class="collapse">
+  <li><a href="#defining-a-deployment-object" id="toc-defining-a-deployment-object" class="nav-link" data-scroll-target="#defining-a-deployment-object">2.4.1. Defining a Deployment Object</a></li>
+  <li><a href="#defining-a-service-object" id="toc-defining-a-service-object" class="nav-link" data-scroll-target="#defining-a-service-object">2.4.2. Defining a Service Object</a></li>
+  <li><a href="#multiple-configs" id="toc-multiple-configs" class="nav-link" data-scroll-target="#multiple-configs">2.4.3. Multiple Configs</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#managing-data-and-volumes" id="toc-managing-data-and-volumes" class="nav-link" data-scroll-target="#managing-data-and-volumes">3. Managing Data and Volumes</a>
+  <ul class="collapse">
+  <li><a href="#kubernetes-volumes" id="toc-kubernetes-volumes" class="nav-link" data-scroll-target="#kubernetes-volumes">3.1. Kubernetes Volumes</a>
+  <ul class="collapse">
+  <li><a href="#the-emptydir-volume-type" id="toc-the-emptydir-volume-type" class="nav-link" data-scroll-target="#the-emptydir-volume-type">3.1.1. The <code>emptyDir</code> Volume Type</a></li>
+  <li><a href="#the-hostpath-volume-type" id="toc-the-hostpath-volume-type" class="nav-link" data-scroll-target="#the-hostpath-volume-type">3.1.2. The <code>hostPath</code> Volume Type</a></li>
+  <li><a href="#the-csi-volume-type" id="toc-the-csi-volume-type" class="nav-link" data-scroll-target="#the-csi-volume-type">3.1.3. The <code>CSI</code> Volume Type</a></li>
+  </ul></li>
+  <li><a href="#persistent-volumes" id="toc-persistent-volumes" class="nav-link" data-scroll-target="#persistent-volumes">3.2. Persistent Volumes</a>
+  <ul class="collapse">
+  <li><a href="#defining-a-persistent-volume" id="toc-defining-a-persistent-volume" class="nav-link" data-scroll-target="#defining-a-persistent-volume">3.2.1 Defining a Persistent Volume</a></li>
+  <li><a href="#creating-a-persistent-volume-claim" id="toc-creating-a-persistent-volume-claim" class="nav-link" data-scroll-target="#creating-a-persistent-volume-claim">3.2.2. Creating a Persistent Volume Claim</a></li>
+  </ul></li>
+  <li><a href="#environment-variables" id="toc-environment-variables" class="nav-link" data-scroll-target="#environment-variables">3.3. Environment Variables</a>
+  <ul class="collapse">
+  <li><a href="#using-environment-variables" id="toc-using-environment-variables" class="nav-link" data-scroll-target="#using-environment-variables">3.3.1. Using Environment Variables</a></li>
+  <li><a href="#using-an-environment-file" id="toc-using-an-environment-file" class="nav-link" data-scroll-target="#using-an-environment-file">3.3.2. Using an Environment File</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#networking" id="toc-networking" class="nav-link" data-scroll-target="#networking">4. Networking</a>
+  <ul class="collapse">
+  <li><a href="#pod-internal-communication" id="toc-pod-internal-communication" class="nav-link" data-scroll-target="#pod-internal-communication">4.1. Pod-Internal Communication</a></li>
+  <li><a href="#pod-to-pod-communication" id="toc-pod-to-pod-communication" class="nav-link" data-scroll-target="#pod-to-pod-communication">4.2. Pod-to-Pod Communication</a>
+  <ul class="collapse">
+  <li><a href="#using-ip-address" id="toc-using-ip-address" class="nav-link" data-scroll-target="#using-ip-address">4.2.1. Using IP address</a></li>
+  <li><a href="#using-dns" id="toc-using-dns" class="nav-link" data-scroll-target="#using-dns">4.2.2 Using DNS</a></li>
+  <li><a href="#best-practices" id="toc-best-practices" class="nav-link" data-scroll-target="#best-practices">4.2.3 Best Practices</a></li>
+  </ul></li>
+  <li><a href="#communicating-with-the-outside-world" id="toc-communicating-with-the-outside-world" class="nav-link" data-scroll-target="#communicating-with-the-outside-world">4.3. Communicating with the Outside World</a></li>
+  </ul></li>
+  <li><a href="#kubernetes-deployments" id="toc-kubernetes-deployments" class="nav-link" data-scroll-target="#kubernetes-deployments">5. Kubernetes Deployments</a>
+  <ul class="collapse">
+  <li><a href="#deployment-options" id="toc-deployment-options" class="nav-link" data-scroll-target="#deployment-options">5.1. Deployment Options</a></li>
+  <li><a href="#aws-eks" id="toc-aws-eks" class="nav-link" data-scroll-target="#aws-eks">5.2. AWS EKS</a>
+  <ul class="collapse">
+  <li><a href="#add-worker-nodes" id="toc-add-worker-nodes" class="nav-link" data-scroll-target="#add-worker-nodes">5.2.1. Add Worker Nodes</a></li>
+  <li><a href="#adding-a-volume" id="toc-adding-a-volume" class="nav-link" data-scroll-target="#adding-a-volume">5.2.2. Adding a Volume</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<section id="kubernetes-introduction" class="level1">
+<h1>1. Kubernetes Introduction</h1>
+<section id="why-do-we-need-kubernetes" class="level2">
+<h2 class="anchored" data-anchor-id="why-do-we-need-kubernetes">1.1. Why do we need Kubernetes?</h2>
+<p>Kubernetes is an open-source <strong>system</strong> (not single library) for automating the deployment, scaling and management of containerised applications, <strong>independent of the specific cloud provider</strong></p>
+<p>Manual deployment of containers is hard to maintain and error-prone.</p>
+<ul>
+<li>Security and configuration concerns.</li>
+<li>Containers crash and need to be replaced. We don’t want to have to manually monitor this and intervene.</li>
+<li>Need to scale containers for traffic spikes.</li>
+<li>incoming traffic should be evenly distributed.</li>
+</ul>
+<p>Services like ECS can help with some of these, such as replacing crashed containers and autoscaling. With a load balancer, it can distribute incoming traffic. But that locks us in to that cloud provider.</p>
+</section>
+<section id="what-is-kubernetes" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-kubernetes">1.2. What is Kubernetes?</h2>
+<p>“K8s” is the de facto standard for container orchestration. It helps with tasks like automatic deployment, scaling and load balancing, and management.</p>
+<p>We define the Kubernetes configuration which determines the desired architecture, number of containers etc. We can then pass this standardised, generic config to any cloud provider. We can also include config specific to a cloud provider without having to rewrite the entire config.</p>
+<p>What <strong>isn’t</strong> Kubernetes?</p>
+<ul>
+<li>It isn’t an alternative to a cloud provider.</li>
+<li>It isn’t a specific service from a particular cloud provider.</li>
+<li>It isn’t a single piece of software, it’s a collection of tools and concepts.</li>
+</ul>
+<p>Kubernetes is <strong>like Docker Compose but for multiple machines</strong>.</p>
+</section>
+<section id="cluster-architecture-and-concepts" class="level2">
+<h2 class="anchored" data-anchor-id="cluster-architecture-and-concepts">1.3. Cluster Architecture and Concepts</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="KubernetesClusterArchitecture.svg" class="img-fluid figure-img"></p>
+<figcaption>Kubernetes Cluster Architecture</figcaption>
+</figure>
+</div>
+<p>A <strong>pod</strong> holds one or more <strong>containers</strong>. It is the smallest unit in Kubernetes.</p>
+<p>A <strong>pod runs on a worker node</strong>. A node is essentially a machine or virtual instance. Multiple pods can run on the same. Ode.</p>
+<p>There is also a <strong>proxy</strong> on each worker node, which configures the network traffic.</p>
+<p>Multiple pods can be created and removed to scale your app.</p>
+<p>There is a a <strong>master node</strong>. This contains a <strong>Control Plane</strong> which handles the creation, removal and replacement of worker nodes. As a user, you don’t interact with the worker nodes directly. You define the desired end state and interact with the master node, which then handles the implementation.</p>
+<p>The group of master nodes and all worker nodes is called a <strong>cluster</strong>. This then sends instructions to the cloud provider API to create all of the services required to realise the desired implementation.</p>
+<p>Kubernetes does not manage your infrastructure for you. You still need to create the instances for the master node and worker nodes, and any other resources like load balancers and file systems. You also need to install <code>kubelet</code> and other Kubernetes services on those nodes yourself.</p>
+<p>Many cloud providers have managed services to make this set up easier. But this is a service provided by the specific cloud providers, not natively by Kubernetes.</p>
+</section>
+<section id="worker-nodes" class="level2">
+<h2 class="anchored" data-anchor-id="worker-nodes">1.4. Worker nodes</h2>
+<p>Think of a worker node as <strong>one machine or virtual instance</strong>. What happens on the worker nodes (e.g.&nbsp;creating a pod) is managed by the master node.</p>
+<p>The worker node contains one or more pods. Each pod hosts one or more application containers and their associated resources (such as volumes). Pods are created and managed by K8s via the master node.</p>
+<p>The worker node can contain multiple pods.</p>
+<ul>
+<li><code>Docker, kubelet and kube-proxy</code>need to be installed on the worker node.</li>
+<li><code>Kubelet</code> handles the communication between the worker node and master node.</li>
+<li><code>Kube-proxy</code> handles the network communication.</li>
+</ul>
+</section>
+<section id="master-node" class="level2">
+<h2 class="anchored" data-anchor-id="master-node">1.5. Master node</h2>
+<p>The master node needs to run the <strong>API server</strong>. This is the counterpart to kubelet running on the worker nodes, and allows the master node to communicate with the workers.</p>
+<p>There is a <strong>scheduler</strong> which watches the pods and selects worker nodes to run new pods on.</p>
+<p><code>Kube-Controller-Manager</code> watches the worker nodes and ensures the correct number of pods are running. There is also a <code>Cloud-Controller-Manager</code> which is the same thing but for a specific cloud provider.</p>
+<p><strong>Services</strong> are a group of pods with a unique IP address that can interact with the outside world.</p>
+</section>
+</section>
+<section id="kubernetes-in-action" class="level1">
+<h1>2. Kubernetes in Action</h1>
+<section id="interacting-with-a-deployment-object" class="level2">
+<h2 class="anchored" data-anchor-id="interacting-with-a-deployment-object">2.1. Interacting with a Deployment Object</h2>
+<p><code>Minikube</code> is a tool to make it easy to <strong>run Kubernetes locally</strong>, by running a cluster in a VM on your local machine.</p>
+<p>You will need the <code>kubectl</code> tool installed. <strong>This gives commands to the master node, which in turn controls the worker nodes</strong>. Think of it like the president commanding the general to command his soldiers to attack.</p>
+<p>Kubernetes works with Objects: <code>pods, deployments, services, volumes</code>, etc. Objects can be created <strong>imperatively or declaratively</strong>.</p>
+<p>A pod has a cluster-internal IP address by default. Containers within a pod can communicate with each other via localhost.</p>
+<p>Pods are ephemeral. When they are started, stopped or replaced, any local data is lost. Just like containers, which makes sense because they are just a thin wrapper around a container.</p>
+<p>The <code>Deployment</code> object is <strong>what we interact with as users</strong>, not pods directly. You generally create a Deployment object which defines the desired target state. Then K8s will create the required pods and other objects. Deployments can be paused, deleted and rolled back. They can also be scaled (and auto-scaled).</p>
+<p>On local machine, we send commands to the cluster. We create a deployment object with <code>kubectl create</code>. The image we specify needs to exist on the cluster, not the local machine that we are sending commands from. The image should be in a registry like DockerHub.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kubectl</span> create deployment my-first-kube <span class="at">-</span> <span class="at">-image</span><span class="op">=</span>repo/my-docker-image</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can see the status of the deployment with:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kubectl</span> get deployments</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can see the status of pods with:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kubectl</span> get pods</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If we’re running locally, we can see our deployment with:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">minikube</span> dashboard</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can expose pods to the cluster or externally using a <code>Service</code> object. Pods have an internal IP address, but <strong>Services have a static IP address</strong> we can use to externally access it from anywhere.</p>
+<p>We create a service by exposing a deployment:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kubectl</span> expose deployment my-first-kube <span class="at">--type</span><span class="op">=</span>LoadBalancer <span class="at">--port</span><span class="op">=</span>8080</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can see the service with:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kubectl</span> get services</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Expose an external IP address when running locally with:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">minikube</span> service my-first-kube</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To manually scale a deployment object, we can set the number of replicas we want. We can scale up and down by setting the number of replicas higher or lower than it currently is.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kubectl</span> scale deployment/my-first-kube <span class="at">--replicas</span><span class="op">=</span>3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="updating-deployments" class="level2">
+<h2 class="anchored" data-anchor-id="updating-deployments">2.2. Updating Deployments</h2>
+<p>We can update the image in a deployment object by setting the new image. The new image should have a more recent tag, as this will trigger Kubernetes to download the newer image.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kubectl</span> set image deployments/my-first-kube old-image-name=repo/new-image-name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can check the status of the updated deployment with:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kubectl</span> rollout status deployment/my-first-kube</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To undo the latest deployment:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kubectl</span> rollout undo deployment/my-first-kube</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can see the rollout history with:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kubectl</span> rollout history deployment/my-first-kube</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will give a list of revisions. We can see details for a particular revision, say the 2nd revision, with:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kubectl</span> rollout history deployment/my-first-kube <span class="at">--revision</span><span class="op">=</span>2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If we want to revert to a specific revision:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kubectl</span> rollout undo deployment/my-first-kube <span class="at">-</span> <span class="at">-to-revision</span><span class="op">=</span>2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="imperative-vs-declarative-approach" class="level2">
+<h2 class="anchored" data-anchor-id="imperative-vs-declarative-approach">2.3. Imperative vs Declarative Approach</h2>
+<p>The <strong>imperative approach</strong> so far requires entering commands into the command line in the correct order. The <strong>declarative approach</strong> allows us to define the configuration which can then be reused.</p>
+<p>It is analogous to how we could create docker containers in the command line (imperative), or define a docker-compose.yml file with all of the configuration and simply run this (declarative).</p>
+<p>Once we have the configuration file defined, we just need to run:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kubectl</span> apply <span class="at">-f</span> config.yaml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This applies the config file to the connected cluster. If we change the config file, we can run the command again and Kubernetes will make the appropriate changes to get to the target state.</p>
+</section>
+<section id="kubernetes-config-files" class="level2">
+<h2 class="anchored" data-anchor-id="kubernetes-config-files">2.4. Kubernetes Config Files</h2>
+<p>These are the config files used in the declarative approach.</p>
+<section id="defining-a-deployment-object" class="level3">
+<h3 class="anchored" data-anchor-id="defining-a-deployment-object">2.4.1. Defining a Deployment Object</h3>
+<div class="sourceCode" id="cb16"><pre class="sourceCode yml code-with-copy"><code class="sourceCode yaml"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apiVersion</span><span class="kw">:</span><span class="at"> apps/v1</span><span class="co">  # See K8sdocs for the latest version</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kind</span><span class="kw">:</span><span class="at"> Deployment</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">metadata</span><span class="kw">:</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">name</span><span class="kw">:</span><span class="at"> my-second-app</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">spec</span><span class="kw">:</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">replicas</span><span class="kw">:</span><span class="at"> </span><span class="dv">3</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co">  # A selector is needed to specify which pods should be controlled by this deployment</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">selector</span><span class="kw">:</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">matchLabels</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">app</span><span class="kw">:</span><span class="at"> second-app</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">tier</span><span class="kw">:</span><span class="at"> backend</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co">    # As an alternative to matching labels, we can also match on an expression. </span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co">    # Key is still referring to the key of a label</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co">    # Operator can be In, NotIn, Exist, DoesNotExist</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">matchExpressions</span><span class="kw">:</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="kw">{</span><span class="fu">key</span><span class="kw">:</span><span class="at"> app</span><span class="kw">,</span><span class="at"> </span><span class="fu">operator</span><span class="kw">:</span><span class="at"> In</span><span class="kw">,</span><span class="at"> </span><span class="fu">values</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">second-app</span><span class="kw">,</span><span class="at"> first-app</span><span class="kw">]}</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="at">    </span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">template</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="co">    # Define the pod object. </span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="co">    # The template of a Deployment always defines a Pod, so you don’t need to (and can’t) specify kind: Pod</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">metadata</span><span class="kw">:</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">labels</span><span class="kw">:</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="co">        # Key:Value can be whatever you like. It is used for the Deployment selector to identify the pod</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">app</span><span class="kw">:</span><span class="at"> second-app</span></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">tier</span><span class="kw">:</span><span class="at"> backend</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">spec</span><span class="kw">:</span></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">containers</span><span class="kw">:</span></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a><span class="co">      # List of containers</span></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> container1</span></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a><span class="at">           </span><span class="fu">image</span><span class="kw">:</span><span class="at"> repo/my-image-name:latest</span></span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a><span class="co">           # We can define a specific path and frequency for Kubernetes to check if this container is alive </span></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a><span class="at">           </span><span class="fu">livenessProbe</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a><span class="at">             </span><span class="fu">httpGet</span><span class="kw">:</span></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a><span class="at">               </span><span class="fu">path</span><span class="kw">:</span><span class="at"> /some/specific/path</span></span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a><span class="at">               </span><span class="fu">port</span><span class="kw">:</span><span class="at"> </span><span class="dv">8080</span></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a><span class="at">           </span><span class="fu">periodSeconds</span><span class="kw">:</span><span class="at"> </span><span class="dv">10</span></span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a><span class="at">           </span><span class="fu">initialDelaySeconds</span><span class="kw">:</span><span class="at"> </span><span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="defining-a-service-object" class="level3">
+<h3 class="anchored" data-anchor-id="defining-a-service-object">2.4.2. Defining a Service Object</h3>
+<div class="sourceCode" id="cb17"><pre class="sourceCode yml code-with-copy"><code class="sourceCode yaml"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apiVersion</span><span class="kw">:</span><span class="at"> v1</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kind</span><span class="kw">:</span><span class="at"> Service</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">metadata</span><span class="kw">:</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">name</span><span class="kw">:</span><span class="at"> backend</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">spec</span><span class="kw">:</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">selector</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">app</span><span class="kw">:</span><span class="at"> second-app</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">ports</span><span class="kw">:</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">protocol </span><span class="kw">:</span><span class="at"> TCP</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="at">       </span><span class="fu">port</span><span class="kw">:</span><span class="at"> </span><span class="dv">80</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="at">       </span><span class="fu">target port</span><span class="kw">:</span><span class="at"> </span><span class="dv">8080</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> LoadBalancer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We apply the config the same way, with <code>kubectl apply</code>.</p>
+<p>We can delete all of the resources that were created by a particular config file using</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kubectl</span> delete <span class="at">-f</span><span class="op">=</span>deployment.yaml </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can also delete by label. You should pass the kinds of objects (e.g.&nbsp;deployments, services) that you want to delete.</p>
+<pre><code>kubectl delete deployments -l key=value</code></pre>
+</section>
+<section id="multiple-configs" class="level3">
+<h3 class="anchored" data-anchor-id="multiple-configs">2.4.3. Multiple Configs</h3>
+<p>If you have multiple configurations, such as a Service and a Deployment, you can put them all in one file. Just separate each section with three dashes <code>---</code></p>
+<p>The objects will be created top to bottom. It’s best practice to put the service before the deployment since it references the pods created later. The service will “watch” for any pods created which match its selector.</p>
+<p>Some other parameters of the deployment config that may be helpful:</p>
+<ul>
+<li><code>imagePullPolicy</code> - we can set this to always pull the latest image, even if we don’t explicitly specify a tag.</li>
+<li><code>livenessProbe</code> - how Kubernetes should check the health of the container. Is there a specific path to send a request to?</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="managing-data-and-volumes" class="level1">
+<h1>3. Managing Data and Volumes</h1>
+<p>We are still working with containers in Kubernetes, so the concept of Docker volumes is still relevant. It is still solving the same problem, namely that we want persisted data to survive a container stoppage or restart.</p>
+<p>But Kubernetes manages our containers for us, so we can’t manually add a volume in the same way we did with Docker. We need a Kubernetes-specific way to add volumes.</p>
+<section id="kubernetes-volumes" class="level2">
+<h2 class="anchored" data-anchor-id="kubernetes-volumes">3.1. Kubernetes Volumes</h2>
+<p>Kubernetes supports a variety of types/drivers of volumes: local volumes (on nodes) or cloud-provider specific volumes. This is extra functionality added by Kubernetes, not supported by plain Docker.</p>
+<p>The lifetime of the volume depends on the lifetime of its pod. The volume survives <strong>container</strong> restarts, but not <strong>pod</strong> deletion.</p>
+<p>We <strong>define the volumes inside the pod specificatio</strong>n in the yaml file. We also need to specify which containers are linked to which pods using the <code>volumeMounts</code> key.</p>
+<section id="the-emptydir-volume-type" class="level3">
+<h3 class="anchored" data-anchor-id="the-emptydir-volume-type">3.1.1. The <code>emptyDir</code> Volume Type</h3>
+<p>The <code>emptyDir</code> volume type creates a new empty directory when the pod starts. It keeps the directory alive as long as the pod is alive. Containers can write to this directory. It will survive container restarts but not pod restarts.</p>
+<p>Under the <code>spec</code> key:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode yml code-with-copy"><code class="sourceCode yaml"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">spec</span><span class="kw">:</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">containers</span><span class="kw">:</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> name</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="at">       …</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="at">       </span><span class="fu">volumeMounts</span><span class="kw">:</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="at">         </span><span class="kw">-</span><span class="at"> </span><span class="fu">mountPath</span><span class="kw">:</span><span class="at"> /app/story</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="at">            </span><span class="fu">name</span><span class="kw">:</span><span class="at"> story-volume</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">volumes</span><span class="kw">:</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> my-first-volume </span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co">     # We specify the TYPE of volume </span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="at">     </span><span class="fu">emptyDir</span><span class="kw">:</span><span class="at"> </span><span class="kw">{}</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co">     # We create a host path volume at a specific location on the host machine. Create the directory if it doesn’t already exist</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="at">     </span><span class="fu">hostPath</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="at">       </span><span class="fu">path</span><span class="kw">:</span><span class="at"> /data</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="at">       </span><span class="fu">type</span><span class="kw">:</span><span class="at"> DirectoryOrCreate</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="the-hostpath-volume-type" class="level3">
+<h3 class="anchored" data-anchor-id="the-hostpath-volume-type">3.1.2. The <code>hostPath</code> Volume Type</h3>
+<p>The <code>hostPath</code> volume type creates a folder on the host machine. It is a bit <strong>like a bind mount</strong> in Docker. We could use it if we wanted to share some existing data.</p>
+<p>The host path volume is node-specific, so won’t share data across replicas on different machines.</p>
+</section>
+<section id="the-csi-volume-type" class="level3">
+<h3 class="anchored" data-anchor-id="the-csi-volume-type">3.1.3. The <code>CSI</code> Volume Type</h3>
+<p>The Container Storage Interface (CSI) volume type is a <strong>generic interface that different cloud providers are compatible with</strong>. Different cloud providers then integrate with this, so we can plug into AWS, GCP, Azure etc, or build our own integration.</p>
+</section>
+</section>
+<section id="persistent-volumes" class="level2">
+<h2 class="anchored" data-anchor-id="persistent-volumes">3.2. Persistent Volumes</h2>
+<p>The previous volume types do not scale to multiple pods. If we replicate our pods over multiple machines, they won’t share data. “Normal” volumes are node-independent but not pod-independent. The data is lost if the whole node is removed.</p>
+<p>Persistent volumes are pod-independent and node-independent. This is appropriate for long-term data. The volume is detached from the pod, including being detached from the pod lifecycle. We define the persistent volumes once, and can then use it across multiple deployments. The data will survive the pod or node being removed.</p>
+<p>The storage is not on the nodes, it is in the cloud storage.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="PersistentVolumes.png" class="img-fluid figure-img"></p>
+<figcaption>Persistent Volumes and Claims</figcaption>
+</figure>
+</div>
+<section id="defining-a-persistent-volume" class="level3">
+<h3 class="anchored" data-anchor-id="defining-a-persistent-volume">3.2.1 Defining a Persistent Volume</h3>
+<p>In a new file, say <code>pv.yaml</code>, we can define the persistent volume.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode yml code-with-copy"><code class="sourceCode yaml"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apiVersion</span><span class="kw">:</span><span class="at"> c1</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kind</span><span class="kw">:</span><span class="at"> PersistentVolume</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">metadata</span><span class="kw">:</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">name</span><span class="kw">:</span><span class="at"> my-pv</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">spec</span><span class="kw">:</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">capacity</span><span class="kw">:</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">storage</span><span class="kw">:</span><span class="at"> 4Gi</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co">  # We can use block storage or file system storage </span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">volumeMode</span><span class="kw">:</span><span class="at"> Filesystem</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co">  # Kubernetes lets you define different storage classes, but by default gives you the standard class</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">storageClassName</span><span class="kw">:</span><span class="at"> standard</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="co">  # How many nodes (one or many) can claim this volume, and can they write or only read?</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">accessModes</span><span class="kw">:</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> ReadWriteOnce</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> ReadOnlyMany</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> ReadWriteMany</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">hostPath</span><span class="kw">:</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">path</span><span class="kw">:</span><span class="at"> /data</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">type</span><span class="kw">:</span><span class="at"> DirectoryOrCreate</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="creating-a-persistent-volume-claim" class="level3">
+<h3 class="anchored" data-anchor-id="creating-a-persistent-volume-claim">3.2.2. Creating a Persistent Volume Claim</h3>
+<p>We configure a claim in a new yaml file, then we can assign this claim to a pod so that it claims the persistent volumes.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode yml code-with-copy"><code class="sourceCode yaml"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apiVersion</span><span class="kw">:</span><span class="at"> v1</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kind</span><span class="kw">:</span><span class="at"> PersistentVolume</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">metadata</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">name</span><span class="kw">:</span><span class="at"> my-pv-claim</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">spec</span><span class="kw">:</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co">  # Static provisioning is when we specify the exact volume to claim by name</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co">  # We can also do dynamic provisioning where we specify the required properties of the volume and Kubernetes will find an appropriate volume in our cluster</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">volumeName</span><span class="kw">:</span><span class="at"> my-pv</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">accessModes</span><span class="kw">:</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> ReadWriteOnce</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">storageClassName</span><span class="kw">:</span><span class="at"> standard</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="co">  # How much storage will this claim use?</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">resources</span><span class="kw">:</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">requests</span><span class="kw">:</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">storage</span><span class="kw">:</span><span class="at"> 1Gi</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can then <strong>assign this claim to a pod</strong> under the volumes key of the pod spec:</p>
+<pre><code>  volumes:
+  - name: my-persistent-volume 
+     persistentVolumeClaim: 
+       claimName: my-pv-claim</code></pre>
+<p>Then we can use <code>kubectl</code> to <code>apply</code> each of the updated yaml files to our cluster.</p>
+<p>We can see the persistent volumes and claims currently running by using:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kubectl</span> get pv</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="ex">kubectl</span> get pvc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="environment-variables" class="level2">
+<h2 class="anchored" data-anchor-id="environment-variables">3.3. Environment Variables</h2>
+<section id="using-environment-variables" class="level3">
+<h3 class="anchored" data-anchor-id="using-environment-variables">3.3.1. Using Environment Variables</h3>
+<p>Under the container key of a pod specification, you can add an env key with a list of key-value pairs.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode yml code-with-copy"><code class="sourceCode yaml"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">containers</span><span class="kw">:</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">env</span><span class="kw">:</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> STORY_FOLDER</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="at">       </span><span class="fu">value</span><span class="kw">:</span><span class="at"> “story”</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can then use this env variable in your app.</p>
+</section>
+<section id="using-an-environment-file" class="level3">
+<h3 class="anchored" data-anchor-id="using-an-environment-file">3.3.2. Using an Environment File</h3>
+<p>We can store environment variables in another yaml file of kind <code>ConfigMap</code>. This can then be reused across multiple pods and deployments.</p>
+<p>In a file <code>environment.yaml</code>:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode yml code-with-copy"><code class="sourceCode yaml"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apiVersion</span><span class="kw">:</span><span class="at"> v1</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kind</span><span class="kw">:</span><span class="at"> ConfigMap</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">metadata</span><span class="kw">:</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">name</span><span class="kw">:</span><span class="at"> data-store-env</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span><span class="kw">:</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">folder</span><span class="kw">:</span><span class="at"> “story”</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then we can point to that file in our <code>deployment.yaml</code> file.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode yml code-with-copy"><code class="sourceCode yaml"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">containers</span><span class="kw">:</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">env</span><span class="kw">:</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> STORY_FOLDER</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co">       # We can refer to a ConfigMap</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="at">       </span><span class="fu">valueFrom</span><span class="kw">:</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="at">         </span><span class="fu">configMapKeyRef</span><span class="kw">:</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="at">           </span><span class="fu">name</span><span class="kw">:</span><span class="at"> data-store-env</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co">           # Which key to we want to pull out of the env file to use as the STORY_FOLDER value?</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="at">           </span><span class="fu">key</span><span class="kw">:</span><span class="at"> folder</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>See this blog post for storing secrets: https://phoenixnap.com/kb/kubernetes-secrets</p>
+</section>
+</section>
+</section>
+<section id="networking" class="level1">
+<h1>4. Networking</h1>
+<section id="pod-internal-communication" class="level2">
+<h2 class="anchored" data-anchor-id="pod-internal-communication">4.1. Pod-Internal Communication</h2>
+<p>For containers in the same pod, we can use <code>localhost</code> to communicate between the pods. We need to expose the port of the container when creating the Dockerfile. This is similar to internal communication between containers when using docker compose.</p>
+</section>
+<section id="pod-to-pod-communication" class="level2">
+<h2 class="anchored" data-anchor-id="pod-to-pod-communication">4.2. Pod-to-Pod Communication</h2>
+<section id="using-ip-address" class="level3">
+<h3 class="anchored" data-anchor-id="using-ip-address">4.2.1. Using IP address</h3>
+<p>For pods in the same cluster, we can create a service with <code>type=ClusterIP</code>. We would need to get the IP address of the service and use this in our code. Kubernetes has a convenient environment variable to save the leg work here. If we have a service called “auth-service”, for example, it will automatically create an environment variable called <code>AUTH_SERVICE_SERVICE_HOST</code>. So we can use this in place of the IP address in our code.</p>
+</section>
+<section id="using-dns" class="level3">
+<h3 class="anchored" data-anchor-id="using-dns">4.2.2 Using DNS</h3>
+<p>You can also pass the name of the service as the URL. We also need to suffix it with the namespace, which is “default” by default.</p>
+<p>E.g. <code>auth-service.default</code></p>
+<p>This is automatically generated by Kubernetes.</p>
+</section>
+<section id="best-practices" class="level3">
+<h3 class="anchored" data-anchor-id="best-practices">4.2.3 Best Practices</h3>
+<p>You should normally have <strong>different containers in different pods</strong>, unless they are very tightly coupled together.</p>
+<p>So we need to create a service per pod to allow them to communicate. The <strong>DNS approach is the most common</strong> method, rather than the IP address environment variable.</p>
+</section>
+</section>
+<section id="communicating-with-the-outside-world" class="level2">
+<h2 class="anchored" data-anchor-id="communicating-with-the-outside-world">4.3. Communicating with the Outside World</h2>
+<p>Create a service with <code>type=LoadBalancer</code>.</p>
+</section>
+</section>
+<section id="kubernetes-deployments" class="level1">
+<h1>5. Kubernetes Deployments</h1>
+<section id="deployment-options" class="level2">
+<h2 class="anchored" data-anchor-id="deployment-options">5.1. Deployment Options</h2>
+<p>There are several approaches:</p>
+<ol type="1">
+<li>Deploy on your own data centre</li>
+<li>Deploy manually on a cloud provider. Tools like <code>kops</code> can help make this more straightforward.</li>
+<li>Use a managed service from a cloud provider like AWS EKS.</li>
+</ol>
+</section>
+<section id="aws-eks" class="level2">
+<h2 class="anchored" data-anchor-id="aws-eks">5.2. AWS EKS</h2>
+<p>This is <strong>Elastic Kubernetes Service</strong>. It is analogous to how we used Elastic Container Service (ECS) when using plain Docker containers.</p>
+<p>We use the UI to create an EKS cluster.</p>
+<ul>
+<li>We need to give EKS <strong>permissions</strong> to create new resources, e.g.&nbsp;EC2 instances, EFS storage, etc. In IAM, create a new role with appropriate permissions.</li>
+<li>We also need to create a <strong>network</strong> for our EKS cluster. We can do this using a template in CloudFormation.</li>
+</ul>
+<p>On our computer from which we issue <code>kubectl</code> commands, we want it to be able to talk to the EKS cluster. Whether using EKS or not, this is configured in a config file on your machine located at <code>User/.kube/config</code></p>
+<p>You can update this to speak to EKS. The most straightforward way to update this is using the AWS CLI. We’ll need to create an access key in IAM for this.</p>
+<p>Run <code>aws configure</code> to set up the CLI to be able to make changes on your machine.</p>
+<p>Then run</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> eks <span class="at">--region</span> us-east-2 update-kubeconfig <span class="at">--name</span> my-cluster-name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="add-worker-nodes" class="level3">
+<h3 class="anchored" data-anchor-id="add-worker-nodes">5.2.1. Add Worker Nodes</h3>
+<p>In the EKS console, click Add Node Group. We again need to assign an appropriate role to these worker nodes so that they can write log files, connect to other services, etc.</p>
+<p>We attach an IAM role for this. Relevant policies are EKSWorkerNode, CNI_Policy, EC2ContainerRegistryPolicy</p>
+</section>
+<section id="adding-a-volume" class="level3">
+<h3 class="anchored" data-anchor-id="adding-a-volume">5.2.2. Adding a Volume</h3>
+<p>We can add EFS storage as a volume. We make the persistent volume <code>type=CSI</code>.</p>
+<p>There are third party libraries that make the interface easier to deal with, e.g.&nbsp;<code>aws-efs-csi-driver</code> is an open source package to make it simple to deal with. If using this, you will also need to add a section to your volume’s config.yaml to define the new storage class that this provides. The snippet can be copied from the driver’s repo.</p>
+<p>In the EC2 section, create a security group that has inbound NFS connections allowed with the IPv4 CIDR of our VPC.</p>
+<p>Now in EFS, we can click Create File System. Make sure it’s in the same VPC. Under customise, remove the default security groups and add the new security groups created previously.</p>
+<p>Then the usual K8s process of creating a persistent volume config, a claim config, and assigning the claim to a pod.</p>
+</section>
+</section>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<ul>
+<li>“Docker &amp; Kubernetes: The Practical Guide” <a href="https://www.udemy.com/course/docker-kubernetes-the-practical-guide/">Udemy course</a></li>
+<li><a href="https://kubernetes.io/docs/concepts/architecture/">Architecture diagram</a></li>
+<li><a href="https://phoenixnap.com/kb/kubernetes-secrets">Storing secrets</a></li>
+</ul>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
