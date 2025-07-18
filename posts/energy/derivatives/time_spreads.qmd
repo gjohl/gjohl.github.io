@@ -1,0 +1,54 @@
+---
+title: "Time Spreads"
+description: "Basics"
+date: "2025-06-27"
+categories: [Energy, Finance]
+draft: true
+---
+
+# What is spread trading?
+
+Spread trading involves the simultaneous purchase of one derivative contract and the sale of another. The price relationship between the contracts is more important than the absolute price of each one.
+
+Different types of spread:
+
+- Geographical spreads: the relationship between a similar delivery contract in two locations. For example, TTF/THE - This is the spread between two gas markets: TTF (Netherlands) and THE (Germany).
+- Time spreads: the relationship between different delivery contract periods for the same commodity and location. For example, TTF June/July.
+- Commodity spreads: the relationship between different commodities in the same contract period and a similar location. For example, June Netherlands Spark Spread. This is the spread between a power contract and a gas contract for June delivery in the Netherlands: Baseload power delivery in the Netherlands and TTF gas for delivery in the Netherlands.
+
+
+## Spread conventions
+Describing the spread as 'THE/TTF' means we are thinking about the THE price relative to the TTF price. In other words, we are taking the price and subtracting the TTF price to get the spread between them. When the spread is negative, THE is worth less than TTF.
+
+- If we buy THE/TTF, we are buying THE and selling TTF.
+- If we sell THE/TTF, we are selling THE and buying TTF.
+
+
+# Forward curves and market structure
+
+"Market structure" is often used to refer to time spreads. The best way to visualise market structure is to look at a forward curve.
+
+When future delivery periods are worth less than the period preceding it, the structure is known as Backwardation. Conversely, the market structure is in Contango when future delivery periods are higher in price.
+
+Time spreads are always quoted chronologically. Contango markets are characterised by negative time spreads. 
+
+
+## Backwardation
+Some people misinterpret this structure and conclude that it means prices will be lower in the future. This is an incorrect assumption. It indicates that there is an undersupply in the prompt (delivery) market, meaning that participants are prepared to pay a premium for the delivery of a commodity today at the expense of future delivery periods.
+
+![Forward curve in backwardation](backwardation.png)
+
+
+## Contango
+Contango market structures are characterised by negative time spreads; each contract period is followed by another where the price is higher. It is a structure that is symptomatic of a well-supplied/oversupplied market, with low prices close to delivery gradually increasing into the future. Contango markets are generally bearish, with weak fundamentals because of the oversupply.
+
+![Forward curve in contango](contango.png)
+
+
+## Trading time spreads
+
+Due to correlation, the individual contracts will move together to some extent, but one will be impacted more than the other, affecting the spread.
+
+The news will always impact both legs of a spread, but the impact of fundamental supply and demand changes will be felt most by the one closest to the event.
+
+Time spreads are very commonly used instead of flat price by fundamental traders. Suppose a trader can't predict the overall direction of a commodity because speculation is having a greater impact than fundamentals. In that case, they can trade the front spread, as it should reflect the fundamentals with less impact from speculation.
