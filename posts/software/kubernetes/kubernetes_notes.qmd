@@ -1,0 +1,103 @@
+---
+title: "Kubernetes"
+description: "Activate the Kube"
+date: "2025-07-09"
+categories: [Software, Engineering, DataEngineering]
+---
+
+
+# 1. Kubernetes Introduction
+
+
+## 1.1. Why do we need Kubernetes?
+
+Kubernetes is an open-source **system** (not single library) for automating the deployment, scaling and management of containerised applications, **independent of the specific cloud provider**
+
+
+Manual deployment of containers is hard to maintain and error-prone. 
+
+- Security and configuration concerns. 
+- Containers crash and need to be replaced. We don’t want to have to manually monitor this and intervene. 
+- Need to scale containers for traffic spikes. 
+- incoming traffic should be evenly distributed. 
+
+Services like ECS can help with some of these, such as replacing crashed containers and autoscaling. With a load balancer, it can distribute incoming traffic. 
+But that locks us in to that cloud provider. 
+
+
+## 1.2. What is Kubernetes?
+
+"K8s" is the de facto standard for container orchestration. It helps with tasks like automatic deployment, scaling and load balancing, and management. 
+
+We define the Kubernetes configuration which determines the desired architecture, number of containers etc. We can then pass this standardised, generic config to any cloud provider. 
+We can also include config specific to a cloud provider without having to rewrite the entire config. 
+
+
+What **isn’t** Kubernetes?
+
+- It isn’t an alternative to a cloud provider. 
+- It isn’t a specific service from a particular cloud provider. 
+- It isn’t a single piece of software, it’s a collection of tools and concepts. 
+
+Kubernetes is **like Docker Compose but for multiple machines**. 
+
+
+## 1.3. Cluster Architecture and Concepts
+
+![Kubernetes Cluster Architecture](KubernetesClusterArchitecture.svg)
+
+A **pod** holds one or more **containers**. It is the smallest unit in Kubernetes. 
+
+A **pod runs on a worker node**. A node is essentially a machine or virtual instance. 
+Multiple pods can run on the same. Ode. 
+
+There is also a **proxy** on each worker node, which configures the network traffic. 
+
+Multiple pods can be created and removed to scale your app. 
+
+There is a a **master node**. This contains a **Control Plane** which handles the creation, removal and replacement of worker nodes. 
+As a user, you don’t interact with the worker nodes directly. You define the desired end state and interact with the master node, which then handles the implementation. 
+
+The group of master nodes and all worker nodes is called a **cluster**. This then sends instructions to the cloud provider API to create all of the services required to realise the desired implementation. 
+
+
+Kubernetes does not manage your infrastructure for you. You still need to create the instances for the master node and worker nodes, and any other resources like load balancers and file systems. You also need to install `kubelet` and other Kubernetes services on those nodes yourself. 
+
+Many cloud providers have managed services to make this set up easier. But this is a service provided by the specific cloud providers, not natively by Kubernetes. 
+
+
+## 1.4. Worker nodes
+
+Think of a worker node as **one machine or virtual instance**. What happens on the worker nodes (e.g. creating a pod) is managed by the master node. 
+
+The worker node contains one or more pods. 
+Each pod hosts one or more application containers and their associated resources (such as volumes). Pods are created and managed by K8s via the master node. 
+
+The worker node can contain multiple pods. 
+
+- `Docker, kubelet and kube-proxy `need to be installed on the worker node. 
+- `Kubelet` handles the communication between the worker node and master node. 
+- `Kube-proxy` handles the network communication. 
+
+
+## 1.5. Master node
+
+The master node needs to run the **API server**. This is the counterpart to kubelet running on the worker nodes, and allows the master node to communicate with the workers. 
+
+There is a **scheduler** which watches the pods and selects worker nodes to run new pods on. 
+
+`Kube-Controller-Manager` watches the worker nodes and ensures the correct number of pods are running. 
+There is also a `Cloud-Controller-Manager` which is the same thing but for a specific cloud provider. 
+
+
+**Services** are a group of pods with a unique IP address that can interact with the outside world.
+
+
+
+
+
+
+# References
+
+- "Docker & Kubernetes: The Practical Guide" [Udemy course](https://www.udemy.com/course/docker-kubernetes-the-practical-guide/)
+- [Architecture diagram](https://kubernetes.io/docs/concepts/architecture/)
