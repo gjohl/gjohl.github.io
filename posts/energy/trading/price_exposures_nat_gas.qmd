@@ -1,7 +1,0 @@
----
-title: "Price Exposures"
-description: "Natural Gas"
-date: "2025-06-27"
-categories: [Energy, Finance]
-draft: true
----
