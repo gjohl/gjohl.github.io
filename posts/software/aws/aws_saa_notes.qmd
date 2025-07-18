@@ -251,7 +251,463 @@ The use cases for  each of the instance types:
 - **General purpose** is for generic workloads like web servers. Balance between compute, memory and networking. 
 - **Compute-optimized** instances for tasks that require good processors, such as batch processing, HPC, scientific modelling. 
 - **Memory-optimized** instances for large RAM, e.g. in-memory databases and big unstructured data processing. 
-- **Storage-optimised** instances for tasks that require reading and writing a lot of data from lcoal storage, e.g. high-frequnecy transaction processing, cache for in-memory databases, data warehouse.
+- **Storage-optimised** instances for tasks that require reading and writing a lot of data from lcoal storage, e.g. high-frequency transaction processing, cache for in-memory databases, data warehouse.
+
+
+## 3.4. Security Groups
+Security groups control how traffic is allowed into or out of EC2 instances. They act as a “firewall” on EC2 instances. 
+
+Security groups only contain **allow** rules. Security groups can reference IP addresses or other security groups. 
+
+
+They regulate:
+
+- Access to ports
+- Authorised IP ranges (IPv4 and IPv6)
+- Inbound and outbound network 
+
+By default, any inbound traffic is blocked and any outbound traffic is allowed. 
+
+A security group can be attached to multiple instances. It is locked down to a `(region, VPC)` combination. 
+
+The security group exists “outside” of the EC2 instance, so if traffic is blocked then the instance will never see it. 
+
+- Any time you get a timeout when trying to access your EC2 instance, it’s almost always a result of the security rule. 
+- If the application gives “connection refused” then it’s an application error. 
+- It can be helpful to keep a security group specifically for SSH access
+
+
+Access security groups under:
+```
+EC2 -> Network & Security -> Security Groups
+```
+
+We can set the type of connection, the port and the IP address/range. 
+
+A security group can reference other security groups, i.e. “allow traffic from any other EC2 instance which has Security Group A or Security Group B attached to it". This saves us from having to reference IP addresses all the time, which can be handy when these are not static. 
+
+
+Typical ports to know:
+
+- 21 - FTP, file transfer protocol 
+- 22 - SSH or SFTP (because SFTP uses SSH), secure shell and secure FTP
+- 80 - HTTP, access unsecured websites
+- 443 - HTTPS, access secured websites
+- 3389 - RDP, Remote Desktop Protocol, SSH equivalent for Windows
+
+
+## 3.5. Connecting to Instances
+SSH works for Linux, Mac or Windows > 10. 
+Putty works for all versions of Windows. 
+**EC2 Instance Connect** works for all operating systems. 
+
+### 3.5.1. Linux via SSH
+
+SSH allows you to control a remote machine using the command line. 
+
+You need you pem / ppm file for your secure keys. 
+The EC2 instance needs to allow inbound connections for SSH access. 
+```bash
+ssh EC2-<username>@<public IP address>
+```
+We can pass the file path for the key with the argument `-i path/to/file.pem`
+
+
+### 3.5.2. EC2 Instance Connect
+This opens a terminal in browser. No security keys are required since it generates temporary keys. 
+
+This relies on SSH behind the scenes, so the correct security groups for SSH need to be allowed on the EC2 instance. 
+
+Use the `EC2 Instance Connect` tab in the EC2 section for your running instance. 
+
+
+## 3.6. EC2 Instance Roles
+
+Never enter your IAM details on an EC2 instance as this would be available to anybody else who can access the instance. Poor security practices!
+
+Instead, we use EC2 instance roles. 
+
+In the tab for the instance tab, we can do this with:
+```
+Action -> Security -> Modify IAM Role
+```
+
+Then select a role to attach to the instance. 
+
+
+## 3.7. EC2 Instance Purchase Options
+### 3.7.1. Purchase Options
+More common:
+- **Spot**: short workloads, cheap but can be terminated. Not suitable for critical jobs or databases. 
+- **On-demand**: short uninterrupted workloads, pay per second
+- **Reserved**: long workloads like a database. 1 or 3 years. Convertible reserved instances allow you to change the instance type over the reserved period. 
+- **Savings plan**: 1 to 3 year commitment to an amount of USAGE rather than committing to a specific instance size or OS. 
+
+Less common:
+- **Dedicated hosts**: book an entire physical server and control instance placement. Most expensive. Useful to meet compliance requirements, or where you have Bring Your Own Licence (BYOL) software. 
+- **Dedicated instances**: no other customers share your hardware. No control over instance placement, so the physical hardware might move after stopping and starting. May share hardware with other instances in the same account. 
+- **Capacity reservations**: reserve capacity in your AZ for any duration. No time commitment and no billing discounts. You’re charged on demand rates whether you run the instance or not. Suitable for short term interrupted workloads that need to be in a specific AZ. 
+
+
+### 3.7.2. IPv4 Charges
+There is a $0.005 per hour charge for all public IPv4 in your account. 
+
+There is a free tier for the EC2 service. There is no free tier for any other service. 
+
+There is no charge for IPv6 addresses. But this does not work for all ISPs. 
+
+AWS Public IP Insights Service under Billing is helpful to see these costs. 
+
+
+### 3.7.3. Spot Instances
+
+Discount of up to 90% compared to on demand instances. 
+
+You define the max spot price you are willing to pay, and you get the instance for as long as the current price is less than your max price. 
+The hourly spot price varies by offer and capacity. 
+If the current price rises above your max, you have a 2 minute grace period to stop or terminate your instance. 
+
+“Spot Block” is a strategy to block a spot instance for a specified time frame (1-6 hours). They are no longer available but could potentially still come up on the exam. 
+
+A **spot request** consists of:
+
+- Max price
+- Desired number of instances
+- Launch specification - AMI
+- Request type: one-time or persistent. A persistent request will automatically request more spot instances whenever any are terminated, for as long as the spot request is valid. 
+- Valid from and until
+
+**Spot Instance Requests** can only be cancelled if they are open, active or disabled. 
+Canceling a spot request does not terminate the instance. You need to cancel the request then terminate the instance, to ensure a persistent request does not launch another. 
+
+
+## 3.7.4. Spot Fleets
+A spot fleet is a set of spot instances + optional on-demand instances.
+
+It will try to meet the target capacity within the price constraints. You specify the launch pool: instance type, OS and availability zone. 
+You can have multiple launch pools so the fleet can choose the best. 
+It will stop launching instances either when it reaches target capacity or max cost. 
+
+There are several strategies for allocating spot instances:
+
+- **lowestPrice**: from the pool with lowest price
+- **diversified**: distributed across pools for better availability 
+- **capacityOptimized**: from the pool with optimal capacity 
+- **priceCapacityOptimized** (recommended): pool with highest capacity first, then lowest price
+
+
+
+# 4. EC2 Networking
+## 4.1. Private vs Public IP
+There are two types of IP in networking: IPv4 and IPv6. v4 is most commonly used, v6 is for IoT.
+
+**Public IP** means the machine can be identified on the internet. It must be unique across the whole web. 
+
+**Private IP** means the machine can only be located on the private network. It must be unique across that private network. Only a specified range of IP addresses can be used as private addresses. Machines connect to the internet using an internet gateway (a proxy). 
+
+
+## 4.2. Elastic IP
+When you start and stop an EC2 instance it can change its IP. If you need this to be fixed, you can use **elastic IP** which will get reused for future instances if that one gets terminated. You can only have 5 elastic IP addresses in your account. 
+
+It is *best practice to avoid elastic IP addresses as they often are a symptom of bad design choices*. Instead, **use a random public IP and register a DNS name to it**. Or **alternatively, use a load balancer** and don’t use a public IP. 
+
+
+## 4.3. Placement Groups
+
+Placement groups allow you to control the EC2 instance placement strategy. You don’t get direct access to / knowledge of the hardware, but you can specify one of three strategies:
+
+- **Cluster** - cluster instances into a low latency group in a single AZ. High performance but high risk; low latency and high bandwidth. Useful for big data jobs that need to complete quickly. 
+- **Spread** - spread instances across different hardware (max 7 instances per AZ). Useful for critical applications as the risk of all instances  simultaneously failing is minimised. But the max instance count limits the size of the job. 
+- **Partition** - Spread instances across many different sets of *partitions* within an AZ. Each partition represents a physical rack of hardware. Max 7 partitions per AZ, but each partition can have many instances. Useful for applications with hundreds of instances or more, like Hadoop. 
+
+
+### Creating a Placement Group
+To create a placement group:
+```
+EC2 -> Network & Security -> Placement Groups -> Create Placement Group
+```
+
+Give it a name, e.g. my-critical-group, then select one of the three strategies. 
+
+
+To launch an instance in a group:
+```
+Click Launch Instances -> Advanced Settings -> Placement Group Name
+```
+
+## 4.4. Elastic Network Interfaces
+### 4.4.1. What is an ENI?
+
+Elastic Network Interfaces (ENIs) represent a **virtual network card in a VPC**. They are bound to a specific AZ. 
+
+Each ENI can have the following attributes:
+
+- One private IPv4, plus one or more secondary IPv4 addresses 
+- One Elastic IPv4 per private IPv4
+- One public IPv4
+- One or more security groups
+- One MAC address
+
+
+An ENI can be created and then attached to EC2 instances on the fly. This makes them *useful for failover*, as the ENI from the failed instance can be moved to its replacement to keep the IP addresses consistent. 
+
+Another use case is for deployments. We have the current version of the application running on instance A with an ENI. This is accessible by its IP address. Then we can run the new version of the application of instance B. When we are ready to deploy, move the ENI to instance B. 
+
+
+### 4.4.2. Creating an ENI
+
+Click on the Instance in the UI and see the `Network Interfaces` section. 
+
+Under the `Network & Security` tab we can see Network Interfaces. We can create ENIs here. 
+
+Specify: description, subnet, Private IPv4 address (auto assign), attach a Security Group. 
+
+
+
+### 4.4.3 Attaching an ENI to an Instance 
+
+On the Network Interfaces UI, Actions -> Attach. 
+Select the instance. 
+
+More on ENIs: https://aws.amazon.com/blogs/aws/new-elastic-network-interfaces-in-the-virtual-private-cloud/
+
+
+## 4.5. EC2 Hibernate
+### 4.5.1. Why Hibernate?
+
+When we **stop** an instance, the data on disk (EBS) is kept intact until the next start. When we start it again, the OS boots up and runs the EC2 User Data script. This can take time. 
+
+EC2 Hibernate is a way of reducing boot time. When the instance is hibernated, the RAM state is saved to disk (EBS). When the instance is started again, it loads the RAM state from disk. This avoids having to boot up and initialise the instance from scratch. 
+
+
+Use cases:
+
+- Long-running processing
+- Services that take time to initialise 
+
+An instance can not be hibernated for more than 60 days. The instance RAM size must be less than 150GB and the EBS root volume large enough to store it. 
+
+
+### 4.5.2. Enable Hibernation on an Instance 
+We can enable hibernation when creating an instance under Advanced Details, there is a “Stop - Hibernate Behaviour” drop down that we can enable. 
+
+Under Storage, the EBS volume must be encrypted and larger than the RAM. 
+
+
+To then hibernate a specific instance, on the Instance Summary select `Instance State -> Hibernate Instance`.
+
+
+
+# 5. EC2 Instance Storage
+
+## 5.1. EBS
+### 5.1.1. What is an EBS Volume?
+An Elastic Block Storage (EBS) volume is a **network drive that you can attach to your instance**. Think of it like a “cloud USB stick”. 
+They allow us to persist data even after an instance is terminated. 
+EBS volumes have a provisioned capacity: size in GB and IOPS. 
+
+Each EBS volume can only be mounted to one EC2 instance at a time, and are bound to a specific AZ. To move a volume across an AZ, you need to snapshot it. 
+Each EC2 instance can have multiple EBS volumes. 
+
+There is a “delete on terminate” option. By default, this is on for the root volume but not any additional volumes. 
+We can control this in the AWS console or CLI. 
+
+
+### 5.1.2. Creating an EBS Volume on an Instance 
+
+We can see existing volumes under 
+```
+EC2 -> Elastic Block Store -> Volumes
+```
+
+We can select Create Volume. We then choose volume type, size, AZ (same as instance). 
+
+This makes the volume available. We can then attach the volume using `Actions -> Attach Volume`. The Volume State will now be “In-use” instead of “Available”. 
+
+
+### 5.1.3. EBS Snapshots
+
+A snapshot is a **backup of your EBS volume at a point in time**. 
+
+It is recommended, but not necessary, to detach the volume from an instance. 
+
+We can copy snapshots across AZ and regions. 
+
+Features:
+
+- EBS Snapshot Archive. Moving the snapshot to an archive tier is much cheaper (75%) but then takes 24-72 hours to restore. 
+- Recycle bin. There are setup rules to retain deleted snapshots so they can be restored after deletion. Retention period is 1 day to 1 year. 
+- Fast snapshot restore (FSR). Force full initialisation of snapshot to have no latency. This costs more. 
+
+
+### 5.1.4. EBS Features Hands On
+
+**Create** an EBS volume: 
+```
+Elastic Block Store UI, Actions -> Create Snapshot ->  Add a description
+```
+
+**See** snapshots: 
+```
+EBS -> Snapshots tab
+```
+
+**Copy** it to another region:
+```
+Right-click volume -> Copy Snapshot -> Select the description and destination region
+```
+
+**Recreate** a volume from a snapshot:
+```
+Select the snapshot -> Actions -> Create Volume From Snapshot ->  Select size and AZ
+```
+
+**Archive** the snapshot: 
+```
+Select the volume -> Actions -> Archive Snapshot
+```
+
+**Recover** a snapshot after deletion: 
+```
+Recycle Bin -> Select the snapshot -> Recover
+```
+
+
+### 5.1.5. EBS Volume Types
+
+EBS volumes are characterised by: size, throughput and IOPS. 
+
+Types of EBS volumes:
+
+- gp2/gp3 - General purpose SSD. The newer gp3 options allow size and IOPS to be varied independently, for the older gp2 types they were linked. 
+- io1/io2 Block Express - High throughput low latency SSD. Support EBS Multi Attach. 
+- st1 - Low cost HDD for frequently accessed data. 
+- sc1 - Lowest cost HDD for infrequently accessed data. 
+
+Only the SSD options can be used as boot volumes. 
+
+
+### 5.1.6. EBS Multi Attach
+
+Attach the same EBS volume to multiple EC2 instances (up to 16) in the same AZ. 
+
+Only available for io1 and io2 EBS volume types. You must use a file system that is cluster-aware. 
+
+For use cases with higher application availability in clustered applications, or where applications must manage concurrent write operations. 
+
+
+
+### 5.1.7. EBS Encryption 
+
+When you create an encrypted EBS volume you get:
+
+- Data at rest is encrypted inside the volume
+- Data in flight is encrypted between the volume and the instance
+- Snapshots are encrypted 
+- Volumes created from the snapshot are encrypted
+
+Encryption and decryption is all handled by AWS. The latency impact is minimal. It uses KMA (AES-256) keys. 
+
+Copying an unencrypted snapshot allows encryption:
+
+1. Create an EBS snapshot of the volume. 
+2. Encrypt the snapshot using copy. 
+3. Create a new EBS volume from the snapshot. This will be encrypted.
+4. Attach the encrypted volume to the original instance. 
+
+
+## 5.2. AMI
+Amazon Machine Image (AMI) is the **customisation of an EC2 instance**. It defines the OS, installed software, configuration, monitoring, etc. 
+AMIs are built for a specific region. 
+
+Putting this in the AMI rather than the boot script results in a *faster boot time* since the software is prepackaged. 
+
+
+We can launch EC2 instances from:
+
+- A public AMI (provided by AWS)
+- An AMI from the AWS Marketplace (provided by a third-party)
+- Your own AMI
+
+
+**Create an AMI from a running instance** that we have customised to our liking:
+```
+Right-click the instance -> Images and Templates -> Create Image
+```
+
+**See** the AMI:
+```
+EC2 UI -> Images -> AMIs
+```
+
+Launch an instance from an AMI
+```
+Select the AMI -> Launch Instance from AMI
+```
+
+
+
+## 5.3. EC2 Instance Store
+
+EBS volumes are *network drives*, which gives adequate but potentially slow read/write. 
+
+EC2 Instance Store is **a physical disk attached to the server that is running the EC2 instance**. 
+
+They give better I/O performance but are ephemeral, the data is lost if the instance is stopped or the hardware fails. 
+
+Good for cache or temporary data. 
+
+
+## 5.4. Elastic File System (EFS)
+### 5.4.1. What is EFS?
+EFS is a **managed Network File System (NFS) that can be mounted on multiple EC2 instances**. The EC2 instances can be in multiple AZs. 
+
+Highly available, scalable, but more expensive. It scales automatically and you pay per GB. You don’t need to plan the capacity in advance. 
+
+A *security group is required* to control access to EFS. It is compatible with Linux AMIs only, not Windows. It is a POSIX (Linux-ish) file system with the standard API. 
+
+Uses cases: content management, web serving, data sharing, Wordpress. 
+
+
+
+### 5.4.2. Performance Modes
+
+- EFS Scale - This gives thousands of concurrent NFS clients for >10GB/s of throughput. 
+- Performance modes - This can be set to **general purpose** for latency-sensitive use cases, or **Max I/O** for higher throughput at the expense of higher latency. 
+- Throughput mode - This can be set to **bursting** which  scales throughput with the total storage used, **provisioned** which sets a fixed throughput, or **elastic** which scales throughput depending on the demand (ie the requests received)
+
+
+
+### 5.4.3. Storage classes
+
+Storage tiers are a lifecycle management feature to **move files to cheaper storage after N days**. You can implement lifecycle policies to automatically move files between tiers based on the number of days since it was last accessed. 
+
+- **Standard**. For frequently accessed files.
+- **Infrequent access** (EFS-IA). There is a cost to retrieve files, but lower cost to store. 
+- **Archive**. For rarely accessed data. 
+
+
+There are two different availability options:
+
+- Regional. Multi-AZ within a region, good for production. 
+- One zone. Only one AZ with backup enabled by default. Good for dev. 
+
+
+## 5.5. EBS vs EFS
+
+EBS volumes are attached to one instance (mostly, apart from multi-attach) and are locked at the AZ level. 
+
+EFS can be mounted to hundreds of instances across AZs. It is more expensive, but storage tiers can help reduce this. 
+
+Instance Store is attached to a specific instance, and is lost when that instance goes down. 
+
+
+
+
+
+
+
+
 
 
 
