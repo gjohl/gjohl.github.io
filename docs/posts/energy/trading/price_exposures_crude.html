@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.549">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Gurpreet Johl">
+<meta name="dcterms.date" content="2025-06-27">
+<meta name="description" content="Crude">
+
+<title>Gurpreet Johl - Price Exposures</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Gurpreet Johl</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../blog.html"> 
+<span class="menu-text">Notes</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/gjohl"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/gurpreetjohl"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/gurpreetjohl"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Price Exposures</h1>
+                  <div>
+        <div class="description">
+          Crude
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">Energy</div>
+                <div class="quarto-category">Finance</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Gurpreet Johl </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">June 27, 2025</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#what-is-physical-trading" id="toc-what-is-physical-trading" class="nav-link active" data-scroll-target="#what-is-physical-trading">What is physical trading?</a>
+  <ul class="collapse">
+  <li><a href="#physical-delivery-terms" id="toc-physical-delivery-terms" class="nav-link" data-scroll-target="#physical-delivery-terms">Physical delivery terms</a></li>
+  </ul></li>
+  <li><a href="#physical-trading-of-crude-oil" id="toc-physical-trading-of-crude-oil" class="nav-link" data-scroll-target="#physical-trading-of-crude-oil">Physical trading of crude oil</a>
+  <ul class="collapse">
+  <li><a href="#factors-influencing-supply" id="toc-factors-influencing-supply" class="nav-link" data-scroll-target="#factors-influencing-supply">Factors influencing supply</a></li>
+  <li><a href="#factors-influencing-demand" id="toc-factors-influencing-demand" class="nav-link" data-scroll-target="#factors-influencing-demand">Factors influencing demand</a></li>
+  <li><a href="#crude-oil-quality" id="toc-crude-oil-quality" class="nav-link" data-scroll-target="#crude-oil-quality">Crude oil quality</a></li>
+  <li><a href="#contractual-considerations" id="toc-contractual-considerations" class="nav-link" data-scroll-target="#contractual-considerations">Contractual Considerations</a></li>
+  </ul></li>
+  <li><a href="#pricing-of-physical-cargoes" id="toc-pricing-of-physical-cargoes" class="nav-link" data-scroll-target="#pricing-of-physical-cargoes">Pricing of physical cargoes</a>
+  <ul class="collapse">
+  <li><a href="#sp-global-platts" id="toc-sp-global-platts" class="nav-link" data-scroll-target="#sp-global-platts">S&amp;P Global Platts</a></li>
+  <li><a href="#argus-media" id="toc-argus-media" class="nav-link" data-scroll-target="#argus-media">Argus Media</a></li>
+  <li><a href="#pricing-periods-of-floating-price-deals" id="toc-pricing-periods-of-floating-price-deals" class="nav-link" data-scroll-target="#pricing-periods-of-floating-price-deals">Pricing Periods of Floating Price Deals</a>
+  <ul class="collapse">
+  <li><a href="#how-does-5-day-pricing-work" id="toc-how-does-5-day-pricing-work" class="nav-link" data-scroll-target="#how-does-5-day-pricing-work">How does 5 day pricing work?</a></li>
+  </ul></li>
+  <li><a href="#benchmarks" id="toc-benchmarks" class="nav-link" data-scroll-target="#benchmarks">Benchmarks</a></li>
+  </ul></li>
+  <li><a href="#differential-trading" id="toc-differential-trading" class="nav-link" data-scroll-target="#differential-trading">Differential trading</a>
+  <ul class="collapse">
+  <li><a href="#liquidity" id="toc-liquidity" class="nav-link" data-scroll-target="#liquidity">Liquidity</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<section id="what-is-physical-trading" class="level1">
+<h1>What is physical trading?</h1>
+<p>Physical trading is the process of trading physical volumes or quantities of oil rather than derivatives.</p>
+<p>There are four main ways in which a trader can become involved in the buying and selling a physical cargo:</p>
+<ul>
+<li>OTC trading</li>
+<li>Futures settlement</li>
+<li>Forward contract trading</li>
+<li>Exchange For Physical (EFP)</li>
+</ul>
+<section id="physical-delivery-terms" class="level2">
+<h2 class="anchored" data-anchor-id="physical-delivery-terms">Physical delivery terms</h2>
+<p>The list below outlines some of the key terms, known as Incoterms, that the International Chamber of Commerce (ICC) publishes:</p>
+<ul>
+<li>FOB (Free on board) - Title and risk of the oil pass to the buyer as the oil passes the inlet manifold of the vessel. The seller’s obligation is to provide the contractual product and a safe berth for the vessel. The buyer’s obligation is to present a vessel to load the contractual quantity within the contractual time period (laydays).</li>
+<li>C+F (Cost &amp; freight) - Title and risk of the oil pass to the buyer as the oil passes the vessel’s inlet manifold. The seller’s obligation is to provide the contractual product and deliver the product onboard a vessel, acceptable to the buyer, to a discharge port nominated by the buyer within the contractual terms. The buyer’s obligation is to provide a safe berth for the vessel and take delivery of the oil.</li>
+<li>CIF (Cost, insurance &amp; freight) - Title and risk of the oil typically pass to the buyer as the oil passes the vessel’s inlet manifold, but it may be contractually agreed otherwise, e.g., a specific location, a point in time. The seller’s obligation is to provide the contractual product, insure it, and deliver the product on board a vessel acceptable to the buyer to a discharge port nominated by the buyer within the contractual terms. The buyer’s obligation is to provide a safe berth for the vessel and take delivery of the oil.</li>
+<li>EXS, CIFO, CIFD (Ex-ship, CIF outturn, CIF delivered) - Title and risk of the oil pass to the buyer as the oil passes the vessel’s outlet manifold. The seller’s obligation is to provide the contractual product at a safe berth on a vessel acceptable to the buyer within the agreed timeframe. The buyer’s obligation is to provide a safe berth and take delivery of the discharged quantity of product.</li>
+</ul>
+<p>The simplest way to trade is to buy and sell on the same terms, e.g., FOB/FOB or EXS/EXS. In such cases, title passes between the buyer and seller in the blink of an eye. If the terms differ, this can necessitate chartering a vessel, having title to oil on a vessel, and being exposed to cargo losses.</p>
+</section>
+</section>
+<section id="physical-trading-of-crude-oil" class="level1">
+<h1>Physical trading of crude oil</h1>
+<p>Crude oil is produced and exported from a limited number of countries and terminals that are well-known to the market.</p>
+<p>Some crude oil grades are derived from specific oil fields, but many are a blend of several oil fields, all feeding into a common transport system, e.g., Brent blend.</p>
+<p>Since crude oil is a global commodity, geopolitics and global supply and demand frequently impact its price more than local issues.</p>
+<section id="factors-influencing-supply" class="level2">
+<h2 class="anchored" data-anchor-id="factors-influencing-supply">Factors influencing supply</h2>
+<p>Generally, a producer will attempt to run at 100% in order to achieve the greatest revenue as quickly as possible. However, certain factors may cause this not to be the case.</p>
+<ul>
+<li>OPEC - OPEC member countries produce about 30% of the world’s crude oil. Equally important to global prices, OPEC’s oil exports represent about 60% of the total petroleum traded internationally. Ultimately, it is a cartel that aims to manage the supply of oil in an effort to set the price on the world market.</li>
+<li>Production lifecycle: When oil fields start producing, production invariably increases quickly, plateaus, and then declines rapidly, e.g., in the North Sea fields.</li>
+<li>Maintenance: Equipment must be maintained or replaced, which can impact short-term production.</li>
+<li>Unexpected disruptions: War, terrorism, accidents, and equipment failure. These unexpected events are likely to lead to significant price disruptions.</li>
+<li>Sanctions: These can limit the ability of a nation to export/sell its crude oil internationally.</li>
+</ul>
+<p>Note that when an oil field is discovered, it can take many years until it comes into production. Therefore, news of an oil field discovery is unlikely to impact the crude oil market price in the short term.</p>
+</section>
+<section id="factors-influencing-demand" class="level2">
+<h2 class="anchored" data-anchor-id="factors-influencing-demand">Factors influencing demand</h2>
+<ul>
+<li>Refining margins: A refinery will generally run at 100% if the refining margin exceeds variable costs. If not, it will reduce throughput (and therefore crude oil demand) to the lowest level it can without running the risk of shutting down refining units; for example, it may only run at 30% of capacity.</li>
+<li>Quality of crude oil availability: There will be occasions when the market demands a particular product or product quality, which will feed into a refinery’s crude selection. A refinery trading team will constantly try to buy the crude oil that produces the highest refinery margin.</li>
+<li>Planned maintenance/turnarounds: Refineries will typically undergo major maintenance periods in the summer to prepare for increased winter demand. These are generally known to the market in advance and ‘priced in’.</li>
+<li>Unplanned outages: Equipment failure can lower the demand for crude oil as refinery throughput falls. The market would not have anticipated this, and it might temporarily cause prices to drop. A major incident, such as a fire or explosion, can have a sustained impact on crude and product prices.</li>
+<li>Economic growth: This has led to an exponential growth in hydrocarbon demand. Conversely, when economic growth is predicted to be low, the demand for and, therefore, the price of crude oil will typically fall.</li>
+<li>Alternative fuels: Particularly in the transport industry.</li>
+</ul>
+</section>
+<section id="crude-oil-quality" class="level2">
+<h2 class="anchored" data-anchor-id="crude-oil-quality">Crude oil quality</h2>
+<p>Crude quality is relatively stable. If the quality is expected to change, then the crude oil producer will usually signal this to the market well in advance. Of course, a field can still suffer a sudden supply disruption and impact the overall blend quality in the short term.</p>
+<p>Some contracts may include an escalation/de-escalation price clause to allow for density or sulphur content changes. However, in most cases, the contract merely contains the phrase “of normal export quality.”</p>
+<p>Each crude oil blend is defined based on two criteria:</p>
+<ul>
+<li>Density - light vs heavy</li>
+<li>Sulphur - sweet vs sour</li>
+</ul>
+<p>One would expect the most valuable crude oils to be light and sweet and the least valuable to be heavy and sour.</p>
+</section>
+<section id="contractual-considerations" class="level2">
+<h2 class="anchored" data-anchor-id="contractual-considerations">Contractual Considerations</h2>
+<p>As the quality and load location for each crude oil is ‘known’ by the traders, the majority of the negotiation will focus on the quantity, pricing formula, laydays, and delivery terms.</p>
+<ul>
+<li>The quantity will be the net quantity with an operational tolerance, e.g., +/- 5%. Net quantity excludes bottoms, sediment, and water (B. S. &amp; W), which is analysed at the load and/or discharge port.</li>
+<li>The pricing formula will normally be a floating price of $ per net US barrel to be fixed around load or discharge by reference to a Price Reporting Agency (PRA) quotation such as Platts or Argus.</li>
+<li>The laydays typically consist of 1, 2 or 3 day, date range. There can also be a wider range of dates to be narrowed by the seller at an agreed-upon point in the future.</li>
+<li>Delivery terms will be negotiated.</li>
+</ul>
+<p>The general terms and conditions and applicable law will generally be those of the producing nation.</p>
+</section>
+</section>
+<section id="pricing-of-physical-cargoes" class="level1">
+<h1>Pricing of physical cargoes</h1>
+<p>There are two leading global oil price reporting agencies (PRA): S&amp;P Global Platts and Argus Media. They each have a slightly different methodology for assessing the daily market value of the majority of crude oil, refined products, and biofuels traded.</p>
+<section id="sp-global-platts" class="level2">
+<h2 class="anchored" data-anchor-id="sp-global-platts">S&amp;P Global Platts</h2>
+<p>The Platts MOC “market on close” process requires that companies declare their intention to post bids or offers before a cut-off point in the afternoon, 30 to 45 minutes before the market closes, depending on the commodity. During those final minutes, buyers and sellers can adjust their prices per the Platts guidelines, but new participants cannot post bids and offers.</p>
+<p>However, companies that have not submitted bids or offers may choose to accept a bid or an offer posted through the MOC process. This makes the number of potential buyers and sellers far larger than the number of companies that have posted bids and offers. There are also MOC guidelines that apply to specific commodities. These guidelines, detailed in Platts’ methodology documents and published on Platts(opens in a new tab), relate to various factors such as product specification, location, cargo size, and delivery terms.</p>
+<p>The “Platts window” is the term market participants use to refer to the 30 to 45-minute period before the market closes when Platts no longer accepts new bids or offers in the price assessment process. This is typically the time when the market is most active.</p>
+</section>
+<section id="argus-media" class="level2">
+<h2 class="anchored" data-anchor-id="argus-media">Argus Media</h2>
+<p>Argus do not have such a rigid MOC process. Argus uses the trading period they deem most appropriate, in consultation with industry, to capture spot liquidity, including daily transactional average methodologies.</p>
+<p>Argus assesses some clean product markets as a basis differential to the ICE Low Sulphur Gas Oil and Brent settlement prices to arrive at fixed prices because the futures settlement price is a representative futures price reference. To be included in the assessment process, deals must meet their methodology’s minimum volume, delivery, timing, and specification requirements.</p>
+</section>
+<section id="pricing-periods-of-floating-price-deals" class="level2">
+<h2 class="anchored" data-anchor-id="pricing-periods-of-floating-price-deals">Pricing Periods of Floating Price Deals</h2>
+<p>Physical cargoes are usually traded on a floating price basis, i.e., a formula is negotiated, typically referring to a price reporting agency quotation (Platts or Argus) over several days in the future. This future pricing period for European cargoes would typically be 5 days around the Bill of Lading (BL) or Completion of Discharge (COD) date. However, it can also be anything the traders agree upon. Other common examples of global cargo pricing periods are a calendar month, one single day (usually BL date), or any “deemed” set of dates (for example, March 10th to 14th, inclusive).</p>
+<ul>
+<li>5 days around BL or COD. This is popular in Europe because it spreads risk and exposure over the 5 days closest to the load or discharge of the cargo. The trader can plan their hedging in advance and any extreme prices are smoothed out by taking the 5-day average. However, because the pricing period will change if the load or discharge is, for example, delayed, this pricing period can lead to sudden changes in pricing exposure.</li>
+<li>Deemed Pricing. One solution to the problem of delays in load/discharge is for the buyer and seller to agree to deem the pricing dates in advance. So for example, rather than “5 days around BL,” the actual dates are fixed, say 10–14 March. This retains the benefits of 5-day pricing without the risk of the dates changing. Some traders don’t like to deem prices, as they think the pricing should move with load/discharge to truly reflect the value of the cargo.</li>
+<li>Month Average. A pricing period of a calendar month, either the month of load/discharge or a deemed month, spreads risk out even more, with a small regular pricing exposure every day of the month. However, the final price is only loosely related to when the cargo loaded or discharged, which some traders don’t like. In addition, if the cargo loading date does slip from one month to the next, this can lead to large exposure and hedging errors.</li>
+<li>Single Day Pricing. Pricing a cargo on one day, usually the day of loading, exposes the trader to that day’s price. If the market spikes on that day, the purchase price will be higher than the day before and after. This risk can be hedged away, but trying to hedge a full cargo on one day’s settlement can be difficult if paper liquidity is poor. Most traders would prefer to avoid one day pricing if possible.</li>
+</ul>
+<section id="how-does-5-day-pricing-work" class="level3">
+<h3 class="anchored" data-anchor-id="how-does-5-day-pricing-work">How does 5 day pricing work?</h3>
+<p>The traders will agree on a formula for identifying the 5 days for pricing. The most common 5 day pricing formula in Europe is 2-1-2 around BL. This means the 5 days will comprise the bill of lading date, the 2 days before, and the 2 days after.</p>
+<p>Another popular pricing formula is 0-0-5 after COD.</p>
+<p>PRAs such as Platts and Argus only publish prices on weekdays and don’t publish prices on most public holidays. So the pricing formula and contract must clearly state what happens if the key date (usually BL or COD) falls on a non-publication date. In the case of many product deals, if the bill of lading date is a non-publication day (e.g., Saturday, Sunday, public holiday), then only four days will be used instead of five: not the BL date itself, but the two published days immediately before and the two published days immediately after (2-0-2).</p>
+</section>
+</section>
+<section id="benchmarks" class="level2">
+<h2 class="anchored" data-anchor-id="benchmarks">Benchmarks</h2>
+<p>Each price reporting agency report includes key assessments or benchmarks against which any cargo can be valued. To qualify and be accepted as a benchmark, there are some criteria to be met:</p>
+<ul>
+<li>Liquidity.</li>
+<li>Significant cargo size.</li>
+<li>Price Transparency.</li>
+<li>Consistent quality.</li>
+<li>Exists within a stable legal and political environment.</li>
+</ul>
+<p>The most important crude oil benchmark is North Sea Dated Brent (“Dated”), against which around two-thirds of the world’s exports are priced.</p>
+</section>
+</section>
+<section id="differential-trading" class="level1">
+<h1>Differential trading</h1>
+<p>Where the trading strategy is to back-to-back the terms (e.g., FOB/FOB) and the benchmarks (e.g., Dated/Dated) or where it’s possible to hedge exposure to the benchmark effectively, then the trader is merely exposed to the grade differential, which is the trader’s area of expertise. There is no mechanism to hedge the grade differential.</p>
+<p>If demand increases relative to supply, the grade differential will increase. If supply increases relative to demand, the grade differential will decrease.</p>
+<section id="liquidity" class="level2">
+<h2 class="anchored" data-anchor-id="liquidity">Liquidity</h2>
+<p>The liquidity of physical cargoes is far less than that of futures contracts, and it is advisable to take care when building large positions in a particular physical grade. A trader can scale in and out of physical positions in the same way that a paper trader will scale in and out of futures positions.</p>
+<p>There is only likely to be one such cargo available in the market. Therefore, when trading physical crude oil and wanting to go short, it is often better to sell a cargo with a wide date range that can be narrowed at a later date once a suitable cargo has been procured or to sell with the option of nominating from a list of mutually acceptable crude grades.</p>
+<p>If a trader is long a physical cargo, they can store the product, arbitrage it to another location, or possibly process it in the trader’s refining system.</p>
+
+
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Gurpreet Johl">
-<meta name="dcterms.date" content="2025-03-20">
+<meta name="dcterms.date" content="2025-07-18">
 <meta name="description" content="SAA-C03">
 
 <title>Gurpreet Johl - AWS Solutions Architect</title>
@@ -22,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -183,7 +217,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">March 20, 2025</p>
+        <p class="date">July 18, 2025</p>
       </div>
     </div>
     
@@ -224,6 +258,120 @@ window.Quarto = {
   <li><a href="#ec2-overview" id="toc-ec2-overview" class="nav-link" data-scroll-target="#ec2-overview">3.1. EC2 Overview</a></li>
   <li><a href="#creating-an-ec2-instance" id="toc-creating-an-ec2-instance" class="nav-link" data-scroll-target="#creating-an-ec2-instance">3.2. Creating an EC2 Instance</a></li>
   <li><a href="#ec2-instance-types" id="toc-ec2-instance-types" class="nav-link" data-scroll-target="#ec2-instance-types">3.3. EC2 Instance Types</a></li>
+  <li><a href="#security-groups" id="toc-security-groups" class="nav-link" data-scroll-target="#security-groups">3.4. Security Groups</a></li>
+  <li><a href="#connecting-to-instances" id="toc-connecting-to-instances" class="nav-link" data-scroll-target="#connecting-to-instances">3.5. Connecting to Instances</a>
+  <ul class="collapse">
+  <li><a href="#linux-via-ssh" id="toc-linux-via-ssh" class="nav-link" data-scroll-target="#linux-via-ssh">3.5.1. Linux via SSH</a></li>
+  <li><a href="#ec2-instance-connect" id="toc-ec2-instance-connect" class="nav-link" data-scroll-target="#ec2-instance-connect">3.5.2. EC2 Instance Connect</a></li>
+  </ul></li>
+  <li><a href="#ec2-instance-roles" id="toc-ec2-instance-roles" class="nav-link" data-scroll-target="#ec2-instance-roles">3.6. EC2 Instance Roles</a></li>
+  <li><a href="#ec2-instance-purchase-options" id="toc-ec2-instance-purchase-options" class="nav-link" data-scroll-target="#ec2-instance-purchase-options">3.7. EC2 Instance Purchase Options</a>
+  <ul class="collapse">
+  <li><a href="#purchase-options" id="toc-purchase-options" class="nav-link" data-scroll-target="#purchase-options">3.7.1. Purchase Options</a></li>
+  <li><a href="#ipv4-charges" id="toc-ipv4-charges" class="nav-link" data-scroll-target="#ipv4-charges">3.7.2. IPv4 Charges</a></li>
+  <li><a href="#spot-instances" id="toc-spot-instances" class="nav-link" data-scroll-target="#spot-instances">3.7.3. Spot Instances</a></li>
+  </ul></li>
+  <li><a href="#spot-fleets" id="toc-spot-fleets" class="nav-link" data-scroll-target="#spot-fleets">3.7.4. Spot Fleets</a></li>
+  </ul></li>
+  <li><a href="#ec2-networking" id="toc-ec2-networking" class="nav-link" data-scroll-target="#ec2-networking">4. EC2 Networking</a>
+  <ul class="collapse">
+  <li><a href="#private-vs-public-ip" id="toc-private-vs-public-ip" class="nav-link" data-scroll-target="#private-vs-public-ip">4.1. Private vs Public IP</a></li>
+  <li><a href="#elastic-ip" id="toc-elastic-ip" class="nav-link" data-scroll-target="#elastic-ip">4.2. Elastic IP</a></li>
+  <li><a href="#placement-groups" id="toc-placement-groups" class="nav-link" data-scroll-target="#placement-groups">4.3. Placement Groups</a>
+  <ul class="collapse">
+  <li><a href="#creating-a-placement-group" id="toc-creating-a-placement-group" class="nav-link" data-scroll-target="#creating-a-placement-group">Creating a Placement Group</a></li>
+  </ul></li>
+  <li><a href="#elastic-network-interfaces" id="toc-elastic-network-interfaces" class="nav-link" data-scroll-target="#elastic-network-interfaces">4.4. Elastic Network Interfaces</a>
+  <ul class="collapse">
+  <li><a href="#what-is-an-eni" id="toc-what-is-an-eni" class="nav-link" data-scroll-target="#what-is-an-eni">4.4.1. What is an ENI?</a></li>
+  <li><a href="#creating-an-eni" id="toc-creating-an-eni" class="nav-link" data-scroll-target="#creating-an-eni">4.4.2. Creating an ENI</a></li>
+  <li><a href="#attaching-an-eni-to-an-instance" id="toc-attaching-an-eni-to-an-instance" class="nav-link" data-scroll-target="#attaching-an-eni-to-an-instance">4.4.3 Attaching an ENI to an Instance</a></li>
+  </ul></li>
+  <li><a href="#ec2-hibernate" id="toc-ec2-hibernate" class="nav-link" data-scroll-target="#ec2-hibernate">4.5. EC2 Hibernate</a>
+  <ul class="collapse">
+  <li><a href="#why-hibernate" id="toc-why-hibernate" class="nav-link" data-scroll-target="#why-hibernate">4.5.1. Why Hibernate?</a></li>
+  <li><a href="#enable-hibernation-on-an-instance" id="toc-enable-hibernation-on-an-instance" class="nav-link" data-scroll-target="#enable-hibernation-on-an-instance">4.5.2. Enable Hibernation on an Instance</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#ec2-instance-storage" id="toc-ec2-instance-storage" class="nav-link" data-scroll-target="#ec2-instance-storage">5. EC2 Instance Storage</a>
+  <ul class="collapse">
+  <li><a href="#ebs" id="toc-ebs" class="nav-link" data-scroll-target="#ebs">5.1. EBS</a>
+  <ul class="collapse">
+  <li><a href="#what-is-an-ebs-volume" id="toc-what-is-an-ebs-volume" class="nav-link" data-scroll-target="#what-is-an-ebs-volume">5.1.1. What is an EBS Volume?</a></li>
+  <li><a href="#creating-an-ebs-volume-on-an-instance" id="toc-creating-an-ebs-volume-on-an-instance" class="nav-link" data-scroll-target="#creating-an-ebs-volume-on-an-instance">5.1.2. Creating an EBS Volume on an Instance</a></li>
+  <li><a href="#ebs-snapshots" id="toc-ebs-snapshots" class="nav-link" data-scroll-target="#ebs-snapshots">5.1.3. EBS Snapshots</a></li>
+  <li><a href="#ebs-features-hands-on" id="toc-ebs-features-hands-on" class="nav-link" data-scroll-target="#ebs-features-hands-on">5.1.4. EBS Features Hands On</a></li>
+  <li><a href="#ebs-volume-types" id="toc-ebs-volume-types" class="nav-link" data-scroll-target="#ebs-volume-types">5.1.5. EBS Volume Types</a></li>
+  <li><a href="#ebs-multi-attach" id="toc-ebs-multi-attach" class="nav-link" data-scroll-target="#ebs-multi-attach">5.1.6. EBS Multi Attach</a></li>
+  <li><a href="#ebs-encryption" id="toc-ebs-encryption" class="nav-link" data-scroll-target="#ebs-encryption">5.1.7. EBS Encryption</a></li>
+  </ul></li>
+  <li><a href="#ami" id="toc-ami" class="nav-link" data-scroll-target="#ami">5.2. AMI</a></li>
+  <li><a href="#ec2-instance-store" id="toc-ec2-instance-store" class="nav-link" data-scroll-target="#ec2-instance-store">5.3. EC2 Instance Store</a></li>
+  <li><a href="#elastic-file-system-efs" id="toc-elastic-file-system-efs" class="nav-link" data-scroll-target="#elastic-file-system-efs">5.4. Elastic File System (EFS)</a>
+  <ul class="collapse">
+  <li><a href="#what-is-efs" id="toc-what-is-efs" class="nav-link" data-scroll-target="#what-is-efs">5.4.1. What is EFS?</a></li>
+  <li><a href="#performance-modes" id="toc-performance-modes" class="nav-link" data-scroll-target="#performance-modes">5.4.2. Performance Modes</a></li>
+  <li><a href="#storage-classes" id="toc-storage-classes" class="nav-link" data-scroll-target="#storage-classes">5.4.3. Storage classes</a></li>
+  </ul></li>
+  <li><a href="#ebs-vs-efs" id="toc-ebs-vs-efs" class="nav-link" data-scroll-target="#ebs-vs-efs">5.5. EBS vs EFS</a></li>
+  </ul></li>
+  <li><a href="#elb-and-asg" id="toc-elb-and-asg" class="nav-link" data-scroll-target="#elb-and-asg">6. ELB and ASG</a>
+  <ul class="collapse">
+  <li><a href="#scalability-and-availability" id="toc-scalability-and-availability" class="nav-link" data-scroll-target="#scalability-and-availability">6.1. Scalability and Availability</a></li>
+  <li><a href="#elb" id="toc-elb" class="nav-link" data-scroll-target="#elb">6.2. ELB</a>
+  <ul class="collapse">
+  <li><a href="#load-balancing" id="toc-load-balancing" class="nav-link" data-scroll-target="#load-balancing">6.2.1. Load balancing</a></li>
+  <li><a href="#security-groups-1" id="toc-security-groups-1" class="nav-link" data-scroll-target="#security-groups-1">6.2.2. Security Groups</a></li>
+  <li><a href="#application-load-balancer-alb" id="toc-application-load-balancer-alb" class="nav-link" data-scroll-target="#application-load-balancer-alb">6.2.3. Application Load Balancer (ALB)</a></li>
+  <li><a href="#network-load-balancer-nlb" id="toc-network-load-balancer-nlb" class="nav-link" data-scroll-target="#network-load-balancer-nlb">6.2.4. Network Load Balancer (NLB)</a></li>
+  <li><a href="#gateway-load-balancer-gwlb" id="toc-gateway-load-balancer-gwlb" class="nav-link" data-scroll-target="#gateway-load-balancer-gwlb">6.2.5. Gateway Load Balancer (GWLB)</a></li>
+  <li><a href="#sticky-sessions" id="toc-sticky-sessions" class="nav-link" data-scroll-target="#sticky-sessions">6.2.6. Sticky Sessions</a></li>
+  <li><a href="#cross-zone-load-balancing" id="toc-cross-zone-load-balancing" class="nav-link" data-scroll-target="#cross-zone-load-balancing">6.2.7. Cross-Zone Load Balancing</a></li>
+  <li><a href="#connection-draining" id="toc-connection-draining" class="nav-link" data-scroll-target="#connection-draining">6.2.8. Connection Draining</a></li>
+  </ul></li>
+  <li><a href="#ssl-certificates" id="toc-ssl-certificates" class="nav-link" data-scroll-target="#ssl-certificates">6.3. SSL Certificates</a>
+  <ul class="collapse">
+  <li><a href="#ssl-and-tls" id="toc-ssl-and-tls" class="nav-link" data-scroll-target="#ssl-and-tls">6.3.1. SSL and TLS</a></li>
+  <li><a href="#sni" id="toc-sni" class="nav-link" data-scroll-target="#sni">6.3.2. SNI</a></li>
+  </ul></li>
+  <li><a href="#auto-scaling-groups-asg" id="toc-auto-scaling-groups-asg" class="nav-link" data-scroll-target="#auto-scaling-groups-asg">6.4. Auto Scaling Groups (ASG)</a>
+  <ul class="collapse">
+  <li><a href="#what-is-an-asg" id="toc-what-is-an-asg" class="nav-link" data-scroll-target="#what-is-an-asg">6.4.1. What is an ASG?</a></li>
+  <li><a href="#scaling-policies" id="toc-scaling-policies" class="nav-link" data-scroll-target="#scaling-policies">6.4.2. Scaling Policies</a></li>
+  <li><a href="#scaling-cooldown" id="toc-scaling-cooldown" class="nav-link" data-scroll-target="#scaling-cooldown">6.4.3. Scaling Cooldown</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#relational-databases" id="toc-relational-databases" class="nav-link" data-scroll-target="#relational-databases">7. Relational Databases</a>
+  <ul class="collapse">
+  <li><a href="#rds" id="toc-rds" class="nav-link" data-scroll-target="#rds">7.1. RDS</a>
+  <ul class="collapse">
+  <li><a href="#what-is-relational-database-service" id="toc-what-is-relational-database-service" class="nav-link" data-scroll-target="#what-is-relational-database-service">7.1.1 What is Relational Database Service?</a></li>
+  <li><a href="#storage-auto-scaling" id="toc-storage-auto-scaling" class="nav-link" data-scroll-target="#storage-auto-scaling">7.1.2. Storage Auto-Scaling</a></li>
+  <li><a href="#read-replicas" id="toc-read-replicas" class="nav-link" data-scroll-target="#read-replicas">7.1.3. Read Replicas</a></li>
+  <li><a href="#multi-az" id="toc-multi-az" class="nav-link" data-scroll-target="#multi-az">7.1.4. Multi-AZ</a></li>
+  <li><a href="#rds-custom" id="toc-rds-custom" class="nav-link" data-scroll-target="#rds-custom">7.1.5. RDS Custom</a></li>
+  <li><a href="#rds-proxy" id="toc-rds-proxy" class="nav-link" data-scroll-target="#rds-proxy">7.1.6. RDS Proxy</a></li>
+  </ul></li>
+  <li><a href="#amazon-aurora" id="toc-amazon-aurora" class="nav-link" data-scroll-target="#amazon-aurora">7.2. Amazon Aurora</a>
+  <ul class="collapse">
+  <li><a href="#what-is-aurora" id="toc-what-is-aurora" class="nav-link" data-scroll-target="#what-is-aurora">7.2.1. What is Aurora?</a></li>
+  <li><a href="#advanced-concepts" id="toc-advanced-concepts" class="nav-link" data-scroll-target="#advanced-concepts">7.2.2. Advanced Concepts</a></li>
+  </ul></li>
+  <li><a href="#backups-and-monitoring" id="toc-backups-and-monitoring" class="nav-link" data-scroll-target="#backups-and-monitoring">7.3. Backups and Monitoring</a>
+  <ul class="collapse">
+  <li><a href="#rds-1" id="toc-rds-1" class="nav-link" data-scroll-target="#rds-1">7.3.1. RDS</a></li>
+  <li><a href="#aurora" id="toc-aurora" class="nav-link" data-scroll-target="#aurora">7.3.2. Aurora</a></li>
+  <li><a href="#restore-options" id="toc-restore-options" class="nav-link" data-scroll-target="#restore-options">7.3.3. Restore Options</a></li>
+  <li><a href="#aurora-database-cloning" id="toc-aurora-database-cloning" class="nav-link" data-scroll-target="#aurora-database-cloning">7.3.4 Aurora Database Cloning</a></li>
+  </ul></li>
+  <li><a href="#encryption" id="toc-encryption" class="nav-link" data-scroll-target="#encryption">7.4. Encryption</a></li>
+  <li><a href="#elasticache" id="toc-elasticache" class="nav-link" data-scroll-target="#elasticache">7.5. ElastiCache</a>
+  <ul class="collapse">
+  <li><a href="#what-is-elasticache" id="toc-what-is-elasticache" class="nav-link" data-scroll-target="#what-is-elasticache">7.5.1. What is ElastiCache?</a></li>
+  <li><a href="#redis-vs-memcached" id="toc-redis-vs-memcached" class="nav-link" data-scroll-target="#redis-vs-memcached">7.5.2. Redis vs Memcached</a></li>
+  <li><a href="#elasticache-security" id="toc-elasticache-security" class="nav-link" data-scroll-target="#elasticache-security">7.5.3. ElastiCache Security</a></li>
+  <li><a href="#common-port-numbers" id="toc-common-port-numbers" class="nav-link" data-scroll-target="#common-port-numbers">7.5.4. Common Port Numbers</a></li>
+  </ul></li>
   </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
@@ -441,8 +589,713 @@ m5.large
 <li><strong>General purpose</strong> is for generic workloads like web servers. Balance between compute, memory and networking.</li>
 <li><strong>Compute-optimized</strong> instances for tasks that require good processors, such as batch processing, HPC, scientific modelling.</li>
 <li><strong>Memory-optimized</strong> instances for large RAM, e.g.&nbsp;in-memory databases and big unstructured data processing.</li>
-<li><strong>Storage-optimised</strong> instances for tasks that require reading and writing a lot of data from lcoal storage, e.g.&nbsp;high-frequnecy transaction processing, cache for in-memory databases, data warehouse.</li>
+<li><strong>Storage-optimised</strong> instances for tasks that require reading and writing a lot of data from lcoal storage, e.g.&nbsp;high-frequency transaction processing, cache for in-memory databases, data warehouse.</li>
 </ul>
+</section>
+<section id="security-groups" class="level2">
+<h2 class="anchored" data-anchor-id="security-groups">3.4. Security Groups</h2>
+<p>Security groups control how traffic is allowed into or out of EC2 instances. They act as a “firewall” on EC2 instances.</p>
+<p>Security groups only contain <strong>allow</strong> rules. Security groups can reference IP addresses or other security groups.</p>
+<p>They regulate:</p>
+<ul>
+<li>Access to ports</li>
+<li>Authorised IP ranges (IPv4 and IPv6)</li>
+<li>Inbound and outbound network</li>
+</ul>
+<p>By default, any inbound traffic is blocked and any outbound traffic is allowed.</p>
+<p>A security group can be attached to multiple instances. It is locked down to a <code>(region, VPC)</code> combination.</p>
+<p>The security group exists “outside” of the EC2 instance, so if traffic is blocked then the instance will never see it.</p>
+<ul>
+<li>Any time you get a timeout when trying to access your EC2 instance, it’s almost always a result of the security rule.</li>
+<li>If the application gives “connection refused” then it’s an application error.</li>
+<li>It can be helpful to keep a security group specifically for SSH access</li>
+</ul>
+<p>Access security groups under:</p>
+<pre><code>EC2 -&gt; Network &amp; Security -&gt; Security Groups</code></pre>
+<p>We can set the type of connection, the port and the IP address/range.</p>
+<p>A security group can reference other security groups, i.e.&nbsp;“allow traffic from any other EC2 instance which has Security Group A or Security Group B attached to it”. This saves us from having to reference IP addresses all the time, which can be handy when these are not static.</p>
+<p>Typical ports to know:</p>
+<ul>
+<li>21 - FTP, file transfer protocol</li>
+<li>22 - SSH or SFTP (because SFTP uses SSH), secure shell and secure FTP</li>
+<li>80 - HTTP, access unsecured websites</li>
+<li>443 - HTTPS, access secured websites</li>
+<li>3389 - RDP, Remote Desktop Protocol, SSH equivalent for Windows</li>
+</ul>
+</section>
+<section id="connecting-to-instances" class="level2">
+<h2 class="anchored" data-anchor-id="connecting-to-instances">3.5. Connecting to Instances</h2>
+<p>SSH works for Linux, Mac or Windows &gt; 10. Putty works for all versions of Windows. <strong>EC2 Instance Connect</strong> works for all operating systems.</p>
+<section id="linux-via-ssh" class="level3">
+<h3 class="anchored" data-anchor-id="linux-via-ssh">3.5.1. Linux via SSH</h3>
+<p>SSH allows you to control a remote machine using the command line.</p>
+<p>You need you pem / ppm file for your secure keys. The EC2 instance needs to allow inbound connections for SSH access.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> EC2-<span class="op">&lt;</span>username<span class="op">&gt;</span>@<span class="op">&lt;</span>public IP address<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can pass the file path for the key with the argument <code>-i path/to/file.pem</code></p>
+</section>
+<section id="ec2-instance-connect" class="level3">
+<h3 class="anchored" data-anchor-id="ec2-instance-connect">3.5.2. EC2 Instance Connect</h3>
+<p>This opens a terminal in browser. No security keys are required since it generates temporary keys.</p>
+<p>This relies on SSH behind the scenes, so the correct security groups for SSH need to be allowed on the EC2 instance.</p>
+<p>Use the <code>EC2 Instance Connect</code> tab in the EC2 section for your running instance.</p>
+</section>
+</section>
+<section id="ec2-instance-roles" class="level2">
+<h2 class="anchored" data-anchor-id="ec2-instance-roles">3.6. EC2 Instance Roles</h2>
+<p>Never enter your IAM details on an EC2 instance as this would be available to anybody else who can access the instance. Poor security practices!</p>
+<p>Instead, we use EC2 instance roles.</p>
+<p>In the tab for the instance tab, we can do this with:</p>
+<pre><code>Action -&gt; Security -&gt; Modify IAM Role</code></pre>
+<p>Then select a role to attach to the instance.</p>
+</section>
+<section id="ec2-instance-purchase-options" class="level2">
+<h2 class="anchored" data-anchor-id="ec2-instance-purchase-options">3.7. EC2 Instance Purchase Options</h2>
+<section id="purchase-options" class="level3">
+<h3 class="anchored" data-anchor-id="purchase-options">3.7.1. Purchase Options</h3>
+<p>More common: - <strong>Spot</strong>: short workloads, cheap but can be terminated. Not suitable for critical jobs or databases. - <strong>On-demand</strong>: short uninterrupted workloads, pay per second - <strong>Reserved</strong>: long workloads like a database. 1 or 3 years. Convertible reserved instances allow you to change the instance type over the reserved period. - <strong>Savings plan</strong>: 1 to 3 year commitment to an amount of USAGE rather than committing to a specific instance size or OS.</p>
+<p>Less common: - <strong>Dedicated hosts</strong>: book an entire physical server and control instance placement. Most expensive. Useful to meet compliance requirements, or where you have Bring Your Own Licence (BYOL) software. - <strong>Dedicated instances</strong>: no other customers share your hardware. No control over instance placement, so the physical hardware might move after stopping and starting. May share hardware with other instances in the same account. - <strong>Capacity reservations</strong>: reserve capacity in your AZ for any duration. No time commitment and no billing discounts. You’re charged on demand rates whether you run the instance or not. Suitable for short term interrupted workloads that need to be in a specific AZ.</p>
+</section>
+<section id="ipv4-charges" class="level3">
+<h3 class="anchored" data-anchor-id="ipv4-charges">3.7.2. IPv4 Charges</h3>
+<p>There is a $0.005 per hour charge for all public IPv4 in your account.</p>
+<p>There is a free tier for the EC2 service. There is no free tier for any other service.</p>
+<p>There is no charge for IPv6 addresses. But this does not work for all ISPs.</p>
+<p>AWS Public IP Insights Service under Billing is helpful to see these costs.</p>
+</section>
+<section id="spot-instances" class="level3">
+<h3 class="anchored" data-anchor-id="spot-instances">3.7.3. Spot Instances</h3>
+<p>Discount of up to 90% compared to on demand instances.</p>
+<p>You define the max spot price you are willing to pay, and you get the instance for as long as the current price is less than your max price. The hourly spot price varies by offer and capacity. If the current price rises above your max, you have a 2 minute grace period to stop or terminate your instance.</p>
+<p>“Spot Block” is a strategy to block a spot instance for a specified time frame (1-6 hours). They are no longer available but could potentially still come up on the exam.</p>
+<p>A <strong>spot request</strong> consists of:</p>
+<ul>
+<li>Max price</li>
+<li>Desired number of instances</li>
+<li>Launch specification - AMI</li>
+<li>Request type: one-time or persistent. A persistent request will automatically request more spot instances whenever any are terminated, for as long as the spot request is valid.</li>
+<li>Valid from and until</li>
+</ul>
+<p><strong>Spot Instance Requests</strong> can only be cancelled if they are open, active or disabled. Canceling a spot request does not terminate the instance. You need to cancel the request then terminate the instance, to ensure a persistent request does not launch another.</p>
+</section>
+</section>
+<section id="spot-fleets" class="level2">
+<h2 class="anchored" data-anchor-id="spot-fleets">3.7.4. Spot Fleets</h2>
+<p>A spot fleet is a set of spot instances + optional on-demand instances.</p>
+<p>It will try to meet the target capacity within the price constraints. You specify the launch pool: instance type, OS and availability zone. You can have multiple launch pools so the fleet can choose the best. It will stop launching instances either when it reaches target capacity or max cost.</p>
+<p>There are several strategies for allocating spot instances:</p>
+<ul>
+<li><strong>lowestPrice</strong>: from the pool with lowest price</li>
+<li><strong>diversified</strong>: distributed across pools for better availability</li>
+<li><strong>capacityOptimized</strong>: from the pool with optimal capacity</li>
+<li><strong>priceCapacityOptimized</strong> (recommended): pool with highest capacity first, then lowest price</li>
+</ul>
+</section>
+</section>
+<section id="ec2-networking" class="level1">
+<h1>4. EC2 Networking</h1>
+<section id="private-vs-public-ip" class="level2">
+<h2 class="anchored" data-anchor-id="private-vs-public-ip">4.1. Private vs Public IP</h2>
+<p>There are two types of IP in networking: IPv4 and IPv6. v4 is most commonly used, v6 is for IoT.</p>
+<p><strong>Public IP</strong> means the machine can be identified on the internet. It must be unique across the whole web.</p>
+<p><strong>Private IP</strong> means the machine can only be located on the private network. It must be unique across that private network. Only a specified range of IP addresses can be used as private addresses. Machines connect to the internet using an internet gateway (a proxy).</p>
+</section>
+<section id="elastic-ip" class="level2">
+<h2 class="anchored" data-anchor-id="elastic-ip">4.2. Elastic IP</h2>
+<p>When you start and stop an EC2 instance it can change its IP. If you need this to be fixed, you can use <strong>elastic IP</strong> which will get reused for future instances if that one gets terminated. You can only have 5 elastic IP addresses in your account.</p>
+<p>It is <em>best practice to avoid elastic IP addresses as they often are a symptom of bad design choices</em>. Instead, <strong>use a random public IP and register a DNS name to it</strong>. Or <strong>alternatively, use a load balancer</strong> and don’t use a public IP.</p>
+</section>
+<section id="placement-groups" class="level2">
+<h2 class="anchored" data-anchor-id="placement-groups">4.3. Placement Groups</h2>
+<p>Placement groups allow you to control the EC2 instance placement strategy. You don’t get direct access to / knowledge of the hardware, but you can specify one of three strategies:</p>
+<ul>
+<li><strong>Cluster</strong> - cluster instances into a low latency group in a single AZ. High performance but high risk; low latency and high bandwidth. Useful for big data jobs that need to complete quickly.</li>
+<li><strong>Spread</strong> - spread instances across different hardware (max 7 instances per AZ). Useful for critical applications as the risk of all instances simultaneously failing is minimised. But the max instance count limits the size of the job.</li>
+<li><strong>Partition</strong> - Spread instances across many different sets of <em>partitions</em> within an AZ. Each partition represents a physical rack of hardware. Max 7 partitions per AZ, but each partition can have many instances. Useful for applications with hundreds of instances or more, like Hadoop.</li>
+</ul>
+<section id="creating-a-placement-group" class="level3">
+<h3 class="anchored" data-anchor-id="creating-a-placement-group">Creating a Placement Group</h3>
+<p>To create a placement group:</p>
+<pre><code>EC2 -&gt; Network &amp; Security -&gt; Placement Groups -&gt; Create Placement Group</code></pre>
+<p>Give it a name, e.g.&nbsp;my-critical-group, then select one of the three strategies.</p>
+<p>To launch an instance in a group:</p>
+<pre><code>Click Launch Instances -&gt; Advanced Settings -&gt; Placement Group Name</code></pre>
+</section>
+</section>
+<section id="elastic-network-interfaces" class="level2">
+<h2 class="anchored" data-anchor-id="elastic-network-interfaces">4.4. Elastic Network Interfaces</h2>
+<section id="what-is-an-eni" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-an-eni">4.4.1. What is an ENI?</h3>
+<p>Elastic Network Interfaces (ENIs) represent a <strong>virtual network card in a VPC</strong>. They are bound to a specific AZ.</p>
+<p>Each ENI can have the following attributes:</p>
+<ul>
+<li>One private IPv4, plus one or more secondary IPv4 addresses</li>
+<li>One Elastic IPv4 per private IPv4</li>
+<li>One public IPv4</li>
+<li>One or more security groups</li>
+<li>One MAC address</li>
+</ul>
+<p>An ENI can be created and then attached to EC2 instances on the fly. This makes them <em>useful for failover</em>, as the ENI from the failed instance can be moved to its replacement to keep the IP addresses consistent.</p>
+<p>Another use case is for deployments. We have the current version of the application running on instance A with an ENI. This is accessible by its IP address. Then we can run the new version of the application of instance B. When we are ready to deploy, move the ENI to instance B.</p>
+</section>
+<section id="creating-an-eni" class="level3">
+<h3 class="anchored" data-anchor-id="creating-an-eni">4.4.2. Creating an ENI</h3>
+<p>Click on the Instance in the UI and see the <code>Network Interfaces</code> section.</p>
+<p>Under the <code>Network &amp; Security</code> tab we can see Network Interfaces. We can create ENIs here.</p>
+<p>Specify: description, subnet, Private IPv4 address (auto assign), attach a Security Group.</p>
+</section>
+<section id="attaching-an-eni-to-an-instance" class="level3">
+<h3 class="anchored" data-anchor-id="attaching-an-eni-to-an-instance">4.4.3 Attaching an ENI to an Instance</h3>
+<p>On the Network Interfaces UI, Actions -&gt; Attach. Select the instance.</p>
+<p>More on ENIs: https://aws.amazon.com/blogs/aws/new-elastic-network-interfaces-in-the-virtual-private-cloud/</p>
+</section>
+</section>
+<section id="ec2-hibernate" class="level2">
+<h2 class="anchored" data-anchor-id="ec2-hibernate">4.5. EC2 Hibernate</h2>
+<section id="why-hibernate" class="level3">
+<h3 class="anchored" data-anchor-id="why-hibernate">4.5.1. Why Hibernate?</h3>
+<p>When we <strong>stop</strong> an instance, the data on disk (EBS) is kept intact until the next start. When we start it again, the OS boots up and runs the EC2 User Data script. This can take time.</p>
+<p>EC2 Hibernate is a way of reducing boot time. When the instance is hibernated, the RAM state is saved to disk (EBS). When the instance is started again, it loads the RAM state from disk. This avoids having to boot up and initialise the instance from scratch.</p>
+<p>Use cases:</p>
+<ul>
+<li>Long-running processing</li>
+<li>Services that take time to initialise</li>
+</ul>
+<p>An instance can not be hibernated for more than 60 days. The instance RAM size must be less than 150GB and the EBS root volume large enough to store it.</p>
+</section>
+<section id="enable-hibernation-on-an-instance" class="level3">
+<h3 class="anchored" data-anchor-id="enable-hibernation-on-an-instance">4.5.2. Enable Hibernation on an Instance</h3>
+<p>We can enable hibernation when creating an instance under Advanced Details, there is a “Stop - Hibernate Behaviour” drop down that we can enable.</p>
+<p>Under Storage, the EBS volume must be encrypted and larger than the RAM.</p>
+<p>To then hibernate a specific instance, on the Instance Summary select <code>Instance State -&gt; Hibernate Instance</code>.</p>
+</section>
+</section>
+</section>
+<section id="ec2-instance-storage" class="level1">
+<h1>5. EC2 Instance Storage</h1>
+<section id="ebs" class="level2">
+<h2 class="anchored" data-anchor-id="ebs">5.1. EBS</h2>
+<section id="what-is-an-ebs-volume" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-an-ebs-volume">5.1.1. What is an EBS Volume?</h3>
+<p>An Elastic Block Storage (EBS) volume is a <strong>network drive that you can attach to your instance</strong>. Think of it like a “cloud USB stick”. They allow us to persist data even after an instance is terminated. EBS volumes have a provisioned capacity: size in GB and IOPS.</p>
+<p>Each EBS volume can only be mounted to one EC2 instance at a time, and are bound to a specific AZ. To move a volume across an AZ, you need to snapshot it. Each EC2 instance can have multiple EBS volumes.</p>
+<p>There is a “delete on terminate” option. By default, this is on for the root volume but not any additional volumes. We can control this in the AWS console or CLI.</p>
+</section>
+<section id="creating-an-ebs-volume-on-an-instance" class="level3">
+<h3 class="anchored" data-anchor-id="creating-an-ebs-volume-on-an-instance">5.1.2. Creating an EBS Volume on an Instance</h3>
+<p>We can see existing volumes under</p>
+<pre><code>EC2 -&gt; Elastic Block Store -&gt; Volumes</code></pre>
+<p>We can select Create Volume. We then choose volume type, size, AZ (same as instance).</p>
+<p>This makes the volume available. We can then attach the volume using <code>Actions -&gt; Attach Volume</code>. The Volume State will now be “In-use” instead of “Available”.</p>
+</section>
+<section id="ebs-snapshots" class="level3">
+<h3 class="anchored" data-anchor-id="ebs-snapshots">5.1.3. EBS Snapshots</h3>
+<p>A snapshot is a <strong>backup of your EBS volume at a point in time</strong>.</p>
+<p>It is recommended, but not necessary, to detach the volume from an instance.</p>
+<p>We can copy snapshots across AZ and regions.</p>
+<p>Features:</p>
+<ul>
+<li>EBS Snapshot Archive. Moving the snapshot to an archive tier is much cheaper (75%) but then takes 24-72 hours to restore.</li>
+<li>Recycle bin. There are setup rules to retain deleted snapshots so they can be restored after deletion. Retention period is 1 day to 1 year.</li>
+<li>Fast snapshot restore (FSR). Force full initialisation of snapshot to have no latency. This costs more.</li>
+</ul>
+</section>
+<section id="ebs-features-hands-on" class="level3">
+<h3 class="anchored" data-anchor-id="ebs-features-hands-on">5.1.4. EBS Features Hands On</h3>
+<p><strong>Create</strong> an EBS volume:</p>
+<pre><code>Elastic Block Store UI, Actions -&gt; Create Snapshot -&gt;  Add a description</code></pre>
+<p><strong>See</strong> snapshots:</p>
+<pre><code>EBS -&gt; Snapshots tab</code></pre>
+<p><strong>Copy</strong> it to another region:</p>
+<pre><code>Right-click volume -&gt; Copy Snapshot -&gt; Select the description and destination region</code></pre>
+<p><strong>Recreate</strong> a volume from a snapshot:</p>
+<pre><code>Select the snapshot -&gt; Actions -&gt; Create Volume From Snapshot -&gt;  Select size and AZ</code></pre>
+<p><strong>Archive</strong> the snapshot:</p>
+<pre><code>Select the volume -&gt; Actions -&gt; Archive Snapshot</code></pre>
+<p><strong>Recover</strong> a snapshot after deletion:</p>
+<pre><code>Recycle Bin -&gt; Select the snapshot -&gt; Recover</code></pre>
+</section>
+<section id="ebs-volume-types" class="level3">
+<h3 class="anchored" data-anchor-id="ebs-volume-types">5.1.5. EBS Volume Types</h3>
+<p>EBS volumes are characterised by: size, throughput and IOPS.</p>
+<p>Types of EBS volumes:</p>
+<ul>
+<li>gp2/gp3 - General purpose SSD. The newer gp3 options allow size and IOPS to be varied independently, for the older gp2 types they were linked.</li>
+<li>io1/io2 Block Express - High throughput low latency SSD. Support EBS Multi Attach.</li>
+<li>st1 - Low cost HDD for frequently accessed data.</li>
+<li>sc1 - Lowest cost HDD for infrequently accessed data.</li>
+</ul>
+<p>Only the SSD options can be used as boot volumes.</p>
+</section>
+<section id="ebs-multi-attach" class="level3">
+<h3 class="anchored" data-anchor-id="ebs-multi-attach">5.1.6. EBS Multi Attach</h3>
+<p>Attach the same EBS volume to multiple EC2 instances (up to 16) in the same AZ.</p>
+<p>Only available for io1 and io2 EBS volume types. You must use a file system that is cluster-aware.</p>
+<p>For use cases with higher application availability in clustered applications, or where applications must manage concurrent write operations.</p>
+</section>
+<section id="ebs-encryption" class="level3">
+<h3 class="anchored" data-anchor-id="ebs-encryption">5.1.7. EBS Encryption</h3>
+<p>When you create an encrypted EBS volume you get:</p>
+<ul>
+<li>Data at rest is encrypted inside the volume</li>
+<li>Data in flight is encrypted between the volume and the instance</li>
+<li>Snapshots are encrypted</li>
+<li>Volumes created from the snapshot are encrypted</li>
+</ul>
+<p>Encryption and decryption is all handled by AWS. The latency impact is minimal. It uses KMA (AES-256) keys.</p>
+<p>Copying an unencrypted snapshot allows encryption:</p>
+<ol type="1">
+<li>Create an EBS snapshot of the volume.</li>
+<li>Encrypt the snapshot using copy.</li>
+<li>Create a new EBS volume from the snapshot. This will be encrypted.</li>
+<li>Attach the encrypted volume to the original instance.</li>
+</ol>
+</section>
+</section>
+<section id="ami" class="level2">
+<h2 class="anchored" data-anchor-id="ami">5.2. AMI</h2>
+<p>Amazon Machine Image (AMI) is the <strong>customisation of an EC2 instance</strong>. It defines the OS, installed software, configuration, monitoring, etc. AMIs are built for a specific region.</p>
+<p>Putting this in the AMI rather than the boot script results in a <em>faster boot time</em> since the software is prepackaged.</p>
+<p>We can launch EC2 instances from:</p>
+<ul>
+<li>A public AMI (provided by AWS)</li>
+<li>An AMI from the AWS Marketplace (provided by a third-party)</li>
+<li>Your own AMI</li>
+</ul>
+<p><strong>Create an AMI from a running instance</strong> that we have customised to our liking:</p>
+<pre><code>Right-click the instance -&gt; Images and Templates -&gt; Create Image</code></pre>
+<p><strong>See</strong> the AMI:</p>
+<pre><code>EC2 UI -&gt; Images -&gt; AMIs</code></pre>
+<p>Launch an instance from an AMI</p>
+<pre><code>Select the AMI -&gt; Launch Instance from AMI</code></pre>
+</section>
+<section id="ec2-instance-store" class="level2">
+<h2 class="anchored" data-anchor-id="ec2-instance-store">5.3. EC2 Instance Store</h2>
+<p>EBS volumes are <em>network drives</em>, which gives adequate but potentially slow read/write.</p>
+<p>EC2 Instance Store is <strong>a physical disk attached to the server that is running the EC2 instance</strong>.</p>
+<p>They give better I/O performance but are ephemeral, the data is lost if the instance is stopped or the hardware fails.</p>
+<p>Good for cache or temporary data.</p>
+</section>
+<section id="elastic-file-system-efs" class="level2">
+<h2 class="anchored" data-anchor-id="elastic-file-system-efs">5.4. Elastic File System (EFS)</h2>
+<section id="what-is-efs" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-efs">5.4.1. What is EFS?</h3>
+<p>EFS is a <strong>managed Network File System (NFS) that can be mounted on multiple EC2 instances</strong>. The EC2 instances can be in multiple AZs.</p>
+<p>Highly available, scalable, but more expensive. It scales automatically and you pay per GB. You don’t need to plan the capacity in advance.</p>
+<p>A <em>security group is required</em> to control access to EFS. It is compatible with Linux AMIs only, not Windows. It is a POSIX (Linux-ish) file system with the standard API.</p>
+<p>Uses cases: content management, web serving, data sharing, Wordpress.</p>
+</section>
+<section id="performance-modes" class="level3">
+<h3 class="anchored" data-anchor-id="performance-modes">5.4.2. Performance Modes</h3>
+<ul>
+<li>EFS Scale - This gives thousands of concurrent NFS clients for &gt;10GB/s of throughput.</li>
+<li>Performance modes - This can be set to <strong>general purpose</strong> for latency-sensitive use cases, or <strong>Max I/O</strong> for higher throughput at the expense of higher latency.</li>
+<li>Throughput mode - This can be set to <strong>bursting</strong> which scales throughput with the total storage used, <strong>provisioned</strong> which sets a fixed throughput, or <strong>elastic</strong> which scales throughput depending on the demand (ie the requests received)</li>
+</ul>
+</section>
+<section id="storage-classes" class="level3">
+<h3 class="anchored" data-anchor-id="storage-classes">5.4.3. Storage classes</h3>
+<p>Storage tiers are a lifecycle management feature to <strong>move files to cheaper storage after N days</strong>. You can implement lifecycle policies to automatically move files between tiers based on the number of days since it was last accessed.</p>
+<ul>
+<li><strong>Standard</strong>. For frequently accessed files.</li>
+<li><strong>Infrequent access</strong> (EFS-IA). There is a cost to retrieve files, but lower cost to store.</li>
+<li><strong>Archive</strong>. For rarely accessed data.</li>
+</ul>
+<p>There are two different availability options:</p>
+<ul>
+<li>Regional. Multi-AZ within a region, good for production.</li>
+<li>One zone. Only one AZ with backup enabled by default. Good for dev.</li>
+</ul>
+</section>
+</section>
+<section id="ebs-vs-efs" class="level2">
+<h2 class="anchored" data-anchor-id="ebs-vs-efs">5.5. EBS vs EFS</h2>
+<p>EBS volumes are attached to one instance (mostly, apart from multi-attach) and are locked at the AZ level.</p>
+<p>EFS can be mounted to hundreds of instances across AZs. It is more expensive, but storage tiers can help reduce this.</p>
+<p>Instance Store is attached to a specific instance, and is lost when that instance goes down.</p>
+</section>
+</section>
+<section id="elb-and-asg" class="level1">
+<h1>6. ELB and ASG</h1>
+<section id="scalability-and-availability" class="level2">
+<h2 class="anchored" data-anchor-id="scalability-and-availability">6.1. Scalability and Availability</h2>
+<p><strong>Scalability</strong> means an application can adapt to <strong>handle greater loads</strong>.</p>
+<ul>
+<li><strong>Vertical</strong> scalability. Increase the size of a single instance. The scaling limit is often a hardware limit. <em>“Scale up and down”</em>.</li>
+<li><strong>Horizontal</strong> scalability. Also called elasticity. Distribute across more instances. <em>“Scale out and in”</em>.</li>
+</ul>
+<p>High <strong>availability</strong> is the ability to <strong>survive a data center loss</strong>. This often comes with horizontal scale. Run the application across multiple AZs.</p>
+</section>
+<section id="elb" class="level2">
+<h2 class="anchored" data-anchor-id="elb">6.2. ELB</h2>
+<section id="load-balancing" class="level3">
+<h3 class="anchored" data-anchor-id="load-balancing">6.2.1. Load balancing</h3>
+<p>Load balancers are <strong>servers that forward traffic to multiple servers downstream</strong>.</p>
+<p>Benefits:</p>
+<ul>
+<li>Spread the load across downstream instances</li>
+<li>Perform health checks on instances and handle downstream failures</li>
+<li>Expose a single point of access (DNS) to your application</li>
+<li>Provide SSL termination</li>
+<li>Separate public traffic from private traffic</li>
+<li>High availability across zones</li>
+</ul>
+<p><strong>Elastic Load Balancer</strong> (ELB) is a managed load balancer.</p>
+<p>Health checks are done on a port and route, and return a 200 status if it can be reached.</p>
+<p>There are four kinds of managed load balancer:</p>
+<ul>
+<li>Classic load balancer (Deprecated)</li>
+<li>Application load balancer</li>
+<li>Network load balancer</li>
+<li>Gateway load balancer</li>
+</ul>
+<p>Some can be set up as internal (private) or external (public).</p>
+</section>
+<section id="security-groups-1" class="level3">
+<h3 class="anchored" data-anchor-id="security-groups-1">6.2.2. Security Groups</h3>
+<p>Users can connect via HTTP/HTTPS from anywhere. So the security groups typically allow inbound TCP connections on ports 80 and 443.</p>
+<p>The security groups for the downstream <em>EC2 instances then only needs to allow inbound connections from the load balancer</em>, i.e.&nbsp;one specific source. This means we can forbid users from connecting directly to the instance and force them to go via the load balancer.</p>
+</section>
+<section id="application-load-balancer-alb" class="level3">
+<h3 class="anchored" data-anchor-id="application-load-balancer-alb">6.2.3. Application Load Balancer (ALB)</h3>
+<p>These are <strong>layer 7</strong> load balancers, meaning they take <strong>HTTP requests</strong>. They support HTTP/2 and WebSocket, and can also redirect from HTTP to HTTPS.</p>
+<p>You get a fixed hostname, i.e.&nbsp;<code>XXX.region.elb.amazonaws.com</code>. This is helpful to get a fixed IP to connect to instances which are being created and destroyed, where IP addresses are normally changing constantly. The application servers don’t see the IP of the client directly, but this is inserted as a header <code>X-forwarded-for</code>. We also headers for the port and protocol.</p>
+<p>Use cases are microservices and container-based applications (e.g.&nbsp;ECS). One load balancer can route traffic between multiple applications. There is a port mapping feature to redirect to a dynamic port in ECS.</p>
+<p>They can route requests to multiple HTTP applications across machines (called target groups) or multiple applications on the same machine (e.g.&nbsp;containers).</p>
+<p>Routing options:</p>
+<ul>
+<li>By <strong>path in URL</strong> - e.g.&nbsp;<code>/users</code> endpoint, <code>/blog</code> endpoint</li>
+<li>By <strong>hostname in URL</strong> - e.g.&nbsp;<code>one.example.com</code> and <code>two.example.com</code></li>
+<li>By <strong>query string headers</strong> - e.g.&nbsp;<code>/id=123&amp;orders=True</code></li>
+</ul>
+<p>ALB can route to multiple target groups. Health checks are at the target group level. Target groups can be:</p>
+<ul>
+<li>EC2 instances</li>
+<li>ECS tasks</li>
+<li>Lambda functions</li>
+<li>Private IP addresses</li>
+</ul>
+</section>
+<section id="network-load-balancer-nlb" class="level3">
+<h3 class="anchored" data-anchor-id="network-load-balancer-nlb">6.2.4. Network Load Balancer (NLB)</h3>
+<p>These are <strong>layer 4</strong> load balancers, meaning they route <strong>TCP and UDP traffic</strong>. Ultra-low latency and can handle millions of requests per second. NLB has one static IP per AZ.</p>
+<p>Target groups can be:</p>
+<ul>
+<li>EC2 instances</li>
+<li>Private IP addresses</li>
+<li>Application load balancers. You may want the NLB for a static IP, routing to an ALB for the http routing rules.</li>
+</ul>
+<p>Health checks support TCP, HTTP and HTTPS protocols.</p>
+</section>
+<section id="gateway-load-balancer-gwlb" class="level3">
+<h3 class="anchored" data-anchor-id="gateway-load-balancer-gwlb">6.2.5. Gateway Load Balancer (GWLB)</h3>
+<p>This is a <strong>layer 3</strong> load balancer, meaning it routes <strong>IP packet</strong>s.</p>
+<p>This is useful when we want to route traffic via a target group of a 3rd party network virtual appliance (e.g.&nbsp;a firewall) before it reaches our application.</p>
+<pre><code>User traffic &gt; GWLB &gt; Firewall &gt; GWLB &gt; Our application </code></pre>
+<p>It uses the GENEVE protocol on port 6081.</p>
+<p>Target groups can be:</p>
+<ul>
+<li>EC2 instances</li>
+<li>Private IP addresses</li>
+</ul>
+</section>
+<section id="sticky-sessions" class="level3">
+<h3 class="anchored" data-anchor-id="sticky-sessions">6.2.6. Sticky Sessions</h3>
+<p>Stickiness means <strong>a particular client is always routed to the same instance behind the load balancer</strong>. This means the user doesn’t lose their session data. It does this via a cookie which has an expiration date.</p>
+<p>Overusing sticky sessions can result in <em>imbalanced loads</em>, since they’re constraining the load balancer to direct traffic to instances that may not be optimal.</p>
+<p><strong>Application-based cookies</strong>. Two options for this: - A <strong>custom cookie</strong> is generated by the target. The cookie name must be specified for each target group and cannot be one of the reserved keywords: AWSALB, AWSALBAPP, AWSALBTG. - An <strong>application cookie</strong> is generated by the load balancer. The cookie name is always AWSALBAPP.</p>
+<p><strong>Duration-based cookies</strong>. This is generated by the load balancer. The cookie name is always AWSALB for ALB (or AWSELB for CLB).</p>
+<pre><code>ELB UI -&gt; Target Groups -&gt; Select a target group -&gt; Edit Target Group 
+-&gt; Turn On Stickiness -&gt; Select cookie type and duration</code></pre>
+</section>
+<section id="cross-zone-load-balancing" class="level3">
+<h3 class="anchored" data-anchor-id="cross-zone-load-balancing">6.2.7. Cross-Zone Load Balancing</h3>
+<p>With cross-zone load balancing, each load balancer will distribute requests evenly across all registered instances <strong>in all AZs</strong>, regardless of which zone the request came from.</p>
+<p>Without cross-zone load balancing, there can be big disparities between load in different AZs.</p>
+<p>Cross-zone load balancing is enabled by default for ALB and CLB, and won’t charge for data transfer between AZs. It is disabled by default for NLB and GWLB. These will charge for inter-AZ data transfer if you enable it.</p>
+</section>
+<section id="connection-draining" class="level3">
+<h3 class="anchored" data-anchor-id="connection-draining">6.2.8. Connection Draining</h3>
+<p>The load balancer allows time to complete “in-flight requests” while the instance is registering or unhealthy. The load balancer stops sending new requests to the EC2 instance which is de-registering.</p>
+<p>The is called <strong>connection draining</strong> for CLB, and <strong>deregistration delay</strong> for ALB and NLB.</p>
+<p>It can be 0-3600 seconds. By default it is 300 seconds. Disable connection draining by setting it to 0.</p>
+</section>
+</section>
+<section id="ssl-certificates" class="level2">
+<h2 class="anchored" data-anchor-id="ssl-certificates">6.3. SSL Certificates</h2>
+<section id="ssl-and-tls" class="level3">
+<h3 class="anchored" data-anchor-id="ssl-and-tls">6.3.1. SSL and TLS</h3>
+<p>An SSL certificate allows <strong>in-flight encryption</strong> - traffic between clients and load balancer is encrypted. They have an expiration date (that you set) and must be renewed. Public SSL certificates are issued by Certificate Authorities (CA) like GoDaddy, GlobalSign etc.</p>
+<p>TLS certificates are actually used in practice, but the name SSL has stuck.</p>
+<ul>
+<li>SSL = Secure Sockets Layer</li>
+<li>TLS = Transport Layer Security (a newer version of SSL)</li>
+</ul>
+<p>The load balancer uses a default X.509 certificate, but you can upload your own. AWS Certificate Manager (ACM) allows you to manage these certificates.</p>
+</section>
+<section id="sni" class="level3">
+<h3 class="anchored" data-anchor-id="sni">6.3.2. SNI</h3>
+<p>Clients can use Server Name Indication (SNI) to <strong>specify the hostname they reach</strong>.</p>
+<p>SNI solves the problem of loading multiple SSL certificates on one web server. We may have a single load balancer serving two websites: <code>www.example.com</code> and <code>www.company.com</code></p>
+<p>Each of these websites has an SSL certificate uploaded to the load balancer. When a client request comes in, it indicates which website it wants to reach and the load balancer will use the corresponding SSL certificate.</p>
+<p>This works for ALB, NLB or CloudFront.</p>
+<pre><code>ELB UI -&gt; Select a load balancer -&gt; Add a listener -&gt; Select the default SSL/TLS certificate</code></pre>
+</section>
+</section>
+<section id="auto-scaling-groups-asg" class="level2">
+<h2 class="anchored" data-anchor-id="auto-scaling-groups-asg">6.4. Auto Scaling Groups (ASG)</h2>
+<section id="what-is-an-asg" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-an-asg">6.4.1. What is an ASG?</h3>
+<p>The goal of an ASG is to <strong>scale out/in</strong> (add/remove EC2 instances) to match load. It ensures we have a minimum and maximum number of instances running.</p>
+<p>If running an ASG connected to a load balancer, any EC2 instances created will be part of that load balancer.</p>
+<p>ASG is free, you only pay for the underlying EC2 instances.</p>
+<p>You need to create a <strong>ASG Launch Template</strong>.</p>
+<ul>
+<li>AMI and instance type</li>
+<li>EC2 user data</li>
+<li>EBS volumes</li>
+<li>Security groups</li>
+<li>SSH key pair</li>
+<li>IAM roles for EC2 instances</li>
+<li>Network and subnet information</li>
+<li>Load balancer information</li>
+</ul>
+<p>The ASG has a minimum, maximum and initial size as well as a scaling policy.</p>
+<p>It is possible to scale the ASG based on CloudWatch alarms.</p>
+</section>
+<section id="scaling-policies" class="level3">
+<h3 class="anchored" data-anchor-id="scaling-policies">6.4.2. Scaling Policies</h3>
+<p><strong>Dynamic scaling</strong>:</p>
+<ul>
+<li>Target tracking scaling. Keep a certain metric, e.g.&nbsp;ASG CPU, to stay at 40%</li>
+<li>Simple / step scaling. When a CloudWatch alarm is triggered, e.g.&nbsp;CPU &gt; 70%, add 2 units.</li>
+</ul>
+<p><strong>Scheduled scaling</strong>:</p>
+<ul>
+<li>Anticipate scaling based on known usage patterns. E.g. market open.</li>
+</ul>
+<p><strong>Predictive scaling</strong>:</p>
+<ul>
+<li>Continuously forecast load and schedule scaling accordingly.</li>
+</ul>
+<p>Good metrics to scale on:</p>
+<ul>
+<li>CPUUtilization</li>
+<li>RequestCountPerTarget</li>
+<li>Average Network In/Out</li>
+<li>Application-specific metrics</li>
+</ul>
+</section>
+<section id="scaling-cooldown" class="level3">
+<h3 class="anchored" data-anchor-id="scaling-cooldown">6.4.3. Scaling Cooldown</h3>
+<p>After a scaling activity happens, there is a cooldown period (default 300 seconds) where the ASG will not launch or remove any more instances while it waits for metrics to stabilise.</p>
+<p>Using a ready-to-use AMI means the EC2 instances start quicker, allowing you to use a shorter cooldown and be more reactive.</p>
+</section>
+</section>
+</section>
+<section id="relational-databases" class="level1">
+<h1>7. Relational Databases</h1>
+<section id="rds" class="level2">
+<h2 class="anchored" data-anchor-id="rds">7.1. RDS</h2>
+<section id="what-is-relational-database-service" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-relational-database-service">7.1.1 What is Relational Database Service?</h3>
+<p>Relational Database Service (RDS) is a <strong>managed DB using SQL</strong> as a query language.</p>
+<p>Supported database engines: Postgres, MySQL, MariaDB, Oracle, Microsoft SQL Server, IBM DB2, Aurora (AWS proprietary database).</p>
+<p>Instead of RDS, we <em>could</em> run our own EC2 instance with a database inside. The benefit of RDS is that it is a managed service, so you get:</p>
+<ul>
+<li>Automated provisioning and OS patching</li>
+<li>Continuous backups and point-in-time restore</li>
+<li>Monitoring dashboards</li>
+<li>Read replicas</li>
+<li>Multi-AZ setup for disaster recovery</li>
+<li>Maintenance windows for upgrades</li>
+<li>Horizontal and vertical scaling capabilities</li>
+<li>Storage backed by EBS</li>
+</ul>
+<p>But the downside is you can’t SSH into the underlying instances.</p>
+</section>
+<section id="storage-auto-scaling" class="level3">
+<h3 class="anchored" data-anchor-id="storage-auto-scaling">7.1.2. Storage Auto-Scaling</h3>
+<p>RDS will increase your DB instance automatically as you run out of free space. You set a <strong>Maximum Storage Threshold</strong>.</p>
+<p>This will automatically modify storage if:</p>
+<ul>
+<li>Free storage is less than 10%</li>
+<li>Low-storage lasts at least 5 mins</li>
+<li>6 hours have passed since the last notification</li>
+</ul>
+</section>
+<section id="read-replicas" class="level3">
+<h3 class="anchored" data-anchor-id="read-replicas">7.1.3. Read Replicas</h3>
+<p>Read replicas allow <strong>better read scalability</strong>. Read replicas are obviously read-only, so only support SELECT statements.</p>
+<p>We can create up to 15 read replicas. They can be within AZ, cross-AZ or cross-region. The replication is <strong>asynchronous</strong> so they are <em>eventually consistent</em>. Replicas can be promoted to their own DB.</p>
+<p>Applications must update their connection string to use the read replicas.</p>
+<p>Use cases may be if you have an existing production application, and now you want to add a reporting application without affecting performance of the existing process.</p>
+<p><strong>Network costs</strong>:</p>
+<ul>
+<li>If the read replicas are in the same region, there is no network costs for the data transfer.</li>
+<li>There is a network cost for cross-region read replicas.</li>
+</ul>
+</section>
+<section id="multi-az" class="level3">
+<h3 class="anchored" data-anchor-id="multi-az">7.1.4. Multi-AZ</h3>
+<p>This is typically for disaster recovery.</p>
+<p>This is a <strong>synchronous</strong> replication.</p>
+<p>There is one DNS name, and the application will automatically failover to the standby database if the master database goes down. No manual intervention is required. This increases availability.</p>
+<p>Aside from the disaster case, no traffic is normally routed to the standby database. It is only for failovers, not scaling.</p>
+<p>You can set up read replicas as multi-AZ for disaster recovery.</p>
+<p>Single-AZ to multi-AZ is a zero downtime operation, the DB does not stop. We just click “modify” on the database.</p>
+<p>Internally, what happens is: a snapshot it taken, a new DB is restored from this snapshot in a new AZ, synchronisation is established between the two databases.</p>
+</section>
+<section id="rds-custom" class="level3">
+<h3 class="anchored" data-anchor-id="rds-custom">7.1.5. RDS Custom</h3>
+<p>This is a <strong>managed Oracle and Microsoft SQL Server database with full admin access</strong> for OS and database customisation. Usually these are managed by RDS.</p>
+<p>It allows us to configure the OS and settings, and access the underlying EC2 instance using SSH or SSM Session Manager.</p>
+</section>
+<section id="rds-proxy" class="level3">
+<h3 class="anchored" data-anchor-id="rds-proxy">7.1.6. RDS Proxy</h3>
+<p>An RDS Proxy <strong>pools and shares incoming connections together</strong> resulting in fewer connections to the database. Think of it <em>like a load balancer for the database</em>.</p>
+<p>This is useful when you have multiples instances scaling in and out that might connect to your database then disappear and leave lingering connections open. For example, when using Lambda functions.</p>
+<p>It is serverless and supports autoscaling. It reduces failover time by up to 66%. It supports both RDS and Aurora, including most flavours of SQL.</p>
+<p>No code changes are required for most apps, just point the connection details to the proxy rather than the database directly. Authentication is via IAM using credentials stored in AWS Secrets Manager. The <em>RDS Proxy can only be accessed from inside the VPC</em>, it is never publicly accessible.</p>
+</section>
+</section>
+<section id="amazon-aurora" class="level2">
+<h2 class="anchored" data-anchor-id="amazon-aurora">7.2. Amazon Aurora</h2>
+<section id="what-is-aurora" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-aurora">7.2.1. What is Aurora?</h3>
+<p>Aurora is a <strong>proprietary database from AWS</strong> with compatibility with Postgres and MySQL.</p>
+<p>Aurora is “cloud-optimised” with faster read/write performance and less lag when creating read replicas. Storage grows automatically. Failover is instantaneous.</p>
+<p>It stores 6 copies of your data across 3 AZ: 4 out of 6 copies are needed for writes, and 3 out of 6 for reads.</p>
+<p>Storage is striped across hundreds of volumes. There is self-healing with peer-to-peer replication.</p>
+<ul>
+<li>One master Aurora instance takes <em>writes</em>. There is automated failover within 30 seconds if the master instance goes down.<br>
+</li>
+<li>Master + up to 15 read replicas serve <em>reads</em>. You can set up auto-scaling for read replicas. There is support for cross-region replication.</li>
+</ul>
+<p><strong>The aurora DB cluster</strong>. You don’t interact with any instance directly; they can scale and be removed so the connection URL would be constantly changing. Instead there is a <strong>writer endpoint</strong> that always points to the master instance. There is a <strong>read endpoint</strong> which points to a load balancer that directs your query to a read replica.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="AuroraCluster.png" class="img-fluid figure-img"></p>
+<figcaption>Aurora Cluster Readers and Writers</figcaption>
+</figure>
+</div>
+</section>
+<section id="advanced-concepts" class="level3">
+<h3 class="anchored" data-anchor-id="advanced-concepts">7.2.2. Advanced Concepts</h3>
+<p><strong>Auto scaling</strong>. Read replicas scale based on CPU usage or number of connections breaching a user-defined threshold.</p>
+<p><strong>Custom endpoint</strong>. Define a subset of the read replicas as a custom endpoint. This means we can route traffic for jobs that we know are database-intensive, like analytical queries, to a subset of the instances without affecting the performance on the other read replicas.</p>
+<p><strong>Aurora serverless</strong>. Automated database instantiation and auto-scaling based on actual usage.</p>
+<p>Good for infrequent, intermittent or unpredictable workloads. No capacity planning needed, you pay per second of usage.</p>
+<p>The client connects to a proxy fleet, which is like a load balancer that directs requests to Aurora instances that are scaled in the background.</p>
+<p><strong>Global Aurora</strong>. Cross-region replicas are useful for disaster recovery. <strong>Aurora Global Database</strong> is the recommended approach.</p>
+<p>You create 1 primary regions for read/write. You can then have up to 5 secondary read-only regions. Replication lag is &lt;1 second. Up to 16 read replicas per secondary region.</p>
+<p>Promoting another region in the event of disaster recovery has a Recovery Time Objective (RTO) &lt; 1 minute.</p>
+<p><strong>Aurora Machine Learning.</strong> Add ML-based predictions to your application via SQL. Supported on SageMaker or Amazon Comprehend.</p>
+<p><strong>Babelfish for Aurora PostgreSQL</strong>. Babelfish allows Aurora PostgreSQL to understand commands targeted for Microsoft SQL Server (written in T-SQL). It automatically translates between these flavours of SQL to make migration easier.</p>
+</section>
+</section>
+<section id="backups-and-monitoring" class="level2">
+<h2 class="anchored" data-anchor-id="backups-and-monitoring">7.3. Backups and Monitoring</h2>
+<section id="rds-1" class="level3">
+<h3 class="anchored" data-anchor-id="rds-1">7.3.1. RDS</h3>
+<p>There are automated backups:</p>
+<ul>
+<li>Full backup daily during the backup window.</li>
+<li>Transaction logs backed up every 5 mins. This gives the ability to do a point-in-time restore.</li>
+<li>1-35 days of retention. Can be disabled by setting to 0.</li>
+</ul>
+<p>Manual DB snapshots are triggered by the user and can be retained as long as you want.</p>
+<p>A use case for this is for an infrequently used database. A stopped RDS database will still incur storage costs. If you intend to stop it for a long time, you can snapshot it then restore it later.</p>
+</section>
+<section id="aurora" class="level3">
+<h3 class="anchored" data-anchor-id="aurora">7.3.2. Aurora</h3>
+<p>Automate backups are retained for 1-35 days. Cannot be disabled. Point-in-time recovery for any point in that timeframe.</p>
+<p>Manual DB snapshots. Triggered by user and retained for as long as you want.</p>
+</section>
+<section id="restore-options" class="level3">
+<h3 class="anchored" data-anchor-id="restore-options">7.3.3. Restore Options</h3>
+<ul>
+<li>Restore an <strong>RDS / Aurora backup</strong> or snapshot to create a new database.</li>
+<li>Restore a <strong>MySQL RDS database from S3</strong>. Create a backup of your on-premises database, store it in S3, the restore the backup file on to a new instance running MySQL.</li>
+<li>Restore a <strong>MySQL Aurora cluster from S3</strong>. Same as for RDS, except the on-premises backup must be created using Percona XtraBackup.</li>
+</ul>
+</section>
+<section id="aurora-database-cloning" class="level3">
+<h3 class="anchored" data-anchor-id="aurora-database-cloning">7.3.4 Aurora Database Cloning</h3>
+<p>Create a new Aurora DB cluster from an existing one. An example use case is cloning a production database into dev and staging.</p>
+<p>It is faster than doing a snapshot+restore. It uses the copy-on-write protocol. Initially the clone uses the same data volume as the original cluster, then when updates are made to the cloned DB cluster additional storage is allocated and data is copied to be separated.</p>
+</section>
+</section>
+<section id="encryption" class="level2">
+<h2 class="anchored" data-anchor-id="encryption">7.4. Encryption</h2>
+<p>Applies to both RDS and Aurora.</p>
+<p><strong>At rest encryption</strong>. Database master and read replicas are encrypted using AWS KMS. This must be defined at launch time. If master is not encrypted then the read replicas cannot be encrypted. If you want to encrypt and unencrypted database, you need to take a snapshot of it and restore a new database with encryption set up at launch time.</p>
+<p><strong>In flight encryption</strong>. RDS and Aurora are TLS-ready by default. Applications must use the provided AWS TLS root certificates on the client side.</p>
+<p>Authentication can be via IAM or by the standard username/password used to connect to databases. Security groups can also be used to control access. Audit logs can be enabled and sent to CloudWatch Logs for longer retention.</p>
+</section>
+<section id="elasticache" class="level2">
+<h2 class="anchored" data-anchor-id="elasticache">7.5. ElastiCache</h2>
+<section id="what-is-elasticache" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-elasticache">7.5.1. What is ElastiCache?</h3>
+<p>ElastiCache is a <strong>managed Redis or Memcached</strong>. Analogous to how RDS is a managed SQL database. It is managed, meaning AWS takes care of OS maintenance, configuration, monitoring, failure recovery, backups, etc.</p>
+<p>Caches are <strong>in-memory databases</strong> with low latency. They reduce the load on your database for read-intensive workloads.</p>
+<p>This can help make your application stateless. For example, when the user logs in, their session is written to the cache. If their workload is moved to another instance, their session can be retrieved from the cache.</p>
+<p>It does, however, require significant changes to your application’s code. Instead of querying the database directly, we need to:</p>
+<ol type="1">
+<li>Query the cache. If we get a cache hit, use that result.</li>
+<li>If we get a cache miss, read from the database directly.</li>
+<li>Then write that result to the cache ready for the next query.</li>
+</ol>
+<p>We also need to define a <strong>cache invalidation strategy</strong> to ensure the data in the cache is not stale.</p>
+</section>
+<section id="redis-vs-memcached" class="level3">
+<h3 class="anchored" data-anchor-id="redis-vs-memcached">7.5.2. Redis vs Memcached</h3>
+<p>Redis <strong>replicates</strong> whereas Memcached <strong>shards</strong>.</p>
+<p>Redis:</p>
+<ul>
+<li>Multi-AZ with auto-failover</li>
+<li>Read replicas to scale for high availability</li>
+<li>AOF persistence</li>
+<li>Backup and restore features</li>
+<li>Supports sets and sorted sets. Sorted sets allow for things like real-time leaderboards</li>
+</ul>
+<p>Memcached:</p>
+<ul>
+<li>Multi-node for partitioning (sharding) data</li>
+<li>No replication (therefore not high availability)</li>
+<li>Not persistent</li>
+<li>Backup and restore available for the serverless option only</li>
+<li>Multi-threaded architecture</li>
+</ul>
+</section>
+<section id="elasticache-security" class="level3">
+<h3 class="anchored" data-anchor-id="elasticache-security">7.5.3. ElastiCache Security</h3>
+<p>ElastiCache supports IAM authentication for Redis. IAM policies on ElastiCache are only used for AWS API-level security.</p>
+<p>For Memcached, it needs to be username/password. Memcached supports SASL-based authentication.</p>
+<p>With <strong>Redis AUTH</strong> you can set a password/token when you create a cluster, which provides an extra level of security on top of security groups. It supports SSL in-flight encryption.</p>
+<p>Common patterns for ElastiCache.</p>
+<ul>
+<li><strong>Lazy loading</strong> - All the read data is cached, but data in the cache may become stale.</li>
+<li><strong>Write through</strong> - Data is inserted/updated in the cache any time it is written to the DB. Ensures no stale data.</li>
+<li><strong>Session store</strong> - Using the cache to store temporary session data, and using TTL to determine cache validation.</li>
+</ul>
+</section>
+<section id="common-port-numbers" class="level3">
+<h3 class="anchored" data-anchor-id="common-port-numbers">7.5.4. Common Port Numbers</h3>
+<p>Useful port numbers to know:</p>
+<ul>
+<li>21 - FTP</li>
+<li>22 - SFTP, SSH</li>
+<li>80 - HTTP</li>
+<li>443 - HTTPS</li>
+</ul>
+<p>Common database ports:</p>
+<ul>
+<li>5432 - PostgreSQL, Aurora</li>
+<li>3306 - MySQL, MariaDB, Aurora</li>
+<li>1433 - MySQL Server</li>
+<li>1521 - Oracle RDS</li>
+</ul>
+</section>
 </section>
 </section>
 <section id="references" class="level1">

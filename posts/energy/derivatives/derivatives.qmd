@@ -1,3 +1,11 @@
+---
+title: "Derivatives"
+description: "Basics"
+date: "2025-06-27"
+categories: [Energy, Finance]
+draft: true
+---
+
 This E-Learning course covers:
 
 What is trading and why companies trade
