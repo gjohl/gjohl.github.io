@@ -600,28 +600,29 @@ $$
 This comes up a lot in hypothesis testing because of the central limit theorem.
 
 
-# Maximum Likelihood Estimation
+# 8. Maximum Likelihood Estimation
 
-## Intuition
-This is an alternative approach to finding estimators to the Method of Moments approach.
+## 8.0. Background on MLE
 
-The idea is that we shift our perspective so that rather than thinking of pdfs as a function of the data $x$ where parameters $\mu$ and $\sigma$ are unknown, we treat it as a function of the parameter $\mu$ where our observed data $x$ is known.
+### 8.0.1 Intuition
+Maximum Likelihood Estimation (MLE) is an alternative approach to finding estimators using the Method of Moments (MOM)approach.
+
+The idea is that we shift our perspective so that rather than thinking of PDFs as a function of the data $x$ where parameters $\mu$ and $\sigma$ are unknown, we treat it as a function of the parameter $\mu$ where our observed data $x$ is known.
 
 Typically we would think of the PDF for some distribution where $\mu = 2$ and $\sigma = 3$ as:
 $$
-f(x) = \frac{1}{\sigma\sqrt{2\pi}} 
-  \exp\left( -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{\!2}\,\right)
-}
-     = \frac{1}{3\sqrt{2\pi}} 
-  \exp\left( -\frac{1}{2}\left(\frac{x-2}{3}\right)^{\!2}\,\right)
-}
+\begin{aligned}
+f(x) &= \frac{1}{\sigma \sqrt{2\pi}} 
+       \exp\left( -\frac{1}{2} \left( \frac{x-\mu}{\sigma} \right)^2 \right) \\[2pt]
+     &= \frac{1}{3 \sqrt{2\pi}} 
+       \exp\left( -\frac{1}{2} \left( \frac{x-2}{3} \right)^2 \right)
+\end{aligned}
 $$
 
 Instead, say we have observed one data point where $x_1 = 4$. We treat $\mu$ as the unknown and rewrite this as the **likelihood function**:
 $$
-L(\mu) = \frac{1}{\sigma\sqrt{2\pi}} 
-  \exp\left( -\frac{1}{2}\left(\frac{4-\mu}{\sigma}\right)^{\!2}\,\right)
-}
+L(\mu) = \frac{1}{\sigma \sqrt{2\pi}} 
+         \exp\left( -\frac{1}{2} \left( \frac{4-\mu}{\sigma} \right)^2 \right)
 $$
 
 Then to find a good estimate of the parameter, we find the maximum of the likelihood function.
@@ -633,93 +634,106 @@ In summary:
 - Likelihood: Unknown parameters, known data.
 
 
-## Joint PDF
+### 8.0.2 Joint PDF
 
 The probability of two things happening in succession is the **joint probability**.
 
 For example, the joint probability of flipping two heads is
 $$
-P(H,H) = 0.5 * 0.5 = 0.25
+P(H \cap H) = 0.5 \cdot 0.5 = 0.25
 $$
 
 This is true of any number of (independent) events.
-So if we have observed some data $(x_1, x_2, ... x_n) = X%
-Then we can think about the joint probability distribution of all of these events $P(X)%.
+So if we have observed some data $(x_1, x_2, ... x_n) = X$
+then we can think about the joint probability distribution of all of these events $P(X)$.
 
 $$
-f(X) = \product_{i=1}_{n} f(x_i)
+f(X) = \prod_{i=1}^{n} f(x_i)
 $$
 
-Assuming all of the data ($x_i$s) are iid, i.e. the same distribution parameters for the following. 
+We assume all of the data ($x_i$s) are i.i.d., i.e. the same distribution parameters, for the following discussions.
+
+
 For a Bernoulli distribution, the joint PMF is:
 $$
-f(X) = \product_{i=1}_{n} f(x_i)
-     = \product_{i=1}_{n} p^{x_i} (1-p)^{1-x_i}
-     = p^x_1(1-p)^{1-x_1} . p^x_2(1-p)^{1-x_2} ... p^x_n(1-p)^{1-x_n}  Expanding out
-     = p^{\sum x_i} (1-p)^{\sum 1 - x_i}  Collecting terms
-     = p^{\sum x_i} (1-p)^{n - \sum x_i}  Simplifying    
+\begin{aligned}
+f(X) &= \prod_{i=1}^{n} f(x_i) \\[2pt]
+     &= \prod_{i=1}^{n} p^{x_i} (1-p)^{1-x_i} \\[2pt]
+     &= p^{x_1} (1-p)^{1-x_1} \cdot p^{x_2} (1-p)^{1-x_2} \cdots p^{x_n} (1-p)^{1-x_n} 
+        \quad \text{(Expanding out)} \\[2pt]
+     &= p^{\sum_{i=1}^{n} x_i} (1-p)^{\sum_{i=1}^{n} (1-x_i)} 
+        \quad \text{(Collecting terms)} \\[2pt]
+     &= p^{\sum_{i=1}^{n} x_i} (1-p)^{n - \sum_{i=1}^{n} x_i} 
+        \quad \text{(Simplifying)}
+\end{aligned}
 $$
 
 
 For a Uniform distribution, the joint PDF is:
 $$
-f(X) = \product_{i=1}_{n} f(x_i)
-     = \product_{i=1}_{n} 1 / \theta
-     = 1 / \theta^{n}
+\begin{aligned}
+f(X) &= \prod_{i=1}^{n} f(x_i) \\[2pt]
+     &= \prod_{i=1}^{n} \frac{1}{\theta} \\[2pt]
+     &= \left(\frac{1}{\theta}\right)^{n}
+\end{aligned}
 $$
 
 For a Normal distribution, the joint PDF is:
 $$
-f(X) = \product_{i=1}_{n} f(x_i)
-     = \product_{i=1}_{n} (2 \pi \sigma^2)^{-1/2}) e^{-(x-\mu)^2 / 2 \sigma^2}
-     = (2 \pi \sigma^2)^{-n/2}) e^{-\sum{I=1}_{n} (x-\mu)^2 / 2 \sigma^2}
+\begin{aligned}
+f(X) &= \prod_{i=1}^{n} f(x_i) \\[2pt]
+     &= \prod_{i=1}^{n} (2 \pi \sigma^2)^{-1/2} \, 
+        \exp\Bigg(-\frac{(x_i - \mu)^2}{2 \sigma^2}\Bigg) \\[2pt]
+     &= (2 \pi \sigma^2)^{-n/2} \, 
+        \exp\Bigg(-\frac{\sum_{i=1}^{n} (x_i - \mu)^2}{2 \sigma^2}\Bigg)
+\end{aligned}
 $$
 
-We often call the joint PMF/PDF the "joint distribution".
+We often **call the joint PMF/PDF the "joint distribution"**.
 
-Remember that the "likelihood function" is just this same formula, but reframing what we see as the knowns vs unknowns. We treat the parameter as an unknown and the data as a known value.
+Remember that **the "likelihood function" is just this same formula**, but reframing what we see as the knowns vs unknowns. We treat the parameter as an unknown and the data as a known value.
 
 
-## Finding the MLE
+### 8.0.3. Finding the MLE
 We differentiate the likelihood function to find the maximum.
 
 
 Because the likelihood function $L(\theta)$ is a joint distribution, it will often contain lots of products and exponentials.
-It is therefore often more convenient to work with the **log-likelihood function** $l(\theta)$ since logs convert products to sums which are easier to differentiate. We use the natural log to deal with the $e$ values that often crop up.
+It is therefore often more convenient to work with the **log-likelihood function** $\ell(\theta)$ since logs convert products to sums which are easier to differentiate. We use the natural log to deal with the $e$ values that often crop up.
 $$
-l(\theta) = log(L(\theta))
-$$
-
-The log function is **monotonic**, so the maximum of $l(\theta)$ occurs for the same value of $\theta$ as $L(\theta)$, i.e. we are still maximising our original likelihood function even if we use the log-likelihood in our calculations for tractability.
-
-
-To find the maximum of the log-likelihood, we set it's derivative to 0 and solve for $\theta$:
-$$
-d l(\theta) / d \theta) = 0
+\ell(\theta) = \log L(\theta)
 $$
 
-The derivative function is sometimes called the "score function".
+The log function is **monotonic**, so the maximum of $\ell(\theta)$ occurs for the same value of $\theta$ as $L(\theta)$, i.e. we are still maximising our original likelihood function even if we use the log-likelihood in our calculations for tractability.
 
 
-## Properties of logarithms
+To find the maximum of the log-likelihood, we set its derivative to 0 and solve for $\theta$:
+$$
+\frac{d \ell(\theta)}{d \theta} = 0
+$$
+
+The derivative function is sometimes called the **"score function"**.
+
+
+## 8.0.4 Properties of Logarithms
 
 Log of products = sum of logs
 $$
-log(xy) = log(x) + log(y)
+\log(xy) = \log(x) + \log(y)
 $$
 
 Log of exponents
 $$
-log(a^b) = b log(a)
+\log(a^b) = b \log(a)
 $$
 
 And by extension
 $$
-log(1 /a) = log(a^{-1}) =  -log(a)
+\log(1 /a) = \log(a^{-1}) =  -\log(a)
 $$
 
 
-## MLE Estimator for a Bernoulli Distribution
+## 8.1. MLE Estimator for a Bernoulli Distribution
 
 The general process is:
 ```
