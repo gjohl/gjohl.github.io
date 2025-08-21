@@ -1,13 +1,46 @@
 ---
 title: "Mathematical Statistics"
 description: "Stats"
-date: "2025-08-20"
+date: "2025-07-20"
 categories: [Maths, Statistics]
 ---
 
-# Distributions
+# 1. Probability Distribution 
 
-## Bernoulli Distribution
+A **random variable** is a quantity that is random. It has a probability distribution. 
+
+E.g. `X = roll of a dice`
+
+The **sample space** is the set of all possible outcomes of a random variable. This is also called the **support** of a function.
+
+$$
+S = {1,2,3,4,5,6}
+$$
+
+Different values occur with different probabilities. We can describe this with a **probability distribution**.
+
+```
+P(X=1) = 1/6
+P(X=2) = 1/6
+P(X=3) = 1/6
+…
+```
+
+A common way to describe this is with a function as above. We give an input (e.g. $X=1$) and get an output ($\frac{1}{6}$). This is a **probability mass function**. We can represent this graphically. 
+
+In this case, a dice roll is a discrete random variable. 
+
+With a continuous random variable, we have a continuous distribution. The probability of any specific value is infinitesimally small, so we consider ranges and call the distribution the **probability density function**. 
+
+A **parameter** is a number that controls the properties of a probability distribution. 
+
+
+# 2. Distributions
+
+A distribution is the list of possible values a random variable can take. We will look at three important distributions: Bernoulli, Uniform and Normal.
+
+
+## 2.1. Bernoulli Distribution
 
 A Bernoulli distribution describes an experiment that has two possible outcomes, i.e. success/failure, heads/tails, etc.
 
@@ -47,7 +80,7 @@ f(x) = p^{x} (1-p)^{\,1-x}
 $$
 
 
-## The Uniform Distribution
+## 2.2. Uniform Distribution
 
 This is a continuous distribution where every value between and min and a max value is equally likely.
 
@@ -71,441 +104,497 @@ S = (a, b)
 $$
 
 
-## Normal Distribution
+## 2.3. Normal Distribution
 Centred on the mean $\mu$. The spread is defined the standard deviation $\sigma$.
+
+$$
+X \sim \mathcal{N}(\mu, \sigma^{2})
+$$
 
 It is defined by these two parameters.
 
 $$
-f(x)= …
+f(x) = \frac{1}{\sqrt{2\pi\sigma^{2}}} \exp\!\left( -\frac{(x-\mu)^{2}}{2\sigma^{2}} \right),
+\quad -\infty < x < \infty
 $$
 
 
-# Expected Value
-
-## Sample mean and Expected Value
+# 3. Expected Value
 
 For a sample, we have a sample mean depending on our observations. It changes each time we observe more data. 
 $$
-\bar{x} = (\sum_{i=1}_n x_i) / n
+\bar{x} = \frac{\sum_{i=1}^{n} x_i}{n}
 $$
 
 The aim is to collect enough data that this is a reasonable approximation of the true population mean.
 
-For a population, we have the expected value $$
-E(X) = \mu
-        = \sum_{x \in S} xP(X=x)
+For a population, we have the expected value:
+$$
+\begin{aligned}
+E[X] &= \mu \\[6pt]
+     &= \sum_{x \in S} x \, P(X = x)
+\end{aligned}
 $$
 
-Or for a continuous distribution
+Or for a continuous distribution:
 $$
-E(X) = \integral_{x \in S} xf(x) dx
+E[X] = \int_{x \in S} x f(x) \, dx
 $$
 
 
-## Expected value of a Bernoulli random variable
+## 3.1. Expected Value of a Bernoulli Random Variable
 
 Recall the PMF:
-```
-f(x) = {p,    x=1
-           1-p, x=0
-           0,     otherwise
-```
+$$
+f(x) = 
+\begin{cases}
+p & x = 1 \\[6pt]
+1-p & x = 0 \\[6pt]
+0 & \text{otherwise}
+\end{cases}
+$$
+
 
 And the definition of expectation:
 $$
-E(X) = \mu
-        = \sum_{x \in S} xP(X=x)
+E[X] = \mu = \sum_{x \in S} xP(X=x)
 $$
 
-So:
+Substituting the first into the second equation, we get:
 $$
-E(X) = 0*(1-p) + 1*p
+E[X] = 0 \cdot (1-p) + 1 \cdot p = p
 $$
 
 
-## Expected value of a uniform random variable
+## 3.2. Expected Value of a Uniform Random Variable
 
 This is continuous, so we integrate the PDF:
 
 Expected value for a continuous distribution
 $$
-E(X) = \integral_{x \in S} xf(x) dx
-         = \integral_{x=0}_{\theta} x.(1/\theta) dx
-         = (1/ \theta) (x^2 / 2) |_{0}_{\theta}
-         =  (1/ \theta) (\theta^2 / 2)
-         = \theta / 2
+\begin{aligned}
+E[X] &= \int_{x \in S} x f(x) \, dx \\[6pt]
+     &= \int_{0}^{\theta} x \cdot \frac{1}{\theta} \, dx \\[6pt]
+     &= \frac{1}{\theta} \left[ \frac{x^{2}}{2} \right]_{0}^{\theta} \\[6pt]
+     &= \frac{1}{\theta} \cdot \frac{\theta^{2}}{2} \\[6pt]
+     &= \frac{\theta}{2}.
+\end{aligned}
 $$
 
 
-## Expected value for a Normal random variable
+## 3.3. Expected Value for a Normal Random Variable
 
 Again, this is a continuous distribution, so we can integrate the PDF.
-See here for the integral: https://statproofbook.github.io/P/norm-mean.html
+See [here for the integral](https://statproofbook.github.io/P/norm-mean.html).
 
-Intuitively, we know that a Normal distribution is symmetric and defined by \mu and \sigma.
-So the expected value is \mu.
-
-<Add worksheet>
+Intuitively, we know that a Normal distribution is symmetric and defined by $\mu$ and $\sigma$.
+So the expected value is $\mu$.
 
 
-# Estimators and Method of Moments
+# 4. Estimators and Method of Moments
 
 The goal in a lot of statistics is to learn (estimate) some unknown parameters.
 
-- **Estimand** - the parameter we want to estimate. E.g. p, \mu, \theta
+Some terminology:
+
+- **Estimand** - the parameter we want to estimate. E.g. $p$, $\mu$, $\theta$
 - **Estimate** - a concrete value of our estimand based on the data. E.g. 0.4, 3, 12
 - **Estimator** - how do we get a good estimate for a particular distribution.
 
-We want a method that allows us to create a good estimate. A formula/algorithm that allows us to estimate an estimand.
+We want a method that allows us to create a good estimate. A formula/algorithm that allows us to estimate an estimand is an estimator.
 It takes data as inputs and outputs an estimate of a parameter.
 
-The method of moments is one such estimator method.
+The **method of moments** is one such estimator method.
 It relies on the 1st moment: the expected value.
 
 We begin with two facts:
 
-1. $E(X) = f(\theta)$ - the expected value is some function of the parameters
-2. $E(X) ~= X_bar$ - the sample mean should be approximately the population mean
+1. $E[X] = f(\theta)$ - the expected value is some function of the parameters
+2. $E[X] \approx \bar{X}$ - the sample mean should be approximately the population mean
 
 Therefore we can substitute these:
-$X_bar ~= f(\theta) 
+$$
+\bar{X} \approx f(\theta)
+$$
 
-X_bar is a known value calculated from our data. So this gives us an equation where $\theta$ is our unknown variable that we solve for.
+$\bar{X}$ is a known value calculated from our data. So this gives us an equation where $\theta$ is our unknown variable that we solve for.
 
-## Method of Moments Estimator for a Bernoulli Distribution
+
+## 4.1. Method of Moments Estimator for a Bernoulli Distribution
 
 We start with our two basic facts:
 
-1. $E(X) ~= x_bar$ - our sample mean should be close to our population mean
-2. $E(X) = p$ - for a Bernoulli distribution, the population mean is p
+1. $E[X] \approx \bar{X}$ - our sample mean should be close to our population mean
+2. $E[X] = p$ - for a Bernoulli distribution, the population mean is $p$
 
 Substituting this, we get an estimate of the parameter $p$ using the method of moments:
 $$
-p ~= x_bar
+p ~= \bar{X}
 $$
 
 Note the approximately equal sign in the equation above. We don’t know the true population parameter so it isn’t equal, only an approximation. 
 
-We can define this estimate as $p_hat$, which is defined as being equal to this estimate.
+We can define this estimate as $\hat{p}$, which is defined as being equal to this estimate.
 
 $$
-p_hat = x_bar = (\sum x_i) / n
+\hat{p} = \bar{X} = \frac{\sum x_i}{n}
 $$
 
 
-## Method of Moments Estimator for a Uniform Distribution
+## 4.2. Method of Moments Estimator for a Uniform Distribution
 
 We start with our two basic facts:
 
-1. $E(X) ~= x_bar$ - our sample mean should be close to our population mean
-2. $E(X) = \theta / 2$ - population mean for a uniform distribution
+1. $E[X] ~= \bar{X}$ - our sample mean should be close to our population mean
+2. $E[X] = \frac{\theta}{2}$ - population mean for a uniform distribution
 
 So we can substitute this to get our method of moments estimator for $\theta$:
 $$
-\theta / 2 ~= x_bar
-=> \theta ~= 2 x_bar
-=> \theta_hat = 2 x_bar
+\begin{aligned}
+\frac{\theta}{2} &\approx \bar{X} \\[6pt]
+\;\;\Rightarrow\;\; \theta &\approx 2\bar{X} \\[6pt]
+\;\;\Rightarrow\;\; \hat{\theta} &= 2\bar{X}
+\end{aligned}
+$$
+
+$$
+\boxed{\hat{\theta} = 2\bar{X}}
 $$
 
 
-## Method of Moments Estimator for a Normal Distribution
+
+## 4.3 Method of Moments Estimator for a Normal Distribution
 We start with our two basic facts:
 
-1. $E(X) ~= x_bar$ - our sample mean should be close to our population mean
-2. $E(X) = \mu$ - population mean for a Normal distribution
+1. $E[X] ~= \bar{X}$ - our sample mean should be close to our population mean
+2. $E[X] = \mu$ - population mean for a Normal distribution
 
 Therefore, we substitute to get our method of moments estimator for $\mu$:
 $$
-\mu ~= x_bar
-\mu_hat =x_bar
+\begin{aligned}
+\mu &\approx \bar{X} \\[2pt]
+\hat{\mu} &= \bar{X}
+\end{aligned}
 $$
 
 
-# Unbiased Estimators
+# 5. Unbiased Estimators
 
-## Distribution of estimators
-Our data is random. It is the input to our estimator, therefore our estimate is also a random variable.
+## 5.0. Background on Estimators
+### 5.0.1. Distribution of Estimators
+Our data is random. It is the input to our estimator, therefore **our estimate is also a random variable**.
 
 The distribution of an estimator is called a **sampling distribution**.
 
-We want the estimator to be centred on the true value. This is an **unbiased estimator**. 
-In other words, we want the expected value of the estimate to equal its true value, i.e. we want
+We want the *estimator to be centred on the true value*. This is an **unbiased estimator**. 
+In other words, **we want the expected value of the estimate to equal its true value**, i.e. we want
+
 $$
-E(\theta_hat) = \theta
+E[\hat{\theta}] = \theta
 $$
 
 We can define the **bias** as the difference between these two:
 $$
-Bias = E(\theta_hat) - \theta
+Bias = E[\hat{\theta}] - \theta
 $$
 
-If $Bias = 0$ then we have an unbiased estimator.
+If $Bias = 0$ then we have an **unbiased estimator**.
 
 
-## Properties of Expected Value
+## 5.0.2. Properties of Expected Value
 The linearity of expectation results below help us prove properties of the estimators. 
 
-The law of the unconscious statistician:
+**The law of the unconscious statistician**:
 $$
-E(cX) = cE(X)
-Where c is a constant
-$$
-
-This follows from the definition of expected value. E.g. for a discrete distribution:
-$$
-E(X) = \sum_{x \in S} xP(X=x)
-=> E(cX) = \sum_{x \in S} cxP(cX=cx)
-                = \sum_{x \in S} cxP(X=x)  since P(cX=cx) = P(X=x), multiplying the random variable just cancels out
-                = c \sum_{x \in S} xP(X=x)
-                = cE(X)
+E[cX] = c\,E[X], \quad \text{where $c$ is a constant}
 $$
 
-
-The sum of random variables:
+This follows from the definition of expected value. For example, consider a discrete distribution:
 $$
-E(X+Y) = E(X) + E(Y)
-$$
-
-Or more generally, the expected value of any sum equals the sum of expected values:
-
-$$
-E(\sum x_i) = \sum(E(x_i))
+\begin{aligned}
+E[X] &= \sum_{x \in S} x\, P(X=x) \\[2pt]
+\Rightarrow E[cX] &= \sum_{x \in S} c x \, P(cX = c x) \\[2pt]
+&= \sum_{x \in S} c x \, P(X = x) \quad \text{(since } P(cX = c x) = P(X = x)\text{)} \\[2pt]
+&= c \sum_{x \in S} x \, P(X = x) \\[2pt]
+&= c E[X]
+\end{aligned}
 $$
 
 
-## The bias of a MoM Estimator for a Bernoulli Distribution
+The **sum of random variables**:
+$$
+E[X+Y] = E[X] + E(Y)
+$$
+
+Or more generally, the expected value of any sum equals the sum of expected values. This holds regardless of independence.
+
+$$
+E\Bigg[\sum_{i=1}^{n} X_i\Bigg] = \sum_{i=1}^{n} E[X_i]
+$$
+
+
+## 5.1. The Bias of a MoM Estimator for a Bernoulli Distribution
 Recall that our method of moments estimator was:
 $$
-p_hat = x_bar
+\hat{p} = \bar{X}
 $$
 
 We want to know if this equals $E(p)$. This would make it an unbiased estimator.
 
 $$
-E(p_hat) = E(\sum x_i / n)
-               = 1/n E(\sum(x_i))
-               = 1/n \sum(E(x_i))  Using the sum of expected values result
-               = 1/n \sum_{i=1}_n p
-               = p 
+\begin{aligned}
+E[\hat{p}] &= E\Bigg[\frac{1}{n} \sum_{i=1}^{n} X_i \Bigg] \\[2pt]
+&= \frac{1}{n} E\Bigg[\sum_{i=1}^{n} X_i \Bigg] \\[2pt]
+&= \frac{1}{n} \sum_{i=1}^{n} E[X_i] \quad \text{(using the linearity of expectation)} \\[2pt]
+&= \frac{1}{n} \sum_{i=1}^{n} p \\[2pt]
+&= p
+\end{aligned}
 $$
 
 The expected value of our estimator is the population value, therefore it is an unbiased estimator.
 
 
-## The bias of a MoM Estimator for a Uniform Distribution
+## 5.2. The Bias of a MoM Estimator for a Uniform Distribution
 
 Recall that our method of moments estimator is:
 $$
-\theta_hat = 2 x_bar
+\hat{\theta} = 2 \bar{X}
 $$
 
 So the expected value of the estimate is:
 $$
-E(\theta_hat) = E(2 x_bar)
-                       =  E(2 \sum_{i=1}_{n} x_i / n)  
-                       = 2/n E( \sum_{i=1}_{n} x_i )  Taking constant terms outside
-                       = 2/n  \sum_{i=1}_{n} E(x_i)  Expectation of sum equals sum of expectations  
-                       = 2/n  \sum_{i=1}_{n} \theta / 2  Substitute expression for E(x_i) 
-                       = 2/n  * n \theta / 2
-                       = \theta 
+\begin{aligned}
+E[\hat{\theta}] &= E\Bigg[ 2 \bar{X} \Bigg] \\[2pt]
+&= E\Bigg[ 2 \cdot \frac{1}{n} \sum_{i=1}^{n} X_i \Bigg] \\[2pt]
+&= \frac{2}{n} E\Bigg[ \sum_{i=1}^{n} X_i \Bigg] \quad \text{(taking constant outside)} \\[2pt]
+&= \frac{2}{n} \sum_{i=1}^{n} E[X_i] \quad \text{(linearity of expectation)} \\[2pt]
+&= \frac{2}{n} \sum_{i=1}^{n} \frac{\theta}{2} \quad \text{(substitute } E[X_i] = \theta/2 \text{)} \\[2pt]
+&= \frac{2}{n} \cdot n \cdot \frac{\theta}{2} \\[2pt]
+&= \theta
+\end{aligned}
 $$
 
-Therefore, this is an unbiased estimator, because $E(\theta_hat) = \theta
+Therefore, this is an unbiased estimator, because $E(\hat{\theta}) = \theta$.
 
 
-## The bias of a MoM Estimator for a Normal Distribution
+## 5.3. The Bias of a MoM Estimator for a Normal Distribution
 
 Recall that:
 $$
-\mu_hat = x_bar
+\hat{\mu} = \bar{X}
 $$
 
 The expected value of this estimator is:
 $$
-E(\mu_hat) = E(x_bar)
-                    = E( \sum_{i=1}_{n} x_i / n) 
-                    = 1/n \sum_{i=1}_{n} E(x_i)  Sum of expectations is expectation of sums
-                    = 1/n \sum_{i=1}_{n} \mu
-                    = 1/n n* \mu
-                     =  \mu 
+\begin{aligned}
+E[\hat{\mu}] &= E[\bar{X}] \\[2pt]
+&= E\Bigg[ \frac{1}{n} \sum_{i=1}^{n} X_i \Bigg] \\[2pt]
+&= \frac{1}{n} \sum_{i=1}^{n} E[X_i] \quad \text{(Sum of expectations = expectation of sums)} \\[2pt]
+&= \frac{1}{n} \sum_{i=1}^{n} \mu \\[2pt]
+&= \frac{1}{n} \cdot n \mu \\[2pt]
+&= \mu
+\end{aligned}
 $$
 
-Therefore, this is an unbiased estimator, $E(\mu_hat) = \mu$
+Therefore, this is an unbiased estimator, $E(\hat{\mu}) = \mu$
 
 
 
-# Variance of Distributions
+# 6. Variance of Distributions
 
-## Variance
 Variance is a measure of spread. It is the **average squared distance from the mean**.
-Squared because if we just took a plain average, the pluses and minuses would always cancel out and give 0. We *could* take the magnitude, but the discontinuity at x=0 makes the maths less nice, so by convention we usually use squared distances. This is the same argument as L1 vs L2 norm.
+Squared because if we just took a plain average, the pluses and minuses would always cancel out and give 0. 
+
+We *could* take the magnitude, but the discontinuity at $x=0$ makes the maths less nice, so by convention we usually use squared distances. This is the same argument as L1 vs L2 norm.
 
 
 $$
-Var(X) = E[(X - E(X))^2]
-       = E[X^2 - 2XE(X) + E(X)^2]  Expanding brackets
-       = E(X^2) - 2E(X)E(X) + (E(X))^2  Linearity of expectation
-       = E(X^2) - E(X)^2
+\begin{aligned}
+\mathrm{Var}(X) &= E\Big[(X - E[X])^2\Big] \\[2pt]
+&= E[X^2 - 2 X E[X] + (E[X])^2] \quad \text{(Expanding brackets)} \\[2pt]
+&= E[X^2] - 2 E[X] E[X] + (E[X])^2 \quad \text{(Linearity of expectation)} \\[2pt]
+&= E[X^2] - (E[X])^2
+\end{aligned}
 $$
 
 
-## Variance of a Bernoulli Distribution 
+## 6.1. Variance of a Bernoulli Distribution 
 
 Remember that in the general case, the variance is defined as:
 
 $$
-Var(X) = E(X^2) - E(X)^2
+\mathrm{Var}(X) = E[X^2] - (E[X])^2
 $$
 
-We already know the mean of a Bernoulli distribution is $E(X) = p$
-So we just need to find an expression for $E(X^2)$.
+We already know the mean of a Bernoulli distribution is $E[X] = p$
+So we just need to find an expression for $E[X^2]$.
 
 Recall that for a Bernoulli distribution:
 $$
-f(x) = {p,    x=1
-        1-p, x=0
-        0,     otherwise
+f(x) = 
+\begin{cases}
+p & x = 1 \\[6pt]
+1-p & x = 0 \\[6pt]
+0 & \text{otherwise}
+\end{cases}
 $$
 
 So 
 $$
-E(X^2) = \sum x^2P(X=x)
-       = 0*0*(1-p) + 1*1*p
-       = p 
+\begin{aligned}
+E[X^2] &= \sum_{x} x^2 P(X = x) \\[2pt]
+&= 0^2 \cdot (1-p) + 1^2 \cdot p \\[2pt]
+&= p
+\end{aligned}
 $$
 
 Substituting into our variance formula:
 $$
-Var(X) = E(X^2) - E(X)^2
-       = p - p^2
-       = p(1-p)
+\begin{aligned}
+\mathrm{Var}(X) &= E[X^2] - (E[X])^2 \\[2pt]
+&= p - p^2 \\[2pt]
+&= p(1-p)
+\end{aligned}
 $$
 
-So the variance of a Bernoulli distribution is $Var(X) = p(1-p)$.
+So the variance of a Bernoulli distribution is $\mathrm{Var}(X)  = p(1-p)$.
 
 
-## Variance of a Uniform Distribution 
+## 6.2. Variance of a Uniform Distribution 
 
 Again we start with that general formula for variance
 $$
-Var(X) = E(X^2) - E(X)^2
+\mathrm{Var}(X) = E[X^2] - (E[X])^2
 $$
 
-We know the the expected value for a uniform distribution is $\theta / 2$ and the PDF is $f(x) = 1 / theta$
+We know the the expected value for a uniform distribution is $\frac{\theta}{2}$ and the PDF is $f(x) = \frac{1}{\theta}$
 
-So $E[X}^2 = \theta ^ 2 / 4$. We just need to calculate $E[X^2]$.
+So $(E[X])^2 = \frac{\theta^2}{4}$. We just need to calculate $E[X^2]$.
+
 $$
-E[X^2] = \int_{x=0}_{\theta} x^2 (1 / \theta) dx
-       = (1 / \theta) \int_{x=0}_{\theta} x^2  dx  Pulling constant terms outside the integral
-       = (1 / \theta) x^3 / 3 |_{\theta}_{0}
-       = \theta ^2 / 3 
+\begin{aligned}
+E[X^2] &= \int_{0}^{\theta} x^2 \cdot \frac{1}{\theta} \, dx \\[2pt]
+&= \frac{1}{\theta} \int_{0}^{\theta} x^2 \, dx \quad \text{(Pulling constant outside the integral)} \\[2pt]
+&= \frac{1}{\theta} \left[ \frac{x^3}{3} \right]_{0}^{\theta} \\[2pt]
+&= \frac{1}{\theta} \cdot \frac{\theta^3}{3} \\[2pt]
+&= \frac{\theta^2}{3}
+\end{aligned}
 $$
 
 Hence our variance expression is:
 $$
-Var(X) = E(X^2) - E(X)^2
-       = \theta ^2 / 3 - \theta ^ 2 / 4
-       = \theta ^ 2 / 12
+\begin{aligned}
+\mathrm{Var}(X) &= E[X^2] - (E[X])^2 \\[2pt]
+&= \frac{\theta^2}{3} - \frac{\theta^2}{4} \\[2pt]
+&= \frac{\theta^2}{12}
+\end{aligned}
 $$     
 
 
-## Variance of a Normal Distribution 
+## 6.3. Variance of a Normal Distribution 
 
-You can grind through the integrals to get an expression for the variance... we know that it will eventually simplify down to $Var(X) = \sigma ^2$ by the definition of a Normal distribution.
+You can grind through the integrals to get an expression for the variance... we know that it will eventually simplify down to $\mathrm{Var}(X) = \sigma ^2$ by the definition of a Normal distribution.
 
 
 
-# Variance of Estimators
+# 7. Variance of Estimators
 
-## Why the Variance of an Estimator Matters
+## 7.0. Background on Variance
+### 7.0.1. Why the Variance of an Estimator Matters
 
 We want a lower variance for our estimator, i.e. the value we measure is in a tighter range near the true population mean.
 
 An estimator with an unbiased mean but massive variance wouldn't be very useful. On average, the survey results will reflect the true results, but any given survey may be wildly off the true population mean.
 
 
-## Properties of Variance
+### 7.0.2. Properties of Variance
 
 Similarly to the linearity properties of expected value, there are analogous results for variance.
 
 If we scale our random variable by a constant, the variance squares all distances, so:
 $$
-Var(cX) = c^2 Var(X)
+\mathrm{Var}(cX) = c^2 \mathrm{Var}(X)
 $$
 
 
-For iid random variables:
+For i.i.d. random variables:
 $$
-Var( \sum X_i ) = \sum Var(X_i)
+\mathrm{Var}\Bigg(\sum_{i=1}^{n} X_i\Bigg) = \sum_{i=1}^{n} \mathrm{Var}(X_i)
 $$
 
 
 
-## Variance of the MoM Estimator of a Bernoulli Distribution 
+## 7.1. Variance of the MoM Estimator of a Bernoulli Distribution 
 
 Recall that the MoM estimate is:
 $$
-p_hat = x_bar = \sum_{i=1}_{n} x_i / n
+\hat{p} = \bar{X} = \frac{1}{n} \sum_{i=1}^{n} x_i
 $$
 
 We want to find the variance, so rewrite it in a form where we can apply some of our variance rules:
 $$
-Var(p_hat) = Var( \sum_{i=1}_{n} x_i / n)
-           = 1/n^2 Var(\sum_{i=1}_{n} x_i)  using the result Var(cX) = c^2Var(X)
-           = 1/n^2 \sum_{i=1}_{n} Var(x_i)  using variance of sum = sum of variances (for iid)
-           = 1/n^2 \sum_{i=1}_{n} p(1-p)    using the result for variance of a Bernoulli variable 
-           = 1/n^2 np(1-p)
-           = p(1-p) / n
+\begin{aligned}
+\mathrm{Var}(\hat{p}) &= \mathrm{Var}\Bigg( \frac{1}{n} \sum_{i=1}^{n} X_i \Bigg) \\[2pt]
+&= \frac{1}{n^2} \, \mathrm{Var}\Bigg( \sum_{i=1}^{n} X_i \Bigg) \quad \text{(using } \mathrm{Var}(cX) = c^2 \mathrm{Var}(X) \text{)} \\[2pt]
+&= \frac{1}{n^2} \sum_{i=1}^{n} \mathrm{Var}(X_i) \quad \text{(variance of sum = sum of variances for i.i.d.)} \\[2pt]
+&= \frac{1}{n^2} \sum_{i=1}^{n} p(1-p) \quad \text{(using variance of a Bernoulli variable)} \\[2pt]
+&= \frac{1}{n^2} \cdot n \, p(1-p) \\[2pt]
+&= \frac{p(1-p)}{n}
+\end{aligned}
 $$
 
-So $Var(p_hat) = p(1-p) / n$
+So $\mathrm{Var}(\hat{p}) = \frac{p(1-p)}{n}$
+
 This means the variance always decreases with $n$ more samples. 
-The lowest variance is for $p=0.5$; if positive or negative cases is very likely (e.g. 0.99) then we wouldn't see much variance in our estimate because it is so certain. In the extreme case of p=0 or p=1, the variance is 0.
+The lowest variance is for $p=0.5$; if positive or negative cases is very likely (e.g. 0.99) then we wouldn't see much variance in our estimate because it is so certain. In the extreme case of $p=0$ or $p=1$, the variance is 0.
 
 
-## Variance of the MoM Estimator of a Uniform Distribution 
+## 7.2. Variance of the MoM Estimator of a Uniform Distribution 
 
 Recall the the MoM Estimator is:
 $$
-\theta_hat = 2 x_bar = 2 \sum_{i=1}_{n} x_i / n
+\hat{\theta} = 2 \bar{X} = \frac{2}{n} \sum_{i=1}^{n} x_i
 $$
 
 We want to find an expression for the variance:
 $$
-Var(\theta_hat) = Var(2 \sum_{i=1}_{n} x_i / n)
-                = 4/n^2 Var(\sum_{i=1}_{n} x_i)  using the result Var(cX) = c^2Var(X) 
-                = 4/n^2 \sum_{i=1}_{n} Var(x_i)  using variance of sum = sum of variances (for iid)
-                = 4/n^2 \sum_{i=1}_{n} \theta ^ 2 / 12  using the variance of a uniform distribution
-                = 4/n^2 * n * \theta ^ 2 / 12
-                = (\theta ^ 2) / 3n 
+\begin{aligned}
+\mathrm{Var}(\hat{\theta}) &= \mathrm{Var}\Bigg( 2 \cdot \frac{1}{n} \sum_{i=1}^{n} X_i \Bigg) \\[2pt]
+&= \frac{4}{n^2} \, \mathrm{Var}\Bigg( \sum_{i=1}^{n} X_i \Bigg) \quad \text{(using } \mathrm{Var}(cX) = c^2 \mathrm{Var}(X) \text{)} \\[2pt]
+&= \frac{4}{n^2} \sum_{i=1}^{n} \mathrm{Var}(X_i) \quad \text{(variance of sum = sum of variances for i.i.d.)} \\[2pt]
+&= \frac{4}{n^2} \sum_{i=1}^{n} \frac{\theta^2}{12} \quad \text{(variance of a uniform distribution)} \\[2pt]
+&= \frac{4}{n^2} \cdot n \cdot \frac{\theta^2}{12} \\[2pt]
+&= \frac{\theta^2}{3n}
+\end{aligned}
 $$
 
 
 This makes intuitive sense. As the distribution gets wider, the variance gets wider. As the number of samples increases, the variance decreases, i.e. we get a more certain estimate.
 
 
-## Variance of the MoM Estimator of a Normal Distribution 
+## 7.3. Variance of the MoM Estimator of a Normal Distribution 
 
 Recall that 
 $$
-\mu_hat = x_bar = \sum_{i=1}_{n} x_i / n
+\hat{\mu} = \bar{X} = \frac{1}{n} \sum_{i=1}^{n} x_i
 $$
 
 So the variance is:
 $$
-Var(\mu_hat) = Var( \sum_{i=1}_{n} x_i / n)
-             = 1/n^2 Var(\sum_{i=1}_{n} x_i)  using the result Var(cX) = c^2Var(X) 
-             = 1/n^2 \sum_{i=1}_{n} Var(x_i)  using variance of sum = sum of variances (for iid)
-             = 1/n^2 \sum_{i=1}_{n} \sigma^2  using the variance of a Normal distribution
-             = 1/n^2 * n * \sigma^2
-             = \sigma^2 / n
+\begin{aligned}
+\mathrm{Var}(\hat{\mu}) &= \mathrm{Var}\Bigg( \frac{1}{n} \sum_{i=1}^{n} X_i \Bigg) \\[2pt]
+&= \frac{1}{n^2} \, \mathrm{Var}\Bigg( \sum_{i=1}^{n} X_i \Bigg) \quad \text{(using } \mathrm{Var}(cX) = c^2 \mathrm{Var}(X) \text{)} \\[2pt]
+&= \frac{1}{n^2} \sum_{i=1}^{n} \mathrm{Var}(X_i) \quad \text{(variance of sum = sum of variances for i.i.d.)} \\[2pt]
+&= \frac{1}{n^2} \sum_{i=1}^{n} \sigma^2 \quad \text{(variance of a Normal distribution)} \\[2pt]
+&= \frac{1}{n^2} \cdot n \, \sigma^2 \\[2pt]
+&= \frac{\sigma^2}{n}
+\end{aligned}
 $$
 
 
-This gives the well-known result that for a normally-distributed random variable $X_i ~ N(\mu, \sigma ^ 2)$, the mean of N such iid random variables is:
+This gives the well-known result that for a normally-distributed random variable $X_i ~ N(\mu, \sigma ^ 2)$, the mean of N such i.i.d. random variables is:
 $$
-X_i ~ N(\mu, \sigma ^ 2 / N)
+X_i \sim N(\mu, \frac{\sigma^2}{N})
 $$
 
 This comes up a lot in hypothesis testing because of the central limit theorem.
@@ -662,7 +751,7 @@ $$
 dl/dp = \sum x_i / p - (n - \sum x_i) / 1-p = 0
 $$
 
-The solution to this is $p_hat_{MLE}.
+The solution to this is $\hat{p}_{MLE}.
 $$
 Multiply both sides by p(1-p)
 \sum x_i (1-p) - (n - \sum x_i) p = 0
@@ -673,10 +762,10 @@ Expand sums
 Collect p terms
 p (- sum x_i -n + sum x_i) + sum x_i = 0
 => sum x_i = np
-=> p_hat = \sum x_i / n = x_bar
+=> \hat{p} = \sum x_i / n = \bar{X}
 $$
 
-So the MLE estimate of p is the same as the MoM estimate: $x_bar$.
+So the MLE estimate of p is the same as the MoM estimate: $\bar{X}$.
 
 
 ## MLE Estimator for a Uniform Distribution
@@ -714,7 +803,7 @@ So is $\theta_{MLE} =0$? Naively we would think so, but remember the bounds of t
 
 Therefore $\theta_{MLE} = max x_i$.
 
-Note that this is different to our MoM estimate, which said that $\theta_{MOM} = 2 x_bar$. 
+Note that this is different to our MoM estimate, which said that $\theta_{MOM} = 2 \bar{X}$. 
 MLE bases the estimate of the upper bound parameter $\theta$ on the maximum value we have seen. MoM says to take the average we have observed, that should be somewhere near the middle, so we double it to get an estimate of the upper bound parameter $\theta$.
 
 We know that $\theta_{MOM}$ was unbiased, so $\theta_{MLE}$ must be biased.
@@ -727,12 +816,12 @@ We used bias and variance to evaluate the goodness of our estimators.
 We may want to compare a biased estimator vs an unbiased estimator. One method for doing so is to compare the mean squared error (MSE); the average squared distance from the true value.
 
 $$
-MSE(\theta_hat) = E[(\theta_hat - \theta)^2)
+MSE(\hat{\theta}) = E[(\hat{\theta} - \theta)^2)
 $$
 
 We can work through some algebra to get the identity:
 $$
-MSE(\theta_hat) = Bias(\theta_hat) ^2 + Var(\theta)
+MSE(\hat{\theta}) = Bias(\hat{\theta}) ^2 + Var(\theta)
 $$
 
 So for an unbiased estimator, the MSE = Variance.
@@ -763,11 +852,11 @@ $$ the derivative and set it to 0.
 dl / d \mu = -1 / (2 \sigma^2) \sum{i=1}_{n} 2(x-\mu) = 0
 => \sum{i=1}_{n} (x-\mu) = 0
 => \sum{i=1}_{n} x - (n* \mu) = 0
-=> \mu_hat = \sum{i=1}_{n} x / n
-           = x_bar
+=> \hat{\mu} = \sum{i=1}_{n} x / n
+           = \bar{X}
 $$
 
-So this is the same as the MoM estimator, $\mu_hat = x_bar$.
+So this is the same as the MoM estimator, $\hat{\mu} = \bar{X}$.
 
 
 
@@ -789,7 +878,7 @@ The intuition behind this is to think about the distribution for an estimator. F
 
 The **Cramer Rao Lower Bound (CRLB)** then tells us that the lower bound for the variance is:
 $$
-Var(\theta_hat) >= 1 / I_n(\theta)
+Var(\hat{\theta}) >= 1 / I_n(\theta)
 $$
 
 So if we can show that this bound is tight for a particular estimator and that the estimator is unbiased, the estimator is **efficient**.
@@ -800,7 +889,7 @@ So if we can show that this bound is tight for a particular estimator and that t
 
 Recall that in general for any distribution:
 $$
-Var(\theta_hat) >= 1 / n*I_1(\theta)
+Var(\hat{\theta}) >= 1 / n*I_1(\theta)
 I_1(\theta) = -E[l''(\theta)]
 $$
 
@@ -869,12 +958,12 @@ So our Mom and MLE estimators are both efficient.
 
 We can define the **efficiency** of an estimator as the ratio of it's variance and its optimal variance given by the CRLB:
 $$
-Efficiency(\theta_hat) = CRLB / Var(\theta_hat)
+Efficiency(\hat{\theta}) = CRLB / Var(\hat{\theta})
 $$
 
 We can also compare two different estimators by taking the ratio of their variances. This is the **relative efficiency**. For example, comparing the MOM and MLE estimators:
 $$
-Relative Efficiency = Var(\theta_hat_{MOM}) / Var(\theta_hat_{MLE})
+Relative Efficiency = Var(\hat{\theta}_{MOM}) / Var(\hat{\theta}_{MLE})
 $$
 
 This is typically a function of $n$. We can analyse the **relative asymptotic efficiency by observing the behaviour as $n -> \inf$.
@@ -901,15 +990,15 @@ For a Normal distribution, the parameter is **exactly** Normal regardless of sam
 
 ## CLT for a Bernoulli
 
-Recall that both MOM and MLE estimators for a Bernoulli distribution were $p_hat = x_bar$.
+Recall that both MOM and MLE estimators for a Bernoulli distribution were $\hat{p} = \bar{X}$.
 
 As this is an *average* of data points, CLT applies.
 A general rule of thumb is that CLT applies when the expected number of successes $np > 10$ and the expected number of failures $n(1-p) > 10$.
 
-We've already established the mean and variance of the estimator $p_hat$ in earlier sections:
+We've already established the mean and variance of the estimator $\hat{p}$ in earlier sections:
 $$
-E[p_hat] = p
-Var[p_hat] = p(1-p) / n
+E[\hat{p}] = p
+Var[\hat{p}] = p(1-p) / n
 $$
 
 So the value of the estimator is a Normally distributed random variable with those parameters. We now know the entire distribution and can do interesting things with it, like hypothesis testing.
@@ -925,8 +1014,8 @@ We can reason about the asymptotic distribution of the MOM estimate for a unifor
 
 We've already established the mean and variance of the estimator $\theta$ in earlier sections:
 $$
-E[\theta_hat] = \theta
-Var[p_hat] = \theta ^2 / 3n
+E[\hat{\theta}] = \theta
+Var[\hat{p}] = \theta ^2 / 3n
 $$
 
 So again, our estimate is a Normally-distributed random variable with these parameters.
@@ -940,8 +1029,8 @@ We don't need any specific sample size for this to be true; it is true for $n=1,
 
 We've already established the mean and variance of the estimator $\mu$ in earlier sections:
 $$
-E[\mu_hat] = \mu
-Var[\mu_hat] = \sigma ^2 / n
+E[\hat{\mu}] = \mu
+Var[\hat{\mu}] = \sigma ^2 / n
 $$
 
 So again, our estimate is a Normally-distributed random variable with these parameters.
@@ -955,7 +1044,7 @@ Consistency is another measure of asymptotic behaviour that says that as the num
 
 Mathematically
 $$
-P(| \theta_hat - \theta | < \epsilon) -> 1  as n -> \inf
+P(| \hat{\theta} - \theta | < \epsilon) -> 1  as n -> \inf
 for \epsilon arbitrarily small
 $$
 
@@ -968,29 +1057,29 @@ When we've looked at estimators in previous sections, we've focused on **point e
 
 But we know that these are random variables, so we would prefer to make **interval estimates**. Then we can make statements like "we are 95% sure that the mean is between 1.5 to 2.5".
 
-We can use the results from previous sections for this. Recall that we were able to reason about the distribution of our estimate with CLT. The *estimate* $\theta_hat$ is centred on the true value, and using the $2 \sigma(\theta_hat)$ value, there is a 95% probability that the estimate lies within 2 (sample) standard deviations of the true mean.
+We can use the results from previous sections for this. Recall that we were able to reason about the distribution of our estimate with CLT. The *estimate* $\hat{\theta}$ is centred on the true value, and using the $2 \sigma(\hat{\theta})$ value, there is a 95% probability that the estimate lies within 2 (sample) standard deviations of the true mean.
 Mathematically:
 $$
-P(\theta - 2\sigma(\theta_hat) <= \theta_hat <= \theta  2\sigma(\theta_hat)) = 0.95
+P(\theta - 2\sigma(\hat{\theta}) <= \hat{\theta} <= \theta  2\sigma(\hat{\theta})) = 0.95
 $$
 
-Note that we have the population parameter value $\theta$ in the left and right terms and the *sample* value $\theta_hat$ in the middle term.
+Note that we have the population parameter value $\theta$ in the left and right terms and the *sample* value $\hat{\theta}$ in the middle term.
 
-We want to shift our perspective when going from probability to statistics. In statistics/the real world, we *don't know* the TRUE parameter value, but we can gather data so that our ESTIMATED parameter value is known. So we want to make confidence interval statements about the true value, i.e. we want the population value $\theta\$ in the middle of the inequality and estimated values $\theta_hat$ as the bounds.
+We want to shift our perspective when going from probability to statistics. In statistics/the real world, we *don't know* the TRUE parameter value, but we can gather data so that our ESTIMATED parameter value is known. So we want to make confidence interval statements about the true value, i.e. we want the population value $\theta\$ in the middle of the inequality and estimated values $\hat{\theta}$ as the bounds.
 
-We can do this with a bit of algebra. Starting with the equation above, subtract $\theta$ and $\theta_hat$ from each term inside the probability. 
+We can do this with a bit of algebra. Starting with the equation above, subtract $\theta$ and $\hat{\theta}$ from each term inside the probability. 
 $$
-P(-\theta_hat - 2\sigma(\theta_hat) <= \theta <= -\theta_hat + 2\sigma(\theta_hat)) = 0.95
+P(-\hat{\theta} - 2\sigma(\hat{\theta}) <= \theta <= -\hat{\theta} + 2\sigma(\hat{\theta})) = 0.95
 $$
 
 Now multiply all terms by -1 and note that it flips the sign of the inequality when we multiply by a negative value.
 $$
-P(\theta_hat + 2\sigma(\theta_hat) >= \theta >= \theta_hat - 2\sigma(\theta_hat)) = 0.95
+P(\hat{\theta} + 2\sigma(\hat{\theta}) >= \theta >= \hat{\theta} - 2\sigma(\hat{\theta})) = 0.95
 $$
 
-This was our goal: we now have bounds for the **population** value $\theta$ in terms of the estimated values $\theta_hat$ which are known values that we can calculate from the data.
+This was our goal: we now have bounds for the **population** value $\theta$ in terms of the estimated values $\hat{\theta}$ which are known values that we can calculate from the data.
 
-We have **inverted/pivoted** the roles of $\theta$ and $\theta_hat$.
+We have **inverted/pivoted** the roles of $\theta$ and $\hat{\theta}$.
 
 
 What does it mean to have a 95% confidence interval? Say we have a process:
@@ -1023,9 +1112,9 @@ Our 95% value means **"95% of these hypothetical intervals calculated will conta
 
 The pivot from probability to statistics was mentioned in the previous section but is crucial so bears emphasising.
 
-In probability, we can make statements like "there is 95% probability that $\theta_hat$ is in $\theta +- 2 \sigma(\theta)$".
+In probability, we can make statements like "there is 95% probability that $\hat{\theta}$ is in $\theta +- 2 \sigma(\theta)$".
 
-In statistics, thanks to our pivot (algebraic manipulation of the inequality), we make statements like "we are 95% confidence that $\theta$ is in the interval \theta_hat +- 2 * standard error(\theta_hat)$".
+In statistics, thanks to our pivot (algebraic manipulation of the inequality), we make statements like "we are 95% confidence that $\theta$ is in the interval \hat{\theta} +- 2 * standard error(\hat{\theta})$".
 
 
 ## Some useful terms
@@ -1044,7 +1133,7 @@ We've already established the mean and standard error of our MOM/MLE estimators 
 
 So our 95% confidence interval is
 $$
-p_hat +- 2 sqrt(p_hat (1-p_hat) / n )
+\hat{p} +- 2 sqrt(\hat{p} (1-\hat{p}) / n )
 $$
 
 
@@ -1054,14 +1143,14 @@ We skip the MLE uniform estimator since it's a maximum of values, therefore CLT 
 
 For our MOM estimator, the 95% confidence interval is:
 $$
-\theta_hat +- 2 * \theta / sqrt(3n)
+\hat{\theta} +- 2 * \theta / sqrt(3n)
 $$
 
 
 $$ Normal distribution confidence intervals
 For our MOM estimator, the 95% confidence interval is:
 $$
-\mu_hat +- 2 * \sigma / sqrt(n)
+\hat{\mu} +- 2 * \sigma / sqrt(n)
 $$
 
 
