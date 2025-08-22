@@ -1,7 +1,7 @@
 ---
 title: "Basic Statistics"
 description: "Significant."
-date: "2025-07-15"
+date: "2025-07-20"
 categories: [Maths, Statistics]
 ---
 
