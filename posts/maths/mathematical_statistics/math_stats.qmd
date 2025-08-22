@@ -1,6 +1,6 @@
 ---
 title: "Mathematical Statistics"
-description: "Stats"
+description: "Fun with Latex ;)"
 date: "2025-07-20"
 categories: [Maths, Statistics]
 ---
