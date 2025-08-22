@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Gurpreet Johl">
-<meta name="dcterms.date" content="2023-08-23">
-<meta name="description" content="Practical Deep Learning for Coders: Lesson 1">
+<meta name="dcterms.date" content="2025-07-20">
+<meta name="description" content="Significant.">
 
-<title>Gurpreet Johl - FastAI Lesson 1: Image Classification Models</title>
+<title>Gurpreet Johl - Basic Statistics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -26,25 +26,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../../../">
-<script src="../../../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<script src="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -73,8 +70,37 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="../../../../styles.css">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -84,7 +110,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../../../index.html">
+    <a class="navbar-brand" href="../../../index.html">
     <span class="navbar-title">Gurpreet Johl</span>
     </a>
   </div>
@@ -95,11 +121,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../../../projects.html"> 
+    <a class="nav-link" href="../../../projects.html"> 
 <span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../../blog.html"> 
+    <a class="nav-link" href="../../../blog.html"> 
 <span class="menu-text">Notes</span></a>
   </li>  
 </ul>
@@ -130,16 +156,15 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">FastAI Lesson 1: Image Classification Models</h1>
+      <h1 class="title">Basic Statistics</h1>
                   <div>
         <div class="description">
-          Practical Deep Learning for Coders: Lesson 1
+          Significant.
         </div>
       </div>
                           <div class="quarto-categories">
-                <div class="quarto-category">AI</div>
-                <div class="quarto-category">Engineering</div>
-                <div class="quarto-category">FastAI</div>
+                <div class="quarto-category">Maths</div>
+                <div class="quarto-category">Statistics</div>
               </div>
                   </div>
   </div>
@@ -157,7 +182,7 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">August 23, 2023</p>
+        <p class="date">July 20, 2025</p>
       </div>
     </div>
     
@@ -173,14 +198,31 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction-to-image-classification-models" id="toc-introduction-to-image-classification-models" class="nav-link active" data-scroll-target="#introduction-to-image-classification-models">Introduction to image classification models</a>
+  <li><a href="#distributions" id="toc-distributions" class="nav-link active" data-scroll-target="#distributions">1. Distributions</a></li>
+  <li><a href="#central-limit-theorem" id="toc-central-limit-theorem" class="nav-link" data-scroll-target="#central-limit-theorem">2. Central Limit Theorem</a>
   <ul class="collapse">
-  <li><a href="#notes-on-learning" id="toc-notes-on-learning" class="nav-link" data-scroll-target="#notes-on-learning">1. Notes on Learning</a></li>
-  <li><a href="#background-on-deep-learning-and-image-classification" id="toc-background-on-deep-learning-and-image-classification" class="nav-link" data-scroll-target="#background-on-deep-learning-and-image-classification">2. Background on Deep Learning and Image Classification</a></li>
-  <li><a href="#overview-of-the-fastai-learner" id="toc-overview-of-the-fastai-learner" class="nav-link" data-scroll-target="#overview-of-the-fastai-learner">3. Overview of the fastai learner</a></li>
-  <li><a href="#deep-learning-vs-traditional-computer-programs" id="toc-deep-learning-vs-traditional-computer-programs" class="nav-link" data-scroll-target="#deep-learning-vs-traditional-computer-programs">4. Deep Learning vs Traditional Computer Programs</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background">2.1. Background</a></li>
+  <li><a href="#z-score" id="toc-z-score" class="nav-link" data-scroll-target="#z-score">2.2. Z-Score</a></li>
   </ul></li>
+  <li><a href="#hypothesis-testing" id="toc-hypothesis-testing" class="nav-link" data-scroll-target="#hypothesis-testing">3. Hypothesis Testing</a>
+  <ul class="collapse">
+  <li><a href="#two-universe" id="toc-two-universe" class="nav-link" data-scroll-target="#two-universe">3.1. Two Universe</a></li>
+  <li><a href="#p-values" id="toc-p-values" class="nav-link" data-scroll-target="#p-values">3.2. P-values</a></li>
+  <li><a href="#hypothesis-testing-teps" id="toc-hypothesis-testing-teps" class="nav-link" data-scroll-target="#hypothesis-testing-teps">3.3. Hypothesis testing teps</a></li>
+  <li><a href="#rejection-region" id="toc-rejection-region" class="nav-link" data-scroll-target="#rejection-region">3.4. Rejection Region</a></li>
+  <li><a href="#hypothesis-testing-assumptions" id="toc-hypothesis-testing-assumptions" class="nav-link" data-scroll-target="#hypothesis-testing-assumptions">3.5. Hypothesis Testing Assumptions</a></li>
+  <li><a href="#proportion-testing" id="toc-proportion-testing" class="nav-link" data-scroll-target="#proportion-testing">3.6. Proportion Testing</a></li>
+  <li><a href="#failing-to-reject-the-null-hypothesis" id="toc-failing-to-reject-the-null-hypothesis" class="nav-link" data-scroll-target="#failing-to-reject-the-null-hypothesis">3.7. Failing to Reject the Null Hypothesis</a></li>
+  </ul></li>
+  <li><a href="#t-testing" id="toc-t-testing" class="nav-link" data-scroll-target="#t-testing">4. t-testing</a>
+  <ul class="collapse">
+  <li><a href="#the-t-distribution" id="toc-the-t-distribution" class="nav-link" data-scroll-target="#the-t-distribution">4.1. The t-distribution</a></li>
+  <li><a href="#t-tests" id="toc-t-tests" class="nav-link" data-scroll-target="#t-tests">4.2. t-tests</a></li>
+  <li><a href="#tailed-and-2-tailed-tests" id="toc-tailed-and-2-tailed-tests" class="nav-link" data-scroll-target="#tailed-and-2-tailed-tests">4.3. 1-tailed and 2-tailed tests</a></li>
+  <li><a href="#misuse-of-p-values" id="toc-misuse-of-p-values" class="nav-link" data-scroll-target="#misuse-of-p-values">4.4. Misuse of p-values</a></li>
+  <li><a href="#confidence-intervals" id="toc-confidence-intervals" class="nav-link" data-scroll-target="#confidence-intervals">4.5. Confidence Intervals</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
     </div>
@@ -191,102 +233,170 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="introduction-to-image-classification-models" class="level1">
-<h1>Introduction to image classification models</h1>
-<p>These are notes from lesson 1 of Fast AI Practical Deep Learning for Coders.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Homework Task">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Homework Task
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Train an image classifier: see <a href="https://github.com/gjohl/ml-practice/blob/master/ml-practice/notebooks/fastai/1_image_classifier.ipynb">car classification notebook</a></p>
-</div>
-</div>
-<section id="notes-on-learning" class="level2">
-<h2 class="anchored" data-anchor-id="notes-on-learning">1. Notes on Learning</h2>
-<p>There is a companion course focusing on AI ethics <a href="https://ethics.fast.ai/">here</a></p>
-<p>Thoughts on education: play the whole game first to get an idea of the big picture. Don’t become afflicted with “elementitis” getting too bogged down in details too early.</p>
+<section id="distributions" class="level1">
+<h1>1. Distributions</h1>
+<p>A distribution is just “the list of observed values”.</p>
+<p>It is tempting to think of a distribution as a function or a plot, but these are ultimately <em>representations</em> of the distribution itself.</p>
+<p>Basic concepts to be aware of regarding distributions:</p>
 <ul>
-<li>Coloured cups - green, amber, red - for each student to indicate how well they are following</li>
-<li>Meta Learning by Radek Osmulski - a book based on the author’s experience of learning about deep learning (via the fastai course)</li>
-<li>Mathematician’s Lament by Paul Lockhart - a book about the state of mathematics education</li>
-<li>Making Learning Whole by David Perkins - a book about apporaches to holistic learning</li>
+<li>Continuous vs discrete values</li>
+<li>Mean, median, mode.</li>
+<li>Variance (and standard deviation). Analog of MSE and RMSE.</li>
+<li>Skewness</li>
 </ul>
-<p><a href="https://rise.readthedocs.io/en/latest/">RISE</a> is a jupyter notebook extension to turn notebooks into slides. Jeremy uses notebooks for: source code, book, blogging, CI/CD.</p>
 </section>
-<section id="background-on-deep-learning-and-image-classification" class="level2">
-<h2 class="anchored" data-anchor-id="background-on-deep-learning-and-image-classification">2. Background on Deep Learning and Image Classification</h2>
-<p>Before deep learning, the approach to machine learning was to enlist many domain experts to <em>handcraft</em> features and feed this into a constrained linear model (e.g.&nbsp;ridge regression). This is time-consuming, expensive and requires many domain experts.</p>
-<p>Neural networks <em>learn</em> these features. Looking inside a CNN, for example, shows that these learned features match interpretable features that an expert might handcraft. An illustration of the features learned is given in <a href="https://arxiv.org/abs/1311.2901">this paper by Zeiler and Fergus</a>.</p>
-<p>For image classifiers, you don’t need particularly large images as inputs. GPUs are so quick now that if you use large images, most of the time is spent on <em>opening the file</em> rather than computations. So often we resize images down to 400x400 pixels or smaller.</p>
-<p>For most use cases, there are pre-trained models and sensible default values that we can use. In practice, most of the time is spent on the input layer and output layer. For most models the middle layers are identical.</p>
-</section>
-<section id="overview-of-the-fastai-learner" class="level2">
-<h2 class="anchored" data-anchor-id="overview-of-the-fastai-learner">3. Overview of the fastai learner</h2>
-<p>Data blocks structure the input to learners. An overview of the <code>DataBlock</code> class:</p>
+<section id="central-limit-theorem" class="level1">
+<h1>2. Central Limit Theorem</h1>
+<section id="background" class="level2">
+<h2 class="anchored" data-anchor-id="background">2.1. Background</h2>
+<p>We can <strong>sample</strong> from a distribution, which is to say we <strong>observe a subset of the possible observations</strong>.</p>
+<p>The central limit theorem states three properties observed when repeatedly <span class="math inline">\(N\)</span> items from any distribution.</p>
+<ol type="1">
+<li>The samples are normally distributed</li>
+<li>The estimated sample mean converges to the true population mean</li>
+<li>The sample standard deviation of the estimated mean converges to $</li>
+</ol>
+<p>A tangible example of this might be if we wanted to estimate the words per page in a book.</p>
 <ul>
-<li><code>blocks</code> determines the input and output type as a tuple. For multi-target classification this tuple can be arbitrary length.</li>
-<li><code>get_items</code> is a function that returns a list of all the inputs.</li>
-<li><code>splitter</code> defines how to split the training/validation set.</li>
-<li><code>get_y</code> is a function that returns the label of a given input image.</li>
-<li><code>item_tfms</code> defines what transforms to apply to the inputs before training, e.g.&nbsp;resize.</li>
-<li><code>dataloaders</code> is a method that parallelises loading the data.</li>
+<li>Group A takes the intelligent decision to count every word on every page.</li>
+<li>Group B splits the work. They each count 20 pages and report the mean. But they don’t coordinate, so they each pick 20 random, possibly overlapping pages.</li>
 </ul>
-<p>A learner combines the model (e.g.&nbsp;resnet or something from <a href="https://timm.fast.ai/">timm library</a>) and the data to run that model on (the dataloaders from the DataBlock).</p>
-<p>The <code>fine_tune</code> method starts with a pretrained model weights rather than randomised weights, and only needs to learn the differences between your data and the original model.</p>
-<p>Other image problems that can utilise deep learning:</p>
-<ul>
-<li>Image classification</li>
-<li>Image segmentation</li>
-</ul>
-<p>Other problem types use the same process, just with different DataBlock <code>blocks</code> types and the rest is the same. For example, tabular data, collaborative filtering.</p>
+<p>Group B’s mean will converge to the true Group A mean if they do this enough times.</p>
+<p>In practice, we don’t actually sample a set number of observations thousands of times and plot the distribution. But the CLT result is useful because it tells us what we <em>would have</em> observed if we had done so. We can then use this for hypothesis testing. We have a sample value. We can say whether it is above or below the sample mean (which is a decent estimate of the true mean) and by how much (in terms of std devs).</p>
 </section>
-<section id="deep-learning-vs-traditional-computer-programs" class="level2">
-<h2 class="anchored" data-anchor-id="deep-learning-vs-traditional-computer-programs">4. Deep Learning vs Traditional Computer Programs</h2>
-<!-- Flowcharts from https://miro.com/app/board/uXjVNv5WRsc=/ -->
-<p>Traditional computer programs are essentially:</p>
-<div id="fig-traditional_program" class="lightbox quarto-figure quarto-figure-center quarto-float anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-traditional_program-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="traditional_program.png" class="lightbox" data-glightbox="description: .lightbox-desc-1" data-gallery="quarto-lightbox-gallery-1"><img src="traditional_program.png" class="img-fluid figure-img"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-traditional_program-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Traditional computer programs
-</figcaption>
-</figure>
-</div>
-<p>Deep learning models are:</p>
-<div id="fig-deep_learning_model" class="lightbox quarto-figure quarto-figure-center quarto-float anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-deep_learning_model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="deep_learning_model.png" class="lightbox" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2"><img src="deep_learning_model.png" class="img-fluid figure-img"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-deep_learning_model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Deep learning model
-</figcaption>
-</figure>
-</div>
+<section id="z-score" class="level2">
+<h2 class="anchored" data-anchor-id="z-score">2.2. Z-Score</h2>
+<p>This leads on to the concept of Z-scores. This is essentially normalising values on any scale. So the number is telling us “how many standard deviations am I away from the mean?”</p>
+<p>These numbers are tabulated, so we know what the <strong>probability</strong> is of obtaining a Z-score <em>at least as extreme as this</em>.</p>
 </section>
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
+</section>
+<section id="hypothesis-testing" class="level1">
+<h1>3. Hypothesis Testing</h1>
+<section id="two-universe" class="level2">
+<h2 class="anchored" data-anchor-id="two-universe">3.1. Two Universe</h2>
+<p>We can think of hypothesis tests as proposing two “universes”:</p>
+<p><span class="math display">\[
+\begin{aligned}
+H_0 &amp;: \text{This is a fair coin} \\
+H_1 &amp;: \text{This is not a fair coin}
+\end{aligned}
+\]</span></p>
+<p>We conduct some experiments and calculate the probability of this outcome in universe 0. If this is sufficiently unlikely, we reject the null hypothesis, ie we don’t believe we live in universe 0 therefore we must live in universe 1.</p>
+</section>
+<section id="p-values" class="level2">
+<h2 class="anchored" data-anchor-id="p-values">3.2. P-values</h2>
+<p>As an example, if we flip the coin 6 times and get 6 heads in a row, the probability if this were a fair coin is 1%. In other words, the <strong>p-value</strong> is 0.01.</p>
+<p>This makes us feel “uneasy” so we start to question whether we actually live in universe 0. If we lived in universe 1 and the coin was always heads, then P(6 heads) would be 100% so we wouldn’t get an uneasy feeling.</p>
+<p>The <strong>confidence level</strong> is the critical p-value at which we reject the null hypothesis. In other words, at what point we feel “uneasy” enough that we change our world view.</p>
+</section>
+<section id="hypothesis-testing-teps" class="level2">
+<h2 class="anchored" data-anchor-id="hypothesis-testing-teps">3.3. Hypothesis testing teps</h2>
+<p>Procedure for testing if the sample mean is statistically significantly different from a population mean. This is a <strong>Z-test</strong> because we are testing based on the Z-score.</p>
+<ol type="1">
+<li>State the null hypothesis</li>
+<li>State the alternative hypothesis</li>
+<li>Calculate the sample standard deviation: <span class="math inline">\(\sigma_{sample} = \frac{\sigma_{pop}}{\sqrt{N}}\)</span></li>
+<li>Calc Z-score</li>
+<li>Look up p-value of our Z-score</li>
+<li>Compare p-value to confidence level. Accept or reject the null hypothesis.</li>
+</ol>
+</section>
+<section id="rejection-region" class="level2">
+<h2 class="anchored" data-anchor-id="rejection-region">3.4. Rejection Region</h2>
+<p>An alternative approach to choosing whether to accept/reject the null hypothesis is by calculating the <strong>critical Z-value</strong> for the rejection.</p>
+<p>We proceed through the first 4 steps as before. But rather than converting our Z-score to a p-value and then comparing to our critical p-value (the confidence level), we go the other way. We convert the confidence level p-value to a critical Z-score. Then we can say whether our observed Z-score was more extreme than the critical Z-score in order to accept/reject the null hypothesis.</p>
+<ol start="5" type="1">
+<li>Convert confidence level to critical Z-score</li>
+<li>Compare Z vs Z_critical. Accept or reject the null hypothesis.</li>
+</ol>
+<p>We can shade in the “rejection region” of the normal distribution and see if our sample value lies in it.</p>
+</section>
+<section id="hypothesis-testing-assumptions" class="level2">
+<h2 class="anchored" data-anchor-id="hypothesis-testing-assumptions">3.5. Hypothesis Testing Assumptions</h2>
+<p>Z-test assumptions:</p>
+<ol type="1">
+<li>Sample is selected at random.</li>
+<li>Observations are independent.</li>
+<li>The population’s standard deviation is known, OR the sample contains at least 30 samples. With an unknown population standard deviation, use a T-test, but above 30 samples the distribution basically converges to Normal anyway.</li>
+</ol>
+</section>
+<section id="proportion-testing" class="level2">
+<h2 class="anchored" data-anchor-id="proportion-testing">3.6. Proportion Testing</h2>
+<p>This is a very similar problem where we want to test whether the proportion within a population has changed.</p>
+<p>For example, a 2016 study says that 58% of households have tablets (i.e.&nbsp;iPads). We survey 100 random households and find that 73 do. We want to know if only 58% do.</p>
+<p>(Confusingly, p refers to population here, not probability)</p>
+<p>H0: 58% or fewer households have tablets H1: More than 58% have tablets.</p>
+<p>First we have to check that our sample size is big enough:</p>
+<p><span class="math display">\[
+\begin{aligned}
+np &amp;\ge 10 \\
+nq &amp;\ge 10 \\
+\text{where } q &amp;= 1 - p
+\end{aligned}
+\]</span></p>
+<p>We then conduct a hypothesis test as before, with: <span class="math display">\[
+\begin{aligned}
+\mu_{\text{population}} &amp;= p_{\text{population}} \, (0.58) \\
+\sigma_{\text{population}} &amp;= \sqrt{p q}
+\end{aligned}
+\]</span></p>
+<p>The proportions are Normally-distributed as before so we can conduct a Z-test.</p>
+</section>
+<section id="failing-to-reject-the-null-hypothesis" class="level2">
+<h2 class="anchored" data-anchor-id="failing-to-reject-the-null-hypothesis">3.7. Failing to Reject the Null Hypothesis</h2>
+<p>The two options when hypothesis testing are <strong>“reject the null hypothesis” or “fail to reject the null hypothesis”</strong>.</p>
+<p>We don’t <em>accept</em> any specific hypothesis. If we have a critical Z-score, it doesn’t necessarily mean H1 is true, there could be some other hypothesis H2 that also explains the result. So we don’t “accept H1”.</p>
+<p>Equally we don’t “accept H0”. If we don’t have the critical Z-score, it may just be that we need more samples, the data wasn’t randomly sampled, etc.</p>
+</section>
+</section>
+<section id="t-testing" class="level1">
+<h1>4. t-testing</h1>
+<section id="the-t-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="the-t-distribution">4.1. The t-distribution</h2>
+<p>The t-distribution describes a <strong>sample</strong> rather than the distribution of the population.</p>
+<p>The t-distribution has <em>heavier tails</em> than the Normal distribution. The fewer “degrees of freedom” the heavier the tails. In other words, the fewer observations we have, the more possible it is that the true values could be further away that what we’ve observed.</p>
+<p>As the DOF (symbol <span class="math inline">\(\nu\)</span>) tends to infinity, the distribution converges towards a Normal distribution. At about 30, it’s almost identical to a Normal.</p>
+<p>Use a t-test when:</p>
+<ol type="1">
+<li>The population standard deviation is unknown AND</li>
+<li>Sample size is small (<span class="math inline">\(n \lt 30\)</span>)</li>
+</ol>
+<p><span class="math display">\[
+t = \frac{x - \mu}{s / \sqrt{n}}
+\]</span></p>
+<p><span class="math inline">\(\nu\)</span> is basically always <span class="math inline">\(N-1\)</span> (where N is number of samples)</p>
+</section>
+<section id="t-tests" class="level2">
+<h2 class="anchored" data-anchor-id="t-tests">4.2. t-tests</h2>
+<p>The t-test hypothesis testing process is almost identical to the z-test. The only difference is we calculate a t-statistic (rather than a z-score). The rest is the same: we formulate our hypotheses, calculate the score and compare to our critical value.</p>
+</section>
+<section id="tailed-and-2-tailed-tests" class="level2">
+<h2 class="anchored" data-anchor-id="tailed-and-2-tailed-tests">4.3. 1-tailed and 2-tailed tests</h2>
+<p>For 2-tailed tests, you split the confidence interval on either side, e.g.&nbsp;a 5% confidence level means the rejection region is the top 2.5% and bottom 2.5% of the distribution.</p>
+<p>So a 2-tailed test is more strict, i.e.&nbsp;more difficult to reject the null hypothesis.</p>
+<p>You can think of this as a 1-tailed test incorporates prior knowledge that the variable can only have increased (or decreased). But for a 2-tailed test, we have no prior knowledge so it could be either side.</p>
+</section>
+<section id="misuse-of-p-values" class="level2">
+<h2 class="anchored" data-anchor-id="misuse-of-p-values">4.4. Misuse of p-values</h2>
+<p>The p-value only tells us the <strong>probability of our binary accept/reject decision being incorrect</strong>.</p>
+<p><strong>It doesn’t tell us about the magnitude or uncertainty of the effect</strong> we are claiming.</p>
+<p>It is best practice to report the <strong>effect sizes and confidence intervals</strong> as well as the p-values, to give a fuller picture.</p>
+<p>For example, a shampoo increases hair volume at a 5% confidence level. How much does it increase hair volume?</p>
+</section>
+<section id="confidence-intervals" class="level2">
+<h2 class="anchored" data-anchor-id="confidence-intervals">4.5. Confidence Intervals</h2>
+<p>This gives us the range within which our true population parameter lies.</p>
+<p>It is the sample mean ± the margin of error. The margin of error is the standard error <span class="math inline">\(\frac{\sigma}{\sqrt{n}}\)</span> multiplied by the Z-score.</p>
+<p>The Z-score corresponds to the confidence level chosen, e.g.&nbsp;1.96 for a 95% confidence level.</p>
+</section>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
 <ul>
-<li><a href="https://course.fast.ai/Lessons/lesson1.html">Course lesson page</a></li>
-<li><a href="https://arxiv.org/abs/1311.2901">Visualizing and Understanding Convolutional Networks</a></li>
-<li><a href="https://timm.fast.ai/">TIMM library</a></li>
-<li><a href="https://www.semanticscholar.org/paper/Statistical-Modeling%3A-The-Two-Cultures-(with-and-a-Breiman/e5df6bc6da5653ad98e754b08f63326c2e52b372">Statistical Modeling: The Two Cultures</a></li>
+<li><a href="https://www.udemy.com/course/data-statistics/">Statistics for Business Analytics and Data Science A-Z Udemy course</a></li>
 </ul>
 
 
-<div class="hidden" aria-hidden="true">
-<span class="glightbox-desc lightbox-desc-1">Figure&nbsp;1: Traditional computer programs</span>
-<span class="glightbox-desc lightbox-desc-2">Figure&nbsp;2: Deep learning model</span>
-</div>
-</section>
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
@@ -678,31 +788,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","loop":false,"closeEffect":"zoom","openEffect":"zoom","selector":".lightbox"});
-window.onload = () => {
-  lightboxQuarto.on('slide_before_load', (data) => {
-    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-    const href = trigger.getAttribute('href');
-    if (href !== null) {
-      const imgEl = window.document.querySelector(`a[href="${href}"] img`);
-      if (imgEl !== null) {
-        const srcAttr = imgEl.getAttribute("src");
-        if (srcAttr && srcAttr.startsWith("data:")) {
-          slideConfig.href = srcAttr;
-        }
-      }
-    } 
-  });
-
-  lightboxQuarto.on('slide_after_load', (data) => {
-    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-    if (window.Quarto?.typesetMath) {
-      window.Quarto.typesetMath(slideNode);
-    }
-  });
-
-};
-          </script>
 
 
 
