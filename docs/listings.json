@@ -2,6 +2,9 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/maths/mathematical_statistics/math_stats.html",
+      "/posts/maths/more_statistics/lesson.html",
+      "/posts/maths/basic_statistics/lesson.html",
       "/posts/software/aws/aws_saa_notes.html",
       "/posts/software/kubernetes/kubernetes_notes.html",
       "/posts/software/docker/docker_notes.html",

@@ -1,0 +1,316 @@
+---
+title: "More Statistics"
+description: "Significantly More"
+date: "2025-08-02"
+categories: [Maths, Statistics]
+---
+
+# 1. T-tests
+
+## 1.1. One-sample T-test
+In practice, the Z-test is quite unrealistic. It assumed the population mean is unknown but the variance is known. We need the mean to calculate the variance, so this generally never happens in practice. 
+
+The T-test statistic is almost the same as the Z-score. In general, test statistics are of the form:
+
+$$
+\text{test statistic} = \frac{\text{observed value} - \text{expected value}}{\text{standard error}}
+$$
+
+For the t-test, the standard error divides by $n-1$ rather than $n$ to account for **Bessel’s correction**. 
+Since we are using the sample mean rather than the population, then data is going to be closer to the sample mean than the population mean; the sample mean is derived from the data itself. So we have one less degree of freedom. 
+
+The T-test also differs in that it depends on our sample size. The tails are fatter than a normal distribution and tend towards a normal as $n$ grows. 
+$DoF=n-1$
+
+
+
+## 1.2. Two-sample T-test
+
+If we are testing whether two populations have different means, we use a two-sample T-test. 
+
+$$
+\begin{aligned}
+H_0 &: \mu_1 = \mu_2 \\
+H_1 &: \mu_1 \ne \mu_2
+\end{aligned}
+$$
+
+$$
+t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}
+$$
+
+This is the **unpooled** estimate since we keep the standard deviations of the two populations distinct. 
+
+The DoF is somewhere between the two. A conservative approach is to use the *minimum of n1 and n2*. 
+
+
+## 1.3. Pooled vs Unpooled
+
+If we have reason to believe the two populations have the **same variance**, we can pool them together to get the standard error:
+
+$$
+\begin{aligned}
+SE &= \sqrt{\sigma^2 \left( \frac{1}{n_1} + \frac{1}{n_2} \right)} \\
+\text{DoF} &= n_1 + n_2 - 2
+\end{aligned}
+$$
+
+This is generally quite a **strong assumption** so unrealistic to use in practice. 
+
+
+## 1.4. Paired T-tests
+
+If we have **paired data**, we only really need to know the **diff**. 
+
+For example, if we have pairs of brothers and sisters, and want to know if brothers and taller than sisters. 
+
+We could mistakenly treat this as a 2-sample test. The correct approach is to take the diff for each pair. Think of this like a *pre-processing step*.
+
+Then perform a regular one-sample T-test on the diffs. 
+
+
+# 2. Chi-squared Goodness of Fit Test
+## 2.1. Chi-squared Test
+
+This is for comparing two **categorical** variables where we want to evaluate how “unusual” a result is. 
+
+For example, we roll a dice and measure the number of 1s, 2s, 3s, 4s, 5s, 6s we get. How do we determine if this is an unusual result?
+
+Recall the general form of test statistics is typically:
+$$
+\text{test statistic} = \frac{\text{observed value} - \text{expected value}}{\text{standard error}}
+$$
+
+
+A chi-squared test statistic is:
+$$
+\chi^2 = \sum_{\text{categories}} \frac{(\text{observed frequency} - \text{expected frequency})^2}{\text{expected frequency}}
+$$
+
+The expected frequency acts as the standard error, essentially a scaling term. 
+
+The expected frequency essentially defines a “null hypothesis distribution” and so the chi-squared test is telling us “does the observed frequency distribution differ in a statistically significant way?”
+
+The chi-squared distribution is right-skewed and cannot be negative. We generally only need to do 1-tailed tests. 
+
+The test statistic depends on the degrees of freedom. For chi squared, 
+$$
+\text{DoF} = n_{categories} - 1
+$$
+
+## 2.2. Two-way Tables
+
+We looking at the distribution of two variables at the same time, e.g. ice cream sales by flavour and gender of customer. 
+
+The row and column totals are in the “margins” of the table, so are called the **marginal distributions**. 
+The values in the table itself are telling us the relationship joining the two variables, so are called the **joint distribution**. 
+
+We can answer questions like “are gender and ice cream flavour preference related?”
+
+We proceed as before. We have some observed frequencies. We calculate the expected frequency for each cell as:
+
+```
+Expected count = row total * column total / total total
+```
+The chi-squared test statistic is calculated in the same way as the one variable case, summing over all categories. 
+
+The only difference of how we calculate the degrees of freedom:
+$$
+\text{DoF} = (n_{rows} - 1) \times (n_{cols} - 1)
+$$
+
+We can think of the DoF as “if I know all of the marginal frequencies, how many of the joint values in the middle of the table would I need to know to fully define the table?”
+
+Think of it like a Sudoku: if you were given 1 joint value and all of the margins, you could fill in all of the other joint values. So DOF=1. 
+
+
+## 2.3.Homogeneity vs Independence
+
+There are two different scenarios when we would use the chi-squared test. The calculations are the same in both cases, the differences are in the phrasing of the null hypothesis and how the sample was collected. 
+
+### Homogeneity
+Hypothesising that two categories are **the same**. E.g. “the ice cream preferences are the same for males and females”. 
+Typically the sample would be collected with a **stratified** random sample, i.e. we are explicitly asking questions about males vs females, so we design our experiment to sample equal numbers of males and females. 
+
+### Independence
+Hypothesising that two **categories are independent** of each other. E.g. “gender and ice cream preferences are independent/ unrelated/ uncorrelated”. 
+Typically the sample would be collected with a **simple** random sample, i.e. we just collect data and then see if there is a dependence between categories. 
+
+
+The two types boil down to the same calculations because they are essentially asking the same question of the distribution. 
+
+Independence is asking, is the following true?
+$$
+P(chocolate \cap male) = P(chocolate)P(male)
+$$
+
+Homogeneity is asking, is the following true?
+$$
+P(chocolate | male) = P(chocolate | female)
+$$
+
+
+# 3. Correlation 
+
+## 3.1. Comparing Quantitative Variables
+
+Correlations measure the **relation between two quantitative variables**. This is analogous to how the chi-squared test measured the relationship between two categorical variables. 
+
+
+We generally want to understand three properties of the relation between the variables:
+
+1. **Direction**. Are they positively or negatively correlated?
+2. **Form**. Is there a linear relationship between them? Polynomial? Exponential? 
+3. **Strength**. How closely do the points lie on the fitted line/curve?
+
+A scatter plot is a useful visualisation to get an idea of these three properties. 
+
+
+## 3.2. Pearson’s Correlation Coefficient 
+
+This is denoted with $r$.
+It can be between -1 and 1. 
+
+In terms of the three properties of the relationship:
+
+1. **Direction**. The *sign* of $r$ tells us this. 
+2. **Form**. Correlation coefficient *only considers linear* forms. 
+3. **Strength**. The *magnitude* of $r$ tells us the strength of the relationship. 
+
+The equation for $r$ is:
+
+$$
+\begin{aligned}
+r &= \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}
+         {\sqrt{\sum_{i=1}^{n} (x_i - \bar{x})^2} \, \sqrt{\sum_{i=1}^{n} (y_i - \bar{y})^2}} \\
+  &= \frac{\operatorname{cov}(X,Y)}{s_x s_y}
+\end{aligned}
+$$
+
+We can think of this as the same form as our previous test statistic: $\frac{\text{observed} - \text{expected}}{\text{standard error}}$
+
+We normally think in terms of $r$ rather than covariance because **$r$ is normalised**. 
+The units of covariance are weird and not easily interpretable. 
+
+
+The regression line will always pass through $(\bar{x}, \bar{y})$.
+We can split the scatter plot into four quadrants centred on $(\bar{x}, \bar{y})$.
+
+- Points in the top right and bottom left contribute positive values to the correlation value. 
+- Points in the top left and bottom right contribute negative values to the correlation value. 
+
+
+## 3.3. The Regression Equation 
+
+Linear regression problems model the equation between the two variables as:
+
+$$
+y = \beta_0 + \beta_1 x + \epsilon,
+\quad \text{where } \epsilon \text{ is a Gaussian noise term.}
+$$
+
+We are trying to estimate $\beta_0$ and $\beta_1$ of the true parameter.
+We estimate $\hat{y}$ using $b_0$ and $b_1$. 
+
+$$
+\hat{y} = b_0 + b_1 x
+$$
+We can perform t-tests on the parameters. 
+
+The sign of $\beta_1$ is the same as the sign of $r$; both are telling us the direction of the relationship. 
+
+
+## 3.4. Least Squares
+
+Least squares estimation is how we find the parameters $\beta_0$ and $\beta_1$. 
+We want to minimise the sum of squared errors. 
+
+The error terms, or "residuals", are:
+$$
+e_i = y_i - \hat{y}_i
+$$
+
+We can think of this as the **observed error**. It is the vertical distance of each observed point to our fitted line.
+
+We could do this by convex optimisation, but least squares does have a closed form solution:
+
+$$
+\begin{aligned}
+b_1 &= r \frac{s_y}{s_x} \\
+b_0 &= \bar{y} - b_1 
+\end{aligned}
+$$
+
+## 3.5. Errors and Residuals
+Recall the error term for our true (but unknowable) distribution $y$ is $\epsilon$. 
+
+The error term for our estimated line $\hat{y}$ is $e$.
+
+We assume 
+$$
+\epsilon \sim \mathcal{N}(0, \sigma_e^2)
+$$
+
+We use the variance of the observed errors $e$ as an estimate of the variance of $\epsilon$. 
+The mean must be 0, because if it was anything else, i.e. there was a constant offset of the errors, we could reduce the mean to 0 and therefore achieve a smaller loss by shifting the parameters of our line. 
+
+The estimated variance is:
+$$
+s^2 = \frac{1}{n-2} \sum_{i=1}^{n} e_i^2
+$$
+
+$s$ is the standard deviation of residuals. 
+The $n-2$ term is the degrees of freedom; we have two parameters in a linear regression hence the $n-2$ term.  
+
+
+## 3.6. The Coefficient of Determination
+
+$R^2$ is simply the $r$ value (correlation coefficient) squared, at least for a simple linear regression with one variable. 
+
+It measures **“the % of variability of Y explained by X”**. 
+
+It does this by measuring the sum of squared residuals for our fitted model and comparing it to the sum of squared residuals if we have just used the mean value of y, $\bar{y}$ as our estimating function, throwing away any data about $X$. 
+
+If our model is good, the residuals of the model will be smaller than the mean estimator. 
+
+Hence:
+$$
+R^2 = 1 - \frac{\sum_{i=1}^{n} (y_i - \hat{y}_i)^2}{\sum_{i=1}^{n} (y_i - \bar{y})^2}
+$$
+
+
+
+## 3.7. Hypothesis Testing of Parameters 
+
+We can apply the same concept of hypothesis tests and confidence intervals to our parameters. 
+
+As an example of checking whether the slope is significant, i.e. is there a relation between X and Y:
+
+$$
+\begin{aligned}
+H_0 &: \beta_1 = 0 \\
+H_1 &: \beta_1 \ne 0
+\end{aligned}
+$$
+
+We use a t-test with $n-2$ degrees of freedom (for the same reason we use $n-2$ in the $R^2$ calculation). 
+
+The standard error for our estimate $b_1$ is given (not derived in the lecture) as:
+
+$$
+SE(b_1) = \frac{s}{\sqrt{\sum_{i=1}^{n} (x_i - \bar{x})^2}}
+$$
+
+where $s$ is the standard deviation of residuals. 
+
+The t-value is then as usual:
+$$
+t = \frac{(observed - expected)}{SE}
+$$
+
+Then we can perform the hypothesis test as usual, using either $t_{critical}$, the p-value or the constructed confidence intervals to determine whether 0 is a possible value of $\beta_1$ at the given confidence level. 
+
+
+# References
+
+- [Statistics: A Step-by-step Introduction Udemy course](https://www.udemy.com/course/statistics-intro/)
