@@ -1,7 +1,7 @@
 ---
 title: "Basic Statistics"
 description: "Significant."
-date: "2025-07-10"
+date: "2025-07-15"
 categories: [Maths, Statistics]
 ---
 
@@ -148,6 +148,63 @@ The two options when hypothesis testing are **“reject the null hypothesis” o
 We don’t *accept* any specific hypothesis. If we have a critical Z-score, it doesn’t necessarily mean H1 is true, there could be some other hypothesis H2 that also explains the result. So we don’t “accept H1”. 
 
 Equally we don’t “accept H0”. If we don’t have the critical Z-score, it may just be that we need more samples, the data wasn’t randomly sampled, etc. 
+
+
+# 4. t-testing
+
+## 4.1. The t-distribution 
+
+The t-distribution describes a **sample** rather than the distribution of the population. 
+
+The t-distribution has *heavier tails* than the Normal distribution. The fewer “degrees of freedom” the heavier the tails. In other words, the fewer observations we have, the more possible it is that the true values could be further away that what we’ve observed. 
+
+As the DOF (symbol $\nu$) tends to infinity, the distribution converges towards a Normal distribution. At about 30, it’s almost identical to a Normal. 
+
+
+Use a t-test when:
+
+1. The population standard deviation is unknown AND
+2. Sample size is small ($n \lt 30$)
+
+$$
+t = \frac{x - \mu}{s / \sqrt{n}}
+$$
+
+$\nu$ is basically always $N-1$ (where N is number of samples)
+
+
+## 4.2. t-tests
+
+The t-test hypothesis testing process is almost identical to the z-test. The only difference is we calculate a t-statistic (rather than a z-score). The rest is the same: we formulate our hypotheses, calculate the score and compare to our critical value. 
+
+## 4.3. 1-tailed and 2-tailed tests
+
+For 2-tailed tests, you split the confidence interval on either side, e.g. a 5% confidence level means the rejection region is the top 2.5% and bottom 2.5% of the distribution. 
+
+So a 2-tailed test is more strict, i.e. more difficult to reject the null hypothesis. 
+
+You can think of this as a 1-tailed test incorporates prior knowledge that the variable can only have increased (or decreased). But for a 2-tailed test, we have no prior knowledge so it could be either side. 
+
+
+## 4.4. Misuse of p-values
+
+The p-value only tells us the **probability of our binary accept/reject decision being incorrect**. 
+
+**It doesn’t tell us about the magnitude or uncertainty of the effect** we are claiming. 
+
+It is best practice to report the **effect sizes and confidence intervals** as well as the p-values, to give a fuller picture. 
+
+For example, a shampoo increases hair volume at a 5% confidence level. How much does it increase hair volume?
+
+
+## 4.5. Confidence Intervals
+
+This gives us the range within which our true population parameter lies. 
+
+It is the sample mean ± the margin of error. 
+The margin of error is the standard error $\frac{\sigma}{\sqrt{n}}$ multiplied by the Z-score. 
+
+The Z-score corresponds to the confidence level chosen, e.g. 1.96 for a 95% confidence level. 
 
 
 # References
