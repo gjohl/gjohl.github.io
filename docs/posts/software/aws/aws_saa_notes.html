@@ -373,6 +373,81 @@ window.Quarto = {
   <li><a href="#common-port-numbers" id="toc-common-port-numbers" class="nav-link" data-scroll-target="#common-port-numbers">7.5.4. Common Port Numbers</a></li>
   </ul></li>
   </ul></li>
+  <li><a href="#route-53" id="toc-route-53" class="nav-link" data-scroll-target="#route-53">8. Route 53</a>
+  <ul class="collapse">
+  <li><a href="#dns" id="toc-dns" class="nav-link" data-scroll-target="#dns">8.1. DNS</a>
+  <ul class="collapse">
+  <li><a href="#what-is-dns" id="toc-what-is-dns" class="nav-link" data-scroll-target="#what-is-dns">8.1.1. What is DNS?</a></li>
+  <li><a href="#how-dns-works" id="toc-how-dns-works" class="nav-link" data-scroll-target="#how-dns-works">8.1.2. How DNS Works</a></li>
+  </ul></li>
+  <li><a href="#route-53-1" id="toc-route-53-1" class="nav-link" data-scroll-target="#route-53-1">8.2. Route 53</a>
+  <ul class="collapse">
+  <li><a href="#records" id="toc-records" class="nav-link" data-scroll-target="#records">8.2.1. Records</a></li>
+  <li><a href="#hosted-zones" id="toc-hosted-zones" class="nav-link" data-scroll-target="#hosted-zones">8.2.2. Hosted Zones</a></li>
+  <li><a href="#creating-a-record" id="toc-creating-a-record" class="nav-link" data-scroll-target="#creating-a-record">8.2.3. Creating a Record</a></li>
+  <li><a href="#ttl" id="toc-ttl" class="nav-link" data-scroll-target="#ttl">8.2.4. TTL</a></li>
+  <li><a href="#cname-vs-alias-records" id="toc-cname-vs-alias-records" class="nav-link" data-scroll-target="#cname-vs-alias-records">8.2.5. CNAME vs Alias Records</a></li>
+  </ul></li>
+  <li><a href="#routing-policies" id="toc-routing-policies" class="nav-link" data-scroll-target="#routing-policies">8.3. Routing Policies</a></li>
+  <li><a href="#health-checks" id="toc-health-checks" class="nav-link" data-scroll-target="#health-checks">8.4 Health Checks</a></li>
+  <li><a href="#domain-registrar-vs-dns-service" id="toc-domain-registrar-vs-dns-service" class="nav-link" data-scroll-target="#domain-registrar-vs-dns-service">8.5. Domain Registrar vs DNS Service</a></li>
+  </ul></li>
+  <li><a href="#solutions-architect" id="toc-solutions-architect" class="nav-link" data-scroll-target="#solutions-architect">9. Solutions Architect</a>
+  <ul class="collapse">
+  <li><a href="#instantiating-applications-quickly" id="toc-instantiating-applications-quickly" class="nav-link" data-scroll-target="#instantiating-applications-quickly">9.1. Instantiating Applications Quickly</a></li>
+  <li><a href="#elastic-beanstalk" id="toc-elastic-beanstalk" class="nav-link" data-scroll-target="#elastic-beanstalk">9.2. Elastic Beanstalk</a></li>
+  <li><a href="#web-server-environment-vs-worker-environment" id="toc-web-server-environment-vs-worker-environment" class="nav-link" data-scroll-target="#web-server-environment-vs-worker-environment">9.3. Web Server Environment vs Worker Environment</a></li>
+  <li><a href="#deployment-modes" id="toc-deployment-modes" class="nav-link" data-scroll-target="#deployment-modes">9.4. Deployment Modes</a></li>
+  </ul></li>
+  <li><a href="#s3" id="toc-s3" class="nav-link" data-scroll-target="#s3">10. S3</a>
+  <ul class="collapse">
+  <li><a href="#security" id="toc-security" class="nav-link" data-scroll-target="#security">10.2. Security</a></li>
+  <li><a href="#s3-website" id="toc-s3-website" class="nav-link" data-scroll-target="#s3-website">10.3. S3 Website</a></li>
+  <li><a href="#s3-versioning" id="toc-s3-versioning" class="nav-link" data-scroll-target="#s3-versioning">10.4. S3 Versioning</a></li>
+  <li><a href="#replication" id="toc-replication" class="nav-link" data-scroll-target="#replication">10.5. Replication</a></li>
+  <li><a href="#s3-storage-classes" id="toc-s3-storage-classes" class="nav-link" data-scroll-target="#s3-storage-classes">10.6. S3 Storage Classes</a></li>
+  <li><a href="#lifecycle-rules" id="toc-lifecycle-rules" class="nav-link" data-scroll-target="#lifecycle-rules">10.7. Lifecycle Rules</a></li>
+  <li><a href="#s3-requester-pays" id="toc-s3-requester-pays" class="nav-link" data-scroll-target="#s3-requester-pays">10.8. S3 Requester Pays</a></li>
+  <li><a href="#s3-event-notifications" id="toc-s3-event-notifications" class="nav-link" data-scroll-target="#s3-event-notifications">10.9. S3 Event Notifications</a></li>
+  <li><a href="#s3-performance" id="toc-s3-performance" class="nav-link" data-scroll-target="#s3-performance">10.10 S3 Performance</a></li>
+  <li><a href="#s3-batch-operations" id="toc-s3-batch-operations" class="nav-link" data-scroll-target="#s3-batch-operations">10.11 S3 Batch Operations</a></li>
+  <li><a href="#s3-storage-lens" id="toc-s3-storage-lens" class="nav-link" data-scroll-target="#s3-storage-lens">10.12 S3 Storage Lens</a></li>
+  </ul></li>
+  <li><a href="#s3-security" id="toc-s3-security" class="nav-link" data-scroll-target="#s3-security">11. S3 Security</a>
+  <ul class="collapse">
+  <li><a href="#object-encryption" id="toc-object-encryption" class="nav-link" data-scroll-target="#object-encryption">11.1. Object Encryption</a></li>
+  <li><a href="#cors" id="toc-cors" class="nav-link" data-scroll-target="#cors">11.2. CORS</a></li>
+  <li><a href="#mfa-delete" id="toc-mfa-delete" class="nav-link" data-scroll-target="#mfa-delete">11.3. MFA Delete</a></li>
+  <li><a href="#s3-access-logs" id="toc-s3-access-logs" class="nav-link" data-scroll-target="#s3-access-logs">11.4 S3 Access Logs</a></li>
+  <li><a href="#pre-signed-url" id="toc-pre-signed-url" class="nav-link" data-scroll-target="#pre-signed-url">11.5. Pre-signed URL</a></li>
+  <li><a href="#s3-glacier-vault-lock" id="toc-s3-glacier-vault-lock" class="nav-link" data-scroll-target="#s3-glacier-vault-lock">11.6. S3 Glacier Vault Lock</a></li>
+  <li><a href="#s3-object-lock" id="toc-s3-object-lock" class="nav-link" data-scroll-target="#s3-object-lock">11.7. S3 Object Lock</a></li>
+  <li><a href="#s3-access-points" id="toc-s3-access-points" class="nav-link" data-scroll-target="#s3-access-points">11.8. S3 Access Points</a></li>
+  <li><a href="#s3-object-lambda" id="toc-s3-object-lambda" class="nav-link" data-scroll-target="#s3-object-lambda">11.9. S3 Object Lambda</a></li>
+  </ul></li>
+  <li><a href="#cloudfront" id="toc-cloudfront" class="nav-link" data-scroll-target="#cloudfront">12. CloudFront</a>
+  <ul class="collapse">
+  <li><a href="#cloudfront-overview" id="toc-cloudfront-overview" class="nav-link" data-scroll-target="#cloudfront-overview">12.1 CloudFront Overview</a></li>
+  <li><a href="#origin" id="toc-origin" class="nav-link" data-scroll-target="#origin">12.2. Origin</a></li>
+  <li><a href="#cloudfront-geo-restriction" id="toc-cloudfront-geo-restriction" class="nav-link" data-scroll-target="#cloudfront-geo-restriction">12.3. CloudFront Geo Restriction</a></li>
+  <li><a href="#price-classes" id="toc-price-classes" class="nav-link" data-scroll-target="#price-classes">12.4. Price Classes</a></li>
+  <li><a href="#cache-invalidation" id="toc-cache-invalidation" class="nav-link" data-scroll-target="#cache-invalidation">12.5. Cache Invalidation</a></li>
+  <li><a href="#aws-global-accelerator" id="toc-aws-global-accelerator" class="nav-link" data-scroll-target="#aws-global-accelerator">12.6 AWS Global Accelerator</a>
+  <ul class="collapse">
+  <li><a href="#unicast-ip-vs-anycast-ip" id="toc-unicast-ip-vs-anycast-ip" class="nav-link" data-scroll-target="#unicast-ip-vs-anycast-ip">12.6.1. Unicast IP vs Anycast IP</a></li>
+  <li><a href="#how-global-accelerator-works" id="toc-how-global-accelerator-works" class="nav-link" data-scroll-target="#how-global-accelerator-works">12.6.2. How Global Accelerator Works</a></li>
+  <li><a href="#global-accelerator-vs-cloudfront" id="toc-global-accelerator-vs-cloudfront" class="nav-link" data-scroll-target="#global-accelerator-vs-cloudfront">12.6.3. Global Accelerator vs CloudFront</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#aws-storage-extras" id="toc-aws-storage-extras" class="nav-link" data-scroll-target="#aws-storage-extras">13. AWS Storage Extras</a>
+  <ul class="collapse">
+  <li><a href="#aws-snowball" id="toc-aws-snowball" class="nav-link" data-scroll-target="#aws-snowball">13.1. AWS Snowball</a></li>
+  <li><a href="#amazon-fsx" id="toc-amazon-fsx" class="nav-link" data-scroll-target="#amazon-fsx">13.2 Amazon FSx</a></li>
+  <li><a href="#storage-gateway" id="toc-storage-gateway" class="nav-link" data-scroll-target="#storage-gateway">13.3. Storage Gateway</a></li>
+  <li><a href="#aws-transfer-family" id="toc-aws-transfer-family" class="nav-link" data-scroll-target="#aws-transfer-family">13.4. AWS Transfer Family</a></li>
+  <li><a href="#aws-datasync" id="toc-aws-datasync" class="nav-link" data-scroll-target="#aws-datasync">13.5. AWS DataSync</a></li>
+  <li><a href="#comparison-of-storage-options" id="toc-comparison-of-storage-options" class="nav-link" data-scroll-target="#comparison-of-storage-options">13.6. Comparison of Storage Options</a></li>
+  </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
@@ -1296,6 +1371,540 @@ m5.large
 <li>1521 - Oracle RDS</li>
 </ul>
 </section>
+</section>
+</section>
+<section id="route-53" class="level1">
+<h1>8. Route 53</h1>
+<section id="dns" class="level2">
+<h2 class="anchored" data-anchor-id="dns">8.1. DNS</h2>
+<section id="what-is-dns" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-dns">8.1.1. What is DNS?</h3>
+<p>Domain Name System (DNS) translates human-friendly hostnames into the machine-friendly IP address. E.g. <code>www.google.com</code> -&gt; <code>172.217.18.36</code></p>
+<p>There is a hierarchical naming structure separated by <code>.</code>, e.g.&nbsp;</p>
+<pre><code>www.example.com
+api.example.com</code></pre>
+<p>Terminology:</p>
+<ul>
+<li><strong>Domain registrar</strong>: Amazon Route 53, GoDaddy</li>
+<li><strong>DNS Records</strong>: A, AAAA, CNAME</li>
+<li><strong>Zone file</strong>: contains DNS records</li>
+<li><strong>Name server</strong>: Server that resolves DNS queries</li>
+<li><strong>Top-Level Domain</strong> (TLD): .com, .gov, .org</li>
+<li><strong>Second-Level Domain</strong> (SLD): google.com, amazon.com</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="url_components_example.png" class="img-fluid figure-img"></p>
+<figcaption>Components of a URL</figcaption>
+</figure>
+</div>
+</section>
+<section id="how-dns-works" class="level3">
+<h3 class="anchored" data-anchor-id="how-dns-works">8.1.2. How DNS Works</h3>
+<p>Your web browser sends a request for <code>www.example.com</code> to a Local DNS Server managed by your company or ISP. This routes to a <strong>Root DNS Server</strong> managed by ICANN, which resolves the top-level domain (.com) and gives the corresponding IP address for that part. The browser then sends a request to the <strong>TLD DNS Server</strong> managed by ICANN which resolves the second-level domain. The browser then sends a request to the <strong>SLD DNS Server</strong> managed by Amazon Registrar etc, and that gives the IP address of the requested website.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="dns_routing.png" class="img-fluid figure-img"></p>
+<figcaption>DNS Routing</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="route-53-1" class="level2">
+<h2 class="anchored" data-anchor-id="route-53-1">8.2. Route 53</h2>
+<p>Route 53 is a fully managed authoritative DNS and Domain Regstrar. You can also check the health of your resources. Authoritative means the customer (you) can update the DNS records.</p>
+<p>“53” is a reference to the traditional DNS port.</p>
+<section id="records" class="level3">
+<h3 class="anchored" data-anchor-id="records">8.2.1. Records</h3>
+<p>You define <strong>records</strong> which define how you want to route traffic for a domain. Each record contains:</p>
+<ul>
+<li>Domain/subdomain name - example.com</li>
+<li>Record type - A/AAAA/CNAME/NS</li>
+<li>Value - 12.34.56.78</li>
+<li>Routing policy - how Route53 responds to queries</li>
+<li>TTL - how long this record is cached at DNS resolvers</li>
+</ul>
+<p>Record types:</p>
+<ul>
+<li>A - maps a hostname to IPv4</li>
+<li>AAAA - maps a hostname to IPv6</li>
+<li>CNAME - maps a hostname to another hostname. The target is a domain which must have an A or AAAA record.</li>
+<li>NS - Name servers for the hosted zone. These are the DNS names/IP addresses for the servers that can respond to queries for your hosted zone.</li>
+</ul>
+</section>
+<section id="hosted-zones" class="level3">
+<h3 class="anchored" data-anchor-id="hosted-zones">8.2.2. Hosted Zones</h3>
+<p>A hosted zone is a container for records that define how traffic is routed to a domain and its subdomains.</p>
+<ul>
+<li>Public hosted zones - contain records specifying how to route traffic on the <strong>internet</strong> (i.e.&nbsp;public domain names)</li>
+<li>Private hosted zones - contain records specifying how to route traffic in <strong>your VPC</strong> (i.e.&nbsp;private domain names)</li>
+</ul>
+<p>It costs $0.50 per month per hosted zone.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="hosted_zones.png" class="img-fluid figure-img"></p>
+<figcaption>Public vs Private Hosted Zones</figcaption>
+</figure>
+</div>
+<pre><code>Route 53 UI -&gt; Domains -&gt; Registered Domains 
+-&gt; Choose a domain name -&gt; Choose duration, auto renew 
+-&gt; Checkout -&gt; Contact info</code></pre>
+<p>Now in Hosted Zones you will see the DNS records created for your domain.</p>
+</section>
+<section id="creating-a-record" class="level3">
+<h3 class="anchored" data-anchor-id="creating-a-record">8.2.3. Creating a Record</h3>
+<pre><code>Route 53 -&gt; Hosted Zones -&gt; Create Record</code></pre>
+<p>Specify the record details discussed previously.</p>
+<p>We can take the IP addresses from our EC2 instances, load balancers, etc and route to these as we wish.</p>
+</section>
+<section id="ttl" class="level3">
+<h3 class="anchored" data-anchor-id="ttl">8.2.4. TTL</h3>
+<p>Time To Live (TTL) on a record <strong>tells the client how long it should cache the record</strong> (i.e.&nbsp;the IP address) before requesting it again. TTL is mandatory for all records except Alias records.</p>
+<p>A high TTL (e.g.&nbsp;24 hours) results in less traffic to Route 53, but clients might possibly have outdated records. A low TTL results in more traffic to Route 53 (and therefore higher costs) but records are more up to date and so easier to change.</p>
+<p>A common strategy when you know you are changing your DNS record soon is to temporarily lower the TTL close to the switchover.</p>
+</section>
+<section id="cname-vs-alias-records" class="level3">
+<h3 class="anchored" data-anchor-id="cname-vs-alias-records">8.2.5. CNAME vs Alias Records</h3>
+<p>Many AWS resources, like ELB and CloudFront, expose an AWS hostname, e.g.&nbsp;<code>blabla.us-east-1.elb.amazonaws.com</code> and we want to map it to <code>myapp.domain.com</code>.</p>
+<p><strong>CNAME</strong> records allow a hostname to point to any other hostname, but only for a non-root domain.</p>
+<p><strong>Alias records</strong> point a host name to an AWS resource, and this works for root domains and non-root domains. It is free and has a native health check. It automatically recognises changes in the resource’s IP address. It is always of type A or AAAA, i.e.&nbsp;IPv4 or IPv6. AWS sets the TTL so you can’t set this manually.</p>
+<p>Valid Alias record targets: ELB, CloudFront Distributions, API Gateway, Elastic Beanstalk environments, S3 Websites (not buckets), VPC Interface Endpoints, Global Accelerator, Route 53 record in the same hosted zone.</p>
+<p>You cannot set an Alias record for an EC2 DNS name.</p>
+</section>
+</section>
+<section id="routing-policies" class="level2">
+<h2 class="anchored" data-anchor-id="routing-policies">8.3. Routing Policies</h2>
+<p>Routing policies define <strong>how Route 53 responds to DNS queries</strong>.</p>
+<p>It isn’t “routing” in the sense of a load balancer; DNS does not route any traffic, it just responds to DNS queries.</p>
+<p>Route 53 supports several routing policies:</p>
+<ul>
+<li><p><strong>Simple</strong>. Route traffic to a single resource. We can specify multiple values for the same record. The client will pick one of the IP addresses <em>at random</em>. Cannot use with health checks.</p></li>
+<li><p><strong>Weighted</strong>. Control the percentage of requests that go to each resource. We <em>assign each record a relative weight</em>; the DNS records must have the same name and type. Can be used with health checks.</p></li>
+<li><p><strong>Latency-based</strong>. Redirect to the <em>resource with the lowest latency</em>, based on traffic between users and AWS. Can be associated with health checks.</p></li>
+<li><p><strong>Failover</strong>. There is a health checker associated with the primary instance. If this passes, Route 53 returns its IP address to route traffic to it. If unhealthy, it fails over to another instance and returns that IP address.</p></li>
+<li><p><strong>Geolocation</strong>. Routing is based on the <em>user’s location</em>. This is subtly different from the latency-based policy. We can specify location by continent, country or US state. There should be a “default” record in case of no match. Can be used with health checks.</p></li>
+<li><p><strong>Geo-proximity</strong>. Route traffic to your resources based on the geographic location of users and resources. It is like a continuous equivalent of the discrete binning of the geolocation policy. We shift more traffic to resources based on the defined <strong>bias</strong> - a value between -99 to 99. Resources can be AWS resources (specify AWS region) or non-AWS resources (specify latitude and longitude).</p></li>
+<li><p><strong>IP-based routing</strong>. Routing is based of the <em>clients’ IP addresses</em>. You provide a list of CIDRs for your clients and the corresponding endpoints/locations. These are user-IP-to-endpoint mappings. An example is you route users from a particular ISP to a specify endpoint.</p></li>
+<li><p><strong>Multi-value</strong>. Used when routing traffic to multiple resources; Route 53 returns multiple values. Can be associated with health checks and will only return IP addresses of healthy instances.</p></li>
+</ul>
+<p>It is not a replacement for an ELB. It <em>doesn’t necessarily distribute load evenly</em>, it just gives clients more options and lets them choose.</p>
+</section>
+<section id="health-checks" class="level2">
+<h2 class="anchored" data-anchor-id="health-checks">8.4 Health Checks</h2>
+<p>HTTP Health Checks are for public resources. We can use them to get automatic DNS failover.</p>
+<p>We can use health checks to:</p>
+<ol type="1">
+<li>Monitor resources</li>
+<li>Monitor other health checks. This is called a <strong>Calculated Health Check</strong>. We can use OR, AND or NOT logic to combine the results of multiple health checks, or specify at least N checks must pass.</li>
+<li>Monitor CloudWatch Alarms. This gives us a workaround to use them for private resources. The health checkers are outside the VPC so cannot access the endpoint directly. Create a CloudWatch Metric with and associated CloudWatch Alarm, and the health checker monitors the alarm.</li>
+</ol>
+<pre><code>Route 53 UI -&gt; Health Checks -&gt; Create health check</code></pre>
+<p>There are 15 global health checkers in different regions. They will periodically send HTTP requests to <code>/health</code> and if &gt;18% of them receive a 2xx or 3xx status code the endpoint is healthy. The health checker can use the text in the first 5120 bytes of the response.</p>
+<p>You can customise the range of regions to use. You must configure your resource to allow incoming requests from the Route 53 health checker IP range.</p>
+</section>
+<section id="domain-registrar-vs-dns-service" class="level2">
+<h2 class="anchored" data-anchor-id="domain-registrar-vs-dns-service">8.5. Domain Registrar vs DNS Service</h2>
+<p>You buy/register your domain name with a Domain Registrar by paying an annual fee. The Domain Registrar usually provides you with a DNS service to manage your DNS records. Examples of domain registars are GoDaddy, Amazon Registrar.</p>
+<p>But you don’t have to stick with the same service provider. You could buy a domain from GoDaddy and use Route53 to manage your DNS records. You can create a hosted zone in Route 53 and specify the custom <strong>Nameservers</strong> to do this.</p>
+</section>
+</section>
+<section id="solutions-architect" class="level1">
+<h1>9. Solutions Architect</h1>
+<section id="instantiating-applications-quickly" class="level2">
+<h2 class="anchored" data-anchor-id="instantiating-applications-quickly">9.1. Instantiating Applications Quickly</h2>
+<p>EC2 instances, RDS databases and other resources take time to boot up. Some common patterns to speed up boot time:</p>
+<ul>
+<li><p><strong>EC2 instances</strong>. Use a <strong>golden AMI</strong> which already has your applications and dependencies installed. Launch your instance from this AMI. You may have some user data or other dynamic data. Use a <strong>bootstrap script</strong> for these. A hybrid approach is to put as much static logic as possible into the golden AMI and keep the bootstrap script lean.</p></li>
+<li><p><strong>RDS databases</strong>. Restore from a <strong>snapshot</strong> to quickly recover/resume without having to do lots of slow inserts.</p></li>
+<li><p><strong>EBS volumes</strong>. Restore from a <strong>snapshot</strong>. The disk will already be formatted and have the correct data.</p></li>
+</ul>
+</section>
+<section id="elastic-beanstalk" class="level2">
+<h2 class="anchored" data-anchor-id="elastic-beanstalk">9.2. Elastic Beanstalk</h2>
+<p>Many applications will have the same architecture: an ALB with an ASG scaling out the EC2 instances with an RDS database.</p>
+<p>The pain points are around managing infrastructure and configuring all of the services each time. Ideally, we would have a single way of doing this rather than repeating the same steps every time.</p>
+<p><strong>Elastic Beanstalk</strong> is a managed service to handle all of this. It automatically handles scaling, load balancing, health monitoring, configuration. You still have control to configure the resources.</p>
+<p>Beanstalk is free, but you pay for the underlying resources (EC2, RDS, ALB, etc).</p>
+<p>Components:</p>
+<ul>
+<li><strong>Application</strong> - a collection of Elastic Beanstalk components (environments, versions, configurations)</li>
+<li><strong>Application Version</strong> - an iteration of your application code</li>
+<li><strong>Environment</strong> - a collection of AWS resources running an application version. You can create multiple environments for dev, staging, prod, etc. There are web server and worker environment tiers</li>
+</ul>
+<pre><code>Create application -&gt; Upload version -&gt; Launch environment -&gt; Manage environment (upload another version to update it)</code></pre>
+<p>Beanstalk supports a lot of languages.</p>
+</section>
+<section id="web-server-environment-vs-worker-environment" class="level2">
+<h2 class="anchored" data-anchor-id="web-server-environment-vs-worker-environment">9.3. Web Server Environment vs Worker Environment</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="web_env_worker_env.png" class="img-fluid figure-img"></p>
+<figcaption>Web server env vs worker env</figcaption>
+</figure>
+</div>
+</section>
+<section id="deployment-modes" class="level2">
+<h2 class="anchored" data-anchor-id="deployment-modes">9.4. Deployment Modes</h2>
+<p>Single instance vs high availability</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="single_instance_vs_highly_available.png" class="img-fluid figure-img"></p>
+<figcaption>Single instance vs high availability</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="s3" class="level1">
+<h1>10. S3</h1>
+<p>##&nbsp;10.1 S3 Objects and Buckets Simple Storage Service (S3) is used for backup and storage, disaster recovery, archive, hybrid cloud storage, application hosting, media hosting, data lakes and analytics, software delivery, static website.</p>
+<p>S3 allows people to store <strong>objects</strong> (files) in <strong>buckets</strong> (directories). Bucket names must be unique <strong>globally</strong> (across all regions and all accounts) even though S3 is a region-specific service.</p>
+<ul>
+<li><p><strong>Buckets</strong>. Naming convention: 3-63 characters long, no uppercase or underscore, not an IP address, must start with lowercase letter or number and cannot start with xn–, must not end with -s3alias.</p></li>
+<li><p><strong>Objects</strong>. Objects (files) have a key which is the <strong>full</strong> path. The key is composed of prefix+object name. S3 does <strong>not</strong> have a concept of directories, objects are just files with really long keys containing slashes. The UI is misleading as it splits the buckets to look like directories for convenience/familiarity. The max object size is 5TB. Uploads of &gt;5GB must use “multi-part upload”.</p></li>
+<li><p><strong>Metadata</strong>. Objects can contain <strong>metadata</strong>, a list of key/value pairs for system or user metadata. They can contain <strong>tags</strong>, up to 10 key/value pairs for security/lifecycle.</p></li>
+</ul>
+<section id="security" class="level2">
+<h2 class="anchored" data-anchor-id="security">10.2. Security</h2>
+<p>Can be:</p>
+<ul>
+<li>User-based. IAM policies</li>
+<li>Resource-based. Bucket policies (allows cross-account access), Object Access Control List (ACL) for finer grained control, Bucket ACL.</li>
+</ul>
+<p>Use bucket policies to grant public access, grant cross-account access, or force encryption for objects at upload. We can use bucket settings or account settings to block public access, if we know that nothing should ever be public so we want to make sure nobody accidentally sets a policy that is too open.</p>
+<p>The policies are <code>OR</code> based - a user can access a resource if either the IAM policy or the resource policy allows it, as long as there is not a specific deny.</p>
+<p>Objects can be encrypted within S3 as an extra layer of security.</p>
+<p>Policies are defined with a JSON. Important keys are:</p>
+<ul>
+<li>Resources: buckets and objects that this policy applies to</li>
+<li>Effect: allow or deny</li>
+<li>Actions: the API actions to allow or deny, like GetObject, ListObjects etc</li>
+<li>Principal: the account/user to apply the policy to</li>
+</ul>
+</section>
+<section id="s3-website" class="level2">
+<h2 class="anchored" data-anchor-id="s3-website">10.3. S3 Website</h2>
+<p>S3 can host static websites.</p>
+<p>We must enable public read access on the bucket, otherwise users will get 403 errors.</p>
+</section>
+<section id="s3-versioning" class="level2">
+<h2 class="anchored" data-anchor-id="s3-versioning">10.4. S3 Versioning</h2>
+<p>You can version files in S3. If we upload a file with the same key, it will increment the version number.</p>
+<p>This needs to be enabled at the bucket-level. It is best practice to use versioning for backup and roll back.</p>
+<ul>
+<li><em>Enabling</em> versioning on an existing bucket will result in <code>version=null</code> for existing objects.</li>
+<li><em>Removing</em> versioning on a bucket will not delete the previous versions on existing objects.</li>
+</ul>
+<p>We can delete the newest version if we want to roll back to the previous version.</p>
+<p>When we delete an object, we are actually updating it with a <strong>“delete marker”</strong> version. We can then rollback the delete marker to recover our file.</p>
+</section>
+<section id="replication" class="level2">
+<h2 class="anchored" data-anchor-id="replication">10.5. Replication</h2>
+<p><strong>Cross-Region Replication (CRR) and Same-Region Replication (SRR)</strong> are used to asynchronously copy data from one bucket to another. They can be in different accounts.</p>
+<p>Versioning must be enabled in source and destination buckets, and S3 must have the required IAM permissions.</p>
+<p>Use cases:</p>
+<ul>
+<li>CRR. Compliance, lower latency access</li>
+<li>SRR. Log aggregation, sync dev vs prod environments</li>
+</ul>
+<p>After you enable replication, <em>only new objects are replicated</em>. To also replicate the history, use <strong>S3 Batch Replication</strong>. Deletes with delete markers are replicated, but unversioned “permanent” deletes are not replicated to avoid replicating malicious deletes.</p>
+<p>You <strong>cannot chain</strong> replication from Bucket <code>A -&gt; B -&gt; C</code>.</p>
+</section>
+<section id="s3-storage-classes" class="level2">
+<h2 class="anchored" data-anchor-id="s3-storage-classes">10.6. S3 Storage Classes</h2>
+<p><strong>Durability</strong> represents how often you will lose an object in storage. S3 has 11 9s durability, so if you store 10 million objects you will lose a single object on average once every 10000 years.</p>
+<p>This is the same for all storage classes.</p>
+<p><strong>Availability</strong> is how the uptime of a service. This varies depending on the storage class.</p>
+<p>Storage classes:</p>
+<ul>
+<li>S3 Standard: general purpose, infrequent access, one zone infrequent access</li>
+<li>S3 Glacier: instance retrieval, flexible retrieval, deep archive</li>
+<li>S3 Intelligent Tiering: automatically move objects between tiers based on lifecycle policies.</li>
+</ul>
+</section>
+<section id="lifecycle-rules" class="level2">
+<h2 class="anchored" data-anchor-id="lifecycle-rules">10.7. Lifecycle Rules</h2>
+<p>You can transition objects between storage classes. This can be done manually, or automated through <strong>lifecycle rules</strong>.</p>
+<ul>
+<li><strong>Transition</strong> actions. Configure objects to transition to another storage class. E.g. standard-IA 60 days after creation or glacier for archiving after 6 months.</li>
+<li><strong>Expiration</strong> actions. Configure objects to expire (delete) after a specified period. Can be used to delete old versions of files, called “non-current versions”, if versioning is enabled. Can also be used to delete incomplete multi-part uploads after a certain time has elapsed.</li>
+</ul>
+<p>Rules can be created for a certain prefix, or for certain tags.</p>
+<p><strong>Amazon S3 Analytics</strong> provides storage classes analysis. It gives daily reports with recommendations for transition actions for standard and standard-IA storage classes.</p>
+</section>
+<section id="s3-requester-pays" class="level2">
+<h2 class="anchored" data-anchor-id="s3-requester-pays">10.8. S3 Requester Pays</h2>
+<p>Generally, the owner of the bucket pays for storage and data transfer costs.</p>
+<p>With <strong>Requester Pays</strong> buckets, the requester pays the data transfer costs associated with their request. The requester must be authenticated in AWS (they cannot be anonymous).</p>
+<p>This is useful when sharing large amounts of data with other accounts.</p>
+</section>
+<section id="s3-event-notifications" class="level2">
+<h2 class="anchored" data-anchor-id="s3-event-notifications">10.9. S3 Event Notifications</h2>
+<p>An <strong>event</strong> can be an object being created, removed, restored, replicated.</p>
+<p>You can filter on the object names, e.g.&nbsp;<code>*.jpg</code></p>
+<p>S3 Event Notifications can then be sent to other AWS resources, e.g.&nbsp;EC2, to trigger a downstream workflow. The notifications typically deliver in seconds but can take a minute or more.</p>
+<p>The S3 service needs to have the appropriate access policy. To send event notifications to SNS, it needs an SNS Resource Access Policy. For SQS, it needs an SQS resource policy. And for Lambda functions, it needs a Lambda resource policy. Do this in the AWS console for the appropriate service (SNS, SQS, Lambda).</p>
+<p>All events, regardless of whether they are going to SNS, SQS, Lambda etc, go <strong>via Amazon EventBridge</strong>. From here, you can set rules to go to over 18 AWS services as destinations.</p>
+<p>EventBridge has filtering options, multiple destinations, and archive and replay capabilities.</p>
+</section>
+<section id="s3-performance" class="level2">
+<h2 class="anchored" data-anchor-id="s3-performance">10.10 S3 Performance</h2>
+<p>You can get at least 3500 PUT, COPY, POST, DELETE requests and 5500 GET/HEAD requests per second per prefix in a bucket.</p>
+<p>The <strong>prefix is everything between the bucket and the file name</strong>. Remember S3 isn’t really a file system, it’s an object store, so the prefix is just a long string that happens to have some slashes in, it isn’t actually a hierarchy.</p>
+<p>There are no limits to the number of prefixes you can have in a bucket.</p>
+<p><strong>Multi-part upload</strong> is recommended for files &gt; 100 MB and required for files &gt; 5GB The file is divided into parts and uploaded in parallel.</p>
+<p><strong>S3 transfer acceleration</strong> increases transfer speed by transferring the file to an AWS edge location and then forwarding it to the target region. So rather than uploading directly to an AZ that is far away, you can upload to your nearest location which is quicker and then transfer between regions using AWS’s private network which is fast. Minimise the time spent on public networks and maximise the time on private networks.</p>
+<p><strong>S3 Byte-range</strong> fetches parallelises GET requests by requesting specific byte ranges. This also gives better resilience in the case of failures. It can also be used to retrieve partial data, e.g.&nbsp;just the head of a file.</p>
+</section>
+<section id="s3-batch-operations" class="level2">
+<h2 class="anchored" data-anchor-id="s3-batch-operations">10.11 S3 Batch Operations</h2>
+<p><strong>Perform bulk operations</strong> on existing S3 objects with a single request. A job consists of a list of objects, the action to perform, optional parameters. You can use S3 Inventory to get the object list and use Athena to filter the list.</p>
+<p>S3 Batch Operations will manage retries, progress tracking, completion notifications and generate reports.</p>
+<p>Common use cases: modify object metadata, copy objects between buckets, encrypt objects, modify tags, restore objects from S3 Glacier, invoke a Lambda function to perform custom actions on each object.</p>
+</section>
+<section id="s3-storage-lens" class="level2">
+<h2 class="anchored" data-anchor-id="s3-storage-lens">10.12 S3 Storage Lens</h2>
+<p>Analyse storage across the entire organisation. It can identify anomalies and cost efficiencies.</p>
+<p>It aggregates data for an organisation, or specific accounts, regions, buckets or prefixes.</p>
+<p>You can use this to create a dashboard or export metrics as a CSV file to an S3 bucket. There is a default dashboard and you can create your own custom dashboards.</p>
+<p>Available metrics:</p>
+<ul>
+<li>Summary metrics. Storage bytes, object count</li>
+<li>Cost-optimisation metrics. Non-current version storage bytes, incomplete multi part upload storage bytes.</li>
+<li>Data protection metrics. Version-enabled bucket count, MFA enabled bucket count, KMS-enabled bucket count, cross-region replication rule count.</li>
+<li>Access management metrics. Object ownership bucket owner enforce bucket count.</li>
+<li>Event metrics. Insights for S3 Event notifications, number of buckets with S3 events enabled.</li>
+<li>Performance metrics. Transfer acceleration enabled bucket count.</li>
+<li>Activity metrics. Number of requests, split get get vs put vs list etc, bytes downloaded.</li>
+<li>Status code metrics. Count of 200 status codes, 403, 404 etc.</li>
+</ul>
+<p>Some metrics are free and some are paid. Under the free tier, metrics are available for 14 days. For paid, it is available for 15 months and automatically published to CloudWatch.</p>
+</section>
+</section>
+<section id="s3-security" class="level1">
+<h1>11. S3 Security</h1>
+<section id="object-encryption" class="level2">
+<h2 class="anchored" data-anchor-id="object-encryption">11.1. Object Encryption</h2>
+<p>Object encryption can either be server-side or client-side.</p>
+<ul>
+<li>Server-Side Encryption (SSE). Can manage keys using S3-managed keys (SSE-S3), KMS (SSE-KMS) or customer-provided keys (SSE-C).</li>
+<li>Client-Side Encryption.</li>
+</ul>
+<p>SSE-S3 is enabled by default for new buckets and objects. SSE-KMS allows usage statistics of keys to be tracked using CloudTrail. Each write and read using these keys will could towards your KMS APi usage. This can result in throttling if uploading lots of data. SSE-C requires the key to be provided in the header directly when uploading or downloading data. You can only use this from the CLI, not from the AWS console UI.</p>
+<p>The option used is specified in the <em>header when uploading the object</em>.</p>
+<p>For client-side encryption, the customer manages the keys and encryption themselves. Client must encrypt data before sending it to S3 and decrypt data when retrieving it. You handle this yourself and don’t need to specify this in the S3 encryption settings.</p>
+<p>Encryption in transit is also called SSL/TLS. Amazon S3 exposes two endpoints: HTTPS which is encrypted in transit and HTTP which is not. HTTPS is recommended.</p>
+<p>Encryption in transit and/or server-side encryption can be enforced using a bucket policy. Bucket policies are evaluated before “Default Encryption“ settings for the bucket.</p>
+</section>
+<section id="cors" class="level2">
+<h2 class="anchored" data-anchor-id="cors">11.2. CORS</h2>
+<p>Cross-Origin Resource Sharing (CORS).</p>
+<pre><code>Origin = scheme (protocol) + host (domain) + port</code></pre>
+<p>Using https://www.example.com The port is implied by HTTPS (443) or HTTP (80). The scheme is www and the host is example.com</p>
+<p>So these have the same origin:</p>
+<ul>
+<li>http://www.example.com/app1</li>
+<li>http://www.example.com/app2</li>
+</ul>
+<p>These have different origins:</p>
+<ul>
+<li>http://www.example.com</li>
+<li>http://api.example.com</li>
+</ul>
+<p>CORS is a web-browser based mechanism to allow requests to other origins while visiting the main origin. The other origin must allow for requests using CORS Headers.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cors.png" class="img-fluid figure-img"></p>
+<figcaption>CORS example</figcaption>
+</figure>
+</div>
+<p>We make a request to a web server, and it routes us to another server in a different region, for example to retrieve some images on the page.</p>
+<p>On S3, if a client makes a cross-origin request on our S3 bucket, we need to enable the correct CORS headers. For example, if we are hosting a static website on S3 which contains images stored on a different S3 bucket; the image bucket must have the correct CORS headers enabled to fulfil the request. You can allow a specific region or <code>*</code> for any region.</p>
+</section>
+<section id="mfa-delete" class="level2">
+<h2 class="anchored" data-anchor-id="mfa-delete">11.3. MFA Delete</h2>
+<p>We can force users to authenticate with MFA when doing potentially destructive actions on the bucket, e.g.&nbsp;permanently deleting an object version or <code>SuspendVersioning</code> on the bucket. Only the bucket owner (root account) can enable/disable MFA Delete.</p>
+<p>MFA won’t be required to enable versioning or list deleted versions.</p>
+</section>
+<section id="s3-access-logs" class="level2">
+<h2 class="anchored" data-anchor-id="s3-access-logs">11.4 S3 Access Logs</h2>
+<p>For audit purposes, you can log access requests to a particular S3 bucket, whether authorised or denied.</p>
+<p>The logs are written to another S3 bucket; the target logging bucket must be in the same region. <strong>Never set the logging bucket to be the monitoring bucket!</strong> Otherwise you will create an infinite loop and rack up AWS costs.</p>
+</section>
+<section id="pre-signed-url" class="level2">
+<h2 class="anchored" data-anchor-id="pre-signed-url">11.5. Pre-signed URL</h2>
+<p>Users given a pre-signed URL <strong>inherit the permissions of the user that generated it</strong> for GET/PUT requests.</p>
+<p>They can be generated in the AWS console, CLU or SDK. The expiration time can be 1 minute to 168 hours.</p>
+<pre><code>Within S3 console -&gt; Find the object -&gt; Object actions -&gt; Share with pre-signed URL</code></pre>
+</section>
+<section id="s3-glacier-vault-lock" class="level2">
+<h2 class="anchored" data-anchor-id="s3-glacier-vault-lock">11.6. S3 Glacier Vault Lock</h2>
+<p>This allows us to adopt a <strong>Write Once Read Many (WORM) model</strong>, which is helpful for compliant and data retention.</p>
+<p>We create a Vault Lock Policy, which means the object cannot be deleted by anyone, and the policy itself cannot be edited.</p>
+</section>
+<section id="s3-object-lock" class="level2">
+<h2 class="anchored" data-anchor-id="s3-object-lock">11.7. S3 Object Lock</h2>
+<p>S3 Object Lock is a similar idea but less restrictive. Again you can adopt a WORM model, but it is <strong>for specific objects for a specified amount of time</strong>. So you can block object deletion. The retention period must be set when creating the lock.</p>
+<p>There are two retention modes:</p>
+<ul>
+<li><strong>Compliance</strong>. Object versions cannot be overwritten or deleted by anyone user, even the root user. The retention modes cannot be edited once set. This is similar to vault lock and is the strictest setting.</li>
+<li><strong>Governance</strong>. Most users cannot overwrite or delete objects or change the lock settings, but <em>some users</em> have special permissions to override this.</li>
+</ul>
+<p>A third option is <strong>legal hold</strong> which protects an object indefinitely, independent of the retention period. Only users with the <code>s3:PutObjectLegalHold</code> IAM permission can add or remove legal holds on objects.</p>
+</section>
+<section id="s3-access-points" class="level2">
+<h2 class="anchored" data-anchor-id="s3-access-points">11.8. S3 Access Points</h2>
+<p>This is a more granular control over permissions at the <strong>prefix level</strong> rather than the bucket policy.</p>
+<p>Say we have a bucket which has folders for multiple departments: finance, sales, analytics. We want to make sure each department can only access their folder. We <em>could</em> define a complicated bucket policy to enforce this.</p>
+<p>A convenient alternative is to define a Finance Access Point for that folder, a Sales Access Point for that folder, etc.</p>
+<p>Each access policy looks similar to a bucket policy — it is a JSON document with the same keys — but it applies to a prefix. <strong>Each access point has its own DNS name and access point policy</strong>.</p>
+<p>We can restrict the access point to only be accessible from within the VPC. You must create a VPC Endpoint to connect to the Access Point, and define a VPC Endpoint Policy that allows access to the Access Point and target bucket.</p>
+</section>
+<section id="s3-object-lambda" class="level2">
+<h2 class="anchored" data-anchor-id="s3-object-lambda">11.9. S3 Object Lambda</h2>
+<p>This allows us to <strong>transform an object as it is loaded</strong>.</p>
+<p>Say you want multiple versions of a file: the original, a redacted version for customers, an enriched version for the sales department.</p>
+<p>We <em>could</em> store 3 different variations of each file. But this is an inefficient use of storage.</p>
+<p>We can create a lambda function for each transformation and apply it at read time before it reaches the user. Only one S3 bucket is needed, on which we create an S3 Access Point and multiple S3 Object Lambda Access Points.</p>
+</section>
+</section>
+<section id="cloudfront" class="level1">
+<h1>12. CloudFront</h1>
+<section id="cloudfront-overview" class="level2">
+<h2 class="anchored" data-anchor-id="cloudfront-overview">12.1 CloudFront Overview</h2>
+<p>CloudFront is a <strong>Content Delivery Network (CDN)</strong>. It improves read performance by <strong>caching content at the edges</strong>, at 216 points of presence globally. I this protects against DDoS attacks.</p>
+</section>
+<section id="origin" class="level2">
+<h2 class="anchored" data-anchor-id="origin">12.2. Origin</h2>
+<p>CloudFront can have different origins:</p>
+<ul>
+<li><strong>S3 bucket</strong>. For distributing files and caching them at the edge. Secured using Origin Access Control (OAC).</li>
+<li><strong>VPC Origin</strong>. For applications hosted in VPC private subnets - ALB, EC2 instances. CloudFront creates a VPC Origin inside the VPC and communicates with that. The old deprecated method was to create a public EC2 instance or ALB and attach a security group that only allowed access from the public IP addresses of the edge location; this is more error prone and less secure.</li>
+<li><strong>Custom origin</strong>. Any public HTTP backend.</li>
+</ul>
+<p>The client requests data from the edge location. If the data is cached, return it. Otherwise, fetch it from the origin and cache it at that edge location ready for any future requests.</p>
+<p>CloudFront differs from <strong>S3 Cross-Region Replication</strong>, but naively seems similar in principle. CloudFront caches across the global edge network (there is no region selection) and only caches files for the TTL (short lived). Good for static content that must be highly available.</p>
+<p>S3 Cross-Region Replication must be set up for each region you want replication to happen in, and files are updated in near real-time. Good for dynamic content that needs to be available in a small number of regions at low latency.</p>
+</section>
+<section id="cloudfront-geo-restriction" class="level2">
+<h2 class="anchored" data-anchor-id="cloudfront-geo-restriction">12.3. CloudFront Geo Restriction</h2>
+<p>You can restrict who can access your distribution based on location. You define an Allowlist or Blocklist to allow/block access to content is the user is in a particular country. The country is determined using a 3rd party Geo-IP database.</p>
+<p>A use case is to enforce copyright laws based on country.</p>
+</section>
+<section id="price-classes" class="level2">
+<h2 class="anchored" data-anchor-id="price-classes">12.4. Price Classes</h2>
+<p>The cost of data out per edge location varies.</p>
+<p>You can reduce the number of edge locations for cost reduction. There are three price classes:</p>
+<ul>
+<li>Price Class All. All regions, best performance but most expensive.</li>
+<li>Price Class 200. Most regions but excluding the most expensive.</li>
+<li>Price Class 100. Only the cheapest regions.</li>
+</ul>
+</section>
+<section id="cache-invalidation" class="level2">
+<h2 class="anchored" data-anchor-id="cache-invalidation">12.5. Cache Invalidation</h2>
+<p>If you update the content on the backend origin, the CloudFront edge location will only get the refreshed content after the TTL expires.</p>
+<p>You can force an entire or partial cache refresh by performing a <strong>CloudFront Invalidation</strong>. You pass in a file path. This can be all files <code>*</code> or a specific folder <code>/images/*</code>.</p>
+<p>It essentially <strong>tells the edge location that the content isn’t there, so the next user that requests the data will get a cache miss</strong> and go to the origin. Note that it <strong>doesn’t</strong> <em>refresh</em> the data per se, it invalidates the data and it’s only when the next user makes a request that the edge location retrieves the updated content.</p>
+</section>
+<section id="aws-global-accelerator" class="level2">
+<h2 class="anchored" data-anchor-id="aws-global-accelerator">12.6 AWS Global Accelerator</h2>
+<p>The problem AWS Global Accelerator is solving is you have an application deployed in one region, say an ALB, but your traffic is global. So some users in faraway locations have many hops before reaching our content. We want to go through the AWS network as soon as possible to minimise latency.</p>
+<section id="unicast-ip-vs-anycast-ip" class="level3">
+<h3 class="anchored" data-anchor-id="unicast-ip-vs-anycast-ip">12.6.1. Unicast IP vs Anycast IP</h3>
+<p><strong>Unicast</strong> is what we’re typically familiar with. Each server holds one IP address.</p>
+<p>With <strong>Anycast IP</strong>, all servers hold the <strong>same</strong> IP address, and the client is routed to the nearest one. This is how AWS Global Accelerator works.</p>
+</section>
+<section id="how-global-accelerator-works" class="level3">
+<h3 class="anchored" data-anchor-id="how-global-accelerator-works">12.6.2. How Global Accelerator Works</h3>
+<p>There is a server at each edge location. Anycast IP sends traffic directly to the nearest edge location. The traffic is then routed along AWS’s private network which is faster than over public internet.</p>
+<p>Two Anycast IP addresses are created for you application. It works with Elastic IP, EC2 instances, ALB, NLB, and can be public or private. It is helpful for security too because there are only two IP addresses that clients need to whitelist, but with the benefit of being globally available.</p>
+</section>
+<section id="global-accelerator-vs-cloudfront" class="level3">
+<h3 class="anchored" data-anchor-id="global-accelerator-vs-cloudfront">12.6.3. Global Accelerator vs CloudFront</h3>
+<p>CloudFront is <strong>caching</strong> data. A server at the edge location stores a cached version of your data and serves this to clients.</p>
+<p>Global Accelerator is simply <strong>routing traffic through AWS’s private network</strong>, there is no caching. The clients request is routed to the nearest edge location then directly to the origin through the AWS network.</p>
+</section>
+</section>
+</section>
+<section id="aws-storage-extras" class="level1">
+<h1>13. AWS Storage Extras</h1>
+<section id="aws-snowball" class="level2">
+<h2 class="anchored" data-anchor-id="aws-snowball">13.1. AWS Snowball</h2>
+<p>Snowball is a device that allows you to collect and process data at the edge, and migrate data in and out of AWS. You receive physical Snowball device that you upload data on to locally and then ship it to AWS.</p>
+<p>When performing data migrations of large amounts of data or over a slow connection (over a week of transfer time), AWS Snowball is recommended.</p>
+<p>Another use case is edge computing, where we want to process data at an edge location (e.g.&nbsp;a truck or a ship) that has limited internet or compute power.</p>
+<p>In the UI, you specify the your shipping address and the S3 bucket you want the data uploaded to once AWS receive it, and they will post you a Snowball device.</p>
+<p>A common user story is you want to upload data from the Snowball device directly in to Glacier. This is not possible, so the workaround is to upload into S3 and have a lifecycle policy on the bucket which transitions the data into Glacier.</p>
+</section>
+<section id="amazon-fsx" class="level2">
+<h2 class="anchored" data-anchor-id="amazon-fsx">13.2 Amazon FSx</h2>
+<p>FSx allows you to launch <strong>third-party file systems</strong> on AWS as a fully managed service.</p>
+<p>Analogous to how RDS allows you to run third party <strong>databases</strong> like MySQL, PostgreSQL etc as a managed service. FSx is the equivalent for <strong>file systems</strong>.</p>
+<ul>
+<li><p><em>FSx for Windows File Server</em> is a fully managed shared drive. It supports Active Directory integration. Despite it being windows, it can also be mounted on Linux EC2 instances. There are SSD or HDD storage options. Data is backed up to S3 daily.</p></li>
+<li><p><em>FSx for Lustre</em> is a parallel distributed file system. The name is derived from “Linux cluster”. It is used for high performance computing (HPC), ML, video processing. Storage options can be SSD or HDD. There is integration with S3 so you can read S3 as if it were a file system and write data back to S3.</p></li>
+<li><p><em>FSx for NetApp ONTAP</em>. Scaled automatically and there is point in time instantaneous cloning which is helpful for testing new workloads.</p></li>
+<li><p><em>FSx for OpenZFS</em>. Managed OpenZFS file system. Good for snapshots, compression and low cost, but no data duplication.</p></li>
+</ul>
+<p>There are two <strong>file system deployment options</strong> for FSx:</p>
+<ul>
+<li>Scratch file system. Temporary storage. Data is not replicated but throughput is high.</li>
+<li>Persistent file system. Long term storage replicated within the same AZ. Failed files are replace within minutes.</li>
+</ul>
+</section>
+<section id="storage-gateway" class="level2">
+<h2 class="anchored" data-anchor-id="storage-gateway">13.3. Storage Gateway</h2>
+<p>Hybrid cloud for storage. Some infrastructure on-premises and some on cloud. This can be due to: long cloud migrations, security requirements, compliance requirements, IT strategy</p>
+<p>AWS Storage Gateway is <strong>a way to expose S3 on premises</strong>.</p>
+<p>The cloud native options are:</p>
+<ul>
+<li>Block store. EBS, EC2 instance store</li>
+<li>File storage. EFS, FSx</li>
+<li>Object storage. S3, Glacier</li>
+</ul>
+<p>Types of Storage Gateway:</p>
+<ul>
+<li><p><strong>S3 file gateway</strong>. Allows our on premises to access our S3 bucket. The application server communicates with S3 file gateway via NFS or SMB. S3 file gateway communicates with S3 via HTTPS. The most recently used data is cached in the file gateway. Data can then be transferred to Glacier using a lifecycle policy. IAM roles must be created for each gateway.</p></li>
+<li><p><strong>FSx file gateway</strong>. Local cache for frequently accessed data.</p></li>
+<li><p><strong>Volume gateway</strong>. Block storage backed by EBS snapshots. Cached volumes allow low latency access to most recent data. Entire data set is stored on premise and there are scheduled backups to S3.</p></li>
+<li><p><strong>Tape gateway</strong>. For companies with backup processes using physical tapes. With tape gateway, companies can use the same process but in the cloud.</p></li>
+<li><p>Storage gateway - <strong>hardware appliance</strong>. A physical appliance that Amazon post to you which works with file gateway, volume gateway, tape gateway.</p></li>
+</ul>
+</section>
+<section id="aws-transfer-family" class="level2">
+<h2 class="anchored" data-anchor-id="aws-transfer-family">13.4. AWS Transfer Family</h2>
+<p>A <strong>managed service for FTP file transfers</strong> in and out of S3. Supports FTP, FTPS, SFTP.</p>
+<p>Pay per provisioned endpoint per hour + data transfer in GB.</p>
+</section>
+<section id="aws-datasync" class="level2">
+<h2 class="anchored" data-anchor-id="aws-datasync">13.5. AWS DataSync</h2>
+<p>Move large amounts of data to and from:</p>
+<ul>
+<li>On-premises -&gt; AWS</li>
+<li>AWS -&gt; AWS</li>
+</ul>
+<p>Can sync to: S3, EFS, FSx. It can work in either direction.</p>
+<p>Replication tasks can be scheduled hourly, daily, weekly; it is <strong>not</strong> continuous/ instantaneous. <strong>File permissions and metadata are preserved - DataSync is the only option that does this.</strong></p>
+<p>AWS Snowcone comes with a DataSync agent pre-installed. It can be used on premises to sync to the cloud.</p>
+</section>
+<section id="comparison-of-storage-options" class="level2">
+<h2 class="anchored" data-anchor-id="comparison-of-storage-options">13.6. Comparison of Storage Options</h2>
+<ul>
+<li>S3: Object Storage</li>
+<li>S3 Glacier: Object Archival</li>
+<li>EBS volumes: Network storage for one EC2 instance at a time</li>
+<li>Instance Storage: Physical storage for your EC2 instance (high IOPS)</li>
+<li>EFS: Network File System for Linux instances, POSIX filesystem</li>
+<li>FSx for Windows: Network File System for Windows servers</li>
+<li>FSx for Lustre: High Performance Computing Linux file system</li>
+<li>FSx for NetApp ONTAP: High OS Compatibility</li>
+<li>FSx for OpenZFS: Managed ZFS file system</li>
+<li>Storage Gateway: S3 &amp; FSx File Gateway, Volume Gateway (cache &amp; stored), Tape Gateway</li>
+<li>Transfer Family: FTP, FTPS, SFTP interface on top of Amazon S3 or Amazon EFS</li>
+<li>DataSync: Schedule data sync from on-premises to AWS, or AWS to AWS</li>
+<li>Snowcone / Snowball / Snowmobile: to move large amount of data to the cloud, physically</li>
+<li>Database: for specific workloads, usually with indexing and querying</li>
+</ul>
 </section>
 </section>
 <section id="references" class="level1">
