@@ -1969,6 +1969,332 @@ It can be used on premises to sync to the cloud.
 - Database: for specific workloads, usually with indexing and querying
 
 
+# 14. Messaging and Integration
+
+Our applications may need to communicate with one another. 
+
+There are two main patterns:
+
+1. **Synchronous** communication. Application to application. This can be problematic if there are sudden spikes of traffic; the solution is to *decouple* applications. 
+2. **Asynchronous** communication (event-based). Application to *queue* to application. 
+
+
+Options for decoupling synchronous applications:
+
+- Using SQS. **Queue** model. 
+- Using SNS. **Pub/sub** model. 
+- Using Kinesis. Real-time **streaming** model. 
+
+
+## 14.1. Simple Queuing Service (SQS)
+### 14.1.1. Overview 
+A **producer** sends messages to a **queue**. 
+A **consumer** polls the queue for messages. 
+The queue essentially acts as a buffer between producer and consumer.  
+
+
+- Standard queue. 
+Unlimited throughput and number of messages in queue. Messages are short-lived; they can stay in the queue for 14 days maximum, and this is set to 4 days by default. The latency is low, <10ms on publish and receive. Messages can be 256 KB maximum. 
+It uses “at least once delivery” so it is possible to have multiple messages in the queue, and messages may be out of order (best effort ordering), so the application should be able to handle this. 
+
+- Producing messages. 
+The application code sends a message to the queue using the `SendMessage` API in the AWS SDK. 
+The message is persisted in SQS until a consumer deletes it, or the retention period is reached. 
+
+- Consuming messages. 
+The application code may be running on premises or in AWS. The consumer polls SQS for messages (up to 10 at a time). Once the consumer processes the message, it deletes the message from the queue using the DeleteMessage API. 
+
+- Encryption. 
+Inflight encryption using HTTPS API. At rest encryption using KMS keys. 
+You can use client-side encryption if the client wants to handle encryption/decryption itself. 
+
+- IAM policies regulate access to the SQS API (SendMessage and DeleteMessage). 
+SQS Access Policies can be used for cross-account access to SQS queues or allowing access from other services like SNS or S3; analogous to S3 bucket policies. 
+
+
+### 14.1.2. Message Visibility Timeout
+After a message is polled by a consumer, it *becomes invisible to other consumers*. This ensures that multiple consumers do not try to process the same message. 
+
+By default, the visibility timeout is 30 seconds, so consumers have 30 seconds to process the message before it “rejoins” the queue. 
+
+If a consumer is processing a message but knows that it needs more time, it can call the `ChangeMessageVisibility` API to get more time. This is helpful to ensure a message isn’t processed twice. 
+
+The value of the timeout should be high enough to avoid duplicate processing from multiple consumers, but low enough that if a consumer crashes then the message is made available on the queue again in reasonable time. 
+
+
+### 14.1.3. Long Polling
+
+When a consumer requests messages from the queue, it can optionally *wait for messages* to arrive if there are none in the queue. This is “long polling”. 
+
+This reduces the number of API calls made to SQS and improves the latency of the application. 
+
+The long polling wait time can be 1-20 seconds. 
+
+Long polling can be enabled either at the queue level or the API level using WaitTimeSeconds. 
+
+
+### 14.1.4. FIFO Queues
+
+First In First Out ordering of messages. FIFO queues *guarantee the order* of messages at the expense of *limiting throughput*. 
+
+Messages are processed in order by the consumer. Ordering is done by Message Group ID which is a mandatory parameter. 
+
+FIFO queues also support “exactly-once” send capability. You add a unique *Deduplication ID* to each message. 
+
+The queue name when you create it must end in `.fifo`
+
+
+### 14.1.5. SQS with ASG
+
+To increase throughput, we can **scale the number of consumers** horizontally. 
+
+A common pattern is to have EC2 instances as the consumers which are inside an Auto Scaling Group. There is a CloudWatch metric monitoring the queue length, and the ASG scales the number of instances based on that CloudWatch alarm. 
+
+Another common pattern is to use SQS as a buffer between EC2 instances and the database to ensure no data is dropped. 
+If the EC2 instances are writing directly to the database, they may hit the write limit and lose data. 
+SQS is added as an intermediate step. EC2 publishes to the SQS queue which is infinitely scalable to ensure no data is dropped. Then a different EC2 instance in a different ASG acts as the consumer to pick up messages and write them to the database in a durable way. 
+This pattern only works if the client does not need write confirmation. 
+
+
+## 14.2. Simple Notification Service (SNS)
+### 14.2.1. Overview
+SNS allows you to send **one message to many receivers** using the **pub/sub pattern**. A publisher publishes a message on an SNS topic and various subscribers can read the message and act accordingly. 
+
+An “event producer” sends a message to one SNS topic. Many “event receivers” can listen for topic notifications. By default, subscribers see all messages but you can filter this. 
+
+You can have up to 12.5 million subscriptions per topic. An account can have up to 100k topics. 
+
+
+Subscribers can be: SQS, Lambda, Kinesis Data Firehose, emails, SMS and push notifications, and HTTP(S) endpoints. 
+
+SNS can receive data from many AWS services. 
+
+
+To publish from SNS, there are two options:
+
+ - Topic publish using the SDK
+ - Direct publish using the mobile apps SDK
+
+
+Security for SNS is similar to SQS:
+
+- in flight encryption using HTTPS
+- At rest encryption using KMS keys
+- Client side encryption if the client wants to handle encryption/decryption themselves 
+
+IAM policies regulate access to the SNS. 
+SNS Access Policies can be used for cross-account access to SNS topics or allowing access from other services like S3; analogous to S3 bucket policies and SQS Access Policies. 
+
+
+### 14.2.2. Fan Out Pattern
+
+This is a common `SQS + SNS pattern`. 
+We may want to publish a message to multiple SQS queues. We can decouple this using the fan out pattern, so the application code doesn’t need to be changed for every added/removed queue. 
+
+We push once to SNS and let all of the SQS queues subscribe to that SNS topic. 
+
+Make sure the SQS queue access policy allows for SNS to write. 
+There is cross-region delivery, meaning an SNS topic can be read by multiple SQS queues in different regions. 
+
+
+Another application is `S3 + SNS + SQS`. 
+S3 has a limitation that you can only have one S3 Event rule per event type, prefix combination. 
+If you want to send the same S3 event to multiple queues, publish it to SNS and let that fan out to the different SQS queues. 
+
+
+SNS can write to S3 (or another destination supported by KDF) by going via Kinesis Data Firehose. 
+
+Like SQS, we can have an SNS FIFO topic to ensure ordering. Again, we order by message group ID and pass a Deduplication ID. This is helpful if fanning out to SQS FIFO queues. 
+
+
+### 14.2.3. Message Filtering 
+This is an optional JSON policy applied to a subscriber to only filter on some messages. Useful if we want one queue to handle orders, one for cancellations etc. 
+
+
+## 14.3. Kinesis Data Streams
+
+KDS used to Collect and store **real-time** streaming data. 
+
+A **producer** is application code that you write, or a Kinesis Agent if connecting to an AWS service, which writes to a Kinesis Data Stream. 
+
+A **consumer** is an application that can read from the data stream. 
+Example consumers may be: your application, Lambda functions, Amazon Data Firehose, managed service for Apache Flink. 
+
+Data is retained on the data stream for up to 365 days which allows consumers to “replay” data. 
+Data cannot be deleted from Kinesis, you have to wait for it to expire. 
+
+Data cannot be up to 1 MB; a typical use case is lots of “small” realtime data. 
+Ordering is guaranteed for data with the same partition ID. 
+
+Encryption - KMS at-rest and HTTPS in-flight. 
+
+We can write optimised producers and consumers using *Kinesis Producer Library and Kinesis Client Library* respectively. 
+
+
+There are two **capacity modes**:
+
+- Provisioned mode. You define the number of shards. Each shard allows for 1 MB/s in and 2 MB/s out. You can manually increase or decrease the number of shards and you pay per shard per hour. 
+- On-demand mode. No manual intervention required. You start with the default capacity (4 shards) which scales automatically based on observed throughput peak during the last 30 days. You are billed per stream per hour and for each GB in and out. 
+
+
+## 14.4. Amazon Data Firehose
+### 14.4.1. Overview
+Producers send records (up to 1 MB of data) to Firehose. They can optionally be transformed by a lambda function. **Data is accumulated in a buffer and written as batches** to a destination; therefore it is *“near real time”* since there is a lag between flushes of the buffer. 
+You can optionally write all data or just failed data to an S3 backup bucket. 
+
+The buffer can be set to flush based on a storage limit (GB accumulated) or a time limit; it will be flushed when the first of these limits is hit. 
+
+It is a fully managed service, serverless with auto scaling. Supported file types: CSV, JSON, Parquet, Avro, raw text, binary data. It used to be called “Kinesis Data Firehose” but was renamed because it is more generally applicable beyond just Kinesis. 
+
+Producers can be applications, clients, SDK, Kinesis Agents, Kinesis Data Streams, CloudWatch logs and events, AWS IoT. 
+
+Destinations can be AWS destinations: S3, Redshift, OpenSearch. Or third party destinations: Datadog, Splunk, New Relic, MongoDB. Or you can write to custom destinations via an HTTP endpoint. 
+
+
+## 14.5. Comparison of Messaging and Integration Services
+### 14.5.1. Kinesis Data Streams vs Amazon Data Firehose 
+
+Firehose does not store any data or allow for replay. There is a lag so it is not fully real time, unlike Kinesis data streams. 
+
+Firehose automatically scales, whereas Kinesis data streams allow a self-managed (provisioned mode) or fully managed (on demand mode) option. 
+
+
+### 14.5.2. SQS vs SNS vs Kinesis
+
+- SQS - consumers **pull** data and delete it from the queue. You can have as many consumers as you want. No need to provision throughput. 
+
+0 SNS - producers **push** data. Data is not persisted, so data can be lost if not delivered. No need to provision throughput. 
+
+- Kinesis - the standard approach is to pull data, but this can be adapted to push data using the fan-out pattern. Data is persisted so can be replayed. There are two modes to self-manage or auto-scale. 
+
+
+## 14.6. Amazon MQ
+
+Amazon MQ is a **managed message broker service** for RabbitMQ and ActiveMQ. 
+It has both queue feature and topic feature, so *can be made to be roughly equivalent to SQS and SNS respectively*. 
+
+If you are already using RabbitMQ or ActiveMQ on premises, it may be easier to migrate to Amazon’s managed service. 
+
+SQS and SNS are “cloud-native” services, proprietary from AWS. Amazon MQ doesn’t scale as well as the cloud-native services. 
+
+**It is essentially a halfway house for cases where you can't / don't want to migrate your whole application to use SQS/SNS but want some cloud features.**
+
+
+For high availability, you can have MQ Brokers in two different AZs, one as active and one as failover. Both write to the same Amazon EFS storage volume so that no data is lost in the event of a failover. 
+
+
+# 15. Containers on AWS
+
+## 15.1. Docker
+
+Use Docker to containerise applications. Common use cases are for microservices or to “lift and shift” and app from on-premises to cloud. 
+
+Docker images are stored in a container repository. Docker Hub is a common public repository, AWS ECR is private (although there is “public gallery” if you want to make images in ECR public). 
+
+Docker vs virtual machines:
+![Docker vs Virtual Machines Comparison](docker_vs_vm.png)
+
+AWS container services: ECR, ECS, EKS, Fargate. 
+
+
+## 15.2. ECS
+Elastic Container Service. This is Amazon’s **managed container service**. You launch an ECS Task on an ECS Cluster. 
+
+There are two launch types: EC2 and Fargate. 
+
+### 15.2.1. EC2 Launch Type
+An ECS cluster is essentially an cluster of EC2 instances each running an “ECS Agent”, which is essentially Docker and logic to register them as elements of the ECS cluster so AWS knows to start/stop/update containers within them. 
+
+With an EC2 launch type, you need to manage the infrastructure yourself, ie define the instance size, number, etc. 
+
+
+### 15.2.2. Fargate Launch Type 
+Serverless service. You don’t provision the infrastructure so no need to manage EC2 instances. 
+
+You just create task definitions and AWS runs ECS Tasks for you based on the CPU/RAM needed. To scale, just increase the number of tasks. 
+
+
+There are two **categories of IAM roles** needed:
+
+- EC2 Instance Profile (only for EC2 launch type). Used by the ECS Agent to make API called to the ECS service, pull images from ECR, send container logs to CloudWatch, get credentials from Secrets Manager of SSM Parameter Store. The IAM profile needs access to all of these services. 
+- ECS Task Roles. Allows each task to have a specific role. Eg task A might only need access to S3, task B might only need access to RDS. 
+
+
+We can run an ALB in front of the ECS Cluster. 
+
+For data persistence, we need a volume. EFS file systems can be mounted onto ECS tasks, and this works with both EC2 and Fargate launch types. EFS is serverless. EFS is a network drive, so tasks running in any AZ will share the same data. S3 cannot be mounted as a file system for ECS tasks.  
+
+
+### 15.2.3. ECS Service Auto Scaling
+
+Automatically increase/decrease the number of ECS tasks. ECS Auto Scaling uses AWS Application Auto Scaling to scale based on: CPU utilisation, RAM utilisation or ALB request count per target. 
+
+There are three **types of scaling**:
+
+- Target tracking - based on a target value for a specific CloudWatch metric
+- Step scaling - based on a CloudWatch alarm
+- Scheduled scaling - based on a date/time
+
+EC2 **Service** Auto Scaling is scaling the service (at the task level). It is not the same as EC2 Auto Scaling which is at the instance level. 
+Fargate auto scaling is easier to set up because it is serverless. 
+
+ECS Cluster Capacity Provider is the preferred approach to scaling. It is a capacity provider paired with an auto scaling group. 
+
+You can use Auto Scaling Group Scaling, but this is the older discouraged method. 
+
+
+## 15.2.4. Common ECS Architectures 
+
+Amazon EventBridge can have a rule set up to **run an ECS task in response to a trigger**. For exmaple, when a user uploads a file to a specific S3 bucket, EventBridge will start an ECS task inside a Fargate container to process the data and write it to RDS. 
+
+A similar approach is to use EventBridge to do the same but on a *schedule*, e.g. every hour do some batch processing. 
+
+Another scenario is processing messages in an SQS queue. ECS tasks poll the queue and auto scale depending on the number of items in the queue. 
+
+Another scenario is having EventBridge monitor the ECS task and trigger an event if the task fails or is stopped. It sends the event to SNS which emails the Ops team. 
+
+
+## 15.3. ECR
+
+Elastic Container Registry. **Store and manage docker images on AWS**. 
+It is integrated with ECS and backed by S3 under the hood. Access is controlled by IAM. 
+
+Images can be public or private. Public images are stored in Amazon ECR Public Gallery. 
+
+
+## 15.4. EKS
+
+Elastic Kubernetes Service. **Managed Kubernetes clusters on AWS**. Kubernetes is cloud-agnostic, so can be helpful when migrating between cloud providers. 
+
+Like ECS, it supports EC2 and Fargate launch types. 
+
+Node types:
+
+- Managed node groups. AWS creates and manages nodes (EC2 instances) for you. These can be spot or on demand instances. 
+- Self-managed nodes. You create the nodes and register them to an EKS cluster. 
+- AWS Fargate. Serverless, no maintenance required. 
+
+
+You can attach data volumes by specifying a `StorageClass` manifest on your EKS cluster and using a Container Storage Interface (CSI) driver. EKS supports EBS, EFS and FSx; Fargate can only use EFS. 
+
+
+## 15.5. AWS App Runner
+
+Managed service to make it easy to deploy web apps and APIs. 
+You pass it your source code or container images and configure some settings like number of vCPUs, RAM, auto scaling, health checks etc. AWS creates all of the services under the hood, you don’t need any infrastructure experience. It is the easiest option to get something running without much cloud knowledge. 
+
+
+## 15.6. AWS App2Container (A2C)
+
+A2C is a CLI tool for migrating Java and .NET containers into Docker containers. Lift and shift from on-premises to cloud. 
+
+It generates CloudFormation templates and registers the Docker containers to ECR. You can then deploy to ECS, EKS or AppRunner. 
+
+![AWS App2Container Example](app2container.png)
+
+
+
+
 # References
 
 - [Stephane Maarek "Ultimate AWS Certified Solutions Architect Associate 2025" Udemy course](https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03)
