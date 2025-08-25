@@ -2245,7 +2245,7 @@ You can use Auto Scaling Group Scaling, but this is the older discouraged method
 
 ## 15.2.4. Common ECS Architectures 
 
-Amazon EventBridge can have a rule set up to **run an ECS task in response to a trigger**. For exmaple, when a user uploads a file to a specific S3 bucket, EventBridge will start an ECS task inside a Fargate container to process the data and write it to RDS. 
+Amazon EventBridge can have a rule set up to **run an ECS task in response to a trigger**. For example, when a user uploads a file to a specific S3 bucket, EventBridge will start an ECS task inside a Fargate container to process the data and write it to RDS. 
 
 A similar approach is to use EventBridge to do the same but on a *schedule*, e.g. every hour do some batch processing. 
 
@@ -2291,6 +2291,636 @@ A2C is a CLI tool for migrating Java and .NET containers into Docker containers.
 It generates CloudFormation templates and registers the Docker containers to ECR. You can then deploy to ECS, EKS or AppRunner. 
 
 ![AWS App2Container Example](app2container.png)
+
+
+# 16. Serverless
+
+“Serverless” is a bit misleading: there are still servers behind the scenes, **you just don’t manage the servers yourself**. 
+
+It was originally branded as Function as a Service (FaaS) but now includes any managed service: database, messaging, storage, etc. 
+
+Serverless services in AWS: Lambda, DynamoDB, Cognito, API Gateway, S3, SNS and SQS, Kinesis Data Firehose, Aurora Serverless, Step Functions, Fargate. 
+
+
+## 16.1. AWS Lambda
+#### 16.1.1. Overview
+Lambdas are **virtual functions**; there are no servers to manage. Execution time must be <15 mins. They run on-demand; you are only billed when your function is running. Scaling is automated. 
+
+**Lambdas are the serverless counterparts to EC2 instances**. With EC2 instances you need to intervene to scale up and down. 
+
+There is integration with CloudWatch for monitoring. You can have up to 10GB of RAM per function; increasing the RAM also improves the CPU and networking. 
+
+Lambda pricing is pay per request and compute time. 
+
+Supported languages: JavaScript, Python, Java, C#, Ruby. Other languages are supported via a custom runtime API. 
+
+You can have **Lambda Container Images** which must implement the Lambda Runtime API. Generally, ECS or Fargate are preferred for running arbitrary Docker images. 
+
+A common pattern is to use Lambda to create a *“serverless CRON job”*. CloudWatch Events triggers an event on a schedule, say every hour. This triggers a Lambda function to run a certain task. 
+
+
+### 16.1.2. Lambda Limits
+
+These limits are **per region**. 
+
+Execution:
+
+- Memory allocation - 128MB-10 GB in 1MB increments
+- Max execution time is 15 minutes 
+- Environment variables can take up to 4 KB
+- Disk capacity in /tmp - 512 MB to 10GB
+- Concurrency executions: 1000
+
+Deployment:
+
+- Deployment size (compressed zip) 50 MB, uncompressed 250 MB
+- Can use `/tmp` directory to load other files at startup
+- Environment variables 4KB
+
+
+### 16.1.3. Lambda Concurrency and Throttling
+
+Concurrency limit: up to 1000 concurrent executions across all Lambda functions in our **account**. 
+
+We can set a **“reserved concurrency”** at the function-level to limit calls to individual Lambda functions. It is good practice to do this so that one application in your account scaling does not cause it to use all of the available Lambda functions in your account and cause unrelated Lambda functions for other applications to be throttled. 
+
+Each invocation over the concurrency limit triggers a “throttle”. For synchronous invocations, this returns a 429 ThrottleError. For asynchronous invocations, it will retry automatically for up to 6 hours with exponential backoff and then go to a dead letter queue. 
+
+
+### 16.1.4. Cold Starts
+
+When a new instance is starting, it needs to initialise by running all of the code and dependencies. This can take a long time, causing the first request to a new instance to have higher latency than the rest. 
+
+**Provisioned concurrency** is allocated before the function is invoked to avoid cold starts. 
+
+
+### 16.1.5. Lambda SnapStart
+
+When a regular Lambda function is invoked the lifecycle it goes through is: initialise, invoke, shutdown. 
+
+When SnapStart is enabled, **the function is pre-initialised** so it can skip straight to the invoke stage. 
+
+When you publish a new version: lambda initialises your function, takes a snapshot of memory and disk state, then that snapshot is cached for low-latency access. 
+
+
+### 16.1.6. Customisation at the Edge
+
+Some applications may require some form of logic at the edge location, e.g. to customise the CDN content. 
+
+An **edge function** is code that you write and attach to CloudFront distributions. It runs close to the user to minimise latency. 
+
+
+CloudFront provides two types:
+
+- CloudFront Functions
+- Lambda@Edge
+
+Both are serverless and deployed globally. You only pay for what you use. 
+
+#### CloudFront Functions
+These are JavaScript functions that modify the response sent from CloudFront to the user. 
+They can change the viewer request (what the user sends to CloudFront before it reaches the origin server) or the viewer response (what the origin server sends back before it reaches the user). 
+
+![CloudFront Function](cloudfront_function.png)
+
+
+#### Lambda@Edge
+This can modify viewer request/ response or origin request/response. 
+You write the function in one region (us-east-1) then CloudFront replicates it across all regions. The function can be written in node.js or Python. 
+
+It is more expensive with a higher max execution time, so you can run more logic. 
+
+![Lambda@Edge Function](lamba_at_edge.png)
+
+
+#### Comparison
+
+![Comparison of CloudFront Functions vs Lambda@Edge](comparison_cloudfront_function_vs_lambda_at_edge.png)
+
+Use cases of CloudFront Functions:
+
+- Cache key normalization
+- Header manipulation
+- URL rewrites or redirects
+- Request authentication & authorization
+
+Use cases of Lambda@Edge Functions:
+
+- Longer execution time (several ms)
+- Adjustable CPU or memory
+- Your code depends on a 3rd-party libraries (e.g., AWS SDK to access other AWS services)
+- Network access to use external services for processing
+- File system access or access to the body of HTTP requests
+
+
+### 16.1.7. VPC
+
+By default, Lambda launches in its own AWS-owned VPC, so can only access public resources and not the resources in your VPC. 
+
+We can **launch Lambda in a VPC** if we specify the *VPC ID, subnets and security groups*. Lambda will create an ENI in your subnets. 
+
+#### Lambda with RDS Proxy
+A common use case for launching lambda in your VPC is to connect to your RDS database. But we don’t want to connect Lambdas directly to RDS, as this can result in lots of open connections and high load. 
+
+Instead the Lambda functions connect to an **RDS proxy** which *pools and shares database connections*. 
+
+![Lambda with RDS Proxy](lambda_with_rds_proxy.png) 
+
+This requires running Lambda in a VPC because the RDS Proxy is never publicly accessible. 
+
+
+#### Invoking a Lambda Function from RDS
+
+You can invoke a Lambda function from within your database instance to **process data events from within the database**. 
+
+You need to allow outbound traffic to the Lambda function from within the DB instance. This is done in the database, not the AWS console. 
+
+This should not be confused with **RDS Event Notifications**. These tell you information about the database instance, not the data itself. So you can see when the database was created, stopped, started etc. But you cannot see anything about the data itself is actually processing. 
+
+
+## 16.2. DynamoDB
+### 16.2.1. Overview
+Fully managed NoSQL database with replication across multiple AZs. It is a good choice if the **schema needs to change frequently**. 
+
+Security is all handled via IAM. 
+
+DynamoDB auto-scales and has fast (single digit milliseconds) performance. 
+
+There are two classes: standard and infrequent access. 
+
+
+DynamoDB is made of **tables**. Each table must have a **primary key**, and can have an infinite number of **items (rows)**. 
+Each **item** has **attributes (columns)**. These can be added to over time without having to alter a table schema. 
+
+Maximum item size is 400KB. 
+Supported data types are ScalarTypes, DocumentTypes (list, map), SetTypes. 
+
+
+Capacity modes:
+
+- Provisioned mode. You specify the number of reads/writes per second required and pay per Read Capacity Unit (RCU) and Write Capacity Unit (WCU). You can optionally add autoscaling. 
+- On-demand mode. Reads/writes scale automatically, no capacity planning required. You pay for what you use but it is more expensive. Good for unpredictable, spiky workloads. 
+
+
+### 16.2.2. DynamoDB Accelerator (DAX)
+
+Fully managed **in-memory cache for DynamoDB**. Microsecond latency for cached content. No change to application logic required. Default TTL of 5 minutes. 
+
+**DAX is for caching individual objects** or table scan results. **Amazon Elasticache is for caching aggregation results**. 
+
+
+### 16.2.3. Stream Processing
+
+Ordered stream of item-level updates (create/update/delete). 
+This is useful for realtime analytics or reacting to changes like sending welcome emails to new users. 
+
+DynamoDB Streams have 24 hour retention with limited number of consumers. Kinesis Data Streams have 1 year retentions, more consumers and more integration with other AWS services. 
+
+
+### 16.2.4. Global Tables
+
+A table that is replicated in multiple regions. It is a **two-way replication**; changes made in either table are reflected in the other. It is an **active-active replication**, means applications can read and write to tables in any region. 
+
+DynamoDB Streams must be enabled as this is used under the hood. 
+
+
+### 16.2.5. TTL
+
+Automatically delete items in the table after a certain expiry timestamp. 
+
+Use cases are enforcing a retention policy and reducing storage after that, or web session handling. 
+
+
+### 16.2.6. Backups for Disaster Recovery
+
+Continuous backups for point-in-time recovery. This can be optionally enabled for the last 35 days. 
+The recovery process creates a new table. 
+
+On demand backups are retained until explicitly deleted. 
+
+
+### 16.2.7. Integration with S3
+
+You can export to S3 and import from it. 
+
+Point-in-time recovery must be enabled for export to S3. 
+
+
+## 16.3. API Gateway
+### 16.3.1. Overview
+We could connect our client directly to our Lambda function / EC2 instances, but it would need appropriate IAM permissions. Alternatively, we can have an ALB. 
+
+API Gateway is another alternative that **acts as a proxy** like ALB, but we also get some convenient **features for managing our API**. It is a serverless service. 
+
+Handles API versioning and multiple environments (dev, staging, prod), authentication, creates API keys. Support for websocket protocol, swagger and open API interfaces, caching. We can transform and validate requests and responses. 
+
+
+API gateway can integrate with:
+
+- Invoke Lambda functions. This is a common way to expose a REST API. 
+- HTTP. Expose any HTTP endpoints in the backend. 
+- AWS service. Expose any AWS API through the API Gateway. 
+
+
+Endpoint types:
+
+- Edge-optimised. For global clients. This is the default. Requests are routed through CloudFront, although API Gateway still lives in one region. 
+- Regional. For clients in the same region. 
+- Private. Can only be accessed from your VPC using an interface VPC endpoint (ENI). Use a resource policy to define access. 
+
+
+### 16.3.2. Security
+
+User auth can be via:
+
+- IAM roles. For internal applications. 
+- Cognito. For exposing to external users. 
+- Custom auth that you define. 
+
+You can use ACM (AWS Certificate Manager) to define a custom HTTPS domain name. 
+
+
+## 16.4. Step Functions
+
+Build a serverless **visual workflow to orchestrate Lambda functions** using step functions. 
+
+Can integrate with AWS services by defining a flowchart. You can optionally include a human approval step. 
+
+
+## 16.5. Cognito
+
+Cognito is a service to **give users an identity to interact with our web or mobile application**. Typical use cases are when dealing with external users (where we don’t want to set up IAM permissions), where there are hundreds of users or more, or mobile users. 
+
+
+There are two types:
+
+- Cognito User Pools. Sign in functionality for app users that integrates with API Gateway and ALB. Serverless database of users. 
+- Cognito Identity Pools. Also called Federated Identities. Provide AWS credentials so they can access AWS resources directly. 
+
+
+# 17. Serverless Architecture Examples
+
+The examples in this section build an increasingly complex serverless infrastructure with improving throughput.
+
+## 17.1. REST API
+
+![REST API Serverless Example](serverless_example_rest_api.png)
+
+
+## 17.2. Giving Mobile Users Access to an S3 Bucket
+
+![S3 Serverless Example](serverless_example_s3_access.png)
+
+
+## 17.3. High Throughput Example
+
+![High Throughput Serverless Example](serverless_example_high_read_throughput.png)
+
+We can add a caching layer to improve read times.
+
+![Serverless Example with Cache](serverless_example_high_read_throughput_with_caching.png)
+
+
+# 18. Databases
+
+## 18.1. Database Overview
+
+Database types:
+
+- RDBMS (SQL OLTP)
+- NoSQL
+- Object store 
+- Data warehouse (SQL OLAP)
+- Search database
+- Graph database
+- Ledger
+- Time series
+
+
+## 18.2. RDS
+
+**Managed RDBMS**. Discussed in previous section. 
+
+
+## 18.3. Aurora
+
+**Separation of storage vs compute**. Aurora has a PostgreSQL and MySQL compatible API. 
+
+Data is stored in 6 replicas across 3 AZ. 
+
+There is a serverless option. 
+
+
+## 18.4. ElastiCache
+
+Managed Redis or Memcached **cache**; **in-memory data store**. 
+
+Requires changes to your application code to use the cache. 
+
+
+## 18.5. DynamoDB
+
+Managed serverless **NoSQL database**. 
+
+There are two capacity modes: provisioned or on-demand. 
+
+You can optionally add a **DAX cluster** for read caching. 
+
+
+## 18.6. S3
+
+**Key/value store for objects**. 
+
+Best for large objects, not many small objects. Max object size is 5 TB. 
+
+
+## 18.7. DocumentDB
+
+DocumentDB is like a **managed MongoDB** (NoSQL). Analogous to how Aurora is managed SQL. 
+
+
+## 18.8. Neptune
+
+Managed **graph database**. 
+
+Highly available with up to 15 read replicas across 3 AZs. 
+
+**Neptune Streams** is a real-time ordered sequence of *every change to your graph DB*. The streams data is available via a REST API.
+
+
+## 18.9. Amazon Keyspaces
+
+This is a **managed Cassandra** (NoSQL) database service. 
+
+Queries are done with Cassandra Query Language (CQL). 
+
+There are two capacity modes: on-demand and provisioned. 
+
+
+## 18.10. Amazon Timestream
+
+**Managed time series database**. 
+
+Recent data is stored in memory and older data is stored in cost optimised storage. 
+
+Compatible with SQL and has additional time series analytics functions. 
+
+
+# 19. Data Analytics 
+
+## 19.1. Athena
+### 19.1.1. Overview 
+Athena is a **serverless query service** to **analyse data stored in S3 using SQL**. 
+
+It supports CSV, JSON, ORC, Avro and Parquet file formats. 
+
+
+Think of it *like Snowflake external tables*. 
+The data is in files in S3 but you can query it with SQL. 
+
+You need to specify an S3 bucket where query results are saved to. 
+
+
+### 19.1.2. Athena Performance Improvements 
+
+- Use **columnar data**. This means Athena has fewer columns to scan. Parquet and ORC are recommended. AWS Glue can be used for ETL jobs to convert files to parquet from other formats. 
+- **Compress** data. Smaller retrieval. 
+- **Partition** datasets in S3 to allow querying on **virtual columns**. Name the directories `column_name=value`, e.g. `s3://example_bucket/year=2025/month=1/date=2/data.parquet`
+
+
+### 19.1.3. Federated Query
+
+This allows you to run SQL **queries across data stored in different places** - Elasticache, DynamoDB, Aurora, on-premises, etc. 
+
+It does this using **Data Source Connectors** that run as a Lambda function. 
+
+![Athena Federated Query Example](athena_federated_query.png)
+
+
+
+## 19.2. Redshift
+### 19.2.1. Overview
+Redshift is based on PostgreSQL but used for OLAP not OLTP (**analytics not transactions**). It uses columnar storage. 
+
+There are two modes: provisioned cluster or serverless cluster. Provisioned mode allows you to select instance types in advance and reserve instances for cost savings. 
+
+Compared to Athena, Redshift is faster to join, query, aggregate. The downside is *you need a cluster* whereas *Athena is completely serverless*. 
+
+A Redshift cluster has a **leader node** for query planning and results aggregation, and **compute nodes** which perform queries and send results to the leader node. 
+
+
+### 19.2.2. Disaster Recovery 
+
+Redshift has multi0AZ for some clusters. Otherwise **snapshots are required for DR**. 
+
+Snapshots are point-in-time backups stored in S3. They are *incremental*, so only diffs are saved. 
+They can be automated, either every 8 hours or every 5 GB, with a set retention periods. 
+Manual snapshots are retained indefinitely. 
+
+Snapshots can be configured to save to another region for DR. 
+
+
+### 19.2.2. Loading Data into Redshift
+
+Large inserts are much better. 
+
+
+### 19.2.3. Redshift Spectrum
+This can be used to **query data into S3 without loading it**, using an existing Redshift cluster that is already running. 
+
+The query is sent to Redshift referencing an S3 external table, then the leader node routes the query to compute nodes, which route to Redshift Spectrum nodes, which query S3. 
+
+![Redshift Spectrum](redshift_spectrum.png)
+
+
+## 19.3. Amazon OpenSearch
+
+OpenSearch is a successor to ElasticSearch. You can **search any field, even partial matches**. Contrast this to DynamoDB, where queries must be by primary key or indexes. 
+
+**OpenSearch is commonly used to complement other databases**; for example, DynamoDB provides the retrieval capability, then writes to OpenSearch via a Lambda function so that OpenSearch can be used for the search capability. 
+
+OpenSearch uses its own query language, but can be made compatible with SQL using a plugin. 
+
+Two modes: managed cluster or serverless cluster. 
+
+
+## 19.4. EMR
+
+Elastic MapReduce (EMR) creates **Hadoop clusters to analyse and process big data**. The cluster can be made of hundreds of EC2 instances. The cluster can autoscale and use spot or ondemand instances. 
+
+EMR comes bundled with Spark, HBase, Presto, Flink, etc so requires less provisioning and configuration. 
+
+Node types:
+
+- Master node: manage the cluster, coordinate, health checks. Long running. 
+- Core node: run tasks and store data. Long running.  
+- Task node: optional nodes that just run tasks. Typically spot instances. 
+
+
+Purchasing options:
+
+- On demand
+- Reserved
+- Spot
+
+Clusters can be long running or transient (temporary). 
+
+
+## 19.5. QuickSight
+### 19.5.1. Overview
+Serverless BI service to **create interactive dashboards**. Integrated with RDS, Aurora, Athena, Redshift, S3, etc. 
+
+QuickSight integrates with:
+
+- Most (all?) AWS data services
+- 3rd party applications like Salesforce or Jira
+- Imports for files, eg xlsx, csv, json
+- On-premises databases using JDBC
+
+If data is imported into QuickSight, in-memory computation can be done using the *SPICE engine*. 
+
+It is possible to set up *column-level security* so users can only see columns that they are permissioned for. 
+
+
+### 19.5.2. Dashboard and Analysis
+
+You define **Users** and **Groups** in QuickSight; note that these are *not the same as IAM users*. 
+
+A dashboard is a read-only snapshot of an analysis that can be shared and preserves the configuration (filtering, parameters, sort, etc). 
+
+Users who can see a dashboard can also access its underlying data. 
+
+
+## 19.6. AWS Glue
+### 19.6.1. Overview
+Glue is a **managed ETL service** (serverless). 
+
+It is commonly used to convert file formats, e.g. CSV -> Parquet. 
+
+- Glue Job Bookmarks prevent reprocessing old data. 
+- Glue DataBrew cleans and normalises data using prebuilt transformations 
+- Glue Studio is a GUI to create and manage ETL jobs in Glue. 
+- Glue Streaming ETL is built on Apache Spark Structured Streaming. 
+
+
+### 19.6.2. Glue Data Catalog
+
+An **AWS Glue Data Crawler** crawls the different AWS data services (S3, RDS, DynamoDB, connected on-premises databases) and **writes metadata to the AWS Glue Data Catalog**. 
+
+**Glue jobs can then use this to know what tables and schemas exist**. 
+
+Athena, Redshift and EMR use this under the hood for data discovery. 
+
+![Glue Data Catalog Example](glue_data_catalog.png)
+
+
+## 19.7. AWS Lake Formation
+
+A data lake is a central place for data. AWS Lake Formation is a **managed service to set up data lakes**. It allows you to discover, clean, catalog, transform and ingest data into your data lake, providing automated tools for this. Behind the scenes, it is *a layer on top of AWS Glue*. 
+
+There are blueprints for S3, RDS, relational databases, NoSQL databases, etc to make set up easy. 
+
+**Access control** is fine-grained at both **row-level and column-level**. **Centralised permissions is a common use case for using Lake Formation.** The underlying S3, RDS, Aurora sources might all use different IAM rules and access policies, so you can define the user access in Lake Formation. 
+
+![AWS Lake Formation](lake_formation.png)
+
+
+## 19.8. Amazon Managed Service for Apache Flink
+
+Flink is a framework for **processing data streams**. AWS provides a managed service to handle provisioning and backups. 
+
+Flink can read from Kinesis Data Streams or Amazon MSK (managed Kafka). 
+Note that Flink does not read from Amazon Data Firehose. 
+
+
+## 19.9. Amazon Managed Streaming for Apache Kafka
+This is called MSK. It is a fully managed Apache Kafka service, and is an *alternative to Amazon Kinesis*. It is a **message broker that sits between your data sources and downstream services**. 
+
+It allows you to create, update and delete clusters, manage the Kafka broker nodes and zookeeper nodes, deploy in multi-AZ setup, automatic recovery and persist data to EBS volumes. 
+
+There is a serverless option to autoscale. 
+
+Example of how Kafka works:
+![Managed Kafka](managed_kafka.png)
+
+Difference between Kinesis Data Streams and Amazon MSK:
+
+![Kinesis Data Streams vs MSK](kinesis_vs_msk.png)
+
+
+## 19.10. Big Data Ingestion Pipeline 
+
+Example of a big data ingestion pipelines
+
+![Big Data Ingestion Pipeline](big_data_ingestion_pipeline.png)
+
+
+# 20. Machine Learning 
+
+## 20.1. Amazon Rekognition
+
+**Computer vision**. Find objects, people, text, scenes in images and videos. 
+
+You can create a database of familiar faces or compare against celebrities. 
+
+One use case is content moderation, to detect inappropriate or offensive content. You can set a minimum confidence threshold for flagging content. 
+Flagged content can be manually reviewed in Amazon Augmented AI (A2I). 
+
+
+## 20.2. Amazon Transcribe
+
+Convert **speech to text** using automatic speech recognition. 
+
+You can automatically remove Personally Identifiable Information (PII) using *Redaction*, and automatically detect languages for multi-lingual audio. 
+
+
+## 20.3. Polly
+
+**Text to speech**. 
+
+Lexicon can be used to customise the pronunciation of words, or expand acronyms to the full name. 
+
+**Speech Synthesis Markup Language** allows more precise customisation, such as emphasis, breathing sounds, whispering. 
+
+
+## 20.4. Translate
+
+**Language translation**. It can be used to localise content. 
+
+
+## 20.5. Lex and Connect
+
+Amazon Lex is the technology that powers Alexa. **Automatic Speech Recognition** and natural language understanding. It can be used to build chatbots. 
+
+Amazon Connect allows you to **receive calls** and create contact flows like a virtual call centre. It can integrate with CRM or AWS services. 
+
+![Lex and Connect Example](lex_and_connect.png)
+
+
+## 20.6. Amazon Comprehend
+
+Fully **managed NLP service**. Use cases include: detecting language, sentiment analysis, extract entities, organise text files by topic. 
+
+**Comprehend Medical** is specifically for a clinical setting. It automatically detects Protected Health Information (PHI). 
+
+
+## 20.7. SageMaker AI
+
+Fully **managed service for data scientists** to build ML models. 
+
+
+## 20.8. Amazon Kendra
+
+Fully **managed document search service**. Extract answers from within a document. Natural language search capability. Incremental learning from user interactions to promote preferred results. 
+
+
+## 20.9. Amazon Personalize
+
+Fully managed ML service to build apps with **real-time personalised recommendations**. Same tech used for the Amazon website. 
+
+
+## 20.10 Amazon Textract
+Automatically **extract text**, handwriting and data **from scanned documents**. 
 
 
 
