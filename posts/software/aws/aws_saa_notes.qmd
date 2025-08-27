@@ -2923,6 +2923,192 @@ Fully managed ML service to build apps with **real-time personalised recommendat
 Automatically **extract text**, handwriting and data **from scanned documents**. 
 
 
+# 21. Monitoring
+
+## 21.1. CloudWatch
+### 21.1.1. CloudWatch Metrics
+
+CloudWatch provides metrics for AWS services. A **metric is a variable to monitor** like CPU utilisation, network in throughput, etc. Metrics belong to a **namespace**. Metrics have **timestamps**. You can create CloudWatch Custom Metrics. 
+
+**A dimension is an attribute of a metric** (instance ID, environment, etc). You can have 30 dimensions per metric. 
+
+You can create dashboards of metrics in CloudWatch. 
+
+CloudWatch Metric Streams are a near realtime delivery of CloudWatch metrics into another service, eg Kinesis Data Firehose or a 3rd party service like Datadog. You can filter metrics to see just a subset. 
+
+
+### 21.1.3. CloudWatch Logs
+
+You can create named log groups, which usually represent an application. Within the log groups, you have log stream which are individual log files. 
+
+You can define a log expiration policy between 1 day and 10 years, or retain indefinitely. 
+
+Logs are encrypted by default and you can customise this with KMS. 
+
+CloudWatch Logs can send logs to: 
+
+- S3 - batch export with `CreateExportTask` API call, can take up to 12 hours
+- Kinesis Data Stream
+- Kinesis Data Firehose
+- AWS Lambda
+- OpenSearch
+
+**CloudWatch Logs Subscriptions** can be used to get *real-time log events* (all services above except S3). A subscription filter can filter on relevant data. 
+You can use these to aggregate logs across regions and accounts. A cross-account subscription is required from multi-account aggregation; the sender account must have cross-account write access in the IAM role and the recipient account must have an access policy to allow the subscription from the sender account. 
+
+
+Sources of logs can be: 
+
+- SDK
+- Elastic beanstalk - from application 
+- ECS - from container
+- Lambda - from function
+- VPC Flow Logs
+- API Gateway
+- CloudTrail
+- Route53 - log DNS queries
+
+
+CloudWatch Logs Insights can be used to search and analyse data stored in CloudWatch Logs. It can query across different AWS accounts. 
+
+
+### 21.1.4. CloudWatch Agent
+
+By default, logs from EC2 do not go to CloudWatch. You need to run a **CloudWatch Agent on EC2** to push the log files, and the EC2 instance must have the corresponding IAM permissions. 
+A CloudWatch log agent can be set up on-premises too. 
+
+**CloudWatch Unified Agent** can collect both *system-level metrics* (RAM, CPU usage etc) and *logs*. 
+You can configure it with SSM Parameter Store. 
+The older CloudWatch Logs Agent only does logs. 
+
+
+### 21.1.5. CloudWatch Alarms
+
+**Alarms are used to trigger notifications for any metric**. 
+They can be based on different aggregations, e.g. min, max, % threshold, sampling. 
+The **period** is the time window (seconds) to evaluate the metric. 
+
+Alarm states: OK, INSUFFICIENT_DATA, ALARM
+
+Alarms have three main targets:
+
+- EC2 instance - stop, terminate, reboot or recover and instance 
+- Trigger EC2 autoscaling
+- Send a notification to SNS
+
+**Composite alarms** monitor the state of multiple alarms, so you can combine metrics with AND or OR conditions. 
+Composite alarms can be useful to reduce alarm noise. 
+
+Alarms can be created based on CloudWatch Logs Metrics Filters. 
+To test alarms, there is a `set-alarm-state` command in the CLI. 
+
+#### EC2 Instance Recovery 
+We can perform status checks on:
+
+- Instance status - check the EC2 VM
+- System status - check the underlying hardware
+- Attached EBS status - check attached EBS volumes 
+
+If one or more fail, we can recover by creating a new EC2 instance with the same IP (public, private or elastic), metadata, placement group, etc. 
+
+
+### 21.1.6. Amazon EventBridge
+
+EventBridge was formerly called CloudWatch Events. 
+It can be used to **schedule cron jobs, react to events, or trigger lambdas**. 
+
+Different sources can send events to EventBridge, which then **sends a JSON to a target destination**. 
+
+EventBridge is the default event bus in AWS. 
+Partner event bus means third-parties like Datadog can write to EventBridge. You can also create a Custom Event Bus for your own applications. 
+
+You can archive events sent to an event bus. Archived events can be replayed for debugging and testing. 
+
+
+EventBridge can analyse events in your bus and infer the schema. A schema registry allows you to specify a known schema in advance. Schemas can be versioned. 
+
+We can manage permissions for a specific event bus using a resource-based policy. 
+
+
+### 21.1.7. CloudWatch Insights
+
+- **CloudWatch Container Insights**.
+This collects, aggregates and summarises metrics and logs from *containers* on ECS, EKS and Fargate. 
+
+- **CloudWatch Lambda Insights**.
+Monitoring and troubleshooting for serverless applications running on *Lambda*. 
+Collects, aggregates and summarises system-level metrics like CPU, memory, network. Also diagnostic info like number of cold starts, Lambda worker shutdowns. 
+
+- **CloudWatch Contributor Insights**.
+Analyse log data and create time series of contributor data, e.g. heaviest network users, URLs that generate the most errors. 
+
+- **CloudWatch Application Insights**.
+Automated dashboards showing issues with monitored applications. Uses SageMaker under the hood. 
+
+
+## 21.2. CloudTrail
+
+Provides **governance, compliance and audit** for your AWS account. It is enabled by default. It can be applied to all regions (by default) or a single region. 
+
+CloudTrail logs can be written to CloudWatch Logs or S3. 
+This can be used to retain logs beyond the 90 day retention period of CloudTrail. 
+
+Actions from SDK, CLI, console, IAM users and roles are written to CloudTrail. 
+
+
+There are three types of CloudTrail Events:
+
+- **Management Events**. Operations performed on resources in your AWS account. You can separate read events and write events. Management events are logged by default. 
+- **Data events**. Read and write operations on data, e.g. S3 object-level activity. These are not logged by default as these are high volume. 
+- **CloudTrail Insights Events**. Analyses your events and tries to detect unusual activity. This needs to be enabled and costs extra. Anomalies appear in the CloudTrail console, and event is sent to S3 and and EventBridge event is generated. 
+
+![CloudTrail Insights Events](cloudtrail_insights_events.png)
+
+CloudTrail events are retained for 90 days. To persist events longer than this, log them to S3 and use Athena. 
+![CloudTrail Long-Term Retention using S3](cloudtrail_retention_example.png)
+
+
+#### EventBridge Integration 
+We get a CloudTrail log for any API call. 
+If we wanted to notify on certain events, like a table being deleted, we send the event to EventBridge and then trigger an alert in SNS. 
+
+
+## 21.3. AWS Config
+
+**Records configurations and changes over time**. This helps with auditing and recording compliance of your AWS resources. 
+Config rules alert when certain actions happen but they do not **deny** them. 
+
+AWS Config is a per-region service, and data can be aggregated across regions and accounts. 
+
+You can configure SNS alerts for changes to config and store config data in S3 for analysis with Athena. 
+
+### 21.3.1. Config Rules
+Can use one of 75 AWS-managed config rules or create custom rules. 
+
+Rules can be evaluated for each *config change* or at *regular time intervals*. 
+
+You pay per config item per region and per config rule per region. 
+
+
+You can view the compliance of a resource over time and link it to CloudTrail API calls for that resource. 
+
+
+### 21.3.2. Remediations
+You cannot prevent non-compliant resources but you can use SSM Automation Documents to trigger actions to remediate any compliance issues. 
+You can create custom automation documents that trigger lambda functions. 
+
+You can set retries if the remediation is not successful the first time. 
+
+A common pattern is to use EventBridge to trigger notifications on non-compliance and set up an SNS alert to an email address or Slack channel. 
+
+
+## 21.4. CloudWatch vs CloudTrail vs Config
+
+Compare and contrast. 
+
+- **CloudWatch** is for **performance monitoring** and dashboards, alerts, and log aggregation/analysis. 
+- **CloudTrail records API calls** made within your account for audit. 
+- **AWS Config records configuration changes** and evaluates compliance of resources. 
 
 
 # References
