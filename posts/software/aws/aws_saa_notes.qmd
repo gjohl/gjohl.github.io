@@ -1,6 +1,6 @@
 ---
 title: "AWS Solutions Architect"
-description: "SAA-C03"
+description: "Head in the Clouds"
 date: "2025-07-18"
 # image: "deep_learning_model.png"
 categories: [DataEngineering, Engineering, Software]

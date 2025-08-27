@@ -8,7 +8,7 @@
 
 <meta name="author" content="Gurpreet Johl">
 <meta name="dcterms.date" content="2025-07-18">
-<meta name="description" content="SAA-C03">
+<meta name="description" content="Head in the Clouds">
 
 <title>Gurpreet Johl - AWS Solutions Architect</title>
 <style>
@@ -193,7 +193,7 @@ window.Quarto = {
       <h1 class="title">AWS Solutions Architect</h1>
                   <div>
         <div class="description">
-          SAA-C03
+          Head in the Clouds
         </div>
       </div>
                           <div class="quarto-categories">
@@ -583,6 +583,25 @@ window.Quarto = {
   <li><a href="#amazon-kendra" id="toc-amazon-kendra" class="nav-link" data-scroll-target="#amazon-kendra">20.8. Amazon Kendra</a></li>
   <li><a href="#amazon-personalize" id="toc-amazon-personalize" class="nav-link" data-scroll-target="#amazon-personalize">20.9. Amazon Personalize</a></li>
   <li><a href="#amazon-textract" id="toc-amazon-textract" class="nav-link" data-scroll-target="#amazon-textract">20.10 Amazon Textract</a></li>
+  </ul></li>
+  <li><a href="#monitoring" id="toc-monitoring" class="nav-link" data-scroll-target="#monitoring">21. Monitoring</a>
+  <ul class="collapse">
+  <li><a href="#cloudwatch" id="toc-cloudwatch" class="nav-link" data-scroll-target="#cloudwatch">21.1. CloudWatch</a>
+  <ul class="collapse">
+  <li><a href="#cloudwatch-metrics" id="toc-cloudwatch-metrics" class="nav-link" data-scroll-target="#cloudwatch-metrics">21.1.1. CloudWatch Metrics</a></li>
+  <li><a href="#cloudwatch-logs" id="toc-cloudwatch-logs" class="nav-link" data-scroll-target="#cloudwatch-logs">21.1.3. CloudWatch Logs</a></li>
+  <li><a href="#cloudwatch-agent" id="toc-cloudwatch-agent" class="nav-link" data-scroll-target="#cloudwatch-agent">21.1.4. CloudWatch Agent</a></li>
+  <li><a href="#cloudwatch-alarms" id="toc-cloudwatch-alarms" class="nav-link" data-scroll-target="#cloudwatch-alarms">21.1.5. CloudWatch Alarms</a></li>
+  <li><a href="#amazon-eventbridge" id="toc-amazon-eventbridge" class="nav-link" data-scroll-target="#amazon-eventbridge">21.1.6. Amazon EventBridge</a></li>
+  <li><a href="#cloudwatch-insights" id="toc-cloudwatch-insights" class="nav-link" data-scroll-target="#cloudwatch-insights">21.1.7. CloudWatch Insights</a></li>
+  </ul></li>
+  <li><a href="#cloudtrail" id="toc-cloudtrail" class="nav-link" data-scroll-target="#cloudtrail">21.2. CloudTrail</a></li>
+  <li><a href="#aws-config" id="toc-aws-config" class="nav-link" data-scroll-target="#aws-config">21.3. AWS Config</a>
+  <ul class="collapse">
+  <li><a href="#config-rules" id="toc-config-rules" class="nav-link" data-scroll-target="#config-rules">21.3.1. Config Rules</a></li>
+  <li><a href="#remediations" id="toc-remediations" class="nav-link" data-scroll-target="#remediations">21.3.2. Remediations</a></li>
+  </ul></li>
+  <li><a href="#cloudwatch-vs-cloudtrail-vs-config" id="toc-cloudwatch-vs-cloudtrail-vs-config" class="nav-link" data-scroll-target="#cloudwatch-vs-cloudtrail-vs-config">21.4. CloudWatch vs CloudTrail vs Config</a></li>
   </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
@@ -2831,6 +2850,143 @@ api.example.com</code></pre>
 <section id="amazon-textract" class="level2">
 <h2 class="anchored" data-anchor-id="amazon-textract">20.10 Amazon Textract</h2>
 <p>Automatically <strong>extract text</strong>, handwriting and data <strong>from scanned documents</strong>.</p>
+</section>
+</section>
+<section id="monitoring" class="level1">
+<h1>21. Monitoring</h1>
+<section id="cloudwatch" class="level2">
+<h2 class="anchored" data-anchor-id="cloudwatch">21.1. CloudWatch</h2>
+<section id="cloudwatch-metrics" class="level3">
+<h3 class="anchored" data-anchor-id="cloudwatch-metrics">21.1.1. CloudWatch Metrics</h3>
+<p>CloudWatch provides metrics for AWS services. A <strong>metric is a variable to monitor</strong> like CPU utilisation, network in throughput, etc. Metrics belong to a <strong>namespace</strong>. Metrics have <strong>timestamps</strong>. You can create CloudWatch Custom Metrics.</p>
+<p><strong>A dimension is an attribute of a metric</strong> (instance ID, environment, etc). You can have 30 dimensions per metric.</p>
+<p>You can create dashboards of metrics in CloudWatch.</p>
+<p>CloudWatch Metric Streams are a near realtime delivery of CloudWatch metrics into another service, eg Kinesis Data Firehose or a 3rd party service like Datadog. You can filter metrics to see just a subset.</p>
+</section>
+<section id="cloudwatch-logs" class="level3">
+<h3 class="anchored" data-anchor-id="cloudwatch-logs">21.1.3. CloudWatch Logs</h3>
+<p>You can create named log groups, which usually represent an application. Within the log groups, you have log stream which are individual log files.</p>
+<p>You can define a log expiration policy between 1 day and 10 years, or retain indefinitely.</p>
+<p>Logs are encrypted by default and you can customise this with KMS.</p>
+<p>CloudWatch Logs can send logs to:</p>
+<ul>
+<li>S3 - batch export with <code>CreateExportTask</code> API call, can take up to 12 hours</li>
+<li>Kinesis Data Stream</li>
+<li>Kinesis Data Firehose</li>
+<li>AWS Lambda</li>
+<li>OpenSearch</li>
+</ul>
+<p><strong>CloudWatch Logs Subscriptions</strong> can be used to get <em>real-time log events</em> (all services above except S3). A subscription filter can filter on relevant data. You can use these to aggregate logs across regions and accounts. A cross-account subscription is required from multi-account aggregation; the sender account must have cross-account write access in the IAM role and the recipient account must have an access policy to allow the subscription from the sender account.</p>
+<p>Sources of logs can be:</p>
+<ul>
+<li>SDK</li>
+<li>Elastic beanstalk - from application</li>
+<li>ECS - from container</li>
+<li>Lambda - from function</li>
+<li>VPC Flow Logs</li>
+<li>API Gateway</li>
+<li>CloudTrail</li>
+<li>Route53 - log DNS queries</li>
+</ul>
+<p>CloudWatch Logs Insights can be used to search and analyse data stored in CloudWatch Logs. It can query across different AWS accounts.</p>
+</section>
+<section id="cloudwatch-agent" class="level3">
+<h3 class="anchored" data-anchor-id="cloudwatch-agent">21.1.4. CloudWatch Agent</h3>
+<p>By default, logs from EC2 do not go to CloudWatch. You need to run a <strong>CloudWatch Agent on EC2</strong> to push the log files, and the EC2 instance must have the corresponding IAM permissions. A CloudWatch log agent can be set up on-premises too.</p>
+<p><strong>CloudWatch Unified Agent</strong> can collect both <em>system-level metrics</em> (RAM, CPU usage etc) and <em>logs</em>. You can configure it with SSM Parameter Store. The older CloudWatch Logs Agent only does logs.</p>
+</section>
+<section id="cloudwatch-alarms" class="level3">
+<h3 class="anchored" data-anchor-id="cloudwatch-alarms">21.1.5. CloudWatch Alarms</h3>
+<p><strong>Alarms are used to trigger notifications for any metric</strong>. They can be based on different aggregations, e.g.&nbsp;min, max, % threshold, sampling. The <strong>period</strong> is the time window (seconds) to evaluate the metric.</p>
+<p>Alarm states: OK, INSUFFICIENT_DATA, ALARM</p>
+<p>Alarms have three main targets:</p>
+<ul>
+<li>EC2 instance - stop, terminate, reboot or recover and instance</li>
+<li>Trigger EC2 autoscaling</li>
+<li>Send a notification to SNS</li>
+</ul>
+<p><strong>Composite alarms</strong> monitor the state of multiple alarms, so you can combine metrics with AND or OR conditions. Composite alarms can be useful to reduce alarm noise.</p>
+<p>Alarms can be created based on CloudWatch Logs Metrics Filters. To test alarms, there is a <code>set-alarm-state</code> command in the CLI.</p>
+<section id="ec2-instance-recovery" class="level4">
+<h4 class="anchored" data-anchor-id="ec2-instance-recovery">EC2 Instance Recovery</h4>
+<p>We can perform status checks on:</p>
+<ul>
+<li>Instance status - check the EC2 VM</li>
+<li>System status - check the underlying hardware</li>
+<li>Attached EBS status - check attached EBS volumes</li>
+</ul>
+<p>If one or more fail, we can recover by creating a new EC2 instance with the same IP (public, private or elastic), metadata, placement group, etc.</p>
+</section>
+</section>
+<section id="amazon-eventbridge" class="level3">
+<h3 class="anchored" data-anchor-id="amazon-eventbridge">21.1.6. Amazon EventBridge</h3>
+<p>EventBridge was formerly called CloudWatch Events. It can be used to <strong>schedule cron jobs, react to events, or trigger lambdas</strong>.</p>
+<p>Different sources can send events to EventBridge, which then <strong>sends a JSON to a target destination</strong>.</p>
+<p>EventBridge is the default event bus in AWS. Partner event bus means third-parties like Datadog can write to EventBridge. You can also create a Custom Event Bus for your own applications.</p>
+<p>You can archive events sent to an event bus. Archived events can be replayed for debugging and testing.</p>
+<p>EventBridge can analyse events in your bus and infer the schema. A schema registry allows you to specify a known schema in advance. Schemas can be versioned.</p>
+<p>We can manage permissions for a specific event bus using a resource-based policy.</p>
+</section>
+<section id="cloudwatch-insights" class="level3">
+<h3 class="anchored" data-anchor-id="cloudwatch-insights">21.1.7. CloudWatch Insights</h3>
+<ul>
+<li><p><strong>CloudWatch Container Insights</strong>. This collects, aggregates and summarises metrics and logs from <em>containers</em> on ECS, EKS and Fargate.</p></li>
+<li><p><strong>CloudWatch Lambda Insights</strong>. Monitoring and troubleshooting for serverless applications running on <em>Lambda</em>. Collects, aggregates and summarises system-level metrics like CPU, memory, network. Also diagnostic info like number of cold starts, Lambda worker shutdowns.</p></li>
+<li><p><strong>CloudWatch Contributor Insights</strong>. Analyse log data and create time series of contributor data, e.g.&nbsp;heaviest network users, URLs that generate the most errors.</p></li>
+<li><p><strong>CloudWatch Application Insights</strong>. Automated dashboards showing issues with monitored applications. Uses SageMaker under the hood.</p></li>
+</ul>
+</section>
+</section>
+<section id="cloudtrail" class="level2">
+<h2 class="anchored" data-anchor-id="cloudtrail">21.2. CloudTrail</h2>
+<p>Provides <strong>governance, compliance and audit</strong> for your AWS account. It is enabled by default. It can be applied to all regions (by default) or a single region.</p>
+<p>CloudTrail logs can be written to CloudWatch Logs or S3. This can be used to retain logs beyond the 90 day retention period of CloudTrail.</p>
+<p>Actions from SDK, CLI, console, IAM users and roles are written to CloudTrail.</p>
+<p>There are three types of CloudTrail Events:</p>
+<ul>
+<li><strong>Management Events</strong>. Operations performed on resources in your AWS account. You can separate read events and write events. Management events are logged by default.</li>
+<li><strong>Data events</strong>. Read and write operations on data, e.g.&nbsp;S3 object-level activity. These are not logged by default as these are high volume.</li>
+<li><strong>CloudTrail Insights Events</strong>. Analyses your events and tries to detect unusual activity. This needs to be enabled and costs extra. Anomalies appear in the CloudTrail console, and event is sent to S3 and and EventBridge event is generated.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cloudtrail_insights_events.png" class="img-fluid figure-img"></p>
+<figcaption>CloudTrail Insights Events</figcaption>
+</figure>
+</div>
+<p>CloudTrail events are retained for 90 days. To persist events longer than this, log them to S3 and use Athena. <img src="cloudtrail_retention_example.png" class="img-fluid" alt="CloudTrail Long-Term Retention using S3"></p>
+<section id="eventbridge-integration" class="level4">
+<h4 class="anchored" data-anchor-id="eventbridge-integration">EventBridge Integration</h4>
+<p>We get a CloudTrail log for any API call. If we wanted to notify on certain events, like a table being deleted, we send the event to EventBridge and then trigger an alert in SNS.</p>
+</section>
+</section>
+<section id="aws-config" class="level2">
+<h2 class="anchored" data-anchor-id="aws-config">21.3. AWS Config</h2>
+<p><strong>Records configurations and changes over time</strong>. This helps with auditing and recording compliance of your AWS resources. Config rules alert when certain actions happen but they do not <strong>deny</strong> them.</p>
+<p>AWS Config is a per-region service, and data can be aggregated across regions and accounts.</p>
+<p>You can configure SNS alerts for changes to config and store config data in S3 for analysis with Athena.</p>
+<section id="config-rules" class="level3">
+<h3 class="anchored" data-anchor-id="config-rules">21.3.1. Config Rules</h3>
+<p>Can use one of 75 AWS-managed config rules or create custom rules.</p>
+<p>Rules can be evaluated for each <em>config change</em> or at <em>regular time intervals</em>.</p>
+<p>You pay per config item per region and per config rule per region.</p>
+<p>You can view the compliance of a resource over time and link it to CloudTrail API calls for that resource.</p>
+</section>
+<section id="remediations" class="level3">
+<h3 class="anchored" data-anchor-id="remediations">21.3.2. Remediations</h3>
+<p>You cannot prevent non-compliant resources but you can use SSM Automation Documents to trigger actions to remediate any compliance issues. You can create custom automation documents that trigger lambda functions.</p>
+<p>You can set retries if the remediation is not successful the first time.</p>
+<p>A common pattern is to use EventBridge to trigger notifications on non-compliance and set up an SNS alert to an email address or Slack channel.</p>
+</section>
+</section>
+<section id="cloudwatch-vs-cloudtrail-vs-config" class="level2">
+<h2 class="anchored" data-anchor-id="cloudwatch-vs-cloudtrail-vs-config">21.4. CloudWatch vs CloudTrail vs Config</h2>
+<p>Compare and contrast.</p>
+<ul>
+<li><strong>CloudWatch</strong> is for <strong>performance monitoring</strong> and dashboards, alerts, and log aggregation/analysis.</li>
+<li><strong>CloudTrail records API calls</strong> made within your account for audit.</li>
+<li><strong>AWS Config records configuration changes</strong> and evaluates compliance of resources.</li>
+</ul>
 </section>
 </section>
 <section id="references" class="level1">
