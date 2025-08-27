@@ -8,7 +8,7 @@
 
 <meta name="author" content="Gurpreet Johl">
 <meta name="dcterms.date" content="2025-07-18">
-<meta name="description" content="SAA-C03">
+<meta name="description" content="Head in the Clouds">
 
 <title>Gurpreet Johl - AWS Solutions Architect</title>
 <style>
@@ -193,7 +193,7 @@ window.Quarto = {
       <h1 class="title">AWS Solutions Architect</h1>
                   <div>
         <div class="description">
-          SAA-C03
+          Head in the Clouds
         </div>
       </div>
                           <div class="quarto-categories">
@@ -447,6 +447,161 @@ window.Quarto = {
   <li><a href="#aws-transfer-family" id="toc-aws-transfer-family" class="nav-link" data-scroll-target="#aws-transfer-family">13.4. AWS Transfer Family</a></li>
   <li><a href="#aws-datasync" id="toc-aws-datasync" class="nav-link" data-scroll-target="#aws-datasync">13.5. AWS DataSync</a></li>
   <li><a href="#comparison-of-storage-options" id="toc-comparison-of-storage-options" class="nav-link" data-scroll-target="#comparison-of-storage-options">13.6. Comparison of Storage Options</a></li>
+  </ul></li>
+  <li><a href="#messaging-and-integration" id="toc-messaging-and-integration" class="nav-link" data-scroll-target="#messaging-and-integration">14. Messaging and Integration</a>
+  <ul class="collapse">
+  <li><a href="#simple-queuing-service-sqs" id="toc-simple-queuing-service-sqs" class="nav-link" data-scroll-target="#simple-queuing-service-sqs">14.1. Simple Queuing Service (SQS)</a>
+  <ul class="collapse">
+  <li><a href="#overview-1" id="toc-overview-1" class="nav-link" data-scroll-target="#overview-1">14.1.1. Overview</a></li>
+  <li><a href="#message-visibility-timeout" id="toc-message-visibility-timeout" class="nav-link" data-scroll-target="#message-visibility-timeout">14.1.2. Message Visibility Timeout</a></li>
+  <li><a href="#long-polling" id="toc-long-polling" class="nav-link" data-scroll-target="#long-polling">14.1.3. Long Polling</a></li>
+  <li><a href="#fifo-queues" id="toc-fifo-queues" class="nav-link" data-scroll-target="#fifo-queues">14.1.4. FIFO Queues</a></li>
+  <li><a href="#sqs-with-asg" id="toc-sqs-with-asg" class="nav-link" data-scroll-target="#sqs-with-asg">14.1.5. SQS with ASG</a></li>
+  </ul></li>
+  <li><a href="#simple-notification-service-sns" id="toc-simple-notification-service-sns" class="nav-link" data-scroll-target="#simple-notification-service-sns">14.2. Simple Notification Service (SNS)</a>
+  <ul class="collapse">
+  <li><a href="#overview-2" id="toc-overview-2" class="nav-link" data-scroll-target="#overview-2">14.2.1. Overview</a></li>
+  <li><a href="#fan-out-pattern" id="toc-fan-out-pattern" class="nav-link" data-scroll-target="#fan-out-pattern">14.2.2. Fan Out Pattern</a></li>
+  <li><a href="#message-filtering" id="toc-message-filtering" class="nav-link" data-scroll-target="#message-filtering">14.2.3. Message Filtering</a></li>
+  </ul></li>
+  <li><a href="#kinesis-data-streams" id="toc-kinesis-data-streams" class="nav-link" data-scroll-target="#kinesis-data-streams">14.3. Kinesis Data Streams</a></li>
+  <li><a href="#amazon-data-firehose" id="toc-amazon-data-firehose" class="nav-link" data-scroll-target="#amazon-data-firehose">14.4. Amazon Data Firehose</a>
+  <ul class="collapse">
+  <li><a href="#overview-3" id="toc-overview-3" class="nav-link" data-scroll-target="#overview-3">14.4.1. Overview</a></li>
+  </ul></li>
+  <li><a href="#comparison-of-messaging-and-integration-services" id="toc-comparison-of-messaging-and-integration-services" class="nav-link" data-scroll-target="#comparison-of-messaging-and-integration-services">14.5. Comparison of Messaging and Integration Services</a>
+  <ul class="collapse">
+  <li><a href="#kinesis-data-streams-vs-amazon-data-firehose" id="toc-kinesis-data-streams-vs-amazon-data-firehose" class="nav-link" data-scroll-target="#kinesis-data-streams-vs-amazon-data-firehose">14.5.1. Kinesis Data Streams vs Amazon Data Firehose</a></li>
+  <li><a href="#sqs-vs-sns-vs-kinesis" id="toc-sqs-vs-sns-vs-kinesis" class="nav-link" data-scroll-target="#sqs-vs-sns-vs-kinesis">14.5.2. SQS vs SNS vs Kinesis</a></li>
+  </ul></li>
+  <li><a href="#amazon-mq" id="toc-amazon-mq" class="nav-link" data-scroll-target="#amazon-mq">14.6. Amazon MQ</a></li>
+  </ul></li>
+  <li><a href="#containers-on-aws" id="toc-containers-on-aws" class="nav-link" data-scroll-target="#containers-on-aws">15. Containers on AWS</a>
+  <ul class="collapse">
+  <li><a href="#docker" id="toc-docker" class="nav-link" data-scroll-target="#docker">15.1. Docker</a></li>
+  <li><a href="#ecs" id="toc-ecs" class="nav-link" data-scroll-target="#ecs">15.2. ECS</a>
+  <ul class="collapse">
+  <li><a href="#ec2-launch-type" id="toc-ec2-launch-type" class="nav-link" data-scroll-target="#ec2-launch-type">15.2.1. EC2 Launch Type</a></li>
+  <li><a href="#fargate-launch-type" id="toc-fargate-launch-type" class="nav-link" data-scroll-target="#fargate-launch-type">15.2.2. Fargate Launch Type</a></li>
+  <li><a href="#ecs-service-auto-scaling" id="toc-ecs-service-auto-scaling" class="nav-link" data-scroll-target="#ecs-service-auto-scaling">15.2.3. ECS Service Auto Scaling</a></li>
+  </ul></li>
+  <li><a href="#common-ecs-architectures" id="toc-common-ecs-architectures" class="nav-link" data-scroll-target="#common-ecs-architectures">15.2.4. Common ECS Architectures</a></li>
+  <li><a href="#ecr" id="toc-ecr" class="nav-link" data-scroll-target="#ecr">15.3. ECR</a></li>
+  <li><a href="#eks" id="toc-eks" class="nav-link" data-scroll-target="#eks">15.4. EKS</a></li>
+  <li><a href="#aws-app-runner" id="toc-aws-app-runner" class="nav-link" data-scroll-target="#aws-app-runner">15.5. AWS App Runner</a></li>
+  <li><a href="#aws-app2container-a2c" id="toc-aws-app2container-a2c" class="nav-link" data-scroll-target="#aws-app2container-a2c">15.6. AWS App2Container (A2C)</a></li>
+  </ul></li>
+  <li><a href="#serverless" id="toc-serverless" class="nav-link" data-scroll-target="#serverless">16. Serverless</a>
+  <ul class="collapse">
+  <li><a href="#aws-lambda" id="toc-aws-lambda" class="nav-link" data-scroll-target="#aws-lambda">16.1. AWS Lambda</a>
+  <ul class="collapse">
+  <li><a href="#lambda-limits" id="toc-lambda-limits" class="nav-link" data-scroll-target="#lambda-limits">16.1.2. Lambda Limits</a></li>
+  <li><a href="#lambda-concurrency-and-throttling" id="toc-lambda-concurrency-and-throttling" class="nav-link" data-scroll-target="#lambda-concurrency-and-throttling">16.1.3. Lambda Concurrency and Throttling</a></li>
+  <li><a href="#cold-starts" id="toc-cold-starts" class="nav-link" data-scroll-target="#cold-starts">16.1.4. Cold Starts</a></li>
+  <li><a href="#lambda-snapstart" id="toc-lambda-snapstart" class="nav-link" data-scroll-target="#lambda-snapstart">16.1.5. Lambda SnapStart</a></li>
+  <li><a href="#customisation-at-the-edge" id="toc-customisation-at-the-edge" class="nav-link" data-scroll-target="#customisation-at-the-edge">16.1.6. Customisation at the Edge</a></li>
+  <li><a href="#vpc" id="toc-vpc" class="nav-link" data-scroll-target="#vpc">16.1.7. VPC</a></li>
+  </ul></li>
+  <li><a href="#dynamodb" id="toc-dynamodb" class="nav-link" data-scroll-target="#dynamodb">16.2. DynamoDB</a>
+  <ul class="collapse">
+  <li><a href="#overview-5" id="toc-overview-5" class="nav-link" data-scroll-target="#overview-5">16.2.1. Overview</a></li>
+  <li><a href="#dynamodb-accelerator-dax" id="toc-dynamodb-accelerator-dax" class="nav-link" data-scroll-target="#dynamodb-accelerator-dax">16.2.2. DynamoDB Accelerator (DAX)</a></li>
+  <li><a href="#stream-processing" id="toc-stream-processing" class="nav-link" data-scroll-target="#stream-processing">16.2.3. Stream Processing</a></li>
+  <li><a href="#global-tables" id="toc-global-tables" class="nav-link" data-scroll-target="#global-tables">16.2.4. Global Tables</a></li>
+  <li><a href="#ttl-1" id="toc-ttl-1" class="nav-link" data-scroll-target="#ttl-1">16.2.5. TTL</a></li>
+  <li><a href="#backups-for-disaster-recovery" id="toc-backups-for-disaster-recovery" class="nav-link" data-scroll-target="#backups-for-disaster-recovery">16.2.6. Backups for Disaster Recovery</a></li>
+  <li><a href="#integration-with-s3" id="toc-integration-with-s3" class="nav-link" data-scroll-target="#integration-with-s3">16.2.7. Integration with S3</a></li>
+  </ul></li>
+  <li><a href="#api-gateway" id="toc-api-gateway" class="nav-link" data-scroll-target="#api-gateway">16.3. API Gateway</a>
+  <ul class="collapse">
+  <li><a href="#overview-6" id="toc-overview-6" class="nav-link" data-scroll-target="#overview-6">16.3.1. Overview</a></li>
+  <li><a href="#security-1" id="toc-security-1" class="nav-link" data-scroll-target="#security-1">16.3.2. Security</a></li>
+  </ul></li>
+  <li><a href="#step-functions" id="toc-step-functions" class="nav-link" data-scroll-target="#step-functions">16.4. Step Functions</a></li>
+  <li><a href="#cognito" id="toc-cognito" class="nav-link" data-scroll-target="#cognito">16.5. Cognito</a></li>
+  </ul></li>
+  <li><a href="#serverless-architecture-examples" id="toc-serverless-architecture-examples" class="nav-link" data-scroll-target="#serverless-architecture-examples">17. Serverless Architecture Examples</a>
+  <ul class="collapse">
+  <li><a href="#rest-api" id="toc-rest-api" class="nav-link" data-scroll-target="#rest-api">17.1. REST API</a></li>
+  <li><a href="#giving-mobile-users-access-to-an-s3-bucket" id="toc-giving-mobile-users-access-to-an-s3-bucket" class="nav-link" data-scroll-target="#giving-mobile-users-access-to-an-s3-bucket">17.2. Giving Mobile Users Access to an S3 Bucket</a></li>
+  <li><a href="#high-throughput-example" id="toc-high-throughput-example" class="nav-link" data-scroll-target="#high-throughput-example">17.3. High Throughput Example</a></li>
+  </ul></li>
+  <li><a href="#databases" id="toc-databases" class="nav-link" data-scroll-target="#databases">18. Databases</a>
+  <ul class="collapse">
+  <li><a href="#database-overview" id="toc-database-overview" class="nav-link" data-scroll-target="#database-overview">18.1. Database Overview</a></li>
+  <li><a href="#rds-2" id="toc-rds-2" class="nav-link" data-scroll-target="#rds-2">18.2. RDS</a></li>
+  <li><a href="#aurora-1" id="toc-aurora-1" class="nav-link" data-scroll-target="#aurora-1">18.3. Aurora</a></li>
+  <li><a href="#elasticache-1" id="toc-elasticache-1" class="nav-link" data-scroll-target="#elasticache-1">18.4. ElastiCache</a></li>
+  <li><a href="#dynamodb-1" id="toc-dynamodb-1" class="nav-link" data-scroll-target="#dynamodb-1">18.5. DynamoDB</a></li>
+  <li><a href="#s3-1" id="toc-s3-1" class="nav-link" data-scroll-target="#s3-1">18.6. S3</a></li>
+  <li><a href="#documentdb" id="toc-documentdb" class="nav-link" data-scroll-target="#documentdb">18.7. DocumentDB</a></li>
+  <li><a href="#neptune" id="toc-neptune" class="nav-link" data-scroll-target="#neptune">18.8. Neptune</a></li>
+  <li><a href="#amazon-keyspaces" id="toc-amazon-keyspaces" class="nav-link" data-scroll-target="#amazon-keyspaces">18.9. Amazon Keyspaces</a></li>
+  <li><a href="#amazon-timestream" id="toc-amazon-timestream" class="nav-link" data-scroll-target="#amazon-timestream">18.10. Amazon Timestream</a></li>
+  </ul></li>
+  <li><a href="#data-analytics" id="toc-data-analytics" class="nav-link" data-scroll-target="#data-analytics">19. Data Analytics</a>
+  <ul class="collapse">
+  <li><a href="#athena" id="toc-athena" class="nav-link" data-scroll-target="#athena">19.1. Athena</a>
+  <ul class="collapse">
+  <li><a href="#overview-7" id="toc-overview-7" class="nav-link" data-scroll-target="#overview-7">19.1.1. Overview</a></li>
+  <li><a href="#athena-performance-improvements" id="toc-athena-performance-improvements" class="nav-link" data-scroll-target="#athena-performance-improvements">19.1.2. Athena Performance Improvements</a></li>
+  <li><a href="#federated-query" id="toc-federated-query" class="nav-link" data-scroll-target="#federated-query">19.1.3. Federated Query</a></li>
+  </ul></li>
+  <li><a href="#redshift" id="toc-redshift" class="nav-link" data-scroll-target="#redshift">19.2. Redshift</a>
+  <ul class="collapse">
+  <li><a href="#overview-8" id="toc-overview-8" class="nav-link" data-scroll-target="#overview-8">19.2.1. Overview</a></li>
+  <li><a href="#disaster-recovery" id="toc-disaster-recovery" class="nav-link" data-scroll-target="#disaster-recovery">19.2.2. Disaster Recovery</a></li>
+  <li><a href="#loading-data-into-redshift" id="toc-loading-data-into-redshift" class="nav-link" data-scroll-target="#loading-data-into-redshift">19.2.2. Loading Data into Redshift</a></li>
+  <li><a href="#redshift-spectrum" id="toc-redshift-spectrum" class="nav-link" data-scroll-target="#redshift-spectrum">19.2.3. Redshift Spectrum</a></li>
+  </ul></li>
+  <li><a href="#amazon-opensearch" id="toc-amazon-opensearch" class="nav-link" data-scroll-target="#amazon-opensearch">19.3. Amazon OpenSearch</a></li>
+  <li><a href="#emr" id="toc-emr" class="nav-link" data-scroll-target="#emr">19.4. EMR</a></li>
+  <li><a href="#quicksight" id="toc-quicksight" class="nav-link" data-scroll-target="#quicksight">19.5. QuickSight</a>
+  <ul class="collapse">
+  <li><a href="#overview-9" id="toc-overview-9" class="nav-link" data-scroll-target="#overview-9">19.5.1. Overview</a></li>
+  <li><a href="#dashboard-and-analysis" id="toc-dashboard-and-analysis" class="nav-link" data-scroll-target="#dashboard-and-analysis">19.5.2. Dashboard and Analysis</a></li>
+  </ul></li>
+  <li><a href="#aws-glue" id="toc-aws-glue" class="nav-link" data-scroll-target="#aws-glue">19.6. AWS Glue</a>
+  <ul class="collapse">
+  <li><a href="#overview-10" id="toc-overview-10" class="nav-link" data-scroll-target="#overview-10">19.6.1. Overview</a></li>
+  <li><a href="#glue-data-catalog" id="toc-glue-data-catalog" class="nav-link" data-scroll-target="#glue-data-catalog">19.6.2. Glue Data Catalog</a></li>
+  </ul></li>
+  <li><a href="#aws-lake-formation" id="toc-aws-lake-formation" class="nav-link" data-scroll-target="#aws-lake-formation">19.7. AWS Lake Formation</a></li>
+  <li><a href="#amazon-managed-service-for-apache-flink" id="toc-amazon-managed-service-for-apache-flink" class="nav-link" data-scroll-target="#amazon-managed-service-for-apache-flink">19.8. Amazon Managed Service for Apache Flink</a></li>
+  <li><a href="#amazon-managed-streaming-for-apache-kafka" id="toc-amazon-managed-streaming-for-apache-kafka" class="nav-link" data-scroll-target="#amazon-managed-streaming-for-apache-kafka">19.9. Amazon Managed Streaming for Apache Kafka</a></li>
+  <li><a href="#big-data-ingestion-pipeline" id="toc-big-data-ingestion-pipeline" class="nav-link" data-scroll-target="#big-data-ingestion-pipeline">19.10. Big Data Ingestion Pipeline</a></li>
+  </ul></li>
+  <li><a href="#machine-learning" id="toc-machine-learning" class="nav-link" data-scroll-target="#machine-learning">20. Machine Learning</a>
+  <ul class="collapse">
+  <li><a href="#amazon-rekognition" id="toc-amazon-rekognition" class="nav-link" data-scroll-target="#amazon-rekognition">20.1. Amazon Rekognition</a></li>
+  <li><a href="#amazon-transcribe" id="toc-amazon-transcribe" class="nav-link" data-scroll-target="#amazon-transcribe">20.2. Amazon Transcribe</a></li>
+  <li><a href="#polly" id="toc-polly" class="nav-link" data-scroll-target="#polly">20.3. Polly</a></li>
+  <li><a href="#translate" id="toc-translate" class="nav-link" data-scroll-target="#translate">20.4. Translate</a></li>
+  <li><a href="#lex-and-connect" id="toc-lex-and-connect" class="nav-link" data-scroll-target="#lex-and-connect">20.5. Lex and Connect</a></li>
+  <li><a href="#amazon-comprehend" id="toc-amazon-comprehend" class="nav-link" data-scroll-target="#amazon-comprehend">20.6. Amazon Comprehend</a></li>
+  <li><a href="#sagemaker-ai" id="toc-sagemaker-ai" class="nav-link" data-scroll-target="#sagemaker-ai">20.7. SageMaker AI</a></li>
+  <li><a href="#amazon-kendra" id="toc-amazon-kendra" class="nav-link" data-scroll-target="#amazon-kendra">20.8. Amazon Kendra</a></li>
+  <li><a href="#amazon-personalize" id="toc-amazon-personalize" class="nav-link" data-scroll-target="#amazon-personalize">20.9. Amazon Personalize</a></li>
+  <li><a href="#amazon-textract" id="toc-amazon-textract" class="nav-link" data-scroll-target="#amazon-textract">20.10 Amazon Textract</a></li>
+  </ul></li>
+  <li><a href="#monitoring" id="toc-monitoring" class="nav-link" data-scroll-target="#monitoring">21. Monitoring</a>
+  <ul class="collapse">
+  <li><a href="#cloudwatch" id="toc-cloudwatch" class="nav-link" data-scroll-target="#cloudwatch">21.1. CloudWatch</a>
+  <ul class="collapse">
+  <li><a href="#cloudwatch-metrics" id="toc-cloudwatch-metrics" class="nav-link" data-scroll-target="#cloudwatch-metrics">21.1.1. CloudWatch Metrics</a></li>
+  <li><a href="#cloudwatch-logs" id="toc-cloudwatch-logs" class="nav-link" data-scroll-target="#cloudwatch-logs">21.1.3. CloudWatch Logs</a></li>
+  <li><a href="#cloudwatch-agent" id="toc-cloudwatch-agent" class="nav-link" data-scroll-target="#cloudwatch-agent">21.1.4. CloudWatch Agent</a></li>
+  <li><a href="#cloudwatch-alarms" id="toc-cloudwatch-alarms" class="nav-link" data-scroll-target="#cloudwatch-alarms">21.1.5. CloudWatch Alarms</a></li>
+  <li><a href="#amazon-eventbridge" id="toc-amazon-eventbridge" class="nav-link" data-scroll-target="#amazon-eventbridge">21.1.6. Amazon EventBridge</a></li>
+  <li><a href="#cloudwatch-insights" id="toc-cloudwatch-insights" class="nav-link" data-scroll-target="#cloudwatch-insights">21.1.7. CloudWatch Insights</a></li>
+  </ul></li>
+  <li><a href="#cloudtrail" id="toc-cloudtrail" class="nav-link" data-scroll-target="#cloudtrail">21.2. CloudTrail</a></li>
+  <li><a href="#aws-config" id="toc-aws-config" class="nav-link" data-scroll-target="#aws-config">21.3. AWS Config</a>
+  <ul class="collapse">
+  <li><a href="#config-rules" id="toc-config-rules" class="nav-link" data-scroll-target="#config-rules">21.3.1. Config Rules</a></li>
+  <li><a href="#remediations" id="toc-remediations" class="nav-link" data-scroll-target="#remediations">21.3.2. Remediations</a></li>
+  </ul></li>
+  <li><a href="#cloudwatch-vs-cloudtrail-vs-config" id="toc-cloudwatch-vs-cloudtrail-vs-config" class="nav-link" data-scroll-target="#cloudwatch-vs-cloudtrail-vs-config">21.4. CloudWatch vs CloudTrail vs Config</a></li>
   </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
@@ -1904,6 +2059,933 @@ api.example.com</code></pre>
 <li>DataSync: Schedule data sync from on-premises to AWS, or AWS to AWS</li>
 <li>Snowcone / Snowball / Snowmobile: to move large amount of data to the cloud, physically</li>
 <li>Database: for specific workloads, usually with indexing and querying</li>
+</ul>
+</section>
+</section>
+<section id="messaging-and-integration" class="level1">
+<h1>14. Messaging and Integration</h1>
+<p>Our applications may need to communicate with one another.</p>
+<p>There are two main patterns:</p>
+<ol type="1">
+<li><strong>Synchronous</strong> communication. Application to application. This can be problematic if there are sudden spikes of traffic; the solution is to <em>decouple</em> applications.</li>
+<li><strong>Asynchronous</strong> communication (event-based). Application to <em>queue</em> to application.</li>
+</ol>
+<p>Options for decoupling synchronous applications:</p>
+<ul>
+<li>Using SQS. <strong>Queue</strong> model.</li>
+<li>Using SNS. <strong>Pub/sub</strong> model.</li>
+<li>Using Kinesis. Real-time <strong>streaming</strong> model.</li>
+</ul>
+<section id="simple-queuing-service-sqs" class="level2">
+<h2 class="anchored" data-anchor-id="simple-queuing-service-sqs">14.1. Simple Queuing Service (SQS)</h2>
+<section id="overview-1" class="level3">
+<h3 class="anchored" data-anchor-id="overview-1">14.1.1. Overview</h3>
+<p>A <strong>producer</strong> sends messages to a <strong>queue</strong>. A <strong>consumer</strong> polls the queue for messages. The queue essentially acts as a buffer between producer and consumer.</p>
+<ul>
+<li><p>Standard queue. Unlimited throughput and number of messages in queue. Messages are short-lived; they can stay in the queue for 14 days maximum, and this is set to 4 days by default. The latency is low, &lt;10ms on publish and receive. Messages can be 256 KB maximum. It uses “at least once delivery” so it is possible to have multiple messages in the queue, and messages may be out of order (best effort ordering), so the application should be able to handle this.</p></li>
+<li><p>Producing messages. The application code sends a message to the queue using the <code>SendMessage</code> API in the AWS SDK. The message is persisted in SQS until a consumer deletes it, or the retention period is reached.</p></li>
+<li><p>Consuming messages. The application code may be running on premises or in AWS. The consumer polls SQS for messages (up to 10 at a time). Once the consumer processes the message, it deletes the message from the queue using the DeleteMessage API.</p></li>
+<li><p>Encryption. Inflight encryption using HTTPS API. At rest encryption using KMS keys. You can use client-side encryption if the client wants to handle encryption/decryption itself.</p></li>
+<li><p>IAM policies regulate access to the SQS API (SendMessage and DeleteMessage). SQS Access Policies can be used for cross-account access to SQS queues or allowing access from other services like SNS or S3; analogous to S3 bucket policies.</p></li>
+</ul>
+</section>
+<section id="message-visibility-timeout" class="level3">
+<h3 class="anchored" data-anchor-id="message-visibility-timeout">14.1.2. Message Visibility Timeout</h3>
+<p>After a message is polled by a consumer, it <em>becomes invisible to other consumers</em>. This ensures that multiple consumers do not try to process the same message.</p>
+<p>By default, the visibility timeout is 30 seconds, so consumers have 30 seconds to process the message before it “rejoins” the queue.</p>
+<p>If a consumer is processing a message but knows that it needs more time, it can call the <code>ChangeMessageVisibility</code> API to get more time. This is helpful to ensure a message isn’t processed twice.</p>
+<p>The value of the timeout should be high enough to avoid duplicate processing from multiple consumers, but low enough that if a consumer crashes then the message is made available on the queue again in reasonable time.</p>
+</section>
+<section id="long-polling" class="level3">
+<h3 class="anchored" data-anchor-id="long-polling">14.1.3. Long Polling</h3>
+<p>When a consumer requests messages from the queue, it can optionally <em>wait for messages</em> to arrive if there are none in the queue. This is “long polling”.</p>
+<p>This reduces the number of API calls made to SQS and improves the latency of the application.</p>
+<p>The long polling wait time can be 1-20 seconds.</p>
+<p>Long polling can be enabled either at the queue level or the API level using WaitTimeSeconds.</p>
+</section>
+<section id="fifo-queues" class="level3">
+<h3 class="anchored" data-anchor-id="fifo-queues">14.1.4. FIFO Queues</h3>
+<p>First In First Out ordering of messages. FIFO queues <em>guarantee the order</em> of messages at the expense of <em>limiting throughput</em>.</p>
+<p>Messages are processed in order by the consumer. Ordering is done by Message Group ID which is a mandatory parameter.</p>
+<p>FIFO queues also support “exactly-once” send capability. You add a unique <em>Deduplication ID</em> to each message.</p>
+<p>The queue name when you create it must end in <code>.fifo</code></p>
+</section>
+<section id="sqs-with-asg" class="level3">
+<h3 class="anchored" data-anchor-id="sqs-with-asg">14.1.5. SQS with ASG</h3>
+<p>To increase throughput, we can <strong>scale the number of consumers</strong> horizontally.</p>
+<p>A common pattern is to have EC2 instances as the consumers which are inside an Auto Scaling Group. There is a CloudWatch metric monitoring the queue length, and the ASG scales the number of instances based on that CloudWatch alarm.</p>
+<p>Another common pattern is to use SQS as a buffer between EC2 instances and the database to ensure no data is dropped. If the EC2 instances are writing directly to the database, they may hit the write limit and lose data. SQS is added as an intermediate step. EC2 publishes to the SQS queue which is infinitely scalable to ensure no data is dropped. Then a different EC2 instance in a different ASG acts as the consumer to pick up messages and write them to the database in a durable way. This pattern only works if the client does not need write confirmation.</p>
+</section>
+</section>
+<section id="simple-notification-service-sns" class="level2">
+<h2 class="anchored" data-anchor-id="simple-notification-service-sns">14.2. Simple Notification Service (SNS)</h2>
+<section id="overview-2" class="level3">
+<h3 class="anchored" data-anchor-id="overview-2">14.2.1. Overview</h3>
+<p>SNS allows you to send <strong>one message to many receivers</strong> using the <strong>pub/sub pattern</strong>. A publisher publishes a message on an SNS topic and various subscribers can read the message and act accordingly.</p>
+<p>An “event producer” sends a message to one SNS topic. Many “event receivers” can listen for topic notifications. By default, subscribers see all messages but you can filter this.</p>
+<p>You can have up to 12.5 million subscriptions per topic. An account can have up to 100k topics.</p>
+<p>Subscribers can be: SQS, Lambda, Kinesis Data Firehose, emails, SMS and push notifications, and HTTP(S) endpoints.</p>
+<p>SNS can receive data from many AWS services.</p>
+<p>To publish from SNS, there are two options:</p>
+<ul>
+<li>Topic publish using the SDK</li>
+<li>Direct publish using the mobile apps SDK</li>
+</ul>
+<p>Security for SNS is similar to SQS:</p>
+<ul>
+<li>in flight encryption using HTTPS</li>
+<li>At rest encryption using KMS keys</li>
+<li>Client side encryption if the client wants to handle encryption/decryption themselves</li>
+</ul>
+<p>IAM policies regulate access to the SNS. SNS Access Policies can be used for cross-account access to SNS topics or allowing access from other services like S3; analogous to S3 bucket policies and SQS Access Policies.</p>
+</section>
+<section id="fan-out-pattern" class="level3">
+<h3 class="anchored" data-anchor-id="fan-out-pattern">14.2.2. Fan Out Pattern</h3>
+<p>This is a common <code>SQS + SNS pattern</code>. We may want to publish a message to multiple SQS queues. We can decouple this using the fan out pattern, so the application code doesn’t need to be changed for every added/removed queue.</p>
+<p>We push once to SNS and let all of the SQS queues subscribe to that SNS topic.</p>
+<p>Make sure the SQS queue access policy allows for SNS to write. There is cross-region delivery, meaning an SNS topic can be read by multiple SQS queues in different regions.</p>
+<p>Another application is <code>S3 + SNS + SQS</code>. S3 has a limitation that you can only have one S3 Event rule per event type, prefix combination. If you want to send the same S3 event to multiple queues, publish it to SNS and let that fan out to the different SQS queues.</p>
+<p>SNS can write to S3 (or another destination supported by KDF) by going via Kinesis Data Firehose.</p>
+<p>Like SQS, we can have an SNS FIFO topic to ensure ordering. Again, we order by message group ID and pass a Deduplication ID. This is helpful if fanning out to SQS FIFO queues.</p>
+</section>
+<section id="message-filtering" class="level3">
+<h3 class="anchored" data-anchor-id="message-filtering">14.2.3. Message Filtering</h3>
+<p>This is an optional JSON policy applied to a subscriber to only filter on some messages. Useful if we want one queue to handle orders, one for cancellations etc.</p>
+</section>
+</section>
+<section id="kinesis-data-streams" class="level2">
+<h2 class="anchored" data-anchor-id="kinesis-data-streams">14.3. Kinesis Data Streams</h2>
+<p>KDS used to Collect and store <strong>real-time</strong> streaming data.</p>
+<p>A <strong>producer</strong> is application code that you write, or a Kinesis Agent if connecting to an AWS service, which writes to a Kinesis Data Stream.</p>
+<p>A <strong>consumer</strong> is an application that can read from the data stream. Example consumers may be: your application, Lambda functions, Amazon Data Firehose, managed service for Apache Flink.</p>
+<p>Data is retained on the data stream for up to 365 days which allows consumers to “replay” data. Data cannot be deleted from Kinesis, you have to wait for it to expire.</p>
+<p>Data cannot be up to 1 MB; a typical use case is lots of “small” realtime data. Ordering is guaranteed for data with the same partition ID.</p>
+<p>Encryption - KMS at-rest and HTTPS in-flight.</p>
+<p>We can write optimised producers and consumers using <em>Kinesis Producer Library and Kinesis Client Library</em> respectively.</p>
+<p>There are two <strong>capacity modes</strong>:</p>
+<ul>
+<li>Provisioned mode. You define the number of shards. Each shard allows for 1 MB/s in and 2 MB/s out. You can manually increase or decrease the number of shards and you pay per shard per hour.</li>
+<li>On-demand mode. No manual intervention required. You start with the default capacity (4 shards) which scales automatically based on observed throughput peak during the last 30 days. You are billed per stream per hour and for each GB in and out.</li>
+</ul>
+</section>
+<section id="amazon-data-firehose" class="level2">
+<h2 class="anchored" data-anchor-id="amazon-data-firehose">14.4. Amazon Data Firehose</h2>
+<section id="overview-3" class="level3">
+<h3 class="anchored" data-anchor-id="overview-3">14.4.1. Overview</h3>
+<p>Producers send records (up to 1 MB of data) to Firehose. They can optionally be transformed by a lambda function. <strong>Data is accumulated in a buffer and written as batches</strong> to a destination; therefore it is <em>“near real time”</em> since there is a lag between flushes of the buffer. You can optionally write all data or just failed data to an S3 backup bucket.</p>
+<p>The buffer can be set to flush based on a storage limit (GB accumulated) or a time limit; it will be flushed when the first of these limits is hit.</p>
+<p>It is a fully managed service, serverless with auto scaling. Supported file types: CSV, JSON, Parquet, Avro, raw text, binary data. It used to be called “Kinesis Data Firehose” but was renamed because it is more generally applicable beyond just Kinesis.</p>
+<p>Producers can be applications, clients, SDK, Kinesis Agents, Kinesis Data Streams, CloudWatch logs and events, AWS IoT.</p>
+<p>Destinations can be AWS destinations: S3, Redshift, OpenSearch. Or third party destinations: Datadog, Splunk, New Relic, MongoDB. Or you can write to custom destinations via an HTTP endpoint.</p>
+</section>
+</section>
+<section id="comparison-of-messaging-and-integration-services" class="level2">
+<h2 class="anchored" data-anchor-id="comparison-of-messaging-and-integration-services">14.5. Comparison of Messaging and Integration Services</h2>
+<section id="kinesis-data-streams-vs-amazon-data-firehose" class="level3">
+<h3 class="anchored" data-anchor-id="kinesis-data-streams-vs-amazon-data-firehose">14.5.1. Kinesis Data Streams vs Amazon Data Firehose</h3>
+<p>Firehose does not store any data or allow for replay. There is a lag so it is not fully real time, unlike Kinesis data streams.</p>
+<p>Firehose automatically scales, whereas Kinesis data streams allow a self-managed (provisioned mode) or fully managed (on demand mode) option.</p>
+</section>
+<section id="sqs-vs-sns-vs-kinesis" class="level3">
+<h3 class="anchored" data-anchor-id="sqs-vs-sns-vs-kinesis">14.5.2. SQS vs SNS vs Kinesis</h3>
+<ul>
+<li>SQS - consumers <strong>pull</strong> data and delete it from the queue. You can have as many consumers as you want. No need to provision throughput.</li>
+</ul>
+<p>0 SNS - producers <strong>push</strong> data. Data is not persisted, so data can be lost if not delivered. No need to provision throughput.</p>
+<ul>
+<li>Kinesis - the standard approach is to pull data, but this can be adapted to push data using the fan-out pattern. Data is persisted so can be replayed. There are two modes to self-manage or auto-scale.</li>
+</ul>
+</section>
+</section>
+<section id="amazon-mq" class="level2">
+<h2 class="anchored" data-anchor-id="amazon-mq">14.6. Amazon MQ</h2>
+<p>Amazon MQ is a <strong>managed message broker service</strong> for RabbitMQ and ActiveMQ. It has both queue feature and topic feature, so <em>can be made to be roughly equivalent to SQS and SNS respectively</em>.</p>
+<p>If you are already using RabbitMQ or ActiveMQ on premises, it may be easier to migrate to Amazon’s managed service.</p>
+<p>SQS and SNS are “cloud-native” services, proprietary from AWS. Amazon MQ doesn’t scale as well as the cloud-native services.</p>
+<p><strong>It is essentially a halfway house for cases where you can’t / don’t want to migrate your whole application to use SQS/SNS but want some cloud features.</strong></p>
+<p>For high availability, you can have MQ Brokers in two different AZs, one as active and one as failover. Both write to the same Amazon EFS storage volume so that no data is lost in the event of a failover.</p>
+</section>
+</section>
+<section id="containers-on-aws" class="level1">
+<h1>15. Containers on AWS</h1>
+<section id="docker" class="level2">
+<h2 class="anchored" data-anchor-id="docker">15.1. Docker</h2>
+<p>Use Docker to containerise applications. Common use cases are for microservices or to “lift and shift” and app from on-premises to cloud.</p>
+<p>Docker images are stored in a container repository. Docker Hub is a common public repository, AWS ECR is private (although there is “public gallery” if you want to make images in ECR public).</p>
+<p>Docker vs virtual machines: <img src="docker_vs_vm.png" class="img-fluid" alt="Docker vs Virtual Machines Comparison"></p>
+<p>AWS container services: ECR, ECS, EKS, Fargate.</p>
+</section>
+<section id="ecs" class="level2">
+<h2 class="anchored" data-anchor-id="ecs">15.2. ECS</h2>
+<p>Elastic Container Service. This is Amazon’s <strong>managed container service</strong>. You launch an ECS Task on an ECS Cluster.</p>
+<p>There are two launch types: EC2 and Fargate.</p>
+<section id="ec2-launch-type" class="level3">
+<h3 class="anchored" data-anchor-id="ec2-launch-type">15.2.1. EC2 Launch Type</h3>
+<p>An ECS cluster is essentially an cluster of EC2 instances each running an “ECS Agent”, which is essentially Docker and logic to register them as elements of the ECS cluster so AWS knows to start/stop/update containers within them.</p>
+<p>With an EC2 launch type, you need to manage the infrastructure yourself, ie define the instance size, number, etc.</p>
+</section>
+<section id="fargate-launch-type" class="level3">
+<h3 class="anchored" data-anchor-id="fargate-launch-type">15.2.2. Fargate Launch Type</h3>
+<p>Serverless service. You don’t provision the infrastructure so no need to manage EC2 instances.</p>
+<p>You just create task definitions and AWS runs ECS Tasks for you based on the CPU/RAM needed. To scale, just increase the number of tasks.</p>
+<p>There are two <strong>categories of IAM roles</strong> needed:</p>
+<ul>
+<li>EC2 Instance Profile (only for EC2 launch type). Used by the ECS Agent to make API called to the ECS service, pull images from ECR, send container logs to CloudWatch, get credentials from Secrets Manager of SSM Parameter Store. The IAM profile needs access to all of these services.</li>
+<li>ECS Task Roles. Allows each task to have a specific role. Eg task A might only need access to S3, task B might only need access to RDS.</li>
+</ul>
+<p>We can run an ALB in front of the ECS Cluster.</p>
+<p>For data persistence, we need a volume. EFS file systems can be mounted onto ECS tasks, and this works with both EC2 and Fargate launch types. EFS is serverless. EFS is a network drive, so tasks running in any AZ will share the same data. S3 cannot be mounted as a file system for ECS tasks.</p>
+</section>
+<section id="ecs-service-auto-scaling" class="level3">
+<h3 class="anchored" data-anchor-id="ecs-service-auto-scaling">15.2.3. ECS Service Auto Scaling</h3>
+<p>Automatically increase/decrease the number of ECS tasks. ECS Auto Scaling uses AWS Application Auto Scaling to scale based on: CPU utilisation, RAM utilisation or ALB request count per target.</p>
+<p>There are three <strong>types of scaling</strong>:</p>
+<ul>
+<li>Target tracking - based on a target value for a specific CloudWatch metric</li>
+<li>Step scaling - based on a CloudWatch alarm</li>
+<li>Scheduled scaling - based on a date/time</li>
+</ul>
+<p>EC2 <strong>Service</strong> Auto Scaling is scaling the service (at the task level). It is not the same as EC2 Auto Scaling which is at the instance level. Fargate auto scaling is easier to set up because it is serverless.</p>
+<p>ECS Cluster Capacity Provider is the preferred approach to scaling. It is a capacity provider paired with an auto scaling group.</p>
+<p>You can use Auto Scaling Group Scaling, but this is the older discouraged method.</p>
+</section>
+</section>
+<section id="common-ecs-architectures" class="level2">
+<h2 class="anchored" data-anchor-id="common-ecs-architectures">15.2.4. Common ECS Architectures</h2>
+<p>Amazon EventBridge can have a rule set up to <strong>run an ECS task in response to a trigger</strong>. For example, when a user uploads a file to a specific S3 bucket, EventBridge will start an ECS task inside a Fargate container to process the data and write it to RDS.</p>
+<p>A similar approach is to use EventBridge to do the same but on a <em>schedule</em>, e.g.&nbsp;every hour do some batch processing.</p>
+<p>Another scenario is processing messages in an SQS queue. ECS tasks poll the queue and auto scale depending on the number of items in the queue.</p>
+<p>Another scenario is having EventBridge monitor the ECS task and trigger an event if the task fails or is stopped. It sends the event to SNS which emails the Ops team.</p>
+</section>
+<section id="ecr" class="level2">
+<h2 class="anchored" data-anchor-id="ecr">15.3. ECR</h2>
+<p>Elastic Container Registry. <strong>Store and manage docker images on AWS</strong>. It is integrated with ECS and backed by S3 under the hood. Access is controlled by IAM.</p>
+<p>Images can be public or private. Public images are stored in Amazon ECR Public Gallery.</p>
+</section>
+<section id="eks" class="level2">
+<h2 class="anchored" data-anchor-id="eks">15.4. EKS</h2>
+<p>Elastic Kubernetes Service. <strong>Managed Kubernetes clusters on AWS</strong>. Kubernetes is cloud-agnostic, so can be helpful when migrating between cloud providers.</p>
+<p>Like ECS, it supports EC2 and Fargate launch types.</p>
+<p>Node types:</p>
+<ul>
+<li>Managed node groups. AWS creates and manages nodes (EC2 instances) for you. These can be spot or on demand instances.</li>
+<li>Self-managed nodes. You create the nodes and register them to an EKS cluster.</li>
+<li>AWS Fargate. Serverless, no maintenance required.</li>
+</ul>
+<p>You can attach data volumes by specifying a <code>StorageClass</code> manifest on your EKS cluster and using a Container Storage Interface (CSI) driver. EKS supports EBS, EFS and FSx; Fargate can only use EFS.</p>
+</section>
+<section id="aws-app-runner" class="level2">
+<h2 class="anchored" data-anchor-id="aws-app-runner">15.5. AWS App Runner</h2>
+<p>Managed service to make it easy to deploy web apps and APIs. You pass it your source code or container images and configure some settings like number of vCPUs, RAM, auto scaling, health checks etc. AWS creates all of the services under the hood, you don’t need any infrastructure experience. It is the easiest option to get something running without much cloud knowledge.</p>
+</section>
+<section id="aws-app2container-a2c" class="level2">
+<h2 class="anchored" data-anchor-id="aws-app2container-a2c">15.6. AWS App2Container (A2C)</h2>
+<p>A2C is a CLI tool for migrating Java and .NET containers into Docker containers. Lift and shift from on-premises to cloud.</p>
+<p>It generates CloudFormation templates and registers the Docker containers to ECR. You can then deploy to ECS, EKS or AppRunner.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="app2container.png" class="img-fluid figure-img"></p>
+<figcaption>AWS App2Container Example</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="serverless" class="level1">
+<h1>16. Serverless</h1>
+<p>“Serverless” is a bit misleading: there are still servers behind the scenes, <strong>you just don’t manage the servers yourself</strong>.</p>
+<p>It was originally branded as Function as a Service (FaaS) but now includes any managed service: database, messaging, storage, etc.</p>
+<p>Serverless services in AWS: Lambda, DynamoDB, Cognito, API Gateway, S3, SNS and SQS, Kinesis Data Firehose, Aurora Serverless, Step Functions, Fargate.</p>
+<section id="aws-lambda" class="level2">
+<h2 class="anchored" data-anchor-id="aws-lambda">16.1. AWS Lambda</h2>
+<section id="overview-4" class="level4">
+<h4 class="anchored" data-anchor-id="overview-4">16.1.1. Overview</h4>
+<p>Lambdas are <strong>virtual functions</strong>; there are no servers to manage. Execution time must be &lt;15 mins. They run on-demand; you are only billed when your function is running. Scaling is automated.</p>
+<p><strong>Lambdas are the serverless counterparts to EC2 instances</strong>. With EC2 instances you need to intervene to scale up and down.</p>
+<p>There is integration with CloudWatch for monitoring. You can have up to 10GB of RAM per function; increasing the RAM also improves the CPU and networking.</p>
+<p>Lambda pricing is pay per request and compute time.</p>
+<p>Supported languages: JavaScript, Python, Java, C#, Ruby. Other languages are supported via a custom runtime API.</p>
+<p>You can have <strong>Lambda Container Images</strong> which must implement the Lambda Runtime API. Generally, ECS or Fargate are preferred for running arbitrary Docker images.</p>
+<p>A common pattern is to use Lambda to create a <em>“serverless CRON job”</em>. CloudWatch Events triggers an event on a schedule, say every hour. This triggers a Lambda function to run a certain task.</p>
+</section>
+<section id="lambda-limits" class="level3">
+<h3 class="anchored" data-anchor-id="lambda-limits">16.1.2. Lambda Limits</h3>
+<p>These limits are <strong>per region</strong>.</p>
+<p>Execution:</p>
+<ul>
+<li>Memory allocation - 128MB-10 GB in 1MB increments</li>
+<li>Max execution time is 15 minutes</li>
+<li>Environment variables can take up to 4 KB</li>
+<li>Disk capacity in /tmp - 512 MB to 10GB</li>
+<li>Concurrency executions: 1000</li>
+</ul>
+<p>Deployment:</p>
+<ul>
+<li>Deployment size (compressed zip) 50 MB, uncompressed 250 MB</li>
+<li>Can use <code>/tmp</code> directory to load other files at startup</li>
+<li>Environment variables 4KB</li>
+</ul>
+</section>
+<section id="lambda-concurrency-and-throttling" class="level3">
+<h3 class="anchored" data-anchor-id="lambda-concurrency-and-throttling">16.1.3. Lambda Concurrency and Throttling</h3>
+<p>Concurrency limit: up to 1000 concurrent executions across all Lambda functions in our <strong>account</strong>.</p>
+<p>We can set a <strong>“reserved concurrency”</strong> at the function-level to limit calls to individual Lambda functions. It is good practice to do this so that one application in your account scaling does not cause it to use all of the available Lambda functions in your account and cause unrelated Lambda functions for other applications to be throttled.</p>
+<p>Each invocation over the concurrency limit triggers a “throttle”. For synchronous invocations, this returns a 429 ThrottleError. For asynchronous invocations, it will retry automatically for up to 6 hours with exponential backoff and then go to a dead letter queue.</p>
+</section>
+<section id="cold-starts" class="level3">
+<h3 class="anchored" data-anchor-id="cold-starts">16.1.4. Cold Starts</h3>
+<p>When a new instance is starting, it needs to initialise by running all of the code and dependencies. This can take a long time, causing the first request to a new instance to have higher latency than the rest.</p>
+<p><strong>Provisioned concurrency</strong> is allocated before the function is invoked to avoid cold starts.</p>
+</section>
+<section id="lambda-snapstart" class="level3">
+<h3 class="anchored" data-anchor-id="lambda-snapstart">16.1.5. Lambda SnapStart</h3>
+<p>When a regular Lambda function is invoked the lifecycle it goes through is: initialise, invoke, shutdown.</p>
+<p>When SnapStart is enabled, <strong>the function is pre-initialised</strong> so it can skip straight to the invoke stage.</p>
+<p>When you publish a new version: lambda initialises your function, takes a snapshot of memory and disk state, then that snapshot is cached for low-latency access.</p>
+</section>
+<section id="customisation-at-the-edge" class="level3">
+<h3 class="anchored" data-anchor-id="customisation-at-the-edge">16.1.6. Customisation at the Edge</h3>
+<p>Some applications may require some form of logic at the edge location, e.g.&nbsp;to customise the CDN content.</p>
+<p>An <strong>edge function</strong> is code that you write and attach to CloudFront distributions. It runs close to the user to minimise latency.</p>
+<p>CloudFront provides two types:</p>
+<ul>
+<li>CloudFront Functions</li>
+<li>Lambda@Edge</li>
+</ul>
+<p>Both are serverless and deployed globally. You only pay for what you use.</p>
+<section id="cloudfront-functions" class="level4">
+<h4 class="anchored" data-anchor-id="cloudfront-functions">CloudFront Functions</h4>
+<p>These are JavaScript functions that modify the response sent from CloudFront to the user. They can change the viewer request (what the user sends to CloudFront before it reaches the origin server) or the viewer response (what the origin server sends back before it reaches the user).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cloudfront_function.png" class="img-fluid figure-img"></p>
+<figcaption>CloudFront Function</figcaption>
+</figure>
+</div>
+</section>
+<section id="lambdaedge" class="level4">
+<h4 class="anchored" data-anchor-id="lambdaedge">Lambda@Edge</h4>
+<p>This can modify viewer request/ response or origin request/response. You write the function in one region (us-east-1) then CloudFront replicates it across all regions. The function can be written in node.js or Python.</p>
+<p>It is more expensive with a higher max execution time, so you can run more logic.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lamba_at_edge.png" class="img-fluid figure-img"></p>
+<figcaption>Lambda@Edge Function</figcaption>
+</figure>
+</div>
+</section>
+<section id="comparison" class="level4">
+<h4 class="anchored" data-anchor-id="comparison">Comparison</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="comparison_cloudfront_function_vs_lambda_at_edge.png" class="img-fluid figure-img"></p>
+<figcaption>Comparison of CloudFront Functions vs Lambda@Edge</figcaption>
+</figure>
+</div>
+<p>Use cases of CloudFront Functions:</p>
+<ul>
+<li>Cache key normalization</li>
+<li>Header manipulation</li>
+<li>URL rewrites or redirects</li>
+<li>Request authentication &amp; authorization</li>
+</ul>
+<p>Use cases of Lambda@Edge Functions:</p>
+<ul>
+<li>Longer execution time (several ms)</li>
+<li>Adjustable CPU or memory</li>
+<li>Your code depends on a 3rd-party libraries (e.g., AWS SDK to access other AWS services)</li>
+<li>Network access to use external services for processing</li>
+<li>File system access or access to the body of HTTP requests</li>
+</ul>
+</section>
+</section>
+<section id="vpc" class="level3">
+<h3 class="anchored" data-anchor-id="vpc">16.1.7. VPC</h3>
+<p>By default, Lambda launches in its own AWS-owned VPC, so can only access public resources and not the resources in your VPC.</p>
+<p>We can <strong>launch Lambda in a VPC</strong> if we specify the <em>VPC ID, subnets and security groups</em>. Lambda will create an ENI in your subnets.</p>
+<section id="lambda-with-rds-proxy" class="level4">
+<h4 class="anchored" data-anchor-id="lambda-with-rds-proxy">Lambda with RDS Proxy</h4>
+<p>A common use case for launching lambda in your VPC is to connect to your RDS database. But we don’t want to connect Lambdas directly to RDS, as this can result in lots of open connections and high load.</p>
+<p>Instead the Lambda functions connect to an <strong>RDS proxy</strong> which <em>pools and shares database connections</em>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lambda_with_rds_proxy.png" class="img-fluid figure-img"></p>
+<figcaption>Lambda with RDS Proxy</figcaption>
+</figure>
+</div>
+<p>This requires running Lambda in a VPC because the RDS Proxy is never publicly accessible.</p>
+</section>
+<section id="invoking-a-lambda-function-from-rds" class="level4">
+<h4 class="anchored" data-anchor-id="invoking-a-lambda-function-from-rds">Invoking a Lambda Function from RDS</h4>
+<p>You can invoke a Lambda function from within your database instance to <strong>process data events from within the database</strong>.</p>
+<p>You need to allow outbound traffic to the Lambda function from within the DB instance. This is done in the database, not the AWS console.</p>
+<p>This should not be confused with <strong>RDS Event Notifications</strong>. These tell you information about the database instance, not the data itself. So you can see when the database was created, stopped, started etc. But you cannot see anything about the data itself is actually processing.</p>
+</section>
+</section>
+</section>
+<section id="dynamodb" class="level2">
+<h2 class="anchored" data-anchor-id="dynamodb">16.2. DynamoDB</h2>
+<section id="overview-5" class="level3">
+<h3 class="anchored" data-anchor-id="overview-5">16.2.1. Overview</h3>
+<p>Fully managed NoSQL database with replication across multiple AZs. It is a good choice if the <strong>schema needs to change frequently</strong>.</p>
+<p>Security is all handled via IAM.</p>
+<p>DynamoDB auto-scales and has fast (single digit milliseconds) performance.</p>
+<p>There are two classes: standard and infrequent access.</p>
+<p>DynamoDB is made of <strong>tables</strong>. Each table must have a <strong>primary key</strong>, and can have an infinite number of <strong>items (rows)</strong>. Each <strong>item</strong> has <strong>attributes (columns)</strong>. These can be added to over time without having to alter a table schema.</p>
+<p>Maximum item size is 400KB. Supported data types are ScalarTypes, DocumentTypes (list, map), SetTypes.</p>
+<p>Capacity modes:</p>
+<ul>
+<li>Provisioned mode. You specify the number of reads/writes per second required and pay per Read Capacity Unit (RCU) and Write Capacity Unit (WCU). You can optionally add autoscaling.</li>
+<li>On-demand mode. Reads/writes scale automatically, no capacity planning required. You pay for what you use but it is more expensive. Good for unpredictable, spiky workloads.</li>
+</ul>
+</section>
+<section id="dynamodb-accelerator-dax" class="level3">
+<h3 class="anchored" data-anchor-id="dynamodb-accelerator-dax">16.2.2. DynamoDB Accelerator (DAX)</h3>
+<p>Fully managed <strong>in-memory cache for DynamoDB</strong>. Microsecond latency for cached content. No change to application logic required. Default TTL of 5 minutes.</p>
+<p><strong>DAX is for caching individual objects</strong> or table scan results. <strong>Amazon Elasticache is for caching aggregation results</strong>.</p>
+</section>
+<section id="stream-processing" class="level3">
+<h3 class="anchored" data-anchor-id="stream-processing">16.2.3. Stream Processing</h3>
+<p>Ordered stream of item-level updates (create/update/delete). This is useful for realtime analytics or reacting to changes like sending welcome emails to new users.</p>
+<p>DynamoDB Streams have 24 hour retention with limited number of consumers. Kinesis Data Streams have 1 year retentions, more consumers and more integration with other AWS services.</p>
+</section>
+<section id="global-tables" class="level3">
+<h3 class="anchored" data-anchor-id="global-tables">16.2.4. Global Tables</h3>
+<p>A table that is replicated in multiple regions. It is a <strong>two-way replication</strong>; changes made in either table are reflected in the other. It is an <strong>active-active replication</strong>, means applications can read and write to tables in any region.</p>
+<p>DynamoDB Streams must be enabled as this is used under the hood.</p>
+</section>
+<section id="ttl-1" class="level3">
+<h3 class="anchored" data-anchor-id="ttl-1">16.2.5. TTL</h3>
+<p>Automatically delete items in the table after a certain expiry timestamp.</p>
+<p>Use cases are enforcing a retention policy and reducing storage after that, or web session handling.</p>
+</section>
+<section id="backups-for-disaster-recovery" class="level3">
+<h3 class="anchored" data-anchor-id="backups-for-disaster-recovery">16.2.6. Backups for Disaster Recovery</h3>
+<p>Continuous backups for point-in-time recovery. This can be optionally enabled for the last 35 days. The recovery process creates a new table.</p>
+<p>On demand backups are retained until explicitly deleted.</p>
+</section>
+<section id="integration-with-s3" class="level3">
+<h3 class="anchored" data-anchor-id="integration-with-s3">16.2.7. Integration with S3</h3>
+<p>You can export to S3 and import from it.</p>
+<p>Point-in-time recovery must be enabled for export to S3.</p>
+</section>
+</section>
+<section id="api-gateway" class="level2">
+<h2 class="anchored" data-anchor-id="api-gateway">16.3. API Gateway</h2>
+<section id="overview-6" class="level3">
+<h3 class="anchored" data-anchor-id="overview-6">16.3.1. Overview</h3>
+<p>We could connect our client directly to our Lambda function / EC2 instances, but it would need appropriate IAM permissions. Alternatively, we can have an ALB.</p>
+<p>API Gateway is another alternative that <strong>acts as a proxy</strong> like ALB, but we also get some convenient <strong>features for managing our API</strong>. It is a serverless service.</p>
+<p>Handles API versioning and multiple environments (dev, staging, prod), authentication, creates API keys. Support for websocket protocol, swagger and open API interfaces, caching. We can transform and validate requests and responses.</p>
+<p>API gateway can integrate with:</p>
+<ul>
+<li>Invoke Lambda functions. This is a common way to expose a REST API.</li>
+<li>HTTP. Expose any HTTP endpoints in the backend.</li>
+<li>AWS service. Expose any AWS API through the API Gateway.</li>
+</ul>
+<p>Endpoint types:</p>
+<ul>
+<li>Edge-optimised. For global clients. This is the default. Requests are routed through CloudFront, although API Gateway still lives in one region.</li>
+<li>Regional. For clients in the same region.</li>
+<li>Private. Can only be accessed from your VPC using an interface VPC endpoint (ENI). Use a resource policy to define access.</li>
+</ul>
+</section>
+<section id="security-1" class="level3">
+<h3 class="anchored" data-anchor-id="security-1">16.3.2. Security</h3>
+<p>User auth can be via:</p>
+<ul>
+<li>IAM roles. For internal applications.</li>
+<li>Cognito. For exposing to external users.</li>
+<li>Custom auth that you define.</li>
+</ul>
+<p>You can use ACM (AWS Certificate Manager) to define a custom HTTPS domain name.</p>
+</section>
+</section>
+<section id="step-functions" class="level2">
+<h2 class="anchored" data-anchor-id="step-functions">16.4. Step Functions</h2>
+<p>Build a serverless <strong>visual workflow to orchestrate Lambda functions</strong> using step functions.</p>
+<p>Can integrate with AWS services by defining a flowchart. You can optionally include a human approval step.</p>
+</section>
+<section id="cognito" class="level2">
+<h2 class="anchored" data-anchor-id="cognito">16.5. Cognito</h2>
+<p>Cognito is a service to <strong>give users an identity to interact with our web or mobile application</strong>. Typical use cases are when dealing with external users (where we don’t want to set up IAM permissions), where there are hundreds of users or more, or mobile users.</p>
+<p>There are two types:</p>
+<ul>
+<li>Cognito User Pools. Sign in functionality for app users that integrates with API Gateway and ALB. Serverless database of users.</li>
+<li>Cognito Identity Pools. Also called Federated Identities. Provide AWS credentials so they can access AWS resources directly.</li>
+</ul>
+</section>
+</section>
+<section id="serverless-architecture-examples" class="level1">
+<h1>17. Serverless Architecture Examples</h1>
+<p>The examples in this section build an increasingly complex serverless infrastructure with improving throughput.</p>
+<section id="rest-api" class="level2">
+<h2 class="anchored" data-anchor-id="rest-api">17.1. REST API</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="serverless_example_rest_api.png" class="img-fluid figure-img"></p>
+<figcaption>REST API Serverless Example</figcaption>
+</figure>
+</div>
+</section>
+<section id="giving-mobile-users-access-to-an-s3-bucket" class="level2">
+<h2 class="anchored" data-anchor-id="giving-mobile-users-access-to-an-s3-bucket">17.2. Giving Mobile Users Access to an S3 Bucket</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="serverless_example_s3_access.png" class="img-fluid figure-img"></p>
+<figcaption>S3 Serverless Example</figcaption>
+</figure>
+</div>
+</section>
+<section id="high-throughput-example" class="level2">
+<h2 class="anchored" data-anchor-id="high-throughput-example">17.3. High Throughput Example</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="serverless_example_high_read_throughput.png" class="img-fluid figure-img"></p>
+<figcaption>High Throughput Serverless Example</figcaption>
+</figure>
+</div>
+<p>We can add a caching layer to improve read times.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="serverless_example_high_read_throughput_with_caching.png" class="img-fluid figure-img"></p>
+<figcaption>Serverless Example with Cache</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="databases" class="level1">
+<h1>18. Databases</h1>
+<section id="database-overview" class="level2">
+<h2 class="anchored" data-anchor-id="database-overview">18.1. Database Overview</h2>
+<p>Database types:</p>
+<ul>
+<li>RDBMS (SQL OLTP)</li>
+<li>NoSQL</li>
+<li>Object store</li>
+<li>Data warehouse (SQL OLAP)</li>
+<li>Search database</li>
+<li>Graph database</li>
+<li>Ledger</li>
+<li>Time series</li>
+</ul>
+</section>
+<section id="rds-2" class="level2">
+<h2 class="anchored" data-anchor-id="rds-2">18.2. RDS</h2>
+<p><strong>Managed RDBMS</strong>. Discussed in previous section.</p>
+</section>
+<section id="aurora-1" class="level2">
+<h2 class="anchored" data-anchor-id="aurora-1">18.3. Aurora</h2>
+<p><strong>Separation of storage vs compute</strong>. Aurora has a PostgreSQL and MySQL compatible API.</p>
+<p>Data is stored in 6 replicas across 3 AZ.</p>
+<p>There is a serverless option.</p>
+</section>
+<section id="elasticache-1" class="level2">
+<h2 class="anchored" data-anchor-id="elasticache-1">18.4. ElastiCache</h2>
+<p>Managed Redis or Memcached <strong>cache</strong>; <strong>in-memory data store</strong>.</p>
+<p>Requires changes to your application code to use the cache.</p>
+</section>
+<section id="dynamodb-1" class="level2">
+<h2 class="anchored" data-anchor-id="dynamodb-1">18.5. DynamoDB</h2>
+<p>Managed serverless <strong>NoSQL database</strong>.</p>
+<p>There are two capacity modes: provisioned or on-demand.</p>
+<p>You can optionally add a <strong>DAX cluster</strong> for read caching.</p>
+</section>
+<section id="s3-1" class="level2">
+<h2 class="anchored" data-anchor-id="s3-1">18.6. S3</h2>
+<p><strong>Key/value store for objects</strong>.</p>
+<p>Best for large objects, not many small objects. Max object size is 5 TB.</p>
+</section>
+<section id="documentdb" class="level2">
+<h2 class="anchored" data-anchor-id="documentdb">18.7. DocumentDB</h2>
+<p>DocumentDB is like a <strong>managed MongoDB</strong> (NoSQL). Analogous to how Aurora is managed SQL.</p>
+</section>
+<section id="neptune" class="level2">
+<h2 class="anchored" data-anchor-id="neptune">18.8. Neptune</h2>
+<p>Managed <strong>graph database</strong>.</p>
+<p>Highly available with up to 15 read replicas across 3 AZs.</p>
+<p><strong>Neptune Streams</strong> is a real-time ordered sequence of <em>every change to your graph DB</em>. The streams data is available via a REST API.</p>
+</section>
+<section id="amazon-keyspaces" class="level2">
+<h2 class="anchored" data-anchor-id="amazon-keyspaces">18.9. Amazon Keyspaces</h2>
+<p>This is a <strong>managed Cassandra</strong> (NoSQL) database service.</p>
+<p>Queries are done with Cassandra Query Language (CQL).</p>
+<p>There are two capacity modes: on-demand and provisioned.</p>
+</section>
+<section id="amazon-timestream" class="level2">
+<h2 class="anchored" data-anchor-id="amazon-timestream">18.10. Amazon Timestream</h2>
+<p><strong>Managed time series database</strong>.</p>
+<p>Recent data is stored in memory and older data is stored in cost optimised storage.</p>
+<p>Compatible with SQL and has additional time series analytics functions.</p>
+</section>
+</section>
+<section id="data-analytics" class="level1">
+<h1>19. Data Analytics</h1>
+<section id="athena" class="level2">
+<h2 class="anchored" data-anchor-id="athena">19.1. Athena</h2>
+<section id="overview-7" class="level3">
+<h3 class="anchored" data-anchor-id="overview-7">19.1.1. Overview</h3>
+<p>Athena is a <strong>serverless query service</strong> to <strong>analyse data stored in S3 using SQL</strong>.</p>
+<p>It supports CSV, JSON, ORC, Avro and Parquet file formats.</p>
+<p>Think of it <em>like Snowflake external tables</em>. The data is in files in S3 but you can query it with SQL.</p>
+<p>You need to specify an S3 bucket where query results are saved to.</p>
+</section>
+<section id="athena-performance-improvements" class="level3">
+<h3 class="anchored" data-anchor-id="athena-performance-improvements">19.1.2. Athena Performance Improvements</h3>
+<ul>
+<li>Use <strong>columnar data</strong>. This means Athena has fewer columns to scan. Parquet and ORC are recommended. AWS Glue can be used for ETL jobs to convert files to parquet from other formats.</li>
+<li><strong>Compress</strong> data. Smaller retrieval.</li>
+<li><strong>Partition</strong> datasets in S3 to allow querying on <strong>virtual columns</strong>. Name the directories <code>column_name=value</code>, e.g.&nbsp;<code>s3://example_bucket/year=2025/month=1/date=2/data.parquet</code></li>
+</ul>
+</section>
+<section id="federated-query" class="level3">
+<h3 class="anchored" data-anchor-id="federated-query">19.1.3. Federated Query</h3>
+<p>This allows you to run SQL <strong>queries across data stored in different places</strong> - Elasticache, DynamoDB, Aurora, on-premises, etc.</p>
+<p>It does this using <strong>Data Source Connectors</strong> that run as a Lambda function.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="athena_federated_query.png" class="img-fluid figure-img"></p>
+<figcaption>Athena Federated Query Example</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="redshift" class="level2">
+<h2 class="anchored" data-anchor-id="redshift">19.2. Redshift</h2>
+<section id="overview-8" class="level3">
+<h3 class="anchored" data-anchor-id="overview-8">19.2.1. Overview</h3>
+<p>Redshift is based on PostgreSQL but used for OLAP not OLTP (<strong>analytics not transactions</strong>). It uses columnar storage.</p>
+<p>There are two modes: provisioned cluster or serverless cluster. Provisioned mode allows you to select instance types in advance and reserve instances for cost savings.</p>
+<p>Compared to Athena, Redshift is faster to join, query, aggregate. The downside is <em>you need a cluster</em> whereas <em>Athena is completely serverless</em>.</p>
+<p>A Redshift cluster has a <strong>leader node</strong> for query planning and results aggregation, and <strong>compute nodes</strong> which perform queries and send results to the leader node.</p>
+</section>
+<section id="disaster-recovery" class="level3">
+<h3 class="anchored" data-anchor-id="disaster-recovery">19.2.2. Disaster Recovery</h3>
+<p>Redshift has multi0AZ for some clusters. Otherwise <strong>snapshots are required for DR</strong>.</p>
+<p>Snapshots are point-in-time backups stored in S3. They are <em>incremental</em>, so only diffs are saved. They can be automated, either every 8 hours or every 5 GB, with a set retention periods. Manual snapshots are retained indefinitely.</p>
+<p>Snapshots can be configured to save to another region for DR.</p>
+</section>
+<section id="loading-data-into-redshift" class="level3">
+<h3 class="anchored" data-anchor-id="loading-data-into-redshift">19.2.2. Loading Data into Redshift</h3>
+<p>Large inserts are much better.</p>
+</section>
+<section id="redshift-spectrum" class="level3">
+<h3 class="anchored" data-anchor-id="redshift-spectrum">19.2.3. Redshift Spectrum</h3>
+<p>This can be used to <strong>query data into S3 without loading it</strong>, using an existing Redshift cluster that is already running.</p>
+<p>The query is sent to Redshift referencing an S3 external table, then the leader node routes the query to compute nodes, which route to Redshift Spectrum nodes, which query S3.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="redshift_spectrum.png" class="img-fluid figure-img"></p>
+<figcaption>Redshift Spectrum</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="amazon-opensearch" class="level2">
+<h2 class="anchored" data-anchor-id="amazon-opensearch">19.3. Amazon OpenSearch</h2>
+<p>OpenSearch is a successor to ElasticSearch. You can <strong>search any field, even partial matches</strong>. Contrast this to DynamoDB, where queries must be by primary key or indexes.</p>
+<p><strong>OpenSearch is commonly used to complement other databases</strong>; for example, DynamoDB provides the retrieval capability, then writes to OpenSearch via a Lambda function so that OpenSearch can be used for the search capability.</p>
+<p>OpenSearch uses its own query language, but can be made compatible with SQL using a plugin.</p>
+<p>Two modes: managed cluster or serverless cluster.</p>
+</section>
+<section id="emr" class="level2">
+<h2 class="anchored" data-anchor-id="emr">19.4. EMR</h2>
+<p>Elastic MapReduce (EMR) creates <strong>Hadoop clusters to analyse and process big data</strong>. The cluster can be made of hundreds of EC2 instances. The cluster can autoscale and use spot or ondemand instances.</p>
+<p>EMR comes bundled with Spark, HBase, Presto, Flink, etc so requires less provisioning and configuration.</p>
+<p>Node types:</p>
+<ul>
+<li>Master node: manage the cluster, coordinate, health checks. Long running.</li>
+<li>Core node: run tasks and store data. Long running.<br>
+</li>
+<li>Task node: optional nodes that just run tasks. Typically spot instances.</li>
+</ul>
+<p>Purchasing options:</p>
+<ul>
+<li>On demand</li>
+<li>Reserved</li>
+<li>Spot</li>
+</ul>
+<p>Clusters can be long running or transient (temporary).</p>
+</section>
+<section id="quicksight" class="level2">
+<h2 class="anchored" data-anchor-id="quicksight">19.5. QuickSight</h2>
+<section id="overview-9" class="level3">
+<h3 class="anchored" data-anchor-id="overview-9">19.5.1. Overview</h3>
+<p>Serverless BI service to <strong>create interactive dashboards</strong>. Integrated with RDS, Aurora, Athena, Redshift, S3, etc.</p>
+<p>QuickSight integrates with:</p>
+<ul>
+<li>Most (all?) AWS data services</li>
+<li>3rd party applications like Salesforce or Jira</li>
+<li>Imports for files, eg xlsx, csv, json</li>
+<li>On-premises databases using JDBC</li>
+</ul>
+<p>If data is imported into QuickSight, in-memory computation can be done using the <em>SPICE engine</em>.</p>
+<p>It is possible to set up <em>column-level security</em> so users can only see columns that they are permissioned for.</p>
+</section>
+<section id="dashboard-and-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="dashboard-and-analysis">19.5.2. Dashboard and Analysis</h3>
+<p>You define <strong>Users</strong> and <strong>Groups</strong> in QuickSight; note that these are <em>not the same as IAM users</em>.</p>
+<p>A dashboard is a read-only snapshot of an analysis that can be shared and preserves the configuration (filtering, parameters, sort, etc).</p>
+<p>Users who can see a dashboard can also access its underlying data.</p>
+</section>
+</section>
+<section id="aws-glue" class="level2">
+<h2 class="anchored" data-anchor-id="aws-glue">19.6. AWS Glue</h2>
+<section id="overview-10" class="level3">
+<h3 class="anchored" data-anchor-id="overview-10">19.6.1. Overview</h3>
+<p>Glue is a <strong>managed ETL service</strong> (serverless).</p>
+<p>It is commonly used to convert file formats, e.g.&nbsp;CSV -&gt; Parquet.</p>
+<ul>
+<li>Glue Job Bookmarks prevent reprocessing old data.</li>
+<li>Glue DataBrew cleans and normalises data using prebuilt transformations</li>
+<li>Glue Studio is a GUI to create and manage ETL jobs in Glue.</li>
+<li>Glue Streaming ETL is built on Apache Spark Structured Streaming.</li>
+</ul>
+</section>
+<section id="glue-data-catalog" class="level3">
+<h3 class="anchored" data-anchor-id="glue-data-catalog">19.6.2. Glue Data Catalog</h3>
+<p>An <strong>AWS Glue Data Crawler</strong> crawls the different AWS data services (S3, RDS, DynamoDB, connected on-premises databases) and <strong>writes metadata to the AWS Glue Data Catalog</strong>.</p>
+<p><strong>Glue jobs can then use this to know what tables and schemas exist</strong>.</p>
+<p>Athena, Redshift and EMR use this under the hood for data discovery.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="glue_data_catalog.png" class="img-fluid figure-img"></p>
+<figcaption>Glue Data Catalog Example</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="aws-lake-formation" class="level2">
+<h2 class="anchored" data-anchor-id="aws-lake-formation">19.7. AWS Lake Formation</h2>
+<p>A data lake is a central place for data. AWS Lake Formation is a <strong>managed service to set up data lakes</strong>. It allows you to discover, clean, catalog, transform and ingest data into your data lake, providing automated tools for this. Behind the scenes, it is <em>a layer on top of AWS Glue</em>.</p>
+<p>There are blueprints for S3, RDS, relational databases, NoSQL databases, etc to make set up easy.</p>
+<p><strong>Access control</strong> is fine-grained at both <strong>row-level and column-level</strong>. <strong>Centralised permissions is a common use case for using Lake Formation.</strong> The underlying S3, RDS, Aurora sources might all use different IAM rules and access policies, so you can define the user access in Lake Formation.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lake_formation.png" class="img-fluid figure-img"></p>
+<figcaption>AWS Lake Formation</figcaption>
+</figure>
+</div>
+</section>
+<section id="amazon-managed-service-for-apache-flink" class="level2">
+<h2 class="anchored" data-anchor-id="amazon-managed-service-for-apache-flink">19.8. Amazon Managed Service for Apache Flink</h2>
+<p>Flink is a framework for <strong>processing data streams</strong>. AWS provides a managed service to handle provisioning and backups.</p>
+<p>Flink can read from Kinesis Data Streams or Amazon MSK (managed Kafka). Note that Flink does not read from Amazon Data Firehose.</p>
+</section>
+<section id="amazon-managed-streaming-for-apache-kafka" class="level2">
+<h2 class="anchored" data-anchor-id="amazon-managed-streaming-for-apache-kafka">19.9. Amazon Managed Streaming for Apache Kafka</h2>
+<p>This is called MSK. It is a fully managed Apache Kafka service, and is an <em>alternative to Amazon Kinesis</em>. It is a <strong>message broker that sits between your data sources and downstream services</strong>.</p>
+<p>It allows you to create, update and delete clusters, manage the Kafka broker nodes and zookeeper nodes, deploy in multi-AZ setup, automatic recovery and persist data to EBS volumes.</p>
+<p>There is a serverless option to autoscale.</p>
+<p>Example of how Kafka works: <img src="managed_kafka.png" class="img-fluid" alt="Managed Kafka"></p>
+<p>Difference between Kinesis Data Streams and Amazon MSK:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="kinesis_vs_msk.png" class="img-fluid figure-img"></p>
+<figcaption>Kinesis Data Streams vs MSK</figcaption>
+</figure>
+</div>
+</section>
+<section id="big-data-ingestion-pipeline" class="level2">
+<h2 class="anchored" data-anchor-id="big-data-ingestion-pipeline">19.10. Big Data Ingestion Pipeline</h2>
+<p>Example of a big data ingestion pipelines</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="big_data_ingestion_pipeline.png" class="img-fluid figure-img"></p>
+<figcaption>Big Data Ingestion Pipeline</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="machine-learning" class="level1">
+<h1>20. Machine Learning</h1>
+<section id="amazon-rekognition" class="level2">
+<h2 class="anchored" data-anchor-id="amazon-rekognition">20.1. Amazon Rekognition</h2>
+<p><strong>Computer vision</strong>. Find objects, people, text, scenes in images and videos.</p>
+<p>You can create a database of familiar faces or compare against celebrities.</p>
+<p>One use case is content moderation, to detect inappropriate or offensive content. You can set a minimum confidence threshold for flagging content. Flagged content can be manually reviewed in Amazon Augmented AI (A2I).</p>
+</section>
+<section id="amazon-transcribe" class="level2">
+<h2 class="anchored" data-anchor-id="amazon-transcribe">20.2. Amazon Transcribe</h2>
+<p>Convert <strong>speech to text</strong> using automatic speech recognition.</p>
+<p>You can automatically remove Personally Identifiable Information (PII) using <em>Redaction</em>, and automatically detect languages for multi-lingual audio.</p>
+</section>
+<section id="polly" class="level2">
+<h2 class="anchored" data-anchor-id="polly">20.3. Polly</h2>
+<p><strong>Text to speech</strong>.</p>
+<p>Lexicon can be used to customise the pronunciation of words, or expand acronyms to the full name.</p>
+<p><strong>Speech Synthesis Markup Language</strong> allows more precise customisation, such as emphasis, breathing sounds, whispering.</p>
+</section>
+<section id="translate" class="level2">
+<h2 class="anchored" data-anchor-id="translate">20.4. Translate</h2>
+<p><strong>Language translation</strong>. It can be used to localise content.</p>
+</section>
+<section id="lex-and-connect" class="level2">
+<h2 class="anchored" data-anchor-id="lex-and-connect">20.5. Lex and Connect</h2>
+<p>Amazon Lex is the technology that powers Alexa. <strong>Automatic Speech Recognition</strong> and natural language understanding. It can be used to build chatbots.</p>
+<p>Amazon Connect allows you to <strong>receive calls</strong> and create contact flows like a virtual call centre. It can integrate with CRM or AWS services.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lex_and_connect.png" class="img-fluid figure-img"></p>
+<figcaption>Lex and Connect Example</figcaption>
+</figure>
+</div>
+</section>
+<section id="amazon-comprehend" class="level2">
+<h2 class="anchored" data-anchor-id="amazon-comprehend">20.6. Amazon Comprehend</h2>
+<p>Fully <strong>managed NLP service</strong>. Use cases include: detecting language, sentiment analysis, extract entities, organise text files by topic.</p>
+<p><strong>Comprehend Medical</strong> is specifically for a clinical setting. It automatically detects Protected Health Information (PHI).</p>
+</section>
+<section id="sagemaker-ai" class="level2">
+<h2 class="anchored" data-anchor-id="sagemaker-ai">20.7. SageMaker AI</h2>
+<p>Fully <strong>managed service for data scientists</strong> to build ML models.</p>
+</section>
+<section id="amazon-kendra" class="level2">
+<h2 class="anchored" data-anchor-id="amazon-kendra">20.8. Amazon Kendra</h2>
+<p>Fully <strong>managed document search service</strong>. Extract answers from within a document. Natural language search capability. Incremental learning from user interactions to promote preferred results.</p>
+</section>
+<section id="amazon-personalize" class="level2">
+<h2 class="anchored" data-anchor-id="amazon-personalize">20.9. Amazon Personalize</h2>
+<p>Fully managed ML service to build apps with <strong>real-time personalised recommendations</strong>. Same tech used for the Amazon website.</p>
+</section>
+<section id="amazon-textract" class="level2">
+<h2 class="anchored" data-anchor-id="amazon-textract">20.10 Amazon Textract</h2>
+<p>Automatically <strong>extract text</strong>, handwriting and data <strong>from scanned documents</strong>.</p>
+</section>
+</section>
+<section id="monitoring" class="level1">
+<h1>21. Monitoring</h1>
+<section id="cloudwatch" class="level2">
+<h2 class="anchored" data-anchor-id="cloudwatch">21.1. CloudWatch</h2>
+<section id="cloudwatch-metrics" class="level3">
+<h3 class="anchored" data-anchor-id="cloudwatch-metrics">21.1.1. CloudWatch Metrics</h3>
+<p>CloudWatch provides metrics for AWS services. A <strong>metric is a variable to monitor</strong> like CPU utilisation, network in throughput, etc. Metrics belong to a <strong>namespace</strong>. Metrics have <strong>timestamps</strong>. You can create CloudWatch Custom Metrics.</p>
+<p><strong>A dimension is an attribute of a metric</strong> (instance ID, environment, etc). You can have 30 dimensions per metric.</p>
+<p>You can create dashboards of metrics in CloudWatch.</p>
+<p>CloudWatch Metric Streams are a near realtime delivery of CloudWatch metrics into another service, eg Kinesis Data Firehose or a 3rd party service like Datadog. You can filter metrics to see just a subset.</p>
+</section>
+<section id="cloudwatch-logs" class="level3">
+<h3 class="anchored" data-anchor-id="cloudwatch-logs">21.1.3. CloudWatch Logs</h3>
+<p>You can create named log groups, which usually represent an application. Within the log groups, you have log stream which are individual log files.</p>
+<p>You can define a log expiration policy between 1 day and 10 years, or retain indefinitely.</p>
+<p>Logs are encrypted by default and you can customise this with KMS.</p>
+<p>CloudWatch Logs can send logs to:</p>
+<ul>
+<li>S3 - batch export with <code>CreateExportTask</code> API call, can take up to 12 hours</li>
+<li>Kinesis Data Stream</li>
+<li>Kinesis Data Firehose</li>
+<li>AWS Lambda</li>
+<li>OpenSearch</li>
+</ul>
+<p><strong>CloudWatch Logs Subscriptions</strong> can be used to get <em>real-time log events</em> (all services above except S3). A subscription filter can filter on relevant data. You can use these to aggregate logs across regions and accounts. A cross-account subscription is required from multi-account aggregation; the sender account must have cross-account write access in the IAM role and the recipient account must have an access policy to allow the subscription from the sender account.</p>
+<p>Sources of logs can be:</p>
+<ul>
+<li>SDK</li>
+<li>Elastic beanstalk - from application</li>
+<li>ECS - from container</li>
+<li>Lambda - from function</li>
+<li>VPC Flow Logs</li>
+<li>API Gateway</li>
+<li>CloudTrail</li>
+<li>Route53 - log DNS queries</li>
+</ul>
+<p>CloudWatch Logs Insights can be used to search and analyse data stored in CloudWatch Logs. It can query across different AWS accounts.</p>
+</section>
+<section id="cloudwatch-agent" class="level3">
+<h3 class="anchored" data-anchor-id="cloudwatch-agent">21.1.4. CloudWatch Agent</h3>
+<p>By default, logs from EC2 do not go to CloudWatch. You need to run a <strong>CloudWatch Agent on EC2</strong> to push the log files, and the EC2 instance must have the corresponding IAM permissions. A CloudWatch log agent can be set up on-premises too.</p>
+<p><strong>CloudWatch Unified Agent</strong> can collect both <em>system-level metrics</em> (RAM, CPU usage etc) and <em>logs</em>. You can configure it with SSM Parameter Store. The older CloudWatch Logs Agent only does logs.</p>
+</section>
+<section id="cloudwatch-alarms" class="level3">
+<h3 class="anchored" data-anchor-id="cloudwatch-alarms">21.1.5. CloudWatch Alarms</h3>
+<p><strong>Alarms are used to trigger notifications for any metric</strong>. They can be based on different aggregations, e.g.&nbsp;min, max, % threshold, sampling. The <strong>period</strong> is the time window (seconds) to evaluate the metric.</p>
+<p>Alarm states: OK, INSUFFICIENT_DATA, ALARM</p>
+<p>Alarms have three main targets:</p>
+<ul>
+<li>EC2 instance - stop, terminate, reboot or recover and instance</li>
+<li>Trigger EC2 autoscaling</li>
+<li>Send a notification to SNS</li>
+</ul>
+<p><strong>Composite alarms</strong> monitor the state of multiple alarms, so you can combine metrics with AND or OR conditions. Composite alarms can be useful to reduce alarm noise.</p>
+<p>Alarms can be created based on CloudWatch Logs Metrics Filters. To test alarms, there is a <code>set-alarm-state</code> command in the CLI.</p>
+<section id="ec2-instance-recovery" class="level4">
+<h4 class="anchored" data-anchor-id="ec2-instance-recovery">EC2 Instance Recovery</h4>
+<p>We can perform status checks on:</p>
+<ul>
+<li>Instance status - check the EC2 VM</li>
+<li>System status - check the underlying hardware</li>
+<li>Attached EBS status - check attached EBS volumes</li>
+</ul>
+<p>If one or more fail, we can recover by creating a new EC2 instance with the same IP (public, private or elastic), metadata, placement group, etc.</p>
+</section>
+</section>
+<section id="amazon-eventbridge" class="level3">
+<h3 class="anchored" data-anchor-id="amazon-eventbridge">21.1.6. Amazon EventBridge</h3>
+<p>EventBridge was formerly called CloudWatch Events. It can be used to <strong>schedule cron jobs, react to events, or trigger lambdas</strong>.</p>
+<p>Different sources can send events to EventBridge, which then <strong>sends a JSON to a target destination</strong>.</p>
+<p>EventBridge is the default event bus in AWS. Partner event bus means third-parties like Datadog can write to EventBridge. You can also create a Custom Event Bus for your own applications.</p>
+<p>You can archive events sent to an event bus. Archived events can be replayed for debugging and testing.</p>
+<p>EventBridge can analyse events in your bus and infer the schema. A schema registry allows you to specify a known schema in advance. Schemas can be versioned.</p>
+<p>We can manage permissions for a specific event bus using a resource-based policy.</p>
+</section>
+<section id="cloudwatch-insights" class="level3">
+<h3 class="anchored" data-anchor-id="cloudwatch-insights">21.1.7. CloudWatch Insights</h3>
+<ul>
+<li><p><strong>CloudWatch Container Insights</strong>. This collects, aggregates and summarises metrics and logs from <em>containers</em> on ECS, EKS and Fargate.</p></li>
+<li><p><strong>CloudWatch Lambda Insights</strong>. Monitoring and troubleshooting for serverless applications running on <em>Lambda</em>. Collects, aggregates and summarises system-level metrics like CPU, memory, network. Also diagnostic info like number of cold starts, Lambda worker shutdowns.</p></li>
+<li><p><strong>CloudWatch Contributor Insights</strong>. Analyse log data and create time series of contributor data, e.g.&nbsp;heaviest network users, URLs that generate the most errors.</p></li>
+<li><p><strong>CloudWatch Application Insights</strong>. Automated dashboards showing issues with monitored applications. Uses SageMaker under the hood.</p></li>
+</ul>
+</section>
+</section>
+<section id="cloudtrail" class="level2">
+<h2 class="anchored" data-anchor-id="cloudtrail">21.2. CloudTrail</h2>
+<p>Provides <strong>governance, compliance and audit</strong> for your AWS account. It is enabled by default. It can be applied to all regions (by default) or a single region.</p>
+<p>CloudTrail logs can be written to CloudWatch Logs or S3. This can be used to retain logs beyond the 90 day retention period of CloudTrail.</p>
+<p>Actions from SDK, CLI, console, IAM users and roles are written to CloudTrail.</p>
+<p>There are three types of CloudTrail Events:</p>
+<ul>
+<li><strong>Management Events</strong>. Operations performed on resources in your AWS account. You can separate read events and write events. Management events are logged by default.</li>
+<li><strong>Data events</strong>. Read and write operations on data, e.g.&nbsp;S3 object-level activity. These are not logged by default as these are high volume.</li>
+<li><strong>CloudTrail Insights Events</strong>. Analyses your events and tries to detect unusual activity. This needs to be enabled and costs extra. Anomalies appear in the CloudTrail console, and event is sent to S3 and and EventBridge event is generated.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cloudtrail_insights_events.png" class="img-fluid figure-img"></p>
+<figcaption>CloudTrail Insights Events</figcaption>
+</figure>
+</div>
+<p>CloudTrail events are retained for 90 days. To persist events longer than this, log them to S3 and use Athena. <img src="cloudtrail_retention_example.png" class="img-fluid" alt="CloudTrail Long-Term Retention using S3"></p>
+<section id="eventbridge-integration" class="level4">
+<h4 class="anchored" data-anchor-id="eventbridge-integration">EventBridge Integration</h4>
+<p>We get a CloudTrail log for any API call. If we wanted to notify on certain events, like a table being deleted, we send the event to EventBridge and then trigger an alert in SNS.</p>
+</section>
+</section>
+<section id="aws-config" class="level2">
+<h2 class="anchored" data-anchor-id="aws-config">21.3. AWS Config</h2>
+<p><strong>Records configurations and changes over time</strong>. This helps with auditing and recording compliance of your AWS resources. Config rules alert when certain actions happen but they do not <strong>deny</strong> them.</p>
+<p>AWS Config is a per-region service, and data can be aggregated across regions and accounts.</p>
+<p>You can configure SNS alerts for changes to config and store config data in S3 for analysis with Athena.</p>
+<section id="config-rules" class="level3">
+<h3 class="anchored" data-anchor-id="config-rules">21.3.1. Config Rules</h3>
+<p>Can use one of 75 AWS-managed config rules or create custom rules.</p>
+<p>Rules can be evaluated for each <em>config change</em> or at <em>regular time intervals</em>.</p>
+<p>You pay per config item per region and per config rule per region.</p>
+<p>You can view the compliance of a resource over time and link it to CloudTrail API calls for that resource.</p>
+</section>
+<section id="remediations" class="level3">
+<h3 class="anchored" data-anchor-id="remediations">21.3.2. Remediations</h3>
+<p>You cannot prevent non-compliant resources but you can use SSM Automation Documents to trigger actions to remediate any compliance issues. You can create custom automation documents that trigger lambda functions.</p>
+<p>You can set retries if the remediation is not successful the first time.</p>
+<p>A common pattern is to use EventBridge to trigger notifications on non-compliance and set up an SNS alert to an email address or Slack channel.</p>
+</section>
+</section>
+<section id="cloudwatch-vs-cloudtrail-vs-config" class="level2">
+<h2 class="anchored" data-anchor-id="cloudwatch-vs-cloudtrail-vs-config">21.4. CloudWatch vs CloudTrail vs Config</h2>
+<p>Compare and contrast.</p>
+<ul>
+<li><strong>CloudWatch</strong> is for <strong>performance monitoring</strong> and dashboards, alerts, and log aggregation/analysis.</li>
+<li><strong>CloudTrail records API calls</strong> made within your account for audit.</li>
+<li><strong>AWS Config records configuration changes</strong> and evaluates compliance of resources.</li>
 </ul>
 </section>
 </section>
