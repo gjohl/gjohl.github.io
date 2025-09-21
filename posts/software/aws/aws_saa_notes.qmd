@@ -3489,6 +3489,357 @@ It scans S3 buckets once enabled and will notify via EventBridge.
 ![Amazon Macie](aws_macie.png)
 
 
+# 24. VPC
+
+## 24.1. CIDR, Private IP, Public IP
+### 24.1.1. CIDR
+**Classless Inter-Domain Routing (CIDR)** is a method for **allocating IP addresses**. They allow us to define an **IP address range**. 
+
+A CIDR consists of two components:
+
+- **Base IP**. Represents an IP address contained in the range. Eg 192.168.0.0
+- **Subnet mask**. Defines how many bits can change in the IP address. Eg /8 corresponds to 255.0.0.0, /32 corresponds to 255.255.255.255
+
+![Subnet Masks Example](subnet_masks.png)
+
+See [this website](https://www.ipaddressguide.com/cidr) for a guide on IP address ranges.
+
+
+### 24.1.2. Public vs Private IPv4
+The Internet Assigned Numbers Authority (IANA) established blocks for IPv4 addresses for use by private (LAN) and public (internet) addresses. 
+
+Private IP can only allow certain values. 
+
+This is where CIDR becomes relevant. 
+
+
+## 24.2. Default VPC
+### 24.2.1. Overview
+All new AWS accounts have a default VPC. 
+
+New EC2 instances are launched into the default VPC if no subnet is specified. 
+The default VPC has internet connectivity and all EC2 instances within it have public IPv4 addresses. 
+We also get public and private IPv4 DNS names. 
+
+It is *best practice to create your own VPC* for production processes rather than relying on the default VPC. 
+
+
+### 24.2.2. Creating Our Own VPC
+VPC is a **Virtual Private Cloud**. 
+We can have multiple VPCs in a region. The max is 5 per region but this is a soft limit that can be increased. 
+
+The max CIDR per VPC is 5. For each CIDR, min size is `/28` and max size is `/16`.
+
+Because VPCs are private, only IP addresses in the Private IPv4 ranges are allowed. 
+
+Your VPC CIDR should NOT overlap with your other networks, e.g. your corporate network. If we want to connect them together, we need to make sure the IP addresses do not overlap. 
+
+In the AWS console:
+```
+VPC -> Create VPC -> define CIDR block and other details
+```
+
+### 24.2.3. Adding Subnets
+
+**A subnet is a sub-range of IP addresses**. 
+Subnets can be public or private. 
+
+AWS reserves 5 IP addresses in each subnet, the first 4 and last 1:
+
+- 0 - network address
+- 1 - reserved for VPC router
+- 2 - reserved for mapping to Amazon-provided DNS
+- 3 - reserved for future use
+- 255 - Network Broadcast Address. AWS doesn’t support broadcast in a VPC, so this is reserved
+
+
+To create a subnet in AWS console:
+```
+VPC -> Subnets -> specify name, region, CIDR block
+```
+
+### 24.2.4. Internet Gateway (IGW)
+
+IGW **allows resources in a VPC to connect to the internet**, e.g. EC2 instances.
+It is created separately of a subnet. **One VPC can only be attached to one IGW and vice versa**. 
+
+It scales horizontally and is highly available and redundant. 
+
+IGW on its own does not allow internet access, we **also need to edit the route tables**. 
+
+![Internet Gaetway and Route Tables](igw_route_tables.png)
+
+There is a default route table that is associated with subnets which don’t explicitly specify a route table. 
+
+To create our own route table in the AWS console:
+```
+VPC -> Route tables -> Create route table -> specify a name and associated VPC
+```
+
+Then we can click on that route table and assign subnets to it. 
+We can edit the routes on a route table and specify destination IP address and target resources that each route applies to. 
+
+
+### 24.2.3. Bastion Hosts
+
+Sometimes we may want to **allow users outside of our VPC to access a resource inside a private subnet**.
+
+**A bastion host is an EC2 instance inside a public subnet of our VPC that can ssh into an EC2 instance inside the private subnet.** 
+
+Then a user can ssh into the public subnet EC2 instance, and from there ssh into the private subnet EC2 instance. 
+
+![Bastion Host](bastion_host.png)
+
+The bastion host security group must allow access from the internet on port 22. We can restrict this with a CIDR, e.g. the public CIDR of your corporate network, to only allow restricted access. 
+
+The private subnet EC2 instance security group must allow access from the private IP address (or security group) of the public EC2 instance. 
+
+
+## 24.3. NAT
+
+**NAT = Network Address Translation**
+
+### 24.3.1. NAT Instances
+
+> (NAT Instances are outdated and NAT Gateway is the preferred solution now.)
+
+**NAT instances allow EC2 instances in private subnets to connect to the internet.** 
+The NAT instance must be launched in a public subnet and have a fixed elastic IP attached. We also need to disable the “Source destination check” setting on the EC2 instance instance. 
+Route tables must be configured to route traffic from private subnets to the NAT instance. 
+
+A pre-configured Amazon Linux AMI is available for NAT instances, although it has reached end of life. NAT instances are not highly available or resilient out of the box, you need to create an ASG. 
+
+![NAT Instances](nat_instance.png)
+
+
+### 23.3.2. NAT Gateway
+
+**NAT Gateway is an AWS-managed NAT instance** with higher bandwidth, availability and no admin required. You pay per hour and per bandwidth. 
+
+NAT Gateway is created in a specific AZ and uses an Elastic IP. It can’t be used by EC2 instances in the same subnet, only from other subnets. 
+
+We need multiple NATs in each AZ for fault tolerance. 
+
+![NAT Gateway](nat_gateway.png)
+
+
+## 23.4. Security Groups and Network ACL
+### 23.4.1. Overview
+
+**A Network ACL sits before the subnet to handle incoming requests according to inbound rules**. It is **like a firewall** which controls traffic to and from subnets. 
+
+You can have one NACL per subnet, and new subnets are assigned the default NACL. 
+
+NACL rules have a number, and the first rule match (i.e. lowest rule number) takes precedent and drives the decision. 
+The last rule is `*` which denies any unmatched requests. 
+AWS recommended best practice is to increment rule numbers by 100 so that you can later add rules in between. 
+
+
+> The distinction between security groups and NACLs is subtle but important
+
+**Security Groups are stateful**. If an incoming request is allowed in, the corresponding response will always be allowed out; the security group’s outbound rules are ignored. 
+
+**NACL is stateless**. A request may be allowed in according to the inbound rules, but the response could still be blocked by the NACL’s outbound rules. 
+
+![Security Group vs NACL](security_group_vs_nacl.png)
+
+
+If you have multiple subnets, you need to make sure every combination of inbound and outbound rules are allowed. 
+
+![NACL for Multiple Subnets](nacl_multiple_subnets.png)
+
+Comparison table:
+![Security Group vs NACL Table](security_group_vs_nacl_table.png)
+
+
+### 23.4.2. Default NACL
+The default allows everything inbound and outbound for its associated subnets. 
+
+It is best practice to not modify the default NACL and instead create a custom NACL. 
+
+
+### 24.4.3. Ephemeral Ports
+
+For any two endpoints to establish a connection, they must use ports. Clients connect to the server using a fixed port, and expect a response on an **ephemeral port**. This is a temporary port that is open just for this connection. 
+
+![Ephemeral Ports](ephemeral_ports.png)
+
+Ephemeral ports are important to consider when dealing with NACLs because we need to configure the rules to allow inbound/outbound requests on the appropriate port range. 
+
+
+## 23.5. VPC Peering
+
+VPC peering is for when we want to **privately connect two VPCs using AWS’s private network**, to make them behave as if they were one network.
+
+You still need to update route tables in each VPC’s subnets to ensure EC2 instances can communicate with each other. 
+
+They cannot have overlapping CIDRs. 
+
+VPC peering is NOT transitive. If we peer from A to B, and B to C, then A will NOT be connected to C unless we also explicitly peer from A to C. 
+
+![VPC Peering](vpc_peering.png)
+
+VPC peering can be set up across different AWS accounts and regions. 
+When peering across accounts in the same region, you can reference a security group which is convenient as you do not have to reference the CIDR. 
+
+
+## 23.6. VPC Endpoints 
+
+When you want to **expose AWS resources that are within your VPC to the public internet**. 
+
+Every AWS resource has a public IP. A VPC Endpoint allows you to make the resource public but still use AWS’s private network (PrivateLink) to access it, which is normally faster. 
+
+The alternative would be to use a NAT Gateway + Internet Gateway, but this requires more hops. 
+
+![VPC Endpoint vs NAT Gateway](vpc_endpoint_vs_nat_gateway.png)
+
+
+There are two types of endpoint:
+
+- **Interface Endpoint**. Provisions an ENI with a private IP as an entry point. You must attach an appropriate security group. This works for most AWS resources. You pay per hour and per GB processed. 
+- **Gateway Endpoint**. Provisions a gateway and must be used as a target in a route table (no security group required). Can be used for S3 or DynamoDB. This is free. 
+
+![VPC Endpoint Types](vpc_endpoint_types.png)
+
+Gateway is generally preferred for S3 and DynamoDB because it is free and easier to set up. The exception is when you want access from on premises or another region or VPC within AWS, in which case an Interface Endpoint is required. 
+
+
+## 23.7. VPC Flow Logs
+
+**Capture information about IP traffic going into your interfaces**: VPC Flow Logs, Subnet Flow Logs, ENI Flow Logs. They also capture information from AWS-managed interfaces like ELB, RDS, etc. 
+
+Flow logs data can be sent to S3, CloudWatch Logs and Kinesis Data Firehose. 
+
+
+![VPC Flow Logs Example](vpc_flow_logs.png)
+
+- `addr` helps identify problematic IP
+- `port` helps identify problematic ports
+- `Action` identifies success/failure due to security group or NACL. 
+
+
+Common architectures:
+![VPC Flow Logs Architectures](vpc_flow_logs_architectures.png)
+
+
+## 23.8. AWS Site-to-Site VPN
+### 23.8.1. Overview
+We might want to **connect our corporate data centre to our VPC**. 
+
+They need a Virtual Private Gateway (VGW) on the AWS side of the connection, and a Customer Gateway (CGW) which is a software or physical device on the customer side of the connection. 
+
+To make the connection, the CGW may have a public IP address which can be used directly, or it may have a NAT device which has its own IP address that can be used. 
+
+You need to enable route propagation for the VGW in the route table. 
+If you need to ping the EC2 instances from in premises, the inbound rule of the security group must allow ICMP protocol. 
+
+
+### 23.8.2. AWS VPN CloudHub
+
+This provides secure **communication between multiple on premises sites and the VPC**; “hub and spoke model” with AWS as the hub. 
+
+![AWS VPN CloudHub](aws_vpn_cloudhub.png)
+
+
+## 23.9. Direct Connect (DX)
+### 23.9.1. Overview
+DX provides a dedicated **private** connection from a remote network to your VPC. This allows you to access public resources (e.g. S3) and private resources (e.g. EC2) on the same connection. 
+
+The benefits are increased bandwidth and more stable connection. 
+
+You need to set up a VGW on your VPC. 
+
+
+![Direct Connect](direct_connect.png)
+
+Connections can be dedicated connections or hosted connections. The lead time to set up DX can be >1 month. 
+
+
+### 23.9.2. Encryption
+Data in transit is not encrypted but is private by virtue of being on a private connection. 
+
+You can set up encryption yourself. 
+
+![Direct Connect Encryption](direct_connect_encryption.png)
+
+
+### 23.9.3. Resiliency 
+
+One option for improved resiliency is to set up *multiple Direct Connect connections*. 
+
+An even more resilient option is to have **multiple DX locations**, each with multiple DX connections. 
+
+![Direct Connect Resiliency](direct_connect_resiliency.png)
+
+
+### 23.9.4. Direct Connect Gateway
+
+If you want to set up a Direct Connect to **multiple VPCs in different regions** (within the same account) use Direct Connect Gateway. 
+
+![Direct Connect Gateway](direct_connect_gateway.png)
+
+
+### 23.9.5. DX + Site-to-Site VPN
+
+Having multiple DX connections is expensive, so a common architecture is to use Site-to-Site VPN as a backup connection if the DX connection goes down. 
+
+![Site-to-Site VPN as a Backup to DX](dx_backup_site_to_site_vpn.png)
+
+
+## 23.10. Transit Gateway
+
+The network topology can get complicated. Transit Gateway helps to solve this. 
+You **create route tables to limit which VPCs can talk to other VPCs**. 
+
+Supports IP multicast. 
+
+Another use case of Transit Gateway is to *increase the bandwidth of a site-to-site VPN using ECMP* (equal cost multi path routing). 
+This creates multiple paths to allow a routing strategy to forward a packet over the best path. 
+
+
+You can **share DX connections between multiple accounts**. 
+
+
+## 23.11. VPC Traffic Mirroring
+
+**Capture and inspect network traffic through your VPC**. 
+We capture from a source ENI to a target ENI/load balancer. 
+
+
+## 23.12. IPv6 for VPC
+### 23.12.1. Overview
+IPv4 maxes out at 4.3 billion addresses - these will be exhausted soon. 
+
+IPv6 can provide 3.4x10^38 unique IP addresses. 
+
+Every IPv6 address **in AWS** is public and Internet-routable. You can enable them to run in dual-stack mode to be private and connect via Internet Gateway. 
+
+
+### 23.12.2. Egress-only Internet Gateway
+
+These are only for IPv6 and are similar to NAT gateway. They allow instances in your VPC to have outbound IPv6 connections when preventing inbound IPv6 instances. 
+
+You must update route tables to allow this. 
+
+
+## 23.13. AWS Network Firewall 
+
+We’ve already seen the following methods to secure the network on AWS: NACL, VPC security groups, AWS WAF, AWS Shield, AWS Firewall Manager
+
+We can also **protect the entire VPC with a firewall**. This is AWS Network Firewall. 
+Internally, it uses AWS Gateway Load Balancer. 
+
+This gives protection for layers 3-7. 
+
+It allows for fine-grained control on:
+
+- IP and port
+- Protocol
+- Stateful domain list rule groups
+- Regex pattern matching 
+
+We can either allow, drop or alert when these rules are matched. These matches can be sent to S3, CloudWatch Logs, Kinesis Data Firehose. 
+
 
 # References
 
