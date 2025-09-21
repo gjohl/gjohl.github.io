@@ -3111,6 +3111,736 @@ Compare and contrast.
 - **AWS Config records configuration changes** and evaluates compliance of resources. 
 
 
+# 22. Advanced IAM
+
+## 22.1. AWS Organisations
+
+AWS Organisations allow you to **manage multiple AWS accounts**. The main account is the management account and others are member accounts. Member accounts can only belong to one organisation. 
+
+Billings are consolidated across all accounts, so the management account only needs to pay a single bill. This gives pricing benefits due to **volume discounts on aggregated usage**. 
+You can share reserved instances and savings plans across member account. 
+
+The accounts are organised as Organizational Units (OU). An example of this below:
+
+![AWS Organisation: Organizational Units Example](aws_organsiation_ou.png)
+
+
+As well as the convenience of managing a single management account and the cost savings, another benefit of AWS Organisations is *increased security*. 
+**Service Control Policies (SCP)** can be applied to any and all member accounts. 
+
+
+### 22.1.1. Tag Policies
+
+**Tag policies standardise tags across all resources** in an AWS Organisation. You can define tag keys and their allowed values. 
+
+You can generate a report to list all tagged and non-compliant resources. 
+
+
+### 22.1.2. IAM Conditions
+
+You can specify **conditional statements in the IAM policy** to only apply that rule in certain cases, e.g. deny certain IP addresses or allow certain regions. 
+
+
+### 22.1.3. IAM roles vs Resource-Based Policies 
+
+If we want to allow cross-account access to a resource, say an S3 bucket, we can either:
+
+- Attach a resource-based policy to the S3 bucket
+- Use an IAM role as a proxy
+
+![IAM Role-based Access vs Resource-based Access](iam_role_vs_resource_based_policy_access.png)
+
+
+**When you assume a role you give up all other permissions**, you only have access to the resources permissioned by that role. 
+
+There are cases where we may need to read from an S3 bucket in another account and write it to a bucket in our own account. This would require a resource-based policy, since the task needs both read and write permissions. The IAM approach would give up one or the other. 
+
+Amazon EventBridge uses resource-based permissions or IAM roles depending on the target resource. You need to look at the EventBridge policy to determine which it will use. Eg S3 uses resource based, ECS take use IAM. 
+
+
+### 22.1.4. IAM Permission Boundaries
+
+Permission boundaries are supported for both users and roles, but not for groups. They act as a guardrail to **limit the maximum permissions a user or role can have**, regardless of the permissions granted by their IAM policies.
+
+A permission boundary is an additional IAM policy definition that specifies the maximum permissions the role could be granted. The user/role still needs to have an IAM policy which defines the permissions it is actually granted. 
+
+If a permission is set in the IAM policy but this is outside the permission boundary, then this will NOT be granted. 
+
+The actual permissions a user has is the intersection of Organisations SCP, permissions boundary and IAM policy. See [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html).
+![Permissions for a User](permissions_boundary_venn_diagram.png)
+
+
+A use case of permission boundaries is to **let users self-assign their policies** without escalating their privileges to admin level. 
+
+Another use case is to **restrict one specific user** (e.g. an intern or a loose cannon) rather than applying and organisation-level SCP. 
+
+Explicit deny rules overall any allow rules. 
+
+![Policy Evaluation Flowchart](policy_evaluation_flowchart.png)
+
+
+## 22.2. AWS IAM Identity Centre
+
+This used to be called "**AWS Single Sign On**". 
+
+This allows you to have one login for: AWS accounts in AWS Organisations, business cloud applications (e.g. Microsoft 365), EC2 Windows Instances. 
+
+You define permission sets in the identity centre to determine who has access to what. 
+
+Identity providers can be the built-in identity store in IAM Identity Centre or a 3rd-party provider like Active Directory. 
+
+
+![IAM Identity Centre Login Flow](iam_identity_centre_login_flow.png)
+
+
+## 22.3. AWS Directory Services
+### 22.3.1. Active Directory
+
+Active Directory is a **database of objects** - user accounts, computers, printers, file shares, security groups - found on a **Windows server**. 
+Objects are grouped into **trees**, trees are grouped into **forests**. 
+
+AD allows centralised security management to create account and assign permissions. 
+
+
+### 22.3.2. AWS Directory Services
+
+There are three flavours of Active Directory on AWS:
+
+- **AWS-Managed Microsoft AD**. Create your own AD in AWS and establish “trust” connections with your on-premise AD
+- **AD Connector**. This is a Directory Gateway, i.e. proxy, to redirect to your on premise AD. Users are managed on the on-premise AD. 
+- **Simple AD**. An AD-compatible managed directory solely on AWS. It cannot be joined with an on-premises AD. This could be useful if running EC2 instances which run Windows. 
+
+
+![Comparison of Active Directory Options](active_directory_options.png)
+
+
+### 22.3.3. Integrating AD with IAM Identity Centre
+
+If using AWS-Managed Microsoft AD, the integration is out of the box. 
+
+If connecting to a self-managed directory, you either need to create a **two-way trust** relationship using AWS Managed Microsoft AD or use AD Connector. 
+
+![Active Directory Integration](active_directory_integration.png)
+
+
+## 22.4. AWS Control Tower
+
+Control Tower provides an easy way to **set up and govern a multi-account AWS environment**. It used AWS Organisations to create organisations. 
+
+The benefits of Control Tower are automated environment set up, automated ongoing policy management using guardrails, detect and remediate policy violations, dashboards to monitor compliance. 
+
+Guardrails provide ongoing governance for your control tower environment. There are two types of guardrail:
+
+- **Preventive guardrail**. Using SCPs to *prevent* non-compliant resources. 
+- **Detective guardrail**. Using AWS Config to *detect* non-compliant resources. 
+
+
+# 23. Security and Encryption 
+
+These topics have been covered alongside other topics so much of it is a refresher and filling in any gaps. 
+
+
+## 23.1. Encryption
+### 23.1.1 Encryption 101
+There are three encryption mechanisms to know about. 
+
+#### In-flight Encryption 
+Data is encrypted before sending and decrypted after receiving. TLS certificates (and SSL which is the more modern version) help with encryption. 
+
+In-flight encryption protects against Man in the Middle (MITM) attacks. 
+
+![In-flight Encryption](inflight_encryption.png)
+
+#### Server-side Encryption at Rest
+Data is encrypted after being received. The server must have access to a key to encrypt/decrypt the data. 
+
+![Server-side Encryption](server_side_encryption.png)
+
+
+#### Client-side Encryption
+Data is encrypted by the client only, never decrypted by the server. This is useful in cases where we don’t trust the server. 
+
+![Client-side Encryption](client_side_encryption.png)
+
+
+## 23.2. KMS
+### 23.2.1. KMS Overview
+**Key Management Service**. This handles pretty much all of the encryption in AWS and is fully integrated with IAM and other services. KMS key usage can be audited through CloudTrail. 
+
+There are two types of KMS Key:
+
+- **Symmetric**. A single key is used to both *encrypt and decrypt*. You never get access to the KMS Key directly, you call the KMS API to use it. 
+- **Asymmetric**. Public key to encrypt and private key to decrypt. RSA or ECC *key pairs*. You can download the public key from KMS but not the private key. 
+
+
+Keys can be:
+
+- AWS-owned keys
+- AWS-managed keys
+- Customer-managed keys created in KMS
+- Customer-managed keys imported into KMS
+
+Customer-managed keys cost $1/month. Imported keys are also charged per API call. 
+Keys are automatically rotated. 
+
+KMS keys are per region and cannot be copied across regions. If copying an encrypted EBS volume to another region, you re-encrypt it with a key from the destination region. 
+
+![Copying Snapshots Across Regions](copy_encrypted_snapshot_across_regions.png)
+
+
+### 23.2.2. KMS Key Policies
+You can control access to your KMS keys. This is similar to S3 bucket policies. 
+
+The default KMS key policy gives all users access to the default KMS key. 
+You can create a custom KMS key policy to define the roles and users who can use and administer keys. 
+
+
+### 23.2.3. Multi-region Keys
+
+You can replicate a primary key across regions, creating a **replica key** with the same key ID in the target region. They are synced so when the primary is rotated the replicas are updated too. 
+
+This allows you to use keys interchangeably across regions. You can encrypt in one region and decrypt in other regions. This avoids the need to re-encrypt when moving data across regions, or making cross-region KMS calls. 
+
+KMS multi-region keys are NOT global. Each key is managed independently with its own key policy. 
+
+Use cases are when you want global client-side encryption, or if you are using encryption on a global database service like DynamoDB or Aurora. 
+
+
+### 23.3.4. S3 Replication Encryption Considerations
+
+Unencrypted objects and SSE-S3 encrypted objects are replicated by default. 
+Objects encrypted with SSE-C (customer-provided key) can be replicated. 
+
+Objects encrypted with SSE-KMS need to have replication enabled in the options. They are not replicated by default. 
+
+- Specify the KMS Key to encrypt objects in the target bucket
+- Update the KMS Key Policy for the target key
+- Appropriate IAM roles with `kms:Decrypt` permissions for the source key and `kms:Encrypt` for the target key 
+
+You may get KMS throttling errors as there are more API calls involved. You can increase your service quota. 
+
+
+You can use multi-region KMS Keys for S3 replication but they are treated as independent keys by S3, so it will still re-encrypt your data with the (replicated) target key. 
+
+
+### 23.3.5.  Sharing an AMI Encrypted with KMS
+
+1. The AMI is encrypted in the source account
+2. Modify the Launch Permission image attribute to allow the target account to launch it
+3. Share the KMS key for the target account to use it, with a key policy 
+4. The target account must have IAM permissions: DescribeKey, ReEncrypt, CreateGrant, Decrypt
+5. The target account can now launch the AMI and optionally encrypt it using its own KMS key
+
+
+![Sharing an Encrypted AMI](sharing_encrypted_ami.png)
+
+
+## 23.3. SSM Parameter Store
+### 23.3.1. Overview
+
+**Secure storage for configuration and secrets**. You can optionally encrypt these using KMS. 
+
+It allows *version tracking* of these. Security is through IAM and notifications are through Amazon EventBridge. 
+
+You can store parameters in a hierarchy, e.g. `my-department/app-name-1/prod/db-url`
+
+You can reference secrets stored in Secrets Manager through a specific path in Parameter Store: `/aws/reference/secretsmanager/<secret-ID-in-Secrets-Manager>`
+
+There are public parameters issued by AWS that you can access through `/aws/service` for example the latest Amazon Linux AMI version available in a region. 
+
+There are standard and advanced parameter tiers. The differences are in the number and size of parameters you can store, and advance allows parameter policies. 
+
+
+### 23.3.2. Parameter Policies
+
+You can assign a TTL to a parameter to **force updates/deletes** for sensitive data after an expiry date. 
+
+
+## 23.4. AWS Secrets Manager
+### 23.4.1. Overview
+A newer AWS service meant specifically for storing secrets. You can force rotation of secrets every X days, and automate the generation of new secrets using a Lambda. Secrets are encrypted using KMS. 
+
+It integrates nicely with Amazon RDS and other services. 
+
+
+### 24.4.2. Multi-region Secrets
+You can replicate secrets across regions. Secrets Manager will keep these in sync. 
+
+This is helpful for disaster recovery; if the region of the primary secret becomes unavailable you can promote a replica secret in its place. 
+
+
+## 23.5. AWS Certificate Manager (ACM)
+### 23.5.1. Overview
+ACM allows you to **provision and manage TLS certificates**, which provide in-flight encryption for websites (HTTPS). 
+
+You can automatically renew certificates through TLS. There is integration with services like elastic load balancers, CloudFront Distributions, API Gateway. 
+You cannot use ACM with EC2; the certificates can’t be extracted. 
+
+Free for public TLS certificates. 
+
+
+### 23.5.2. Requesting Public Certificates 
+
+- List domain names to be included in certificate. This can be the fully qualified domain name or wildcard domains `*.example.com`
+- Select validation method - DNS validation or email validation 
+- It takes a few hours to get verified
+
+
+Once you have a certificate, it is enrolled for automatic renewal. ACM automatically renews any certificates it generates 60 days before expiry. 
+
+Certificates which are imported into ACM need to be renewed manually. EventBridge or AWS Config can be used to trigger alerts when a certificate is near expiry. 
+
+![ACM Public Certificates](acm_import_public_certificates.png)
+
+
+## 23.6. Web Application Firewall (WAF)
+### 23.6.1. Overview
+Protects your web applications **common web exploits** on layer 7 (HTTP). 
+
+WAF can be deployed on: ALB, API Gateway, CloudFront, Cognito User Pool. 
+
+
+### 23.6.2. Web ACL
+Once WAF is deployed to an application, you can set up a Web ACL (**access control list**) to enforce rules based on:
+
+- IP address
+- HTTP headers or body - protect against SQL injection 
+- Geo-match - block certain countries
+- Rate-based rules - protect against DDoS
+
+
+Web ACL is regional except for CloudFront. 
+A **rule group** is a reusable set of rules that you can add to a web ACL. 
+
+
+A common use case is to get a *fixed IP while using WAF with a load balancer*. A network load balancer has a fixed IP but operates at level 4 so we can’t use a WAF with it. 
+We can use an application load balancer with Global Accelerator to get a fixed IP, then use a WAF with the ALB. 
+
+![WAF with Fixed IP](waf_fixed_ip.png)
+
+
+## 23.7. AWS Shield
+
+**Protects against DDoS attacks**. 
+
+AWS Shield Standard is free and protects against SYN/UDP Floods, Reflection attacks and other layer 3/4 attacks. 
+
+AWS Shield Advanced provides optional protection against more sophisticated attacks and includes 24/7 support. It costs $3000 per month per organisation. 
+
+
+## 23.8. AWS Firewall Manager
+
+**Manage rules in all accounts** of an AWS Organisation. Rules are applied to new resources as they are created to ensure compliance. 
+
+Security policy is a common set of security rules. Policies are created at the region level. 
+
+
+WAF, Shield and Firewall Manager work together: *define* Web ACL rules in **WAF**, *apply* them across accounts with **Firewall** Manager, and get *additional protections* through **Shield**. 
+
+
+## 23.9. Best Practices for DDoS Resiliency
+
+![DDoS Resiliency Best Practices](ddos_resiliency_best_practice.png)
+
+Best practices:
+
+- BP1: CloudFront protects against common attacks. An alternative is Global Accelerator with AWS Shield. 
+- BP2: Detect and filter malicious requests with WAF. AWS Shield Advanced will automatically create rules for WAF. 
+- BP3: Route 53 has DDoS protection mechanisms. 
+- BP4: Obfuscate AWS resources. CloudFront, API Gateway, ELB means the attacker never knows whether you’re using EC2, Fargate, Lambda behind the scenes. 
+- BP5: Security groups and network ACLs filter traffic from specific IPs. 
+- BP6: infrastructure layer defence protects EC2 instances against high traffic. ELB spreads traffic across instances. 
+- BP7: EC2 with auto-scaling
+
+
+## 23.10. Amazon GuardDuty
+
+Intelligent **threat discovery and anomaly detection** using ML. 
+
+Input data includes: CloudTrail Events logs, VPC Flow, DNS logs, other optional logs (EKS, EBS, RDS, S3 Data Events). 
+
+You can create EventBridge tiles to be notified of any findings, and those rules can create Lambdas or trigger SNS notifications. 
+
+GuardDuty has a specific “finding” to protect against Cryptocurrency attacks. 
+
+
+![AWS GuardDuty](aws_guardduty.png)
+
+
+## 23.11. Amazon Inspector
+
+Service that allows for **automated security assessments**. 
+
+- Assess EC2 instances for unintended network access, OS vulnerabilities 
+- Assess container images as they are pushed
+- Assess Lambda functions for vulnerabilities in code and package dependencies 
+
+Amazon Inspector reports findings to AWS Security and can optionally trigger EventBridge events. It assigns a risk score to each vulnerability found. 
+
+![AWS Inspector](aws_inspector.png)
+
+
+## 23.12. Amazon Macie
+
+Macie is a managed data security and data privacy service that uses ML to **scan for Personally Identifiable Information** (PII) and other sensitive data. 
+
+It scans S3 buckets once enabled and will notify via EventBridge. 
+
+![Amazon Macie](aws_macie.png)
+
+
+# 24. VPC
+
+## 24.1. CIDR, Private IP, Public IP
+### 24.1.1. CIDR
+**Classless Inter-Domain Routing (CIDR)** is a method for **allocating IP addresses**. They allow us to define an **IP address range**. 
+
+A CIDR consists of two components:
+
+- **Base IP**. Represents an IP address contained in the range. Eg 192.168.0.0
+- **Subnet mask**. Defines how many bits can change in the IP address. Eg /8 corresponds to 255.0.0.0, /32 corresponds to 255.255.255.255
+
+![Subnet Masks Example](subnet_masks.png)
+
+See [this website](https://www.ipaddressguide.com/cidr) for a guide on IP address ranges.
+
+
+### 24.1.2. Public vs Private IPv4
+The Internet Assigned Numbers Authority (IANA) established blocks for IPv4 addresses for use by private (LAN) and public (internet) addresses. 
+
+Private IP can only allow certain values. 
+
+This is where CIDR becomes relevant. 
+
+
+## 24.2. Default VPC
+### 24.2.1. Overview
+All new AWS accounts have a default VPC. 
+
+New EC2 instances are launched into the default VPC if no subnet is specified. 
+The default VPC has internet connectivity and all EC2 instances within it have public IPv4 addresses. 
+We also get public and private IPv4 DNS names. 
+
+It is *best practice to create your own VPC* for production processes rather than relying on the default VPC. 
+
+
+### 24.2.2. Creating Our Own VPC
+VPC is a **Virtual Private Cloud**. 
+We can have multiple VPCs in a region. The max is 5 per region but this is a soft limit that can be increased. 
+
+The max CIDR per VPC is 5. For each CIDR, min size is `/28` and max size is `/16`.
+
+Because VPCs are private, only IP addresses in the Private IPv4 ranges are allowed. 
+
+Your VPC CIDR should NOT overlap with your other networks, e.g. your corporate network. If we want to connect them together, we need to make sure the IP addresses do not overlap. 
+
+In the AWS console:
+```
+VPC -> Create VPC -> define CIDR block and other details
+```
+
+### 24.2.3. Adding Subnets
+
+**A subnet is a sub-range of IP addresses**. 
+Subnets can be public or private. 
+
+AWS reserves 5 IP addresses in each subnet, the first 4 and last 1:
+
+- 0 - network address
+- 1 - reserved for VPC router
+- 2 - reserved for mapping to Amazon-provided DNS
+- 3 - reserved for future use
+- 255 - Network Broadcast Address. AWS doesn’t support broadcast in a VPC, so this is reserved
+
+
+To create a subnet in AWS console:
+```
+VPC -> Subnets -> specify name, region, CIDR block
+```
+
+### 24.2.4. Internet Gateway (IGW)
+
+IGW **allows resources in a VPC to connect to the internet**, e.g. EC2 instances.
+It is created separately of a subnet. **One VPC can only be attached to one IGW and vice versa**. 
+
+It scales horizontally and is highly available and redundant. 
+
+IGW on its own does not allow internet access, we **also need to edit the route tables**. 
+
+![Internet Gaetway and Route Tables](igw_route_tables.png)
+
+There is a default route table that is associated with subnets which don’t explicitly specify a route table. 
+
+To create our own route table in the AWS console:
+```
+VPC -> Route tables -> Create route table -> specify a name and associated VPC
+```
+
+Then we can click on that route table and assign subnets to it. 
+We can edit the routes on a route table and specify destination IP address and target resources that each route applies to. 
+
+
+### 24.2.3. Bastion Hosts
+
+Sometimes we may want to **allow users outside of our VPC to access a resource inside a private subnet**.
+
+**A bastion host is an EC2 instance inside a public subnet of our VPC that can ssh into an EC2 instance inside the private subnet.** 
+
+Then a user can ssh into the public subnet EC2 instance, and from there ssh into the private subnet EC2 instance. 
+
+![Bastion Host](bastion_host.png)
+
+The bastion host security group must allow access from the internet on port 22. We can restrict this with a CIDR, e.g. the public CIDR of your corporate network, to only allow restricted access. 
+
+The private subnet EC2 instance security group must allow access from the private IP address (or security group) of the public EC2 instance. 
+
+
+## 24.3. NAT
+
+**NAT = Network Address Translation**
+
+### 24.3.1. NAT Instances
+
+> (NAT Instances are outdated and NAT Gateway is the preferred solution now.)
+
+**NAT instances allow EC2 instances in private subnets to connect to the internet.** 
+The NAT instance must be launched in a public subnet and have a fixed elastic IP attached. We also need to disable the “Source destination check” setting on the EC2 instance instance. 
+Route tables must be configured to route traffic from private subnets to the NAT instance. 
+
+A pre-configured Amazon Linux AMI is available for NAT instances, although it has reached end of life. NAT instances are not highly available or resilient out of the box, you need to create an ASG. 
+
+![NAT Instances](nat_instance.png)
+
+
+### 23.3.2. NAT Gateway
+
+**NAT Gateway is an AWS-managed NAT instance** with higher bandwidth, availability and no admin required. You pay per hour and per bandwidth. 
+
+NAT Gateway is created in a specific AZ and uses an Elastic IP. It can’t be used by EC2 instances in the same subnet, only from other subnets. 
+
+We need multiple NATs in each AZ for fault tolerance. 
+
+![NAT Gateway](nat_gateway.png)
+
+
+## 23.4. Security Groups and Network ACL
+### 23.4.1. Overview
+
+**A Network ACL sits before the subnet to handle incoming requests according to inbound rules**. It is **like a firewall** which controls traffic to and from subnets. 
+
+You can have one NACL per subnet, and new subnets are assigned the default NACL. 
+
+NACL rules have a number, and the first rule match (i.e. lowest rule number) takes precedent and drives the decision. 
+The last rule is `*` which denies any unmatched requests. 
+AWS recommended best practice is to increment rule numbers by 100 so that you can later add rules in between. 
+
+
+> The distinction between security groups and NACLs is subtle but important
+
+**Security Groups are stateful**. If an incoming request is allowed in, the corresponding response will always be allowed out; the security group’s outbound rules are ignored. 
+
+**NACL is stateless**. A request may be allowed in according to the inbound rules, but the response could still be blocked by the NACL’s outbound rules. 
+
+![Security Group vs NACL](security_group_vs_nacl.png)
+
+
+If you have multiple subnets, you need to make sure every combination of inbound and outbound rules are allowed. 
+
+![NACL for Multiple Subnets](nacl_multiple_subnets.png)
+
+Comparison table:
+![Security Group vs NACL Table](security_group_vs_nacl_table.png)
+
+
+### 23.4.2. Default NACL
+The default allows everything inbound and outbound for its associated subnets. 
+
+It is best practice to not modify the default NACL and instead create a custom NACL. 
+
+
+### 24.4.3. Ephemeral Ports
+
+For any two endpoints to establish a connection, they must use ports. Clients connect to the server using a fixed port, and expect a response on an **ephemeral port**. This is a temporary port that is open just for this connection. 
+
+![Ephemeral Ports](ephemeral_ports.png)
+
+Ephemeral ports are important to consider when dealing with NACLs because we need to configure the rules to allow inbound/outbound requests on the appropriate port range. 
+
+
+## 23.5. VPC Peering
+
+VPC peering is for when we want to **privately connect two VPCs using AWS’s private network**, to make them behave as if they were one network.
+
+You still need to update route tables in each VPC’s subnets to ensure EC2 instances can communicate with each other. 
+
+They cannot have overlapping CIDRs. 
+
+VPC peering is NOT transitive. If we peer from A to B, and B to C, then A will NOT be connected to C unless we also explicitly peer from A to C. 
+
+![VPC Peering](vpc_peering.png)
+
+VPC peering can be set up across different AWS accounts and regions. 
+When peering across accounts in the same region, you can reference a security group which is convenient as you do not have to reference the CIDR. 
+
+
+## 23.6. VPC Endpoints 
+
+When you want to **expose AWS resources that are within your VPC to the public internet**. 
+
+Every AWS resource has a public IP. A VPC Endpoint allows you to make the resource public but still use AWS’s private network (PrivateLink) to access it, which is normally faster. 
+
+The alternative would be to use a NAT Gateway + Internet Gateway, but this requires more hops. 
+
+![VPC Endpoint vs NAT Gateway](vpc_endpoint_vs_nat_gateway.png)
+
+
+There are two types of endpoint:
+
+- **Interface Endpoint**. Provisions an ENI with a private IP as an entry point. You must attach an appropriate security group. This works for most AWS resources. You pay per hour and per GB processed. 
+- **Gateway Endpoint**. Provisions a gateway and must be used as a target in a route table (no security group required). Can be used for S3 or DynamoDB. This is free. 
+
+![VPC Endpoint Types](vpc_endpoint_types.png)
+
+Gateway is generally preferred for S3 and DynamoDB because it is free and easier to set up. The exception is when you want access from on premises or another region or VPC within AWS, in which case an Interface Endpoint is required. 
+
+
+## 23.7. VPC Flow Logs
+
+**Capture information about IP traffic going into your interfaces**: VPC Flow Logs, Subnet Flow Logs, ENI Flow Logs. They also capture information from AWS-managed interfaces like ELB, RDS, etc. 
+
+Flow logs data can be sent to S3, CloudWatch Logs and Kinesis Data Firehose. 
+
+
+![VPC Flow Logs Example](vpc_flow_logs.png)
+
+- `addr` helps identify problematic IP
+- `port` helps identify problematic ports
+- `Action` identifies success/failure due to security group or NACL. 
+
+
+Common architectures:
+![VPC Flow Logs Architectures](vpc_flow_logs_architectures.png)
+
+
+## 23.8. AWS Site-to-Site VPN
+### 23.8.1. Overview
+We might want to **connect our corporate data centre to our VPC**. 
+
+They need a Virtual Private Gateway (VGW) on the AWS side of the connection, and a Customer Gateway (CGW) which is a software or physical device on the customer side of the connection. 
+
+To make the connection, the CGW may have a public IP address which can be used directly, or it may have a NAT device which has its own IP address that can be used. 
+
+You need to enable route propagation for the VGW in the route table. 
+If you need to ping the EC2 instances from in premises, the inbound rule of the security group must allow ICMP protocol. 
+
+
+### 23.8.2. AWS VPN CloudHub
+
+This provides secure **communication between multiple on premises sites and the VPC**; “hub and spoke model” with AWS as the hub. 
+
+![AWS VPN CloudHub](aws_vpn_cloudhub.png)
+
+
+## 23.9. Direct Connect (DX)
+### 23.9.1. Overview
+DX provides a dedicated **private** connection from a remote network to your VPC. This allows you to access public resources (e.g. S3) and private resources (e.g. EC2) on the same connection. 
+
+The benefits are increased bandwidth and more stable connection. 
+
+You need to set up a VGW on your VPC. 
+
+
+![Direct Connect](direct_connect.png)
+
+Connections can be dedicated connections or hosted connections. The lead time to set up DX can be >1 month. 
+
+
+### 23.9.2. Encryption
+Data in transit is not encrypted but is private by virtue of being on a private connection. 
+
+You can set up encryption yourself. 
+
+![Direct Connect Encryption](direct_connect_encryption.png)
+
+
+### 23.9.3. Resiliency 
+
+One option for improved resiliency is to set up *multiple Direct Connect connections*. 
+
+An even more resilient option is to have **multiple DX locations**, each with multiple DX connections. 
+
+![Direct Connect Resiliency](direct_connect_resiliency.png)
+
+
+### 23.9.4. Direct Connect Gateway
+
+If you want to set up a Direct Connect to **multiple VPCs in different regions** (within the same account) use Direct Connect Gateway. 
+
+![Direct Connect Gateway](direct_connect_gateway.png)
+
+
+### 23.9.5. DX + Site-to-Site VPN
+
+Having multiple DX connections is expensive, so a common architecture is to use Site-to-Site VPN as a backup connection if the DX connection goes down. 
+
+![Site-to-Site VPN as a Backup to DX](dx_backup_site_to_site_vpn.png)
+
+
+## 23.10. Transit Gateway
+
+The network topology can get complicated. Transit Gateway helps to solve this. 
+You **create route tables to limit which VPCs can talk to other VPCs**. 
+
+Supports IP multicast. 
+
+Another use case of Transit Gateway is to *increase the bandwidth of a site-to-site VPN using ECMP* (equal cost multi path routing). 
+This creates multiple paths to allow a routing strategy to forward a packet over the best path. 
+
+
+You can **share DX connections between multiple accounts**. 
+
+
+## 23.11. VPC Traffic Mirroring
+
+**Capture and inspect network traffic through your VPC**. 
+We capture from a source ENI to a target ENI/load balancer. 
+
+
+## 23.12. IPv6 for VPC
+### 23.12.1. Overview
+IPv4 maxes out at 4.3 billion addresses - these will be exhausted soon. 
+
+IPv6 can provide 3.4x10^38 unique IP addresses. 
+
+Every IPv6 address **in AWS** is public and Internet-routable. You can enable them to run in dual-stack mode to be private and connect via Internet Gateway. 
+
+
+### 23.12.2. Egress-only Internet Gateway
+
+These are only for IPv6 and are similar to NAT gateway. They allow instances in your VPC to have outbound IPv6 connections when preventing inbound IPv6 instances. 
+
+You must update route tables to allow this. 
+
+
+## 23.13. AWS Network Firewall 
+
+We’ve already seen the following methods to secure the network on AWS: NACL, VPC security groups, AWS WAF, AWS Shield, AWS Firewall Manager
+
+We can also **protect the entire VPC with a firewall**. This is AWS Network Firewall. 
+Internally, it uses AWS Gateway Load Balancer. 
+
+This gives protection for layers 3-7. 
+
+It allows for fine-grained control on:
+
+- IP and port
+- Protocol
+- Stateful domain list rule groups
+- Regex pattern matching 
+
+We can either allow, drop or alert when these rules are matched. These matches can be sent to S3, CloudWatch Logs, Kinesis Data Firehose. 
+
+
 # References
 
 - [Stephane Maarek "Ultimate AWS Certified Solutions Architect Associate 2025" Udemy course](https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03)
