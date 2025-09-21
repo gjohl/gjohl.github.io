@@ -3111,6 +3111,385 @@ Compare and contrast.
 - **AWS Config records configuration changes** and evaluates compliance of resources. 
 
 
+# 22. Advanced IAM
+
+## 22.1. AWS Organisations
+
+AWS Organisations allow you to **manage multiple AWS accounts**. The main account is the management account and others are member accounts. Member accounts can only belong to one organisation. 
+
+Billings are consolidated across all accounts, so the management account only needs to pay a single bill. This gives pricing benefits due to **volume discounts on aggregated usage**. 
+You can share reserved instances and savings plans across member account. 
+
+The accounts are organised as Organizational Units (OU). An example of this below:
+
+![AWS Organisation: Organizational Units Example](aws_organsiation_ou.png)
+
+
+As well as the convenience of managing a single management account and the cost savings, another benefit of AWS Organisations is *increased security*. 
+**Service Control Policies (SCP)** can be applied to any and all member accounts. 
+
+
+### 22.1.1. Tag Policies
+
+**Tag policies standardise tags across all resources** in an AWS Organisation. You can define tag keys and their allowed values. 
+
+You can generate a report to list all tagged and non-compliant resources. 
+
+
+### 22.1.2. IAM Conditions
+
+You can specify **conditional statements in the IAM policy** to only apply that rule in certain cases, e.g. deny certain IP addresses or allow certain regions. 
+
+
+### 22.1.3. IAM roles vs Resource-Based Policies 
+
+If we want to allow cross-account access to a resource, say an S3 bucket, we can either:
+
+- Attach a resource-based policy to the S3 bucket
+- Use an IAM role as a proxy
+
+![IAM Role-based Access vs Resource-based Access](iam_role_vs_resource_based_policy_access.png)
+
+
+**When you assume a role you give up all other permissions**, you only have access to the resources permissioned by that role. 
+
+There are cases where we may need to read from an S3 bucket in another account and write it to a bucket in our own account. This would require a resource-based policy, since the task needs both read and write permissions. The IAM approach would give up one or the other. 
+
+Amazon EventBridge uses resource-based permissions or IAM roles depending on the target resource. You need to look at the EventBridge policy to determine which it will use. Eg S3 uses resource based, ECS take use IAM. 
+
+
+### 22.1.4. IAM Permission Boundaries
+
+Permission boundaries are supported for both users and roles, but not for groups. They act as a guardrail to **limit the maximum permissions a user or role can have**, regardless of the permissions granted by their IAM policies.
+
+A permission boundary is an additional IAM policy definition that specifies the maximum permissions the role could be granted. The user/role still needs to have an IAM policy which defines the permissions it is actually granted. 
+
+If a permission is set in the IAM policy but this is outside the permission boundary, then this will NOT be granted. 
+
+The actual permissions a user has is the intersection of Organisations SCP, permissions boundary and IAM policy. See [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html).
+![Permissions for a User](permissions_boundary_venn_diagram.png)
+
+
+A use case of permission boundaries is to **let users self-assign their policies** without escalating their privileges to admin level. 
+
+Another use case is to **restrict one specific user** (e.g. an intern or a loose cannon) rather than applying and organisation-level SCP. 
+
+Explicit deny rules overall any allow rules. 
+
+![Policy Evaluation Flowchart](policy_evaluation_flowchart.png)
+
+
+## 22.2. AWS IAM Identity Centre
+
+This used to be called "**AWS Single Sign On**". 
+
+This allows you to have one login for: AWS accounts in AWS Organisations, business cloud applications (e.g. Microsoft 365), EC2 Windows Instances. 
+
+You define permission sets in the identity centre to determine who has access to what. 
+
+Identity providers can be the built-in identity store in IAM Identity Centre or a 3rd-party provider like Active Directory. 
+
+
+![IAM Identity Centre Login Flow](iam_identity_centre_login_flow.png)
+
+
+## 22.3. AWS Directory Services
+### 22.3.1. Active Directory
+
+Active Directory is a **database of objects** - user accounts, computers, printers, file shares, security groups - found on a **Windows server**. 
+Objects are grouped into **trees**, trees are grouped into **forests**. 
+
+AD allows centralised security management to create account and assign permissions. 
+
+
+### 22.3.2. AWS Directory Services
+
+There are three flavours of Active Directory on AWS:
+
+- **AWS-Managed Microsoft AD**. Create your own AD in AWS and establish “trust” connections with your on-premise AD
+- **AD Connector**. This is a Directory Gateway, i.e. proxy, to redirect to your on premise AD. Users are managed on the on-premise AD. 
+- **Simple AD**. An AD-compatible managed directory solely on AWS. It cannot be joined with an on-premises AD. This could be useful if running EC2 instances which run Windows. 
+
+
+![Comparison of Active Directory Options](active_directory_options.png)
+
+
+### 22.3.3. Integrating AD with IAM Identity Centre
+
+If using AWS-Managed Microsoft AD, the integration is out of the box. 
+
+If connecting to a self-managed directory, you either need to create a **two-way trust** relationship using AWS Managed Microsoft AD or use AD Connector. 
+
+![Active Directory Integration](active_directory_integration.png)
+
+
+## 22.4. AWS Control Tower
+
+Control Tower provides an easy way to **set up and govern a multi-account AWS environment**. It used AWS Organisations to create organisations. 
+
+The benefits of Control Tower are automated environment set up, automated ongoing policy management using guardrails, detect and remediate policy violations, dashboards to monitor compliance. 
+
+Guardrails provide ongoing governance for your control tower environment. There are two types of guardrail:
+
+- **Preventive guardrail**. Using SCPs to *prevent* non-compliant resources. 
+- **Detective guardrail**. Using AWS Config to *detect* non-compliant resources. 
+
+
+# 23. Security and Encryption 
+
+These topics have been covered alongside other topics so much of it is a refresher and filling in any gaps. 
+
+
+## 23.1. Encryption
+### 23.1.1 Encryption 101
+There are three encryption mechanisms to know about. 
+
+#### In-flight Encryption 
+Data is encrypted before sending and decrypted after receiving. TLS certificates (and SSL which is the more modern version) help with encryption. 
+
+In-flight encryption protects against Man in the Middle (MITM) attacks. 
+
+![In-flight Encryption](inflight_encryption.png)
+
+#### Server-side Encryption at Rest
+Data is encrypted after being received. The server must have access to a key to encrypt/decrypt the data. 
+
+![Server-side Encryption](server_side_encryption.png)
+
+
+#### Client-side Encryption
+Data is encrypted by the client only, never decrypted by the server. This is useful in cases where we don’t trust the server. 
+
+![Client-side Encryption](client_side_encryption.png)
+
+
+## 23.2. KMS
+### 23.2.1. KMS Overview
+**Key Management Service**. This handles pretty much all of the encryption in AWS and is fully integrated with IAM and other services. KMS key usage can be audited through CloudTrail. 
+
+There are two types of KMS Key:
+
+- **Symmetric**. A single key is used to both *encrypt and decrypt*. You never get access to the KMS Key directly, you call the KMS API to use it. 
+- **Asymmetric**. Public key to encrypt and private key to decrypt. RSA or ECC *key pairs*. You can download the public key from KMS but not the private key. 
+
+
+Keys can be:
+
+- AWS-owned keys
+- AWS-managed keys
+- Customer-managed keys created in KMS
+- Customer-managed keys imported into KMS
+
+Customer-managed keys cost $1/month. Imported keys are also charged per API call. 
+Keys are automatically rotated. 
+
+KMS keys are per region and cannot be copied across regions. If copying an encrypted EBS volume to another region, you re-encrypt it with a key from the destination region. 
+
+![Copying Snapshots Across Regions](copy_encrypted_snapshot_across_regions.png)
+
+
+### 23.2.2. KMS Key Policies
+You can control access to your KMS keys. This is similar to S3 bucket policies. 
+
+The default KMS key policy gives all users access to the default KMS key. 
+You can create a custom KMS key policy to define the roles and users who can use and administer keys. 
+
+
+### 23.2.3. Multi-region Keys
+
+You can replicate a primary key across regions, creating a **replica key** with the same key ID in the target region. They are synced so when the primary is rotated the replicas are updated too. 
+
+This allows you to use keys interchangeably across regions. You can encrypt in one region and decrypt in other regions. This avoids the need to re-encrypt when moving data across regions, or making cross-region KMS calls. 
+
+KMS multi-region keys are NOT global. Each key is managed independently with its own key policy. 
+
+Use cases are when you want global client-side encryption, or if you are using encryption on a global database service like DynamoDB or Aurora. 
+
+
+### 23.3.4. S3 Replication Encryption Considerations
+
+Unencrypted objects and SSE-S3 encrypted objects are replicated by default. 
+Objects encrypted with SSE-C (customer-provided key) can be replicated. 
+
+Objects encrypted with SSE-KMS need to have replication enabled in the options. They are not replicated by default. 
+
+- Specify the KMS Key to encrypt objects in the target bucket
+- Update the KMS Key Policy for the target key
+- Appropriate IAM roles with `kms:Decrypt` permissions for the source key and `kms:Encrypt` for the target key 
+
+You may get KMS throttling errors as there are more API calls involved. You can increase your service quota. 
+
+
+You can use multi-region KMS Keys for S3 replication but they are treated as independent keys by S3, so it will still re-encrypt your data with the (replicated) target key. 
+
+
+### 23.3.5.  Sharing an AMI Encrypted with KMS
+
+1. The AMI is encrypted in the source account
+2. Modify the Launch Permission image attribute to allow the target account to launch it
+3. Share the KMS key for the target account to use it, with a key policy 
+4. The target account must have IAM permissions: DescribeKey, ReEncrypt, CreateGrant, Decrypt
+5. The target account can now launch the AMI and optionally encrypt it using its own KMS key
+
+
+![Sharing an Encrypted AMI](sharing_encrypted_ami.png)
+
+
+## 23.3. SSM Parameter Store
+### 23.3.1. Overview
+
+**Secure storage for configuration and secrets**. You can optionally encrypt these using KMS. 
+
+It allows *version tracking* of these. Security is through IAM and notifications are through Amazon EventBridge. 
+
+You can store parameters in a hierarchy, e.g. `my-department/app-name-1/prod/db-url`
+
+You can reference secrets stored in Secrets Manager through a specific path in Parameter Store: `/aws/reference/secretsmanager/<secret-ID-in-Secrets-Manager>`
+
+There are public parameters issued by AWS that you can access through `/aws/service` for example the latest Amazon Linux AMI version available in a region. 
+
+There are standard and advanced parameter tiers. The differences are in the number and size of parameters you can store, and advance allows parameter policies. 
+
+
+### 23.3.2. Parameter Policies
+
+You can assign a TTL to a parameter to **force updates/deletes** for sensitive data after an expiry date. 
+
+
+## 23.4. AWS Secrets Manager
+### 23.4.1. Overview
+A newer AWS service meant specifically for storing secrets. You can force rotation of secrets every X days, and automate the generation of new secrets using a Lambda. Secrets are encrypted using KMS. 
+
+It integrates nicely with Amazon RDS and other services. 
+
+
+### 24.4.2. Multi-region Secrets
+You can replicate secrets across regions. Secrets Manager will keep these in sync. 
+
+This is helpful for disaster recovery; if the region of the primary secret becomes unavailable you can promote a replica secret in its place. 
+
+
+## 23.5. AWS Certificate Manager (ACM)
+### 23.5.1. Overview
+ACM allows you to **provision and manage TLS certificates**, which provide in-flight encryption for websites (HTTPS). 
+
+You can automatically renew certificates through TLS. There is integration with services like elastic load balancers, CloudFront Distributions, API Gateway. 
+You cannot use ACM with EC2; the certificates can’t be extracted. 
+
+Free for public TLS certificates. 
+
+
+### 23.5.2. Requesting Public Certificates 
+
+- List domain names to be included in certificate. This can be the fully qualified domain name or wildcard domains `*.example.com`
+- Select validation method - DNS validation or email validation 
+- It takes a few hours to get verified
+
+
+Once you have a certificate, it is enrolled for automatic renewal. ACM automatically renews any certificates it generates 60 days before expiry. 
+
+Certificates which are imported into ACM need to be renewed manually. EventBridge or AWS Config can be used to trigger alerts when a certificate is near expiry. 
+
+![ACM Public Certificates](acm_import_public_certificates.png)
+
+
+## 23.6. Web Application Firewall (WAF)
+### 23.6.1. Overview
+Protects your web applications **common web exploits** on layer 7 (HTTP). 
+
+WAF can be deployed on: ALB, API Gateway, CloudFront, Cognito User Pool. 
+
+
+### 23.6.2. Web ACL
+Once WAF is deployed to an application, you can set up a Web ACL (**access control list**) to enforce rules based on:
+
+- IP address
+- HTTP headers or body - protect against SQL injection 
+- Geo-match - block certain countries
+- Rate-based rules - protect against DDoS
+
+
+Web ACL is regional except for CloudFront. 
+A **rule group** is a reusable set of rules that you can add to a web ACL. 
+
+
+A common use case is to get a *fixed IP while using WAF with a load balancer*. A network load balancer has a fixed IP but operates at level 4 so we can’t use a WAF with it. 
+We can use an application load balancer with Global Accelerator to get a fixed IP, then use a WAF with the ALB. 
+
+![WAF with Fixed IP](waf_fixed_ip.png)
+
+
+## 23.7. AWS Shield
+
+**Protects against DDoS attacks**. 
+
+AWS Shield Standard is free and protects against SYN/UDP Floods, Reflection attacks and other layer 3/4 attacks. 
+
+AWS Shield Advanced provides optional protection against more sophisticated attacks and includes 24/7 support. It costs $3000 per month per organisation. 
+
+
+## 23.8. AWS Firewall Manager
+
+**Manage rules in all accounts** of an AWS Organisation. Rules are applied to new resources as they are created to ensure compliance. 
+
+Security policy is a common set of security rules. Policies are created at the region level. 
+
+
+WAF, Shield and Firewall Manager work together: *define* Web ACL rules in **WAF**, *apply* them across accounts with **Firewall** Manager, and get *additional protections* through **Shield**. 
+
+
+## 23.9. Best Practices for DDoS Resiliency
+
+![DDoS Resiliency Best Practices](ddos_resiliency_best_practice.png)
+
+Best practices:
+
+- BP1: CloudFront protects against common attacks. An alternative is Global Accelerator with AWS Shield. 
+- BP2: Detect and filter malicious requests with WAF. AWS Shield Advanced will automatically create rules for WAF. 
+- BP3: Route 53 has DDoS protection mechanisms. 
+- BP4: Obfuscate AWS resources. CloudFront, API Gateway, ELB means the attacker never knows whether you’re using EC2, Fargate, Lambda behind the scenes. 
+- BP5: Security groups and network ACLs filter traffic from specific IPs. 
+- BP6: infrastructure layer defence protects EC2 instances against high traffic. ELB spreads traffic across instances. 
+- BP7: EC2 with auto-scaling
+
+
+## 23.10. Amazon GuardDuty
+
+Intelligent **threat discovery and anomaly detection** using ML. 
+
+Input data includes: CloudTrail Events logs, VPC Flow, DNS logs, other optional logs (EKS, EBS, RDS, S3 Data Events). 
+
+You can create EventBridge tiles to be notified of any findings, and those rules can create Lambdas or trigger SNS notifications. 
+
+GuardDuty has a specific “finding” to protect against Cryptocurrency attacks. 
+
+
+![AWS GuardDuty](aws_guardduty.png)
+
+
+## 23.11. Amazon Inspector
+
+Service that allows for **automated security assessments**. 
+
+- Assess EC2 instances for unintended network access, OS vulnerabilities 
+- Assess container images as they are pushed
+- Assess Lambda functions for vulnerabilities in code and package dependencies 
+
+Amazon Inspector reports findings to AWS Security and can optionally trigger EventBridge events. It assigns a risk score to each vulnerability found. 
+
+![AWS Inspector](aws_inspector.png)
+
+
+## 23.12. Amazon Macie
+
+Macie is a managed data security and data privacy service that uses ML to **scan for Personally Identifiable Information** (PII) and other sensitive data. 
+
+It scans S3 buckets once enabled and will notify via EventBridge. 
+
+![Amazon Macie](aws_macie.png)
+
+
+
 # References
 
 - [Stephane Maarek "Ultimate AWS Certified Solutions Architect Associate 2025" Udemy course](https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03)
