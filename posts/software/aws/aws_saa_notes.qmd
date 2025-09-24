@@ -3370,6 +3370,94 @@ We can extend this to have an EBS as well as an ASG. The EBS volume exists only 
 ![Highly Available EC2 Instance - ASG + EBS](highly_available_ec2_ebs.png)
 
 
+# 24. Other Services
+
+This section is a high level overview of miscellaneous AWS services that are less commonly used. 
+
+
+## 24.1. CloudFormation
+### 24.1.1. Overview
+CloudFormation is used to **deploy and manage infrastructure at scale**. It is a declarative way to define your AWS infrastructure for any resources. CloudFormation will create the resources *in the right order* using your config. 
+
+Benefits:
+
+- **Infrastructure as code**. No manual steps, can version control and review changes. 
+- CloudFormation template gives you cost estimates for the resources you’re using, and tags all resources within a given stack for easier cost monitoring. 
+- CloudFormation generates a system diagram for your templates. 
+- Can reuse and share templates (find them online)
+
+The Infrastructure Composer service allows you to visualise the relations between resources. 
+
+![CloudFormation + Infrastructure Composer](cloudformation.png)
+
+
+### 24.1.2. CloudFormation Service Roles
+
+These are IAM roles specifically for  CloudFormation that give the ability to create/update/delete stack resources, even if they don’t have the permission to *use* those resources. 
+
+![CloudFormation Service Role](cloudformation_service_role.png)
+
+
+## 24.2. Simple Email Service (SES)
+
+Fully managed service to **send and receive emails**. 
+
+Provides email statistics (deliveries, opens) and reputation insights (did it get marked as spam). 
+
+There is a choice of IP addresses to send from: shared, dedicated, customer-owned. 
+It supports DomainKeys Identified Mail (DKIM) and Sender Policy Framework (SPF) protocols. 
+
+
+## 24.3. Amazon Pinpoint
+
+Pinpoint is a two-way (inbound and outbound) **marketing communication service**. You can send/receive emails, SMS, push notifications, voice chat, in-app messaging. 
+
+You can segment and personalise messages. 
+
+Replies can be sent to SNS, Kinesis Data Firehose, CloudWatch Logs. Downstream automations can be triggered from here. 
+
+![Amazon Pinpoint](pinpoint.png)
+
+The difference vs SNS or SES is that you don’t have to manually manage each message’s audience, content, delivery schedule, etc. Pinpoint handles all of this. Essentially a *“more managed service” version of SES/SNS*. 
+
+
+## 24.4. System Manager (SSM)
+### 24.4.1. SSM Session Manager
+
+SSM Session Manager allows you to **start a secure shell on your EC2** and on-premises servers.
+No SSH access, bastion hosts, or SSH keys needed, and no port 22 needed, which is better for security.
+
+You can send session log data to S3 or CloudWatch Logs.
+
+
+There are therefore three ways to access an EC2 instance:
+
+1. SSH via port 22. Requires ssh keys to be added on instance creation.
+2. EC2 Instance Connect. Requires ssh keys and port 22 inbound rules allowed.
+3. Using SSM Session Manager
+
+![SSM Session Manager](ssm_session_manager.png)
+
+
+### 24.4.2. Other SSM Commands
+
+Run command: run a script across multiple instances.
+
+![SSM Run Command](ssm_run_command.png)
+
+Patch manager: automate patching, security updates etc. 
+
+![SSM Patch](ssm_patch.png)
+
+Patches can be run on-demand or using maintenance windows.
+
+![SSM Maintenance Window](ssm_maintenance_windows.png)
+
+Common repeated tasks can be specific using an **Automation Runbook**.
+
+![SSM Automation](ssm_automation.png)
+
+
 # References
 
 - [Stephane Maarek "Ultimate AWS Certified Solutions Architect Associate 2025" Udemy course](https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03)
