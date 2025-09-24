@@ -1,7 +1,7 @@
 ---
 title: "AWS Solutions Architect"
-description: "Head in the Clouds"
-date: "2025-07-18"
+description: "Cloud Strife"
+date: "2025-09-24"
 # image: "deep_learning_model.png"
 categories: [DataEngineering, Engineering, Software]
 ---
@@ -3109,6 +3109,175 @@ Compare and contrast.
 - **CloudWatch** is for **performance monitoring** and dashboards, alerts, and log aggregation/analysis. 
 - **CloudTrail records API calls** made within your account for audit. 
 - **AWS Config records configuration changes** and evaluates compliance of resources. 
+
+
+# 22. Disaster Recovery and Migrations 
+
+## 22.1. Disaster Recovery Overview
+
+We can do different types of disaster recovery:
+
+- On-premises to on premises - traditional DR
+- On-premises to cloud - hybrid DR
+- Cloud region A to cloud region B - cloud DR
+
+
+**Recovery Point Objective (RPO) is how much data you lose**, and is determined by how often you run backups. The time between backups determines how much data is lost in a disaster. 
+
+**Recovery Time Objective (RTO) is the time taken to recover** from the disaster once it has happened, ie the downtime. 
+
+![RPO and RTO](rto_rpo.png)
+
+
+There are several disaster recovery strategies. In order from slowest to fastest RTO:
+
+1. **Backup and restore**. Periodically save to S3 or save snapshots for EBS, Redshift and RDS. 
+2. **Pilot light**. A small version of the app is always running in the cloud; this is the critical core AKA the pilot light. This is faster to restore as critical systems are already running. E.g. we might just have the RDS database running but not any EC2 instances. 
+3. **Warm standby**. The *full system* is up and running but at minimum size, ready to be scaled up in the event of a disaster. 
+4. **Hot site / multi-site approach**. Full production scale is running on AWS in parallel to the on premises version. If fully in cloud, this would be replicating across multiple regions. 
+
+
+## 22.2. Disaster Recovery - Practical Tips
+
+- **Backups**. EBS snapshots, RDS automated backups. Push to S3 and use lifecycle policies to move to glacier. Snowball or Storage Gateway to move data from on premises to the cloud. 
+- High **availability**. Route53 can migrate DNS from one region to another. Multi-AZ architecture for services like RDS, ElastiCache, EFS, S3. Direct connection can fall back to site-to-site VPN.
+- **Replication**. Replicate RDS across regions or use Aurora + Global Database. 
+- **Automation**. CloudFormation and Elastic Beanstalk can recreate entire environments quickly. Recover or reboot EC2 instances based on CloudWatch alarms. 
+- **Chaos**. Test DR readiness by simulating a disaster. Netflix has the idea of a chaos monkey, e.g. terminate EC2 instances randomly in production. 
+
+
+## 22.3. Database Migration Service (DMS)
+### 22.3.1 Overview
+**DMS helps you migrate a database from a source to a target**, e.g. premises to the cloud. The source database remains available. It supports continuous data replication using Change Data Capture (CDC). You create an EC2 instance to perform the replication task. 
+
+Migrations can be:
+
+- Homogeneous e.g. Oracle to Oracle
+- Heterogeneous e.g. Microsoft SQL Server to Aurora
+
+![DMS](dms.png)
+
+
+Sources can be:
+
+- On-premises 
+- EC2 instance databases
+- Azure
+- RDS and Aurora
+- S3
+- DocumentDB
+
+
+Targets can be:
+
+- On-premises
+- EC2 instances 
+- RDS
+- Redshift, DynamoDB
+- OpenSearch service
+- Kinesis Data Streams
+- Apache Kafka
+- Document DB (and Amazon Neptune)
+- Redis and Babelfish
+
+
+### 22.3.2. AWS Schema Conversion Tool (SCT)
+
+SCT is a tool to **convert your database’s schema from one engine to another**. For example, `Oracle -> PostgreSQL`. 
+
+You don’t need SCT if you are migrating between databases that use the same engine, e.g. `on-premises PostgreSQL -> RDS PostgreSQL`.
+
+
+### 22.3.3. Continuous Replication
+
+![DMS Continuous Replication](dms_continuous_replication.png)
+
+
+### 22.3.4. Multi-AZ Deployment
+
+When enabled, DMS provisions a replica in a different AZ and keeps it in sync. 
+
+![DMS Multi-AZ Deployment](dms_multi_az.png)
+
+
+### 22.3.5. RDS and Aurora MySQL Migrations
+
+This is a specific example/gotcha when using DMS. 
+If we want to migrate RDS MySQL to Aurora MySQL, we have several options:
+
+1. Take RDS snapshots and restore them as Aurora DB
+2. Create an Aurora read replica from RDS, and eventually promote it as its own cluster once fully copied. 
+3. Use Percona XtraBackup to create a backup dump in S3 and create an Aurora database from this
+4. Use the mysqldump utility to migrate MySQL to Aurora. 
+5. Use DMS if both databases are running to do continuous replication. 
+
+
+The same options apply to PostgreSQL migrations. 
+
+
+## 22.4. On-Premises Strategy with AWS
+
+You can download the Amazon Linux 2 AMI as a `.iso` file to run locally as a VM. 
+
+VM Import/Export allows you to migrate existing applications to EC2, create a DR plan for your on-premises VMs and export the VM back. 
+
+AWS Application Discovery Service gathers information about your on premises servers to help plan a migration. It tracks server utilisation, dependency mappings, etc and can be viewed in AWS Migration Hub. 
+
+DMS can then be used to do the database migration. 
+
+AWS Server Migration Service (SMS) incrementally replicates on premises servers to AWS. The equivalent of DMS but for servers instead of databases. 
+
+
+## 22.5. AWS Backup
+
+**A fully managed service to centrally manage and automate backups across AWS services**: EC2 / EBS, S3, RDS, Aurora, DynamoDB, DocumentDB / Neptune, EFS, Storage Gateway. 
+It backs up everything to an internal S3 bucket specific to AWS Backup. 
+
+It supports cross-region backups and cross-account backups. This is helpful for DR. 
+
+It supports PITR for supported services. Backups can be on-demand or scheduled. 
+You create tag-based backup policies called Backup Plans, specifying the frequency, window, transition lifecycle to cold storage, retention period, etc.
+
+![AWS Backup](aws_backup.png)
+
+**AWS Backup Vault Lock** enforces a Write Once Read Many (WORM) state. It ensures that backups cannot be deleted, even by the root user. 
+
+
+## 22.6. AWS Migration Service (MGN)
+### 22.6.1. AWS Application Discovery Service
+**AWS Application Discovery Service gathers information about your on-premises servers to help plan a migration**. It tracks server utilisation, dependency mappings, etc and can be viewed in AWS Migration Hub.
+
+
+There are two types of discovery:
+
+- Agentless Discovery. Gives performance history like CPU utilisation, memory usage, disk usage. 
+- Agent-based Discovery. Gives more details about system configuration, running processes, network connections, etc. 
+
+
+### 22.6.2. AWS Migration Service
+AWS Migration Service (MGN) does the actual migration. It can lift and shift physical, virtual and cloud-based servers to run natively on AWS. 
+
+![AWS MGN](aws_mgn.png)
+
+
+### 22.6.3. Transfer Large Amounts of Data into AWS
+
+This is a refresher/recap of services already covered. 
+
+There are several options:
+
+- Site-to-Site VPN. Transfer data over the Internet. Immediate to setup but limited by your bandwidth. 
+- Direct Connect. Initial set up takes about 1 month but bandwidth is generally higher and connection is more stable. 
+- Snowball. Takes about 1 week for the Snowball to be delivered, but the transfer itself is fast since it’s local. Can be combined with DMS. 
+
+For ongoing replication / transfers we can use Site-to-Site VPN or DX. 
+
+
+### 22.6.4 VMWare Cloud on AWS 
+
+People who manage on premises data centres often use VMWare Cloud. They may want to extend the data centre to AWS but keep using VMWare Cloud to manage it all. 
+
+![VMWare Cloud](vmware_cloud.png)
 
 
 # References
