@@ -3280,6 +3280,96 @@ People who manage on premises data centres often use VMWare Cloud. They may want
 ![VMWare Cloud](vmware_cloud.png)
 
 
+# 23. More Solution Architectures
+
+## 23.1. Event Processing
+
+Using SNS, SQS, Lambda
+
+![Event Processing with SNS, SQS, Lambda](event_architecture_sqs.png)
+
+
+Fan out pattern. Rather than having the application sending directly to each consumer (Option 1), which requires a code change for each new/modified consumer, we can publish to an SNS topic and fan out (Option 2)
+
+![Event Architecture Fan Out](event_architecture_fan_out.png)
+
+S3 Event Notifications. Use this to react to changes in an S3 bucket, e.g. a user uploading a video. 
+
+![Event Architecture S3 Events](event_architecture_s3_events.png)
+
+We can also do this via EventBridge. The benefit of EventBridge is it allows for more advanced filtering options, fanning out to multiple destinations, archive and replay events. 
+
+![Event Architecture EventBridge](event_architecture_eventbridge.png)
+
+
+
+## 23.2. Caching Strategies
+We can cache at different stages of the pipelines, with trade offs in latency vs potential staleness. 
+
+S3 has no caching option. 
+
+![Caching Architecture](caching_architecture.png)
+
+
+## 23.3. Blocking an IP Address
+
+- CloudFront. Geo restrictions and other filtering options. 
+- NACL. Deny and allow rules. 
+- ALB. Can manage security in the ALB. 
+- WAF with ALB or CloudFront. Set IP address filtering. 
+- Security group on EC2 instance. Allow rules. 
+- Firewall running on the EC2 instance
+
+![Blocking an IP Address Architecture - ALB, CF, WAF](blocking_an_ip_architecture.png)
+
+
+## 23.4. High Performance Computing
+
+A summary of services that are useful for HPC. 
+
+Data management and transfer: 
+
+- DX
+- Snowball
+- DataSync
+
+
+Compute and networking: 
+
+- EC2 instances (CPU- or GPU-optimised)
+- EC2 Placement Groups (cluster type) for low latency networking
+- EC2 Enhanced Networking. Higher bandwidth and lower latency. Use Elastic Network Adapter (ENA). Elastic Fabric Adapter (EFA) is an improved ENA for tightly coupled workloads on Linux, and uses Message Passing Interface (MPI) to bypass the Linux OS. 
+
+
+Storage:
+
+- Instance-attached storage. EBS or Instance Store
+- Network storage. S3, EFS, FSx for Lustre. 
+
+
+Automation and orchestration:
+
+- AWS Batch. Supports multi-node parallel jobs, where a single job can span multiple EC2 instances. 
+- AWS ParallelCluster. Open-source cluster management tool to deploy HPC on AWS. You can enable EFA on the cluster. 
+
+
+## 23.5. Creating a Highly Available EC2 Instance
+
+An EC2 instance launches in a specific AZ so isn’t highly available by default. But we can create architectures that improve availability. 
+
+We can have an EC2 instance with an Elastic IP. When the instance fails, a CloudWatch Alarm triggers a Lambda function which starts a backup instance (if not already running) and attaches the Elastic IP to this new instance. 
+
+![Highly Available EC2 Instance](highly_available_ec2.png)
+
+Another option is to use an auto scaling group (ASG). We can configure the ASG to specify 1 min, 1 max, 1 desired, >=2 AZ. This will create a new instance in a different AZ when the first instance goes down.  EC2 User Data attaches the Elastic IP based on a tag; this requires an EC2 instance role with permissions to attach an Elastic IP. 
+
+![Highly Available EC2 Instance - ASG](highly_available_ec2_asg.png)
+
+We can extend this to have an EBS as well as an ASG. The EBS volume exists only in one AZ, so when we create our backup EC2 instance in a new AZ we need to move the EBS volume too. We can do this with a **lifecycle hook**; on ASG termination, the lifecycle hook can take an EBS Snapshot with appropriate tags. Then we can have an ASG launch lifecycle hook to create a new EBS volume from the snapshot and attach it to our new instance. 
+
+![Highly Available EC2 Instance - ASG + EBS](highly_available_ec2_ebs.png)
+
+
 # References
 
 - [Stephane Maarek "Ultimate AWS Certified Solutions Architect Associate 2025" Udemy course](https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03)
