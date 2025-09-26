@@ -3843,6 +3843,8 @@ We can either allow, drop or alert when these rules are matched. These matches c
 
 # 25. Disaster Recovery and Migrations 
 
+Disaster recovery whitepaper [here](https://aws.amazon.com/disaster-recovery/)
+
 ## 25.1. Disaster Recovery Overview
 
 We can do different types of disaster recovery:
@@ -4272,6 +4274,62 @@ It supports cross-account and cross-region resources.
 
 
 # 28. White Papers
+
+## 28.1. The Well-Architected Framework
+
+The weel-architected framework is documented on the AWS website [here](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html
+).
+
+The six pillars of the well-architected framework are:
+
+1. Operational Excellence
+2. Security
+3. Reliability
+4. Performance Efficiency
+5. Cost Optimization
+6. Sustainability
+
+These are **synergies not tradeoffs**. The pillars are detailed in separate whitepapers [here](https://aws.amazon.com/blogs/aws/aws-well-architected-framework-updated-white-papers-tools-and-best-practices/).
+
+
+The general guiding principles are:
+
+- Stop guessing your capacity needs - use data.
+- Test systems at production scale - you can scale up and down easily so test a full-scale
+- Automate to make architectural experimentation easier - e.g. use CloudFormation to test and iterate.
+- Allow for evolutionary architectures - start with a simple architecture and evolve it to fit your needs.
+- Design based on changing requirements
+- Drive architectures using data
+- Improve through game days - simulate events like flash sale days so that you are ready when it happens.
+
+
+The **Well-Architected Tool** is available in the AWS console. You define your workload and answer questions about it, then select the lens through which you want to evaluate it, e.g. the well-architected framework.
+It will then provide flag medium-risk and high-risk and link to the relevant documentation to resolve any issues.
+
+
+## 28.2. Trusted Advisor
+
+Trusted Advisor gives a **high-level assessment of your AWS account**.
+For example, it can flag if you have any public EBS or RDS snapshots, or whether your root account is used instead of IAM roles.
+
+
+Trusted advisor analyses based on the following six categories and provides recommendations:
+
+- Cost optimization
+- Performance
+- Security
+- Fault tolerance
+- Service limits
+- Operational Excellence
+
+There are business and enterprise support plans.
+
+
+## 28.3. Solutions Architecture References
+Useful links:
+
+- Architecture guide with examples and explanations of many different architectures [here](https://aws.amazon.com/architecture/)
+- Solutions library with examples and CloudFormation code for different architectures [here](https://aws.amazon.com/solutions/)
 
 
 # 29. Exam Preparation
