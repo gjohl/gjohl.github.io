@@ -750,14 +750,34 @@ window.Quarto = {
   <li><a href="#overview-21" id="toc-overview-21" class="nav-link" data-scroll-target="#overview-21">27.1.1. Overview</a></li>
   <li><a href="#cloudformation-service-roles" id="toc-cloudformation-service-roles" class="nav-link" data-scroll-target="#cloudformation-service-roles">27.1.2. CloudFormation Service Roles</a></li>
   </ul></li>
-  <li><a href="#simple-email-service-ses" id="toc-simple-email-service-ses" class="nav-link" data-scroll-target="#simple-email-service-ses">27.2. Simple Email Service (SES)</a></li>
-  <li><a href="#amazon-pinpoint" id="toc-amazon-pinpoint" class="nav-link" data-scroll-target="#amazon-pinpoint">27.3. Amazon Pinpoint</a></li>
-  <li><a href="#system-manager-ssm" id="toc-system-manager-ssm" class="nav-link" data-scroll-target="#system-manager-ssm">27.4. System Manager (SSM)</a>
+  <li><a href="#messaging-services" id="toc-messaging-services" class="nav-link" data-scroll-target="#messaging-services">27.2. Messaging Services</a>
   <ul class="collapse">
-  <li><a href="#ssm-session-manager" id="toc-ssm-session-manager" class="nav-link" data-scroll-target="#ssm-session-manager">27.4.1. SSM Session Manager</a></li>
-  <li><a href="#other-ssm-commands" id="toc-other-ssm-commands" class="nav-link" data-scroll-target="#other-ssm-commands">27.4.2. Other SSM Commands</a></li>
+  <li><a href="#simple-email-service-ses" id="toc-simple-email-service-ses" class="nav-link" data-scroll-target="#simple-email-service-ses">27.2.1. Simple Email Service (SES)</a></li>
+  <li><a href="#amazon-pinpoint" id="toc-amazon-pinpoint" class="nav-link" data-scroll-target="#amazon-pinpoint">27.2.2. Amazon Pinpoint</a></li>
   </ul></li>
+  <li><a href="#system-manager-ssm" id="toc-system-manager-ssm" class="nav-link" data-scroll-target="#system-manager-ssm">27.3. System Manager (SSM)</a>
+  <ul class="collapse">
+  <li><a href="#ssm-session-manager" id="toc-ssm-session-manager" class="nav-link" data-scroll-target="#ssm-session-manager">27.3.1. SSM Session Manager</a></li>
+  <li><a href="#other-ssm-commands" id="toc-other-ssm-commands" class="nav-link" data-scroll-target="#other-ssm-commands">27.3.2. Other SSM Commands</a></li>
   </ul></li>
+  <li><a href="#billing-services" id="toc-billing-services" class="nav-link" data-scroll-target="#billing-services">27.4. Billing Services</a>
+  <ul class="collapse">
+  <li><a href="#cost-explorer" id="toc-cost-explorer" class="nav-link" data-scroll-target="#cost-explorer">27.4.1. Cost Explorer</a></li>
+  <li><a href="#cost-anomaly-detection" id="toc-cost-anomaly-detection" class="nav-link" data-scroll-target="#cost-anomaly-detection">27.4.2. Cost Anomaly Detection</a></li>
+  </ul></li>
+  <li><a href="#aws-outposts" id="toc-aws-outposts" class="nav-link" data-scroll-target="#aws-outposts">27.5. AWS Outposts</a></li>
+  <li><a href="#aws-batch" id="toc-aws-batch" class="nav-link" data-scroll-target="#aws-batch">27.6. AWS Batch</a></li>
+  <li><a href="#appflow" id="toc-appflow" class="nav-link" data-scroll-target="#appflow">27.7. AppFlow</a></li>
+  <li><a href="#amplify" id="toc-amplify" class="nav-link" data-scroll-target="#amplify">27.8. Amplify</a></li>
+  <li><a href="#instance-scheduler" id="toc-instance-scheduler" class="nav-link" data-scroll-target="#instance-scheduler">27.9. Instance Scheduler</a></li>
+  </ul></li>
+  <li><a href="#white-papers" id="toc-white-papers" class="nav-link" data-scroll-target="#white-papers">28. White Papers</a>
+  <ul class="collapse">
+  <li><a href="#the-well-architected-framework" id="toc-the-well-architected-framework" class="nav-link" data-scroll-target="#the-well-architected-framework">28.1. The Well-Architected Framework</a></li>
+  <li><a href="#trusted-advisor" id="toc-trusted-advisor" class="nav-link" data-scroll-target="#trusted-advisor">28.2. Trusted Advisor</a></li>
+  <li><a href="#solutions-architecture-references" id="toc-solutions-architecture-references" class="nav-link" data-scroll-target="#solutions-architecture-references">28.3. Solutions Architecture References</a></li>
+  </ul></li>
+  <li><a href="#exam-preparation" id="toc-exam-preparation" class="nav-link" data-scroll-target="#exam-preparation">29. Exam Preparation</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
@@ -3857,6 +3877,7 @@ api.example.com</code></pre>
 </section>
 <section id="disaster-recovery-and-migrations" class="level1">
 <h1>25. Disaster Recovery and Migrations</h1>
+<p>Disaster recovery whitepaper <a href="https://aws.amazon.com/disaster-recovery/">here</a></p>
 <section id="disaster-recovery-overview" class="level2">
 <h2 class="anchored" data-anchor-id="disaster-recovery-overview">25.1. Disaster Recovery Overview</h2>
 <p>We can do different types of disaster recovery:</p>
@@ -4178,14 +4199,16 @@ api.example.com</code></pre>
 </div>
 </section>
 </section>
-<section id="simple-email-service-ses" class="level2">
-<h2 class="anchored" data-anchor-id="simple-email-service-ses">27.2. Simple Email Service (SES)</h2>
+<section id="messaging-services" class="level2">
+<h2 class="anchored" data-anchor-id="messaging-services">27.2. Messaging Services</h2>
+<section id="simple-email-service-ses" class="level3">
+<h3 class="anchored" data-anchor-id="simple-email-service-ses">27.2.1. Simple Email Service (SES)</h3>
 <p>Fully managed service to <strong>send and receive emails</strong>.</p>
 <p>Provides email statistics (deliveries, opens) and reputation insights (did it get marked as spam).</p>
 <p>There is a choice of IP addresses to send from: shared, dedicated, customer-owned. It supports DomainKeys Identified Mail (DKIM) and Sender Policy Framework (SPF) protocols.</p>
 </section>
-<section id="amazon-pinpoint" class="level2">
-<h2 class="anchored" data-anchor-id="amazon-pinpoint">27.3. Amazon Pinpoint</h2>
+<section id="amazon-pinpoint" class="level3">
+<h3 class="anchored" data-anchor-id="amazon-pinpoint">27.2.2. Amazon Pinpoint</h3>
 <p>Pinpoint is a two-way (inbound and outbound) <strong>marketing communication service</strong>. You can send/receive emails, SMS, push notifications, voice chat, in-app messaging.</p>
 <p>You can segment and personalise messages.</p>
 <p>Replies can be sent to SNS, Kinesis Data Firehose, CloudWatch Logs. Downstream automations can be triggered from here.</p>
@@ -4197,10 +4220,11 @@ api.example.com</code></pre>
 </div>
 <p>The difference vs SNS or SES is that you don’t have to manually manage each message’s audience, content, delivery schedule, etc. Pinpoint handles all of this. Essentially a <em>“more managed service” version of SES/SNS</em>.</p>
 </section>
+</section>
 <section id="system-manager-ssm" class="level2">
-<h2 class="anchored" data-anchor-id="system-manager-ssm">27.4. System Manager (SSM)</h2>
+<h2 class="anchored" data-anchor-id="system-manager-ssm">27.3. System Manager (SSM)</h2>
 <section id="ssm-session-manager" class="level3">
-<h3 class="anchored" data-anchor-id="ssm-session-manager">27.4.1. SSM Session Manager</h3>
+<h3 class="anchored" data-anchor-id="ssm-session-manager">27.3.1. SSM Session Manager</h3>
 <p>SSM Session Manager allows you to <strong>start a secure shell on your EC2</strong> and on-premises servers. No SSH access, bastion hosts, or SSH keys needed, and no port 22 needed, which is better for security.</p>
 <p>You can send session log data to S3 or CloudWatch Logs.</p>
 <p>There are therefore three ways to access an EC2 instance:</p>
@@ -4217,7 +4241,7 @@ api.example.com</code></pre>
 </div>
 </section>
 <section id="other-ssm-commands" class="level3">
-<h3 class="anchored" data-anchor-id="other-ssm-commands">27.4.2. Other SSM Commands</h3>
+<h3 class="anchored" data-anchor-id="other-ssm-commands">27.3.2. Other SSM Commands</h3>
 <p>Run command: run a script across multiple instances.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -4248,6 +4272,141 @@ api.example.com</code></pre>
 </div>
 </section>
 </section>
+<section id="billing-services" class="level2">
+<h2 class="anchored" data-anchor-id="billing-services">27.4. Billing Services</h2>
+<section id="cost-explorer" class="level3">
+<h3 class="anchored" data-anchor-id="cost-explorer">27.4.1. Cost Explorer</h3>
+<p>A billing service with dashboards to break out costs.</p>
+<p>You can create custom reports, break out costs per account and over different time horizons.</p>
+<p>You can also forecast costs based on your usage in the previous 12 months.</p>
+</section>
+<section id="cost-anomaly-detection" class="level3">
+<h3 class="anchored" data-anchor-id="cost-anomaly-detection">27.4.2. Cost Anomaly Detection</h3>
+<p>Uses ML to identify unusual spends. It sends you a report with root cause analysis. You can also set up alerts.</p>
+</section>
+</section>
+<section id="aws-outposts" class="level2">
+<h2 class="anchored" data-anchor-id="aws-outposts">27.5. AWS Outposts</h2>
+<p>Hybrid cloud is when you have both on-premises and cloud infrastructure.</p>
+<p><strong>AWS Outposts are “server racks” that offers the same AWS infrastructure</strong>, services, APIs, tools etc. This means the on-premises infra is the same as the cloud infra, making it easier to manage both. This can also aid in migrating to the cloud.</p>
+<p>AWS will come to your physical location and set up <strong>Outpost Racks</strong> with services pre-loaded.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="outpost.png" class="img-fluid figure-img"></p>
+<figcaption>AWS Outpost</figcaption>
+</figure>
+</div>
+</section>
+<section id="aws-batch" class="level2">
+<h2 class="anchored" data-anchor-id="aws-batch">27.6. AWS Batch</h2>
+<p>AWS Batch is a fully-managed service for <strong>batch processing at scale</strong>. Batch will automatically launch EC2 instances and provision the right amount of compute / memory.</p>
+<p>Batch job are defined as Docker images and run on ECS.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="aws_batch.png" class="img-fluid figure-img"></p>
+<figcaption>AWS Batch</figcaption>
+</figure>
+</div>
+<p>Batch is similar in principle to Lambda. The key differences are:</p>
+<ul>
+<li>Time limit: Batch has unlimited runtime whereas Lambda is limited to 15 minutes.</li>
+<li>Runtime: Batch can use any runtime (as long as its Dockerised) whereas Lambda is more limited.</li>
+<li>Disk space: Lambda is limited by the temporary instance disk space, whereas Batch can use EBS or EC2 Instance Storage</li>
+<li>Serverless: Lambda is serverless whereas Batch is not, although the autoscaling is managed by AWS so there is not much difference</li>
+</ul>
+</section>
+<section id="appflow" class="level2">
+<h2 class="anchored" data-anchor-id="appflow">27.7. AppFlow</h2>
+<p>AppFlow is a fully managed integration service that enables you to securely <strong>transfer data between Software-as-a-Service (SaaS) applications and AWS</strong>.</p>
+<ul>
+<li>Sources: Salesforce, SAP, Zendesk, Slack, and ServiceNow</li>
+<li>Destinations: AWS services like Amazon S3, Amazon Redshift or non-AWS such as SnowFlake and Salesforc</li>
+</ul>
+<p>This can be triggered on a schedule, event-driven or manually run on-demand.</p>
+<p>You can perform data transforms (filtering, validation) and data is encrypted.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="appflow.png" class="img-fluid figure-img"></p>
+<figcaption>Appflow</figcaption>
+</figure>
+</div>
+</section>
+<section id="amplify" class="level2">
+<h2 class="anchored" data-anchor-id="amplify">27.8. Amplify</h2>
+<p>Amplify is a set of tools to help <strong>build full-stack web and mobile applications</strong>.</p>
+<p>Think of it like Elastic Beanstalk for web / mobile apps. It is an abstraction over many AWS services in the background that handle storage, auth, processing, etc, so you just manage it all through one portal.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="aws_amplify.png" class="img-fluid figure-img"></p>
+<figcaption>AWS Amplify</figcaption>
+</figure>
+</div>
+</section>
+<section id="instance-scheduler" class="level2">
+<h2 class="anchored" data-anchor-id="instance-scheduler">27.9. Instance Scheduler</h2>
+<p>Instance Scheduler is a <em>solution</em> (not a service) tha can be deployed through CloudFormation to <strong>automatically start/stop AWS resources</strong> to save costs.</p>
+<p>It supports EC2 instances, EC2 Auto Scaling Groups, RDS instances. Schedules are managed in a DynamoDB table and use tags on resources to identify what to start/stop, with Lambda performing the stop/start actions.</p>
+<p>It supports cross-account and cross-region resources.</p>
+</section>
+</section>
+<section id="white-papers" class="level1">
+<h1>28. White Papers</h1>
+<section id="the-well-architected-framework" class="level2">
+<h2 class="anchored" data-anchor-id="the-well-architected-framework">28.1. The Well-Architected Framework</h2>
+<p>The weel-architected framework is documented on the AWS website <a href="https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html">here</a>.</p>
+<p>The six pillars of the well-architected framework are:</p>
+<ol type="1">
+<li>Operational Excellence</li>
+<li>Security</li>
+<li>Reliability</li>
+<li>Performance Efficiency</li>
+<li>Cost Optimization</li>
+<li>Sustainability</li>
+</ol>
+<p>These are <strong>synergies not tradeoffs</strong>. The pillars are detailed in separate whitepapers <a href="https://aws.amazon.com/blogs/aws/aws-well-architected-framework-updated-white-papers-tools-and-best-practices/">here</a>.</p>
+<p>The general guiding principles are:</p>
+<ul>
+<li>Stop guessing your capacity needs - use data.</li>
+<li>Test systems at production scale - you can scale up and down easily so test a full-scale</li>
+<li>Automate to make architectural experimentation easier - e.g.&nbsp;use CloudFormation to test and iterate.</li>
+<li>Allow for evolutionary architectures - start with a simple architecture and evolve it to fit your needs.</li>
+<li>Design based on changing requirements</li>
+<li>Drive architectures using data</li>
+<li>Improve through game days - simulate events like flash sale days so that you are ready when it happens.</li>
+</ul>
+<p>The <strong>Well-Architected Tool</strong> is available in the AWS console. You define your workload and answer questions about it, then select the lens through which you want to evaluate it, e.g.&nbsp;the well-architected framework. It will then provide flag medium-risk and high-risk and link to the relevant documentation to resolve any issues.</p>
+</section>
+<section id="trusted-advisor" class="level2">
+<h2 class="anchored" data-anchor-id="trusted-advisor">28.2. Trusted Advisor</h2>
+<p>Trusted Advisor gives a <strong>high-level assessment of your AWS account</strong>. For example, it can flag if you have any public EBS or RDS snapshots, or whether your root account is used instead of IAM roles.</p>
+<p>Trusted advisor analyses based on the following six categories and provides recommendations:</p>
+<ul>
+<li>Cost optimization</li>
+<li>Performance</li>
+<li>Security</li>
+<li>Fault tolerance</li>
+<li>Service limits</li>
+<li>Operational Excellence</li>
+</ul>
+<p>There are business and enterprise support plans.</p>
+</section>
+<section id="solutions-architecture-references" class="level2">
+<h2 class="anchored" data-anchor-id="solutions-architecture-references">28.3. Solutions Architecture References</h2>
+<p>Useful links:</p>
+<ul>
+<li>Architecture guide with examples and explanations of many different architectures <a href="https://aws.amazon.com/architecture/">here</a></li>
+<li>Solutions library with examples and CloudFormation code for different architectures <a href="https://aws.amazon.com/solutions/">here</a></li>
+</ul>
+</section>
+</section>
+<section id="exam-preparation" class="level1">
+<h1>29. Exam Preparation</h1>
+<ul>
+<li>Refer to the exam syllabus <a href="https://aws.amazon.com/certification/certified-solutions-architect-associate/">here</a></li>
+<li>Proceed by elimination. There are very few trick questions. If a solution seems feasible but highly complicated, it’s probably wrong.</li>
+<li>Skim-read the white papers.</li>
+<li>Read the FAQs for a service, e.g.&nbsp;<a href="https://aws.amazon.com/vpc/faqs/">here</a></li>
+</ul>
 </section>
 <section id="references" class="level1">
 <h1>References</h1>
