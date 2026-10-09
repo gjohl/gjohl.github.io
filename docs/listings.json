@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/maths/probability/lesson.html",
       "/posts/software/aws/aws_saa_notes.html",
       "/posts/maths/mathematical_statistics/math_stats.html",
       "/posts/maths/more_statistics/lesson.html",
