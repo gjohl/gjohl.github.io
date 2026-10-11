@@ -200,17 +200,60 @@ window.Quarto = {
    
   <ul>
   <li><a href="#some-useful-approaches" id="toc-some-useful-approaches" class="nav-link active" data-scroll-target="#some-useful-approaches">0. Some Useful Approaches</a></li>
-  <li><a href="#probability-and-counting" id="toc-probability-and-counting" class="nav-link" data-scroll-target="#probability-and-counting">1. Probability and Counting</a>
+  <li><a href="#probability-fundamentals-and-set-theory" id="toc-probability-fundamentals-and-set-theory" class="nav-link" data-scroll-target="#probability-fundamentals-and-set-theory">1. Probability Fundamentals and Set Theory</a>
   <ul class="collapse">
   <li><a href="#set-theory" id="toc-set-theory" class="nav-link" data-scroll-target="#set-theory">1.1. Set Theory</a></li>
   <li><a href="#naive-definition-of-probability" id="toc-naive-definition-of-probability" class="nav-link" data-scroll-target="#naive-definition-of-probability">1.2. Naive Definition of Probability</a></li>
   <li><a href="#multiplication-rule" id="toc-multiplication-rule" class="nav-link" data-scroll-target="#multiplication-rule">1.3. Multiplication Rule</a></li>
-  <li><a href="#counting" id="toc-counting" class="nav-link" data-scroll-target="#counting">1.4. Counting</a>
+  </ul></li>
+  <li><a href="#counting" id="toc-counting" class="nav-link" data-scroll-target="#counting">2. Counting</a>
   <ul class="collapse">
-  <li><a href="#sampling-with-replacement-order-matters" id="toc-sampling-with-replacement-order-matters" class="nav-link" data-scroll-target="#sampling-with-replacement-order-matters">1.4.1. Sampling with Replacement, Order Matters</a></li>
-  <li><a href="#sampling-without-replacement-order-matters" id="toc-sampling-without-replacement-order-matters" class="nav-link" data-scroll-target="#sampling-without-replacement-order-matters">1.4.2. Sampling without Replacement, Order Matters</a></li>
-  <li><a href="#sampling-without-replacement-order-doesnt-matter" id="toc-sampling-without-replacement-order-doesnt-matter" class="nav-link" data-scroll-target="#sampling-without-replacement-order-doesnt-matter">1.4.3. Sampling without Replacement, Order Doesn’t Matter</a></li>
-  <li><a href="#sampling-with-replacement-order-doesnt-matter" id="toc-sampling-with-replacement-order-doesnt-matter" class="nav-link" data-scroll-target="#sampling-with-replacement-order-doesnt-matter">1.4.4. Sampling with Replacement, Order Doesn’t Matter</a></li>
+  <li><a href="#sampling-with-replacement-order-matters" id="toc-sampling-with-replacement-order-matters" class="nav-link" data-scroll-target="#sampling-with-replacement-order-matters">2.1. Sampling with Replacement, Order Matters</a></li>
+  <li><a href="#sampling-without-replacement-order-matters" id="toc-sampling-without-replacement-order-matters" class="nav-link" data-scroll-target="#sampling-without-replacement-order-matters">2.2. Sampling without Replacement, Order Matters</a></li>
+  <li><a href="#sampling-without-replacement-order-doesnt-matter" id="toc-sampling-without-replacement-order-doesnt-matter" class="nav-link" data-scroll-target="#sampling-without-replacement-order-doesnt-matter">2.3. Sampling without Replacement, Order Doesn’t Matter</a></li>
+  <li><a href="#sampling-with-replacement-order-doesnt-matter" id="toc-sampling-with-replacement-order-doesnt-matter" class="nav-link" data-scroll-target="#sampling-with-replacement-order-doesnt-matter">2.4. Sampling with Replacement, Order Doesn’t Matter</a></li>
+  </ul></li>
+  <li><a href="#story-proofs" id="toc-story-proofs" class="nav-link" data-scroll-target="#story-proofs">3. Story Proofs&nbsp;</a>
+  <ul class="collapse">
+  <li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1">Example 1</a></li>
+  <li><a href="#example-2" id="toc-example-2" class="nav-link" data-scroll-target="#example-2">Example 2</a></li>
+  <li><a href="#example-3" id="toc-example-3" class="nav-link" data-scroll-target="#example-3">Example 3</a></li>
+  </ul></li>
+  <li><a href="#the-general-non-naive-definition-of-probability" id="toc-the-general-non-naive-definition-of-probability" class="nav-link" data-scroll-target="#the-general-non-naive-definition-of-probability">4. The General (Non-Naive) Definition of Probability</a>
+  <ul class="collapse">
+  <li><a href="#definition" id="toc-definition" class="nav-link" data-scroll-target="#definition">4.1. Definition</a>
+  <ul class="collapse">
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a></li>
+  </ul></li>
+  <li><a href="#properties-of-probability" id="toc-properties-of-probability" class="nav-link" data-scroll-target="#properties-of-probability">4.2. Properties of Probability</a>
+  <ul class="collapse">
+  <li><a href="#property-1-probability-of-complement" id="toc-property-1-probability-of-complement" class="nav-link" data-scroll-target="#property-1-probability-of-complement">Property 1: Probability of Complement</a></li>
+  <li><a href="#property-2-pa-when-a-is-contained-in-b" id="toc-property-2-pa-when-a-is-contained-in-b" class="nav-link" data-scroll-target="#property-2-pa-when-a-is-contained-in-b">Property 2: P(A) when A is contained in B</a></li>
+  </ul></li>
+  <li><a href="#inclusion-exclusion" id="toc-inclusion-exclusion" class="nav-link" data-scroll-target="#inclusion-exclusion">4.3. Inclusion-exclusion</a>
+  <ul class="collapse">
+  <li><a href="#two-events" id="toc-two-events" class="nav-link" data-scroll-target="#two-events">4.3.1. Two Events</a></li>
+  <li><a href="#three-events" id="toc-three-events" class="nav-link" data-scroll-target="#three-events">4.3.2. Three Events</a></li>
+  <li><a href="#the-general-case" id="toc-the-general-case" class="nav-link" data-scroll-target="#the-general-case">4.3.3. The General Case</a></li>
+  <li><a href="#example-4" id="toc-example-4" class="nav-link" data-scroll-target="#example-4">Example</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#independence" id="toc-independence" class="nav-link" data-scroll-target="#independence">5. Independence</a>
+  <ul class="collapse">
+  <li><a href="#definition-for-two-variables" id="toc-definition-for-two-variables" class="nav-link" data-scroll-target="#definition-for-two-variables">5.1. Definition for Two Variables</a></li>
+  <li><a href="#definition-for-three-variables" id="toc-definition-for-three-variables" class="nav-link" data-scroll-target="#definition-for-three-variables">5.2. Definition for Three Variables</a>
+  <ul class="collapse">
+  <li><a href="#example-5" id="toc-example-5" class="nav-link" data-scroll-target="#example-5">Example</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#conditional-probability" id="toc-conditional-probability" class="nav-link" data-scroll-target="#conditional-probability">6. Conditional Probability</a>
+  <ul class="collapse">
+  <li><a href="#definition-1" id="toc-definition-1" class="nav-link" data-scroll-target="#definition-1">6.1. Definition</a></li>
+  <li><a href="#theorems" id="toc-theorems" class="nav-link" data-scroll-target="#theorems">6.2. Theorems</a>
+  <ul class="collapse">
+  <li><a href="#theorem-1-pa-cap-b-expressed-two-ways" id="toc-theorem-1-pa-cap-b-expressed-two-ways" class="nav-link" data-scroll-target="#theorem-1-pa-cap-b-expressed-two-ways">Theorem 1: <span class="math inline">\(P(A \cap B)\)</span> expressed two ways</a></li>
+  <li><a href="#theorem-2-intersection-of-n-events" id="toc-theorem-2-intersection-of-n-events" class="nav-link" data-scroll-target="#theorem-2-intersection-of-n-events">Theorem 2: Intersection of n events</a></li>
+  <li><a href="#theorem-3-bayes-rule" id="toc-theorem-3-bayes-rule" class="nav-link" data-scroll-target="#theorem-3-bayes-rule">Theorem 3: Bayes rule</a></li>
   </ul></li>
   </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
@@ -228,14 +271,15 @@ window.Quarto = {
 <h1>0. Some Useful Approaches</h1>
 <ul>
 <li>Label objects even if they seem indistinguishable</li>
-<li>Adjust for overfitting</li>
+<li>Adjust for overcounting</li>
 <li>Is the complement <span class="math inline">\(A^C\)</span> easier to solve for than <span class="math inline">\(A\)</span> directly? Then use the fact that <span class="math inline">\(A^C = 1 - A\)</span></li>
 <li>Calculate the same thing in alternative ways to verify the answer</li>
 <li>Check with specific cases – edge cases and the simplest non-trivial case</li>
+<li>Whenever you see a series of factorials think about Taylor expansions. The two that crop up most are geometric series and <span class="math inline">\(e^x\)</span></li>
 </ul>
 </section>
-<section id="probability-and-counting" class="level1">
-<h1>1. Probability and Counting</h1>
+<section id="probability-fundamentals-and-set-theory" class="level1">
+<h1>1. Probability Fundamentals and Set Theory</h1>
 <blockquote class="blockquote">
 <p>Logic is the mathematics of certainty; probability is the mathematics of uncertainty</p>
 </blockquote>
@@ -262,18 +306,19 @@ P_{naive}(A) = \frac{\lvert A \rvert}{\lvert S \rvert}
 <p>Furthermore, it doesn’t matter which order we picked – flavour first or cone first.</p>
 <p><img src="images/paste-4.png" class="img-fluid" width="396"></p>
 </section>
-<section id="counting" class="level2">
-<h2 class="anchored" data-anchor-id="counting">1.4. Counting</h2>
-<section id="sampling-with-replacement-order-matters" class="level3">
-<h3 class="anchored" data-anchor-id="sampling-with-replacement-order-matters">1.4.1. Sampling with Replacement, Order Matters</h3>
+</section>
+<section id="counting" class="level1">
+<h1>2. Counting</h1>
+<section id="sampling-with-replacement-order-matters" class="level2">
+<h2 class="anchored" data-anchor-id="sampling-with-replacement-order-matters">2.1. Sampling with Replacement, Order Matters</h2>
 <p>We have <span class="math inline">\(n\)</span> objects and choose <span class="math inline">\(k\)</span> with replacement.</p>
 <p>There are <span class="math inline">\(n\)</span> possibilities each time, so this is obviously</p>
 <p><span class="math display">\[
 N_{outcomes} = n^k
 \]</span></p>
 </section>
-<section id="sampling-without-replacement-order-matters" class="level3">
-<h3 class="anchored" data-anchor-id="sampling-without-replacement-order-matters">1.4.2. Sampling without Replacement, Order Matters</h3>
+<section id="sampling-without-replacement-order-matters" class="level2">
+<h2 class="anchored" data-anchor-id="sampling-without-replacement-order-matters">2.2. Sampling without Replacement, Order Matters</h2>
 <p>We have <span class="math inline">\(n\)</span> objects and choose <span class="math inline">\(k\)</span> without replacement.</p>
 <p>The are <span class="math inline">\(n\)</span> options for the first choice, then <span class="math inline">\(n-1\)</span> for the second, then <span class="math inline">\(n-2\)</span> for the third… all the way to <span class="math inline">\(n-k+1\)</span> for the kth.</p>
 <p>Therefore the result is:</p>
@@ -281,16 +326,16 @@ N_{outcomes} = n^k
 N_{outcomes} = n(n-1)(n-2)...(n-k+1) = \frac{n!}{(n-k)!}
 \]</span></p>
 </section>
-<section id="sampling-without-replacement-order-doesnt-matter" class="level3">
-<h3 class="anchored" data-anchor-id="sampling-without-replacement-order-doesnt-matter">1.4.3. Sampling without Replacement, Order Doesn’t Matter</h3>
+<section id="sampling-without-replacement-order-doesnt-matter" class="level2">
+<h2 class="anchored" data-anchor-id="sampling-without-replacement-order-doesnt-matter">2.3. Sampling without Replacement, Order Doesn’t Matter</h2>
 <p>This is essentially the same problem as previously but we have <em>over-counted</em>. Now that we don’t care about the order, we can say that there $k!$ ways of arranging the objects, so we divide by this to correct for the duplicates.</p>
 <p><span class="math display">\[
 N_{outcomes} = \frac{n!}{(n-k)! k!}
 \]</span></p>
 <p>By convention, this is defined as the <strong>binomial coefficient</strong> <span class="math inline">\(n \choose k\)</span> since it crops up so frequently.</p>
 </section>
-<section id="sampling-with-replacement-order-doesnt-matter" class="level3">
-<h3 class="anchored" data-anchor-id="sampling-with-replacement-order-doesnt-matter">1.4.4. Sampling with Replacement, Order Doesn’t Matter</h3>
+<section id="sampling-with-replacement-order-doesnt-matter" class="level2">
+<h2 class="anchored" data-anchor-id="sampling-with-replacement-order-doesnt-matter">2.4. Sampling with Replacement, Order Doesn’t Matter</h2>
 <p>This is the least obvious case.</p>
 <p>It is equivalent to the <strong>stars and bars</strong> problem. Imagine putting <span class="math inline">\(k\)</span> indistinguishable balls into <span class="math inline">\(n\)</span> distinguishable buckets. We are choosing <span class="math inline">\(k\)</span> objects in total, and those objects can be attributed to one of the <span class="math inline">\(n\)</span> labelled categories.</p>
 <p>In the example below, there are <span class="math inline">\(n=4\)</span> buckets and <span class="math inline">\(k=7\)</span> balls.</p>
@@ -304,6 +349,192 @@ N_{outcomes} = {n+k-1 \choose k}
 <p><span class="math display">\[
 {n+k-1 \choose k} = {n+k-1 \choose n-1}
 \]</span></p>
+</section>
+</section>
+<section id="story-proofs" class="level1">
+<h1>3. Story Proofs&nbsp;</h1>
+<p>“Proof by interpretation”.</p>
+<p>Arrive at the same result in two different ways to prove that the expressions are equivalent.</p>
+<section id="example-1" class="level3">
+<h3 class="anchored" data-anchor-id="example-1">Example 1</h3>
+<p>From <span class="math inline">\(n\)</span> people pick a team of <span class="math inline">\(k\)</span> players. You could either specify the <span class="math inline">\(k\)</span> people on the team or the <span class="math inline">\(n-k\)</span> people not on the team.&nbsp;</p>
+<p><span class="math display">\[
+{n \choose k } = {n \choose n-k }
+\]</span></p>
+<p>For example, you have 10 people and want to pick 4 for a team. Either pick the 4 players, or the 6 non-players.</p>
+</section>
+<section id="example-2" class="level3">
+<h3 class="anchored" data-anchor-id="example-2">Example 2</h3>
+<p>From <span class="math inline">\(n\)</span> people pick a team of <span class="math inline">\(k\)</span> players, one of whom is the captain.</p>
+<p><span class="math display">\[
+n {n-1 \choose k-1} = k {n \choose k}
+\]</span></p>
+<p>LHS: Choose the captain first ( <span class="math inline">\(n\)</span> possibilities) then the rest of the team ( <span class="math inline">\(k-1\)</span> players from the remaining population of <span class="math inline">\(n-1\)</span> people)</p>
+<p>RHS: Choose the <span class="math inline">\(k\)</span> players first, then pick one of those team members to be captain.&nbsp;</p>
+</section>
+<section id="example-3" class="level3">
+<h3 class="anchored" data-anchor-id="example-3">Example 3</h3>
+<p><strong>Vandermonde’s identity</strong></p>
+<p>We have <span class="math inline">\(m\)</span> men and <span class="math inline">\(n\)</span> women. There are <span class="math inline">\(k\)</span> chairs for them to sit on.</p>
+<p><span class="math display">\[
+{m+n \choose k} = \sum_{j=0}^k {m \choose j} {n \choose k-j}
+\]</span></p>
+<p>LHS: The choice directly.&nbsp;</p>
+<p>RHS: First pick one man, then two men, then three men… then <span class="math inline">\(j\)</span> men. Sum over every value of <span class="math inline">\(j\)</span>.&nbsp;</p>
+</section>
+</section>
+<section id="the-general-non-naive-definition-of-probability" class="level1">
+<h1>4. The General (Non-Naive) Definition of Probability</h1>
+<section id="definition" class="level2">
+<h2 class="anchored" data-anchor-id="definition">4.1. Definition</h2>
+<p>A <strong>probability sample</strong> consists of <span class="math inline">\(S\)</span> and <span class="math inline">\(P\)</span>, where <span class="math inline">\(S\)</span> is a sample space and <span class="math inline">\(P\)</span> is a function which takes an event <span class="math inline">\(A \subseteq S\)</span> as input and returns <span class="math inline">\(P(A) \in [0, 1]\)</span> as outputs, such that the following two axioms hold:</p>
+<p>Axiom 1: Impossible events have probability 0 and certain events have probability 1.</p>
+<p><span class="math inline">\(P(\emptyset)=0, P(S)=1\)</span></p>
+<p>Axiom 2: We can add the probabilities of disjoint events to get their union.</p>
+<p><span class="math inline">\(P(\bigcup_{n=1}^{\inf}) A_n = \sum_{n=1}^{\inf} P(A_n) \text{if} A_1, A_2, ..., A_n \text{are disjoint}\)</span></p>
+<section id="example" class="level3">
+<h3 class="anchored" data-anchor-id="example">Example</h3>
+<p><strong>The birthday problem.</strong></p>
+<p>Probability of a shared birthday in a group of n people.&nbsp;</p>
+<p>The intuition: <span class="math inline">\(k\)</span> isn’t the relevant value here. The number of pairs, <span class="math inline">\(k \choose 2\)</span> , is the relevant value because we have that many pairs, each of which could result in a match.</p>
+</section>
+</section>
+<section id="properties-of-probability" class="level2">
+<h2 class="anchored" data-anchor-id="properties-of-probability">4.2. Properties of Probability</h2>
+<p>The following useful properties follow from the axioms of probability.</p>
+<section id="property-1-probability-of-complement" class="level3">
+<h3 class="anchored" data-anchor-id="property-1-probability-of-complement">Property 1: Probability of Complement</h3>
+<p><span class="math inline">\(P(A^C) = 1 - P(A)\)</span></p>
+<p><strong>Proof:</strong></p>
+<p>Event <span class="math inline">\(A\)</span> and its complement <span class="math inline">\(A^C\)</span> cover the full sample space by definition. From Axiom 1, the probability of the entire sample space is 1.</p>
+<p><span class="math inline">\(P(A \cup A^C) = P(S) = 1\)</span></p>
+<p>From Axiom 2, the probability of the union of disjoint sets is the sum of their probabilities.</p>
+<p><span class="math inline">\(P(A \cup A^C) = P(A) + P(A^C)\)</span></p>
+<p>Equating the two expressions and rearraging gives the result.</p>
+</section>
+<section id="property-2-pa-when-a-is-contained-in-b" class="level3">
+<h3 class="anchored" data-anchor-id="property-2-pa-when-a-is-contained-in-b">Property 2: P(A) when A is contained in B</h3>
+<p>If <span class="math inline">\(A \subseteq B\)</span> then <span class="math inline">\(P(A) \le P(B)\)</span></p>
+<p><strong>Proof:</strong></p>
+<p>An alternative way of writing $P(B) is as disjoint sets (“disjointification”)</p>
+<p><span class="math inline">\(B = A \cup ( B \cap A^C)\)</span><br>
+Since these sets are now disjoint, we can apply Axiom 2:</p>
+<p><span class="math display">\[
+P(B) = P(A \cup ( B \cap A^C))
+     = P(A) + P(B \cap A^C)
+\]</span></p>
+<p>Probabilities are always non-negative, so <span class="math inline">\(P(B \cap A^C)\)</span> term is non-negative, therefore <span class="math inline">\(P(B) \ge P(A)\)</span></p>
+</section>
+</section>
+<section id="inclusion-exclusion" class="level2">
+<h2 class="anchored" data-anchor-id="inclusion-exclusion">4.3. Inclusion-exclusion</h2>
+<p>This is another property which follows from the axioms, but is important enough that it warrants specific attention.</p>
+<p>Inclusion-exclusion is a formula for finding the probability of a union of events when the <strong>events are not necessarily disjoint</strong>.</p>
+<section id="two-events" class="level3">
+<h3 class="anchored" data-anchor-id="two-events">4.3.1. Two Events</h3>
+<p><span class="math inline">\(P(A \cup B) = P(A) + P(B) - P(A \cap B)\)</span></p>
+<p>Powerful identity that is useful when finding the probability of a union.&nbsp;</p>
+<p><strong>Proof:</strong> Start by disjointifying the union.</p>
+<p><span class="math inline">\(P(A \cup B) = P(A \cup (B \cap A^C))\)</span></p>
+<p>Now we can apply Axiom 2: <span class="math inline">\(P(A \cup B) = P(A) + P(B \cap A^C)\)</span></p>
+<p>We can express <span class="math inline">\(P(B)\)</span> as a union of disjoint sets:</p>
+<p><span class="math inline">\(P(B) = P(B \cap A) + P(B \cap A^C)\)</span></p>
+<p>Rearranged this gives: <span class="math inline">\(P(B \cap A^C) = P(B) - P(B \cap A)\)</span></p>
+<p>Substitute that into the expression for <span class="math inline">\(P(A \cup B)\)</span> and note that the order of an intersection doesn’t matter (<span class="math inline">\(P(B \cap A) = P(A \cap B)\)</span>). The result immediately follows.</p>
+</section>
+<section id="three-events" class="level3">
+<h3 class="anchored" data-anchor-id="three-events">4.3.2. Three Events</h3>
+<p>The same logic applies to more events. Essentially we add up the areas and subtract the intersections that were double counted.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="image.png" class="img-fluid figure-img" width="299"></p>
+<figcaption>Venn diagram of three events</figcaption>
+</figure>
+</div>
+<p>For three events <span class="math inline">\(A,B,C\)</span>:</p>
+<p><span class="math display">\[
+P(A \cap B \cap C) = P(A) + P(B) + P(C)
+- P(A \cap B) - P(B \cap C) - P(A \cap C)
++ P(A \cap B \cap C)
+\]</span></p>
+<p>Intuitively, we are adding up the big circles, then realising we’ve double counted the oval areas so subtract those two-term areas, then realising that removes the central triangle entirely so add back the three-term area.</p>
+</section>
+<section id="the-general-case" class="level3">
+<h3 class="anchored" data-anchor-id="the-general-case">4.3.3. The General Case</h3>
+<p>The pattern becomes obvious, so we can write the general case:</p>
+<p><span class="math display">\[
+P(\bigcup_{i=1}^n A_i) =
+\sum_{i=1}^n P(A_i)
+- \sum_{i&lt;j} P(A_i \cap A_j)
++ \sum_{i&lt;j&lt;k} P(A_i \cap A_j \cap A_k)
+- ...
++ (-1)^{n+1} P(A_1 \cap ... \cap A_n)
+\]</span></p>
+</section>
+<section id="example-4" class="level3">
+<h3 class="anchored" data-anchor-id="example-4">Example</h3>
+<p><strong>De Mortmont’s matching problem.</strong></p>
+<p>A problem that can be solved using inclusion-exclusion.&nbsp;</p>
+<p>Whenever you see a series of factorials think about Taylor expansions. The two that crop up most are geometric series and <span class="math inline">\(e^x\)</span>.&nbsp;</p>
+</section>
+</section>
+</section>
+<section id="independence" class="level1">
+<h1>5. Independence</h1>
+<section id="definition-for-two-variables" class="level2">
+<h2 class="anchored" data-anchor-id="definition-for-two-variables">5.1. Definition for Two Variables</h2>
+<p>Events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are independent if:</p>
+<p><span class="math inline">\(P(A \cap B) = P(A)P(B)\)</span></p>
+<p>In words, if A occurred it gives no information on whether B occurred.&nbsp;</p>
+<p>Note that independence often gets confused with <strong>disjoint</strong>, but they are almost the opposite. If <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are disjoint it means that if <span class="math inline">\(A\)</span> occurred then <span class="math inline">\(B\)</span> cannot occur; A occurring gives us complete information over whether B occurred.</p>
+<blockquote class="blockquote">
+<p>Notation comment: <span class="math inline">\(P(A,B)\)</span> means intersection i.e.&nbsp;<span class="math inline">\(P(A \cap B)\)</span>, <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> both occur.&nbsp;</p>
+</blockquote>
+</section>
+<section id="definition-for-three-variables" class="level2">
+<h2 class="anchored" data-anchor-id="definition-for-three-variables">5.2. Definition for Three Variables</h2>
+<p>For three events <span class="math inline">\(A, B, C\)</span> to be independent, we need pairwise independence and independence of all three together. The former does not imply the latter.</p>
+<p>Pairwise independences:</p>
+<p><span class="math inline">\(P(A,B)=P(A)P(B), P(A,C)=P(A)P(C), P(B,C)=P(B)P(C)\)</span></p>
+<p>Triple independence:</p>
+<p><span class="math inline">\(P(A,B,C) = P(A)P(B)P(C)\)</span></p>
+<section id="example-5" class="level3">
+<h3 class="anchored" data-anchor-id="example-5">Example</h3>
+<p><strong>Newton Pepys problem</strong>.</p>
+</section>
+</section>
+</section>
+<section id="conditional-probability" class="level1">
+<h1>6. Conditional Probability</h1>
+<blockquote class="blockquote">
+<p>Conditioning is the soul of statistics</p>
+</blockquote>
+<p>How should you update probabilities given new information?</p>
+<section id="definition-1" class="level2">
+<h2 class="anchored" data-anchor-id="definition-1">6.1. Definition</h2>
+<p><span class="math inline">\(P(A|B) = \frac{P(A \cap B)}{P(B)} \text{, if } P(B)&gt;0\)</span></p>
+<p>The intuition from this is obvious from the Venn diagrams (in other words, the pebble world interpretation). If we know <span class="math inline">\(B\)</span> occurred, we re-normalise the probability of <span class="math inline">\(A\)</span> as if <span class="math inline">\(B\)</span> is our sample space.</p>
+<p><img src="images/paste-6.png" class="img-fluid" width="643"></p>
+</section>
+<section id="theorems" class="level2">
+<h2 class="anchored" data-anchor-id="theorems">6.2. Theorems</h2>
+<section id="theorem-1-pa-cap-b-expressed-two-ways" class="level3">
+<h3 class="anchored" data-anchor-id="theorem-1-pa-cap-b-expressed-two-ways">Theorem 1: <span class="math inline">\(P(A \cap B)\)</span> expressed two ways</h3>
+<p>Note that the order of variables in the intersection doesn’t matter, it is still the overlap of the Venn diagram. So:</p>
+<p><span class="math inline">\(P(A \cap B) = P(B \cap A)\)</span></p>
+<p>Applying the definition of conditional probability to both sides:</p>
+<p><span class="math inline">\(P(A \cap B) = P(B|A)P(A) = P(A|B)P(B)\)</span></p>
+</section>
+<section id="theorem-2-intersection-of-n-events" class="level3">
+<h3 class="anchored" data-anchor-id="theorem-2-intersection-of-n-events">Theorem 2: Intersection of n events</h3>
+<p>The intersection of <span class="math inline">\(n\)</span> events can be written as the conditionals by recursively applying theorem 1:</p>
+<p><span class="math inline">\(P(A_1, A_2, ..., A_n) = P(A_1)P(A_2|A_1)P(A_3|A_1,A_2)...P(A_n|A_1,...,A_{n-1})\)</span></p>
+</section>
+<section id="theorem-3-bayes-rule" class="level3">
+<h3 class="anchored" data-anchor-id="theorem-3-bayes-rule">Theorem 3: Bayes rule</h3>
+<p>Rearrange the result from Theorem 1 to get Bayes rule.</p>
+<p>This gives us the way to update our posterior given likelihood, prior and evidence.</p>
+<p><span class="math inline">\(P(A|B) = \frac {P(B|A)P(A)}{P(B)}\)</span></p>
 </section>
 </section>
 </section>
